@@ -1,0 +1,43 @@
+{
+  "keywordFileContentHash": "76053BACCBA9598BABEB399B03DCCB73",
+  "keywordClasses": [
+    {
+      "name": "myPackage.JDD",
+      "keywordMethods": [
+        {
+          "name": "getValuesOf",
+          "parameters": [
+            {
+              "name": "JDDname",
+              "initialExpression": "",
+              "type": {
+                "fullClassName": "java.lang.String",
+                "unresolvedClassName": "String",
+                "isArray": false,
+                "isGnericsPlaceHolder": false,
+                "hasImmutableClassName": false,
+                "genericsTypes": [],
+                "errorOnParsing": false
+              }
+            },
+            {
+              "name": "casDeTest",
+              "initialExpression": "",
+              "type": {
+                "fullClassName": "java.lang.Object",
+                "unresolvedClassName": "java.lang.Object",
+                "isArray": false,
+                "isGnericsPlaceHolder": false,
+                "hasImmutableClassName": true,
+                "genericsTypes": [],
+                "errorOnParsing": false
+              }
+            }
+          ],
+          "javadoc": "/**\r\n\t *\r\n\t * @param\r\n\t * @return\r\n\t */"
+        }
+      ]
+    }
+  ],
+  "javadocParsed": true
+}

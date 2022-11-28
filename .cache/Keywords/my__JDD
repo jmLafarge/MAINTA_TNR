@@ -1,0 +1,56 @@
+{
+  "keywordFileContentHash": "C5E43A8B77D20B78EA6D64E7BE26B8DD",
+  "keywordClasses": [
+    {
+      "name": "my.JDD",
+      "keywordMethods": [
+        {
+          "name": "getValuesOf",
+          "parameters": [
+            {
+              "name": "JDDpath",
+              "initialExpression": "",
+              "type": {
+                "fullClassName": "java.lang.String",
+                "unresolvedClassName": "String",
+                "isArray": false,
+                "isGnericsPlaceHolder": false,
+                "hasImmutableClassName": false,
+                "genericsTypes": [],
+                "errorOnParsing": false
+              }
+            },
+            {
+              "name": "JDDname",
+              "initialExpression": "",
+              "type": {
+                "fullClassName": "java.lang.Object",
+                "unresolvedClassName": "java.lang.Object",
+                "isArray": false,
+                "isGnericsPlaceHolder": false,
+                "hasImmutableClassName": true,
+                "genericsTypes": [],
+                "errorOnParsing": false
+              }
+            },
+            {
+              "name": "casDeTest",
+              "initialExpression": "",
+              "type": {
+                "fullClassName": "java.lang.Object",
+                "unresolvedClassName": "java.lang.Object",
+                "isArray": false,
+                "isGnericsPlaceHolder": false,
+                "hasImmutableClassName": true,
+                "genericsTypes": [],
+                "errorOnParsing": false
+              }
+            }
+          ],
+          "javadoc": "/**\r\n\t *\r\n\t * @param\r\n\t * @return\r\n\t */"
+        }
+      ]
+    }
+  ],
+  "javadocParsed": true
+}

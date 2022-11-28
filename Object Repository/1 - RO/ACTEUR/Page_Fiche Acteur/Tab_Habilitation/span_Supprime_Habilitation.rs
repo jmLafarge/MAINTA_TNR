@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebElementEntity>
+   <description></description>
+   <name>span_Supprime_Habilitation</name>
+   <tag></tag>
+   <elementGuidId>9174e24c-3386-4c9d-a2df-c6902b1128f1</elementGuidId>
+   <selectorCollection>
+      <entry>
+         <key>BASIC</key>
+         <value></value>
+      </entry>
+      <entry>
+         <key>XPATH</key>
+         <value>//div[@id='v-dbtdhtmlxHAB']/table/tbody//td[3][text()='${textHAB}']//preceding-sibling::td//span</value>
+      </entry>
+   </selectorCollection>
+   <selectorMethod>XPATH</selectorMethod>
+   <useRalativeImagePath>false</useRalativeImagePath>
+</WebElementEntity>

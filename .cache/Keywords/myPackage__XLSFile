@@ -1,0 +1,16 @@
+{
+  "keywordFileContentHash": "A44551A3F4259723250C4128E40F6DBC",
+  "keywordClasses": [
+    {
+      "name": "myPackage.XLSFile",
+      "keywordMethods": [
+        {
+          "name": "lireXLS",
+          "parameters": [],
+          "javadoc": "/**\r\n\t * \r\n\t * @param \r\n\t * @return \r\n\t */"
+        }
+      ]
+    }
+  ],
+  "javadocParsed": true
+}
