@@ -258,7 +258,7 @@ public class JDD {
 			}
 
 		}else {
-			my.Log.addERROR("$name n'est pas une colonne")
+			my.Log.addERROR("getData($name, $casDeTestNum ) '$name' n'est pas une colonne du JDD")
 		}
 		return ret
 	}
@@ -287,6 +287,10 @@ public class JDD {
 	 * @return the TestObject created
 	 */
 	public TestObject makeTO(String ID, Map  binding = [:]){
+		
+		if (!this.xpathTO.containsKey(ID)) {
+			my.Log.addERROR("L'ID '$ID' n'existe pas, impossible de créer le TEST OBJET")
+		}
 		my.Log.addDEBUG("makeTO( $ID, Map  binding = [:])" + Tools.parseMap(binding))
 		TestObject to = new TestObject(ID)
 		to.setSelectorMethod(SelectorMethod.XPATH)
@@ -396,7 +400,7 @@ public class JDD {
 					ret = this.getParam(param)[this.headers.indexOf(name)]
 				}
 			}else {
-				my.Log.addERROR("getParamForThisName(param=$param, name=$name) Ce nom n'est pas une colonne de l'onglet '${this.TCTabName}'")
+				my.Log.addERROR("getParamForThisName(param=$param, name=$name) '$name' n'est pas une colonne du JDD")
 			}
 		}
 		return ret

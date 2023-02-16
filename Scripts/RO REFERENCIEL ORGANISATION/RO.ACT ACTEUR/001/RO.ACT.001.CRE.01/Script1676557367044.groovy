@@ -22,7 +22,13 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 	//////////////////////////////////////////////////////////////////////////////////// ONGLET ACTEUR
 
-		'Début de sasie des valeurs du JDD dans l\'écran ACTEUR'
+		'Clic sur le bon onglet'
+		KW.scrollAndClick(myJDD.makeTO('a_Acteur'))
+		
+		'Vérification de l\'onglet'
+		KW.waitForElementVisible(myJDD.makeTO('a_ActeurSelected'),GlobalVariable.TIMEOUT)
+	
+		'Début de sasie des valeurs du JDD'
 	
 		KW.scrollAndSelectOptionByValue(myJDD.makeTO('ST_ETA'), myJDD.getStrData('ST_ETA'))
 		
@@ -50,18 +56,15 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 
 	
 	//////////////////////////////////////////////////////////////////////////////////// ONGLET AFFECTATION
-	
-		'Début de sasie des valeurs du JDD dans l\'écran AFFECTATION'
 			
 		'Clic sur le bon onglet'
 		KW.scrollAndClick(myJDD.makeTO('a_Affectation'))
 		
 		'Vérification de l\'onglet'
-		KW.waitForElementVisible(myJDD.makeTO('h4_Affectation'),GlobalVariable.TIMEOUT)
+		KW.waitForElementVisible(myJDD.makeTO('a_AffectationSelected'),GlobalVariable.TIMEOUT)
 		
+		'Début de sasie des valeurs du JDD'
 		KW.scrollAndSetText(myJDD.makeTO('ID_CODGESAFF'), myJDD.getStrData('ID_CODGESAFF'))
-		
-		// l'attribut value ou title  de ST_DESID_CODGESAFF n'est renseigné qu'à la lecture ! le test IMPOSSIBLE de tester en création ou en modif
 	
 		KW.scrollAndSetText(myJDD.makeTO('ST_MAT'), myJDD.getStrData('ST_MAT'))
 	
@@ -73,21 +76,19 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		
 		KW.scrollAndSetText(myJDD.makeTO('ID_CODCAT'), myJDD.getStrData('ID_CODCAT'))
 		
-		// l'attribut value ou title  de ST_DESID_CODCAT n'est renseigné qu'à la lecture ! le test IMPOSSIBLE de tester en création ou en modif
-		
 		KW.scrollAndSetText(myJDD.makeTO('NU_COUHOR'), myJDD.getStrData('NU_COUHOR'))
 		
 	
 	//////////////////////////////////////////////////////////////////////////////////// ONGLET ROLE
 	
-		'Début de sasie des valeurs du JDD dans l\'écran ROLE'
-	
+			
 		'Clic sur le bon onglet'
 		KW.scrollAndClick(myJDD.makeTO('a_Role'))
 		
 		'Vérification de l\'onglet'
-		KW.waitForElementVisible(myJDD.makeTO('h4_Role'),GlobalVariable.TIMEOUT)
-	
+		KW.waitForElementVisible(myJDD.makeTO('a_RoleSelected'),GlobalVariable.TIMEOUT)
+		
+		'Début de sasie des valeurs du JDD'
 		KW.scrollAndClickIfNeeded(myJDD.makeTO('ST_GES'),myJDD.getStrData('ST_GES')=='O')
 		KW.scrollAndClickIfNeeded(myJDD.makeTO('ST_EXP'),myJDD.getStrData('ST_EXP')=='O')
 		KW.scrollAndClickIfNeeded(myJDD.makeTO('ST_MAI'),myJDD.getStrData('ST_MAI')=='O')
@@ -105,39 +106,31 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 
 	
 	//////////////////////////////////////////////////////////////////////////////////// ONGLET PREVENTIF
-	
-		'Début de sasie des valeurs du JDD dans l\'écran PREVENTIF'
-	
+		
 		'Clic sur le bon onglet'
-		KW.scrollAndClick(myJDD.makeTO('a_Role'))
+		KW.scrollAndClick(myJDD.makeTO('a_Preventif'))
 		
 		'Vérification de l\'onglet'
-		KW.waitForElementVisible(myJDD.makeTO('h4_Role'),GlobalVariable.TIMEOUT)
+		KW.waitForElementVisible(myJDD.makeTO('a_PreventifSelected'),GlobalVariable.TIMEOUT)
 		
-		
+		'Début de sasie des valeurs du JDD'
 		KW.scrollAndClickIfNeeded(myJDD.makeTO('ST_PRIPRE'),myJDD.getStrData('ST_PRIPRE')=='O')
 		
 		KW.scrollAndSetText(myJDD.makeTO('NU_TAUPRE'), myJDD.getStrData('NU_TAUPRE'))
 		
 		KW.scrollAndSetText(myJDD.makeTO('ID_CODCAL'), myJDD.getStrData('ID_CODCAL'))
 		
-		// l'attribut value ou title  de ST_DESID_CODCAL n'est renseigné qu'à la lecture ! le test IMPOSSIBLE de tester en création ou en modif
-		
 		
 	//////////////////////////////////////////////////////////////////////////////////// ONGLET ZONE
 	
-		'Début de sasie des valeurs du JDD dans l\'écran PREVENTIF'
-	
 		'Clic sur le bon onglet'
-		KW.scrollAndClick(myJDD.makeTO('a_Role'))
+		KW.scrollAndClick(myJDD.makeTO('a_Zone'))
 		
 		'Vérification de l\'onglet'
-		KW.waitForElementVisible(myJDD.makeTO('h4_Role'),GlobalVariable.TIMEOUT)
+		KW.waitForElementVisible(myJDD.makeTO('a_ZoneSelected'),GlobalVariable.TIMEOUT)
 		
-		
+		'Début de sasie des valeurs du JDD'
 		KW.scrollAndSetText(myJDD.makeTO('ID_NUMZON'), myJDD.getStrData('ID_NUMZON'))
-		
-		// l'attribut value ou title  de ST_DES n'est renseigné qu'à la lecture ! le test IMPOSSIBLE de tester en création ou en modif
 		
 		
 		

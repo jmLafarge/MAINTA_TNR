@@ -62,13 +62,28 @@ class KW {
 		my.Log.addSTEP("Scroll et clic sur '" + tObj.getObjectId() + "'")
 
 		WebUI.scrollToElement(tObj, timeOut)
-		//WebUI.waitForElementVisible(tObj, timeOut)
-		WebUI.waitForElementClickable(tObj, timeOut)
+		this.waitForElementClickable(tObj, timeOut)
 		WebUI.click(tObj)
 	} // end of def
 
 
 
+	/**
+	 *
+	 * @param
+	 * @return
+	 */
+	@Keyword
+	static waitForElementClickable(TestObject tObj, int timeOut = GlobalVariable.TIMEOUT) {
+
+		if (WebUI.waitForElementClickable(tObj, timeOut)) {
+			my.Log.addDEBUG("'${tObj.getObjectId()}' est clickable")
+		}else {
+			my.Log.addDETAILFAIL("'${tObj.getObjectId()}' n'est pas clickable")
+		}
+	} // end of def
+	
+	
 
 	/**
 	 *
@@ -81,14 +96,14 @@ class KW {
 		my.Log.addSTEP("Scroll et double-clic sur '" + tObj.getObjectId() + "'")
 
 		WebUI.scrollToElement(tObj, timeOut)
-		WebUI.waitForElementVisible(tObj, timeOut)
+		this.waitForElementVisible(tObj, timeOut)
 		WebUI.doubleClick(tObj)
 	} // end of def
 
 
-	
-	
-	
+
+
+
 	/**
 	 *
 	 * @param
@@ -97,13 +112,11 @@ class KW {
 	@Keyword
 	static waitForElementVisible(TestObject tObj, int timeOut = GlobalVariable.TIMEOUT) {
 
-
 		if (WebUI.waitForElementVisible(tObj, timeOut)) {
-			my.Log.addSTEPPASS("Attendre que '" + tObj.getObjectId() + "' soit visible")
+			my.Log.addDEBUG("'${tObj.getObjectId()}' est visible")
 		}else {
-			my.Log.addSTEPFAIL("'" + tObj.getObjectId() + "' n'est pas visible")
+			my.Log.addDETAILFAIL("'${tObj.getObjectId()}' n'est pas visible")
 		}
-
 	} // end of def
 
 	/**
@@ -119,12 +132,12 @@ class KW {
 		my.Log.addSTEP("Scroll et select option '$val' sur '" + tObj.getObjectId() + "'")
 
 		WebUI.scrollToElement(tObj, timeOut)
-		WebUI.waitForElementVisible(tObj, timeOut)
+		this.waitForElementVisible(tObj, timeOut)
 		WebUI.selectOptionByValue(tObj, val, isRegex)
 
 	} // end of def
 
-	
+
 
 	/**
 	 *
@@ -139,13 +152,13 @@ class KW {
 		my.Log.addSTEP("Scroll et saisie du texte '$text' sur '" + tObj.getObjectId() + "'")
 
 		WebUI.scrollToElement(tObj, timeOut)
-		WebUI.waitForElementVisible(tObj, timeOut)
+		this.waitForElementVisible(tObj, timeOut)
 		WebUI.setText(tObj, text)
 
 	} // end of def
 
-	
-	
+
+
 
 	/**
 	 *
@@ -256,7 +269,7 @@ class KW {
 	@Keyword
 	static waitAndVerifyText(TestObject tObj, String text, int timeOut = GlobalVariable.TIMEOUT)  {
 
-		WebUI.waitForElementVisible(tObj, timeOut)
+		this.waitForElementVisible(tObj, timeOut)
 		this.verifyElementText(tObj, text)
 	} // end of def
 
@@ -288,10 +301,10 @@ class KW {
 		WebUI.scrollToElement(tObj,timeOut)
 		boolean etat = WebUI.verifyElementChecked(tObj, timeOut, FailureHandling.OPTIONAL)
 		if (etat && !cond) {
-			my.Log.addSTEP("Uncheck '" + tObj.getObjectId() + "'")
+			my.Log.addSTEP("Scroll et uncheck '" + tObj.getObjectId() + "'")
 			WebUI.sendKeys(tObj, Keys.chord(Keys.SPACE))
 		}else if (!etat && cond){
-			my.Log.addSTEP("Check '" + tObj.getObjectId() + "'")
+			my.Log.addSTEP("Scroll et check '" + tObj.getObjectId() + "'")
 			WebUI.sendKeys(tObj, Keys.chord(Keys.SPACE))
 		}
 	} // end of def
