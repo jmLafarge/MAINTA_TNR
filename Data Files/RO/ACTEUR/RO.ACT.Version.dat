@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DataFileEntity>
+   <description></description>
+   <name>RO.ACT.Version</name>
+   <tag></tag>
+   <containsHeaders>true</containsHeaders>
+   <csvSeperator></csvSeperator>
+   <dataFileGUID>3c9c9fa8-1669-4c0c-b2d5-2ea0f06b7eb8</dataFileGUID>
+   <dataSourceUrl>JDD/JDD.RO.ACT.xlsx</dataSourceUrl>
+   <driver>ExcelFile</driver>
+   <isInternalPath>true</isInternalPath>
+   <properties>
+      <entry>
+         <key>readAsString</key>
+         <value>true</value>
+      </entry>
+   </properties>
+   <query></query>
+   <secureUserAccount>false</secureUserAccount>
+   <sheetName>Version</sheetName>
+   <usingGlobalDBSetting>false</usingGlobalDBSetting>
+</DataFileEntity>

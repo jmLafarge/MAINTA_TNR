@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalVariableEntities>
+   <description></description>
+   <name>PCJML</name>
+   <tag></tag>
+   <defaultProfile>true</defaultProfile>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'p1220105/MAINTA_TESTBin/MOS_XML.dll/'</initValue>
+      <name>BASE_URL</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'SYS'</initValue>
+      <name>USER</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'tInJYIB0OyM='</initValue>
+      <name>MDP</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'jdbc:sqlserver://localhost:1433;databaseName=MAINTA_TEST'</initValue>
+      <name>BD_URL</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'MAINTAOS'</initValue>
+      <name>BD_USER</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'MAINTAOS'</initValue>
+      <name>BD_MDP</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>5</initValue>
+      <name>TIMEOUT</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description>INTERNAL DATA</description>
+      <initValue>''</initValue>
+      <name>CASDETESTENCOURS</name>
+   </GlobalVariableEntity>
+</GlobalVariableEntities>

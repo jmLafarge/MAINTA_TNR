@@ -1,0 +1,2 @@
+
+my.Log.addERROR('err')
