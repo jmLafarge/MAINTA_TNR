@@ -8,9 +8,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 public class XLS {
 
 
-
-
-
 	static XSSFWorkbook open(String fullname) {
 
 		File sourceExcel = new File(fullname)

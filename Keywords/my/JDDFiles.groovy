@@ -16,7 +16,7 @@ public class JDDFiles {
 		my.Log.addINFO("\tMODOBJ     JDDFULLNAME")
 		//my.Log.addINFO("\t---------- -----------------------------------------------------------------------------------")
 		my.Log.addINFO('')
-		
+
 		new File(my.PropertiesReader.getMyProperty('JDD_PATH')).eachFileRecurse(FileType.FILES) { file ->
 
 			// keep only TC Name like JDD.*.xlsx

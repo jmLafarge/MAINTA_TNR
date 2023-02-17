@@ -33,11 +33,12 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	    WebUI.click(myJDD.makeTO('icon_Logout'))
 	}
 	
+	my.Log.addSTEP("Contrôle de la déconnexion")
 	if (!WebUI.waitForElementPresent(myJDD.makeTO('in_passw'), GlobalVariable.TIMEOUT)) {
 		
-		my.Log.addSTEPFAIL("Erreur de déconnexion la page de connexion n'est pas présente" )
+		my.Log.addDETAILFAIL("Erreur de déconnexion la page de connexion n'est pas présente" )
 	}else {
-		my.Log.addSTEPPASS("Déconnexion OK")
+		my.Log.addDETAILPASS("Déconnexion OK")
 	}
 	
 	my.Log.addSTEP("Fermeture du navigateur")

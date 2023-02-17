@@ -36,7 +36,7 @@ myJDD.datas.eachWithIndex { li,numli ->
 /*
 myJDD.datas.eachWithIndex { li,numli -> 
 	li.eachWithIndex { val,i -> 
-		if ((val instanceof String) && val.startsWith('$') && !(val in myJDD.KEYWORD_ALLOWED)) {
+		if ((val instanceof String) && val.startsWith('$') && !!my.JDDKW.isAllowedKeyword(val)) {
 			println "Le mot clé '$val' n'est pas autorisé. Trouvé en ligne DATA ${numli+1} colonne ${i+1}"
 			
 		}

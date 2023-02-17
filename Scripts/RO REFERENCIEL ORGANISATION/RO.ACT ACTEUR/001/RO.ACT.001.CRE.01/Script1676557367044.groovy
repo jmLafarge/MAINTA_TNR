@@ -12,10 +12,24 @@ import my.NAV
 'Lecture du JDD'
 def myJDD = new my.JDD()
 
+/*test */
+NAV.goToURL_Creation('21')
+
+		'Clic sur le bon onglet'
+		KW.scrollAndClick(myJDD.makeTO('a_Role'))
+		
+		'Vérification de l\'onglet'
+		KW.waitForElementVisible(myJDD.makeTO('a_RoleSelected'),GlobalVariable.TIMEOUT)
+		
+		'Début de sasie des valeurs du JDD'
+		KW.scrollAndClickIfNeeded(myJDD.makeTO('ST_GES'),false)
+		KW.scrollAndClickIfNeeded(myJDD.makeTO('ST_EXP'),true)
 
 
+		
+		
 'Si il y a un test case'
-if (myJDD.getNbrLigneCasDeTest() > 0) {
+if (myJDD.getNbrLigneCasDeTest() > 10) {
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_Creation_and_checkCartridge()
@@ -51,12 +65,10 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		KW.scrollAndSetText(myJDD.makeTO('ID_CODGES'), myJDD.getStrData('ID_CODGES'))
 		
 		KW.scrollAndClickIfNeeded(myJDD.makeTO('ST_GRP'),myJDD.getStrData('ST_GRP')=='O')
-		
-		// l'attribut value ou title  de ST_DESGES n'est renseigné qu'à la lecture ! le test IMPOSSIBLE de tester en création ou en modif
 
 	
 	//////////////////////////////////////////////////////////////////////////////////// ONGLET AFFECTATION
-			
+		
 		'Clic sur le bon onglet'
 		KW.scrollAndClick(myJDD.makeTO('a_Affectation'))
 		
@@ -130,8 +142,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		KW.waitForElementVisible(myJDD.makeTO('a_ZoneSelected'),GlobalVariable.TIMEOUT)
 		
 		'Début de sasie des valeurs du JDD'
-		KW.scrollAndSetText(myJDD.makeTO('ID_NUMZON'), myJDD.getStrData('ID_NUMZON'))
-		
+		KW.scrollAndSetText(myJDD.makeTO('ID_NUMZON'), myJDD.getStrData('ID_NUMZON'))		
 		
 		
 		

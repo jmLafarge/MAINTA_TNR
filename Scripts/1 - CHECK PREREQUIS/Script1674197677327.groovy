@@ -52,7 +52,7 @@ my.JDDFiles.JDDfilemap.each { modObj,fullName ->
 				my.Log.addDETAIL("Contrôle des mots clés dans les DATA")
 				myJDD.datas.eachWithIndex { li,numli ->
 					li.eachWithIndex { val,i ->
-						if ((val instanceof String) && val.startsWith('$') && !(val in myJDD.KEYWORD_ALLOWED)) {
+						if ((val instanceof String) && val.startsWith('$') && !my.JDDKW.isAllowedKeyword(val)) {
 							my.Log.addDETAILFAIL("- Le mot clé '$val' n'est pas autorisé. Trouvé en ligne DATA ${numli+1} colonne ${i+1}")
 							
 						}
@@ -116,7 +116,7 @@ my.PREJDDFiles.PREJDDfilemap.each { modObj,fullName ->
 				
 				datas.eachWithIndex { li,numli ->
 					li.eachWithIndex { val,i ->
-						if ((val instanceof String) && val.startsWith('$') && !(val in myJDD.KEYWORD_ALLOWED)) {
+						if ((val instanceof String) && val.startsWith('$') && !my.JDDKW.isAllowedKeyword(val)) {
 							my.Log.addDETAILFAIL("- Le mot clé '$val' n'est pas autorisé. Trouvé en ligne DATA ${numli+1} colonne ${i+1}")
 						}
 					}

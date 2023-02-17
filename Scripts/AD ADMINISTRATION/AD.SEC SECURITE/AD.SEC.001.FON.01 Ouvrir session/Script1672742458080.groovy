@@ -27,16 +27,18 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	my.Log.addSTEP("Clic sur le bouton connexion")
 	WebUI.click(myJDD.makeTO('button_Connexion'), FailureHandling.STOP_ON_FAILURE)
 	
+
 	if (WebUI.waitForElementPresent(myJDD.makeTO('frame_Main'), GlobalVariable.TIMEOUT,FailureHandling.OPTIONAL)) {
 		
+		my.Log.addSTEP("Contrôle de la connexion")
 		WebUI.switchToFrame(myJDD.makeTO('frame_Main'), GlobalVariable.TIMEOUT)
 		
 		if (WebUI.waitForElementPresent(myJDD.makeTO('div_Desk'), GlobalVariable.TIMEOUT,FailureHandling.OPTIONAL)) {
 		
-			my.Log.addSTEPPASS("Connexion OK")
+			my.Log.addDETAILPASS("Connexion OK")
 		}else {
 			
-			my.Log.addSTEPFAIL("Erreur de connexion, le bureau Mainta n'est pas présent")
+			my.Log.addDETAILFAIL("Erreur de connexion, le bureau Mainta n'est pas présent")
 		}
 		
 		WebUI.switchToDefaultContent()
@@ -46,12 +48,13 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		
 	    WebUI.click(myJDD.makeTO('input_Oui'), FailureHandling.STOP_ON_FAILURE)
 		
+		my.Log.addSTEP("Contrôle de la reconnexion")
 		if (WebUI.waitForElementPresent(myJDD.makeTO('div_Desk'), GlobalVariable.TIMEOUT,FailureHandling.OPTIONAL)) {
 			
-			my.Log.addSTEPPASS("Reconnexion OK")
+			my.Log.addDETAILPASS("Reconnexion OK")
 		}else {
 			
-			my.Log.addSTEPFAIL("Erreur de re-connexion, le bureau Mainta n'est pas présent")
+			my.Log.addDETAILFAIL("Erreur de re-connexion, le bureau Mainta n'est pas présent")
 		}
 		
 	} else {

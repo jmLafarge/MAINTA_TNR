@@ -6,16 +6,14 @@
  * -----------------------------------------------------------------------------------------------------
  *
  * 
- * ID_NUMZON c'est 0 par déaut
+ * REVOIR les KW.verif --> ne pas utiliser les WebUI.verify.... dans un if car quand false ca provoque un message erreur de ouf dans console
+ * --> utiliser WebUI.getAttribute( 
+ * 
+ * TESTER WebUI.getAttribute(  avant de setter un champ
+ * 
  * 
  *
  * recharger JDD.RO.ACT sur DRIVE --> ATTENTION au ROUGE
- * 
- * Pour les checkbox il faut passer par le label --> voir ST_GES
- * mettre à jour les autres CB dans JDD RO
- * 
- * on arrive pas à afficher les INTER  --> c'est ST_ETA = A c'est KO il faut mettre DEFAUT
- * 	- j'ai corrigé les CLA et CALDEF (défaut sur le format date heure) mais c'est pas ça	
  * 
  * $Identifiant technique dans JDD RO ACT 004EMP --> l création d'un emplacement crée qq chose ? ou c'est plutot l'utilisation dans ACTEUR !?
  * 
@@ -38,7 +36,7 @@
  * 		Vérifier que pour tous les PRE.XX.UTI.IDCODPRO='SOC', les UTI.ID_CODUTI sont dans dans PRE.RO.ACT.ID_CODINT
  * 		Vérifier que pour tous les PRE.XX.UTI.IDCODPRO='SOC', les UTI.ID_NUMSOC sont dans dans PRE.XX.SOCIETE.ID_NUMSOC
  *
- *
+ * Verifir si les valeurs collent avec les types :  my.InfoBDD.getDATA_TYPE( myJDD.getDBTableName(), fieldName)
  *
  * -----------------------------------------------------------------------------------------------------
  * VRAC

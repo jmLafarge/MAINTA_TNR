@@ -29,7 +29,6 @@ public class JDD {
 	private final List PARAM_LIST_ALLOWED		= ['PREREQUIS', 'FOREIGNKEY', 'LOCATOR', 'SEQUENCE'] 	// allowed param list
 	private final List TAG_LIST_ALLOWED			= ['input', 'select', 'textarea', 'td'] 			// allowed tag list
 	private final List SKIP_LIST_SHEETNAME		= ['Version', 'Info', TOSHEETNAME]
-	private final List KEYWORD_ALLOWED			= ['$VIDE', '$NULL', '$DATESYS', '$DATETIMESYS', '$ORDRE']
 	private final String START_DATA_WORD		= 'CAS_DE_TEST'
 
 	private XSSFWorkbook book
@@ -287,7 +286,7 @@ public class JDD {
 	 * @return the TestObject created
 	 */
 	public TestObject makeTO(String ID, Map  binding = [:]){
-		
+
 		if (!this.xpathTO.containsKey(ID)) {
 			my.Log.addERROR("L'ID '$ID' n'existe pas, impossible de créer le TEST OBJET")
 		}

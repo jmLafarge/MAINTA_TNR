@@ -23,11 +23,9 @@ public class SQL {
 	 * 
 	 *  
 	 */
-	static public checkJDDWithBD(JDD myJDD){
+	static checkJDDWithBD(JDD myJDD){
 
-		boolean checkStatus = true
-
-		my.Log.addSTEP("Démarrage vérification en Base de Données")
+		my.Log.addSTEP("Vérification des valeurs en Base de Données")
 
 		String query = "SELECT * FROM " + myJDD.getDBTableName() + this.getWhereWithAllPK(myJDD)
 		my.Log.addDEBUG("query =  $query")
@@ -36,7 +34,7 @@ public class SQL {
 
 		if (rowMap.size() == 0) {
 
-			my.Log.addFAIL("Pas de résultat pour la requête : $query")
+			my.Log.addDETAILFAIL("Pas de résultat pour la requête : $query")
 		}
 
 
@@ -46,49 +44,51 @@ public class SQL {
 
 			if (myJDD.getParamForThisName('FOREIGNKEY', fieldName)!=null) {
 
-				if (this.checkForeignKey(myJDD, fieldName, rowMap)) {
-					//ok
-				}else {
-					checkStatus = false
-				}
+				this.checkForeignKey(myJDD, fieldName, rowMap)
 			}else {
 				// test valeur du JDD
 				switch (myJDD.getData(fieldName)) {
 
-					case '$VIDE' :
-					case '$NULL' :
+					case my.JDDKW.getKW_VIDE() :
+					case my.JDDKW.getKW_NULL():
 						if (rowMap.getAt(fieldName) == null || val =='') {
 
-							my.Log.addDEBUG("Contrôle valeur $fieldName OK : la valeur attendue est VIDE ou null et la valeur en BD est  : $val" )
+							my.Log.addDEBUG("Contrôle de la valeur de $fieldName OK : la valeur attendue est VIDE ou null et la valeur en BD est  : $val" )
 						}else {
 
-							my.Log.addDETAILFAIL("Contrôle valeur $fieldName KO : la valeur attendue est VIDE ou null et la valeur en BD est  : $val")
-							checkStatus = false
+							my.Log.addDETAILFAIL("Contrôle de la valeur de $fieldName KO : la valeur attendue est VIDE ou null et la valeur en BD est  : $val")
 						}
 
 						break
 
-					case '$DATESYS' :
+					case my.JDDKW.getKW_DATE() :
 
-						my.Log.addDETAIL("Contrôle valeur $fieldName KO : ******* reste à faire **********")
+						my.Log.addDETAIL("Contrôle DATE valeur $fieldName KO : ******* reste à faire la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
 
 						break
 
-					case '$DATETIMESYS' :
+					case my.JDDKW.getKW_DATETIME() :
 
-						my.Log.addDETAIL("Contrôle valeur $fieldName KO : ******* reste à faire **********")
+						if (val instanceof java.sql.Timestamp) {
+							my.Log.addDEBUG("Contrôle de la valeur de $fieldName OK : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val " )
+						}else {
+							my.Log.addDETAIL("Contrôle IDINTERNE valeur $fieldName KO : ******* reste à faire la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
+						}
+
 
 						break
 
 					case '$IDINTERNE' :
 
-						my.Log.addDETAIL("Contrôle valeur $fieldName KO : ******* reste à faire ****peut etre testé si la valeur est num et unique ? ******")
+						my.Log.addDETAIL("Contrôle IDINTERNE valeur $fieldName KO : ******* reste à faire la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
+					//il faut peut etre testé si la valeur est num et unique ? ******
 
 						break
 
-					case '$ORDRE' :
+					case my.JDDKW.getKW_ORDRE() :
 
-						my.Log.addDETAIL("Contrôle valeur $fieldName KO : ******* reste à faire *** voir aussi le NU_NIV *******")
+						my.Log.addDETAIL("Contrôle ORDRE valeur $fieldName KO : ******* reste à faire la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
+					//voir aussi le NU_NIV *******
 
 						break
 
@@ -98,58 +98,31 @@ public class SQL {
 
 						if ( val == my.InfoBDD.castJDDVal(myJDD.getDBTableName(), fieldName, myJDD.getData(fieldName))) {
 
-							my.Log.addDEBUG("Contrôle valeur $fieldName OK : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val " )
+							my.Log.addDEBUG("Contrôle de la valeur de $fieldName OK : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val " )
 						}else {
 
-							my.Log.addDETAILFAIL("Contrôle valeur $fieldName KO : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
-							checkStatus = false
+							my.Log.addDETAILFAIL("Contrôle de la valeur de $fieldName KO : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
 						}
 						break
 				}
 			}
 		}
-
-
-
-
-
-		if (checkStatus) {
-
-			KeywordUtil.markPassed('Vérification en Base de Données OK')
-			my.Log.addSTEPPASS("Vérification en Base de Données OK")
-
-		}else {
-
-			KeywordUtil.markFailed('Vérification en Base de Données KO')
-			my.Log.addSTEPFAIL ("Vérification en Base de Données KO")
-
-		}
-
 	}
 
 
 
 
 
-	static public boolean checkForeignKey(JDD myJDD, String fieldName, Map rowMap) {
+	private static checkForeignKey(JDD myJDD, String fieldName, Map rowMap) {
 
 		String query = myJDD.getSqlForForeignKey(fieldName)
 		def frow = this.sql.firstRow(query)
-
 		if (frow == null) {
-
-			my.Log.addFAIL("Contrôle valeur $fieldName KO, pas de résultat pour la query : $query")
-			return false
-
+			my.Log.addDETAILFAIL("Contrôle valeur $fieldName KO, pas de résultat pour la query : $query")
 		}else if (rowMap.getAt(fieldName) != frow.getAt(fieldName)) {
-
-			my.Log.addFAIL("Contrôle valeur $fieldName KO : ** la valeur du JDD attendue est : " + myJDD.getData(fieldName) + ' et la valeur est BD est : ' +  frow.getAt(fieldName))
-			return false
-
+			my.Log.addDETAILFAIL("Contrôle valeur $fieldName KO : ** la valeur du JDD attendue est : " + myJDD.getData(fieldName) + ' et la valeur est BD est : ' +  frow.getAt(fieldName))
 		}else {
-
 			my.Log.addDEBUG("Contrôle valeur $fieldName OK : la valeur attendue est : " + frow.getAt(fieldName) + " et la valeur en BD est : " + rowMap.getAt(fieldName))
-			return true
 		}
 	}
 
@@ -174,8 +147,9 @@ public class SQL {
 	 * @return
 	 */
 
-	static public checkIDNotInBD(JDD myJDD){
+	static checkIDNotInBD(JDD myJDD){
 
+		my.Log.addSTEP("Contrôle de la supression en BD")
 		String query = "SELECT count(*) FROM " + myJDD.getDBTableName() + this.getWhereWithAllPK(myJDD)
 		my.Log.addDEBUG("query =  $query")
 
@@ -183,12 +157,12 @@ public class SQL {
 
 		if (row[0]>0) {
 
-			my.Log.addSTEPFAIL("Contrôle supression KO")
-			KeywordUtil.markFailed("Contrôle supression KO")
+			my.Log.addDETAILFAIL("Supression KO")
+			KeywordUtil.markFailed("Supression KO")
 		}else {
 
-			my.Log.addSTEPPASS("Contrôle supression OK")
-			KeywordUtil.markPassed("Contrôle supression OK")
+			my.Log.addDETAILPASS("Supression OK")
+			KeywordUtil.markPassed("Supression OK")
 		}
 	}
 
@@ -204,7 +178,7 @@ public class SQL {
 
 
 
-	static public insertSQL(String req) {
+	static insertSQL(String req) {
 		try {
 			def keys = this.sql.executeInsert req
 			// dans le cas où il y a un ID auto ?
@@ -217,7 +191,7 @@ public class SQL {
 
 	}
 
-	static public int getMaxFromTable(String fieldName, String tableName) {
+	static int getMaxFromTable(String fieldName, String tableName) {
 
 		my.Log.addDEBUG("getMaxFromTable(String fieldName, String tableName) '$fieldName' , '$tableName'")
 

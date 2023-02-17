@@ -141,7 +141,7 @@ class Log {
 		this.addINFO('            STEP : '+ msg)
 	}
 
-
+/*
 	static public addSTEPPASS (String msg) {
 
 		this.addPASS('            STEP : '+ msg)
@@ -153,7 +153,7 @@ class Log {
 		this.addFAIL('            STEP : '+ msg)
 	}
 
-
+*/
 
 
 	/*

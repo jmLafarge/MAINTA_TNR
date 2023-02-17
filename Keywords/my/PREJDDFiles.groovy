@@ -98,7 +98,7 @@ public class PREJDDFiles {
 
 					switch (value) {
 
-						case '$ORDRE' :
+						case my.JDDKW.getKW_ORDRE() :
 							if (maxORDRE == null) {
 								maxORDRE = my.SQL.getMaxFromTable(fieldName, myJDD.getDBTableName())
 							}
@@ -106,20 +106,20 @@ public class PREJDDFiles {
 							values = values + ',' + maxORDRE.toString()
 							break
 
-						case '$NULL' :
+						case my.JDDKW.getKW_NULL() :
 							values = values + ",NULL"
 							break
 
-						case '$VIDE' :
+						case my.JDDKW.getKW_VIDE() :
 							values = values + ",''"
 							break
 
-						case '$DATESYS' :
+						case my.JDDKW.getKW_DATE() :
 							def now = new Date()
 							values = values + ",'" + now.format('yyyy-dd-MM') + "'"
 							break
 
-						case '$DATETIMESYS' :
+						case my.JDDKW.getKW_DATETIME() :
 							def now = new Date()
 							values = values + ",'" + now.format('yyyy-dd-MM HH:mm:ss.SSS') + "'"
 							break

@@ -20,37 +20,141 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
 	'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getData('ID_CODINT'))
 
-	'Début de sasie des valeurs du JDD dans l\'écran'
+	//////////////////////////////////////////////////////////////////////////////////// ONGLET ACTEUR
 	
-    KW.scrollAndSetText(myJDD.makeTO('ST_NOM'), myJDD.getData('ST_NOM'))
-
-    KW.scrollAndSetText(myJDD.makeTO('ST_PRE'), myJDD.getData('ST_PRE'))
-
-    KW.scrollAndSetText(myJDD.makeTO('ST_MAIL'), myJDD.getData('ST_MAIL'))
-
-    KW.scrollAndSetText(myJDD.makeTO('ST_TELPHO'), myJDD.getData('ST_TELPHO'))
-
-    KW.scrollAndSetText(myJDD.makeTO('ST_TELMOB'), myJDD.getData('ST_TELMOB'))
-
-    KW.scrollAndSetText(myJDD.makeTO('ST_TELCOP'), myJDD.getData('ST_TELCOP'))
-
-
-	'Cas particulier de Organisation - sélection par recherche'
-	KW.scrollAndClick(myJDD.makeTO('a_Organisation'))
-
-	WebUI.switchToWindowIndex('1')
-
-	KW.setText(myJDD.makeTO('input_Recherche_Organisation'), myJDD.getData('ID_CODGES'))
+			'Clic sur le bon onglet'
+			KW.scrollAndClick(myJDD.makeTO('a_Acteur'))
+			
+			'Vérification de l\'onglet'
+			KW.waitForElementVisible(myJDD.makeTO('a_ActeurSelected'),GlobalVariable.TIMEOUT)
+		
+			'Début de sasie des valeurs du JDD'
+		
+			KW.scrollAndSelectOptionByValue(myJDD.makeTO('ST_ETA'), myJDD.getStrData('ST_ETA'))
+			
+			KW.scrollAndClickIfNeeded(myJDD.makeTO('ST_INA'),myJDD.getStrData('ST_INA')=='O')
+			
+			KW.scrollAndSetText(myJDD.makeTO('ID_CODINT'), myJDD.getStrData('ID_CODINT'))
+		
+			KW.scrollAndSetText(myJDD.makeTO('ST_NOM'), myJDD.getStrData('ST_NOM'))
+		
+			KW.scrollAndSetText(myJDD.makeTO('ST_PRE'), myJDD.getStrData('ST_PRE'))
+		
+			KW.scrollAndSetText(myJDD.makeTO('ST_MAIL'), myJDD.getStrData('ST_MAIL'))
+		
+			KW.scrollAndSetText(myJDD.makeTO('ST_TELPHO'), myJDD.getStrData('ST_TELPHO'))
+		
+			KW.scrollAndSetText(myJDD.makeTO('ST_TELMOB'), myJDD.getStrData('ST_TELMOB'))
+		
+			KW.scrollAndSetText(myJDD.makeTO('ST_TELCOP'), myJDD.getStrData('ST_TELCOP'))
+		
+			//KW.scrollAndSetText(myJDD.makeTO('ID_CODGES'), myJDD.getStrData('ID_CODGES'))
+			
+				'Cas particulier de Organisation - sélection par recherche'
+				KW.scrollAndClick(myJDD.makeTO('a_Organisation'))
+			
+				WebUI.switchToWindowIndex('1')
+			
+				KW.setText(myJDD.makeTO('input_Recherche_Organisation'), myJDD.getStrData('ID_CODGES'))
+			
+				'mise à jour dynamique du xpath'
+				KW.scrollWaitAndVerifyText(myJDD.makeTO('td_Recherche_Organisation'), myJDD.getStrData('ID_CODGES'))
+				
+				WebUI.click(myJDD.makeTO('td_Recherche_Organisation'))
+			
+				WebUI.switchToWindowIndex('0')
+			
+			
+			
+			KW.scrollAndClickIfNeeded(myJDD.makeTO('ST_GRP'),myJDD.getStrData('ST_GRP')=='O')
+			
 	
+		
+		//////////////////////////////////////////////////////////////////////////////////// ONGLET AFFECTATION
+			
+			'Clic sur le bon onglet'
+			KW.scrollAndClick(myJDD.makeTO('a_Affectation'))
+			
+			'Vérification de l\'onglet'
+			KW.waitForElementVisible(myJDD.makeTO('a_AffectationSelected'),GlobalVariable.TIMEOUT)
+			
+			'Début de sasie des valeurs du JDD'
+			KW.scrollAndSetText(myJDD.makeTO('ID_CODGESAFF'), myJDD.getStrData('ID_CODGESAFF'))
+		
+			KW.scrollAndSetText(myJDD.makeTO('ST_MAT'), myJDD.getStrData('ST_MAT'))
+		
+			KW.scrollAndSetText(myJDD.makeTO('ST_FAM'), myJDD.getStrData('ST_FAM'))
+			
+			KW.scrollAndSetText(myJDD.makeTO('ST_GRO'), myJDD.getStrData('ST_GRO'))
+			
+			KW.scrollAndSetText(myJDD.makeTO('ST_DES'), myJDD.getStrData('ST_DES'))
+			
+			KW.scrollAndSetText(myJDD.makeTO('ID_CODCAT'), myJDD.getStrData('ID_CODCAT'))
+			
+			KW.scrollAndSetText(myJDD.makeTO('NU_COUHOR'), myJDD.getStrData('NU_COUHOR'))
+			
+		
+		//////////////////////////////////////////////////////////////////////////////////// ONGLET ROLE
+		
+				
+			'Clic sur le bon onglet'
+			KW.scrollAndClick(myJDD.makeTO('a_Role'))
+			
+			'Vérification de l\'onglet'
+			KW.waitForElementVisible(myJDD.makeTO('a_RoleSelected'),GlobalVariable.TIMEOUT)
+			
+			'Début de sasie des valeurs du JDD'
+			KW.scrollAndClickIfNeeded(myJDD.makeTO('ST_GES'),myJDD.getStrData('ST_GES')=='O')
+			KW.scrollAndClickIfNeeded(myJDD.makeTO('ST_EXP'),myJDD.getStrData('ST_EXP')=='O')
+			KW.scrollAndClickIfNeeded(myJDD.makeTO('ST_MAI'),myJDD.getStrData('ST_MAI')=='O')
+			KW.scrollAndClickIfNeeded(myJDD.makeTO('ST_PRO'),myJDD.getStrData('ST_PRO')=='O')
+			KW.scrollAndClickIfNeeded(myJDD.makeTO('ST_DEM'),myJDD.getStrData('ST_DEM')=='O')
+			KW.scrollAndClickIfNeeded(myJDD.makeTO('ST_INT'),myJDD.getStrData('ST_INT')=='O')
+			KW.scrollAndClickIfNeeded(myJDD.makeTO('ST_ACH'),myJDD.getStrData('ST_ACH')=='O')
+			KW.scrollAndClickIfNeeded(myJDD.makeTO('ST_REC'),myJDD.getStrData('ST_REC')=='O')
+			KW.scrollAndClickIfNeeded(myJDD.makeTO('ST_UTI'),myJDD.getStrData('ST_UTI')=='O')
+			KW.scrollAndClickIfNeeded(myJDD.makeTO('ST_UTIMOB'),myJDD.getStrData('ST_UTIMOB')=='O')
+			KW.scrollAndClickIfNeeded(myJDD.makeTO('ST_INVPRE'),myJDD.getStrData('ST_INVPRE')=='O')
+			KW.scrollAndClickIfNeeded(myJDD.makeTO('ST_INVBT'),myJDD.getStrData('ST_INVBT')=='O')
+			KW.scrollAndClickIfNeeded(myJDD.makeTO('ST_INVDA'),myJDD.getStrData('ST_INVDA')=='O')
+	
+	
+		
+		//////////////////////////////////////////////////////////////////////////////////// ONGLET PREVENTIF
+			
+			'Clic sur le bon onglet'
+			KW.scrollAndClick(myJDD.makeTO('a_Preventif'))
+			
+			'Vérification de l\'onglet'
+			KW.waitForElementVisible(myJDD.makeTO('a_PreventifSelected'),GlobalVariable.TIMEOUT)
+			
+			'Début de sasie des valeurs du JDD'
+			KW.scrollAndClickIfNeeded(myJDD.makeTO('ST_PRIPRE'),myJDD.getStrData('ST_PRIPRE')=='O')
+			
+			KW.scrollAndSetText(myJDD.makeTO('NU_TAUPRE'), myJDD.getStrData('NU_TAUPRE'))
+			
+			KW.scrollAndSetText(myJDD.makeTO('ID_CODCAL'), myJDD.getStrData('ID_CODCAL'))
+			
+			
+		//////////////////////////////////////////////////////////////////////////////////// ONGLET ZONE
+		
+			'Clic sur le bon onglet'
+			KW.scrollAndClick(myJDD.makeTO('a_Zone'))
+			
+			'Vérification de l\'onglet'
+			KW.waitForElementVisible(myJDD.makeTO('a_ZoneSelected'),GlobalVariable.TIMEOUT)
+			
+			'Début de sasie des valeurs du JDD'
+			KW.scrollAndSetText(myJDD.makeTO('ID_NUMZON'), myJDD.getStrData('ID_NUMZON'))
 
-	'mise à jour dynamique du xpath'	
-	KW.scrollWaitAndVerifyText(myJDD.makeTO('td_Recherche_Organisation'), myJDD.getData('ID_CODGES'))
-	
-	WebUI.click(myJDD.makeTO('td_Recherche_Organisation'))
 
-	WebUI.switchToWindowIndex('0')
 	
 	
+	
+	
+	
+	
+	/*
     'Validation de la saisie'
     KW.scrollAndClick(myJDD.makeTO('button_Valider'))
 
@@ -61,7 +165,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
 
 	'Vérification des valeurs en BD'
 	my.SQL.checkJDDWithBD(myJDD)
-	
+	*/
 } // fin du if
 
 

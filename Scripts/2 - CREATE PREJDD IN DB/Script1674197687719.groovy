@@ -1,9 +1,5 @@
 import internal.GlobalVariable
 
-//--------------------------------------------
-// UTILISER le user TNR pour créer les PREJDD 
-//--------------------------------------------
-
 my.PREJDDFiles.insertPREJDDinDB('RO.CAT','001')
 
 my.PREJDDFiles.insertPREJDDinDB('RO.HAB','001') 
