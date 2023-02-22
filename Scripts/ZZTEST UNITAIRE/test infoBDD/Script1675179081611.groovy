@@ -2,6 +2,8 @@
 
 my.InfoBDD.load()
 
+println my.InfoBDD.line[0]
+
 
 my.Log.addINFO('deb')
 //my.InfoBDD.line.eachWithIndex { v,i -> if (v[0]=='INTER' && v[1]==['ST_ETA']) my.Log.addINFO( i+':'+v) }

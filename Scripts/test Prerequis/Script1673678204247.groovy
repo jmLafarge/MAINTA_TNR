@@ -35,7 +35,7 @@ list.eachWithIndex { map,idx ->
 /*
 my.JDDFiles.JDDfilemap.each { modObj,fullName ->
 	
-	println modObj + '            ' +fullName
+	//println modObj + '            ' +fullName
 	
 	// read JDD
 	File sourceExcel = new File(fullName)
@@ -49,9 +49,9 @@ my.JDDFiles.JDDfilemap.each { modObj,fullName ->
 	            // skip
 	        }else {
 				
-				println("=> " + sheet.getSheetName())
+				//println("=> " + sheet.getSheetName())
 				
-				println myJDD.getColIndexOfFieldName(sheet,'ID_CODCAT')
+				//println myJDD.getColIndexOfFieldName(sheet,'ID_CODCAT')
 			}
 			
 		}

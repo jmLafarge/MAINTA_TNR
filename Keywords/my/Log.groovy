@@ -8,9 +8,8 @@ package my
  */
 class Log {
 
-	enum STATUS {
-		PASS, FAIL, ERROR
-	}
+	private static Map status = [WARNING:0,FAIL:0,PASS:0,ERROR:0]
+
 
 	private static File file = this.createFile()
 
@@ -21,8 +20,6 @@ class Log {
 	private static String TCName = ''
 
 	private static Date start
-
-	private static status = STATUS
 
 
 
@@ -68,6 +65,7 @@ class Log {
 	static public addWARNING (String msg) {
 
 		this.add('WARNING',msg )
+		this.status.WARNING++
 	}
 
 	/*
@@ -76,10 +74,7 @@ class Log {
 	static public addFAIL (String msg) {
 
 		this.add(' FAIL  ',msg )
-
-		if (status== STATUS.PASS) {
-			this.status = STATUS.FAIL
-		}
+		this.status.FAIL++
 	}
 
 	/*
@@ -88,6 +83,7 @@ class Log {
 	static public addPASS (String msg) {
 
 		this.add(' PASS  ',msg )
+		this.status.PASS++
 	}
 
 
@@ -104,18 +100,23 @@ class Log {
 	}
 
 
-
-
-
 	/*
 	 * 
 	 */
 	static public addERROR (String msg) {
 
 		this.add(' ERROR ',msg )
-
-		this.status = STATUS.ERROR
+		this.status.ERROR++
 	}
+
+
+
+	static public addSTEPGRP (String msg) {
+
+		this.addINFO('      '+ msg.padRight(60, '_'))
+		//this.addINFO('            STEP : '+ msg)
+	}
+
 
 
 	static public addDETAIL (String msg) {
@@ -134,14 +135,18 @@ class Log {
 		this.addFAIL('                   - '+ msg)
 	}
 
+/*
+	static public addDETAILWARNING (String msg) {
 
-
+		this.addWARNING('                   - '+ msg)
+	}
+*/
 	static public addSTEP (String msg) {
 
 		this.addINFO('            STEP : '+ msg)
 	}
 
-/*
+
 	static public addSTEPPASS (String msg) {
 
 		this.addPASS('            STEP : '+ msg)
@@ -153,7 +158,13 @@ class Log {
 		this.addFAIL('            STEP : '+ msg)
 	}
 
+/*
+	static public addSTEPWARNING (String msg) {
+
+		this.addWARNING('            STEP : '+ msg)
+	}
 */
+
 
 
 	/*
@@ -163,7 +174,10 @@ class Log {
 
 		this.start = new Date()
 		this.TCName = testCaseName
-		this.status= STATUS.PASS
+		this.status.WARNING = 0
+		this.status.FAIL = 0
+		this.status.PASS = 0
+		this.status.ERROR = 0
 		this.addINFO('')
 		this.addINFO('START  TEST CASE : '+ testCaseName )
 	}
@@ -174,17 +188,12 @@ class Log {
 		Date stop = new Date()
 		my.Result.addCasDeTest(this.TCName, this.status, this.start , stop)
 
-		switch (this.status) {
-
-			case STATUS.PASS :
-				this.addPASS('END    TEST CASE : ' + this.TCName.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
-				break
-			case STATUS.FAIL :
-				this.addFAIL('END    TEST CASE : ' + this.TCName.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
-				break
-			case STATUS.ERROR :
-				this.addERROR('END    TEST CASE : ' + this.TCName.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
-				break
+		if (this.status.ERROR ==0 && this.status.FAIL == 0 ) {
+			this.addPASS('END    TEST CASE : ' + this.TCName.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
+		}else if (this.status.ERROR ==0 && this.status.FAIL != 0 ) {
+			this.addFAIL('END    TEST CASE : ' + this.TCName.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
+		}else if (this.status.ERROR !=0 ) {
+			this.addERROR('END    TEST CASE : ' + this.TCName.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
 		}
 		this.TCName = ''
 	}

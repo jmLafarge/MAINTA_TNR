@@ -3,10 +3,14 @@ package my
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
+import com.kms.katalon.core.util.KeywordUtil
+
 public class InfoBDD {
 
 	private static Map colnameMap= [:]
 	private static Map PKMap= [:]
+
+	private static final List HEADERS	 = ['TABLE_NAME', 'COLUMN_NAME', 'ORDINAL_POSITION', 'IS_NULLABLE', 'DATA_TYPE', 'MAXCHAR', 'DOMAIN_NAME', 'CONSTRAINT_NAME']
 
 	private static List line = []
 
@@ -19,17 +23,26 @@ public class InfoBDD {
 
 		Iterator<Row> rowIt = sheet.rowIterator()
 		Row row = rowIt.next()
+		List headers = my.XLS.loadRow(row)
+		my.Log.addSTEP('Contrôle entête fichier')
+		if (headers!=this.HEADERS) {
+			my.Log.addERROR('Entête fichier différente de celle attendue :')
+			my.Log.addDETAIL('Entête attendue : ' + this.HEADERS.join(' - '))
+			my.Log.addDETAIL('Entête lue      : ' + headers.join(' - '))
+			KeywordUtil.markErrorAndStop("Entête fichier InfoBDD différente de celle attendue")
+		}
 
+		//Row row = rowIt.next()
 		while(rowIt.hasNext()) {
 			row = rowIt.next()
 			if (my.XLS.getCellValue(row.getCell(0))=='') {
 				break
 			}
-			this.line << my.XLS.loadRow(row,8)
+			this.line << my.XLS.loadRow(row,this.HEADERS.size())
 		}
-		this.colnameMap = this.line.groupBy { it[ 0 ] } .collectEntries { key, value -> [key, value*.getAt( 1 )]}
+		this.colnameMap = this.line.groupBy { it[ 0 ] } .collectEntries { key, value -> [key, value*.getAt(this.HEADERS.indexOf('COLUMN_NAME'))]}
 
-		this.PKMap = this.line.groupBy { it[ 0 ] }.collectEntries { key, value -> [key, value*.getAt( 7 )]}
+		this.PKMap = this.line.groupBy { it[ 0 ] }.collectEntries { key, value -> [key, value*.getAt(this.HEADERS.indexOf('CONSTRAINT_NAME'))]}
 	}
 
 

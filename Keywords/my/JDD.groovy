@@ -37,6 +37,7 @@ public class JDD {
 	private String JDDFullName = ''
 	private String TCTabName = ''
 	private String casDeTest = ''
+	private int casDeTestNum = 1
 
 	private List headers = []
 	private List params = []
@@ -226,6 +227,9 @@ public class JDD {
 	}
 
 
+	public setCasDeTestNum(int i) {
+		this.casDeTestNum=i
+	}
 
 
 
@@ -236,7 +240,7 @@ public class JDD {
 	 * 
 	 * @return				: la valeur du champ pour la ligne du cas de test en cours
 	 */
-	public getData(String name, int casDeTestNum = 1) {
+	public getData(String name, int casDeTestNum = this.casDeTestNum) {
 		my.Log.addDEBUG("getData($name, $casDeTestNum)" , 2)
 		if (casDeTestNum > this.getNbrLigneCasDeTest() || casDeTestNum < 1) {
 			my.Log.addERROR("Le cas de test N° : $casDeTestNum n'existe pas (max = "+ this.getNbrLigneCasDeTest() + ')')

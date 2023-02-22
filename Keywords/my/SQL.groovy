@@ -24,8 +24,8 @@ public class SQL {
 	 *  
 	 */
 	static checkJDDWithBD(JDD myJDD){
-
-		my.Log.addSTEP("Vérification des valeurs en Base de Données")
+		boolean pass = true
+		my.Log.addSTEP("Début de la vérification des valeurs en Base de Données")
 
 		String query = "SELECT * FROM " + myJDD.getDBTableName() + this.getWhereWithAllPK(myJDD)
 		my.Log.addDEBUG("query =  $query")
@@ -33,82 +33,83 @@ public class SQL {
 		Map rowMap = this.putRowInMap(this.sql.firstRow(query))
 
 		if (rowMap.size() == 0) {
-
-			my.Log.addDETAILFAIL("Pas de résultat pour la requête : $query")
-		}
-
-
-		rowMap.each { fieldName,val ->
-
-			my.Log.addDEBUG("fieldName = $fieldName , val = $val , JDD value = " + myJDD.getData(fieldName))
-
-			if (myJDD.getParamForThisName('FOREIGNKEY', fieldName)!=null) {
-
-				this.checkForeignKey(myJDD, fieldName, rowMap)
-			}else {
-				// test valeur du JDD
-				switch (myJDD.getData(fieldName)) {
-
-					case my.JDDKW.getKW_VIDE() :
-					case my.JDDKW.getKW_NULL():
-						if (rowMap.getAt(fieldName) == null || val =='') {
-
-							my.Log.addDEBUG("Contrôle de la valeur de $fieldName OK : la valeur attendue est VIDE ou null et la valeur en BD est  : $val" )
-						}else {
-
-							my.Log.addDETAILFAIL("Contrôle de la valeur de $fieldName KO : la valeur attendue est VIDE ou null et la valeur en BD est  : $val")
-						}
-
-						break
-
-					case my.JDDKW.getKW_DATE() :
-
-						my.Log.addDETAIL("Contrôle DATE valeur $fieldName KO : ******* reste à faire la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
-
-						break
-
-					case my.JDDKW.getKW_DATETIME() :
-
-						if (val instanceof java.sql.Timestamp) {
-							my.Log.addDEBUG("Contrôle de la valeur de $fieldName OK : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val " )
-						}else {
+			my.Log.addERROR("Pas de résultat pour la requête : $query")
+		}else {
+			rowMap.each { fieldName,val ->
+	
+				my.Log.addDEBUG("fieldName = $fieldName , val = $val , JDD value = " + myJDD.getData(fieldName))
+	
+				if (myJDD.getParamForThisName('FOREIGNKEY', fieldName)!=null) {
+	
+					this.checkForeignKey(myJDD, fieldName, rowMap)
+				}else {
+					// test valeur du JDD
+					switch (myJDD.getData(fieldName)) {
+	
+						case my.JDDKW.getKW_VIDE() :
+						case my.JDDKW.getKW_NULL():
+							if (rowMap.getAt(fieldName) == null || val =='') {
+	
+								my.Log.addDEBUG("Contrôle de la valeur de $fieldName OK : la valeur attendue est VIDE ou null et la valeur en BD est  : $val" )
+							}else {
+								my.Log.addDETAIL("Contrôle de la valeur de $fieldName KO : la valeur attendue est VIDE ou null et la valeur en BD est  : $val")
+								pass = false
+							}
+	
+							break
+	
+						case my.JDDKW.getKW_DATE() :
+	
+							my.Log.addDETAIL("Contrôle DATE valeur $fieldName KO : ******* reste à faire la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
+							pass = false
+							break
+	
+						case my.JDDKW.getKW_DATETIME() :
+	
+							if (val instanceof java.sql.Timestamp) {
+								my.Log.addDEBUG("Contrôle de la valeur de $fieldName OK : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val " )
+							}else {
+								my.Log.addDETAIL("Contrôle IDINTERNE valeur $fieldName KO : ******* reste à faire la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
+								pass = false
+							}
+							break
+	
+						case '$IDINTERNE' :
+	
 							my.Log.addDETAIL("Contrôle IDINTERNE valeur $fieldName KO : ******* reste à faire la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
-						}
-
-
-						break
-
-					case '$IDINTERNE' :
-
-						my.Log.addDETAIL("Contrôle IDINTERNE valeur $fieldName KO : ******* reste à faire la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
-					//il faut peut etre testé si la valeur est num et unique ? ******
-
-						break
-
-					case my.JDDKW.getKW_ORDRE() :
-
-						my.Log.addDETAIL("Contrôle ORDRE valeur $fieldName KO : ******* reste à faire la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
-					//voir aussi le NU_NIV *******
-
-						break
-
-					default:
-
-						my.Log.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' dans le JDD : ' + myJDD.getData(fieldName).getClass())
-
-						if ( val == my.InfoBDD.castJDDVal(myJDD.getDBTableName(), fieldName, myJDD.getData(fieldName))) {
-
-							my.Log.addDEBUG("Contrôle de la valeur de $fieldName OK : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val " )
-						}else {
-
-							my.Log.addDETAILFAIL("Contrôle de la valeur de $fieldName KO : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
-						}
-						break
+						//il faut peut etre testé si la valeur est num et unique ? ******
+							pass = false
+							break
+	
+						case my.JDDKW.getKW_ORDRE() :
+	
+							my.Log.addDETAIL("Contrôle ORDRE valeur $fieldName KO : ******* reste à faire la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
+						//voir aussi le NU_NIV *******
+							pass = false
+							break
+	
+						default:
+	
+							my.Log.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' dans le JDD : ' + myJDD.getData(fieldName).getClass())
+	
+							if ( val == my.InfoBDD.castJDDVal(myJDD.getDBTableName(), fieldName, myJDD.getData(fieldName))) {
+								my.Log.addDEBUG("Contrôle de la valeur de $fieldName OK : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val " )
+							}else {
+								my.Log.addDETAIL("Contrôle de la valeur de $fieldName KO : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
+								pass = false
+							}
+							break
+					}
 				}
+			}
+	
+			if (pass) {
+				my.Log.addSTEPPASS("Fin de la vérification des valeurs en Base de Données")
+			}else {
+				my.Log.addSTEPFAIL("Fin de la  vérification des valeurs en Base de Données")
 			}
 		}
 	}
-
 
 
 

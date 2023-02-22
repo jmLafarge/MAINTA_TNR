@@ -24,17 +24,19 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
     KW.scrollAndClick(myJDD.makeTO('a_Habilitation'))
 
 	'Vérification de l\'onglet'
-    KW.waitForElementVisible(myJDD.makeTO('h4_Habilitation'),GlobalVariable.TIMEOUT)
+    KW.waitForElementVisible(myJDD.makeTO('a_HabilitationSelected'))
 
 	'Boucle sur les lignes d\'un même TC'
     for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
 		
-        KW.waitForElementVisible(myJDD.makeTO('ID_CODHAB'), 2)
+		myJDD.setCasDeTestNum(i)
+		
+        KW.waitAndVerifyElementText(myJDD.makeTO('ID_CODHAB'), myJDD.getData('ID_CODHAB'))
 
 
 		if (myJDD.getData('DT_DATDEB',i) != '$VIDE') {
 			
-			KW.verifyDate(myJDD.makeTO('td_DateDebut'), myJDD.getData('DT_DATDEB',i))
+			KW.verifyDate(myJDD.makeTO('td_DateDebut'), myJDD.getData('DT_DATDEB'))
 			
 		}else {
 			
@@ -43,7 +45,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		
 		if (myJDD.getData('DT_DATFIN',i) != '$VIDE') {
 			
-			KW.verifyDate(myJDD.makeTO('td_DateFin'), myJDD.getData('DT_DATFIN',i))
+			KW.verifyDate(myJDD.makeTO('td_DateFin'), myJDD.getData('DT_DATFIN'))
 			
 		}else {
 			

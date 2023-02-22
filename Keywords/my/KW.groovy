@@ -13,364 +13,380 @@ class KW {
 	/* 
 	 * Personaliser et de regrouper certaines actions WebUI
 	 *
-	 * verifyValue				(TestObject tObj, String val,int timeOut = GlobalVariable.TIMEOUT)
-	 * scrollAndClick			(TestObject tObj, int timeOut = GlobalVariable.TIMEOUT)
-	 * scrollAndDoubleClick		(TestObject tObj, int timeOut = GlobalVariable.TIMEOUT)
-	 * scrollWaitAndVerifyText	(TestObject tObj, String text, int timeOut = GlobalVariable.TIMEOUT)
-	 * scrollAndSetText			(TestObject tObj, String text ='', int timeOut = GlobalVariable.TIMEOUT)
-	 * setText					(TestObject tObj, String text ='')
-	 * clic						(TestObject tObj)
-	 * acceptAlert				()
-	 * setDate					(TestObject tObj, def val, String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT)
-	 * verifyDate				(TestObject tObj, def val, String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT )
-	 * waitAndVerifyText		(TestObject tObj, String text, int timeOut = GlobalVariable.TIMEOUT)
-	 * verifyElementText		(TestObject tObj, String text, int timeOut = GlobalVariable.TIMEOUT)
+	 *
+	 *
+	 *
 	 * 
 	 * 
 	 * 
 	 */
 
 
-
-
-	
-	static verifyValue(TestObject tObj, String JDDval,int timeOut = GlobalVariable.TIMEOUT) {
-		
-		//WebUI.verifyElementAttributeValue(tObj,'Value',JDDval,timeOut,FailureHandling.OPTIONAL) --> ne pas s'en servir en test car si KO avec message erreur dans console
-		
-		my.Log.addSTEP("Vérifier la valeur de '" + tObj.getObjectId() + "', valeur='$JDDval'")
-		String val = WebUI.getAttribute(tObj, 'Value')
-		if (val==null) my.Log.addERROR("L'attribut 'Value' n'existe pas !")
-		if (val==JDDval) {
-			my.Log.addDEBUG("OK")
-		}else if (JDDval==my.JDDKW.getKW_NULL() && val=='') {
-			my.Log.addDEBUG("OK JDDval est NULL et val est ''")
-		}else {
-			my.Log.addDETAILFAIL("KO, la valeur est '" + WebUI.getAttribute(tObj, 'Value') + "' !")
-		}
-	} // end of def
-		
-
-
-
-	static verifyOptionSelectedByValue(TestObject tObj, String val, boolean isRegex = false, int timeOut = GlobalVariable.TIMEOUT) {
-
-		my.Log.addSTEP("Vérifier si l'option '$val' de '" + tObj.getObjectId() + "' est sélectionnée")
-		if (WebUI.verifyOptionSelectedByValue(tObj, val, isRegex, timeOut)) {
-			my.Log.addDEBUG("OK la valeur est sélectioonée")
-		}else{
-			my.Log.addDETAILFAIL("KO, la valeur n'est pas sélectionnée !")
+	static openBrowser(String url){
+		try {
+			WebUI.openBrowser(url, FailureHandling.STOP_ON_FAILURE)
+			my.Log.addSTEPPASS("Ouverture du navigateur à l'URL : $url")
+		} catch (Exception ex) {
+			my.Log.addSTEPFAIL("Ouverture du navigateur à l'URL : $url")
+			my.Log.addDETAIL(ex.getMessage())
 		}
 	}
 
-	/**
-	 *
-	 * @param
-	 * @return
-	 */
-	static scrollAndClick(TestObject tObj, int timeOut = GlobalVariable.TIMEOUT) {
 
-		my.Log.addSTEP("Scroll et clic sur '" + tObj.getObjectId() + "'")
-
-		WebUI.scrollToElement(tObj, timeOut)
-		this.waitForElementClickable(tObj, timeOut)
-		WebUI.click(tObj)
-	} // end of def
-
-
-
-	/**
-	 *
-	 * @param
-	 * @return
-	 */
-	static waitForElementClickable(TestObject tObj, int timeOut = GlobalVariable.TIMEOUT) {
-
-		if (WebUI.waitForElementClickable(tObj, timeOut)) {
-			my.Log.addDEBUG("'${tObj.getObjectId()}' est clickable")
-		}else {
-			my.Log.addDETAILFAIL("'${tObj.getObjectId()}' n'est pas clickable")
+	static navigateToUrl(String url,String nomUrl){
+		try {
+			WebUI.navigateToUrl(url, FailureHandling.STOP_ON_FAILURE)
+			my.Log.addSTEPPASS("Navigation vers l'URL '$nomUrl' : $url")
+		} catch (Exception ex) {
+			my.Log.addSTEPFAIL("Navigation vers l'URL '$nomUrl' : $url")
+			my.Log.addDETAIL(ex.getMessage())
 		}
-	} // end of def
+	}
 
 
 
-	/**
-	 *
-	 * @param
-	 * @return
-	 */
-	static scrollAndDoubleClick(TestObject tObj, int timeOut = GlobalVariable.TIMEOUT) {
-
-		my.Log.addSTEP("Scroll et double-clic sur '" + tObj.getObjectId() + "'")
-
-		WebUI.scrollToElement(tObj, timeOut)
-		this.waitForElementVisible(tObj, timeOut)
-		WebUI.doubleClick(tObj)
-	} // end of def
-
-
-
-
-
-	/**
-	 *
-	 * @param
-	 * @return
-	 */
-	static waitForElementVisible(TestObject tObj, int timeOut = GlobalVariable.TIMEOUT) {
-
-		if (WebUI.waitForElementVisible(tObj, timeOut)) {
-			my.Log.addDEBUG("'${tObj.getObjectId()}' est visible")
-		}else {
-			my.Log.addDETAILFAIL("'${tObj.getObjectId()}' n'est pas visible")
+	static maximizeWindow(){
+		try {
+			WebUI.maximizeWindow(FailureHandling.STOP_ON_FAILURE)
+			my.Log.addSTEPPASS("Maximise la fenêtre")
+		} catch (Exception ex) {
+			my.Log.addSTEPFAIL("Maximise la fenêtre")
+			my.Log.addDETAIL(ex.getMessage())
 		}
-	} // end of def
-
-	/**
-	 *
-	 * @param TO
-	 * @param text
-	 * @param timeOut
-	 * @return
-	 */
-
-	static scrollAndSelectOptionByValue(TestObject tObj, String val, boolean isRegex = true, int timeOut = GlobalVariable.TIMEOUT) {
-
-		my.Log.addSTEP("Scroll et select option '$val' sur '" + tObj.getObjectId() + "'")
-
-		WebUI.scrollToElement(tObj, timeOut)
-		this.waitForElementVisible(tObj, timeOut)
-		WebUI.selectOptionByValue(tObj, val, isRegex)
-
-	} // end of def
+	}
 
 
 
-
-
-
-	/**
-	 *
-	 * @param TO
-	 * @param text
-	 * @param timeOut
-	 * @return
-	 */
-
-	static scrollAndSetText(TestObject tObj, String text, int timeOut = GlobalVariable.TIMEOUT) {
-
-		if (text != my.JDDKW.getKW_NULL()) {
-
-			if (text == my.JDDKW.getKW_VIDE()) text=''
-
-			my.Log.addSTEP("Scroll et saisie du texte '$text' sur '" + tObj.getObjectId() + "'")
-
-			WebUI.scrollToElement(tObj, timeOut)
-			this.waitForElementVisible(tObj, timeOut)
-			WebUI.setText(tObj, text)
+	static setText(TestObject tObj, String text) {
+		try {
+			WebUI.setText(tObj, text, FailureHandling.STOP_ON_FAILURE)
+			my.Log.addSTEPPASS("Saisie du texte '$text' sur '" + tObj.getObjectId() + "'")
+		} catch (Exception ex) {
+			my.Log.addSTEPFAIL("Saisie du texte '$text' sur '" + tObj.getObjectId() + "'")
+			my.Log.addDETAIL(ex.getMessage())
 		}
+	}
 
 
 
-	} // end of def
+	static setEncryptedText(TestObject tObj, String text) {
+		try {
+			WebUI.setEncryptedText(tObj, text, FailureHandling.STOP_ON_FAILURE)
+			my.Log.addSTEPPASS("Saisie du mot de passe sur " + tObj.getObjectId() + "'")
+		} catch (Exception ex) {
+			my.Log.addSTEPFAIL("Saisie du mot de passe sur '" + tObj.getObjectId() + "'")
+			my.Log.addDETAIL(ex.getMessage())
+		}
+	}
 
 
 
-
-	/**
-	 *
-	 * @param TO
-	 * @param text
-	 * @param timeOut
-	 * @return
-	 */
-
-	static setText(TestObject tObj, String text ='') {
-
-		my.Log.addSTEP("Saisie du texte '$text' sur '" + tObj.getObjectId() + "'")
-		WebUI.setText(tObj, text)
-
-	} // end of def
+	static click(TestObject tObj) {
+		try {
+			WebUI.click(tObj, FailureHandling.STOP_ON_FAILURE)
+			my.Log.addSTEPPASS("Clic sur '" + tObj.getObjectId() + "'")
+		} catch (Exception ex) {
+			my.Log.addSTEPFAIL("Clic sur '" + tObj.getObjectId() + "'")
+			my.Log.addDETAIL(ex.getMessage())
+		}
+	}
 
 
-	/**
-	 *
-	 * @param TO
-	 * @param text
-	 * @param timeOut
-	 * @return
-	 */
-
-	static clic(TestObject tObj) {
-
-		my.Log.addSTEP("Clic sur '" + tObj.getObjectId() + "'")
-		WebUI.click(tObj)
-
-	} // end of def
+	static doubleClick(TestObject tObj) {
+		try {
+			WebUI.doubleClick(tObj, FailureHandling.STOP_ON_FAILURE)
+			my.Log.addSTEPPASS("Double click sur '" + tObj.getObjectId() + "'")
+		} catch (Exception ex) {
+			my.Log.addSTEPFAIL("Double click sur '" + tObj.getObjectId() + "'")
+			my.Log.addDETAIL(ex.getMessage())
+		}
+	}
 
 
-	static boolean waitAndAcceptAlert() {
-		my.Log.addSTEP("Attente Popup 'Alert' ")
-		if (WebUI.waitForAlert(GlobalVariable.TIMEOUT)) {
-			WebUI.acceptAlert()
-			my.Log.addDETAILPASS("Popup acceptée")
+	static scrollToElement(TestObject tObj, int timeOut = GlobalVariable.TIMEOUT) {
+		try {
+			WebUI.scrollToElement(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
+			my.Log.addDEBUG("Scroll to '${tObj.getObjectId()}' OK")
+		} catch (Exception ex) {
+			my.Log.addSTEPFAIL("Scroll to '${tObj.getObjectId()}'")
+			my.Log.addDETAIL(ex.getMessage())
+		}
+	}
+
+
+	static boolean waitForAlert(int timeOut = GlobalVariable.TIMEOUT) {
+		try {
+			WebUI.waitForAlert(timeOut, FailureHandling.STOP_ON_FAILURE)
+			my.Log.addDEBUG("waitForAlert OK")
 			return true
-		}else {
-			my.Log.addDETAILFAIL("Pas de popup !")
+		} catch (Exception ex) {
+			my.Log.addSTEPFAIL("waitForAlert")
+			my.Log.addDETAIL(ex.getMessage())
 			return false
 		}
+	}
 
+
+	static boolean acceptAlert() {
+		try {
+			WebUI.acceptAlert(FailureHandling.STOP_ON_FAILURE)
+			my.Log.addSTEPPASS("Accepter Alerte")
+			return true
+		} catch (Exception ex) {
+			my.Log.addSTEPFAIL("Accepter Alerte")
+			my.Log.addDETAIL(ex.getMessage())
+			return false
+		}
+	}
+
+
+
+	static String sendKeys(TestObject tObj, String keys) {
+		try {
+			WebUI.sendKeys(tObj, keys, FailureHandling.STOP_ON_FAILURE)
+			my.Log.addDEBUG("Envoie touches clavier '$keys' sur '${tObj.getObjectId()}'")
+			return null
+		} catch (Exception ex) {
+			return my.Log.addDETAIL(ex.getMessage())
+		}
+	}
+
+
+
+
+	static verifyElementChecked(TestObject tObj, int timeOut = GlobalVariable.TIMEOUT) {
+		try {
+			WebUI.verifyElementChecked(tObj,timeOut, FailureHandling.STOP_ON_FAILURE)
+			my.Log.addSTEPPASS("Contrôle si '${tObj.getObjectId()}' est coché")
+		} catch (Exception ex) {
+			my.Log.addSTEPFAIL("Contrôle si '${tObj.getObjectId()}' est coché")
+			my.Log.addDETAIL(ex.getMessage())
+		}
+	}
+
+
+
+	static verifyElementText(TestObject tObj, String text)  {
+		String gText = WebUI.getText(tObj)
+		try {
+			WebUI.verifyElementText(tObj, text,FailureHandling.STOP_ON_FAILURE)
+			my.Log.addSTEPPASS("Vérification du texte '$text' sur '" + tObj.getObjectId() + "'")
+		} catch (Exception ex) {
+			my.Log.addSTEPFAIL("Vérification du texte '$text' sur '" + tObj.getObjectId() + "' KO, la valeur est '$gText' !")
+			my.Log.addDETAIL(ex.getMessage())
+		}
 	} // end of def
 
 
-	/**
-	 *
-	 * @param TO
-	 * @param valeur
-	 * @param dateFormat	: optional
-	 * @param timeOut		: optional
-	 * @return
-	 */
-	static setDate(TestObject tObj, def val, String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT) {
 
+	static verifyElementNotChecked(TestObject tObj, int timeOut = GlobalVariable.TIMEOUT) {
+		try {
+			WebUI.verifyElementNotChecked(tObj,timeOut, FailureHandling.STOP_ON_FAILURE)
+			my.Log.addSTEPPASS("Contrôle si '${tObj.getObjectId()}' est décoché")
+		} catch (Exception ex) {
+			my.Log.addSTEPFAIL("Contrôle si '${tObj.getObjectId()}' est décoché")
+			my.Log.addDETAIL(ex.getMessage())
+		}
+	}
+
+
+
+
+	static waitForElementClickable(TestObject tObj, int timeOut = GlobalVariable.TIMEOUT) {
+		try {
+			WebUI.waitForElementClickable(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
+			my.Log.addDEBUG("'${tObj.getObjectId()}' est clickable")
+		} catch (Exception ex) {
+			my.Log.addSTEPFAIL("'${tObj.getObjectId()}' n'est pas clickable")
+			my.Log.addDETAIL(ex.getMessage())
+		}
+	} // end of def
+
+
+
+	static waitForElementVisible(TestObject tObj, int timeOut = GlobalVariable.TIMEOUT) {
+		try {
+			WebUI.waitForElementVisible(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
+			my.Log.addSTEPPASS("Contrôle que l'élément '${tObj.getObjectId()}' est visible")
+		} catch (Exception ex) {
+			my.Log.addSTEPFAIL("Contrôle que l'élément '${tObj.getObjectId()}' est visible")
+			my.Log.addDETAIL(ex.getMessage())
+		}
+	} // end of def
+
+
+	static verifyValue(TestObject tObj, String JDDval) {
+		String val = WebUI.getAttribute(tObj, 'Value')
+		if (val==null) my.Log.addERROR("L'attribut 'Value' n'existe pas !")
+		if (val==JDDval) {
+			my.Log.addSTEPPASS("Vérifier la valeur de '" + tObj.getObjectId() + "', valeur='$JDDval'")
+		}else if (JDDval==my.JDDKW.getKW_NULL() && val=='') {
+			my.Log.addSTEPPASS("Vérifier la valeur de '" + tObj.getObjectId() + "', valeur= Null ou Vide")
+		}else {
+			my.Log.addSTEPFAIL("Vérifier la valeur de '" + "KO, la valeur est '" + WebUI.getAttribute(tObj, 'Value') + "' !")
+		}
+	} // end of def
+
+
+	static verifyOptionSelectedByValue(TestObject tObj, String val, boolean isRegex = false, int timeOut = GlobalVariable.TIMEOUT) {
+		if (WebUI.verifyOptionSelectedByValue(tObj, val, isRegex, timeOut)) {
+			my.Log.addSTEPPASS("Vérifier si l'option '$val' de '" + tObj.getObjectId() + "' est sélectionnée")
+		}else{
+			my.Log.addSTEPFAIL("KO, l'option '$val' de '" + tObj.getObjectId() + "' n'est pas sélectionnée !")
+		}
+	}
+
+
+
+	static scrollAndClick(TestObject tObj, int timeOut = GlobalVariable.TIMEOUT) {
+		this.scrollToElement(tObj, timeOut)
+		this.waitForElementClickable(tObj, timeOut)
+		this.click(tObj)
+	} // end of def
+
+
+
+
+	static scrollAndDoubleClick(TestObject tObj, int timeOut = GlobalVariable.TIMEOUT) {
+		this.scrollToElement(tObj, timeOut)
+		this.waitForElementVisible(tObj, timeOut)
+		this.doubleClick(tObj)
+	} // end of def
+
+
+
+
+	static scrollAndSelectOptionByValue(TestObject tObj, String val, boolean isRegex = true, int timeOut = GlobalVariable.TIMEOUT) {
+		this.scrollToElement(tObj, timeOut)
+		this.waitForElementVisible(tObj, timeOut)
+		try {
+			WebUI.selectOptionByValue(tObj, val, isRegex,FailureHandling.STOP_ON_FAILURE)
+			my.Log.addSTEPPASS("Scroll et select option '$val' sur '" + tObj.getObjectId() + "'")
+		} catch (Exception ex) {
+			my.Log.addSTEPFAIL("Scroll et select option '$val' sur '" + tObj.getObjectId() + "'")
+			my.Log.addDETAIL(ex.getMessage())
+		}
+	} // end of def
+
+
+
+
+	static scrollAndSetText(TestObject tObj, String text, int timeOut = GlobalVariable.TIMEOUT) {
+		if (text != my.JDDKW.getKW_NULL()) {
+			if (text == my.JDDKW.getKW_VIDE()) text=''
+			this.scrollToElement(tObj, timeOut)
+			this.waitForElementVisible(tObj, timeOut)
+			this.setText(tObj, text)
+		}
+	} // end of def
+
+
+
+
+	static boolean waitAndAcceptAlert(int timeOut = GlobalVariable.TIMEOUT) {
+		if (this.waitForAlert(timeOut)) {
+			return this.acceptAlert()
+		}else {
+			return false
+		}
+	} // end of def
+
+
+
+	static setDate(TestObject tObj, def val, String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT) {
 		if ( val instanceof Date) {
-			my.Log.addSTEP("Saisie de la date '" + val.format(dateFormat) + "' sur '" + tObj.getObjectId() + "'")
-			WebUI.setText(tObj, val.format(dateFormat))
+			this.setText(tObj, val.format(dateFormat))
 		}else {
 			my.Log.addERROR('Erreur de JDD de ' + tObj.getObjectId() + ', la valeur ' + val.toString() + "' n'est pas une date ! getClass = " + val.getClass())
 		}
-
 	} // end of def
 
 
-	/**
-	 * Parce que verifyElementText n'a pas de TIMEOUT
-	 * @param
-	 * @return
-	 */
-	static verifyDate(TestObject tObj, def val, String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT )  {
 
+	static verifyDate(TestObject tObj, def val, String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT )  {
 		if ( val instanceof Date) {
 			my.Log.addDEBUG('val.format(dateFormat) :' +val.format(dateFormat))
 			this.verifyElementText(tObj, val.format(dateFormat))
 		}else {
 			my.Log.addERROR('Erreur de JDD de ' + tObj.getObjectId() + ', la valeur ' + val.toString() + "' n'est pas une date ! getClass = " + val.getClass())
 		}
-
 	} // end of def
 
 
 
-	/**
-	 * Parce que verifyElementText n'a pas de TIMEOUT
-	 * @param
-	 * @return
-	 */
-	static scrollWaitAndVerifyText(TestObject tObj, String text, int timeOut = GlobalVariable.TIMEOUT) {
-
-		WebUI.scrollToElement(tObj, timeOut)
-		this.waitAndVerifyText(tObj, text,timeOut)
-
+	static scrollWaitAndVerifyElementText(TestObject tObj, String text, int timeOut = GlobalVariable.TIMEOUT) {
+		this.scrollToElement(tObj, timeOut)
+		this.waitAndVerifyElementText(tObj, text,timeOut)
 	} // end of def
 
 
 
-	/**
-	 * Parce que verifyElementText n'a pas de TIMEOUT
-	 * @param
-	 * @return
-	 */
-	static waitAndVerifyText(TestObject tObj, String text, int timeOut = GlobalVariable.TIMEOUT)  {
+	static waitAndVerifyElementText(TestObject tObj, String text, int timeOut = GlobalVariable.TIMEOUT)  {
 
 		this.waitForElementVisible(tObj, timeOut)
 		this.verifyElementText(tObj, text)
 	} // end of def
 
 
-	/**
-	 * 
-	 * @param
-	 * @return
+
+
+
+	/*
+	 static waitAndVerifyElementText_justWarning(TestObject tObj, String text, int timeOut = GlobalVariable.TIMEOUT)  {
+	 this.waitForElementVisible(tObj, timeOut)
+	 String gText = WebUI.getText(tObj)
+	 if (text==gText) {
+	 my.Log.addSTEPPASS("Vérification du texte '$text' sur '" + tObj.getObjectId() + "'")
+	 }else {
+	 my.Log.addSTEPWARNING("Vérification du texte '$text' sur '" + tObj.getObjectId() + "' KO, la valeur est '$gText' !")
+	 }
+	 } // end of def
 	 */
-	static verifyElementText(TestObject tObj, String text, int timeOut = GlobalVariable.TIMEOUT )  {
-		//WebUI.verifyElementText(tObj, text, FailureHandling.OPTIONAL)
-		if (WebUI.verifyElementText(tObj, text)) {
-			my.Log.addDETAILPASS("Vérification du texte='$text' sur '" + tObj.getObjectId() + "'")
-		}else {
-			//my.Log.addSTEPFAIL("Vérification du texte='$text' sur '" + tObj.getObjectId() + "' KO, la valeur est '" + WebUI.getText(tObj.getObjectId()) + "' !")
-			my.Log.addDETAILFAIL("Vérification du texte='$text' sur '" + tObj.getObjectId() + "' KO")
-		}
-
-	} // end of def
 
 
-	/**
-	 * @param
-	 * @return
-	 */
-	static scrollAndClickIfNeededaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa(TestObject tObj, boolean cond, int timeOut = GlobalVariable.TIMEOUT)  {
-		WebUI.scrollToElement(tObj,timeOut)			
-		boolean etat = WebUI.verifyElementChecked(tObj, timeOut, FailureHandling.OPTIONAL)
-		if (etat && !cond) {
-			my.Log.addSTEP("Scroll et uncheck '" + tObj.getObjectId() + "'")
-			WebUI.sendKeys(tObj, Keys.chord(Keys.SPACE))
-		}else if (!etat && cond){
-			my.Log.addSTEP("Scroll et check '" + tObj.getObjectId() + "'")
-			WebUI.sendKeys(tObj, Keys.chord(Keys.SPACE))
-		}
-	} // end of def
 
-	
-	/**
-	 * @param
-	 * @return
-	 */
-	static scrollAndClickIfNeeded(TestObject tObj, boolean cond, int timeOut = GlobalVariable.TIMEOUT)  {
-		WebUI.scrollToElement(tObj,timeOut)
-		
+
+	static scrollAndCheckIfNeeded(TestObject tObj, boolean cond, int timeOut = GlobalVariable.TIMEOUT)  {
+		this.scrollToElement(tObj,timeOut)
 		boolean etat = WebUI.getAttribute(tObj, 'checked')=='yes'
-			
 		if (cond) {
-			my.Log.addSTEP("Scroll et check '" + tObj.getObjectId() + "'")
 			if (etat) {
-				my.Log.addDETAILPASS('Déjà coché')
+				my.Log.addSTEPPASS("Cocher case à cocher '" + tObj.getObjectId() + "'")
+				my.Log.addDETAIL("déjà cochée")
 			}else {
-				my.Log.addDETAIL('on coche')
-				WebUI.sendKeys(tObj, Keys.chord(Keys.SPACE))
+				String msg = this.sendKeys(tObj, Keys.chord(Keys.SPACE))
+				if (msg==null) {
+					my.Log.addSTEPPASS("Cocher case à cocher '" + tObj.getObjectId() + "'")
+				}else {
+					my.Log.addSTEPFAIL("Cocher case à cocher '" + tObj.getObjectId() + "'")
+					my.Log.addDETAIL(msg)
+				}
 			}
 		}else {
-			my.Log.addSTEP("Scroll et uncheck '" + tObj.getObjectId() + "'")
 			if (!etat) {
-				my.Log.addDETAILPASS('Déjà décoché')
+				my.Log.addSTEPPASS("Décocher case à cocher '" + tObj.getObjectId() + "'")
+				my.Log.addDETAIL("déjà décochée")
 			}else {
-				my.Log.addDETAIL('on décoche')
-				WebUI.sendKeys(tObj, Keys.chord(Keys.SPACE))
+				String msg = this.sendKeys(tObj, Keys.chord(Keys.SPACE))
+				if (msg==null) {
+					my.Log.addSTEPPASS("Décocher case à cocher '" + tObj.getObjectId() + "'")
+				}else {
+					my.Log.addSTEPFAIL("Décocher case à cocher '" + tObj.getObjectId() + "'")
+					my.Log.addDETAIL(msg)
+				}
 			}
 		}
 	} // end of def
-	
-	
 
-	/**
-	 * @param
-	 * @return
-	 */
+
+
+
+
 	static verifyElementCheckedOrNot(TestObject tObj, boolean cond, int timeOut = GlobalVariable.TIMEOUT) {
 		if (cond) {
-			my.Log.addSTEP("Vérifier si '" + tObj.getObjectId() + "' est coché")
-			if (WebUI.verifyElementChecked(tObj,timeOut, FailureHandling.OPTIONAL)) {
-				my.Log.addDEBUG('OK coché')
-			}else {
-				my.Log.addDETAILFAIL("'" + tObj.getObjectId() + "' est décoché")
-			}
+			this.verifyElementChecked(tObj,timeOut)
 		}else {
-			my.Log.addSTEP("Vérifier si '" + tObj.getObjectId() + "' est décoché")
-			if (WebUI.verifyElementNotChecked(tObj, timeOut, FailureHandling.OPTIONAL)) {
-				my.Log.addDEBUG('OK décoché')
-			}else {
-				my.Log.addDETAILFAIL("'" + tObj.getObjectId() + "' est coché")
-			}
+			this.verifyElementNotChecked(tObj,timeOut)
 		}
 	}
 

@@ -1,5 +1,7 @@
 import internal.GlobalVariable
 
+my.Log.addSubTITLE('Création des SQL PREJDD')
+
 my.PREJDDFiles.insertPREJDDinDB('RO.CAT','001')
 
 my.PREJDDFiles.insertPREJDDinDB('RO.HAB','001') 

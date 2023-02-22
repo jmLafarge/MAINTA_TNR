@@ -5,9 +5,7 @@
  * EN COURS
  * -----------------------------------------------------------------------------------------------------
  *
- * 
- * REVOIR les KW.verif --> ne pas utiliser les WebUI.verify.... dans un if car quand false ca provoque un message erreur de ouf dans console
- * --> utiliser WebUI.getAttribute( 
+ *
  * 
  * TESTER WebUI.getAttribute(  avant de setter un champ
  * 
@@ -43,44 +41,18 @@
  * -----------------------------------------------------------------------------------------------------
  * 
  * 
- * - controler les cle primaire depuis infoBDD.xlsx									--> fait
- * - controler les mot clé $... dans les JDD										--> fait 
- * - controler les mot clé $... dans les PREJDD										 
- * - controler si tous les champs infoBDD sont dans les headers de JDD  			--> fait voir pour faire l'ordre
- * - controler si tous les champs infoBDD sont dans les headers de PREJD 			--> fait voir pour faire l'ordre
- * - ajouter OBSOLETE dans les PREREQUIS............................................--> fait uniquement dans getAllPrerequis() pour éviter de la prendre comme FK 
- * 
  * - Faire un TC pour créer les JDD et les PREJDD, dans l'ordre des champs --> est-ce util ? --> faut il un controle de l'odre des champs ?
  *
  * 
- * InfoBDD : remplacer les getAt pour les noms de colonne
- * 
  * XLS : ajouter un controle sur open file
- * 
- * //private static final List COLUMNNAME	 = ['TABLE_NAME','COLUMN_NAME','ORDINAL_POSITION','IS_NULLABLE','DATA_TYPE','MAXCHAR','DOMAIN_NAME','CONSTRAINT_NAME']
- * 
- * 
- * 
- * voir pour faire une class MOTCLE ou KEYWORD pour les $... des JDD
  * 
  * LOG : Ajouter def var en para d'un DEBUG pour parser un map , un list,...
  * LOG : faire le log à 0 et faire un autre à 1 2 ou 3
  * 
  * 
  * 
- *     
- * vérifier les steps de HAB
- * 
- * Vérification en BD de HAB
  * 
  * 
- * voir pour simplifier JDD car il n'y a plus qu'un seul casDeTest (avec éventuellement plusieurs ligne, comme habilitation)
- * 
- * Faire une fonction pour tester si $VIDE plutot que my.PropertiesReader.getMyProperty('JDD_KEYWORD_VIDE')
- * 
- * 
- * 
- * voir pourquoi WebUI.getText(tObj) ne fonctionne pas dans verifyElementText()  ---> voir Favori Katalon
  * 
  * 
  * 

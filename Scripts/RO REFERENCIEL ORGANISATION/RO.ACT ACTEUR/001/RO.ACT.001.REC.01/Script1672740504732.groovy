@@ -22,9 +22,12 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
 	'Début de sasie des valeurs du JDD dans l\'écran'
     KW.scrollAndSetText(myJDD.makeTO('input_Filtre_Acteur'), myJDD.getData('ID_CODINT'))
 
+	'Attendre le filtrage du tableau'
+	WebUI.delay(1)
+	
 	'mise à jour dynamique du xpath'
 	'Vérification des valeurs'
-	KW.waitAndVerifyText( myJDD.makeTO('td_Grille_Acteur'), myJDD.getData('ID_CODINT'))
+	KW.scrollWaitAndVerifyElementText( myJDD.makeTO('td_Grille_Acteur'), myJDD.getData('ID_CODINT'))
 
 } // fin du if
 

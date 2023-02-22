@@ -62,7 +62,7 @@ public class PREJDD {
 
 
 
-	static List loadDATA(Sheet sheet,int colIndexMax) {
+	static List loadDATA(Sheet sheet,int size) {
 		my.Log.addDEBUG('Lecture PREJDD data')
 		Iterator<Row> rowIt = sheet.rowIterator()
 		Row row = rowIt.next()
@@ -72,7 +72,7 @@ public class PREJDD {
 			if (my.XLS.getCellValue(row.getCell(0)) == '') {
 				break
 			}
-			datas << my.XLS.loadRow(row,colIndexMax)
+			datas << my.XLS.loadRow(row,size)
 		}
 		my.Log.addDEBUG('PREJDD data size = ' + datas.size() )
 		return datas

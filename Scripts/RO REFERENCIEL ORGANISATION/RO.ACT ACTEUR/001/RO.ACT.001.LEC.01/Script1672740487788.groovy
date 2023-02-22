@@ -28,13 +28,13 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getData('ID_CODINT'))
 
 	
-	//////////////////////////////////////////////////////////////////////////////////// ONGLET ACTEUR
+	my.Log.addSTEPGRP('ONGLET ACTEUR')
 
 		'Clic sur le bon onglet'
 		KW.scrollAndClick(myJDD.makeTO('a_Acteur'))
 		
 		'Vérification de l\'onglet'
-		KW.waitForElementVisible(myJDD.makeTO('a_ActeurSelected'),GlobalVariable.TIMEOUT)
+		KW.waitForElementVisible(myJDD.makeTO('a_ActeurSelected'))
 	
 		'Début de lecture des valeurs du JDD'
 	
@@ -62,13 +62,13 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		
 		KW.verifyValue(myJDD.makeTO('ST_DESGES'), myJDD.getStrData('ST_DESGES'))
 	
-	//////////////////////////////////////////////////////////////////////////////////// ONGLET AFFECTATION
+	my.Log.addSTEPGRP('ONGLET AFFECTATION')
 		
 		'Clic sur le bon onglet'
 		KW.scrollAndClick(myJDD.makeTO('a_Affectation'))
 		
 		'Vérification de l\'onglet'
-		KW.waitForElementVisible(myJDD.makeTO('a_AffectationSelected'),GlobalVariable.TIMEOUT)
+		KW.waitForElementVisible(myJDD.makeTO('a_AffectationSelected'))
 		
 		'Début de lecture des valeurs du JDD'
 		KW.verifyValue(myJDD.makeTO('ID_CODGESAFF'), myJDD.getStrData('ID_CODGESAFF'))
@@ -90,14 +90,14 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		KW.verifyValue(myJDD.makeTO('NU_COUHOR'), myJDD.getStrData('NU_COUHOR'))
 		
 	
-	//////////////////////////////////////////////////////////////////////////////////// ONGLET ROLE
+	my.Log.addSTEPGRP('ONGLET ROLE')
 	
 			
 		'Clic sur le bon onglet'
 		KW.scrollAndClick(myJDD.makeTO('a_Role'))
 		
 		'Vérification de l\'onglet'
-		KW.waitForElementVisible(myJDD.makeTO('a_RoleSelected'),GlobalVariable.TIMEOUT)
+		KW.waitForElementVisible(myJDD.makeTO('a_RoleSelected'))
 		
 		'Début de lecture des valeurs du JDD'
 
@@ -116,13 +116,13 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		KW.verifyElementCheckedOrNot(myJDD.makeTO('ST_INVDA'),myJDD.getStrData('ST_INVDA')=='O')
 
 	
-	//////////////////////////////////////////////////////////////////////////////////// ONGLET PREVENTIF
+	my.Log.addSTEPGRP('ONGLET PREVENTIF')
 		
 		'Clic sur le bon onglet'
 		KW.scrollAndClick(myJDD.makeTO('a_Preventif'))
 		
 		'Vérification de l\'onglet'
-		KW.waitForElementVisible(myJDD.makeTO('a_PreventifSelected'),GlobalVariable.TIMEOUT)
+		KW.waitForElementVisible(myJDD.makeTO('a_PreventifSelected'))
 		
 		'Début de lecture des valeurs du JDD'
 		KW.verifyElementCheckedOrNot(myJDD.makeTO('ST_PRIPRE'),myJDD.getStrData('ST_PRIPRE')=='O')
@@ -131,16 +131,16 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		
 		KW.verifyValue(myJDD.makeTO('ID_CODCAL'), myJDD.getStrData('ID_CODCAL'))
 		
-		KW.verifyValue(myJDD.makeTO('ID_CODCAL'), myJDD.getStrData('ID_CODCAL'))
+		KW.verifyValue(myJDD.makeTO('ST_DESID_CODCAL'), myJDD.getStrData('ST_DESID_CODCAL'))
 
 
-	//////////////////////////////////////////////////////////////////////////////////// ONGLET ZONE
+	my.Log.addSTEPGRP('ONGLET ZONE')
 	
 		'Clic sur le bon onglet'
 		KW.scrollAndClick(myJDD.makeTO('a_Zone'))
 		
 		'Vérification de l\'onglet'
-		KW.waitForElementVisible(myJDD.makeTO('a_ZoneSelected'),GlobalVariable.TIMEOUT)
+		KW.waitForElementVisible(myJDD.makeTO('a_ZoneSelected'))
 		
 		'Début de lecture des valeurs du JDD'
 		KW.verifyValue(myJDD.makeTO('ID_NUMZON'), myJDD.getStrData('ID_NUMZON'))	

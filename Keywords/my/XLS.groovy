@@ -28,11 +28,11 @@ public class XLS {
 	 * 			Si colIndexMax=0 alors on remplit jusqu'à trouver une cellule vide
 	 *
 	 */
-	static List loadRow(Row row, int colIndexMax = 0) {
+	static List loadRow(Row row, int size = 0) {
 		List data = []
 		for (Cell cell : row) {
 			def value = my.XLS.getCellValue(cell)
-			if ( (colIndexMax == 0 && cell.getColumnIndex()!=0 && value =='') || (colIndexMax != 0 && cell.getColumnIndex()>=colIndexMax) ) {
+			if ( (size == 0 && cell.getColumnIndex()!=0 && value =='') || (size != 0 && cell.getColumnIndex()>=size) ) {
 				break
 			}
 			data[cell.getColumnIndex()] = value

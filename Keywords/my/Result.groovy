@@ -7,9 +7,6 @@ import java.nio.file.Paths
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
-import my.Log.STATUS
-
-
 public class Result {
 
 
@@ -27,49 +24,77 @@ public class Result {
 	private static CellStyle cellStyle_PASS
 	private static CellStyle cellStyle_FAIL
 	private static CellStyle cellStyle_ERR
+	private static CellStyle cellStyle_status
+	//private static CellStyle cellStyle_warning
 
 	private static Date startDate
 	private static int totalPASS = 0
 	private static int totalFAIL = 0
-	private static int totalERR = 0
+	private static int totalERROR = 0
+	//private static int totalWARNING = 0
 
 
-
-
-	static public addCasDeTest(String casDeTestName, STATUS result, Date start, stop) {
+	static public addCasDeTest(String casDeTestName, Map status, Date start, stop) {
 
 		Row row = this.shRESULT.createRow(this.lineNumber)
-		Cell cell
 
 		row.createCell(0).setCellValue(casDeTestName)
 
-		cell = row.createCell(1)
-		cell.setCellValue(result.toString())
-		switch (result) {
+		Cell cell = row.createCell(1)
 
-			case STATUS.PASS :
-				cell.setCellStyle(this.cellStyle_PASS)
-				break
-			case STATUS.FAIL :
-				cell.setCellStyle(this.cellStyle_FAIL)
-				break
-			case STATUS.ERROR :
-				cell.setCellStyle(this.cellStyle_ERR)
-				break
-			default :
-				my.Log.addDEBUG("addCasDeTest() result inconnu = $result")
+		if (status.ERROR ==0 && status.FAIL == 0 && status.PASS != 0) {
+			cell.setCellStyle(this.cellStyle_PASS)
+			cell.setCellValue('PASS')
+			this.totalPASS++
+		}else if (status.ERROR ==0 && status.FAIL != 0 ) {
+			cell.setCellStyle(this.cellStyle_FAIL)
+			cell.setCellValue('FAIL')
+			this.totalFAIL++
+		}else if (status.ERROR !=0 ) {
+			cell.setCellStyle(this.cellStyle_ERR)
+			cell.setCellValue('ERROR')
+			this.totalERROR++
 		}
 
+		//if (status.WARNING>0) this.totalWARNING++
 
-		cell = row.createCell(2)
+		int total = status.PASS + status.FAIL + status.ERROR
+		
+		if (status.PASS!=0) {
+			cell = row.createCell(2)
+			cell.setCellValue("${status.PASS} / $total")
+			cell.setCellStyle(this.cellStyle_status)
+		}
+		
+		if (status.FAIL!=0) {
+			cell = row.createCell(3)
+			cell.setCellValue("${status.FAIL} / $total ")
+			cell.setCellStyle(this.cellStyle_status)
+		}
+		
+		if (status.ERROR!=0) {
+			cell = row.createCell(4)
+			cell.setCellValue("${status.ERROR} / $total ")
+			cell.setCellStyle(this.cellStyle_status)
+		}
+		
+		/*
+		if (status.WARNING!=0) {
+			cell = row.createCell(5)
+			cell.setCellValue(status.WARNING.toString())
+			cell.setCellStyle(this.cellStyle_warning)
+		}
+		*/
+
+		cell = row.createCell(5)
 		cell.setCellValue(start)
 		cell.setCellStyle(this.cellStyle_time)
 
-		cell = row.createCell(3)
+		cell = row.createCell(6)
 		cell.setCellValue(stop)
 		cell.setCellStyle(this.cellStyle_time)
 
-		cell = row.createCell(4)
+		cell = row.createCell(7)
 		cell.setCellValue(my.Tools.getDuration(start, stop))
 		cell.setCellStyle(this.cellStyle_duration)
 
@@ -77,16 +102,6 @@ public class Result {
 
 		this.lineNumber ++
 
-		switch (result) {
-
-			case 'PASS': this.totalPASS++ ; break
-			case 'FAIL': this.totalFAIL++ ; break
-			case 'ERROR': this.totalERR++ ; break
-			default : my.Log.addDEBUG("addCasDeTest() result inconnu : $result")
-
-		}
-
-		//my.Log.addINFO( 'resulFileName : ' + this.resulFileName)
 	}
 
 
@@ -117,13 +132,15 @@ public class Result {
 
 		Row row = this.shRESUM.getRow(15)
 
-		this.writeCell(row,1,this.totalPASS+ this.totalFAIL+this.totalERR)
+		this.writeCell(row,1,this.totalPASS+ this.totalFAIL+this.totalERROR)
 
 		this.writeCell(row,2,this.totalPASS)
 
 		this.writeCell(row,3,this.totalFAIL)
 
-		this.writeCell(row,4,this.totalERR)
+		this.writeCell(row,4,this.totalERROR)
+
+		//this.writeCell(row,5,this.totalWARNING)
 
 		this.write()
 	}
@@ -196,7 +213,16 @@ public class Result {
 		this.cellStyle_ERR.setFillForegroundColor(IndexedColors.LIGHT_ORANGE.getIndex())
 		this.cellStyle_ERR.setFillPattern(FillPatternType.SOLID_FOREGROUND)
 
+		this.cellStyle_status = this.book.createCellStyle()
+		this.cellStyle_status.setAlignment(HorizontalAlignment.RIGHT)
 
+		/*
+		DataFormat format = this.book.createDataFormat()
+		this.cellStyle_warning = this.book.createCellStyle()
+		this.cellStyle_warning.setAlignment(HorizontalAlignment.RIGHT)
+		this.cellStyle_warning.setDataFormat(format.getFormat("0"))
+		*/
+		
 		return resFullName
 
 	}

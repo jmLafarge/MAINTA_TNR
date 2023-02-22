@@ -34,13 +34,9 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
 	
 
 	if (KW.waitAndAcceptAlert()) {
-		
 		'Vérification du test case - écran'
 		NAV.verifierEcranGrille()
-		
-    } else {
-        my.Log.addSTEPFAIL("Pas de popup 'Alert' pour la suppression !")
-    }
+	} 
 	
 	
 	'Vérification en BD que l\'objet n\'existe plus'

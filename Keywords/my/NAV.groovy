@@ -29,20 +29,19 @@ class NAV {
 	}
 
 
+
+
 	/**
 	 * Vérifier écran Grille / recherche
 	 */
 	static public verifierEcranGrille(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
 		if (fct=='') { fct = this.getFctFromModObj() }
 		String code = "E" + fct
-		my.Log.addSTEP("Vérification de l'écran 'Grille'")
 		WebUI.scrollToPosition(0, 0)
 		WebUI.delay(1)
-		WebUI.click(myGlobalJDD.makeTO('a_Toggle'))
+		KW.click(myGlobalJDD.makeTO('a_Toggle'))
 		WebUI.delay(1)
-		//WebUI.waitForElementVisible(myGlobalJDD.makeTO('span_Ecran'),timeOut)
-		//WebUI.verifyElementText(myGlobalJDD.makeTO('span_Ecran'), 'E'+ fct,FailureHandling.OPTIONAL)
-		my.KW.waitAndVerifyText(myGlobalJDD.makeTO('span_Ecran'), 'E'+ fct, timeOut)
+		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Ecran'), 'E'+ fct, timeOut)
 	} // end of def
 
 	/**
@@ -52,14 +51,11 @@ class NAV {
 		//my.Log.addSTEP("NAV.verifierEcranResultat( fct=$fct)")
 		if (fct=='') { fct = this.getFctFromModObj() }
 		String code = fct
-		my.Log.addSTEP("Vérification de l'écran 'Résultat'")
 		WebUI.scrollToPosition(0, 0)
 		WebUI.delay(1)
-		WebUI.click(myGlobalJDD.makeTO('a_Toggle'))
+		KW.click(myGlobalJDD.makeTO('a_Toggle'))
 		WebUI.delay(1)
-		//WebUI.waitForElementVisible(myGlobalJDD.makeTO('span_Ecran'), timeOut)
-		//WebUI.verifyElementText(myGlobalJDD.makeTO('span_Ecran'), code,FailureHandling.OPTIONAL)
-		my.KW.waitAndVerifyText(myGlobalJDD.makeTO('span_Ecran'), code, timeOut)
+		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Ecran'), code,timeOut)
 	} // end of def
 
 	/**
@@ -68,14 +64,11 @@ class NAV {
 	static public verifierEcranCreation(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
 		if (fct=='') { fct = this.getFctFromModObj() }
 		String code = fct + " - Création"
-		my.Log.addSTEP("Vérification de l'écran 'Création'")
 		WebUI.scrollToPosition(0, 0)
 		WebUI.delay(1)
-		WebUI.click(myGlobalJDD.makeTO('a_Toggle'))
+		KW.click(myGlobalJDD.makeTO('a_Toggle'))
 		WebUI.delay(1)
-		//WebUI.waitForElementVisible(myGlobalJDD.makeTO('span_Ecran'), timeOut)
-		//WebUI.verifyElementText(myGlobalJDD.makeTO('span_Ecran'), code,FailureHandling.OPTIONAL)
-		my.KW.waitAndVerifyText(myGlobalJDD.makeTO('span_Ecran'), code, timeOut)
+		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Ecran'), code,timeOut)
 	} // end of def
 
 	/**
@@ -84,16 +77,14 @@ class NAV {
 	static public verifierEcranRUD(String id, String fct='' , int timeOut = GlobalVariable.TIMEOUT) {
 		if (fct=='') { fct = this.getFctFromModObj() }
 		String code = fct + " - Consultation ou modification"
-		my.Log.addSTEP("Vérification de l'écran 'Consultation ou modification'")
 		WebUI.scrollToPosition(0, 0)
 		WebUI.delay(1)
-		my.KW.waitAndVerifyText(myGlobalJDD.makeTO('span_Selection'), id,timeOut)
-		WebUI.click(myGlobalJDD.makeTO('a_Toggle'))
+		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Selection'), id,timeOut)
+		KW.click(myGlobalJDD.makeTO('a_Toggle'))
 		WebUI.delay(1)
-		//WebUI.waitForElementVisible(myGlobalJDD.makeTO('span_Ecran'), timeOut)
-		//WebUI.verifyElementText(myGlobalJDD.makeTO('span_Ecran'), code,FailureHandling.OPTIONAL)
-		my.KW.waitAndVerifyText(myGlobalJDD.makeTO('span_Ecran'), code, timeOut)
+		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Ecran'), code,timeOut)
 	} // end of def
+
 
 
 
@@ -105,8 +96,7 @@ class NAV {
 	 */
 	private static goToURL_Grille(String fct) {
 		String url = GlobalVariable.BASE_URL + "E" + fct + "?"
-		my.Log.addSTEP("Navigation vers l'url 'Grille' : $url")
-		WebUI.navigateToUrl(url)
+		KW.navigateToUrl(url,'Grille')
 	} // end of def
 
 
@@ -115,8 +105,7 @@ class NAV {
 	 */
 	private static goToURL_Creation(String fct) {
 		String url = GlobalVariable.BASE_URL + "FormE" + fct + "?"
-		my.Log.addSTEP("Navigation vers l'url 'Création' : $url")
-		WebUI.navigateToUrl(url)
+		KW.navigateToUrl(url,'Création')
 	} // end of def
 
 	/**
@@ -124,8 +113,7 @@ class NAV {
 	 */
 	private static goToURL_RUD(String fct, String id) {
 		String url = GlobalVariable.BASE_URL + "FormE" + fct + "?" + "ID1=" + id
-		my.Log.addSTEP("Navigation vers l'url 'Consultation ou modification' : $url")
-		WebUI.navigateToUrl(url)
+		KW.navigateToUrl(url,'Consultation ou modification')
 	} // end of def
 
 
@@ -138,8 +126,8 @@ class NAV {
 	static public goToURL_RUD_and_checkCartridge(String id, String fct='' , int timeOut = GlobalVariable.TIMEOUT) {
 		if (fct=='') { fct = this.getFctFromModObj() }
 		my.Log.addDEBUG("NAV.goToURL_RUD_and_checkCartridge(id='$id', fct='$fct')")
-		goToURL_RUD(fct, id)
-		verifierEcranRUD(id, fct, timeOut)
+		this.goToURL_RUD(fct, id)
+		this.verifierEcranRUD(id, fct, timeOut)
 	} // end of def
 
 	/**
@@ -148,8 +136,8 @@ class NAV {
 	static public goToURL_Grille_and_checkCartridge(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
 		if (fct=='') { fct = this.getFctFromModObj() }
 		my.Log.addDEBUG("NAV.goToURL_Grille_and_checkCartridge(fct='$fct')")
-		goToURL_Grille(fct)
-		verifierEcranGrille(fct,timeOut)
+		this.goToURL_Grille(fct)
+		this.verifierEcranGrille(fct,timeOut)
 	} // end of def
 
 	/**
@@ -158,8 +146,8 @@ class NAV {
 	static public goToURL_Creation_and_checkCartridge(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
 		if (fct=='') { fct = this.getFctFromModObj() }
 		my.Log.addDEBUG("NAV.goToURL_Creation_and_checkCartridge(fct='$fct')")
-		goToURL_Creation(fct)
-		verifierEcranCreation(fct,timeOut)
+		this.goToURL_Creation(fct)
+		this.verifierEcranCreation(fct,timeOut)
 	} // end of def
 
 
