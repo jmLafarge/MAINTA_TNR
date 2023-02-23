@@ -6,10 +6,16 @@
  * -----------------------------------------------------------------------------------------------------
  *
  *
+ *
+ *
+ *
+ *
+ *
+ * Faire une fonction pour suppression avec accept alert 3x --> pour eviter les FAIL des tentatives et mettre des warning ?
  * 
  * TESTER WebUI.getAttribute(  avant de setter un champ
  * 
- * 
+ *  
  *
  * recharger JDD.RO.ACT sur DRIVE --> ATTENTION au ROUGE
  * 

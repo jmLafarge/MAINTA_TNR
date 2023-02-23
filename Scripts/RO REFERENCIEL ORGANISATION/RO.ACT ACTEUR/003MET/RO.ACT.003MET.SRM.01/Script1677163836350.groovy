@@ -17,20 +17,20 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	'Naviguer vers la bonne url et controle des infos du cartouche'
 	NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_CODINT'))
 	
-	my.Log.addSTEPGRP('ONGLET HABILITATION')
+	my.Log.addSTEPGRP('ONGLET METIER')
 	
 		'Clic sur le bon onglet'
-		KW.scrollAndClick(myJDD.makeTO('a_Habilitation'))
+		KW.scrollAndClick(myJDD.makeTO('a_Metier'))
 		
 		'Vérification de l\'onglet'
-		KW.waitForElementVisible(myJDD.makeTO('a_HabilitationSelected'))
+		KW.waitForElementVisible(myJDD.makeTO('a_MetierSelected'))
 		
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
 			
 			myJDD.setCasDeTestNum(i)
 	
-	        KW.waitAndVerifyElementText(myJDD.makeTO('ID_CODHAB'), myJDD.getStrData('ID_CODHAB'))
+	        KW.waitAndVerifyElementText(myJDD.makeTO('ID_CODMET'), myJDD.getStrData('ID_CODMET'))
 			
 	        KW.scrollAndDoubleClick(myJDD.makeTO('td_DateDebut'))
 			//KW.scrollAndClick(myJDD.makeTO('td_DateDebut'))
@@ -41,7 +41,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	        KW.setDate(myJDD.makeTO('DT_DATDEB'), myJDD.getData('DT_DATDEB'))
 			KW.sendKeys(myJDD.makeTO('DT_DATDEB'), Keys.chord(Keys.RETURN),"Envoie de la touche ENTREE pour valider la date")
 	
-	        KW.scrollAndClick(myJDD.makeTO('ID_CODHAB'))
+	        KW.scrollAndClick(myJDD.makeTO('ID_CODMET'))
 	
 	        KW.scrollAndDoubleClick(myJDD.makeTO('td_DateFin'))
 			//KW.scrollAndClick(myJDD.makeTO('td_DateFin'))

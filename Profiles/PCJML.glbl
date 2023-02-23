@@ -36,7 +36,7 @@
    </GlobalVariableEntity>
    <GlobalVariableEntity>
       <description></description>
-      <initValue>5</initValue>
+      <initValue>2</initValue>
       <name>TIMEOUT</name>
    </GlobalVariableEntity>
    <GlobalVariableEntity>

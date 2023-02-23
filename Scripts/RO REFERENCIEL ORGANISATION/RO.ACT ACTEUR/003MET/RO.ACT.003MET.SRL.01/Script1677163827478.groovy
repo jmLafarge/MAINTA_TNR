@@ -21,19 +21,20 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_CODINT'))
 
 	'Clic sur le bon onglet'
-    KW.scrollAndClick(myJDD.makeTO('a_Habilitation'))
+    KW.scrollAndClick(myJDD.makeTO('a_Metier'))
 
 	'Vérification de l\'onglet'
-    KW.waitForElementVisible(myJDD.makeTO('a_HabilitationSelected'))
+    KW.waitForElementVisible(myJDD.makeTO('a_MetierSelected'))
 
 	'Boucle sur les lignes d\'un même TC'
     for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
 		
 		myJDD.setCasDeTestNum(i)
 		
-        KW.waitAndVerifyElementText(myJDD.makeTO('ID_CODHAB'), myJDD.getStrData('ID_CODHAB'))
+        KW.waitAndVerifyElementText(myJDD.makeTO('ID_CODMET'), myJDD.getStrData('ID_CODMET'))
 
-
+		KW.waitAndVerifyElementText(myJDD.makeTO('ST_NIV'), myJDD.getStrData('ST_NIV'))
+		
 		if (myJDD.getData('DT_DATDEB',i) != '$VIDE') {
 			
 			KW.verifyDate(myJDD.makeTO('td_DateDebut'), myJDD.getData('DT_DATDEB'))

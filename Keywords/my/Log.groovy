@@ -135,17 +135,21 @@ class Log {
 		this.addFAIL('                   - '+ msg)
 	}
 
-/*
-	static public addDETAILWARNING (String msg) {
-
-		this.addWARNING('                   - '+ msg)
-	}
-*/
+	/*
+	 static public addDETAILWARNING (String msg) {
+	 this.addWARNING('                   - '+ msg)
+	 }
+	 */
 	static public addSTEP (String msg) {
 
 		this.addINFO('            STEP : '+ msg)
 	}
 
+	static public addSUBSTEP (String msg) {
+		
+		this.addINFO('                   '+ msg)
+	}
+		
 
 	static public addSTEPPASS (String msg) {
 
@@ -158,12 +162,11 @@ class Log {
 		this.addFAIL('            STEP : '+ msg)
 	}
 
-/*
-	static public addSTEPWARNING (String msg) {
-
-		this.addWARNING('            STEP : '+ msg)
-	}
-*/
+	/*
+	 static public addSTEPWARNING (String msg) {
+	 this.addWARNING('            STEP : '+ msg)
+	 }
+	 */
 
 
 

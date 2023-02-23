@@ -4,6 +4,8 @@ import com.kms.katalon.core.annotation.Keyword
 import com.kms.katalon.core.model.FailureHandling
 import com.kms.katalon.core.testobject.TestObject
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
+import com.kms.katalon.core.webui.keyword.internal.WebUIAbstractKeyword
+
 import org.openqa.selenium.Keys as Keys
 
 import internal.GlobalVariable
@@ -117,10 +119,10 @@ class KW {
 	static boolean waitForAlert(int timeOut = GlobalVariable.TIMEOUT) {
 		try {
 			WebUI.waitForAlert(timeOut, FailureHandling.STOP_ON_FAILURE)
-			my.Log.addDEBUG("waitForAlert OK")
+			my.Log.addSTEPPASS("Attendre la fenetre de confirmation")
 			return true
 		} catch (Exception ex) {
-			my.Log.addSTEPFAIL("waitForAlert")
+			my.Log.addSTEPFAIL("Attendre la fenetre de confirmation")
 			my.Log.addDETAIL(ex.getMessage())
 			return false
 		}
@@ -130,10 +132,10 @@ class KW {
 	static boolean acceptAlert() {
 		try {
 			WebUI.acceptAlert(FailureHandling.STOP_ON_FAILURE)
-			my.Log.addSTEPPASS("Accepter Alerte")
+			my.Log.addSTEPPASS("Accepter la demande de confirmation")
 			return true
 		} catch (Exception ex) {
-			my.Log.addSTEPFAIL("Accepter Alerte")
+			my.Log.addSTEPFAIL("Accepter la demande de confirmation")
 			my.Log.addDETAIL(ex.getMessage())
 			return false
 		}
@@ -141,13 +143,21 @@ class KW {
 
 
 
-	static String sendKeys(TestObject tObj, String keys) {
+	static String sendKeys(TestObject tObj, String keys, String msg = '' ) {
 		try {
 			WebUI.sendKeys(tObj, keys, FailureHandling.STOP_ON_FAILURE)
-			my.Log.addDEBUG("Envoie touches clavier '$keys' sur '${tObj.getObjectId()}'")
+			if (msg) {
+				my.Log.addSTEPPASS(msg)
+			}else {
+				my.Log.addDEBUG("Envoie touches clavier '$keys' sur '${tObj.getObjectId()}'")
+			}
 			return null
 		} catch (Exception ex) {
-			return my.Log.addDETAIL(ex.getMessage())
+			if (msg) {
+				my.Log.addSTEPFAIL(msg)
+				my.Log.addDETAIL(ex.getMessage())
+			}
+			return ex.getMessage()
 		}
 	}
 
@@ -161,6 +171,35 @@ class KW {
 		} catch (Exception ex) {
 			my.Log.addSTEPFAIL("Contrôle si '${tObj.getObjectId()}' est coché")
 			my.Log.addDETAIL(ex.getMessage())
+		}
+	}
+
+
+	static boolean verifyElementNotPresent(TestObject tObj, int timeOut = GlobalVariable.TIMEOUT) {
+		try {
+			WebUI.verifyElementNotPresent(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
+			my.Log.addSTEPPASS("Contrôle que '${tObj.getObjectId()}' n'est plus présent")
+			return true
+		} catch (Exception ex) {
+			my.Log.addSTEPFAIL("Contrôle que '${tObj.getObjectId()}' n'est plus présent")
+			my.Log.addDETAIL(ex.getMessage())
+			return false
+		}
+	}
+
+
+
+
+
+	static boolean verifyElementPresent(TestObject tObj, int timeOut = GlobalVariable.TIMEOUT) {
+		try {
+			WebUI.verifyElementPresent(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
+			my.Log.addSTEPPASS("Contrôle que '${tObj.getObjectId()}' est présent")
+			return true
+		} catch (Exception ex) {
+			my.Log.addSTEPFAIL("Contrôle que '${tObj.getObjectId()}' est présent")
+			my.Log.addDETAIL(ex.getMessage())
+			return false
 		}
 	}
 
@@ -213,6 +252,8 @@ class KW {
 			my.Log.addDETAIL(ex.getMessage())
 		}
 	} // end of def
+
+
 
 
 	static verifyValue(TestObject tObj, String JDDval) {
@@ -355,11 +396,11 @@ class KW {
 				my.Log.addDETAIL("déjà cochée")
 			}else {
 				String msg = this.sendKeys(tObj, Keys.chord(Keys.SPACE))
-				if (msg==null) {
-					my.Log.addSTEPPASS("Cocher case à cocher '" + tObj.getObjectId() + "'")
-				}else {
+				if (msg) {
 					my.Log.addSTEPFAIL("Cocher case à cocher '" + tObj.getObjectId() + "'")
 					my.Log.addDETAIL(msg)
+				}else {
+					my.Log.addSTEPPASS("Cocher case à cocher '" + tObj.getObjectId() + "'")
 				}
 			}
 		}else {
@@ -368,11 +409,11 @@ class KW {
 				my.Log.addDETAIL("déjà décochée")
 			}else {
 				String msg = this.sendKeys(tObj, Keys.chord(Keys.SPACE))
-				if (msg==null) {
-					my.Log.addSTEPPASS("Décocher case à cocher '" + tObj.getObjectId() + "'")
-				}else {
+				if (msg) {
 					my.Log.addSTEPFAIL("Décocher case à cocher '" + tObj.getObjectId() + "'")
 					my.Log.addDETAIL(msg)
+				}else {
+					my.Log.addSTEPPASS("Décocher case à cocher '" + tObj.getObjectId() + "'")
 				}
 			}
 		}

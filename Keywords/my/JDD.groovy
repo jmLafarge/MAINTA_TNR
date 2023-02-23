@@ -268,7 +268,7 @@ public class JDD {
 
 
 
-	public getStrData(String name, int casDeTestNum = 1) {
+	public getStrData(String name, int casDeTestNum = this.casDeTestNum) {
 
 		return this.getData(name, casDeTestNum).toString()
 

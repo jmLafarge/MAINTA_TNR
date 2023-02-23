@@ -20,13 +20,13 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_CODINT'))
 	
-	my.Log.addSTEPGRP('ONGLET HABILITATION')
+	my.Log.addSTEPGRP('ONGLET METIER')
 	
 		'Clic sur le bon onglet'
-	    KW.scrollAndClick(myJDD.makeTO('a_Habilitation'))
+	    KW.scrollAndClick(myJDD.makeTO('a_Metier'))
 		
 		'Vérification de l\'onglet'
-		KW.waitForElementVisible(myJDD.makeTO('a_HabilitationSelected'))
+		KW.waitForElementVisible(myJDD.makeTO('a_MetierSelected'))
 	
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -34,21 +34,23 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 			myJDD.setCasDeTestNum(i)
 	
 			'Ajout'
-	        KW.scrollAndClick(myJDD.makeTO('a_AjouterHabilitation'))
+	        KW.scrollAndClick(myJDD.makeTO('a_AjouterMetier'))
 	
 	        WebUI.delay(1)
 	
-	        KW.setText(myJDD.makeTO('SelectionHabilitation_input_Filtre'), myJDD.getStrData('ID_CODHAB'))
+	        KW.setText(myJDD.makeTO('SelectionMetier_input_Filtre'), myJDD.getStrData('ID_CODMET'))
 	
 	        WebUI.delay(1)
 	
-	        KW.scrollAndClick(myJDD.makeTO('SelectionHabilitation_td'))
+	        KW.scrollAndClick(myJDD.makeTO('SelectionMetier_td'))
+			
+			KW.scrollAndSetText(myJDD.makeTO('SelectionMetier_input_ST_NIV'), myJDD.getStrData('ST_NIV'))
 	
-	        KW.scrollAndClick(myJDD.makeTO('SelectionHabilitation_button_Ajouter'))
+	        KW.scrollAndClick(myJDD.makeTO('SelectionMetier_button_Ajouter'))
 			
 			WebUI.delay(1)
 	
-	        KW.waitAndVerifyElementText(myJDD.makeTO('ID_CODHAB'), myJDD.getStrData('ID_CODHAB'))
+	        KW.waitAndVerifyElementText(myJDD.makeTO('ID_CODMET'), myJDD.getStrData('ID_CODMET'))
 			
 			if (!my.JDDKW.isNULL(myJDD.getData('DT_DATDEB'))) {
 			
@@ -75,7 +77,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 		        KW.setDate(myJDD.makeTO('DT_DATFIN'), myJDD.getData('DT_DATFIN'))
 	
-				KW.scrollAndClick(myJDD.makeTO('ID_CODHAB'))
+				KW.scrollAndClick(myJDD.makeTO('ID_CODMET'))
 			}
 	    }// fin du for
 	
