@@ -6,9 +6,16 @@
  * -----------------------------------------------------------------------------------------------------
  *
  *
+ * Probleme à la verif apres création checkJDDWithBD prend en compte les PK, et la la PK c'ets un ZONLIG_ID, donc pas connu
+ * 
+ * 	idée : apres chaque ajout lire le max de la PK et le garder en mémoire pour le controle --> mettre un mot clé comme $ID pour savoir ce qu'il y a à faire
+ * 			du coup on peut mettre à jour le JDD Data pour un comprtement normal de checkJDDWithBD
+ * 
+ * 			mais en fait ID_NUMZONLIG ne sert à rien si ?
+ * 			c'est ID_NUMREF et ID_CODINT qui est important ... pour l'instant à voir plus tard avec les zones et les niveau ?!:
  *
  *
- *
+ *Faire un defaut quand on met un nom daans le sequencer qui n'est pas bon
  *
  *
  * Faire une fonction pour suppression avec accept alert 3x --> pour eviter les FAIL des tentatives et mettre des warning ?

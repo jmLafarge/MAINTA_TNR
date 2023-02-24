@@ -10,7 +10,16 @@ public class InfoBDD {
 	private static Map colnameMap= [:]
 	private static Map PKMap= [:]
 
-	private static final List HEADERS	 = ['TABLE_NAME', 'COLUMN_NAME', 'ORDINAL_POSITION', 'IS_NULLABLE', 'DATA_TYPE', 'MAXCHAR', 'DOMAIN_NAME', 'CONSTRAINT_NAME']
+	private static final List HEADERS	 = [
+		'TABLE_NAME',
+		'COLUMN_NAME',
+		'ORDINAL_POSITION',
+		'IS_NULLABLE',
+		'DATA_TYPE',
+		'MAXCHAR',
+		'DOMAIN_NAME',
+		'CONSTRAINT_NAME'
+	]
 
 	private static List line = []
 

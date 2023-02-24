@@ -15,9 +15,9 @@ public class SQL {
 	private static sql = Sql.newInstance(GlobalVariable.BD_URL, GlobalVariable.BD_USER, GlobalVariable.BD_MDP)
 
 
-	
-	
-	
+
+
+
 	/**
 	 *
 	 * @param
@@ -26,15 +26,15 @@ public class SQL {
 	 *
 	 *
 	 */
-	static checkJDDWithBD(JDD myJDD){
-		
+	static checkJDDWithBD(JDD myJDD,Map specificValueMap=[:]){
+
 		WebUI.delay(1)
-		
+
 		boolean pass = true
 		my.Log.addSTEP("Début de la vérification des valeurs en Base de Données")
 		int nbrLigneCasDeTest =myJDD.getNbrLigneCasDeTest()
 
-		
+
 		for (casDeTestNum in 1..nbrLigneCasDeTest) {
 			myJDD.setCasDeTestNum(casDeTestNum)
 			if (nbrLigneCasDeTest>1) {
@@ -42,7 +42,7 @@ public class SQL {
 			}
 			String query = "SELECT * FROM " + myJDD.getDBTableName() + this.getWhereWithAllPK(myJDD,casDeTestNum)
 			my.Log.addDEBUG("query =  $query")
-			
+
 			def rows = sql.rows(query)
 			my.Log.addDEBUG("size =  ${rows.size()}")
 
@@ -51,40 +51,43 @@ public class SQL {
 				pass = false
 			}else if (rows.size() > 1){
 				my.Log.addERROR(rows.size() + "résultats pour la requête : $query")
-				pass = false			
+				pass = false
 			}else {
 				rows.each { row ->
-					
+
 					row.each{fieldName,val ->
+
 						my.Log.addDEBUG("fieldName = $fieldName , val = $val , JDD value = " + myJDD.getData(fieldName))
-					
-						if (myJDD.getParamForThisName('FOREIGNKEY', fieldName)!=null) {
-		
+
+						boolean specificValue = !specificValueMap.isEmpty() && specificValueMap.containsKey(fieldName)
+
+						if (!specificValue && myJDD.getParamForThisName('FOREIGNKEY', fieldName)!=null) {
+
 							this.checkForeignKey(myJDD, fieldName, val)
 						}else {
 							// test valeur du JDD
 							switch (myJDD.getData(fieldName)) {
-		
+
 								case my.JDDKW.getKW_VIDE() :
 								case my.JDDKW.getKW_NULL():
 									if (val == null || val =='') {
-		
+
 										my.Log.addDEBUG("Contrôle de la valeur de $fieldName OK : la valeur attendue est VIDE ou null et la valeur en BD est  : $val" )
 									}else {
 										my.Log.addDETAIL("Contrôle de la valeur de $fieldName KO : la valeur attendue est VIDE ou null et la valeur en BD est  : $val")
 										pass = false
 									}
-		
+
 									break
-		
+
 								case my.JDDKW.getKW_DATE() :
-		
+
 									my.Log.addDETAIL("Contrôle DATE valeur $fieldName KO : ******* reste à faire la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
 									pass = false
 									break
-		
+
 								case my.JDDKW.getKW_DATETIME() :
-		
+
 									if (val instanceof java.sql.Timestamp) {
 										my.Log.addDEBUG("Contrôle de la valeur de $fieldName OK : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val " )
 									}else {
@@ -92,30 +95,39 @@ public class SQL {
 										pass = false
 									}
 									break
-		
+
 								case '$IDINTERNE' :
-		
+
 									my.Log.addDETAIL("Contrôle IDINTERNE valeur $fieldName KO : ******* reste à faire la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
 								//il faut peut etre testé si la valeur est num et unique ? ******
 									pass = false
 									break
-		
+
 								case my.JDDKW.getKW_ORDRE() :
-		
+
 									my.Log.addDETAIL("Contrôle ORDRE valeur $fieldName KO : ******* reste à faire la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
 								//voir aussi le NU_NIV *******
 									pass = false
 									break
-		
+
 								default:
-		
-									my.Log.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' dans le JDD : ' + myJDD.getData(fieldName).getClass())
-		
-									if ( val == my.InfoBDD.castJDDVal(myJDD.getDBTableName(), fieldName, myJDD.getData(fieldName))) {
-										my.Log.addDEBUG("Contrôle de la valeur de $fieldName OK : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val " )
+
+									if (specificValue) {
+										my.Log.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' la valeur spécifique est  : ' + specificValueMap[fieldName].getClass())
+										if ( val == my.InfoBDD.castJDDVal(myJDD.getDBTableName(), fieldName, specificValueMap[fieldName])) {
+											my.Log.addDEBUG("Contrôle de la valeur spécifique de $fieldName OK : la valeur attendue est : " + specificValueMap[fieldName] + " et la valeur en BD est : $val " )
+										}else {
+											my.Log.addDETAIL("Contrôle de la valeur spécifique de $fieldName KO : la valeur attendue est : " + specificValueMap[fieldName] + " et la valeur en BD est : $val")
+											pass = false
+										}
 									}else {
-										my.Log.addDETAIL("Contrôle de la valeur de $fieldName KO : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
-										pass = false
+										my.Log.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' dans le JDD : ' + myJDD.getData(fieldName).getClass())
+										if ( val == my.InfoBDD.castJDDVal(myJDD.getDBTableName(), fieldName, myJDD.getData(fieldName))) {
+											my.Log.addDEBUG("Contrôle de la valeur de $fieldName OK : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val " )
+										}else {
+											my.Log.addDETAIL("Contrôle de la valeur de $fieldName KO : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
+											pass = false
+										}
 									}
 									break
 							}//case
@@ -130,9 +142,9 @@ public class SQL {
 			my.Log.addSTEPFAIL("Fin de la  vérification des valeurs en Base de Données")
 		}
 	}
-	
-	
-	
+
+
+
 
 
 
@@ -174,22 +186,39 @@ public class SQL {
 
 	static checkIDNotInBD(JDD myJDD){
 
-		my.Log.addSTEP("Contrôle de la supression en BD")
-		String query = "SELECT count(*) FROM " + myJDD.getDBTableName() + this.getWhereWithAllPK(myJDD)
-		my.Log.addDEBUG("query =  $query")
+		WebUI.delay(1)
+		boolean pass = true
+		int nbrLigneCasDeTest =myJDD.getNbrLigneCasDeTest()
 
-		def row = this.sql.firstRow(query)
+		my.Log.addSTEP("Début de la vérification de la suppression des valeurs en Base de Données")
+		for (casDeTestNum in 1..nbrLigneCasDeTest) {
+			myJDD.setCasDeTestNum(casDeTestNum)
+			if (nbrLigneCasDeTest>1) {
+				my.Log.addSUBSTEP("Contrôle de la suppression du cas de test $casDeTestNum / $nbrLigneCasDeTest")
+			}
+			String query = "SELECT count(*) FROM " + myJDD.getDBTableName() + this.getWhereWithAllPK(myJDD,casDeTestNum)
 
-		if (row[0]>0) {
+			my.Log.addDEBUG("query =  $query")
 
-			my.Log.addDETAILFAIL("Supression KO")
-			KeywordUtil.markFailed("Supression KO")
+			def row = this.sql.firstRow(query)
+
+
+			if (row[0]>0) {
+				my.Log.addDETAILFAIL("Supression KO")
+				pass = false
+			}
+		}
+
+		if (pass) {
+			my.Log.addSTEPPASS("Fin de la vérification de la suppression des valeurs en Base de Données")
+			//KeywordUtil.markPassed("Supression OK")
 		}else {
-
-			my.Log.addDETAILPASS("Supression OK")
-			KeywordUtil.markPassed("Supression OK")
+			my.Log.addSTEPFAIL("Fin de la  vérification de la suppression des valeurs en Base de Données")
+			//KeywordUtil.markFailed("Supression KO")
 		}
 	}
+
+
 
 
 	private static String getWhereWithAllPK(JDD myJDD,int casDeTestNum) {
@@ -216,9 +245,9 @@ public class SQL {
 
 	}
 
-	
-	
-	
+
+
+
 	static int getMaxFromTable(String fieldName, String tableName) {
 
 		my.Log.addDEBUG("getMaxFromTable(String fieldName, String tableName) '$fieldName' , '$tableName'")

@@ -94,7 +94,7 @@ class Log {
 
 		if (level <= this.debugLevel) {
 			this.add('DEBUG ' + level,'\t'+msg )
-		}else if (level<3){
+		}else if (level<2){
 			println "[my Log][ DEBUG ]:" + this.tab +"$msg"
 		}
 	}
@@ -146,10 +146,10 @@ class Log {
 	}
 
 	static public addSUBSTEP (String msg) {
-		
+
 		this.addINFO('                   '+ msg)
 	}
-		
+
 
 	static public addSTEPPASS (String msg) {
 

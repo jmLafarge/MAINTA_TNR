@@ -38,7 +38,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 	        WebUI.delay(1)
 	
-	        KW.setText(myJDD.makeTO('SelectionHabilitation_input_Filtre'), myJDD.getStrData('ID_CODHAB'))
+	        KW.scrollAndSetText(myJDD.makeTO('SelectionHabilitation_input_Filtre'), myJDD.getStrData('ID_CODHAB'))
 	
 	        WebUI.delay(1)
 	

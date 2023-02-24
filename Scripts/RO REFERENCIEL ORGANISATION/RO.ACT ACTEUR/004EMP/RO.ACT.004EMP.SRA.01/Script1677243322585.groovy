@@ -9,7 +9,6 @@ import my.NAV
 
 
 
-
 'Lecture du JDD'
 def myJDD = new my.JDD()
 
@@ -20,37 +19,41 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_CODINT'))
 	
-	my.Log.addSTEPGRP('ONGLET METIER')
+	my.Log.addSTEPGRP('ONGLET ZONE')
 	
 		'Clic sur le bon onglet'
-	    KW.scrollAndClick(myJDD.makeTO('a_Metier'))
+	    KW.scrollAndClick(myJDD.makeTO('a_Zone'))
 		
 		'Vérification de l\'onglet'
-		KW.waitForElementVisible(myJDD.makeTO('a_MetierSelected'))
-	
+		KW.waitForElementVisible(myJDD.makeTO('a_ZoneSelected'))
+		
+
+		
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
 			
+			'Ajout'
+			KW.scrollAndClick(myJDD.makeTO('a_AjouterEmplacement'))
+	
+			WebUI.delay(1)
+			
 			myJDD.setCasDeTestNum(i)
 	
-			'Ajout'
-	        KW.scrollAndClick(myJDD.makeTO('a_AjouterMetier'))
+	        KW.scrollAndSetText(myJDD.makeTO('SelectionEmplacement_input_Filtre'), myJDD.getStrData('ID_NUMREF'))
 	
 	        WebUI.delay(1)
 	
-	        KW.scrollAndSetText(myJDD.makeTO('SelectionMetier_input_Filtre'), myJDD.getStrData('ID_CODMET'))
+	        KW.scrollAndClick(myJDD.makeTO('SelectionEmplacement_td'))
 	
-	        WebUI.delay(1)
-	
-	        KW.scrollAndClick(myJDD.makeTO('SelectionMetier_td'))
+	        KW.scrollAndClick(myJDD.makeTO('SelectionEmplacement_button_Ajouter'))
 			
-			KW.scrollAndSetText(myJDD.makeTO('SelectionMetier_input_ST_NIV'), myJDD.getStrData('ST_NIV'))
-	
-	        KW.scrollAndClick(myJDD.makeTO('SelectionMetier_button_Ajouter'))
+			WebUI.delay(1)
+			
+			KW.scrollAndClick(myJDD.makeTO('SelectionEmplacement_button_Fermer'))
 			
 			WebUI.delay(1)
 	
-	        KW.waitAndVerifyElementText(myJDD.makeTO('ID_CODMET'), myJDD.getStrData('ID_CODMET'))
+	        KW.waitAndVerifyElementText(myJDD.makeTO('ID_NUMREF'), myJDD.getStrData('ID_NUMREF'))
 			
 			if (!my.JDDKW.isNULL(myJDD.getData('DT_DATDEB'))) {
 			
@@ -68,7 +71,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 			if (!my.JDDKW.isNULL(myJDD.getData('DT_DATFIN'))) {
 				
-		        KW.scrollAndClick(myJDD.makeTO('SelectionMetier_td'))
+		        KW.scrollAndClick(myJDD.makeTO('SelectionEmplacement_td'))
 		
 		        KW.scrollAndDoubleClick(myJDD.makeTO('td_DateFin'))
 		
@@ -77,11 +80,11 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 		        KW.setDate(myJDD.makeTO('DT_DATFIN'), myJDD.getData('DT_DATFIN'))
 	
-				KW.scrollAndClick(myJDD.makeTO('ID_CODMET'))
+				KW.scrollAndClick(myJDD.makeTO('ID_NUMREF'))
 			}
 	    }// fin du for
 	
-	
+		
 	my.Log.addSTEPGRP('CONTROLE')
 
 		'Vérification des valeurs en BD'

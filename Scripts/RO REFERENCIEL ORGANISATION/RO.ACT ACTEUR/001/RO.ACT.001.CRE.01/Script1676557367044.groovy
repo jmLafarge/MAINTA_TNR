@@ -142,7 +142,12 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		KW.waitForElementVisible(myJDD.makeTO('a_ZoneSelected'))
 		
 		'Début de sasie des valeurs du JDD'
-		KW.scrollAndSetText(myJDD.makeTO('ID_NUMZON'), myJDD.getStrData('ID_NUMZON'))		
+		Map specificValueMap = [:]
+		if (myJDD.getData('ID_NUMZON')!=0) {
+			KW.scrollAndSetText(myJDD.makeTO('ID_NUMZON'), myJDD.getStrData('ID_NUMZON'))
+		}else {
+			specificValueMap.put('ID_NUMZON', 0)
+		}
 	
 			
 	my.Log.addSTEPGRP('VALIDATION')
@@ -156,7 +161,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
     KW.verifyElementText(myJDD.makeTO('a_Resultat_ID'), myJDD.getStrData('ID_CODINT'))
 	
 	'Vérification des valeurs en BD'
-	my.SQL.checkJDDWithBD(myJDD)
+	my.SQL.checkJDDWithBD(myJDD,specificValueMap)
 
 } // fin du if
 
