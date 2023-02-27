@@ -5,30 +5,30 @@
  * EN COURS
  * -----------------------------------------------------------------------------------------------------
  *
+ * 	REVOIR la suppression des emplacements par rapport à ST_DEF pour rendre automatique le truc
  *
  * Probleme à la verif apres création checkJDDWithBD prend en compte les PK, et la la PK c'ets un ZONLIG_ID, donc pas connu
  * 
- * 	idée : apres chaque ajout lire le max de la PK et le garder en mémoire pour le controle --> mettre un mot clé comme $ID pour savoir ce qu'il y a à faire
+ * 	Solution : apres chaque ajout lire le max de la PK et le garder en mémoire pour le controle --> mettre un mot clé comme $ID pour savoir ce qu'il y a à faire
  * 			du coup on peut mettre à jour le JDD Data pour un comprtement normal de checkJDDWithBD
+ * 			--> Ajout de setJDDSequenceID --> par contre si on faisait le checkJDDWithBD à chauqe itération, on pourrait inclure setJDDSequenceID dans checkJDDWithBD
+ * 			--> marche pas car dans certains cas comme RO.EMP, il faut cpontrole à la fin (à cause du flag ST_DEF)
  * 
- * 			mais en fait ID_NUMZONLIG ne sert à rien si ?
- * 			c'est ID_NUMREF et ID_CODINT qui est important ... pour l'instant à voir plus tard avec les zones et les niveau ?!:
+ * 			--> on peut rajouter une lecture du ùmax table avant l'insersion pour vérifier qu'on a bien inserer qq chose
+ * 
  *
  *
- *Faire un defaut quand on met un nom daans le sequencer qui n'est pas bon
+ * Inclure getDataLine dans getData
+ *
+ * Faire un defaut quand on met un nom daans le sequencer qui n'est pas bon
  *
  *
  * Faire une fonction pour suppression avec accept alert 3x --> pour eviter les FAIL des tentatives et mettre des warning ?
  * 
  * TESTER WebUI.getAttribute(  avant de setter un champ
  * 
- *  
- *
- * recharger JDD.RO.ACT sur DRIVE --> ATTENTION au ROUGE
  * 
- * $Identifiant technique dans JDD RO ACT 004EMP --> l création d'un emplacement crée qq chose ? ou c'est plutot l'utilisation dans ACTEUR !?
- * 
- * 
+ * Ajouter des warning pour certains STEP comme la bouche sur Accept Popup ou les textes de crtl écran !?
  * 
  * -----------------------------------------------------------------------------------------------------
  * CHECK PREREQUIS
@@ -48,6 +48,9 @@
  * 		Vérifier que pour tous les PRE.XX.UTI.IDCODPRO='SOC', les UTI.ID_NUMSOC sont dans dans PRE.XX.SOCIETE.ID_NUMSOC
  *
  * Verifir si les valeurs collent avec les types :  my.InfoBDD.getDATA_TYPE( myJDD.getDBTableName(), fieldName)
+ * 
+ * 
+ *  --> Dans les JDD, mettre en vert les cellules des attributs modifiés par rapport aux PREJDD pour les cas de tests MODIF
  *
  * -----------------------------------------------------------------------------------------------------
  * VRAC
@@ -61,8 +64,9 @@
  * 
  * LOG : Ajouter def var en para d'un DEBUG pour parser un map , un list,...
  * LOG : faire le log à 0 et faire un autre à 1 2 ou 3
+ * LOG : utiliser padrigth ou left pour positionner les textes
  * 
- * 
+ * Dans le RESULTAT dans le résumé, ajouter en dessous cas de test le nombre total de step 
  * 
  * 
  * 

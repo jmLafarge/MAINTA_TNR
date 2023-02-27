@@ -44,6 +44,8 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	        WebUI.delay(1)
 	
 	        KW.scrollAndClick(myJDD.makeTO('SelectionEmplacement_td'))
+			
+			myJDD
 	
 	        KW.scrollAndClick(myJDD.makeTO('SelectionEmplacement_button_Ajouter'))
 			
@@ -53,7 +55,10 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 			
 			WebUI.delay(1)
 	
-	        KW.waitAndVerifyElementText(myJDD.makeTO('ID_NUMREF'), myJDD.getStrData('ID_NUMREF'))
+	        if (KW.waitAndVerifyElementText(myJDD.makeTO('ID_NUMREF'), myJDD.getStrData('ID_NUMREF'))) {
+				myJDD.replaceSEQUENCIDInJDD()
+			}
+
 			
 			if (!my.JDDKW.isNULL(myJDD.getData('DT_DATDEB'))) {
 			
@@ -82,14 +87,16 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 				KW.scrollAndClick(myJDD.makeTO('ID_NUMREF'))
 			}
+			
+
 	    }// fin du for
 	
-		
-	my.Log.addSTEPGRP('CONTROLE')
-
-		'Vérification des valeurs en BD'
-		my.SQL.checkJDDWithBD(myJDD)
+		my.Log.addSTEPGRP('CONTROLE')
 	
+		'Vérification des valeurs en BD'
+		my.SQL.checkJDDWithBD(myJDD)			
+					
+
 } // fin du if
 
 

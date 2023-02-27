@@ -166,8 +166,9 @@ my.JDDFiles.JDDfilemap.each { modObj,fullName ->
 
 
 my.Log.addSubTITLE('Contrôle des PREREQUIS dans les PREJDD')
+my.Log.addSUBSTEP("Détails en cas d'erreur")
 my.Log.addDETAIL('    CAS DE TEST      -     VALEUR')
-my.Log.addDETAIL('')
+my.Log.addINFO('')
 /*
  * Controle si tous les PREREQUIS des JDD sont bien dans les PREJDD
  */

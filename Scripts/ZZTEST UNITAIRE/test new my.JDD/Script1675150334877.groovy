@@ -2,35 +2,55 @@
 
 def filename = 'TNR_JDD/RO/JDD.RO.ACT.xlsx'
 
-my.JDD myJDD = new my.JDD(filename,'001')
+my.JDD myJDD = new my.JDD(filename,'004EMP','RO.ACT.004EMP.SRA.01')
+myJDD.setCasDeTestNum(2)
+
+println '******************************************'
+
+
+
+myJDD.replaceSEQUENCIDInJDD()
+
+
+println '------------------------------------------------------------------------------------'
+
+println myJDD.datas
+
+println '------------------------------------------------------------------------------------'
+
+
+
+
+
+
+
+//println '******************************************' + fn2
+//println my.SQL.getMaxFromTable(fn2, myJDD.getDBTableName())
+
+
+//println myJDD.getDataLine('RO.ACT.004EMP.SRM.01',2)
 
 //my.InfoBDD.load()
-
+/*
 println myJDD.getParamForThisName('FOREIGNKE', 'TOTO')
 println myJDD.getParamForThisName('FOREIGNKEY', 'TOTO')
 println myJDD.getParamForThisName('FOREIGNKEY', 'ID_CODSER')
+*/
 
-/*
+
+
 //println '********** headers'
-myJDD.headers.eachWithIndex { v,i -> println i+':'+v }
+//myJDD.headers.eachWithIndex { v,i -> println i+':'+v }
 
 
 //println '********** params'
 //myJDD.params.eachWithIndex { v,i -> println i+':'+v }
 
-println '********** data'
-myJDD.datas.eachWithIndex { li,i -> println i+':'+li }
 
 
-myJDD.datas.eachWithIndex { li,numli ->
-	li.eachWithIndex { val,i ->
-		if (myJDD.headers.get(i) in my.InfoBDD.getPK('INTER') ) {
-			println li[0] + '   ' + val
-		}	
-	}
-}
-*/
 
+//println '********** data'
+//myJDD.datas.eachWithIndex { li,i -> println i+':'+li }
 
 
 /*

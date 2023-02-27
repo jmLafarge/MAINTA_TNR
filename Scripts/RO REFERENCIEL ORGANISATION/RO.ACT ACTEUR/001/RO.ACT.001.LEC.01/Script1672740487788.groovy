@@ -143,7 +143,11 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		KW.waitForElementVisible(myJDD.makeTO('a_ZoneSelected'))
 		
 		'Début de lecture des valeurs du JDD'
-		KW.verifyValue(myJDD.makeTO('ID_NUMZON'), myJDD.getStrData('ID_NUMZON'))	
+		if (myJDD.getData('ID_NUMZON')!=0) {
+			KW.verifyValue(myJDD.makeTO('ID_NUMZON'), myJDD.getStrData('ID_NUMZON'))
+		}else {
+			KW.verifyValue(myJDD.makeTO('ID_NUMZON'), '')
+		}
 
 
 }

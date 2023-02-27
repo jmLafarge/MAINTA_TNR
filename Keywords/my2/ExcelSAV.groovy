@@ -41,8 +41,8 @@ public class ExcelSAV {
 		}
 		data
 	}
-	
-	
+
+
 	/*
 	 def getRowReference(Row row, Cell cell) {
 	 def rowIndex = row.getRowNum()
@@ -82,30 +82,30 @@ public class ExcelSAV {
 
 
 
-	
-	 def toXml(header, row) {
-	 def obj = "<object>\n"
-	 row.eachWithIndex { datum, i ->
-	 def headerName = header[i]
-	 obj += "\t<$headerName>$datum</$headerName>\n"
-	 }
-	 obj += "</object>"
-	 }
-	 public static void main(String[]args) {
-	 def filename = 'temp.xlsx'
-	 ExcelSAV parser = new ExcelSAV()
-	 def (headers, rows) = parser.parse(filename)
-	 println 'Headers'
-	 println '------------------'
-	 headers.each { header ->
-	 println header
-	 }
-	 println "\n"
-	 println 'Rows'
-	 println '------------------'
-	 rows.each { row ->
-	 println parser.toXml(headers, row)
-	 }
-	 }
-	 
+
+	def toXml(header, row) {
+		def obj = "<object>\n"
+		row.eachWithIndex { datum, i ->
+			def headerName = header[i]
+			obj += "\t<$headerName>$datum</$headerName>\n"
+		}
+		obj += "</object>"
+	}
+	public static void main(String[]args) {
+		def filename = 'temp.xlsx'
+		ExcelSAV parser = new ExcelSAV()
+		def (headers, rows) = parser.parse(filename)
+		println 'Headers'
+		println '------------------'
+		headers.each { header ->
+			println header
+		}
+		println "\n"
+		println 'Rows'
+		println '------------------'
+		rows.each { row ->
+			println parser.toXml(headers, row)
+		}
+	}
+
 }

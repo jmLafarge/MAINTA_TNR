@@ -2,11 +2,13 @@ package my
 
 public class JDDKW {
 
-	private static final Map KEYWORD_ALLOWED			= [KW_VIDE:'$VIDE', KW_NULL:'$NULL', KW_DATE:'$DATESYS', KW_DATETIME:'$DATETIMESYS', KW_ORDRE:'$ORDRE']
+	private static final Map KEYWORD_ALLOWED			= [KW_VIDE:'$VIDE', KW_NULL:'$NULL', KW_DATE:'$DATESYS', KW_DATETIME:'$DATETIMESYS', KW_ORDRE:'$ORDRE', KW_SEQUENCEID:'$SEQUENCEID']
 
 	static boolean isAllowedKeyword(String val) {
 		return this.KEYWORD_ALLOWED.containsValue(val)
 	}
+
+
 
 	static boolean isVIDE(String val) {
 		return (val == this.KEYWORD_ALLOWED.getAt('KW_VIDE'))
@@ -28,6 +30,11 @@ public class JDDKW {
 		return (val == this.KEYWORD_ALLOWED.getAt('KW_ORDRE'))
 	}
 
+	static boolean isSEQUENCEID(def val) {
+		return ((val instanceof String) && val == this.KEYWORD_ALLOWED.getAt('KW_SEQUENCEID'))
+	}
+	
+	
 
 	static String getKW_VIDE() {
 		return this.KEYWORD_ALLOWED.getAt('KW_VIDE')
@@ -47,5 +54,9 @@ public class JDDKW {
 
 	static String getKW_ORDRE() {
 		return this.KEYWORD_ALLOWED.getAt('KW_ORDRE')
+	}
+	
+	static String getKW_SEQUENCEID() {
+		return this.KEYWORD_ALLOWED.getAt('KW_SEQUENCEID')
 	}
 }

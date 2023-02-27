@@ -35,14 +35,14 @@ public class JDD {
 	private Sheet TCSheet
 
 	private String JDDFullName = ''
-	private String TCTabName = ''
-	private String casDeTest = ''
-	private int casDeTestNum = 1
+	private String TCTabName   = ''
+	private String casDeTest   = ''
+	private int casDeTestNum   = 1
 
 	private List headers = []
-	private List params = []
-	private List datas= []
-	private Map xpathTO= [:]
+	private List params  = []
+	private List datas   = []
+	private Map xpathTO  = [:]
 
 	/**
 	 * CONSTRUCTEUR : lit le JDD, si pas de paramètre, utilise la variable globale CASDETESTENCOURS pour définir le JDD à utiliser
@@ -216,10 +216,10 @@ public class JDD {
 	 * 
 	 * @return : nombre de ligne pour le cas de test en cours (très souvent 1)
 	 */
-	public int getNbrLigneCasDeTest() {
+	public int getNbrLigneCasDeTest(String casDeTest = this.casDeTest) {
 		int nbr = 0
 		this.datas.each{
-			if (it[0]==this.casDeTest) {
+			if (it[0]==casDeTest) {
 				nbr++
 			}
 		}
@@ -229,6 +229,43 @@ public class JDD {
 
 	public setCasDeTestNum(int i) {
 		this.casDeTestNum=i
+	}
+
+	public getCasDeTestNum() {
+		return this.casDeTestNum
+	}
+
+
+
+
+
+
+	/**
+	 *
+	 * @param name 			: nom du cas de test
+	 * @param casDeTestNum 	: numéro de cas de test quand plusieurs lignes pour un mm cas de test
+	 *
+	 * @return				: la valeur du champ pour la ligne du cas de test en cours
+	 */
+	def getDataLineNum(String casDeTest = this.casDeTest, int casDeTestNum = this.casDeTestNum) {
+		my.Log.addDEBUG("getDataLineNum($casDeTest, $casDeTestNum)" )
+		if (casDeTestNum > this.getNbrLigneCasDeTest(casDeTest) || casDeTestNum < 1) {
+			my.Log.addERROR("Le cas de test N° : $casDeTestNum n'existe pas (max = "+ this.getNbrLigneCasDeTest(casDeTest) + ')')
+			return null
+		}
+		int dataLineNum = 0
+		int cdtnum = 0
+		for (int i=0; i< this.datas.size();i++) {
+			if (this.datas[i][0]==casDeTest) {
+				cdtnum++
+				if (cdtnum==casDeTestNum) {
+					dataLineNum = i
+					my.Log.addDEBUG("Numéro de la ligne trouvée : $i")
+					break
+				}
+			}
+		}
+		return dataLineNum
 	}
 
 
@@ -326,8 +363,8 @@ public class JDD {
 			my.Log.addDEBUG('\t\tnormal xpath',2)
 			to.setSelectorValue(SelectorMethod.XPATH, xpath)
 		}
-		my.Log.addDEBUG('getObjectId : ' + to.getObjectId(),2)
-		my.Log.addDEBUG('get(SelectorMethod.XPATH) : ' + to.getSelectorCollection().get(SelectorMethod.XPATH),2)
+		my.Log.addDEBUG('getObjectId : ' + to.getObjectId())
+		my.Log.addDEBUG('get(SelectorMethod.XPATH) : ' + to.getSelectorCollection().get(SelectorMethod.XPATH))
 		return to
 	}
 
@@ -356,25 +393,6 @@ public class JDD {
 		}
 	}
 
-	/*
-	 if (loc in TAG_LIST_ALLOWED) {
-	 String name = this.headers[i]
-	 if (this.getParam('LOCATOR')!=null) {
-	 String loc = this.getParam('LOCATOR')[i]
-	 my.Log.addDEBUG("\t\t $i addXpath name = '$name' loc='$loc' tag='$tag'" ,2 )
-	 if (loc=='') {
-	 // it's a standard xpath
-	 if (tag != '') this.xpathTO.put(name, "//" + tag + "[@id='" + name + "']")
-	 }else if (loc[0] == '/') {
-	 // it's a xpath with potential dynamic values
-	 this.xpathTO.put(name,loc)
-	 }
-	 }else {
-	 // it's a standard xpath
-	 if (tag != '') this.xpathTO.put(name, "//" + tag + "[@id='" + name + "']")
-	 }
-	 }
-	 */
 
 
 
@@ -422,6 +440,18 @@ public class JDD {
 		return query
 
 	}
+
+
+	public replaceSEQUENCIDInJDD() {
+		int dataLineNum = this.getDataLineNum()
+		this.datas[dataLineNum].eachWithIndex { val,i ->
+			if (my.JDDKW.isSEQUENCEID(val)) {
+				my.Log.addSTEP("Récupération de la séquence ${this.headers[i]} de l'objet créé")
+				this.datas[dataLineNum][i] = my.SQL.getMaxFromTable(this.headers[i], this.getDBTableName())
+			}
+		}
+	}
+
 
 
 } // end of class

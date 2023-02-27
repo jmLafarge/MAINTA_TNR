@@ -149,7 +149,7 @@ class KW {
 			if (msg) {
 				my.Log.addSTEPPASS(msg)
 			}else {
-				my.Log.addDEBUG("Envoie touches clavier '$keys' sur '${tObj.getObjectId()}'")
+				my.Log.addDEBUG("Envoie touche(s) clavier '$keys' sur '${tObj.getObjectId()}'")
 			}
 			return null
 		} catch (Exception ex) {
@@ -167,9 +167,9 @@ class KW {
 	static verifyElementChecked(TestObject tObj, int timeOut = GlobalVariable.TIMEOUT) {
 		try {
 			WebUI.verifyElementChecked(tObj,timeOut, FailureHandling.STOP_ON_FAILURE)
-			my.Log.addSTEPPASS("Contrôle si '${tObj.getObjectId()}' est coché")
+			my.Log.addSTEPPASS("Vérifier que '${tObj.getObjectId()}'soit coché")
 		} catch (Exception ex) {
-			my.Log.addSTEPFAIL("Contrôle si '${tObj.getObjectId()}' est coché")
+			my.Log.addSTEPFAIL("Vérifier que '${tObj.getObjectId()}' soit coché")
 			my.Log.addDETAIL(ex.getMessage())
 		}
 	}
@@ -178,10 +178,10 @@ class KW {
 	static boolean verifyElementNotPresent(TestObject tObj, int timeOut = GlobalVariable.TIMEOUT) {
 		try {
 			WebUI.verifyElementNotPresent(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
-			my.Log.addSTEPPASS("Contrôle que '${tObj.getObjectId()}' n'est plus présent")
+			my.Log.addSTEPPASS("Vérifier que '${tObj.getObjectId()}' ne soit plus présent")
 			return true
 		} catch (Exception ex) {
-			my.Log.addSTEPFAIL("Contrôle que '${tObj.getObjectId()}' n'est plus présent")
+			my.Log.addSTEPFAIL("Vérifier que '${tObj.getObjectId()}' ne soit plus présent")
 			my.Log.addDETAIL(ex.getMessage())
 			return false
 		}
@@ -194,10 +194,10 @@ class KW {
 	static boolean verifyElementPresent(TestObject tObj, int timeOut = GlobalVariable.TIMEOUT) {
 		try {
 			WebUI.verifyElementPresent(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
-			my.Log.addSTEPPASS("Contrôle que '${tObj.getObjectId()}' est présent")
+			my.Log.addSTEPPASS("Vérifier que '${tObj.getObjectId()}' soit présent")
 			return true
 		} catch (Exception ex) {
-			my.Log.addSTEPFAIL("Contrôle que '${tObj.getObjectId()}' est présent")
+			my.Log.addSTEPFAIL("Vérifier que '${tObj.getObjectId()}' soit présent")
 			my.Log.addDETAIL(ex.getMessage())
 			return false
 		}
@@ -205,14 +205,16 @@ class KW {
 
 
 
-	static verifyElementText(TestObject tObj, String text)  {
+	static boolean verifyElementText(TestObject tObj, String text)  {
 		String gText = WebUI.getText(tObj)
 		try {
 			WebUI.verifyElementText(tObj, text,FailureHandling.STOP_ON_FAILURE)
 			my.Log.addSTEPPASS("Vérification du texte '$text' sur '" + tObj.getObjectId() + "'")
+			return true
 		} catch (Exception ex) {
 			my.Log.addSTEPFAIL("Vérification du texte '$text' sur '" + tObj.getObjectId() + "' KO, la valeur est '$gText' !")
 			my.Log.addDETAIL(ex.getMessage())
+			return false
 		}
 	} // end of def
 
@@ -221,9 +223,9 @@ class KW {
 	static verifyElementNotChecked(TestObject tObj, int timeOut = GlobalVariable.TIMEOUT) {
 		try {
 			WebUI.verifyElementNotChecked(tObj,timeOut, FailureHandling.STOP_ON_FAILURE)
-			my.Log.addSTEPPASS("Contrôle si '${tObj.getObjectId()}' est décoché")
+			my.Log.addSTEPPASS("Vérifier que '${tObj.getObjectId()}' soit décoché")
 		} catch (Exception ex) {
-			my.Log.addSTEPFAIL("Contrôle si '${tObj.getObjectId()}' est décoché")
+			my.Log.addSTEPFAIL("Vérifier que '${tObj.getObjectId()}' soit décoché")
 			my.Log.addDETAIL(ex.getMessage())
 		}
 	}
@@ -246,9 +248,9 @@ class KW {
 	static waitForElementVisible(TestObject tObj, int timeOut = GlobalVariable.TIMEOUT) {
 		try {
 			WebUI.waitForElementVisible(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
-			my.Log.addSTEPPASS("Contrôle que l'élément '${tObj.getObjectId()}' est visible")
+			my.Log.addSTEPPASS("Vérifier que l'élément '${tObj.getObjectId()}' soit visible")
 		} catch (Exception ex) {
-			my.Log.addSTEPFAIL("Contrôle que l'élément '${tObj.getObjectId()}' est visible")
+			my.Log.addSTEPFAIL("Vérifier que l'élément '${tObj.getObjectId()}' soit visible")
 			my.Log.addDETAIL(ex.getMessage())
 		}
 	} // end of def
@@ -257,23 +259,26 @@ class KW {
 
 
 	static verifyValue(TestObject tObj, String JDDval) {
-		String val = WebUI.getAttribute(tObj, 'Value')
-		if (val==null) my.Log.addERROR("L'attribut 'Value' n'existe pas !")
+		def val = WebUI.getAttribute(tObj, 'value')
+		my.Log.addDEBUG('val.getClass() : ' + val.getClass() + '   ' + val)
+		if (val==null) {
+			my.Log.addERROR("L'attribut 'value' n'existe pas !")
+		}
 		if (val==JDDval) {
-			my.Log.addSTEPPASS("Vérifier la valeur de '" + tObj.getObjectId() + "', valeur='$JDDval'")
+			my.Log.addSTEPPASS("Vérifier que la valeur de '" + tObj.getObjectId() + "', soit '$JDDval'")
 		}else if (JDDval==my.JDDKW.getKW_NULL() && val=='') {
-			my.Log.addSTEPPASS("Vérifier la valeur de '" + tObj.getObjectId() + "', valeur= Null ou Vide")
+			my.Log.addSTEPPASS("Vérifier que la valeur de '" + tObj.getObjectId() + "', soit Null ou Vide")
 		}else {
-			my.Log.addSTEPFAIL("Vérifier la valeur de '" + "KO, la valeur est '" + WebUI.getAttribute(tObj, 'Value') + "' !")
+			my.Log.addSTEPFAIL("Vérifier la valeur de '" + tObj.getObjectId() + "' KO, valeur attendue '$JDDval', valeur du champ '" + WebUI.getAttribute(tObj, 'value') + "' !")
 		}
 	} // end of def
 
 
 	static verifyOptionSelectedByValue(TestObject tObj, String val, boolean isRegex = false, int timeOut = GlobalVariable.TIMEOUT) {
 		if (WebUI.verifyOptionSelectedByValue(tObj, val, isRegex, timeOut)) {
-			my.Log.addSTEPPASS("Vérifier si l'option '$val' de '" + tObj.getObjectId() + "' est sélectionnée")
+			my.Log.addSTEPPASS("Vérifier que l'option '$val' de '" + tObj.getObjectId() + "' soit sélectionnée")
 		}else{
-			my.Log.addSTEPFAIL("KO, l'option '$val' de '" + tObj.getObjectId() + "' n'est pas sélectionnée !")
+			my.Log.addSTEPFAIL("Vérifier que l'option '$val' de '" + tObj.getObjectId() + "' soit sélectionnée KO")
 		}
 	}
 
@@ -362,10 +367,10 @@ class KW {
 
 
 
-	static waitAndVerifyElementText(TestObject tObj, String text, int timeOut = GlobalVariable.TIMEOUT)  {
+	static boolean waitAndVerifyElementText(TestObject tObj, String text, int timeOut = GlobalVariable.TIMEOUT)  {
 
 		this.waitForElementVisible(tObj, timeOut)
-		this.verifyElementText(tObj, text)
+		return this.verifyElementText(tObj, text)
 	} // end of def
 
 
@@ -392,28 +397,28 @@ class KW {
 		boolean etat = WebUI.getAttribute(tObj, 'checked')=='yes'
 		if (cond) {
 			if (etat) {
-				my.Log.addSTEPPASS("Cocher case à cocher '" + tObj.getObjectId() + "'")
+				my.Log.addSTEPPASS("Cocher la case à cocher '" + tObj.getObjectId() + "'")
 				my.Log.addDETAIL("déjà cochée")
 			}else {
 				String msg = this.sendKeys(tObj, Keys.chord(Keys.SPACE))
 				if (msg) {
-					my.Log.addSTEPFAIL("Cocher case à cocher '" + tObj.getObjectId() + "'")
+					my.Log.addSTEPFAIL("Cocher la case à cocher '" + tObj.getObjectId() + "'")
 					my.Log.addDETAIL(msg)
 				}else {
-					my.Log.addSTEPPASS("Cocher case à cocher '" + tObj.getObjectId() + "'")
+					my.Log.addSTEPPASS("Cocher la case à cocher '" + tObj.getObjectId() + "'")
 				}
 			}
 		}else {
 			if (!etat) {
-				my.Log.addSTEPPASS("Décocher case à cocher '" + tObj.getObjectId() + "'")
+				my.Log.addSTEPPASS("Décocher la case à cocher '" + tObj.getObjectId() + "'")
 				my.Log.addDETAIL("déjà décochée")
 			}else {
 				String msg = this.sendKeys(tObj, Keys.chord(Keys.SPACE))
 				if (msg) {
-					my.Log.addSTEPFAIL("Décocher case à cocher '" + tObj.getObjectId() + "'")
+					my.Log.addSTEPFAIL("Décocher la case à cocher '" + tObj.getObjectId() + "'")
 					my.Log.addDETAIL(msg)
 				}else {
-					my.Log.addSTEPPASS("Décocher case à cocher '" + tObj.getObjectId() + "'")
+					my.Log.addSTEPPASS("Décocher la case à cocher '" + tObj.getObjectId() + "'")
 				}
 			}
 		}
@@ -428,6 +433,65 @@ class KW {
 			this.verifyElementChecked(tObj,timeOut)
 		}else {
 			this.verifyElementNotChecked(tObj,timeOut)
+		}
+	}
+
+
+
+
+	static getCheckBoxImgStatus(TestObject tObj)  {
+		if (WebUI.getAttribute(tObj, 'src').endsWith('133.gif')) {
+			return true
+		}else if (WebUI.getAttribute(tObj, 'src').endsWith('134.gif')) {
+			return false
+		}else {
+			my.Log.addERROR("L'attribut src de l'objet " + tObj.getObjectId() + " n'est pas conforme, la valeur est : " + WebUI.getAttribute(tObj, 'src'))
+			return null
+		}
+	}
+
+
+	static verifyCheckBoxImgChecked(TestObject tObj)  {
+
+		def etat = this.getCheckBoxImgStatus(tObj)
+		if (etat ==null) {
+			// l'erreur est déjà remontée par getCheckBoxImgStatus
+		}else if (etat) {
+			my.Log.addSTEPPASS("Vérifier que la case à cocher (img) '" + tObj.getObjectId() + "' soit cochée")
+		}else {
+			my.Log.addSTEPFAIL("Vérifier que la case à cocher (img) '" + tObj.getObjectId() + "' soit cochée")
+		}
+
+	}
+
+
+	static verifyCheckBoxImgNotChecked(TestObject tObj)  {
+
+		def etat = this.getCheckBoxImgStatus(tObj)
+		if (etat ==null) {
+			// l'erreur est déjà remontée par getCheckBoxImgStatus
+		}else if (!etat) {
+			my.Log.addSTEPPASS("Vérifier que la case à cocher (img) '" + tObj.getObjectId() + "' soit cochée")
+		}else {
+			my.Log.addSTEPFAIL("Vérifier que la case à cocher (img) '" + tObj.getObjectId() + "' soit cochée")
+		}
+	}
+
+
+
+
+
+	static verifyImgCheckedOrNot(TestObject tObj, boolean cond, int timeOut = GlobalVariable.TIMEOUT) {
+		if (cond) {
+			this.verifyCheckBoxImgChecked(tObj)
+		}else {
+			this.verifyCheckBoxImgNotChecked(tObj)
+		}
+	}
+
+	static verifyImg(TestObject tObj, boolean cond, int timeOut = GlobalVariable.TIMEOUT) {
+		if (cond) {
+			this.verifyElementPresent(tObj, timeOut)
 		}
 	}
 

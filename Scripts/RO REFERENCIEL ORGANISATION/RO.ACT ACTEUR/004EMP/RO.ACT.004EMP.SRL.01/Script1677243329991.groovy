@@ -32,6 +32,10 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		myJDD.setCasDeTestNum(i)
 		
         KW.waitAndVerifyElementText(myJDD.makeTO('ID_NUMREF'), myJDD.getStrData('ID_NUMREF'))
+		
+		KW.verifyImgCheckedOrNot(myJDD.makeTO('ST_DEF'),myJDD.getStrData('ST_DEF')=='O')
+		
+		KW.verifyImg(myJDD.makeTO('span_ST_TYP_emp'),myJDD.getStrData('ST_TYP')=='EMP')
 
 		if (myJDD.getData('DT_DATDEB',i) != '$VIDE') {
 			

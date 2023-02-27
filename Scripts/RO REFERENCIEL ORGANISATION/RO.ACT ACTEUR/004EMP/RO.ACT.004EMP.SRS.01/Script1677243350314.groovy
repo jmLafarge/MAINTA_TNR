@@ -25,33 +25,24 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		KW.waitForElementVisible(myJDD.makeTO('a_ZoneSelected'))
 		
 		'Boucle sur les lignes d\'un même TC'
-	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
+	    //for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
+		for (i in 2..1) {
 			
 			myJDD.setCasDeTestNum(i)
 	
 	        KW.waitAndVerifyElementText(myJDD.makeTO('ID_NUMREF'), myJDD.getStrData('ID_NUMREF'))
-		
-	        'Supression'
-			KW.scrollAndClick(myJDD.makeTO('span_Supprime_Emplacement'))
-		        
-			for ( n in 2..4) {
-				'Suppression'
+			
+			if (myJDD.getStrData('ST_DEF')=='N' || i==1) {
+		        'Supression'
 				KW.scrollAndClick(myJDD.makeTO('span_Supprime_Emplacement'))
-				if (KW.waitAndAcceptAlert()) {	
-					WebUI.delay(1)	
-					KW.verifyElementNotPresent(myJDD.makeTO('ID_NUMREF'))
-					break
-				}else {
-					my.Log.addSTEP(n+"eme tentative de suppression" )
-				}
+				WebUI.delay(1)	
+				KW.verifyElementNotPresent(myJDD.makeTO('ID_NUMREF'))
 			}
 	    }
 		
+	my.Log.addSTEPGRP('CONTROLE')
 	'Vérification en BD que l\'objet n\'existe plus'
-	my.SQL.checkIDNotInBD(myJDD)
-	
-	
-	
+	my.SQL.checkIDNotInBD(myJDD)		
 
 } // fin du if
 
