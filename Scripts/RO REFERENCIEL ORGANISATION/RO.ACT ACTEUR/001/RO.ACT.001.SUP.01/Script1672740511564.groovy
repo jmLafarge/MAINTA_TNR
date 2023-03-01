@@ -29,15 +29,15 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
 	 * SOLUTION on boucle 3x 
 	 */
 	
-	for ( n in 2..4) {
-		'Suppression'
+	'Suppression'
+	for ( n in 1..3) {
+		my.Log.addSUBSTEP("Tentative de suppression $n/3" )
 		KW.scrollAndClick(myJDD.makeTO('button_Supprimer'))
-		if (KW.waitAndAcceptAlert()) {
+		if (KW.waitAndAcceptAlert(GlobalVariable.TIMEOUT,'WARNING')) {
+			WebUI.delay(1)
 			'Vérification du test case - écran'
 			NAV.verifierEcranGrille()
 			break
-		}else {
-			my.Log.addSTEP(n+"eme tentative de suppression" )
 		}
 	}
 	

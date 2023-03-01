@@ -1,5 +1,6 @@
 package my
 
+
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -21,83 +22,83 @@ public class Result {
 	private static CellStyle cellStyle_time
 	private static CellStyle cellStyle_duration
 	private static CellStyle cellStyle_date
+	
 	private static CellStyle cellStyle_PASS
+	private static CellStyle cellStyle_WARNING
 	private static CellStyle cellStyle_FAIL
-	private static CellStyle cellStyle_ERR
+	private static CellStyle cellStyle_ERROR
+	
+	private static CellStyle cellStyle_TOT
+	private static CellStyle cellStyle_PASSTOT
+	private static CellStyle cellStyle_WARNINGTOT
+	private static CellStyle cellStyle_FAILTOT
+	private static CellStyle cellStyle_ERRORTOT
+	private static CellStyle cellStyle_STEPTOT
+	
 	private static CellStyle cellStyle_status
-	//private static CellStyle cellStyle_warning
 
 	private static Date startDate
 	private static int totalPASS = 0
+	private static int totalWARNING = 0
 	private static int totalFAIL = 0
 	private static int totalERROR = 0
-	//private static int totalWARNING = 0
+	
+	private static int totalStepPASS = 0
+	private static int totalStepWARNING = 0
+	private static int totalStepFAIL = 0
+	private static int totalStepERROR = 0
+
 
 
 	static public addCasDeTest(String casDeTestName, Map status, Date start, stop) {
 
 		Row row = this.shRESULT.createRow(this.lineNumber)
 
-		row.createCell(0).setCellValue(casDeTestName)
+		my.XLS.writeCell(row,0,casDeTestName)
 
-		Cell cell = row.createCell(1)
+		if (status.ERROR !=0 ) {
 
-		if (status.ERROR ==0 && status.FAIL == 0 && status.PASS != 0) {
-			cell.setCellStyle(this.cellStyle_PASS)
-			cell.setCellValue('PASS')
-			this.totalPASS++
-		}else if (status.ERROR ==0 && status.FAIL != 0 ) {
-			cell.setCellStyle(this.cellStyle_FAIL)
-			cell.setCellValue('FAIL')
-			this.totalFAIL++
-		}else if (status.ERROR !=0 ) {
-			cell.setCellStyle(this.cellStyle_ERR)
-			cell.setCellValue('ERROR')
+			my.XLS.writeCell(row,1,'ERROR',this.cellStyle_ERROR)
 			this.totalERROR++
+		}else if (status.FAIL != 0 ) {
+			my.XLS.writeCell(row,1,'FAIL',this.cellStyle_FAIL)
+			this.totalFAIL++
+		}else if (status.WARNING != 0 ) {
+			my.XLS.writeCell(row,1,'WARNING',this.cellStyle_WARNING)
+			this.totalWARNING++
+		}else {
+			my.XLS.writeCell(row,1,'PASS',this.cellStyle_PASS)
+			this.totalPASS++
 		}
 
-		//if (status.WARNING>0) this.totalWARNING++
-
-		int total = status.PASS + status.FAIL + status.ERROR
+		int total = status.PASS + status.WARNING + status.FAIL + status.ERROR
 		
+		this.totalStepPASS += status.PASS
+		this.totalStepWARNING += status.WARNING
+		this.totalStepFAIL += status.FAIL
+		this.totalStepERROR += status.ERROR
+
 		if (status.PASS!=0) {
-			cell = row.createCell(2)
-			cell.setCellValue("${status.PASS} / $total")
-			cell.setCellStyle(this.cellStyle_status)
+			my.XLS.writeCell(row,2,"${status.PASS} / $total",this.cellStyle_status)
 		}
-		
-		if (status.FAIL!=0) {
-			cell = row.createCell(3)
-			cell.setCellValue("${status.FAIL} / $total ")
-			cell.setCellStyle(this.cellStyle_status)
-		}
-		
-		if (status.ERROR!=0) {
-			cell = row.createCell(4)
-			cell.setCellValue("${status.ERROR} / $total ")
-			cell.setCellStyle(this.cellStyle_status)
-		}
-		
-		/*
+
 		if (status.WARNING!=0) {
-			cell = row.createCell(5)
-			cell.setCellValue(status.WARNING.toString())
-			cell.setCellStyle(this.cellStyle_warning)
+			my.XLS.writeCell(row,3,"${status.WARNING} / $total",this.cellStyle_status)
 		}
-		*/
 
-		cell = row.createCell(5)
-		cell.setCellValue(start)
-		cell.setCellStyle(this.cellStyle_time)
+		if (status.FAIL!=0) {
+			my.XLS.writeCell(row,4,"${status.FAIL} / $total",this.cellStyle_status)
+		}
 
-		cell = row.createCell(6)
-		cell.setCellValue(stop)
-		cell.setCellStyle(this.cellStyle_time)
+		if (status.ERROR!=0) {
+			my.XLS.writeCell(row,5,"${status.ERROR} / $total",this.cellStyle_status)
+		}
 
-		cell = row.createCell(7)
-		cell.setCellValue(my.Tools.getDuration(start, stop))
-		cell.setCellStyle(this.cellStyle_duration)
-
+		my.XLS.writeCell(row,6,start,this.cellStyle_time)
+		my.XLS.writeCell(row,7,stop,this.cellStyle_time)
+		my.XLS.writeCell(row,8,my.Tools.getDuration(start, stop),this.cellStyle_duration)
+		
+		
 		this.write()
 
 		this.lineNumber ++
@@ -109,15 +110,10 @@ public class Result {
 	static public addStartInfo() {
 
 		this.startDate = new Date()
-
-		Cell cell = this.shRESUM.getRow(1).getCell(1)
-		cell.setCellValue(this.startDate)
-		cell.setCellStyle(this.cellStyle_date)
-
-		cell = this.shRESUM.getRow(3).getCell(1)
-		cell.setCellValue(this.startDate)
-		cell.setCellStyle(this.cellStyle_time)
-
+		
+		my.XLS.writeCell(this.shRESUM.getRow(1),1,this.startDate,this.cellStyle_date)
+		my.XLS.writeCell(this.shRESUM.getRow(3),1,this.startDate,this.cellStyle_time)
+		
 		this.write()
 	}
 
@@ -126,45 +122,34 @@ public class Result {
 
 		Date endDate = new Date()
 
-		this.writeCell(this.shRESUM.getRow(4),1,endDate,this.cellStyle_time)
+		my.XLS.writeCell(this.shRESUM.getRow(4),1,endDate,this.cellStyle_time)
 
-		this.writeCell(this.shRESUM.getRow(5),1,my.Tools.getDuration(this.startDate, endDate),this.cellStyle_duration)
+		my.XLS.writeCell(this.shRESUM.getRow(5),1,my.Tools.getDuration(this.startDate, endDate),this.cellStyle_duration)
 
 		Row row = this.shRESUM.getRow(15)
 
-		this.writeCell(row,1,this.totalPASS+ this.totalFAIL+this.totalERROR)
-
-		this.writeCell(row,2,this.totalPASS)
-
-		this.writeCell(row,3,this.totalFAIL)
-
-		this.writeCell(row,4,this.totalERROR)
-
-		//this.writeCell(row,5,this.totalWARNING)
+		my.XLS.writeCell(row,1,this.totalPASS + this.totalWARNING + this.totalFAIL + this.totalERROR,this.cellStyle_TOT)
+		my.XLS.writeCell(row,2,this.totalPASS,this.cellStyle_PASSTOT)
+		my.XLS.writeCell(row,3,this.totalWARNING,this.cellStyle_WARNINGTOT)
+		my.XLS.writeCell(row,4,this.totalFAIL,this.cellStyle_FAILTOT)
+		my.XLS.writeCell(row,5,this.totalERROR,this.cellStyle_ERRORTOT)
+		
+		row = this.shRESUM.getRow(16)
+		
+		my.XLS.writeCell(row,1,this.totalStepPASS + this.totalStepWARNING + this.totalStepFAIL + this.totalStepERROR,this.cellStyle_STEPTOT)
+		my.XLS.writeCell(row,2,this.totalStepPASS,this.cellStyle_STEPTOT)
+		my.XLS.writeCell(row,3,this.totalStepWARNING,this.cellStyle_STEPTOT)
+		my.XLS.writeCell(row,4,this.totalStepFAIL,this.cellStyle_STEPTOT)
+		my.XLS.writeCell(row,5,this.totalStepERROR,this.cellStyle_STEPTOT)
 
 		this.write()
 	}
 
 
 
-	private static writeCell(Row row, int colIdx,def val,CellStyle cellStyle = null) {
-
-		Cell cell = row.getCell(colIdx)
-
-		if (cell == null) { row.createCell(colIdx)}
-		cell = row.getCell(colIdx)
-		cell.setCellValue(val)
-
-		if (cellStyle != null) { cell.setCellStyle(cellStyle)}
-
-	}
-
-
-
 	private static String createFileByCopy() {
 
-
-		Path source = Paths.get(my.PropertiesReader.getMyProperty('RES_PATH') + File.separator + my.PropertiesReader.getMyProperty('RES_MODELFILENAME'))
+		Path source = Paths.get(my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('RES_MODELFILENAME'))
 
 		String dateFile = new Date().format("yyyyMMdd_HHmmss")
 		String resFullName = my.PropertiesReader.getMyProperty('RES_PATH') + File.separator + dateFile + my.PropertiesReader.getMyProperty('RES_FILENAME')
@@ -202,27 +187,65 @@ public class Result {
 		this.cellStyle_date.setDataFormat( this.createHelper.createDataFormat().getFormat("dd/MM/yyyy"))
 
 		this.cellStyle_PASS = this.book.createCellStyle()
-		this.cellStyle_PASS.setFillForegroundColor(IndexedColors.BRIGHT_GREEN1.index)
+		this.cellStyle_PASS.setFillForegroundColor(IndexedColors.BRIGHT_GREEN.index)
 		this.cellStyle_PASS.setFillPattern(FillPatternType.SOLID_FOREGROUND)
 
+		this.cellStyle_WARNING = this.book.createCellStyle()
+		this.cellStyle_WARNING.setFillForegroundColor(IndexedColors.YELLOW.index)
+		this.cellStyle_WARNING.setFillPattern(FillPatternType.SOLID_FOREGROUND)
+
 		this.cellStyle_FAIL = this.book.createCellStyle()
-		this.cellStyle_FAIL.setFillForegroundColor(IndexedColors.YELLOW1.index)
+		this.cellStyle_FAIL.setFillForegroundColor(IndexedColors.LIGHT_ORANGE.index)
 		this.cellStyle_FAIL.setFillPattern(FillPatternType.SOLID_FOREGROUND)
 
-		this.cellStyle_ERR = this.book.createCellStyle()
-		this.cellStyle_ERR.setFillForegroundColor(IndexedColors.LIGHT_ORANGE.getIndex())
-		this.cellStyle_ERR.setFillPattern(FillPatternType.SOLID_FOREGROUND)
+		this.cellStyle_ERROR = this.book.createCellStyle()
+		this.cellStyle_ERROR.setFillForegroundColor(IndexedColors.ORANGE.index)
+		this.cellStyle_ERROR.setFillPattern(FillPatternType.SOLID_FOREGROUND)
+		
+		def fontTOT = this.book.createFont()
+		fontTOT.setFontName('Arial')
+		fontTOT.setBold(true)
+		fontTOT.setFontHeightInPoints(14 as short)
 
+		this.cellStyle_TOT = this.book.createCellStyle()
+		this.cellStyle_TOT.setFillPattern(FillPatternType.NO_FILL)
+		this.cellStyle_TOT.setVerticalAlignment(VerticalAlignment.CENTER)
+		this.cellStyle_TOT.setAlignment(HorizontalAlignment.RIGHT)
+		this.cellStyle_TOT.setFont(fontTOT)
+		
+		this.cellStyle_PASSTOT = this.book.createCellStyle()
+		this.cellStyle_PASSTOT.cloneStyleFrom(this.cellStyle_TOT)
+		this.cellStyle_PASSTOT.setFillPattern(FillPatternType.SOLID_FOREGROUND)
+		this.cellStyle_PASSTOT.setFillForegroundColor(IndexedColors.BRIGHT_GREEN.index)
+
+		this.cellStyle_WARNINGTOT = this.book.createCellStyle()
+		this.cellStyle_WARNINGTOT.cloneStyleFrom(this.cellStyle_PASSTOT)
+		this.cellStyle_WARNINGTOT.setFillPattern(FillPatternType.SOLID_FOREGROUND)
+		this.cellStyle_WARNINGTOT.setFillForegroundColor(IndexedColors.YELLOW.index)
+
+		this.cellStyle_FAILTOT = this.book.createCellStyle()
+		this.cellStyle_FAILTOT.cloneStyleFrom(this.cellStyle_TOT)
+		this.cellStyle_FAILTOT.setFillPattern(FillPatternType.SOLID_FOREGROUND)
+		this.cellStyle_FAILTOT.setFillForegroundColor(IndexedColors.LIGHT_ORANGE.index)
+
+		this.cellStyle_ERRORTOT = this.book.createCellStyle()
+		this.cellStyle_ERRORTOT.cloneStyleFrom(this.cellStyle_TOT)
+		this.cellStyle_ERRORTOT.setFillPattern(FillPatternType.SOLID_FOREGROUND)
+		this.cellStyle_ERRORTOT.setFillForegroundColor(IndexedColors.ORANGE.index)
+		
+		def font = this.book.createFont()
+		font.setFontName('Arial')
+		font.setFontHeightInPoints(10 as short)
+		
+		this.cellStyle_STEPTOT = this.book.createCellStyle()
+		this.cellStyle_STEPTOT.setFillPattern(FillPatternType.NO_FILL)
+		this.cellStyle_STEPTOT.setVerticalAlignment(VerticalAlignment.CENTER)
+		this.cellStyle_STEPTOT.setAlignment(HorizontalAlignment.RIGHT)
+		//this.cellStyle_STEPTOT.setFont(font)
+		
 		this.cellStyle_status = this.book.createCellStyle()
 		this.cellStyle_status.setAlignment(HorizontalAlignment.RIGHT)
 
-		/*
-		DataFormat format = this.book.createDataFormat()
-		this.cellStyle_warning = this.book.createCellStyle()
-		this.cellStyle_warning.setAlignment(HorizontalAlignment.RIGHT)
-		this.cellStyle_warning.setDataFormat(format.getFormat("0"))
-		*/
-		
 		return resFullName
 
 	}

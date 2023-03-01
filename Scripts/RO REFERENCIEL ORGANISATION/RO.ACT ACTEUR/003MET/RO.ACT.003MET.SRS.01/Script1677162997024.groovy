@@ -1,5 +1,6 @@
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
+import internal.GlobalVariable
 import my.KW
 import my.NAV
 
@@ -31,18 +32,14 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 	        KW.waitAndVerifyElementText(myJDD.makeTO('ID_CODMET'), myJDD.getStrData('ID_CODMET'))
 		
-	        'Supression'
-			KW.scrollAndClick(myJDD.makeTO('span_Supprime_Metier'))
-		        
-			for ( n in 2..4) {
-				'Suppression'
+			'Suppression'
+			for ( n in 1..3) {
+				my.Log.addSUBSTEP("Tentative de suppression $n/3" )
 				KW.scrollAndClick(myJDD.makeTO('span_Supprime_Metier'))
-				if (KW.waitAndAcceptAlert()) {	
+				if (KW.waitAndAcceptAlert(GlobalVariable.TIMEOUT,'WARNING')) {	
 					WebUI.delay(1)	
 					KW.verifyElementNotPresent(myJDD.makeTO('ID_CODMET'))
 					break
-				}else {
-					my.Log.addSTEP(n+"eme tentative de suppression" )
 				}
 			}
 	    }

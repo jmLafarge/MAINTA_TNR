@@ -33,8 +33,8 @@ public class JDDKW {
 	static boolean isSEQUENCEID(def val) {
 		return ((val instanceof String) && val == this.KEYWORD_ALLOWED.getAt('KW_SEQUENCEID'))
 	}
-	
-	
+
+
 
 	static String getKW_VIDE() {
 		return this.KEYWORD_ALLOWED.getAt('KW_VIDE')
@@ -55,7 +55,7 @@ public class JDDKW {
 	static String getKW_ORDRE() {
 		return this.KEYWORD_ALLOWED.getAt('KW_ORDRE')
 	}
-	
+
 	static String getKW_SEQUENCEID() {
 		return this.KEYWORD_ALLOWED.getAt('KW_SEQUENCEID')
 	}

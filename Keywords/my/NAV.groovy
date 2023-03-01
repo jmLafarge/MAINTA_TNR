@@ -39,9 +39,9 @@ class NAV {
 		String code = "E" + fct
 		WebUI.scrollToPosition(0, 0)
 		WebUI.delay(1)
-		KW.click(myGlobalJDD.makeTO('a_Toggle'))
+		KW.click(myGlobalJDD.makeTO('a_Toggle'),'WARNING')
 		WebUI.delay(1)
-		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Ecran'), 'E'+ fct, timeOut)
+		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Ecran'), 'E'+ fct, timeOut,'WARNING')
 	} // end of def
 
 	/**
@@ -53,9 +53,9 @@ class NAV {
 		String code = fct
 		WebUI.scrollToPosition(0, 0)
 		WebUI.delay(1)
-		KW.click(myGlobalJDD.makeTO('a_Toggle'))
+		KW.click(myGlobalJDD.makeTO('a_Toggle'),'WARNING')
 		WebUI.delay(1)
-		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Ecran'), code,timeOut)
+		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Ecran'), code,timeOut,'WARNING')
 	} // end of def
 
 	/**
@@ -66,9 +66,9 @@ class NAV {
 		String code = fct + " - Création"
 		WebUI.scrollToPosition(0, 0)
 		WebUI.delay(1)
-		KW.click(myGlobalJDD.makeTO('a_Toggle'))
+		KW.click(myGlobalJDD.makeTO('a_Toggle'),'WARNING')
 		WebUI.delay(1)
-		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Ecran'), code,timeOut)
+		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Ecran'), code,timeOut,'WARNING')
 	} // end of def
 
 	/**
@@ -79,10 +79,10 @@ class NAV {
 		String code = fct + " - Consultation ou modification"
 		WebUI.scrollToPosition(0, 0)
 		WebUI.delay(1)
-		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Selection'), id,timeOut)
-		KW.click(myGlobalJDD.makeTO('a_Toggle'))
+		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Selection'), id,timeOut,'WARNING')
+		KW.click(myGlobalJDD.makeTO('a_Toggle'),'WARNING')
 		WebUI.delay(1)
-		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Ecran'), code,timeOut)
+		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Ecran'), code,timeOut,'WARNING')
 	} // end of def
 
 

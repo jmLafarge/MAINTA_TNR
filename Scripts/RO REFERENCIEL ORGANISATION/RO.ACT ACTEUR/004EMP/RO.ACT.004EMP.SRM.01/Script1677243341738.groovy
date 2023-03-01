@@ -2,6 +2,7 @@ import org.openqa.selenium.Keys
 
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
+import internal.GlobalVariable
 import my.KW
 import my.NAV
 
@@ -35,15 +36,13 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 			
 			if (etat_ST_DEF != null) {
 				if (myJDD.getStrData('ST_DEF')=='O' && !etat_ST_DEF) {
-					for ( n in 2..4) {
-						'Mettre par défaut'
+					'Mettre par défaut'
+					for ( n in 1..3) {
+						my.Log.addSTEP("Tentative pour cocher la valeur par défaut $n/3" )
 						KW.scrollAndClick(myJDD.makeTO('ST_DEF'))
-						if (KW.waitAndAcceptAlert()) {
+						if (KW.waitAndAcceptAlert(GlobalVariable.TIMEOUT,'WARNING')) {
 							WebUI.delay(1)
 							KW.verifyCheckBoxImgChecked(myJDD.makeTO('ST_DEF'))
-							break
-						}else {
-							my.Log.addSTEP(n+"eme tentative pour cocher la valeur par défaut" )
 						}
 					}
 				}else if (myJDD.getStrData('ST_DEF')=='O' && etat_ST_DEF) {

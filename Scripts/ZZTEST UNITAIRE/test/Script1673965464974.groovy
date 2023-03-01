@@ -1,4 +1,4 @@
 
-String str = 'jjjjs qshjsq toto'
+my.Log.addTITLE('Mon titre de oufx', '*', 100)
 
-println str.endsWith('toto')
+my.Log.addTITLE2('Mon titre de oufx', '*', 100)

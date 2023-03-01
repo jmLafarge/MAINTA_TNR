@@ -11,21 +11,6 @@ import my.NAV
 
 'Lecture du JDD'
 def myJDD = new my.JDD()
-
-/*test 
-NAV.goToURL_Creation('21')
-
-		'Clic sur le bon onglet'
-		KW.scrollAndClick(myJDD.makeTO('a_Role'))
-		
-		'Vérification de l\'onglet'
-		KW.waitForElementVisible(myJDD.makeTO('a_RoleSelected'))
-		
-		'Début de sasie des valeurs du JDD'
-		KW.scrollAndCheckIfNeeded(myJDD.makeTO('ST_GES'),false)
-		KW.scrollAndCheckIfNeeded(myJDD.makeTO('ST_EXP'),true)
-*/
-
 		
 		
 'Si il y a un test case'

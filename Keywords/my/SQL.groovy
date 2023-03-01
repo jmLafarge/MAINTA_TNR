@@ -434,13 +434,18 @@ public class SQL {
 
 	static insertSQL(String req) {
 		try {
-			def keys = this.sql.executeInsert req
-			// dans le cas où il y a un ID auto ?
-			//println keys.getClass()
-			//println keys
+			def nbRowInserted = this.sql.executeInsert req
+			if (nbRowInserted <= 0) {
+				my.Log.addDEBUG("insertSQL($req) OK, nombre de ligne inséré : ${nbRowInserted}")
+			}else {
+				my.Log.addERROR("Erreur d'execution de insertSQL() : $req")
+			}
+			return nbRowInserted
 		}
-		catch(Exception e) {
-			my.Log.addERROR("Erreur d'execution de insertSQL() : " + e)
+		catch(Exception ex) {
+			my.Log.addERROR("Erreur d'execution de insertSQL() : ")
+			my.Log.addDETAIL(ex.getMessage())
+			return false
 		}
 
 	}
@@ -459,8 +464,9 @@ public class SQL {
 			my.Log.addDETAIL("get Max '$fieldName From Table '$tableName' = $num")
 			return num
 		}
-		catch(Exception e) {
-			my.Log.addERROR("Erreur d'execution de getMaxFromTable() : " + e)
+		catch(Exception ex) {
+			my.Log.addERROR("Erreur d'execution de getMaxFromTable() : ")
+			my.Log.addDETAIL(ex.getMessage())
 		}
 		return
 	}

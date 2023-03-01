@@ -16,6 +16,18 @@ public class XLS {
 	}
 
 
+	
+	static writeCell(Row row, int colIdx,def val,CellStyle cellStyle = null) {
+		
+		Cell cell = row.getCell(colIdx)
+
+		if (cell == null) { row.createCell(colIdx)}
+		cell = row.getCell(colIdx)
+		cell.setCellValue(val)
+
+		if (cellStyle != null) { cell.setCellStyle(cellStyle)}
+
+	}
 
 
 

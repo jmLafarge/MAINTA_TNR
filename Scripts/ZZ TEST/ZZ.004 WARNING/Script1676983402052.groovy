@@ -1,3 +1,3 @@
 
-my.Log.addWARNING("c'est un warning")
+my.Log.addWARNING("warning")
 
