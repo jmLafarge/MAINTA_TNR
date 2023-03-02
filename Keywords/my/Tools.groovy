@@ -1,9 +1,26 @@
 package my
 
+import org.openqa.selenium.Capabilities
+import org.openqa.selenium.WebDriver
+
+import com.kms.katalon.core.configuration.RunConfiguration
+import com.kms.katalon.core.webui.driver.DriverFactory
+import com.kms.katalon.core.webui.driver.SmartWaitWebDriver
+
 import groovy.time.TimeCategory
 import groovy.time.TimeDuration
 
 class Tools {
+
+
+	static getBrowserAndVersion() {
+		WebDriver driver = DriverFactory.getWebDriver()
+		Capabilities caps = ((SmartWaitWebDriver) driver).getCapabilities()
+		String browserName = caps.getBrowserName().capitalize()
+		String browserVersion = caps.getVersion()
+		return [NAME:browserName , VERSION:browserVersion]
+	}
+
 
 
 

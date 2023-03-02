@@ -5,7 +5,8 @@
  * EN COURS
  * -----------------------------------------------------------------------------------------------------
  *
- * Dans le Log mettre plotot un total de step plutot que 12/12
+ * 
+ *  mettre un timeout plus grand pour les alert ?
  *
  *
  * 	REVOIR la suppression des emplacements par rapport à ST_DEF pour rendre automatique le truc
@@ -62,7 +63,7 @@
  * LOG : Ajouter def var en para d'un DEBUG pour parser un map , un list,...
  * LOG : faire le log à 0 et faire un autre à 1 2 ou 3
  * 
- * 
+ * RESULT : faire un plan avec les STEPs
  * 
  * 
  * 

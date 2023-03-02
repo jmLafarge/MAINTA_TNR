@@ -28,6 +28,7 @@ class KW {
 		try {
 			WebUI.openBrowser(url, FailureHandling.STOP_ON_FAILURE)
 			my.Log.addSTEPPASS("Ouverture du navigateur à l'URL : $url")
+			my.Result.addBrowserInfo()
 		} catch (Exception ex) {
 			my.Log.addSTEPFAIL("Ouverture du navigateur à l'URL : $url")
 			my.Log.addDETAIL(ex.getMessage())
@@ -84,7 +85,7 @@ class KW {
 
 
 	static click(TestObject tObj, String status = 'FAIL') {
-		
+
 		try {
 			WebUI.click(tObj, FailureHandling.STOP_ON_FAILURE)
 			my.Log.addSTEPPASS("Clic sur '" + tObj.getObjectId() + "'")

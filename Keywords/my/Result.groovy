@@ -16,25 +16,25 @@ public class Result {
 	private static Sheet shRESUM
 	private static Sheet shRESULT
 
-	private static int lineNumber = 1	// casDeTest first line
+	private static int lineNumber = 2	// casDeTest first line
 
 	private static CreationHelper createHelper
 	private static CellStyle cellStyle_time
 	private static CellStyle cellStyle_duration
 	private static CellStyle cellStyle_date
-	
+
 	private static CellStyle cellStyle_PASS
 	private static CellStyle cellStyle_WARNING
 	private static CellStyle cellStyle_FAIL
 	private static CellStyle cellStyle_ERROR
-	
+
 	private static CellStyle cellStyle_TOT
 	private static CellStyle cellStyle_PASSTOT
 	private static CellStyle cellStyle_WARNINGTOT
 	private static CellStyle cellStyle_FAILTOT
 	private static CellStyle cellStyle_ERRORTOT
 	private static CellStyle cellStyle_STEPTOT
-	
+
 	private static CellStyle cellStyle_status
 
 	private static Date startDate
@@ -42,7 +42,7 @@ public class Result {
 	private static int totalWARNING = 0
 	private static int totalFAIL = 0
 	private static int totalERROR = 0
-	
+
 	private static int totalStepPASS = 0
 	private static int totalStepWARNING = 0
 	private static int totalStepFAIL = 0
@@ -72,47 +72,65 @@ public class Result {
 		}
 
 		int total = status.PASS + status.WARNING + status.FAIL + status.ERROR
-		
+
 		this.totalStepPASS += status.PASS
 		this.totalStepWARNING += status.WARNING
 		this.totalStepFAIL += status.FAIL
 		this.totalStepERROR += status.ERROR
 
+		my.XLS.writeCell(row,2,total,this.cellStyle_status)
+
 		if (status.PASS!=0) {
-			my.XLS.writeCell(row,2,"${status.PASS} / $total",this.cellStyle_status)
+			my.XLS.writeCell(row,3,status.PASS,this.cellStyle_status)
 		}
 
 		if (status.WARNING!=0) {
-			my.XLS.writeCell(row,3,"${status.WARNING} / $total",this.cellStyle_status)
+			my.XLS.writeCell(row,4,status.WARNING,this.cellStyle_status)
 		}
 
 		if (status.FAIL!=0) {
-			my.XLS.writeCell(row,4,"${status.FAIL} / $total",this.cellStyle_status)
+			my.XLS.writeCell(row,5,status.FAIL,this.cellStyle_status)
 		}
 
 		if (status.ERROR!=0) {
-			my.XLS.writeCell(row,5,"${status.ERROR} / $total",this.cellStyle_status)
+			my.XLS.writeCell(row,6,status.ERROR,this.cellStyle_status)
 		}
 
-		my.XLS.writeCell(row,6,start,this.cellStyle_time)
-		my.XLS.writeCell(row,7,stop,this.cellStyle_time)
-		my.XLS.writeCell(row,8,my.Tools.getDuration(start, stop),this.cellStyle_duration)
-		
-		
+		my.XLS.writeCell(row,7,start,this.cellStyle_time)
+		my.XLS.writeCell(row,8,stop,this.cellStyle_time)
+		my.XLS.writeCell(row,9,my.Tools.getDuration(start, stop),this.cellStyle_duration)
+
+
 		this.write()
 
 		this.lineNumber ++
 
 	}
 
+	static public addBrowserInfo() {
+		
+		def browser = my.Tools.getBrowserAndVersion()
+		
+		my.XLS.writeCell(this.shRESUM.getRow(11),1,browser.NAME)
+		my.XLS.writeCell(this.shRESUM.getRow(12),1,browser.VERSION)
 
+		this.write()
+	}
+		
 
 	static public addStartInfo() {
 
 		this.startDate = new Date()
-		
+
 		my.XLS.writeCell(this.shRESUM.getRow(1),1,this.startDate,this.cellStyle_date)
 		my.XLS.writeCell(this.shRESUM.getRow(3),1,this.startDate,this.cellStyle_time)
+		
+		
+		my.XLS.writeCell(this.shRESUM.getRow(8),1,System.getProperty("os.name"))
+		my.XLS.writeCell(this.shRESUM.getRow(9),1,System.getProperty("os.version"))
+		my.XLS.writeCell(this.shRESUM.getRow(10),1,System.getProperty("os.arch"))
+		
+		
 		
 		this.write()
 	}
@@ -133,9 +151,9 @@ public class Result {
 		my.XLS.writeCell(row,3,this.totalWARNING,this.cellStyle_WARNINGTOT)
 		my.XLS.writeCell(row,4,this.totalFAIL,this.cellStyle_FAILTOT)
 		my.XLS.writeCell(row,5,this.totalERROR,this.cellStyle_ERRORTOT)
-		
+
 		row = this.shRESUM.getRow(16)
-		
+
 		my.XLS.writeCell(row,1,this.totalStepPASS + this.totalStepWARNING + this.totalStepFAIL + this.totalStepERROR,this.cellStyle_STEPTOT)
 		my.XLS.writeCell(row,2,this.totalStepPASS,this.cellStyle_STEPTOT)
 		my.XLS.writeCell(row,3,this.totalStepWARNING,this.cellStyle_STEPTOT)
@@ -201,7 +219,7 @@ public class Result {
 		this.cellStyle_ERROR = this.book.createCellStyle()
 		this.cellStyle_ERROR.setFillForegroundColor(IndexedColors.ORANGE.index)
 		this.cellStyle_ERROR.setFillPattern(FillPatternType.SOLID_FOREGROUND)
-		
+
 		def fontTOT = this.book.createFont()
 		fontTOT.setFontName('Arial')
 		fontTOT.setBold(true)
@@ -212,7 +230,7 @@ public class Result {
 		this.cellStyle_TOT.setVerticalAlignment(VerticalAlignment.CENTER)
 		this.cellStyle_TOT.setAlignment(HorizontalAlignment.RIGHT)
 		this.cellStyle_TOT.setFont(fontTOT)
-		
+
 		this.cellStyle_PASSTOT = this.book.createCellStyle()
 		this.cellStyle_PASSTOT.cloneStyleFrom(this.cellStyle_TOT)
 		this.cellStyle_PASSTOT.setFillPattern(FillPatternType.SOLID_FOREGROUND)
@@ -232,17 +250,17 @@ public class Result {
 		this.cellStyle_ERRORTOT.cloneStyleFrom(this.cellStyle_TOT)
 		this.cellStyle_ERRORTOT.setFillPattern(FillPatternType.SOLID_FOREGROUND)
 		this.cellStyle_ERRORTOT.setFillForegroundColor(IndexedColors.ORANGE.index)
-		
+
 		def font = this.book.createFont()
 		font.setFontName('Arial')
 		font.setFontHeightInPoints(10 as short)
-		
+
 		this.cellStyle_STEPTOT = this.book.createCellStyle()
 		this.cellStyle_STEPTOT.setFillPattern(FillPatternType.NO_FILL)
 		this.cellStyle_STEPTOT.setVerticalAlignment(VerticalAlignment.CENTER)
 		this.cellStyle_STEPTOT.setAlignment(HorizontalAlignment.RIGHT)
 		//this.cellStyle_STEPTOT.setFont(font)
-		
+
 		this.cellStyle_status = this.book.createCellStyle()
 		this.cellStyle_status.setAlignment(HorizontalAlignment.RIGHT)
 

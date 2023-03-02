@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestCaseEntity>
    <description></description>
-   <name>AD.SEC.001.FON.01 Ouvrir session - Copy</name>
+   <name>ZZ.005 Open and close browser</name>
    <tag></tag>
    <comment></comment>
-   <testCaseGuid>e18b12ab-4f13-48d2-982f-3e1b5f3d2a96</testCaseGuid>
+   <testCaseGuid>9f6eb91f-6c5b-4e29-b7c1-5c6f37ca59d5</testCaseGuid>
 </TestCaseEntity>
