@@ -6,13 +6,11 @@
  * -----------------------------------------------------------------------------------------------------
  *
  * 
- *  mettre un timeout plus grand pour les alert ?
- *
+ * 
  *
  * 	REVOIR la suppression des emplacements par rapport à ST_DEF pour rendre automatique le truc
  * 
- * 	Ajouter une lecture du max table avant la validation de l'ajout dans le cas replaceSEQUENCIDInJDD pour vérifier qu'on a bien inserer qq chose
- * 
+ *
  *
  *
  * Inclure getDataLine dans getData

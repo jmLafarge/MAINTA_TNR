@@ -132,7 +132,7 @@ public class JDD {
 			if (my.XLS.getCellValue(row.getCell(0)) in this.PARAM_LIST_ALLOWED) {
 				this.params << my.XLS.loadRow(row,this.headers.size())
 			}else {
-				my.Log.addDETAILFAIL("- Le paramètre '" +  my.XLS.getCellValue(row.getCell(0)) + "' n'est pas autorisé")
+				my.Log.addERROR("Le paramètre '" +  my.XLS.getCellValue(row.getCell(0)) + "' n'est pas autorisé")
 			}
 		}
 		my.Log.addDEBUG('params.size = ' + this.params.size())
@@ -442,6 +442,18 @@ public class JDD {
 	}
 
 
+	
+	public readSEQUENCID() {
+		int dataLineNum = this.getDataLineNum()
+		this.datas[dataLineNum].eachWithIndex { val,i ->
+			if (my.JDDKW.isSEQUENCEID(val)) {
+				my.Log.addSTEP("Récupération de la séquence actuelle de ${this.headers[i]} ")
+				my.SQL.getMaxFromTable(this.headers[i], this.getDBTableName())
+			}
+		}
+	}
+	
+	
 	public replaceSEQUENCIDInJDD() {
 		int dataLineNum = this.getDataLineNum()
 		this.datas[dataLineNum].eachWithIndex { val,i ->

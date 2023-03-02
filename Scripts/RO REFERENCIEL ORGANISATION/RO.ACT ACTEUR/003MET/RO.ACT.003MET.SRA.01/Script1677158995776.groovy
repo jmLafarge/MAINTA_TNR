@@ -31,6 +31,10 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
 			
+			if (myJDD.getNbrLigneCasDeTest()>1) {
+				my.Log.addSTEPLOOP("Ajout $i / " + myJDD.getNbrLigneCasDeTest())
+			}
+			
 			myJDD.setCasDeTestNum(i)
 	
 			'Ajout'

@@ -29,6 +29,16 @@ class NAV {
 	}
 
 
+	/**
+	 * Vérifier écran 
+	 */
+	static public verifierCartridge(String txt, int timeOut = GlobalVariable.TIMEOUT) {
+		WebUI.scrollToPosition(0, 0)
+		WebUI.delay(1)
+		KW.click(myGlobalJDD.makeTO('a_Toggle'),'WARNING')
+		WebUI.delay(1)
+		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Ecran'), txt,timeOut,'WARNING')
+	} // end of def
 
 
 	/**

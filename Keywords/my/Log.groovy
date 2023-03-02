@@ -70,47 +70,29 @@ class Log {
 	}
 
 
-	/*
-	 *
-	 */
+
 	static public addWARNING (String msg) {
-
 		this.add('WARNING',msg )
-		this.status.WARNING++
 	}
 
-	/*
-	 *
-	 */
+
 	static public addFAIL (String msg) {
-
 		this.add('FAIL',msg )
-		this.status.FAIL++
 	}
 
-	/*
-	 *
-	 */
+
 	static public addPASS (String msg) {
-
 		this.add('PASS',msg )
-		this.status.PASS++
 	}
 
 
-	/*
-	 *
-	 */
 	static public addERROR (String msg) {
-
 		this.add('ERROR',msg )
 		this.status.ERROR++
 	}
 
 
-	/*
-	 *
-	 */
+
 	static public addDEBUG (String msg, int level=1) {
 
 		if (level <= this.debugLevel) {
@@ -123,24 +105,16 @@ class Log {
 
 
 	static public addDETAIL (String msg) {
-
 		this.addINFO(this.PREDETAILTXT+ msg)
-	}
-
-	static public addDETAILPASS (String msg) {
-
-		this.addPASS(this.PREDETAILTXT+ msg)
 	}
 
 
 	static public addDETAILFAIL (String msg) {
-
 		this.addFAIL(this.PREDETAILTXT+ msg)
 	}
 
 
 	static public addSTEP (String msg, String status = null) {
-
 		switch (status) {
 			case null :
 				this.addINFO(this.PRESTEPTXT+ msg)
@@ -154,9 +128,6 @@ class Log {
 			case 'FAIL':
 				this.addSTEPFAIL(msg)
 				break
-			case 'ERROR':
-				this.addSTEPERROR(msg)
-				break
 			default :
 				this.add(status,this.PRESTEPTXT+ msg)
 				break
@@ -165,39 +136,37 @@ class Log {
 
 
 	static public addSUBSTEP (String msg) {
-
 		this.addINFO(this.PRESUBSTEPTXT+ msg)
 	}
 
 
 	static public addSTEPGRP (String msg) {
-
-		this.addINFO('      '+ msg.padRight(60, '_'))
+		this.addINFO('      '+ msg.padRight(80, '_'))
+	}
+	
+	
+	static public addSTEPLOOP (String msg) {
+		this.addINFO('            '+ msg.padRight(40, '.'))
 	}
 
 
 	static public addSTEPPASS (String msg) {
-
 		this.addPASS(this.PRESTEPTXT+ msg)
+		this.status.PASS++
 	}
 
 
 	static public addSTEPFAIL (String msg) {
-
 		this.addFAIL(this.PRESTEPTXT+ msg)
+		this.status.FAIL++
 	}
 
 
 	static public addSTEPWARNING (String msg) {
-
 		this.addWARNING(this.PRESTEPTXT+ msg)
+		this.status.WARNING++
 	}
 
-
-	static public addSTEPERROR (String msg) {
-
-		this.addERROR(this.PRESTEPTXT+ msg)
-	}
 
 
 
@@ -239,7 +208,7 @@ class Log {
 
 
 
-	static public addTITLE(String title, String car ='*',int nbcar = 100) {
+	static public addTITLE__________old(String title, String car ='*',int nbcar = 100) {
 		if (title.length()+4 >= nbcar) nbcar = title.length()+4
 		int ecart = (nbcar-2-title.length()).intdiv(2)
 		this.addINFO('')
@@ -251,9 +220,9 @@ class Log {
 		this.addINFO('')
 	}
 
-	static public addTITLE2(String title, String car ='*',int nbcar = 100) {
+	static public addTITLE(String title, String car ='*',int nbcar = 100) {
 		if (title.length()+4 >= nbcar) nbcar = title.length()+4
-		
+
 		this.addINFO('')
 		this.addINFO(car*nbcar)
 		this.addINFO(car + ' ' * (nbcar-2) + car)
@@ -262,7 +231,7 @@ class Log {
 		this.addINFO(car*nbcar)
 		this.addINFO('')
 	}
-	
+
 
 	static public addSubTITLE(String subtitle, String car ='-', int nbcar = 100 ) {
 		this.addINFO('')

@@ -32,6 +32,10 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
 			
+			if (myJDD.getNbrLigneCasDeTest()>1) {
+				my.Log.addSTEPLOOP("Ajout $i / " + myJDD.getNbrLigneCasDeTest())
+			}
+			
 			'Ajout'
 			KW.scrollAndClick(myJDD.makeTO('a_AjouterEmplacement'))
 	
@@ -44,8 +48,8 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	        WebUI.delay(1)
 	
 	        KW.scrollAndClick(myJDD.makeTO('SelectionEmplacement_td'))
-			
-			myJDD
+
+			myJDD.readSEQUENCID()
 	
 	        KW.scrollAndClick(myJDD.makeTO('SelectionEmplacement_button_Ajouter'))
 			

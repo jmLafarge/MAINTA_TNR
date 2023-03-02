@@ -28,6 +28,10 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
 			
+			if (myJDD.getNbrLigneCasDeTest()>1) {
+				my.Log.addSTEPLOOP("Suppression $i / " + myJDD.getNbrLigneCasDeTest())
+			}
+			
 			myJDD.setCasDeTestNum(i)
 	
 	        KW.waitAndVerifyElementText(myJDD.makeTO('ID_CODMET'), myJDD.getStrData('ID_CODMET'))

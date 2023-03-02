@@ -28,6 +28,10 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	    //for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
 		for (i in 2..1) {
 			
+			if (myJDD.getNbrLigneCasDeTest()>1) {
+				my.Log.addSTEPLOOP("Ajout $i / " + myJDD.getNbrLigneCasDeTest())
+			}
+			
 			myJDD.setCasDeTestNum(i)
 	
 	        KW.waitAndVerifyElementText(myJDD.makeTO('ID_NUMREF'), myJDD.getStrData('ID_NUMREF'))
