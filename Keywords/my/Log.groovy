@@ -143,8 +143,8 @@ class Log {
 	static public addSTEPGRP (String msg) {
 		this.addINFO('      '+ msg.padRight(80, '_'))
 	}
-	
-	
+
+
 	static public addSTEPLOOP (String msg) {
 		this.addINFO('            '+ msg.padRight(40, '.'))
 	}
@@ -206,21 +206,7 @@ class Log {
 
 
 
-
-
-	static public addTITLE__________old(String title, String car ='*',int nbcar = 100) {
-		if (title.length()+4 >= nbcar) nbcar = title.length()+4
-		int ecart = (nbcar-2-title.length()).intdiv(2)
-		this.addINFO('')
-		this.addINFO(car*nbcar)
-		this.addINFO(car + ' ' * (nbcar-2) + car)
-		this.addINFO(car + ' '*ecart + title + ' '*(nbcar-2-title.length()-ecart) + car)
-		this.addINFO(car + ' ' * (nbcar-2) + car)
-		this.addINFO(car*nbcar)
-		this.addINFO('')
-	}
-
-	static public addTITLE(String title, String car ='*',int nbcar = 100) {
+	static public addTITLE(String title, String car ='*',int nbcar = 140) {
 		if (title.length()+4 >= nbcar) nbcar = title.length()+4
 
 		this.addINFO('')
@@ -233,7 +219,7 @@ class Log {
 	}
 
 
-	static public addSubTITLE(String subtitle, String car ='-', int nbcar = 100 ) {
+	static public addSubTITLE(String subtitle, String car ='-', int nbcar = 120 ) {
 		this.addINFO('')
 		this.addINFO(car*nbcar)
 		this.addINFO(subtitle)

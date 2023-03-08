@@ -16,7 +16,7 @@ public class PREJDDFiles {
 	static public load() {
 
 		my.Log.addSubTITLE("Load PREJDDfileList")
-		my.Log.addINFO("\tMODOBJ     JDDFULLNAME")
+		my.Log.addINFO("\t"+'MODOBJ'.padRight(11) + 'JDDFULLNAME')
 		my.Log.addINFO('')
 
 		new File(my.PropertiesReader.getMyProperty('PREJDD_PATH')).eachFileRecurse(FileType.FILES) { file ->

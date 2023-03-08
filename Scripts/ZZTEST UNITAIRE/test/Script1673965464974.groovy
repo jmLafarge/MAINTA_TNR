@@ -1,7 +1,5 @@
 
 
-my.Log.addTITLE('Mon titre de oufx', '*', 100)
+String str = '$input$name'
 
-my.Log.addTITLE2('Mon titre de oufx', '*', 100)
-
-
+println str.toString().split(/\$/)

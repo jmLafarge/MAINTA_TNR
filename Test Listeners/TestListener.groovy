@@ -73,7 +73,7 @@ class TestListener {
 			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
 
 
-		}else if (TCName == '3 - TNR Sequencer') {
+		}else if (TCName == '3 - TNR SEQUENCER') {
 			if (my.InfoBDD.line.isEmpty()) { my.InfoBDD.load() }
 			if (my.TCFiles.TCfileMap.isEmpty()) { my.TCFiles.load() }
 			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
@@ -83,7 +83,7 @@ class TestListener {
 			my.Log.addTITLE("Lancement de $TCName")
 				
 		}else {
-			
+			/*
 			TCName = (TCName.contains(' ')) ? TCName.split(' ')[0] : TCName
 			
 			my.Log.addDEBUG("TCName after split(' ')[0] : " + TCName)
@@ -95,7 +95,7 @@ class TestListener {
 			
 			
 			GlobalVariable.CASDETESTENCOURS = TCName
-			
+			*/
 		}
 
 	}

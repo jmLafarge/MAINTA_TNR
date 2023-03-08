@@ -12,7 +12,7 @@ public class SQL {
 	 */
 
 
-	private static sqlInstance = Sql.newInstance(GlobalVariable.BD_URL, GlobalVariable.BD_USER, GlobalVariable.BD_MDP)
+	private static sqlInstance = Sql.newInstance(GlobalVariable.BDD_URL, GlobalVariable.BDD_USER, GlobalVariable.BDD_MDP)
 
 
 
@@ -41,20 +41,19 @@ public class SQL {
 			}
 			String query = "SELECT * FROM " + myJDD.getDBTableName() + this.getWhereWithAllPK(myJDD,casDeTestNum)
 			my.Log.addDEBUG("query =  $query")
-			
+
 			def rows
-			
+
 			try {
-			
+
 				rows = sqlInstance.rows(query)
-			
 			}
 			catch(Exception ex) {
 				pass=false
 				my.Log.addERROR("Erreur d'execution de sql.rows($query) : ")
 				my.Log.addDETAIL(ex.getMessage())
 			}
-			
+
 			my.Log.addDEBUG("size =  ${rows.size()}")
 
 			if (rows.size() == 0) {
@@ -165,7 +164,35 @@ public class SQL {
 	}
 
 
+	
+	private static getFirstRow(String query) {
+		def frow = null
+		try {
+			frow = sqlInstance.firstRow(query)
+		}catch(Exception ex) {
+			my.Log.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
+			my.Log.addDETAIL(ex.getMessage())
+		}
+		return frow
+	}
+	
+	
 
+	public static String getMaintaVersion() {
+		
+		String query = "SELECT ST_VAL FROM VER WHERE ID_CODINF = 'CURR_VERS'"
+
+		def frow = this.getFirstRow(query)
+
+		if (frow == null) {
+			my.Log.addDEBUG("getMaintaVersion() est null")
+			return null
+		}else {
+			String val = frow.getAt(0).toString()
+			my.Log.addDEBUG("getMaintaVersion() est $val")
+			return val
+		}
+	}
 
 
 
@@ -216,11 +243,11 @@ public class SQL {
 
 			my.Log.addDEBUG("query =  $query")
 
-			def row 
-			
+			def row
+
 			try {
 				row = sqlInstance.firstRow(query)
-				
+
 			}catch(Exception ex) {
 				pass = false
 				my.Log.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")

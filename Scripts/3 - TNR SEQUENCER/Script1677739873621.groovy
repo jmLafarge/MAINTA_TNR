@@ -6,6 +6,15 @@ import internal.GlobalVariable
 
 my.Result.addStartInfo()
 
+my.Log.addSUBSTEP('INFO CONTEXTE')
+my.Log.addDETAIL("Nom de l'OS".padRight(26) + System.getProperty("os.name"))
+my.Log.addDETAIL("Version de l'OS".padRight(26) + System.getProperty("os.version"))
+my.Log.addDETAIL("Architecture de l'OS".padRight(26) + System.getProperty("os.arch"))
+my.Log.addDETAIL("Version de MAINTA".padRight(26) + my.SQL.getMaintaVersion())
+my.Log.addDETAIL("Base de donnée".padRight(26) + GlobalVariable.BDD_URL)
+my.Log.addINFO('')
+
+
 my.Sequencer.testCasesList.each { TCMap ->
 	
 	GlobalVariable.CASDETESTENCOURS =TCMap.TCNAME

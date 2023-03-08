@@ -8,6 +8,8 @@ import java.nio.file.Paths
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
+import internal.GlobalVariable
+
 public class Result {
 
 
@@ -108,15 +110,15 @@ public class Result {
 	}
 
 	static public addBrowserInfo() {
-		
+
 		def browser = my.Tools.getBrowserAndVersion()
-		
+
 		my.XLS.writeCell(this.shRESUM.getRow(11),1,browser.NAME)
 		my.XLS.writeCell(this.shRESUM.getRow(12),1,browser.VERSION)
 
 		this.write()
 	}
-		
+
 
 	static public addStartInfo() {
 
@@ -124,14 +126,15 @@ public class Result {
 
 		my.XLS.writeCell(this.shRESUM.getRow(1),1,this.startDate,this.cellStyle_date)
 		my.XLS.writeCell(this.shRESUM.getRow(3),1,this.startDate,this.cellStyle_time)
-		
-		
+
+
 		my.XLS.writeCell(this.shRESUM.getRow(8),1,System.getProperty("os.name"))
 		my.XLS.writeCell(this.shRESUM.getRow(9),1,System.getProperty("os.version"))
 		my.XLS.writeCell(this.shRESUM.getRow(10),1,System.getProperty("os.arch"))
 		
-		
-		
+		my.XLS.writeCell(this.shRESUM.getRow(13),1,my.SQL.getMaintaVersion())
+		my.XLS.writeCell(this.shRESUM.getRow(14),1,GlobalVariable.BDD_URL)
+
 		this.write()
 	}
 
@@ -144,7 +147,7 @@ public class Result {
 
 		my.XLS.writeCell(this.shRESUM.getRow(5),1,my.Tools.getDuration(this.startDate, endDate),this.cellStyle_duration)
 
-		Row row = this.shRESUM.getRow(15)
+		Row row = this.shRESUM.getRow(17)
 
 		my.XLS.writeCell(row,1,this.totalPASS + this.totalWARNING + this.totalFAIL + this.totalERROR,this.cellStyle_TOT)
 		my.XLS.writeCell(row,2,this.totalPASS,this.cellStyle_PASSTOT)
@@ -152,7 +155,7 @@ public class Result {
 		my.XLS.writeCell(row,4,this.totalFAIL,this.cellStyle_FAILTOT)
 		my.XLS.writeCell(row,5,this.totalERROR,this.cellStyle_ERRORTOT)
 
-		row = this.shRESUM.getRow(16)
+		row = this.shRESUM.getRow(18)
 
 		my.XLS.writeCell(row,1,this.totalStepPASS + this.totalStepWARNING + this.totalStepFAIL + this.totalStepERROR,this.cellStyle_STEPTOT)
 		my.XLS.writeCell(row,2,this.totalStepPASS,this.cellStyle_STEPTOT)

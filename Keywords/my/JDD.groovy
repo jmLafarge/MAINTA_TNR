@@ -203,7 +203,7 @@ public class JDD {
 	private List getListCDTVAL(int index) {
 		List list =[]
 		this.datas.each{
-			if (it[index]!='') list.add("'" + it[0] + "' - '" + it[index] + "'")
+			if (it[index]!=null && it[index]!='') list.add("'" + it[0] + "' - '" + it[index] + "'")
 		}
 		return list
 	}
@@ -375,7 +375,7 @@ public class JDD {
 		locators.eachWithIndex {loc,i ->
 			if (loc!=null && loc!='' && i!=0) {
 				String name = this.headers[i]
-				my.Log.addDEBUG("\t\taddXpath i = $i name = '$name' loc='$loc' " ,2 )
+				my.Log.addDEBUG("\t\taddXpath i = $i name = '$name' loc='$loc' ",2 )
 				if (loc in TAG_LIST_ALLOWED) {
 					if (loc=='label') {
 						this.xpathTO.put(name, "//$loc[@id='Lbl$name']")
@@ -383,6 +383,16 @@ public class JDD {
 						// it's a standard xpath
 						this.xpathTO.put(name, "//$loc[@id='$name']")
 					}
+				}else if (loc[0] == '$') {
+					//it's a tag with an attribut
+					def lo = loc.toString().split(/\$/)
+					if (lo[1] in TAG_LIST_ALLOWED) {
+						this.xpathTO.put(name, "//${lo[1]}[@${lo[2]}='$name']")
+						my.Log.addDEBUG("LOCATOR //${lo[1]}[@${lo[2]}='$name']",2)
+					}else {
+						my.Log.addERROR("LOCATOR inconnu : ${lo[1]} in '$loc'")
+					}
+
 				}else if (loc[0] == '/') {
 					// it's a xpath with potential dynamic values
 					this.xpathTO.put(name,loc)
@@ -442,7 +452,7 @@ public class JDD {
 	}
 
 
-	
+
 	public readSEQUENCID() {
 		int dataLineNum = this.getDataLineNum()
 		this.datas[dataLineNum].eachWithIndex { val,i ->
@@ -452,8 +462,8 @@ public class JDD {
 			}
 		}
 	}
-	
-	
+
+
 	public replaceSEQUENCIDInJDD() {
 		int dataLineNum = this.getDataLineNum()
 		this.datas[dataLineNum].eachWithIndex { val,i ->

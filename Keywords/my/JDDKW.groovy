@@ -2,7 +2,14 @@ package my
 
 public class JDDKW {
 
-	private static final Map KEYWORD_ALLOWED			= [KW_VIDE:'$VIDE', KW_NULL:'$NULL', KW_DATE:'$DATESYS', KW_DATETIME:'$DATETIMESYS', KW_ORDRE:'$ORDRE', KW_SEQUENCEID:'$SEQUENCEID']
+	private static final Map KEYWORD_ALLOWED			= [
+		KW_VIDE:'$VIDE',
+		KW_NULL:'$NULL',
+		KW_DATE:'$DATESYS',
+		KW_DATETIME:'$DATETIMESYS',
+		KW_ORDRE:'$ORDRE',
+		KW_SEQUENCEID:'$SEQUENCEID'
+	]
 
 	static boolean isAllowedKeyword(String val) {
 		return this.KEYWORD_ALLOWED.containsValue(val)

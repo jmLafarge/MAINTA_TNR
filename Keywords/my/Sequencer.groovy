@@ -40,12 +40,12 @@ public class Sequencer {
 	static public load() {
 
 		my.Log.addSubTITLE('Load testCasesList from TNR sequencer file')
-		my.Log.addINFO("\tTCNAME                        TCFULLNAME                                                                                REP")
+		my.Log.addINFO("\t" + 'TCNAME'.padRight(24) + 'TCFULLNAME'.padRight(90) + 'REP')
 		my.Log.addINFO("")
 
 		// read JDD
 		Sheet shTNR = this.readSequencerFile()
-		
+
 		my.Log.addDEBUG('shTNR.getLastRowNum() :' + shTNR.getLastRowNum(),2)
 
 		// for each data line
@@ -71,12 +71,14 @@ public class Sequencer {
 			int rep = (row.getCell(1) == null) ? 1 : row.getCell(1).getNumericCellValue()
 
 			//def res= my.TCFiles.TCfileList.findAll{ it.contains(casDeTestPatternFromSequencer)}
-			def res= my.TCFiles.TCfileMap.findAll { it.key.contains(casDeTestPatternFromSequencer) }
+			Map res= my.TCFiles.TCfileMap.findAll { it.key.contains(casDeTestPatternFromSequencer) }
 
-			res.each {
-
-				this.addToTestCasesList(it.key,it.value, rep)
-
+			if (res.size()==0) {
+				my.Log.addERROR("Pas de fichier trouvé pour le pattern $casDeTestPatternFromSequencer")
+			}else {
+				res.each {
+					this.addToTestCasesList(it.key,it.value, rep)
+				}
 			}
 
 		} // end of for each data line
@@ -88,7 +90,7 @@ public class Sequencer {
 
 		Map TCMap = [:]
 
-		my.Log.addINFO('\t' + TCName.padRight(30) + TCFullName.padRight(90) + rep.toString().padLeft(3))
+		my.Log.addINFO('\t' + TCName.padRight(24) + TCFullName.padRight(90) + rep.toString().padLeft(3))
 
 		TCMap.put('TCNAME',TCName)
 		TCMap.put('TCFULLNAME',TCFullName)

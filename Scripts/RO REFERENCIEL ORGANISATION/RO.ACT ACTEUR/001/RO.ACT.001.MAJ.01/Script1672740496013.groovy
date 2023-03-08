@@ -46,23 +46,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
 		
 			KW.scrollAndSetText(myJDD.makeTO('ST_TELCOP'), myJDD.getStrData('ST_TELCOP'))
 		
-			//KW.scrollAndSetText(myJDD.makeTO('ID_CODGES'), myJDD.getStrData('ID_CODGES'))
-			
-				'Cas particulier de Organisation - sélection par recherche'
-				KW.scrollAndClick(myJDD.makeTO('a_Organisation'))
-			
-				WebUI.switchToWindowIndex('1')
-			
-				KW.setText(myJDD.makeTO('input_Recherche_Organisation'), myJDD.getStrData('ID_CODGES'))
-			
-				'mise à jour dynamique du xpath'
-				KW.scrollWaitAndVerifyElementText(myJDD.makeTO('td_Recherche_Organisation'), myJDD.getStrData('ID_CODGES'))
-				
-				WebUI.click(myJDD.makeTO('td_Recherche_Organisation'))
-			
-				WebUI.switchToWindowIndex('0')
-			
-			
+			KW.searchWithHelper(myJDD, 'ID_CODGES')
 			
 			KW.scrollAndCheckIfNeeded(myJDD.makeTO('ST_GRP'),myJDD.getStrData('ST_GRP')=='O')
 			
@@ -77,7 +61,8 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
 			KW.waitForElementVisible(myJDD.makeTO('a_AffectationSelected'))
 			
 			'Début de sasie des valeurs du JDD'
-			KW.scrollAndSetText(myJDD.makeTO('ID_CODGESAFF'), myJDD.getStrData('ID_CODGESAFF'))
+			//KW.scrollAndSetText(myJDD.makeTO('ID_CODGESAFF'), myJDD.getStrData('ID_CODGESAFF'))
+			KW.searchWithHelper(myJDD, 'ID_CODGESAFF','','SEARCH_ID_CODGES')
 		
 			KW.scrollAndSetText(myJDD.makeTO('ST_MAT'), myJDD.getStrData('ST_MAT'))
 		
@@ -89,6 +74,8 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
 			
 			KW.scrollAndSetText(myJDD.makeTO('ID_CODCAT'), myJDD.getStrData('ID_CODCAT'))
 			
+			KW.searchWithHelper(myJDD, 'ID_CODCAT')
+
 			KW.scrollAndSetText(myJDD.makeTO('NU_COUHOR'), myJDD.getStrData('NU_COUHOR'))
 			
 		

@@ -122,10 +122,7 @@ my.PREJDDFiles.PREJDDfilemap.each { modObj,fullName ->
 					}
 				}
 				
-				
-				
-				
-				
+
 				my.Log.addDETAIL("Contrôle absence de doublon sur PRIMARY KEY : " +  PKList.join(' , '))
 				
 				datas.eachWithIndex { li,numli ->

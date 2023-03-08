@@ -28,6 +28,11 @@ class KW {
 		try {
 			WebUI.openBrowser(url, FailureHandling.STOP_ON_FAILURE)
 			my.Log.addSTEPPASS("Ouverture du navigateur à l'URL : $url")
+			def browser = my.Tools.getBrowserAndVersion()
+			my.Log.addSUBSTEP("*********************************************************************")
+			my.Log.addSUBSTEP("  Nom du navigateur".padRight(26) + browser.NAME)
+			my.Log.addSUBSTEP("  Version du navigateur".padRight(26) + browser.VERSION)
+			my.Log.addSUBSTEP("*********************************************************************")
 			my.Result.addBrowserInfo()
 		} catch (Exception ex) {
 			my.Log.addSTEPFAIL("Ouverture du navigateur à l'URL : $url")
@@ -499,6 +504,41 @@ class KW {
 
 
 
+	static searchWithHelper(JDD myJDD, String name , String btnXpath = '' , String inputName = '' ){
+
+		my.Log.addSUBSTEP("Saisie de $name en utilisant l'assistant de recherche")
+
+		String val = myJDD.getData(name)
+
+		if (btnXpath=='') {
+			btnXpath = "//a[@id='Btn$name']/i"
+		}
+
+		if (inputName=='') inputName = "SEARCH_$name"
+
+
+
+		String inputXpath 	= "//input[@name='$inputName']"
+		String tdXpath 		= "//div[@id='v-dbtdhtmlx1']/table/tbody//td[3][text()='$val']"
+
+		myJDD.xpathTO.put('btnSearch', btnXpath)
+		myJDD.xpathTO.put('inputSearch', inputXpath)
+		myJDD.xpathTO.put('tdSearch', tdXpath)
+
+		this.scrollAndClick(myJDD.makeTO('btnSearch'))
+
+		WebUI.switchToWindowIndex('1')
+
+		this.setText(myJDD.makeTO('inputSearch'), myJDD.getStrData(name))
+
+		'mise à jour dynamique du xpath'
+		this.scrollWaitAndVerifyElementText(myJDD.makeTO('tdSearch'), myJDD.getStrData(name))
+
+		this.click(myJDD.makeTO('tdSearch'))
+
+		WebUI.switchToWindowIndex('0')
+
+	}
 
 
 } // end of class

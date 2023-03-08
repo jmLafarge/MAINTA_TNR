@@ -12,9 +12,10 @@ public class JDDFiles {
 
 
 		my.Log.addSubTITLE("Load JDDfileList")
-		//my.Log.addINFO("\t---------- -----------------------------------------------------------------------------------")
-		my.Log.addINFO("\tMODOBJ     JDDFULLNAME")
-		//my.Log.addINFO("\t---------- -----------------------------------------------------------------------------------")
+
+		my.Log.addINFO("\t"+'MODOBJ'.padRight(16) + 'JDDFULLNAME')
+
+
 		my.Log.addINFO('')
 
 		new File(my.PropertiesReader.getMyProperty('JDD_PATH')).eachFileRecurse(FileType.FILES) { file ->
@@ -26,7 +27,7 @@ public class JDDFiles {
 
 				this.JDDfilemap.put(modObj,file.getPath())
 
-				my.Log.addINFO('\t' + modObj.padRight(11) + file.getPath())
+				my.Log.addINFO('\t' + modObj.padRight(16) + file.getPath())
 			}
 			/* Example
 			 *

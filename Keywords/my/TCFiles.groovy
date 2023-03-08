@@ -15,7 +15,7 @@ public class TCFiles {
 	private static load() {
 
 		my.Log.addSubTITLE("Load TC file List")
-		my.Log.addINFO("\tTCNAME                        TCFULLNAME")
+		my.Log.addINFO("\t" + 'TCNAME'.padRight(24) + 'TCFULLNAME')
 		my.Log.addINFO("")
 
 		new File(my.PropertiesReader.getMyProperty('TC_PATH')).eachFileRecurse(FileType.FILES) { file ->
@@ -27,7 +27,7 @@ public class TCFiles {
 
 				this.TCfileMap.put(TCName, TCFullName)
 
-				my.Log.addINFO('\t'+ TCName.padRight(30) + TCFullName)
+				my.Log.addINFO('\t'+ TCName.padRight(24) + TCFullName)
 			}
 
 		}
