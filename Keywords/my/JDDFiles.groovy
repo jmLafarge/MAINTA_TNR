@@ -21,7 +21,7 @@ public class JDDFiles {
 		new File(my.PropertiesReader.getMyProperty('JDD_PATH')).eachFileRecurse(FileType.FILES) { file ->
 
 			// keep only TC Name like JDD.*.xlsx
-			if (file.getName()==~ /JDD\..*\.xlsx/) {
+			if (file.getName()==~ /JDD\..*\.xlsx/ && file.getPath()==~ /^((?!standby).)*$/) {
 
 				String modObj = file.getName().replace('JDD.','').replace('.xlsx','')
 

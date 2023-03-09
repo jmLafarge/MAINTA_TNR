@@ -383,14 +383,14 @@ public class JDD {
 						// it's a standard xpath
 						this.xpathTO.put(name, "//$loc[@id='$name']")
 					}
-				}else if (loc[0] == '$') {
+				}else if ((loc[0] != '/') && (loc.toString().split(/\*/).size()>1)) {
 					//it's a tag with an attribut
-					def lo = loc.toString().split(/\$/)
-					if (lo[1] in TAG_LIST_ALLOWED) {
-						this.xpathTO.put(name, "//${lo[1]}[@${lo[2]}='$name']")
-						my.Log.addDEBUG("LOCATOR //${lo[1]}[@${lo[2]}='$name']",2)
+					def lo = loc.toString().split(/\*/)
+					if (lo[0] in TAG_LIST_ALLOWED) {
+						this.xpathTO.put(name, "//${lo[0]}[@${lo[1]}='$name']")
+						my.Log.addDEBUG("LOCATOR //${lo[0]}[@${lo[1]}='$name']",2)
 					}else {
-						my.Log.addERROR("LOCATOR inconnu : ${lo[1]} in '$loc'")
+						my.Log.addERROR("LOCATOR inconnu : ${lo[0]} in '$loc'")
 					}
 
 				}else if (loc[0] == '/') {

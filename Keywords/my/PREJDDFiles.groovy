@@ -21,7 +21,7 @@ public class PREJDDFiles {
 
 		new File(my.PropertiesReader.getMyProperty('PREJDD_PATH')).eachFileRecurse(FileType.FILES) { file ->
 			// keep only TC Name like PREJDD.*.xlsx
-			if (file.getName()==~ /PREJDD\..*\.xlsx/) {
+			if (file.getName()==~ /PREJDD\..*\.xlsx/ && file.getPath()==~ /^((?!standby).)*$/) {
 				String modObj = file.getName().replace('PREJDD.','').replace('.xlsx','')
 				this.PREJDDfilemap.put(modObj,file.getPath())
 				my.Log.addINFO('\t' + modObj.padRight(11) + file.getPath())

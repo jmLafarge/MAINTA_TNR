@@ -6,13 +6,8 @@
  * FAIT
  * -----------------------------------------------------------------------------------------------------
  * 
-	Ajout d'un defaut quand on met un nom dans le sequencer qui ne trouve rien
-	Amélioration du para LOCATOR : Pal mal de rubriques ont un xpath avec l'attribut name, ajout la possibilité de le coder dans le LOCATOR : $NomDuTag$NomDeLattribut
-	Ajout d' une fonction complex KW pour gerer la recherche de rubrique : KW.searchWithHelper
-	Ajout de la version Mainta dans Result select ST_VAL from ver where ID_CODINF = 'CURR_VERS'
-	Ajout du nom de la base de données GlobalVariable.BDD_URL
-	Ajout dans LOG, les infos contexte
-
+	Amélioration du para LOCATOR : Remplacer le $NomDuTag$NomDeLattribut NomDuTag*NomDeLattribut
+	Ne pas prendre les sous dossiers qui contiennent standby dans TNR_JDD et PREJDD
  *
  *
  * -----------------------------------------------------------------------------------------------------
@@ -21,7 +16,7 @@
  *
  	FINIR la copie acteur
 
-	Finir amélioration du para LOCATOR : Remplacer le $NomDuTag$NomDeLattribut NomDuTag*NomDeLattribut
+	Détecter les valeurs qui changent dans les JDD/PREJDD --> les mettre en vert
 	
 	REVOIR la suppression des emplacements par rapport à ST_DEF pour rendre automatique le truc
 	
