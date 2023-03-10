@@ -6,19 +6,17 @@
  * FAIT
  * -----------------------------------------------------------------------------------------------------
  * 
-	Amélioration du para LOCATOR : Remplacer le $NomDuTag$NomDeLattribut NomDuTag*NomDeLattribut
-	Ne pas prendre les sous dossiers qui contiennent standby dans TNR_JDD et PREJDD
+	Copie acteur terminé
+
  *
  *
  * -----------------------------------------------------------------------------------------------------
  * EN COURS
  * -----------------------------------------------------------------------------------------------------
  *
- 	FINIR la copie acteur
 
-	Détecter les valeurs qui changent dans les JDD/PREJDD --> les mettre en vert
-	
-	REVOIR la suppression des emplacements par rapport à ST_DEF pour rendre automatique le truc
+
+
 	
 	
  * 
@@ -47,7 +45,11 @@
  * VRAC
  * -----------------------------------------------------------------------------------------------------
  * 
-	  Faire un script pour lancer les script SQL PREJDD dans l'ordre
+	 
+	
+	REVOIR la suppression des emplacements par rapport à ST_DEF pour rendre automatique le truc
+	
+	Faire un script pour lancer les script SQL PREJDD dans l'ordre
 	  
 	  Faire un TC pour créer les JDD et les PREJDD, 
 	  	- dans l'ordre des champs --> est-ce util ? --> faut il un controle de l'odre des champs ?

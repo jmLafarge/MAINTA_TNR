@@ -1,5 +1,4 @@
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-
+import internal.GlobalVariable
 import my.KW
 import my.NAV
 
@@ -15,8 +14,9 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
     'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getData('SOURCE'))
 
-	'Click sur le menu Copy'
-	KW.scrollAndClick(myJDD.makeTO('a_Copy'))
+	'Naviguer vers l url Copy'
+	String url = GlobalVariable.BASE_URL + "CopyIdent?IDSOURCE=" + myJDD.getData('SOURCE') + "&TABLE=" + myJDD.getDBTableName()
+	KW.navigateToUrl(url,'Copie')
 	
 	"Vérifier l'écran"
 	NAV.verifierCartridge('Copy')
@@ -32,13 +32,18 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	my.Log.addSTEPGRP('VALIDATION')
 		
     'Validation de la saisie'
-    KW.scrollAndClick(myJDD.makeTO('button_Valider'))
+    KW.scrollAndClick(myJDD.makeTO('button_ValiderCopie'))
 
     'Vérification du test case - écran résulat'
     NAV.verifierEcranRUD(myJDD.getData('ID_CODINT'))
 	
+	Map specificValueMap = [:]
+	if (myJDD.getData('ID_NUMZON')==0) {
+		specificValueMap.put('ID_NUMZON', 0)
+	}
+	
 	'Vérification des valeurs en BD'
-	my.SQL.checkJDDWithBD(myJDD)
+	my.SQL.checkJDDWithBD(myJDD,specificValueMap)
 
 } // fin du if
 

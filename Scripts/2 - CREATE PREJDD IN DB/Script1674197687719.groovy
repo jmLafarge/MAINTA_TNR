@@ -27,5 +27,5 @@ my.PREJDDFiles.insertPREJDDinDB('RO.SOCIETE','001')
 
 my.PREJDDFiles.insertPREJDDinDB('RO.UTI','001')
 
-my.PREJDDFiles.insertPREJDDinDB('RT.MOY','001')
+//my.PREJDDFiles.insertPREJDDinDB('RT.MOY','001')
 
