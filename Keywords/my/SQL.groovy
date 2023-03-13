@@ -27,7 +27,7 @@ public class SQL {
 	 */
 	static checkJDDWithBD(JDD myJDD,Map specificValueMap=[:]){
 
-		WebUI.delay(1)
+		KW.delay(1)
 
 		boolean pass = true
 		my.Log.addSTEP("Début de la vérification des valeurs en Base de Données")
@@ -164,7 +164,7 @@ public class SQL {
 	}
 
 
-	
+
 	private static getFirstRow(String query) {
 		def frow = null
 		try {
@@ -175,11 +175,11 @@ public class SQL {
 		}
 		return frow
 	}
-	
-	
+
+
 
 	public static String getMaintaVersion() {
-		
+
 		String query = "SELECT ST_VAL FROM VER WHERE ID_CODINF = 'CURR_VERS'"
 
 		def frow = this.getFirstRow(query)
@@ -229,7 +229,7 @@ public class SQL {
 
 	static checkIDNotInBD(JDD myJDD){
 
-		WebUI.delay(1)
+		KW.delay(1)
 		boolean pass = true
 		int nbrLigneCasDeTest =myJDD.getNbrLigneCasDeTest()
 

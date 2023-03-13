@@ -52,6 +52,8 @@ public class JDD {
 	 * @param casDeTest
 	 */
 	JDD(String JDDFullName = null, String TCTabName = null,String casDeTest = null,boolean step=true) {
+		
+		my.Log.addDEBUG("JDD Construtor JDDFullName = '$JDDFullName'    TCTabName = '$TCTabName' Cas de test = '$casDeTest' step = $step")
 
 		if(JDDFullName == null) {
 			this.JDDFullName = my.JDDFiles.getJDDFullNameFromCasDeTest(GlobalVariable.CASDETESTENCOURS)

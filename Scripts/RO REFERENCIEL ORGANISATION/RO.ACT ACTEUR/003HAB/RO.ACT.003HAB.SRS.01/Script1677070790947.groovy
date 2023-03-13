@@ -41,7 +41,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 				my.Log.addSUBSTEP("Tentative de suppression $n/3" )
 				KW.scrollAndClick(myJDD.makeTO('span_Supprime_Habilitation'))
 				if (KW.waitAndAcceptAlert(GlobalVariable.TIMEOUT,'WARNING')) {	
-					WebUI.delay(1)	
+					KW.delay(1)	
 					KW.verifyElementNotPresent(myJDD.makeTO('ID_CODHAB'))
 					break
 				}

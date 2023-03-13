@@ -16,7 +16,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		WebUI.switchToFrame(myJDD.makeTO('frame_Main'), GlobalVariable.TIMEOUT)
 		
 	    WebUI.scrollToPosition(0, 0)
-	    WebUI.delay(1)
+	    KW.delay(1)
 
 	    KW.click(myJDD.makeTO('icon_Logout')) 
 		
@@ -24,7 +24,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		
 	} else {
 		WebUI.scrollToPosition(0, 0)
-	    WebUI.delay(1)
+	    KW.delay(1)
 	
 	    KW.click(myJDD.makeTO('icon_Logout'))
 	}

@@ -23,6 +23,12 @@ class KW {
 	 * 
 	 */
 
+	static delay(Number second) {
+
+		my.Log.addDEBUG("Delay $second second(s)")
+		WebUI.delay(second)
+	}
+
 
 	static openBrowser(String url){
 		try {

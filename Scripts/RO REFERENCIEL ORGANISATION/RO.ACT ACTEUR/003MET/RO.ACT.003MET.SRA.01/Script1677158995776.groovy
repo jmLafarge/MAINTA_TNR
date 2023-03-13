@@ -40,11 +40,11 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 			'Ajout'
 	        KW.scrollAndClick(myJDD.makeTO('a_AjouterMetier'))
 	
-	        WebUI.delay(1)
+	        KW.delay(1)
 	
 	        KW.scrollAndSetText(myJDD.makeTO('SelectionMetier_input_Filtre'), myJDD.getStrData('ID_CODMET'))
 	
-	        WebUI.delay(1)
+	        KW.delay(1)
 	
 	        KW.scrollAndClick(myJDD.makeTO('SelectionMetier_td'))
 			
@@ -52,7 +52,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 	        KW.scrollAndClick(myJDD.makeTO('SelectionMetier_button_Ajouter'))
 			
-			WebUI.delay(1)
+			KW.delay(1)
 	
 	        KW.waitAndVerifyElementText(myJDD.makeTO('ID_CODMET'), myJDD.getStrData('ID_CODMET'))
 			
@@ -60,7 +60,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 			
 		        KW.scrollAndDoubleClick(myJDD.makeTO('td_DateDebut'))
 		
-		        WebUI.delay(1)
+		        KW.delay(1)
 				
 				//
 				// Le double Clic ne fonctionne pas sur Firefox --> voir pour le remplacer par Sélection puis F2
@@ -77,7 +77,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		        KW.scrollAndDoubleClick(myJDD.makeTO('td_DateFin'))
 		
 		        //WebUI.doubleClick(myJDD.makeTO('1 - RO/ACTEUR/Page_Fiche Acteur/Tab_Habilitation/td_DateFin', [('textHAB') : myJDD.getData('ID_CODHAB]))
-		        //WebUI.delay(1)
+		        //KW.delay(1)
 	
 		        KW.setDate(myJDD.makeTO('DT_DATFIN'), myJDD.getData('DT_DATFIN'))
 	

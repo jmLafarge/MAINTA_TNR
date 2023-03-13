@@ -49,10 +49,10 @@ WebUI.verifyElementClickable(findTestObject('null'))
 
 
 WebUI.scrollToPosition(9999, 99999)
-WebUI.delay(2)
+KW.delay(2)
 
 WebUI.scrollToElement(findTestObject('null'), 1)
-WebUI.delay(2)
+KW.delay(2)
 
 
 

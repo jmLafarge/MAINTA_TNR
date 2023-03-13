@@ -146,7 +146,7 @@ if (JDD_list.size() > 0) {
 */
 	
 	
-    WebUI.delay(1)
+    KW.delay(1)
 	
 }
 

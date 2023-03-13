@@ -34,9 +34,9 @@ class NAV {
 	 */
 	static public verifierCartridge(String txt, int timeOut = GlobalVariable.TIMEOUT) {
 		WebUI.scrollToPosition(0, 0)
-		WebUI.delay(1)
+		KW.delay(1)
 		KW.click(myGlobalJDD.makeTO('a_Toggle'),'WARNING')
-		WebUI.delay(1)
+		KW.delay(1)
 		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Ecran'), txt,timeOut,'WARNING')
 	} // end of def
 
@@ -48,9 +48,9 @@ class NAV {
 		if (fct=='') { fct = this.getFctFromModObj() }
 		String code = "E" + fct
 		WebUI.scrollToPosition(0, 0)
-		WebUI.delay(1)
+		KW.delay(1)
 		KW.click(myGlobalJDD.makeTO('a_Toggle'),'WARNING')
-		WebUI.delay(1)
+		KW.delay(1)
 		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Ecran'), 'E'+ fct, timeOut,'WARNING')
 	} // end of def
 
@@ -62,9 +62,9 @@ class NAV {
 		if (fct=='') { fct = this.getFctFromModObj() }
 		String code = fct
 		WebUI.scrollToPosition(0, 0)
-		WebUI.delay(1)
+		KW.delay(1)
 		KW.click(myGlobalJDD.makeTO('a_Toggle'),'WARNING')
-		WebUI.delay(1)
+		KW.delay(1)
 		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Ecran'), code,timeOut,'WARNING')
 	} // end of def
 
@@ -75,9 +75,9 @@ class NAV {
 		if (fct=='') { fct = this.getFctFromModObj() }
 		String code = fct + " - Création"
 		WebUI.scrollToPosition(0, 0)
-		WebUI.delay(1)
+		KW.delay(1)
 		KW.click(myGlobalJDD.makeTO('a_Toggle'),'WARNING')
-		WebUI.delay(1)
+		KW.delay(1)
 		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Ecran'), code,timeOut,'WARNING')
 	} // end of def
 
@@ -88,10 +88,10 @@ class NAV {
 		if (fct=='') { fct = this.getFctFromModObj() }
 		String code = fct + " - Consultation ou modification"
 		WebUI.scrollToPosition(0, 0)
-		WebUI.delay(1)
+		KW.delay(1)
 		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Selection'), id,timeOut,'WARNING')
 		KW.click(myGlobalJDD.makeTO('a_Toggle'),'WARNING')
-		WebUI.delay(1)
+		KW.delay(1)
 		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Ecran'), code,timeOut,'WARNING')
 	} // end of def
 

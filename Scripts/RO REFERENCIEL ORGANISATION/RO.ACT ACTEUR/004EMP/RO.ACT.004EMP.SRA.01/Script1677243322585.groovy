@@ -39,13 +39,13 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 			'Ajout'
 			KW.scrollAndClick(myJDD.makeTO('a_AjouterEmplacement'))
 	
-			WebUI.delay(1)
+			KW.delay(1)
 			
 			myJDD.setCasDeTestNum(i)
 	
 	        KW.scrollAndSetText(myJDD.makeTO('SelectionEmplacement_input_Filtre'), myJDD.getStrData('ID_NUMREF'))
 	
-	        WebUI.delay(1)
+	        KW.delay(1)
 	
 	        KW.scrollAndClick(myJDD.makeTO('SelectionEmplacement_td'))
 
@@ -53,11 +53,11 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 	        KW.scrollAndClick(myJDD.makeTO('SelectionEmplacement_button_Ajouter'))
 			
-			WebUI.delay(1)
+			KW.delay(1)
 			
 			KW.scrollAndClick(myJDD.makeTO('SelectionEmplacement_button_Fermer'))
 			
-			WebUI.delay(1)
+			KW.delay(1)
 	
 	        if (KW.waitAndVerifyElementText(myJDD.makeTO('ID_NUMREF'), myJDD.getStrData('ID_NUMREF'))) {
 				myJDD.replaceSEQUENCIDInJDD()
@@ -68,7 +68,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 			
 		        KW.scrollAndDoubleClick(myJDD.makeTO('td_DateDebut'))
 		
-		        WebUI.delay(1)
+		        KW.delay(1)
 				
 				//
 				// Le double Clic ne fonctionne pas sur Firefox --> voir pour le remplacer par Sélection puis F2
@@ -85,7 +85,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		        KW.scrollAndDoubleClick(myJDD.makeTO('td_DateFin'))
 		
 		        //WebUI.doubleClick(myJDD.makeTO('1 - RO/ACTEUR/Page_Fiche Acteur/Tab_Habilitation/td_DateFin', [('textHAB') : myJDD.getData('ID_CODHAB]))
-		        //WebUI.delay(1)
+		        //KW.delay(1)
 	
 		        KW.setDate(myJDD.makeTO('DT_DATFIN'), myJDD.getData('DT_DATFIN'))
 	

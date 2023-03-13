@@ -23,7 +23,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
     KW.scrollAndSetText(myJDD.makeTO('input_Filtre_Acteur'), myJDD.getData('ID_CODINT'))
 
 	'Attendre le filtrage du tableau'
-	WebUI.delay(1)
+	KW.delay(1)
 	
 	'mise à jour dynamique du xpath'
 	'Vérification des valeurs'

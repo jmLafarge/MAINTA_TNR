@@ -6,7 +6,6 @@
  * FAIT
  * -----------------------------------------------------------------------------------------------------
  * 
-	Copie acteur terminé
 
  *
  *
@@ -14,10 +13,37 @@
  * EN COURS
  * -----------------------------------------------------------------------------------------------------
  *
+	Pour simplifier l'écriture du code de test, passer le myJDD et le code du champs aux fonction KW 
+	 AS IS : KW.scrollAndSetText(myJDD.makeTO('ID_CODINT'), myJDD.getStrData('ID_CODINT'))
+	 TO BE : KW.scrollAndSetText(myJDD,'ID_CODINT')
+	 		 
+	 AS IS : scrollAndSetText(TestObject tObj, String text, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL')
+	 TO BE : scrollAndSetText(my.JDD myJDD, String name, String text, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL')
+		
+		
+	Pour la version, voir la table ver
 
+	ZZ.103 clic2
+		le click marche sur le label pour tous le nav
+		mais le texte si coché ou pas se fait sur l'input !
+		--> du coup je crée un type checkbox  pour LOCATOR qui créra 2 obj #
+			- un type inputinput avec le NomDuChamp pour ctrl coché ou non
+			- un type label avec LblNomDuChamp pour le click
+				
+		
+		
+		
+		
 
-
+	Traiter les valeurs des $DATESYS et $DATETIME
 	
+	
+	Voir les FAIL des O/N dasn RO.ACT.001.MAJ.01
+	
+[2023-03-10 11:38:16.111][-------]:                   - Contrôle de la valeur de ST_PRIPRE KO : la valeur attendue est : O et la valeur en BD est : N --> apparement j'ai coché mais pas enregistré
+[2023-03-10 11:38:16.114][-------]:                   - Contrôle de la valeur de ST_DEM KO : la valeur attendue est : O et la valeur en BD est : N
+[2023-03-10 11:38:16.116][-------]:                   - Contrôle de la valeur de ST_INT KO : la valeur attendue est : O et la valeur en BD est : N
+[2023-03-10 11:38:16.117][-------]:                   - Contrôle de la valeur de ST_ACH KO : la valeur attendue est : O et la valeur en BD est : N
 	
  * 
  * -----------------------------------------------------------------------------------------------------
@@ -45,7 +71,14 @@
  * VRAC
  * -----------------------------------------------------------------------------------------------------
  * 
+ * 
+ 	Penser à passer sur Selenium
 	 
+	Ajouter un récap des résultats de Test, par RESUME, par cas de test,  voir ce que fait Katalon
+	
+	Ajouter les step FAIL dans le xls en grouper sous le test ou dans un autre onglet --> avec les élements nécessaire pour le ticket
+	
+	Faire un script pour restaurer base + redémarrage server SQlL(ou autre pour pouvoir faire la sauvegarde)	
 	
 	REVOIR la suppression des emplacements par rapport à ST_DEF pour rendre automatique le truc
 	

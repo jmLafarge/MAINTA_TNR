@@ -39,7 +39,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 			if (myJDD.getStrData('ST_DEF')=='N' || i==1) {
 		        'Supression'
 				KW.scrollAndClick(myJDD.makeTO('span_Supprime_Emplacement'))
-				WebUI.delay(1)	
+				KW.delay(1)	
 				KW.verifyElementNotPresent(myJDD.makeTO('ID_NUMREF'))
 			}
 	    }
