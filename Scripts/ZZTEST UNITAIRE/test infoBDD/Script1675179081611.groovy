@@ -2,16 +2,22 @@
 
 my.InfoBDD.load()
 
-println my.InfoBDD.line[0]
 
+my.InfoBDD.colnameMap['INTER'].each{
+	
+	println it
+	
+}
 
-my.Log.addINFO('deb')
+//println my.InfoBDD.line[0]
+
+//my.Log.addINFO('deb')
 //my.InfoBDD.line.eachWithIndex { v,i -> if (v[0]=='INTER' && v[1]==['ST_ETA']) my.Log.addINFO( i+':'+v) }
 //my.InfoBDD.line.eachWithIndex { v,i -> if (v[0]=='INTER' && v[1]=='ST_ETA') println i+':'+v[1] }
-println my.InfoBDD.getDATA_TYPE('INTER', 'ST_ETA')
+//println my.InfoBDD.getDATA_TYPE('INTER', 'ST_ETA')
 
 //if (ret !=null) my.Log.addINFO(ret)
-my.Log.addINFO('fin')
+//my.Log.addINFO('fin')
 //my.Tools.parseMap(my.InfoBDD.colnameMap)
 
 

@@ -57,6 +57,12 @@ class TestListener {
 			
 			my.Log.addTITLE("Lancement du test $TCName")
 			
+		}else if (TCName == '00 - JDD GENERATOR'){
+			
+			my.Log.addTITLE("Lancement de $TCName")
+			if (my.InfoBDD.line.isEmpty()) { my.InfoBDD.load() }
+			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
+			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
 			
 		}else if (TCName == '1 - CHECK PREREQUIS'){
 			

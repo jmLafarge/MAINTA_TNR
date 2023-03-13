@@ -6,29 +6,17 @@
  * FAIT
  * -----------------------------------------------------------------------------------------------------
  * 
-
-	Pour simplifier l'écriture du code de test, passer le myJDD et le code du champs aux fonction KW 
-	 AS IS : KW.scrollAndSetText(myJDD.makeTO('ID_CODINT'), myJDD.getStrData('ID_CODINT'))
-	 TO BE : KW.scrollAndSetText(myJDD,'ID_CODINT')
-	 		 
-	 AS IS : scrollAndSetText(TestObject tObj, String text, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL')
-	 TO BE : scrollAndSetText(my.JDD myJDD, String name, String text, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL')
-	
-	Mofif
-		reprise de toutes les definitions de KW
-		reprise NAV
-		reprise de tous les TC
-
-
+	00 - JDD GENERATOR et my.JDDGenerator
  *
  *
  * -----------------------------------------------------------------------------------------------------
  * EN COURS
  * -----------------------------------------------------------------------------------------------------
  *
-
-	Création d'un générateur de JDD/PREJDD
-		
+	
+	NOTE : le double click fonctionne de temps en temps avec Chrome 
+	
+	
 		
 	Pour la version, voir la table ver
 

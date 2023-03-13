@@ -131,7 +131,7 @@ public class Result {
 		my.XLS.writeCell(this.shRESUM.getRow(8),1,System.getProperty("os.name"))
 		my.XLS.writeCell(this.shRESUM.getRow(9),1,System.getProperty("os.version"))
 		my.XLS.writeCell(this.shRESUM.getRow(10),1,System.getProperty("os.arch"))
-		
+
 		my.XLS.writeCell(this.shRESUM.getRow(13),1,my.SQL.getMaintaVersion())
 		my.XLS.writeCell(this.shRESUM.getRow(14),1,GlobalVariable.BDD_URL)
 
