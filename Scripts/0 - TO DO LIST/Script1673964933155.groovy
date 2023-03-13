@@ -27,16 +27,12 @@
  * -----------------------------------------------------------------------------------------------------
  *
 
+	Création d'un générateur de JDD/PREJDD
 		
 		
 	Pour la version, voir la table ver
 
 
-				
-
-		
-		
-		
 
 	Traiter les valeurs des $DATESYS et $DATETIME
 	
