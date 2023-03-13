@@ -438,6 +438,38 @@ class KW {
 	} // end of def
 
 
+	static scrollAndCheckIfNeeded2(TestObject tObj,TestObject tObjLbl, boolean cond, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL')  {
+		this.scrollToElement(tObj,timeOut,status)
+		boolean etat = WebUI.getAttribute(tObj, 'checked')=='yes'
+		my.Log.addDEBUG("etat : $etat")
+		if (cond) {
+			if (etat) {
+				my.Log.addSTEPPASS("Cocher la case à cocher '" + tObj.getObjectId() + "'")
+				my.Log.addDETAIL("déjà cochée")
+			}else {
+				try {
+					WebUI.click(tObjLbl, FailureHandling.STOP_ON_FAILURE)
+					my.Log.addSTEPPASS("Cocher la case à cocher '" + tObj.getObjectId() + "'")
+				} catch (Exception ex) {
+					my.Log.addSTEP("Cocher la case à cocher '" + tObj.getObjectId() + "'", status)
+					my.Log.addDETAIL(ex.getMessage())
+				}
+			}
+		}else {
+			if (!etat) {
+				my.Log.addSTEPPASS("Décocher la case à cocher '" + tObj.getObjectId() + "'")
+				my.Log.addDETAIL("déjà décochée")
+			}else {
+				String msg = this.sendKeys(tObj, Keys.chord(Keys.SPACE),'',status)
+				if (msg) {
+					my.Log.addSTEP("Décocher la case à cocher '" + tObj.getObjectId() + "'", status)
+					my.Log.addDETAIL(msg)
+				}else {
+					my.Log.addSTEPPASS("Décocher la case à cocher '" + tObj.getObjectId() + "'")
+				}
+			}
+		}
+	} // end of def
 
 
 
