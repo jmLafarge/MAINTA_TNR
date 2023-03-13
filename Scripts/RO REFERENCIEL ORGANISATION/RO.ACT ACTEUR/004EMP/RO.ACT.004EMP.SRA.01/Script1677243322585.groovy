@@ -22,10 +22,10 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	my.Log.addSTEPGRP('ONGLET ZONE')
 	
 		'Clic sur le bon onglet'
-	    KW.scrollAndClick(myJDD.makeTO('a_Zone'))
+	    KW.scrollAndClick(myJDD,'a_Zone')
 		
 		'Vérification de l\'onglet'
-		KW.waitForElementVisible(myJDD.makeTO('a_ZoneSelected'))
+		KW.waitForElementVisible(myJDD,'a_ZoneSelected')
 		
 
 		
@@ -37,36 +37,36 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 			}
 			
 			'Ajout'
-			KW.scrollAndClick(myJDD.makeTO('a_AjouterEmplacement'))
+			KW.scrollAndClick(myJDD,'a_AjouterEmplacement')
 	
 			KW.delay(1)
 			
 			myJDD.setCasDeTestNum(i)
 	
-	        KW.scrollAndSetText(myJDD.makeTO('SelectionEmplacement_input_Filtre'), myJDD.getStrData('ID_NUMREF'))
+	        KW.scrollAndSetText(myJDD,'SelectionEmplacement_input_Filtre', myJDD.getStrData('ID_NUMREF'))
 	
 	        KW.delay(1)
 	
-	        KW.scrollAndClick(myJDD.makeTO('SelectionEmplacement_td'))
+	        KW.scrollAndClick(myJDD,'SelectionEmplacement_td')
 
 			myJDD.readSEQUENCID()
 	
-	        KW.scrollAndClick(myJDD.makeTO('SelectionEmplacement_button_Ajouter'))
+	        KW.scrollAndClick(myJDD,'SelectionEmplacement_button_Ajouter')
 			
 			KW.delay(1)
 			
-			KW.scrollAndClick(myJDD.makeTO('SelectionEmplacement_button_Fermer'))
+			KW.scrollAndClick(myJDD,'SelectionEmplacement_button_Fermer')
 			
 			KW.delay(1)
 	
-	        if (KW.waitAndVerifyElementText(myJDD.makeTO('ID_NUMREF'), myJDD.getStrData('ID_NUMREF'))) {
+	        if (KW.waitAndVerifyElementText(myJDD,'ID_NUMREF')) {
 				myJDD.replaceSEQUENCIDInJDD()
 			}
 
 			
 			if (!my.JDDKW.isNULL(myJDD.getData('DT_DATDEB'))) {
 			
-		        KW.scrollAndDoubleClick(myJDD.makeTO('td_DateDebut'))
+		        KW.scrollAndDoubleClick(myJDD,'td_DateDebut')
 		
 		        KW.delay(1)
 				
@@ -75,21 +75,21 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 				//
 				//
 	
-				KW.setDate(myJDD.makeTO('DT_DATDEB'), myJDD.getData('DT_DATDEB'))
+				KW.setDate(myJDD,'DT_DATDEB')
 			}
 	
 			if (!my.JDDKW.isNULL(myJDD.getData('DT_DATFIN'))) {
 				
-		        KW.scrollAndClick(myJDD.makeTO('SelectionEmplacement_td'))
+		        KW.scrollAndClick(myJDD,'SelectionEmplacement_td')
 		
-		        KW.scrollAndDoubleClick(myJDD.makeTO('td_DateFin'))
+		        KW.scrollAndDoubleClick(myJDD,'td_DateFin')
 		
-		        //WebUI.doubleClick(myJDD.makeTO('1 - RO/ACTEUR/Page_Fiche Acteur/Tab_Habilitation/td_DateFin', [('textHAB') : myJDD.getData('ID_CODHAB]))
+		        //WebUI.doubleClick(myJDD,'1 - RO/ACTEUR/Page_Fiche Acteur/Tab_Habilitation/td_DateFin', [('textHAB') : myJDD.getData('ID_CODHAB]))
 		        //KW.delay(1)
 	
-		        KW.setDate(myJDD.makeTO('DT_DATFIN'), myJDD.getData('DT_DATFIN'))
+		        KW.setDate(myJDD,'DT_DATFIN')
 	
-				KW.scrollAndClick(myJDD.makeTO('ID_NUMREF'))
+				KW.scrollAndClick(myJDD,'ID_NUMREF')
 			}
 			
 

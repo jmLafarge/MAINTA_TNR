@@ -18,7 +18,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	    WebUI.scrollToPosition(0, 0)
 	    KW.delay(1)
 
-	    KW.click(myJDD.makeTO('icon_Logout')) 
+	    KW.click(myJDD,'icon_Logout')
 		
 		WebUI.switchToDefaultContent()
 		
@@ -26,7 +26,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		WebUI.scrollToPosition(0, 0)
 	    KW.delay(1)
 	
-	    KW.click(myJDD.makeTO('icon_Logout'))
+	    KW.click(myJDD,'icon_Logout')
 	}
 	
 	if (!WebUI.waitForElementPresent(myJDD.makeTO('in_passw'), GlobalVariable.TIMEOUT)) {
@@ -36,8 +36,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		my.Log.addSTEPPASS("Déconnexion OK")
 	}
 	
-	my.Log.addSTEP("Fermeture du navigateur")
-	WebUI.closeBrowser()
+	KW.closeBrowser()
 
 }
 

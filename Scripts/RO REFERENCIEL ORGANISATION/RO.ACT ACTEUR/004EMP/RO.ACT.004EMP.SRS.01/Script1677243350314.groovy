@@ -19,10 +19,10 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	my.Log.addSTEPGRP('ONGLET ZONE')
 	
 		'Clic sur le bon onglet'
-		KW.scrollAndClick(myJDD.makeTO('a_Zone'))
+		KW.scrollAndClick(myJDD,'a_Zone')
 		
 		'Vérification de l\'onglet'
-		KW.waitForElementVisible(myJDD.makeTO('a_ZoneSelected'))
+		KW.waitForElementVisible(myJDD,'a_ZoneSelected')
 		
 		'Boucle sur les lignes d\'un même TC'
 	    //for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -34,13 +34,13 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 			
 			myJDD.setCasDeTestNum(i)
 	
-	        KW.waitAndVerifyElementText(myJDD.makeTO('ID_NUMREF'), myJDD.getStrData('ID_NUMREF'))
+	        KW.waitAndVerifyElementText(myJDD,'ID_NUMREF')
 			
 			if (myJDD.getStrData('ST_DEF')=='N' || i==1) {
 		        'Supression'
-				KW.scrollAndClick(myJDD.makeTO('span_Supprime_Emplacement'))
+				KW.scrollAndClick(myJDD,'span_Supprime_Emplacement')
 				KW.delay(1)	
-				KW.verifyElementNotPresent(myJDD.makeTO('ID_NUMREF'))
+				KW.verifyElementNotPresent(myJDD,'ID_NUMREF')
 			}
 	    }
 		

@@ -21,10 +21,10 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	my.Log.addSTEPGRP('ONGLET ZONE')
 	
 		'Clic sur le bon onglet'
-		KW.scrollAndClick(myJDD.makeTO('a_Zone'))
+		KW.scrollAndClick(myJDD,'a_Zone')
 		
 		'Vérification de l\'onglet'
-		KW.waitForElementVisible(myJDD.makeTO('a_ZoneSelected'))
+		KW.waitForElementVisible(myJDD,'a_ZoneSelected')
 		
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -35,19 +35,19 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 			
 			myJDD.setCasDeTestNum(i)
 	
-	        KW.waitAndVerifyElementText(myJDD.makeTO('ID_NUMREF'), myJDD.getStrData('ID_NUMREF'))
+	        KW.waitAndVerifyElementText(myJDD,'ID_NUMREF')
 			
-			def etat_ST_DEF = KW.getCheckBoxImgStatus(myJDD.makeTO('ST_DEF'))
+			def etat_ST_DEF = KW.getCheckBoxImgStatus(myJDD,'ST_DEF')
 			
 			if (etat_ST_DEF != null) {
 				if (myJDD.getStrData('ST_DEF')=='O' && !etat_ST_DEF) {
 					'Mettre par défaut'
 					for ( n in 1..3) {
 						my.Log.addSTEP("Tentative pour cocher la valeur par défaut $n/3" )
-						KW.scrollAndClick(myJDD.makeTO('ST_DEF'))
+						KW.scrollAndClick(myJDD,'ST_DEF')
 						if (KW.waitAndAcceptAlert(GlobalVariable.TIMEOUT,'WARNING')) {
 							KW.delay(1)
-							KW.verifyCheckBoxImgChecked(myJDD.makeTO('ST_DEF'))
+							KW.verifyCheckBoxImgChecked(myJDD,'ST_DEF')
 						}
 					}
 				}else if (myJDD.getStrData('ST_DEF')=='O' && etat_ST_DEF) {
@@ -62,23 +62,23 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 				
 			}
 			
-	        KW.scrollAndDoubleClick(myJDD.makeTO('td_DateDebut'))
-			//KW.scrollAndClick(myJDD.makeTO('td_DateDebut'))
-			//KW.sendKeys(myJDD.makeTO('td_DateDebut'), Keys.chord(Keys.F2),"Envoie de la touche F2 pour saisir la date")
+	        KW.scrollAndDoubleClick(myJDD,'td_DateDebut')
+			//KW.scrollAndClick(myJDD,'td_DateDebut'))
+			//KW.sendKeys(myJDD,'td_DateDebut'), Keys.chord(Keys.F2),"Envoie de la touche F2 pour saisir la date")
 			
-			KW.waitForElementVisible(myJDD.makeTO('DT_DATDEB'))
+			KW.waitForElementVisible(myJDD,'DT_DATDEB')
 	
-	        KW.setDate(myJDD.makeTO('DT_DATDEB'), myJDD.getData('DT_DATDEB'))
-			KW.sendKeys(myJDD.makeTO('DT_DATDEB'), Keys.chord(Keys.RETURN),"Envoie de la touche ENTREE pour valider la date")
+	        KW.setDate(myJDD,'DT_DATDEB')
+			KW.sendKeys(myJDD,'DT_DATDEB', Keys.chord(Keys.RETURN),"Envoie de la touche ENTREE pour valider la date")
 	
-	        KW.scrollAndDoubleClick(myJDD.makeTO('td_DateFin'))
-			//KW.scrollAndClick(myJDD.makeTO('td_DateFin'))
-			//KW.sendKeys(myJDD.makeTO('td_DateFin'), Keys.chord(Keys.F2),"Envoie de la touche F2 pour saisir la date")
+	        KW.scrollAndDoubleClick(myJDD,'td_DateFin')
+			//KW.scrollAndClick(myJDD,'td_DateFin'))
+			//KW.sendKeys(myJDD,'td_DateFin'), Keys.chord(Keys.F2),"Envoie de la touche F2 pour saisir la date")
 			
-			KW.waitForElementVisible(myJDD.makeTO('DT_DATFIN'))
+			KW.waitForElementVisible(myJDD,'DT_DATFIN')
 	
-	        KW.setDate(myJDD.makeTO('DT_DATFIN'), myJDD.getData('DT_DATFIN'))
-			KW.sendKeys(myJDD.makeTO('DT_DATFIN'), Keys.chord(Keys.RETURN),"Envoie de la touche ENTREE pour valider la date")
+	        KW.setDate(myJDD,'DT_DATFIN')
+			KW.sendKeys(myJDD,'DT_DATFIN', Keys.chord(Keys.RETURN),"Envoie de la touche ENTREE pour valider la date")
 
 			
 		}// fin du for

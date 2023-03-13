@@ -21,10 +21,10 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_CODINT'))
 
 	'Clic sur le bon onglet'
-    KW.scrollAndClick(myJDD.makeTO('a_Habilitation'))
+    KW.scrollAndClick(myJDD,'a_Habilitation')
 
 	'Vérification de l\'onglet'
-    KW.waitForElementVisible(myJDD.makeTO('a_HabilitationSelected'))
+    KW.waitForElementVisible(myJDD,'a_HabilitationSelected')
 
 	'Boucle sur les lignes d\'un même TC'
     for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -35,25 +35,25 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		
 		myJDD.setCasDeTestNum(i)
 		
-        KW.waitAndVerifyElementText(myJDD.makeTO('ID_CODHAB'), myJDD.getStrData('ID_CODHAB'))
+        KW.waitAndVerifyElementText(myJDD,'ID_CODHAB')
 
 
 		if (myJDD.getData('DT_DATDEB',i) != '$VIDE') {
 			
-			KW.verifyDate(myJDD.makeTO('td_DateDebut'), myJDD.getData('DT_DATDEB'))
+			KW.verifyDate(myJDD,'td_DateDebut', myJDD.getData('DT_DATDEB'))
 			
 		}else {
 			
-			KW.verifyElementText(myJDD.makeTO('td_DateDebut'), '')
+			KW.verifyElementText(myJDD,'td_DateDebut', '')
 		}
 		
 		if (myJDD.getData('DT_DATFIN',i) != '$VIDE') {
 			
-			KW.verifyDate(myJDD.makeTO('td_DateFin'), myJDD.getData('DT_DATFIN'))
+			KW.verifyDate(myJDD,'td_DateFin', myJDD.getData('DT_DATFIN'))
 			
 		}else {
 			
-			KW.verifyElementText(myJDD.makeTO('td_DateFin'), '')
+			KW.verifyElementText(myJDD,'td_DateFin', '')
 		}
 		
     }// fin du for

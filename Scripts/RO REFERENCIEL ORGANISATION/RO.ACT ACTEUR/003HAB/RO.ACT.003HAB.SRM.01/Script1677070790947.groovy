@@ -20,10 +20,10 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	my.Log.addSTEPGRP('ONGLET HABILITATION')
 	
 		'Clic sur le bon onglet'
-		KW.scrollAndClick(myJDD.makeTO('a_Habilitation'))
+		KW.scrollAndClick(myJDD,'a_Habilitation')
 		
 		'Vérification de l\'onglet'
-		KW.waitForElementVisible(myJDD.makeTO('a_HabilitationSelected'))
+		KW.waitForElementVisible(myJDD,'a_HabilitationSelected')
 		
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -34,27 +34,27 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 			
 			myJDD.setCasDeTestNum(i)
 	
-	        KW.waitAndVerifyElementText(myJDD.makeTO('ID_CODHAB'), myJDD.getStrData('ID_CODHAB'))
+	        KW.waitAndVerifyElementText(myJDD,'ID_CODHAB')
 			
-	        KW.scrollAndDoubleClick(myJDD.makeTO('td_DateDebut'))
-			//KW.scrollAndClick(myJDD.makeTO('td_DateDebut'))
-			//KW.sendKeys(myJDD.makeTO('td_DateDebut'), Keys.chord(Keys.F2),"Envoie de la touche F2 pour saisir la date")
+	        KW.scrollAndDoubleClick(myJDD,'td_DateDebut')
+			//KW.scrollAndClick(myJDD,'td_DateDebut'))
+			//KW.sendKeys(myJDD,'td_DateDebut'), Keys.chord(Keys.F2),"Envoie de la touche F2 pour saisir la date")
 			
-			KW.waitForElementVisible(myJDD.makeTO('DT_DATDEB'))
+			KW.waitForElementVisible(myJDD,'DT_DATDEB')
 	
-	        KW.setDate(myJDD.makeTO('DT_DATDEB'), myJDD.getData('DT_DATDEB'))
-			KW.sendKeys(myJDD.makeTO('DT_DATDEB'), Keys.chord(Keys.RETURN),"Envoie de la touche ENTREE pour valider la date")
+	        KW.setDate(myJDD,'DT_DATDEB')
+			KW.sendKeys(myJDD,'DT_DATDEB', Keys.chord(Keys.RETURN),"Envoie de la touche ENTREE pour valider la date")
 	
-	        KW.scrollAndClick(myJDD.makeTO('ID_CODHAB'))
+	        KW.scrollAndClick(myJDD,'ID_CODHAB')
 	
-	        KW.scrollAndDoubleClick(myJDD.makeTO('td_DateFin'))
-			//KW.scrollAndClick(myJDD.makeTO('td_DateFin'))
-			//KW.sendKeys(myJDD.makeTO('td_DateFin'), Keys.chord(Keys.F2),"Envoie de la touche F2 pour saisir la date")
+	        KW.scrollAndDoubleClick(myJDD,'td_DateFin')
+			//KW.scrollAndClick(myJDD,'td_DateFin'))
+			//KW.sendKeys(myJDD,'td_DateFin'), Keys.chord(Keys.F2),"Envoie de la touche F2 pour saisir la date")
 			
-			KW.waitForElementVisible(myJDD.makeTO('DT_DATFIN'))
+			KW.waitForElementVisible(myJDD,'DT_DATFIN')
 	
-	        KW.setDate(myJDD.makeTO('DT_DATFIN'), myJDD.getData('DT_DATFIN'))
-			KW.sendKeys(myJDD.makeTO('DT_DATFIN'), Keys.chord(Keys.RETURN),"Envoie de la touche ENTREE pour valider la date")
+	        KW.setDate(myJDD,'DT_DATFIN')
+			KW.sendKeys(myJDD,'DT_DATFIN', Keys.chord(Keys.RETURN),"Envoie de la touche ENTREE pour valider la date")
 			
 	    }// fin du for
 		

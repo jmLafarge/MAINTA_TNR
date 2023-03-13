@@ -16,11 +16,12 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 
 	KW.maximizeWindow()
 	
-	KW.setText(myJDD.makeTO('in_user'), myJDD.getData('in_user'))
+	//KW.setText(myJDD.makeTO('in_user'), myJDD.getData('in_user'))
+	KW.setText(myJDD,'in_user')
 	
-	KW.setEncryptedText(myJDD.makeTO('in_passw'), myJDD.getData('in_passw'))
+	KW.setEncryptedText(myJDD,'in_passw')
 
-	KW.click(myJDD.makeTO('button_Connexion'))
+	KW.click(myJDD,'button_Connexion')
 	
 	if (WebUI.verifyElementPresent(myJDD.makeTO('frame_Main'), GlobalVariable.TIMEOUT,FailureHandling.OPTIONAL)) {
 	
@@ -28,7 +29,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		
 	}else if (WebUI.verifyElementPresent(myJDD.makeTO('input_Oui'), GlobalVariable.TIMEOUT,FailureHandling.OPTIONAL)) {
 		
-		    KW.click(myJDD.makeTO('input_Oui'))
+		    KW.click(myJDD,'input_Oui')
 			
 			if (WebUI.verifyElementPresent(myJDD.makeTO('frame_Main'), GlobalVariable.TIMEOUT,FailureHandling.OPTIONAL)) {
 				

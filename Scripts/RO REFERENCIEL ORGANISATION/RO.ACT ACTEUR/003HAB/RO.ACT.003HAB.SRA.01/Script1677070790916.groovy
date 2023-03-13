@@ -23,10 +23,10 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	my.Log.addSTEPGRP('ONGLET HABILITATION')
 	
 		'Clic sur le bon onglet'
-	    KW.scrollAndClick(myJDD.makeTO('a_Habilitation'))
+	    KW.scrollAndClick(myJDD,'a_Habilitation')
 		
 		'Vérification de l\'onglet'
-		KW.waitForElementVisible(myJDD.makeTO('a_HabilitationSelected'))
+		KW.waitForElementVisible(myJDD,'a_HabilitationSelected')
 	
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -38,25 +38,25 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 			myJDD.setCasDeTestNum(i)
 	
 			'Ajout'
-	        KW.scrollAndClick(myJDD.makeTO('a_AjouterHabilitation'))
+	        KW.scrollAndClick(myJDD,'a_AjouterHabilitation')
 	
 	        KW.delay(1)
 	
-	        KW.scrollAndSetText(myJDD.makeTO('SelectionHabilitation_input_Filtre'), myJDD.getStrData('ID_CODHAB'))
+	        KW.scrollAndSetText(myJDD,'SelectionHabilitation_input_Filtre', myJDD.getStrData('ID_CODHAB'))
 	
 	        KW.delay(1)
 	
-	        KW.scrollAndClick(myJDD.makeTO('SelectionHabilitation_td'))
+	        KW.scrollAndClick(myJDD,'SelectionHabilitation_td')
 	
-	        KW.scrollAndClick(myJDD.makeTO('SelectionHabilitation_button_Ajouter'))
+	        KW.scrollAndClick(myJDD,'SelectionHabilitation_button_Ajouter')
 			
 			KW.delay(1)
 	
-	        KW.waitAndVerifyElementText(myJDD.makeTO('ID_CODHAB'), myJDD.getStrData('ID_CODHAB'))
+	        KW.waitAndVerifyElementText(myJDD,'ID_CODHAB')
 			
 			if (!my.JDDKW.isNULL(myJDD.getData('DT_DATDEB'))) {
 			
-		        KW.scrollAndDoubleClick(myJDD.makeTO('td_DateDebut'))
+		        KW.scrollAndDoubleClick(myJDD,'td_DateDebut')
 		
 		        KW.delay(1)
 				
@@ -65,21 +65,21 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 				//
 				//
 	
-				KW.setDate(myJDD.makeTO('DT_DATDEB'), myJDD.getData('DT_DATDEB'))
+				KW.setDate(myJDD,'DT_DATDEB')
 			}
 	
 			if (!my.JDDKW.isNULL(myJDD.getData('DT_DATFIN'))) {
 				
-		        KW.scrollAndClick(myJDD.makeTO('SelectionHabilitation_td'))
+		        KW.scrollAndClick(myJDD,'SelectionHabilitation_td')
 		
-		        KW.scrollAndDoubleClick(myJDD.makeTO('td_DateFin'))
+		        KW.scrollAndDoubleClick(myJDD,'td_DateFin')
 		
-		        //WebUI.doubleClick(myJDD.makeTO('1 - RO/ACTEUR/Page_Fiche Acteur/Tab_Habilitation/td_DateFin', [('textHAB') : myJDD.getData('ID_CODHAB]))
+		        //WebUI.doubleClick(myJDD,'1 - RO/ACTEUR/Page_Fiche Acteur/Tab_Habilitation/td_DateFin', [('textHAB') : myJDD.getData('ID_CODHAB]))
 		        //KW.delay(1)
 	
-		        KW.setDate(myJDD.makeTO('DT_DATFIN'), myJDD.getData('DT_DATFIN'))
+		        KW.setDate(myJDD,'DT_DATFIN')
 	
-				KW.scrollAndClick(myJDD.makeTO('ID_CODHAB'))
+				KW.scrollAndClick(myJDD,'ID_CODHAB')
 			}
 	    }// fin du for
 	

@@ -35,9 +35,9 @@ class NAV {
 	static public verifierCartridge(String txt, int timeOut = GlobalVariable.TIMEOUT) {
 		WebUI.scrollToPosition(0, 0)
 		KW.delay(1)
-		KW.click(myGlobalJDD.makeTO('a_Toggle'),'WARNING')
+		KW.click(myGlobalJDD,'a_Toggle','WARNING')
 		KW.delay(1)
-		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Ecran'), txt,timeOut,'WARNING')
+		KW.waitAndVerifyElementText(myGlobalJDD, 'span_Ecran', txt,timeOut,'WARNING')
 	} // end of def
 
 
@@ -49,9 +49,9 @@ class NAV {
 		String code = "E" + fct
 		WebUI.scrollToPosition(0, 0)
 		KW.delay(1)
-		KW.click(myGlobalJDD.makeTO('a_Toggle'),'WARNING')
+		KW.click(myGlobalJDD, 'a_Toggle','WARNING')
 		KW.delay(1)
-		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Ecran'), 'E'+ fct, timeOut,'WARNING')
+		KW.waitAndVerifyElementText(myGlobalJDD, 'span_Ecran', 'E'+ fct, timeOut,'WARNING')
 	} // end of def
 
 	/**
@@ -63,9 +63,9 @@ class NAV {
 		String code = fct
 		WebUI.scrollToPosition(0, 0)
 		KW.delay(1)
-		KW.click(myGlobalJDD.makeTO('a_Toggle'),'WARNING')
+		KW.click(myGlobalJDD, 'a_Toggle','WARNING')
 		KW.delay(1)
-		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Ecran'), code,timeOut,'WARNING')
+		KW.waitAndVerifyElementText(myGlobalJDD, 'span_Ecran', code,timeOut,'WARNING')
 	} // end of def
 
 	/**
@@ -76,9 +76,9 @@ class NAV {
 		String code = fct + " - Création"
 		WebUI.scrollToPosition(0, 0)
 		KW.delay(1)
-		KW.click(myGlobalJDD.makeTO('a_Toggle'),'WARNING')
+		KW.click(myGlobalJDD, 'a_Toggle','WARNING')
 		KW.delay(1)
-		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Ecran'), code,timeOut,'WARNING')
+		KW.waitAndVerifyElementText(myGlobalJDD, 'span_Ecran', code,timeOut,'WARNING')
 	} // end of def
 
 	/**
@@ -89,10 +89,10 @@ class NAV {
 		String code = fct + " - Consultation ou modification"
 		WebUI.scrollToPosition(0, 0)
 		KW.delay(1)
-		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Selection'), id,timeOut,'WARNING')
-		KW.click(myGlobalJDD.makeTO('a_Toggle'),'WARNING')
+		KW.waitAndVerifyElementText(myGlobalJDD, 'span_Selection', id,timeOut,'WARNING')
+		KW.click(myGlobalJDD, 'a_Toggle','WARNING')
 		KW.delay(1)
-		KW.waitAndVerifyElementText(myGlobalJDD.makeTO('span_Ecran'), code,timeOut,'WARNING')
+		KW.waitAndVerifyElementText(myGlobalJDD, 'span_Ecran', code,timeOut,'WARNING')
 	} // end of def
 
 
