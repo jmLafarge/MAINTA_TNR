@@ -1,5 +1,5 @@
 
 
-String str ='kkkk*44'
+String str =null
 
-println "TNR_PREJDD/RT/standqby/PREJDD.RT.MOY.xlsx"==~ /^(?!.*standby).*PREJDD.*\.xlsx$/
+if (str) println "*************"

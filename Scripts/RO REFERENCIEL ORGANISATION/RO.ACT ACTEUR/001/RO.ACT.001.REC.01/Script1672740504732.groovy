@@ -20,14 +20,14 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
     NAV.goToURL_Grille_and_checkCartridge()
 	
 	'Début de sasie des valeurs du JDD dans l\'écran'
-    KW.scrollAndSetText(myJDD.makeTO('input_Filtre_Acteur'), myJDD.getData('ID_CODINT'))
+    KW.scrollAndSetText(myJDD,'input_Filtre_Acteur', myJDD.getData('ID_CODINT'))
 
 	'Attendre le filtrage du tableau'
 	KW.delay(1)
 	
 	'mise à jour dynamique du xpath'
 	'Vérification des valeurs'
-	KW.scrollWaitAndVerifyElementText( myJDD.makeTO('td_Grille_Acteur'), myJDD.getData('ID_CODINT'))
+	KW.scrollWaitAndVerifyElementText( myJDD,'td_Grille_Acteur', myJDD.getData('ID_CODINT'))
 
 } // fin du if
 

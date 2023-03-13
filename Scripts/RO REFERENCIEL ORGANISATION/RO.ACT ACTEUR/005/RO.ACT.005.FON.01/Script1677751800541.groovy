@@ -22,17 +22,17 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	NAV.verifierCartridge('Copy')
 	
 		
-    KW.scrollAndSetText(myJDD.makeTO('input_ID_COD'), myJDD.getStrData('ID_CODINT'))
+    KW.scrollAndSetText(myJDD,'input_ID_COD', myJDD.getStrData('ID_CODINT'))
 
-    KW.scrollAndSetText(myJDD.makeTO('input_ST_NOMNEW'), myJDD.getStrData('ST_NOM'))
+    KW.scrollAndSetText(myJDD,'input_ST_NOMNEW', myJDD.getStrData('ST_NOM'))
 
-    KW.scrollAndSetText(myJDD.makeTO('input_ST_PRENEW'), myJDD.getStrData('ST_PRE'))
+    KW.scrollAndSetText(myJDD,'input_ST_PRENEW', myJDD.getStrData('ST_PRE'))
 			
 	
 	my.Log.addSTEPGRP('VALIDATION')
 		
     'Validation de la saisie'
-    KW.scrollAndClick(myJDD.makeTO('button_ValiderCopie'))
+    KW.scrollAndClick(myJDD,'button_ValiderCopie')
 
     'Vérification du test case - écran résulat'
     NAV.verifierEcranRUD(myJDD.getData('ID_CODINT'))

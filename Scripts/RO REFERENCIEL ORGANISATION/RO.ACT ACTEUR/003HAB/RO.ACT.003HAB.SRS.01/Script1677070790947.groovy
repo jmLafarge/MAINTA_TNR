@@ -20,10 +20,10 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	my.Log.addSTEPGRP('ONGLET HABILITATION')
 	
 		'Clic sur le bon onglet'
-		KW.scrollAndClick(myJDD.makeTO('a_Habilitation'))
+		KW.scrollAndClick(myJDD,'a_Habilitation')
 		
 		'Vérification de l\'onglet'
-		KW.waitForElementVisible(myJDD.makeTO('a_HabilitationSelected'))
+		KW.waitForElementVisible(myJDD,'a_HabilitationSelected')
 		
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -34,15 +34,15 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 			
 			myJDD.setCasDeTestNum(i)
 	
-	        KW.waitAndVerifyElementText(myJDD.makeTO('ID_CODHAB'), myJDD.getStrData('ID_CODHAB'))
+	        KW.waitAndVerifyElementText(myJDD,'ID_CODHAB')
 		        
 			'Suppression'
 			for ( n in 1..3) {
 				my.Log.addSUBSTEP("Tentative de suppression $n/3" )
-				KW.scrollAndClick(myJDD.makeTO('span_Supprime_Habilitation'))
+				KW.scrollAndClick(myJDD,'span_Supprime_Habilitation')
 				if (KW.waitAndAcceptAlert(GlobalVariable.TIMEOUT,'WARNING')) {	
 					KW.delay(1)	
-					KW.verifyElementNotPresent(myJDD.makeTO('ID_CODHAB'))
+					KW.verifyElementNotPresent(myJDD,'ID_CODHAB')
 					break
 				}
 			}
