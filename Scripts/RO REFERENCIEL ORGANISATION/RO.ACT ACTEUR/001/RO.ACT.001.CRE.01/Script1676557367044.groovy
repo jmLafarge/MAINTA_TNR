@@ -31,7 +31,13 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 		KW.scrollAndSelectOptionByValue(myJDD.makeTO('ST_ETA'), myJDD.getStrData('ST_ETA'))
 		
-		KW.scrollAndCheckIfNeeded(myJDD.makeTO('ST_INA'),myJDD.getStrData('ST_INA')=='O')
+		KW.delay(1)
+
+		KW.scrollAndCheckIfNeeded2(myJDD.makeTO('ST_INA'),myJDD.makeTO('LblST_INA'),myJDD.getStrData('ST_INA')=='N')
+
+		
+		KW.delay(10)
+		
 		
 	    KW.scrollAndSetText(myJDD.makeTO('ID_CODINT'), myJDD.getStrData('ID_CODINT'))
 	

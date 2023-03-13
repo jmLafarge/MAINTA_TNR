@@ -9,25 +9,12 @@ import com.kms.katalon.core.testobject.TestObject
 import groovy.text.SimpleTemplateEngine
 import internal.GlobalVariable
 
-
-
-/********************************************************************************
- * 
- *                JDD nouvelle version
- * 
- * 
- * 
- *********************************************************************************/
-
-
 public class JDD {
 
 	private final String TOSHEETNAME = 'IHMTO'
-	//private final String INFOSHEETNAME = 'Info'
 
-
-	private final List PARAM_LIST_ALLOWED		= ['PREREQUIS', 'FOREIGNKEY', 'LOCATOR', 'SEQUENCE'] 	// allowed param list
-	private final List TAG_LIST_ALLOWED			= ['input', 'select', 'textarea', 'td'] 			// allowed tag list
+	private final List PARAM_LIST_ALLOWED		= ['PREREQUIS', 'FOREIGNKEY', 'LOCATOR', 'SEQUENCE']
+	private final List TAG_LIST_ALLOWED			= ['input', 'select', 'textarea', 'td', 'checkbox'] 			
 	private final List SKIP_LIST_SHEETNAME		= ['Version', 'Info', TOSHEETNAME]
 	private final String START_DATA_WORD		= 'CAS_DE_TEST'
 
@@ -52,7 +39,7 @@ public class JDD {
 	 * @param casDeTest
 	 */
 	JDD(String JDDFullName = null, String TCTabName = null,String casDeTest = null,boolean step=true) {
-		
+
 		my.Log.addDEBUG("JDD Construtor JDDFullName = '$JDDFullName'    TCTabName = '$TCTabName' Cas de test = '$casDeTest' step = $step")
 
 		if(JDDFullName == null) {
@@ -107,6 +94,7 @@ public class JDD {
 			}
 			my.Log.addDEBUG("my.Tools.parseMap(this.xpathTO)",2)
 			my.Tools.parseMap(this.xpathTO)
+			
 		}
 	}
 
@@ -379,8 +367,9 @@ public class JDD {
 				String name = this.headers[i]
 				my.Log.addDEBUG("\t\taddXpath i = $i name = '$name' loc='$loc' ",2 )
 				if (loc in TAG_LIST_ALLOWED) {
-					if (loc=='label') {
-						this.xpathTO.put(name, "//$loc[@id='Lbl$name']")
+					if (loc=='checkbox') {
+						this.xpathTO.put(name, "//input[@id='$name']")
+						this.xpathTO.put('Lbl'+name, "//label[@id='Lbl$name']")
 					}else {
 						// it's a standard xpath
 						this.xpathTO.put(name, "//$loc[@id='$name']")

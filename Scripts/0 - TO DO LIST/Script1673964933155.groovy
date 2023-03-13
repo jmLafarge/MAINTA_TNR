@@ -6,7 +6,7 @@
  * FAIT
  * -----------------------------------------------------------------------------------------------------
  * 
-
+	
  *
  *
  * -----------------------------------------------------------------------------------------------------
@@ -24,13 +24,18 @@
 	Pour la version, voir la table ver
 
 	ZZ.103 clic2
-		le click marche sur le label pour tous le nav
+		le click marche sur le label pour tous les nav
 		mais le texte si coché ou pas se fait sur l'input !
 		--> du coup je crée un type checkbox  pour LOCATOR qui créra 2 obj #
 			- un type inputinput avec le NomDuChamp pour ctrl coché ou non
 			- un type label avec LblNomDuChamp pour le click
 				
-		
+	modif
+		JDD.RO.ACT : ST_INA LOCATOR checkbox
+		my.JDD
+			Ajout checkbox in TAG_LIST_ALLOWED
+			Ajout dans addXpath
+			Ajout scrollAndCheckIfNeeded2	
 		
 		
 		
