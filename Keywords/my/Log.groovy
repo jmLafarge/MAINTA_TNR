@@ -10,8 +10,10 @@ class Log {
 
 	private static Map status = ['WARNING':0,'FAIL':0,'PASS':0,'ERROR':0]
 
+	private static String dateTimeFormat = 'yyyy-MM-dd HH:mm:ss.SSS'
 
-	private static File file = this.createFile()
+	private static File file = this.createFile('')
+	private static File fileDebug = this.createFile('DEBUG')
 
 	private static int nbCarStatus = 7
 
@@ -28,14 +30,12 @@ class Log {
 	private static String PREDETAILTXT	= '                   - '
 
 
-	/*
-	 * 
-	 */
-	private static File createFile(){
+
+	private static File createFile(String txt){
 
 		String dateFile = new Date().format("yyyyMMdd_HHmmss")
 
-		File file =new File(my.PropertiesReader.getMyProperty('LOG_PATH') + File.separator +  dateFile + '-log.txt')
+		File file =new File(my.PropertiesReader.getMyProperty('LOG_PATH') + File.separator +  dateFile + "-log${txt}.txt")
 
 		this.debugLevel = my.PropertiesReader.getMyProperty('LOG_DEBUGLEVEL').toInteger()
 
@@ -43,27 +43,32 @@ class Log {
 	}
 
 
-	/*
-	 * 
-	 */
-	private static add (String stat, String msg) {
-
+	private static String getStatFormat(String stat) {
+		
 		if (stat=='') {
 			stat='-'*this.nbCarStatus
 		}else {
 			if (stat.length()> this.nbCarStatus) stat=stat.substring(0,this.nbCarStatus)
 			stat=stat.center(this.nbCarStatus)
 		}
-		String h = new Date().format("yyyy-MM-dd HH:mm:ss.SSS")
-		this.file.append("[$h][$stat]:" + this.tab +"$msg\n")
-
-		println "[my Log][$stat]:" + this.tab +"$msg"
 	}
 
 
-	/*
-	 * 
-	 */
+	private static add (String stat, String msg) {
+		stat= this.getStatFormat(stat)
+		String h = new Date().format(this.dateTimeFormat)
+		this.file.append("[$h][$stat]:" + this.tab +"$msg\n")
+		//println "[my Log][$stat]:" + this.tab +"$msg"
+		this.fileDebug.append("[$h][$stat]:" + this.tab +"$msg\n")
+	}
+	
+
+	static public addDEBUG (String msg, int level=1) {
+		String stat= this.getStatFormat('DEBUG ' + level)
+		String h = new Date().format(this.dateTimeFormat)
+		if (level <= this.debugLevel) this.fileDebug.append("[$h][$stat]:" + this.tab +"$msg\n")
+	}
+
 	static public addINFO (String msg) {
 
 		this.add('',msg )
@@ -90,18 +95,6 @@ class Log {
 		this.add('ERROR',msg )
 		this.status.ERROR++
 	}
-
-
-
-	static public addDEBUG (String msg, int level=1) {
-
-		if (level <= this.debugLevel) {
-			this.add('DEBUG ' + level,'\t'+msg )
-		}else if (level<2){
-			println "[my Log][ DEBUG ]:" + this.tab +"$msg"
-		}
-	}
-
 
 
 	static public addDETAIL (String msg) {

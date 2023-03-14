@@ -14,7 +14,7 @@ public class JDD {
 	private final String TOSHEETNAME = 'IHMTO'
 
 	private final List PARAM_LIST_ALLOWED		= ['PREREQUIS', 'FOREIGNKEY', 'LOCATOR', 'SEQUENCE']
-	private final List TAG_LIST_ALLOWED			= ['input', 'select', 'textarea', 'td', 'checkbox'] 			
+	private final List TAG_LIST_ALLOWED			= ['input', 'select', 'textarea', 'td', 'checkbox']
 	private final List SKIP_LIST_SHEETNAME		= ['Version', 'Info', TOSHEETNAME]
 	private final String START_DATA_WORD		= 'CAS_DE_TEST'
 
@@ -94,7 +94,7 @@ public class JDD {
 			}
 			my.Log.addDEBUG("my.Tools.parseMap(this.xpathTO)",2)
 			my.Tools.parseMap(this.xpathTO)
-			
+
 		}
 	}
 
@@ -325,7 +325,7 @@ public class JDD {
 		TestObject to = new TestObject(ID)
 		to.setSelectorMethod(SelectorMethod.XPATH)
 		String xpath = this.xpathTO.getAt(ID)
-		my.Log.addDEBUG('\t\txpath :' + xpath)
+		my.Log.addDEBUG('\txpath :' + xpath)
 		// is it a dynamic xpath
 		def matcher = xpath =~  /\$\{(.+?)\}/
 		//LOG

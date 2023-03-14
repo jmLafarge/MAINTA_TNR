@@ -147,7 +147,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
     'Vérification du test case - écran résulat'
     NAV.verifierEcranResultat()
 
-    KW.verifyElementText(myJDD,'a_Resultat_ID', myJDD.getStdData('ID_CODINT'))
+    KW.verifyElementText(myJDD,'a_Resultat_ID', myJDD.getStrData('ID_CODINT'))
 
 	'Vérification des valeurs en BD'
 	my.SQL.checkJDDWithBD(myJDD,specificValueMap)

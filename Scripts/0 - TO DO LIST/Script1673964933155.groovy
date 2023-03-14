@@ -6,13 +6,15 @@
  * FAIT
  * -----------------------------------------------------------------------------------------------------
  * 
-	00 - JDD GENERATOR et my.JDDGenerator
+	Ajout d'un fichier log DEBUG séparé
  *
  *
  * -----------------------------------------------------------------------------------------------------
  * EN COURS
  * -----------------------------------------------------------------------------------------------------
  *
+	
+	
 	
 	NOTE : le double click fonctionne de temps en temps avec Chrome 
 	
@@ -25,12 +27,8 @@
 	Traiter les valeurs des $DATESYS et $DATETIME
 	
 	
-	Voir les FAIL des O/N dasn RO.ACT.001.MAJ.01
-	
-[2023-03-10 11:38:16.111][-------]:                   - Contrôle de la valeur de ST_PRIPRE KO : la valeur attendue est : O et la valeur en BD est : N --> apparement j'ai coché mais pas enregistré
-[2023-03-10 11:38:16.114][-------]:                   - Contrôle de la valeur de ST_DEM KO : la valeur attendue est : O et la valeur en BD est : N
-[2023-03-10 11:38:16.116][-------]:                   - Contrôle de la valeur de ST_INT KO : la valeur attendue est : O et la valeur en BD est : N
-[2023-03-10 11:38:16.117][-------]:                   - Contrôle de la valeur de ST_ACH KO : la valeur attendue est : O et la valeur en BD est : N
+
+
 	
  * 
  * -----------------------------------------------------------------------------------------------------
@@ -79,7 +77,6 @@
 	  
 	  LOG : integrer LOG4J
 	  LOG : Ajouter def var en para d'un DEBUG pour parser un map , un list,...
-	  LOG : faire le log à 0 et faire un autre à 1 2 ou 3
 	  
 	  RESULT : faire un plan avec les STEPs
 	  

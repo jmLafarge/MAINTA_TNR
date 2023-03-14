@@ -10,19 +10,19 @@ import org.openqa.selenium.Keys as Keys
 
 import internal.GlobalVariable
 
+/**
+ * Personaliser et de regrouper certaines actions WebUI
+ * 
+ * @author X1009638
+ *
+ */
 class KW {
 
-	/* 
-	 * Personaliser et de regrouper certaines actions WebUI
-	 *
-	 *
-	 *
-	 *
-	 * 
-	 * 
-	 * 
+	
+	/**
+	 * @param second
+	 * @return
 	 */
-
 	static delay(Number second) {
 
 		my.Log.addDEBUG("Delay $second second(s)")
@@ -30,6 +30,10 @@ class KW {
 	}
 
 
+	/**
+	 * @param url
+	 * @return
+	 */
 	static openBrowser(String url){
 		try {
 			WebUI.openBrowser(url, FailureHandling.STOP_ON_FAILURE)
@@ -56,7 +60,7 @@ class KW {
 			my.Log.addDETAIL(ex.getMessage())
 		}
 	}
-	
+
 
 	static closeBrowser(){
 		try {
@@ -67,7 +71,7 @@ class KW {
 			my.Log.addDETAIL(ex.getMessage())
 		}
 	}
-	
+
 
 	static maximizeWindow(){
 		try {
@@ -532,7 +536,7 @@ class KW {
 		}
 	}
 
-	static verifyImg(JDD myJDD, String name, boolean cond, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {		
+	static verifyImg(JDD myJDD, String name, boolean cond, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		if (cond) {
 			this.verifyElementPresent(myJDD, name, timeOut, status)
 		}
