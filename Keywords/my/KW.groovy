@@ -18,7 +18,7 @@ import internal.GlobalVariable
  */
 class KW {
 
-	
+
 	/**
 	 * @param second
 	 * @return
@@ -199,16 +199,8 @@ class KW {
 
 
 
-	static verifyElementChecked(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		TestObject tObj = myJDD.makeTO(name)
-		try {
-			WebUI.verifyElementChecked(tObj,timeOut, FailureHandling.STOP_ON_FAILURE)
-			my.Log.addSTEPPASS("Vérifier que '${tObj.getObjectId()}'soit coché")
-		} catch (Exception ex) {
-			my.Log.addSTEP("Vérifier que '${tObj.getObjectId()}' soit coché", status)
-			my.Log.addDETAIL(ex.getMessage())
-		}
-	}
+
+
 
 
 	static boolean verifyElementNotPresent(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
@@ -247,6 +239,7 @@ class KW {
 		TestObject tObj = myJDD.makeTO(name)
 		if (text==null) text = myJDD.getStrData(name)
 		String gText = WebUI.getText(tObj)
+		/*
 		try {
 			WebUI.verifyElementText(tObj, text,FailureHandling.STOP_ON_FAILURE)
 			my.Log.addSTEPPASS("Vérification du texte '$text' sur '" + tObj.getObjectId() + "'")
@@ -256,20 +249,17 @@ class KW {
 			my.Log.addDETAIL(ex.getMessage())
 			return false
 		}
+		*/
+		if (WebUI.verifyElementText(tObj, text,FailureHandling.OPTIONAL)) {
+			my.Log.addSTEPPASS("Vérification du texte '$text' sur '" + tObj.getObjectId() + "'")
+			return true
+		} else {
+			my.Log.addSTEP("Vérification du texte '$text' sur '" + tObj.getObjectId() + "'",status)
+			my.Log.addDETAIL("la valeur est '$gText' !")
+			return false
+		}
 	} // end of def
 
-
-
-	static verifyElementNotChecked(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		TestObject tObj = myJDD.makeTO(name)
-		try {
-			WebUI.verifyElementNotChecked(tObj,timeOut, FailureHandling.STOP_ON_FAILURE)
-			my.Log.addSTEPPASS("Vérifier que '${tObj.getObjectId()}' soit décoché")
-		} catch (Exception ex) {
-			my.Log.addSTEP("Vérifier que '${tObj.getObjectId()}' soit décoché", status)
-			my.Log.addDETAIL(ex.getMessage())
-		}
-	}
 
 
 
@@ -441,10 +431,10 @@ class KW {
 		boolean cond = myJDD.getStrData(name)==textTrue
 
 		this.scrollToElement(myJDD, name,timeOut,status)
-		boolean etat = WebUI.getAttribute(tObj, 'checked')=='yes'
-		my.Log.addDEBUG("etat : $etat")
+		//boolean etat = WebUI.getAttribute(tObj, 'checked')=='yes'
+
 		if (cond) {
-			if (etat) {
+			if (WebUI.verifyElementChecked(tObj,timeOut, FailureHandling.OPTIONAL)) {
 				my.Log.addSTEPPASS("Cocher la case à cocher '" + name + "'")
 				my.Log.addDETAIL("déjà cochée")
 			}else {
@@ -457,7 +447,7 @@ class KW {
 				}
 			}
 		}else {
-			if (!etat) {
+			if (WebUI.verifyElementNotChecked(tObj,timeOut, FailureHandling.OPTIONAL)) {
 				my.Log.addSTEPPASS("Décocher la case à cocher '" + name + "'")
 				my.Log.addDETAIL("déjà décochée")
 			}else {
@@ -474,13 +464,29 @@ class KW {
 
 
 
-	static verifyElementCheckedOrNot(JDD myJDD, String name, boolean cond, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+	static verifyElementCheckedOrNot(JDD myJDD, String name, String textTrue, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		TestObject tObj = myJDD.makeTO(name)
+
+		boolean cond = myJDD.getStrData(name)==textTrue
+
+		this.scrollToElement(myJDD, name,timeOut,status)
+
 		if (cond) {
-			this.verifyElementChecked(myJDD, name,timeOut, status)
+			if (WebUI.verifyElementChecked(tObj,timeOut, FailureHandling.OPTIONAL)) {
+				my.Log.addSTEPPASS("Vérifier que '${tObj.getObjectId()}'soit coché")
+			}else {
+				my.Log.addSTEPFAIL("Vérifier que '${tObj.getObjectId()}'soit coché")
+				my.Log.addDETAIL('La case est décochée !')
+			}
 		}else {
-			this.verifyElementNotChecked(myJDD, name,timeOut, status)
+			if (WebUI.verifyElementNotChecked(tObj,timeOut, FailureHandling.OPTIONAL)) {
+				my.Log.addSTEPPASS("Vérifier que '${tObj.getObjectId()}' soit décoché")
+			}else {
+				my.Log.addSTEPFAIL("Vérifier que '${tObj.getObjectId()}' soit décoché")
+				my.Log.addDETAIL('La case est cochée !')
+			}
 		}
+
 	}
 
 

@@ -45,7 +45,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 					for ( n in 1..3) {
 						my.Log.addSTEP("Tentative pour cocher la valeur par défaut $n/3" )
 						KW.scrollAndClick(myJDD,'ST_DEF')
-						if (KW.waitAndAcceptAlert(GlobalVariable.TIMEOUT,'WARNING')) {
+						if (KW.waitAndAcceptAlert(GlobalVariable.TIMEOUT,null)) {
 							KW.delay(1)
 							KW.verifyCheckBoxImgChecked(myJDD,'ST_DEF')
 						}

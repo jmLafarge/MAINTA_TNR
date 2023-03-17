@@ -39,9 +39,9 @@ public class Sequencer {
 	 */
 	static public load() {
 
-		my.Log.addSubTITLE('Load testCasesList from TNR sequencer file')
-		my.Log.addINFO("\t" + 'TCNAME'.padRight(24) + 'TCFULLNAME'.padRight(90) + 'REP')
-		my.Log.addINFO("")
+		my.Log.addSubTITLE('Load testCasesList from TNR sequencer file','-',120,1)
+		my.Log.addDEBUG("\t" + 'TCNAME'.padRight(24) + 'TCFULLNAME'.padRight(90) + 'REP')
+		my.Log.addDEBUG("")
 
 		// read JDD
 		Sheet shTNR = this.readSequencerFile()
@@ -60,7 +60,7 @@ public class Sequencer {
 
 			String casDeTestPatternFromSequencer = row.getCell(0).getStringCellValue()
 
-			my.Log.addDEBUG('casDeTestPatternFromSequencer = ' + casDeTestPatternFromSequencer)
+			my.Log.addDEBUG('casDeTestPatternFromSequencer = ' + casDeTestPatternFromSequencer,2)
 
 			if (casDeTestPatternFromSequencer == "") {
 				break
@@ -90,7 +90,7 @@ public class Sequencer {
 
 		Map TCMap = [:]
 
-		my.Log.addINFO('\t' + TCName.padRight(24) + TCFullName.padRight(90) + rep.toString().padLeft(3))
+		my.Log.addINFO('\t' + TCName.padRight(24) + TCFullName.padRight(90) + rep.toString().padLeft(3),1)
 
 		TCMap.put('TCNAME',TCName)
 		TCMap.put('TCFULLNAME',TCFullName)

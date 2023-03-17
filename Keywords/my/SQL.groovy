@@ -189,7 +189,6 @@ public class SQL {
 			return null
 		}else {
 			String val = frow.getAt(0).toString()
-			my.Log.addDEBUG("getMaintaVersion() est $val")
 			return val
 		}
 	}

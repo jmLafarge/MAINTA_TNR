@@ -57,21 +57,21 @@ class TestListener {
 			
 			my.Log.addTITLE("Lancement du test $TCName")
 			
-		}else if (TCName == '00 - JDD GENERATOR'){
+		}else if (TCName == '__JDD GENERATOR'){
 			
 			my.Log.addTITLE("Lancement de $TCName")
 			if (my.InfoBDD.line.isEmpty()) { my.InfoBDD.load() }
 			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
 			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
 			
-		}else if (TCName == '1 - CHECK PREREQUIS'){
+		}else if (TCName == '_CHECK PREREQUIS'){
 			
 			my.Log.addTITLE("Lancement de $TCName")
 			if (my.InfoBDD.line.isEmpty()) { my.InfoBDD.load() }
 			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
 			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
 			
-		}else if (TCName == '2 - CREATE PREJDD IN DB'){
+		}else if (TCName == '_CREATE PREJDD IN DB'){
 			
 			my.Log.addTITLE("Lancement de $TCName")
 			if (my.InfoBDD.line.isEmpty()) { my.InfoBDD.load() }
@@ -79,15 +79,26 @@ class TestListener {
 			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
 
 
-		}else if (TCName == '3 - TNR SEQUENCER') {
+		}else if (TCName == '_TNR SEQUENCER') {
 			if (my.InfoBDD.line.isEmpty()) { my.InfoBDD.load() }
 			if (my.TCFiles.TCfileMap.isEmpty()) { my.TCFiles.load() }
 			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
 			if (my.Sequencer.testCasesList.isEmpty()) { my.Sequencer.load() }
-			if (my.NAV.myGlobalJDD == null) { my.NAV.loadJDDGLOBAL() }
-
+			
 			my.Log.addTITLE("Lancement de $TCName")
-				
+			
+			my.Result.addStartInfo()
+			
+			my.Log.addSUBSTEP('INFO CONTEXTE')
+			my.Log.addDETAIL("Nom de l'OS".padRight(26) + System.getProperty("os.name"))
+			my.Log.addDETAIL("Version de l'OS".padRight(26) + System.getProperty("os.version"))
+			my.Log.addDETAIL("Architecture de l'OS".padRight(26) + System.getProperty("os.arch"))
+			my.Log.addDETAIL("Version de MAINTA".padRight(26) + my.SQL.getMaintaVersion())
+			my.Log.addDETAIL("Base de donnée".padRight(26) + GlobalVariable.BDD_URL)
+			my.Log.addINFO('')
+			
+			if (my.NAV.myGlobalJDD == null) { my.NAV.loadJDDGLOBAL() }
+	
 		}else {
 			/*
 			TCName = (TCName.contains(' ')) ? TCName.split(' ')[0] : TCName

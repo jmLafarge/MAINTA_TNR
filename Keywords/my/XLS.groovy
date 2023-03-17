@@ -19,6 +19,7 @@ public class XLS {
 
 	static writeCell(Row row, int colIdx,def val,CellStyle cellStyle = null) {
 
+		my.Log.addDEBUG("writeCell $colIdx : $val",2)
 		Cell cell = row.getCell(colIdx)
 
 		if (cell == null) {

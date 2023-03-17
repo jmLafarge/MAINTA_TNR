@@ -44,7 +44,7 @@ class Log {
 
 
 	private static String getStatFormat(String stat) {
-		
+
 		if (stat=='') {
 			stat='-'*this.nbCarStatus
 		}else {
@@ -61,7 +61,7 @@ class Log {
 		//println "[my Log][$stat]:" + this.tab +"$msg"
 		this.fileDebug.append("[$h][$stat]:" + this.tab +"$msg\n")
 	}
-	
+
 
 	static public addDEBUG (String msg, int level=1) {
 		String stat= this.getStatFormat('DEBUG ' + level)
@@ -69,9 +69,13 @@ class Log {
 		if (level <= this.debugLevel) this.fileDebug.append("[$h][$stat]:" + this.tab +"$msg\n")
 	}
 
-	static public addINFO (String msg) {
+	static public addINFO (String msg,int level=0) {
 
-		this.add('',msg )
+		if (level==0) {
+			this.add('',msg )
+		}else {
+			this.addDEBUG(msg,level )
+		}
 	}
 
 
@@ -106,6 +110,9 @@ class Log {
 		this.addFAIL(this.PREDETAILTXT+ msg)
 	}
 
+	static public addDETAILWARNING (String msg) {
+		this.addWARNING(this.PREDETAILTXT+ msg)
+	}
 
 	static public addSTEP (String msg, String status = null) {
 		switch (status) {
@@ -199,24 +206,24 @@ class Log {
 
 
 
-	static public addTITLE(String title, String car ='*',int nbcar = 140) {
+	static public addTITLE(String title, String car ='*',int nbcar = 140,int level=0) {
 		if (title.length()+4 >= nbcar) nbcar = title.length()+4
 
-		this.addINFO('')
-		this.addINFO(car*nbcar)
-		this.addINFO(car + ' ' * (nbcar-2) + car)
-		this.addINFO(car + title.center(nbcar-2) + car)
-		this.addINFO(car + ' ' * (nbcar-2) + car)
-		this.addINFO(car*nbcar)
-		this.addINFO('')
+		this.addINFO('',level)
+		this.addINFO(car*nbcar,level)
+		this.addINFO(car + ' ' * (nbcar-2) + car,level)
+		this.addINFO(car + title.center(nbcar-2) + car,level)
+		this.addINFO(car + ' ' * (nbcar-2) + car,level)
+		this.addINFO(car*nbcar,level)
+		this.addINFO('',level)
 	}
 
 
-	static public addSubTITLE(String subtitle, String car ='-', int nbcar = 120 ) {
-		this.addINFO('')
-		this.addINFO(car*nbcar)
-		this.addINFO(subtitle)
-		this.addINFO(car*nbcar)
-		this.addINFO('')
+	static public addSubTITLE(String subtitle, String car ='-', int nbcar = 120 ,int level=0) {
+		this.addINFO('',level)
+		this.addINFO(car*nbcar,level)
+		this.addINFO(subtitle,level)
+		this.addINFO(car*nbcar,level)
+		this.addINFO('',level)
 	}
 }// end of class

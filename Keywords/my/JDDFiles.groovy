@@ -11,12 +11,12 @@ public class JDDFiles {
 	static public load() {
 
 
-		my.Log.addSubTITLE("Load JDDfileList")
+		my.Log.addSubTITLE("Load JDDfileList",'-',120,1)
 
-		my.Log.addINFO("\t"+'MODOBJ'.padRight(16) + 'JDDFULLNAME')
+		my.Log.addINFO("\t"+'MODOBJ'.padRight(16) + 'JDDFULLNAME',1)
 
 
-		my.Log.addINFO('')
+		my.Log.addDEBUG('')
 
 		new File(my.PropertiesReader.getMyProperty('JDD_PATH')).eachFileRecurse(FileType.FILES) { file ->
 
@@ -27,7 +27,7 @@ public class JDDFiles {
 
 				this.JDDfilemap.put(modObj,file.getPath())
 
-				my.Log.addINFO('\t' + modObj.padRight(16) + file.getPath())
+				my.Log.addINFO('\t' + modObj.padRight(16) + file.getPath(),1)
 			}
 			/* Example
 			 *

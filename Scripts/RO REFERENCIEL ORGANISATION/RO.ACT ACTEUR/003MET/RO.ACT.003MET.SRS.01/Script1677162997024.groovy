@@ -40,7 +40,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 			for ( n in 1..3) {
 				my.Log.addSUBSTEP("Tentative de suppression $n/3" )
 				KW.scrollAndClick(myJDD,'span_Supprime_Metier')
-				if (KW.waitAndAcceptAlert(GlobalVariable.TIMEOUT,'WARNING')) {	
+				if (KW.waitAndAcceptAlert(GlobalVariable.TIMEOUT,null)) {	
 					KW.delay(1)	
 					KW.verifyElementNotPresent(myJDD,'ID_CODMET')
 					break

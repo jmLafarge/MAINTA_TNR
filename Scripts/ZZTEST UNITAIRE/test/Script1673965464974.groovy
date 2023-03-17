@@ -1,5 +1,23 @@
 
+println GroovySystem.version
 
-String str =null
+def li = ["coucou", "hello"]
 
-if (str) println "*************"
+println li.toListString()
+
+def index = 6
+println li.size()
+
+println li[1]
+
+li.add(2,'titi')
+
+print li
+
+
+while (li.size()<index) {
+	li.add(li.size(),null)
+}
+li.add(index,'toto')
+my.Log.addINFO(li.toListString())
+

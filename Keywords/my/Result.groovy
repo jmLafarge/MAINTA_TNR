@@ -277,8 +277,6 @@ public class Result {
 		OutputStream fileOut = new FileOutputStream(this.resulFileName)
 
 		this.book.write(fileOut);
-
-
 	}
 
 

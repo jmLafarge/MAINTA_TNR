@@ -2,12 +2,29 @@
 
 my.InfoBDD.load()
 
+println my.InfoBDD.paraMap.containsKey('ID_CODSER')
 
-my.InfoBDD.colnameMap['INTER'].each{
+my.InfoBDD.paraMap.each{k,v ->
 	
-	println it
+	if (v[2]!=null) println v[2]
 	
 }
+
+/*
+my.InfoBDD.colnameMap['INTER'].eachWithIndex{v,i ->
+	
+	println "$i    $v"
+	
+}
+*/
+
+/*
+my.InfoBDD.line.eachWithIndex{v,i ->
+	
+	println "$i    $v"
+	
+}
+*/
 
 //println my.InfoBDD.line[0]
 

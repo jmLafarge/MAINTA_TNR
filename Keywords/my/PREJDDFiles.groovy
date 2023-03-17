@@ -15,16 +15,16 @@ public class PREJDDFiles {
 
 	static public load() {
 
-		my.Log.addSubTITLE("Load PREJDDfileList")
-		my.Log.addINFO("\t"+'MODOBJ'.padRight(11) + 'JDDFULLNAME')
-		my.Log.addINFO('')
+		my.Log.addSubTITLE("Load PREJDDfileList",'-',120,1)
+		my.Log.addINFO("\t"+'MODOBJ'.padRight(11) + 'JDDFULLNAME',1)
+		my.Log.addINFO('',1)
 
 		new File(my.PropertiesReader.getMyProperty('PREJDD_PATH')).eachFileRecurse(FileType.FILES) { file ->
 			// keep only TC Name like PREJDD.*.xlsx
 			if (file.getName()==~ /PREJDD\..*\.xlsx/ && file.getPath()==~ /^((?!standby).)*$/) {
 				String modObj = file.getName().replace('PREJDD.','').replace('.xlsx','')
 				this.PREJDDfilemap.put(modObj,file.getPath())
-				my.Log.addINFO('\t' + modObj.padRight(11) + file.getPath())
+				my.Log.addINFO('\t' + modObj.padRight(11) + file.getPath(),1)
 			}
 		}
 	}

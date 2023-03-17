@@ -53,11 +53,14 @@ public class JDD {
 		}
 
 		if (step) {
-			if (this.TCTabName == null) {
-				my.Log.addSTEP("Lecture du JDD : " + this.JDDFullName)
-			}else {
-				my.Log.addSTEP("Lecture du JDD : " + this.JDDFullName + '     Onglet : ' + this.TCTabName + '     Cas de test : ' + this.casDeTest)
-			}
+			/*			
+			 if (this.TCTabName == null) {
+			 my.Log.addSTEP("Lecture du JDD : " + this.JDDFullName)
+			 }else {
+			 my.Log.addSTEP("Lecture du JDD : " + this.JDDFullName + '     Onglet : ' + this.TCTabName + '     Cas de test : ' + this.casDeTest)
+			 }
+			 */
+			my.Log.addSTEP("Lecture du JDD : " + this.JDDFullName + '     Onglet : ' + this.TCTabName + '     Cas de test : ' + this.casDeTest)
 		}else {
 			my.Log.addDETAIL("Lecture du JDD : " + this.JDDFullName)
 		}
