@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestCaseEntity>
    <description></description>
-   <name>1 - CHECK PREREQUIS</name>
+   <name>test Log</name>
    <tag></tag>
    <comment></comment>
-   <testCaseGuid>3d27d150-54db-406d-960d-3240241a9100</testCaseGuid>
+   <testCaseGuid>244fad39-138c-4edc-872c-208bad936bbd</testCaseGuid>
 </TestCaseEntity>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestCaseEntity>
    <description></description>
-   <name>2 - CREATE PREJDD IN DB</name>
+   <name>_CHECK PREREQUIS</name>
    <tag></tag>
    <comment></comment>
-   <testCaseGuid>53b766d4-2432-4856-9746-60653a328243</testCaseGuid>
+   <testCaseGuid>3d27d150-54db-406d-960d-3240241a9100</testCaseGuid>
 </TestCaseEntity>

@@ -10,16 +10,19 @@ my.Log.addSubTITLE('Vérification des JDD')
 /*
  * Controle la liste des paramètres
  * Controle le nom de la table
- * Controle si toutes les champs de la table sont bien des colonnes du JDD
+ * Controle si toutes les champs de la table sont bien des colonnes du JDD et à la bonne place
  * Contrôle les mots clés dans les DATA
  */
 my.JDDFiles.JDDfilemap.each { modObj,fullName ->
+	
+	
 
 	def myJDD = new my.JDD(fullName)
 	for(Sheet sheet: myJDD.book) {
 		if (!(sheet.getSheetName() in myJDD.SKIP_LIST_SHEETNAME)) {
 			
-			my.Log.addINFO("                  Onglet : " + sheet.getSheetName())
+			//my.Log.addINFO("                  Onglet : " + sheet.getSheetName())
+			my.Log.addSUBSTEP("Onglet : " + sheet.getSheetName())
 			my.Log.addDETAIL("Contrôle de la liste des paramètres")
 			myJDD.loadTCSheet(sheet)
 			//if (fullName.split('\\\\')[-1] in JDDTOSKIP) {
@@ -30,13 +33,25 @@ my.JDDFiles.JDDfilemap.each { modObj,fullName ->
 					my.Log.addDETAIL("Contrôle de la table DB '" + myJDD.getDBTableName() + "'")
 					
 					if (myJDD.headers.size()>1) {
-						my.Log.addDETAIL("Contrôle des colonnes")
-						my.InfoBDD.colnameMap[myJDD.getDBTableName()].each{
-							if (it in myJDD.headers) {
-								my.Log.addDEBUG("'$it' OK")
+						my.Log.addDETAIL("Contrôle des colonnes (Présence, ordre, prérequis, foreignkey)")
+						my.InfoBDD.colnameMap[myJDD.getDBTableName()].eachWithIndex{col,index ->
+							
+							if (col == myJDD.headers[index+1]) {
+								my.Log.addDEBUG("'$col' OK")
+								
+								
+								my.InfoBDD.updateParaInfoBDD('PREREQUIS',myJDD, col,2,fullName, modObj+'.'+sheet.getSheetName()) 
+								my.InfoBDD.updateParaInfoBDD('FOREIGNKEY',myJDD, col,4,fullName, modObj+'.'+sheet.getSheetName())
+								
+								
+								
+							}else if (col in myJDD.headers) {
+								my.Log.addDETAILFAIL("'$col' est dans le JDD mais pas à la bonne place")
 							}else {
-								my.Log.addDETAILFAIL("Le champ '$it' n'est pas dans le JDD")
+								my.Log.addDETAILFAIL("Le champ '$col' n'est pas dans le JDD")
 							}
+							
+							
 						}
 					}else {
 						my.Log.addDETAILFAIL("Pas de colonnes ! ")
@@ -64,8 +79,7 @@ my.JDDFiles.JDDfilemap.each { modObj,fullName ->
 }
 
 
-
-
+my.InfoBDD.write()
 
 
 my.Log.addSubTITLE('Vérification des PREJDD')
@@ -92,8 +106,7 @@ my.PREJDDFiles.PREJDDfilemap.each { modObj,fullName ->
 			List datas = my.PREJDD.loadDATA(sheet,headersPREJDD.size())
 			List PKList = my.InfoBDD.getPK(myJDD.getDBTableName())
 			
-			//my.Log.addINFO("                  Onglet : " + sheet.getSheetName() + ' PK : ' +  PKList.join(' , '))
-			my.Log.addINFO("                  Onglet : " + sheet.getSheetName() )
+			my.Log.addSUBSTEP("Onglet : " + sheet.getSheetName() )
 			
 			Map PKval = [:]
 			
@@ -101,7 +114,7 @@ my.PREJDDFiles.PREJDDfilemap.each { modObj,fullName ->
 				
 				
 				my.Log.addDETAIL("Contrôle des colonnes")
-				
+				/*
 				my.InfoBDD.colnameMap[myJDD.getDBTableName()].each{
 					if (it in headersPREJDD) {
 						my.Log.addDEBUG("'$it' OK")
@@ -109,7 +122,17 @@ my.PREJDDFiles.PREJDDfilemap.each { modObj,fullName ->
 						my.Log.addDETAILFAIL("Le champ '$it' n'est pas dans le PREJDD")
 					}
 				}
-				
+				*/
+				my.InfoBDD.colnameMap[myJDD.getDBTableName()].eachWithIndex{col,index ->
+					
+					if (col == headersPREJDD[index+1]) {
+						my.Log.addDEBUG("'$col' OK")
+					}else if (col in headersPREJDD) {
+						my.Log.addDETAILFAIL("'$col' est dans le PREJDD mais pas à la bonne place")
+					}else {
+						my.Log.addDETAILFAIL("Le champ '$col' n'est pas dans le PREJDD")
+					}
+				}
 				
 				
 				my.Log.addDETAIL("Contrôle des mots clés dans les DATA")
