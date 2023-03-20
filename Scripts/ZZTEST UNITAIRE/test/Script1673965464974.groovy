@@ -1,23 +1,14 @@
 
-println GroovySystem.version
-
-def li = ["coucou", "hello"]
-
-println li.toListString()
-
-def index = 6
-println li.size()
-
-println li[1]
-
-li.add(2,'titi')
-
-print li
-
-
-while (li.size()<index) {
-	li.add(li.size(),null)
+my.InfoBDD.load()
+int max =0
+my.InfoBDD.paraMap.each { k,v ->
+	
+	if (v.size()>max) max = v.size()
+	println "k: $k " +  v.size()
+	for (int i = 0; i < v.size(); i++) {
+		
+		println "\t-i $i "+v[i]
+	}
 }
-li.add(index,'toto')
-my.Log.addINFO(li.toListString())
 
+println "max $max"

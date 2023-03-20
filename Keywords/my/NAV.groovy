@@ -21,7 +21,7 @@ class NAV {
 
 	static def myGlobalJDD = null
 
-	static public loadJDDGLOBAL() {
+	public static loadJDDGLOBAL() {
 
 		my.Log.addDEBUG('Load JDD GLOBAL')
 		this.myGlobalJDD = new my.JDD(my.PropertiesReader.getMyProperty('JDD_PATH') + File.separator + my.PropertiesReader.getMyProperty('JDD_GLOBALFILENAME'),'001',null,false)
@@ -32,7 +32,7 @@ class NAV {
 	/**
 	 * Vérifier écran 
 	 */
-	static public verifierCartridge(String txt, int timeOut = GlobalVariable.TIMEOUT) {
+	public static verifierCartridge(String txt, int timeOut = GlobalVariable.TIMEOUT) {
 		WebUI.scrollToPosition(0, 0)
 		KW.delay(1)
 		KW.click(myGlobalJDD,'a_Toggle','WARNING')
@@ -44,7 +44,7 @@ class NAV {
 	/**
 	 * Vérifier écran Grille / recherche
 	 */
-	static public verifierEcranGrille(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
+	public static verifierEcranGrille(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
 		if (fct=='') { fct = this.getFctFromModObj() }
 		String code = "E" + fct
 		WebUI.scrollToPosition(0, 0)
@@ -57,7 +57,7 @@ class NAV {
 	/**
 	 * Vérifier écran Résultat
 	 */
-	static public verifierEcranResultat(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
+	public static verifierEcranResultat(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
 		//my.Log.addSTEP("NAV.verifierEcranResultat( fct=$fct)")
 		if (fct=='') { fct = this.getFctFromModObj() }
 		String code = fct
@@ -71,7 +71,7 @@ class NAV {
 	/**
 	 * Vérifier écran Création
 	 */
-	static public verifierEcranCreation(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
+	public static verifierEcranCreation(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
 		if (fct=='') { fct = this.getFctFromModObj() }
 		String code = fct + " - Création"
 		WebUI.scrollToPosition(0, 0)
@@ -84,7 +84,7 @@ class NAV {
 	/**
 	 * Vérifier écran Lecture / modification / suppression
 	 */
-	static public verifierEcranRUD(String id, String fct='' , int timeOut = GlobalVariable.TIMEOUT) {
+	public static verifierEcranRUD(String id, String fct='' , int timeOut = GlobalVariable.TIMEOUT) {
 		if (fct=='') { fct = this.getFctFromModObj() }
 		String code = fct + " - Consultation ou modification"
 		WebUI.scrollToPosition(0, 0)
@@ -133,7 +133,7 @@ class NAV {
 	/**
 	 * Aller à l'url de Lecture / modification / suppression et vérifier le cartouche
 	 */
-	static public goToURL_RUD_and_checkCartridge(String id, String fct='' , int timeOut = GlobalVariable.TIMEOUT) {
+	public static goToURL_RUD_and_checkCartridge(String id, String fct='' , int timeOut = GlobalVariable.TIMEOUT) {
 		if (fct=='') { fct = this.getFctFromModObj() }
 		my.Log.addDEBUG("NAV.goToURL_RUD_and_checkCartridge(id='$id', fct='$fct')")
 		this.goToURL_RUD(fct, id)
@@ -143,7 +143,7 @@ class NAV {
 	/**
 	 * Aller à l'url de Grille / recherche et vérifier le cartouche
 	 */
-	static public goToURL_Grille_and_checkCartridge(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
+	public static goToURL_Grille_and_checkCartridge(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
 		if (fct=='') { fct = this.getFctFromModObj() }
 		my.Log.addDEBUG("NAV.goToURL_Grille_and_checkCartridge(fct='$fct')")
 		this.goToURL_Grille(fct)
@@ -153,7 +153,7 @@ class NAV {
 	/**
 	 * Aller à l'url de création et vérifier le cartouche
 	 */
-	static public goToURL_Creation_and_checkCartridge(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
+	public static goToURL_Creation_and_checkCartridge(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
 		if (fct=='') { fct = this.getFctFromModObj() }
 		my.Log.addDEBUG("NAV.goToURL_Creation_and_checkCartridge(fct='$fct')")
 		this.goToURL_Creation(fct)

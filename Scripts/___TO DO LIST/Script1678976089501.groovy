@@ -6,11 +6,17 @@
  * FAIT
  * -----------------------------------------------------------------------------------------------------
  * 
-	feat(CHECK PREREQUIS) Ajout du controle de l'ordre des champs des JDD /PREJDD dans les onglets FCT
-	feat(CHECK PREREQUIS) Rechecher dans les JDD les PARA et renseigner infoBDD
-	feat(TNR SEQUENCER) Ajout try catch
-	refactor(KW) gestion case à cocher et verifyElementText suppression du try catch
-	refactor(Some TC) acceptAlert suppression status WARNING 
+	feat(JDDGenerator) Ajout pour générer automatiquement dans le bon dossier les JDD et PREJDD
+	feat(JDDGenerator) Ajouter les infos connu (ceux récoltés dans InfoBDD onglet PARA) dans les para du JDD
+	feat(InfoBDD) updateParaInfoBDD generique pour tous les para
+
+ * 
+ * -----------------------------------------------------------------------------------------------------
+ * NOTE
+ * -----------------------------------------------------------------------------------------------------
+ * 
+	le double click fonctionne de temps en temps avec Chrome 
+
 
  *
  * -----------------------------------------------------------------------------------------------------
@@ -18,21 +24,7 @@
  * -----------------------------------------------------------------------------------------------------
  *
 
-	feat(CHECK PREREQUIS) Ajout du controle de l'ordre des champs des JDD /PREJDD dans l'onglet Info
-	
-	
-	RESULT 
-		renommer le fichier resultat avec la version et le nav
-		faire un fichier recap pour les résumés de test
-		c'est peut etre là qu'il faut mettre les détails des resumés des STEP
-	
-	
-	JDD Ajouter un close() du fichier dans tous les TC --> créer un JDD.close()
-	
-	
-	NOTE : le double click fonctionne de temps en temps avec Chrome 
-	
-	
+
 		
 	Traiter les valeurs des $DATESYS et $DATETIME
 
@@ -41,81 +33,117 @@
 	
  * 
  * -----------------------------------------------------------------------------------------------------
- * CHECK PREREQUIS
+ * EVOLUTION
  * -----------------------------------------------------------------------------------------------------
  * 
-	   - ajouter les controle des PARAM_LIST_ALLOWED et des TAG_LIST_ALLOWED dans les controles JDD "CHECK PREREQUIS" plutot que dans le code des tests
-	   
-	  Le controle des PREREQUIS des JDD dans les PREJDD est fait mais il faudrait aussi  controler les PREREQUIS des PREJDD dans les PREJDD 
-	  		--> voir si on peut utiliser le paramètrage PREREQUIS ou s'il faut mettre en place des regles, par exemple
-	  		check ('PREJDD.RO.CAL','001.IDCODCAL','001A.ID_CODCAL')
-	  		check ('PREJDD.RO.CAL','001A.IDCODCAL','001.ID_CODCAL')
+	
+	
+	XLS
+		ajouter un controle sur open file
+		Verifier si XLS.open est poertinant ! car il faut normalement fermer la connexion
+		JDD et autre : Ajouter un close() du fichier dans tous les TC --> créer un JDD.close()
+		
+		
+	CHECK PREREQUIS 
 	  
-	  CREER UNE FONCTION POUR ça : --> je ne sais plus trop ce que c'est --> a vérifier si encore valable
-	  		Vérifier que pour tous les PRE.XX.ICB.ID_ENTMOS='INT', les ICB.ID_CODMOS sont dans PRE.RO.ACT.ID_CODINT
-	  		Vérifier que pour tous les PRE.XX.UTI.IDCODPRO='SOC', les UTI.ID_CODUTI sont dans dans PRE.RO.ACT.ID_CODINT
-	  		Vérifier que pour tous les PRE.XX.UTI.IDCODPRO='SOC', les UTI.ID_NUMSOC sont dans dans PRE.XX.SOCIETE.ID_NUMSOC
+		Ajouter les controle des PARAM_LIST_ALLOWED et des TAG_LIST_ALLOWED dans les controles JDD "CHECK PREREQUIS" plutot que dans le code des tests
+		   
+		Le controle des PREREQUIS des JDD dans les PREJDD est fait mais il faudrait aussi  controler les PREREQUIS des PREJDD dans les PREJDD 
+		  		--> voir si on peut utiliser le paramètrage PREREQUIS ou s'il faut mettre en place des regles, par exemple
+		  		check ('PREJDD.RO.CAL','001.IDCODCAL','001A.ID_CODCAL')
+		  		check ('PREJDD.RO.CAL','001A.IDCODCAL','001.ID_CODCAL')
+		  
+		CREER UNE FONCTION POUR ça : --> je ne sais plus trop ce que c'est --> a vérifier si encore valable
+		  		Vérifier que pour tous les PRE.XX.ICB.ID_ENTMOS='INT', les ICB.ID_CODMOS sont dans PRE.RO.ACT.ID_CODINT
+		  		Vérifier que pour tous les PRE.XX.UTI.IDCODPRO='SOC', les UTI.ID_CODUTI sont dans dans PRE.RO.ACT.ID_CODINT
+		  		Vérifier que pour tous les PRE.XX.UTI.IDCODPRO='SOC', les UTI.ID_NUMSOC sont dans dans PRE.XX.SOCIETE.ID_NUMSOC
+		 
+		Verifir si les valeurs collent avec les types :  my.InfoBDD.getDATA_TYPE( myJDD.getDBTableName(), fieldName)
+		  
+		Dans les JDD, mettre en vert les cellules des attributs modifiés par rapport aux PREJDD pour les cas de tests MODIF
+		
+		Ajout du controle de l'ordre des champs des JDD /PREJDD dans l'onglet Info
+		  
+		  
+	RESULT
 	 
-	  Verifir si les valeurs collent avec les types :  my.InfoBDD.getDATA_TYPE( myJDD.getDBTableName(), fieldName)
-	  
-	  
-	   --> Dans les JDD, mettre en vert les cellules des attributs modifiés par rapport aux PREJDD pour les cas de tests MODIF
- *
- * -----------------------------------------------------------------------------------------------------
- * VRAC
- * -----------------------------------------------------------------------------------------------------
- * 
- * 
- 	Penser à passer sur Selenium
-	 
-	Ajouter un récap des résultats de Test, par RESUME, par cas de test,  voir ce que fait Katalon
-	
-	Ajouter les step FAIL dans le xls en grouper sous le test ou dans un autre onglet --> avec les élements nécessaire pour le ticket
-	
-	Faire un script pour restaurer base + redémarrage server SQlL(ou autre pour pouvoir faire la sauvegarde)	
-	
-	REVOIR la suppression des emplacements par rapport à ST_DEF pour rendre automatique le truc
-	
-	Faire un script pour lancer les script SQL PREJDD dans l'ordre
-	  
-	  Faire un TC pour créer les JDD et les PREJDD, 
-	  	- dans l'ordre des champs --> est-ce util ? --> faut il un controle de l'odre des champs ?
-	 
-	  
-	  XLS : ajouter un controle sur open file
-	  
-	  LOG : integrer LOG4J
-	  
-	  LOG : Ajouter def var en para d'un DEBUG pour parser un map , un list,... --> pour une list.toListString() ou join mais c'est en ligne ... voir avec \n
-	  
-	  LOG : ajouter une fonction addTRACE(def fct, def para=null, String msg=null)
-	  		this donne le package
-	  		para est un Map de paramètre
-	  		-> manque le nom de la fonction
-	  
-	  RESULT : faire un plan avec les STEPs
+		renommer le fichier resultat avec la version et le nav
+		Ajouter les step FAIL dans le xls en grouper sous le test ou dans un autre onglet --> avec les élements nécessaire pour le ticket
+		Ou faire un plan(regrouper) avec les STEPs
 	  		si on veut lister les STEP dans le xls il faut peut être simplifiué
-	  		si on veut indentifier les STEP pour comparer entr eplusieurs campagne il faut les identifier, par exemple CDT_nnnn_texte --> mais si on maj le texte :-(
-	  		du coup faudrait peut être ajouter la durée
-	  		
+	
+	RESULT RECAP
+		
+		Ajouter un récap des résultats de Test, par RESUME, par cas de test,  voir ce que fait Katalon
+		Si on veut indentifier les STEP pour comparer entr eplusieurs campagne il faut les identifier, par exemple CDT_nnnn_texte --> mais si on maj le texte :-(
+	  		du coup faudrait peut être ajouter la durée  
+	 
+	TEST SUITE
+	
+		Vérifier si fonctionne encore 
+
+	TEST LISTENER 
+
+	  	beforeTestCase	: Vérifier le besoin dans les differents cas 
+	  	afterTestCase 	: dans le cas de test suite	  
+		  
+		  
+	SELENIUM
+	
+		Penser à passer sur Selenium
+	 
+	
+	PREJDD
+	
+		Faire un script pour lancer les script SQL PREJDD dans l'ordre	
+	
+	
+	BDD
+
+		Faire un script pour restaurer base + redémarrage server SQlL(ou autre pour pouvoir faire la sauvegarde)	
+	
+	
+	EMP
+		
+		Revoir la suppression des emplacements par rapport à ST_DEF pour rendre automatique le truc
+	
+
+	LOG
+
+		integrer LOG4J
+  		Ajouter def var en para d'un DEBUG pour parser un map , un list,... --> pour une list.toListString() ou join mais c'est en ligne ... voir avec \n
+  		ajouter une fonction addTRACE(def fct, def para=null, String msg=null)
+  			this donne le package
+  			para est un Map de paramètre
+  			-> manque le nom de la fonction
 	  
-	  TestListener : 
-	  	beforeTestCase	: le besoin dans les differents cas 
-	  	afterTestCase 	: dans le cas de test suite
+
+
 	    
-	   
-	   
-	   et si on faisait une liste de step à dérouler on pourrait se passer des script de cas de test, du style
-			  click on Creer
-			  set ID_CIDINT
-			  delay(1)
-			  set prenom
-	  voir m^me donner un ordre dans le JDD --> ajout d'un mot clé STEPNUM
-	  prévoir rajouter des step spécifique
-	  		dans le JDD, comme des delay 
-	  		dans du code s'il existe ....
-	  		...
-	  		
+ * 
+ * -----------------------------------------------------------------------------------------------------
+ * IDEE : GENERATEUR DE Test Case
+ * -----------------------------------------------------------------------------------------------------
+ * 
+	
+		Faire une liste de step à dérouler on pourrait se passer des script de cas de test, du style
+				  click on Creer
+				  set ID_CIDINT
+				  delay(1)
+				  set prenom
+		voir m^me donner un ordre dans le JDD --> ajout d'un mot clé STEPNUM
+		prévoir rajouter des step spécifique
+		  		dans le JDD, comme des delay 
+		  		dans du code s'il existe ....
+		  		...
+  	
+  		
+ * 
+ * -----------------------------------------------------------------------------------------------------
+ * INFO
+ * -----------------------------------------------------------------------------------------------------
+ * 
+
 	  TABLE SERLOG log des server	et UTILOG 
 	  	menu acteur > utilisateur Mainta > historique de connexion
 	  	

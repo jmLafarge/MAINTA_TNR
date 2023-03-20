@@ -24,7 +24,7 @@ class Tools {
 
 
 
-	static public String getDuration(Date start,stop) {
+	public static String getDuration(Date start,stop) {
 
 		TimeDuration timeDuration = TimeCategory.minus( stop, start )
 
@@ -36,7 +36,7 @@ class Tools {
 	}
 
 
-	static public String addZero(int val) {
+	public static String addZero(int val) {
 
 		return (val>=0 && val<=9)?"0$val":"$val"
 	}
@@ -69,5 +69,16 @@ class Tools {
 			}
 		}
 		println ''
+	}
+	
+	
+	static createDir(String dir) {
+		File fdir = new File(dir)
+		if (!fdir.exists()) {
+			fdir.mkdirs()
+			my.Log.addDEBUG("createDir() : Création dossier $dir")
+		}else {
+			my.Log.addDEBUG("createDir() : Dossier $dir existe déjà")
+		}
 	}
 } // end of class

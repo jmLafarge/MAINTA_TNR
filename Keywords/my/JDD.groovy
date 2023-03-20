@@ -15,7 +15,7 @@ public class JDD {
 
 	private final List PARAM_LIST_ALLOWED		= ['PREREQUIS', 'FOREIGNKEY', 'LOCATOR', 'SEQUENCE']
 	private final List TAG_LIST_ALLOWED			= ['input', 'select', 'textarea', 'td', 'checkbox']
-	private final List SKIP_LIST_SHEETNAME		= ['Version', 'Info', TOSHEETNAME]
+	private final List SKIP_LIST_SHEETNAME		= ['Version', 'Info', TOSHEETNAME, 'MODELE']
 	private final String START_DATA_WORD		= 'CAS_DE_TEST'
 
 	private XSSFWorkbook book

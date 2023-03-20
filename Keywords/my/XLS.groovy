@@ -67,7 +67,7 @@ public class XLS {
 	 *
 	 * @return cell value (type)
 	 */
-	static public def getCellValue(Cell cell){
+	public static def getCellValue(Cell cell){
 
 		def CellData = null;
 
@@ -139,6 +139,20 @@ public class XLS {
 
 
 
+
+
+
+	static int getLastRow(Sheet sheet, int col) {
+		Iterator<Row> rowIt = sheet.rowIterator()
+		Row row = rowIt.next()
+		while(rowIt.hasNext()) {
+			row = rowIt.next()
+			if (this.getCellValue(row.getCell(col))=='') {
+				return row.getRowNum()
+				break
+			}
+		}
+	}
 
 
 

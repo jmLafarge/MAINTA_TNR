@@ -326,4 +326,43 @@ public class SQL {
 		return null
 	}
 
+
+	static int getNumEcran(String table) {
+
+		def query = "SELECT ID_NUMECR as num FROM OBJ where ST_NOMOBJ=$table"
+		try {
+			int num = sqlInstance.firstRow(query).num
+			my.Log.addDETAIL("getNumEcran($table) = $num")
+			return num
+		} catch(Exception ex) {
+			my.Log.addERROR("Erreur d'execution de getNumEcran($table) : ")
+			my.Log.addDETAIL(ex.getMessage())
+		}
+		return null
+	}
+
+	static Map getLibelle(String table, int numEcran) {
+
+		my.Log.addDETAIL("Recherche des libellés pour la table $table et numéro écran $numEcran")
+		def query = """SELECT COLUMN_NAME as name, obj_lan.st_lib as lib
+						FROM INFORMATION_SCHEMA.COLUMNS
+						left join obj
+							on  obj.st_nomobj = COLUMN_NAME and obj.st_typobj = 'col' and obj.ID_NUMECR = $numEcran
+						left join obj_lan
+						    on obj_lan.ID_NUMECR = obj.ID_NUMECR and obj_lan.ID_NUMOBJ = obj.ID_NUMOBJ and obj_lan.id_codlan = 'FRA' 
+						WHERE TABLE_NAME=$table"""
+		
+		def rows = sqlInstance.rows(query)
+
+		// Créer une liste de maps à partir des résultats
+		def resultMap = [:]
+		rows.each {
+			resultMap.putAt(it.name, it.lib)
+		}
+		return resultMap
+	}
+
+
+
+
 } // end of class

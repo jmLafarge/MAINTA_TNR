@@ -37,25 +37,25 @@ public class TCFiles {
 
 
 	/*
-	 static public String getTCNameFromTCFullName(String TCFullName) {
+	 public static String getTCNameFromTCFullName(String TCFullName) {
 	 return TCFullName.split(Pattern.quote(File.separator))[-1].split(' ')[0]
 	 }
 	 */
 
 	/*
-	 static public String getModObjFromFullName(String TCFullName) {
+	 public static String getModObjFromFullName(String TCFullName) {
 	 return this.getTCNameFromTCFullName(TCFullName).find(/^\w+\.\w+/)
 	 }
 	 */	
 
 	/*
-	 static public String getTabNameFromTCName(String TCName) {
+	 public static String getTabNameFromTCName(String TCName) {
 	 return TCName.split('\\.')[2]
 	 }
 	 */
 
 	/*
-	 static public String getModObjFromTCName(String TCName) {
+	 public static String getModObjFromTCName(String TCName) {
 	 return TCName.find(/^\w+\.\w+/)
 	 }
 	 */

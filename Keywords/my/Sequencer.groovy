@@ -16,7 +16,7 @@ public class Sequencer {
 	 */
 
 
-	static public List testCasesList = []
+	public static List testCasesList = []
 	/*
 	 * 
 	 * Example :
@@ -37,7 +37,7 @@ public class Sequencer {
 	 * CONSTRUCTOR
 	 *
 	 */
-	static public load() {
+	public static load() {
 
 		my.Log.addSubTITLE('Load testCasesList from TNR sequencer file','-',120,1)
 		my.Log.addDEBUG("\t" + 'TCNAME'.padRight(24) + 'TCFULLNAME'.padRight(90) + 'REP')

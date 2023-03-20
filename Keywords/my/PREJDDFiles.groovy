@@ -10,10 +10,10 @@ import groovy.io.FileType
 public class PREJDDFiles {
 
 
-	static public Map PREJDDfilemap = [:]
+	public static Map PREJDDfilemap = [:]
 
 
-	static public load() {
+	public static load() {
 
 		my.Log.addSubTITLE("Load PREJDDfileList",'-',120,1)
 		my.Log.addINFO("\t"+'MODOBJ'.padRight(11) + 'JDDFULLNAME',1)
@@ -31,11 +31,10 @@ public class PREJDDFiles {
 
 
 
-	static public String getFullName(String modObj){
+	public static String getFullName(String modObj){
 
 		return this.PREJDDfilemap.getAt(modObj)
 	}
-
 
 
 
@@ -153,7 +152,9 @@ public class PREJDDFiles {
 	}
 
 
-
+	static add(String modObj,String fullName) {
+		this.PREJDDfilemap.put(modObj,fullName)
+	}
 
 
 

@@ -52,7 +52,7 @@ public class Result {
 
 
 
-	static public addCasDeTest(String casDeTestName, Map status, Date start, stop) {
+	public static addCasDeTest(String casDeTestName, Map status, Date start, stop) {
 
 		Row row = this.shRESULT.createRow(this.lineNumber)
 
@@ -109,7 +109,7 @@ public class Result {
 
 	}
 
-	static public addBrowserInfo() {
+	public static addBrowserInfo() {
 
 		def browser = my.Tools.getBrowserAndVersion()
 
@@ -120,7 +120,7 @@ public class Result {
 	}
 
 
-	static public addStartInfo() {
+	public static addStartInfo() {
 
 		this.startDate = new Date()
 
@@ -139,7 +139,7 @@ public class Result {
 	}
 
 
-	static public addEndInfo() {
+	public static addEndInfo() {
 
 		Date endDate = new Date()
 

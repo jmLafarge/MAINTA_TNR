@@ -39,12 +39,9 @@ my.JDDFiles.JDDfilemap.each { modObj,fullName ->
 							if (col == myJDD.headers[index+1]) {
 								my.Log.addDEBUG("'$col' OK")
 								
-								
-								my.InfoBDD.updateParaInfoBDD('PREREQUIS',myJDD, col,2,fullName, modObj+'.'+sheet.getSheetName()) 
-								my.InfoBDD.updateParaInfoBDD('FOREIGNKEY',myJDD, col,4,fullName, modObj+'.'+sheet.getSheetName())
-								
-								
-								
+								my.InfoBDD.updateParaInfoBDD(myJDD, col,fullName, modObj+'.'+sheet.getSheetName()) 
+
+
 							}else if (col in myJDD.headers) {
 								my.Log.addDETAILFAIL("'$col' est dans le JDD mais pas à la bonne place")
 							}else {

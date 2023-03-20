@@ -8,7 +8,7 @@ public class JDDFiles {
 	private static Map JDDfilemap = [:]
 
 
-	static public load() {
+	public static load() {
 
 
 		my.Log.addSubTITLE("Load JDDfileList",'-',120,1)
@@ -48,7 +48,12 @@ public class JDDFiles {
 		return this.JDDfilemap.getAt(casDeTest.find(/^\w+\.\w+/))
 	}
 
+	static String getFullName(String modObj) {
+		return this.JDDfilemap.getAt(modObj)
+	}
 
-
+	static add(String modObj,String fullName) {
+		this.JDDfilemap.put(modObj,fullName)
+	}
 
 } // end of class

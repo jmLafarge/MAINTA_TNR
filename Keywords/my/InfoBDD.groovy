@@ -23,7 +23,7 @@ public class InfoBDD {
 
 	private static Sheet shPara
 
-	static load() {
+	public static load() {
 
 		this.fileName = my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('INFOBDDFILENAME')
 		my.Log.addSubTITLE("Chargement de : " + this.fileName,'-',120,1)
@@ -59,12 +59,22 @@ public class InfoBDD {
 		this.shPara = this.book.getSheet('PARA')
 		rowIt = this.shPara.rowIterator()
 		row = rowIt.next()
+		
+		if (my.XLS.getCellValue(row.getCell(2))=='') my.XLS.writeCell(row, 2, 'PREREQUIS')
+		if (my.XLS.getCellValue(row.getCell(3))=='') my.XLS.writeCell(row, 3, 'PREREQUIS_JDD')
+		if (my.XLS.getCellValue(row.getCell(4))=='') my.XLS.writeCell(row, 4, 'FOREIGNKEY')
+		if (my.XLS.getCellValue(row.getCell(5))=='') my.XLS.writeCell(row, 5, 'FOREIGNKEY_JDD')
+		if (my.XLS.getCellValue(row.getCell(6))=='') my.XLS.writeCell(row, 6, 'SEQUENCE')
+		if (my.XLS.getCellValue(row.getCell(7))=='') my.XLS.writeCell(row, 7, 'SEQUENCE_JDD')
+		if (my.XLS.getCellValue(row.getCell(8))=='') my.XLS.writeCell(row, 8, 'LOCATOR')
+		if (my.XLS.getCellValue(row.getCell(9))=='') my.XLS.writeCell(row, 9, 'LOCATOR_JDD')
+					
 		while(rowIt.hasNext()) {
 			row = rowIt.next()
 			if (my.XLS.getCellValue(row.getCell(0))=='') {
 				break
 			}
-			this.paraMap.putAt(my.XLS.getCellValue(row.getCell(0)),my.XLS.loadRow(row,6))
+			this.paraMap.putAt(my.XLS.getCellValue(row.getCell(0)),my.XLS.loadRow(row,10))
 		}
 
 		this.whereStyle = this.book.createCellStyle()
@@ -76,17 +86,26 @@ public class InfoBDD {
 	}
 
 
-	static updatePara(String col, int icol,String valPara, String where) {
-		
+
+
+
+
+
+
+
+
+
+	private static updatePara(String para, String col, int icol,String valPara, String where) {
+
 		//Agrandit la liste di besoin
-		while (this.paraMap[col].size()<icol) {
+		while (this.paraMap[col].size()<=icol+1) {
 			this.paraMap[col].add(this.paraMap[col].size(),null)
 		}
 
 		if (!this.paraMap[col][icol]) {
 			//add
-			this.paraMap[col].add(icol,valPara)
-			this.paraMap[col].add(icol+1,where)
+			this.paraMap[col].set(icol,valPara)
+			this.paraMap[col].set(icol+1,where)
 		}else {
 			//update
 			this.paraMap[col].set(icol+1,this.paraMap[col][icol+1]+'\n'+where)
@@ -100,13 +119,13 @@ public class InfoBDD {
 
 			if (my.XLS.getCellValue(row.getCell(0))==col) {
 				if (my.XLS.getCellValue(row.getCell(icol))==valPara) {
-					my.Log.addDETAIL("\tRajout de $where pour $col")
+					my.Log.addDETAIL("\t$para, ajout du JDD '$where' pour $col")
 					my.XLS.writeCell(row, icol+1,this.paraMap[col][icol+1])
 					break
 				}else {
-					my.Log.addDETAIL("\tAjout de $valPara et $where pour $col")
+					my.Log.addDETAIL("\tAjout du $para '$valPara' et JDD '$where' pour $col")
 					my.XLS.writeCell(row, icol,valPara,this.paraStyle)
-					my.XLS.writeCell(row, icol+1,where,this.whereStyle)
+					my.XLS.writeCell(row, icol+1,this.paraMap[col][icol+1],this.whereStyle)
 					break
 				}
 			}
@@ -118,7 +137,10 @@ public class InfoBDD {
 
 
 
-	private static write(){
+
+
+
+	public static write(){
 		my.Log.addDEBUG('update PARA dans InfoBDD')
 		OutputStream fileOut = new FileOutputStream(this.fileName)
 		this.book.write(fileOut);
@@ -126,7 +148,7 @@ public class InfoBDD {
 
 
 
-	static List getPK(String table) {
+	public static List getPK(String table) {
 
 		List list=[]
 		this.PKMap.getAt(table).eachWithIndex { v,i ->
@@ -138,7 +160,7 @@ public class InfoBDD {
 	}
 
 
-	static boolean isTableExist(String table) {
+	public static boolean isTableExist(String table) {
 		return this.colnameMap.containsKey(table)
 	}
 
@@ -153,7 +175,7 @@ public class InfoBDD {
 		return ret
 	}
 
-	static castJDDVal(String table, String name, def val) {
+	public static castJDDVal(String table, String name, def val) {
 
 		switch (this.getDATA_TYPE( table, name)) {
 
@@ -164,36 +186,48 @@ public class InfoBDD {
 				return val
 		}
 	}
-	
-	
-	static updateParaInfoBDD(String para,my.JDD myJDD,String col,int icol,String fullName, String where) {
-		
-		String valPara = myJDD.getParamForThisName(para, col)
-		if (valPara) {
-			my.Log.addDEBUG("\t$para pour '$col' : $valPara")
-			if (this.paraMap.containsKey(col)) {
-				my.Log.addDEBUG("\t'$col' trouvé dans InfoBDD")
 
-				if (!this.paraMap[col][icol]) {
-					
-					this.updatePara(col,icol,valPara,where)
-					
-					my.Log.addDEBUG("\t\tTrouvé dans $where --> $fullName table : " + myJDD.getDBTableName())
-					my.Log.addDEBUG("\t\t" + this.paraMap[col][icol] +" ajouté dans $col")
-					my.Log.addDEBUG("\t\t" + this.paraMap[col][icol+1] +" ajouté dans $col")
-				}else if (this.paraMap[col][icol]!=valPara) {
-					my.Log.addDETAILWARNING("$para pour '$col'($icol) : $valPara différent de la valeur enregistrée " + this.paraMap[col][icol])
-				}else if(this.paraMap[col][icol+1].contains(where)) {
-					my.Log.addDEBUG("\t$para $valPara pour '$col' et $where existe déjà")
-				}else {
-					this.updatePara(col,icol,valPara,where)
-					
-					my.Log.addDEBUG("\t$para $valPara pour '$col' existe déjà mais rajout de $where dans " + this.paraMap[col][icol+1])
-	
+
+	public static updateParaInfoBDD(my.JDD myJDD,String col,String fullName, String where) {
+
+		int icol = 2
+		for (para in ['PREREQUIS', 'FOREIGNKEY', 'SEQUENCE', 'LOCATOR']) {
+			
+			String valPara = myJDD.getParamForThisName(para, col)
+			if (valPara) {
+				my.Log.addDEBUG("\t$para pour '$col' : $valPara")
+
+				if (this.paraMap.containsKey(col)) {
+					my.Log.addDEBUG("\t'$col' trouvé dans InfoBDD")
+
+					if (!this.paraMap[col][icol]) {
+
+						this.updatePara(para,col,icol,valPara,where)
+
+						my.Log.addDEBUG("\t\tTrouvé dans $where --> $fullName table : " + myJDD.getDBTableName())
+						my.Log.addDEBUG("\t\t" + this.paraMap[col][icol] +" ajouté dans $col")
+						my.Log.addDEBUG("\t\t" + this.paraMap[col][icol+1] +" ajouté dans $col")
+
+					}else if (this.paraMap[col][icol]!=valPara) {
+						my.Log.addDETAILWARNING("$para pour '$col'($icol) : $valPara différent de la valeur enregistrée " + this.paraMap[col][icol])
+
+					}else if(this.paraMap[col][icol+1].contains(where)) {
+						my.Log.addDEBUG("\t$para $valPara pour '$col' et $where existe déjà")
+
+					}else {
+						this.updatePara(para,col,icol,valPara,where)
+
+						my.Log.addDEBUG("\t$para $valPara pour '$col' existe déjà mais rajout de $where dans " + this.paraMap[col][icol+1])
+
+					}
 				}
 			}
+			icol+=2
 		}
-		
-		
 	}
+
+
+
+
+
 }// end of class
