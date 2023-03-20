@@ -67,7 +67,7 @@ class JDDGenerator {
 	private static addParaFromInfoBDD(Sheet shFCT) {
 
 		my.Log.addDETAIL("Ajout des paramètres dans l'onglet "+shFCT.getSheetName())
-		
+
 		Row row = shFCT.getRow(0)
 
 		for (int i = 1; i < row.getLastCellNum(); i++) {
@@ -81,7 +81,7 @@ class JDDGenerator {
 			if (my.InfoBDD.paraMap.containsKey(cval)) {
 				int icol = 2
 				for (para in ['PREREQUIS', 'FOREIGNKEY', 'SEQUENCE', 'LOCATOR']) {
-					
+
 					Row rowPara = this.getRowOfPara(shFCT,para)
 					if (rowPara!=null && my.InfoBDD.paraMap[cval][icol]!='') {
 						my.XLS.writeCell(rowPara,i, my.InfoBDD.paraMap[cval][icol])

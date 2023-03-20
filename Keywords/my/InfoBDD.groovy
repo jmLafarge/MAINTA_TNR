@@ -6,16 +6,16 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import com.kms.katalon.core.util.KeywordUtil
 
 public class InfoBDD {
-	
+
 	public static Map map = [:]
 	public static Map paraMap= [:]
-	
+
 
 	private static XSSFWorkbook book
 	private static String fileName = ''
 
 	private static CellStyle whereStyle
-	private static CellStyle paraStyle	
+	private static CellStyle paraStyle
 
 	private static final List HEADERS	 = ['TABLE_NAME', 'COLUMN_NAME', 'ORDINAL_POSITION', 'IS_NULLABLE', 'DATA_TYPE', 'MAXCHAR', 'DOMAIN_NAME', 'CONSTRAINT_NAME']
 
@@ -55,9 +55,9 @@ public class InfoBDD {
 				this.map[listxls[0]] = [:]
 			}
 			this.map[listxls[0]][listxls[1]] = listxls.subList(2, 8)
-			
+
 		}
-		
+
 		this.shPara = this.book.getSheet('PARA')
 		rowIt = this.shPara.rowIterator()
 		row = rowIt.next()
@@ -78,8 +78,8 @@ public class InfoBDD {
 			}
 			this.paraMap.putAt(my.XLS.getCellValue(row.getCell(0)),my.XLS.loadRow(row,10))
 		}
-		
-		
+
+
 
 		this.whereStyle = this.book.createCellStyle()
 		this.whereStyle.setWrapText(true)
@@ -155,8 +155,8 @@ public class InfoBDD {
 	public static List getPK(String table) {
 
 		List list=[]
-		this.map[table].each { k, li -> 
-			
+		this.map[table].each { k, li ->
+
 			if (li[5]!='NULL') list.add(k)
 		}
 		return list
