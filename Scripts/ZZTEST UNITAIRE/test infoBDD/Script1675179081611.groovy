@@ -7,11 +7,8 @@ my.InfoBDD.map['INTER'].each {k,v  ->
 		println k.getClass()
 		println k
 		println v.getClass()
+		println v.size()
 		println v[0]
-}
-my.InfoBDD.map['INTER'].each {
-	println it.getClass()
-	println it
 }
 
 

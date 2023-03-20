@@ -6,8 +6,12 @@
  * FAIT
  * -----------------------------------------------------------------------------------------------------
  * 
-refactor(InfoBDD) Remplacer PKMap et line et colnameMap par map
-
+feat(JDDGenerator) Ajouter le type dans l'onglet Info de JDD et standardisation du msg addInfoVersion
+- pour les varchar type(taille) : varchar (50)
+- pour les T_BOOLEAN mettre boolean
+- pour les numeric mettre numeric
+- mettre les PK en rouge gras
+		
 
  * 
  * -----------------------------------------------------------------------------------------------------
@@ -23,9 +27,7 @@ refactor(InfoBDD) Remplacer PKMap et line et colnameMap par map
  * -----------------------------------------------------------------------------------------------------
  *
 
-	feat(JDDGenerator) Ajouter le type dans l'onglet Info de JDD
-		- type(taille) : varchar (50)
-		- pour les T_BOOLEAN mettre boolean
+
 		
 	feat(JDDGenerator) Mettre en couleur ROUGE les PK
 

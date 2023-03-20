@@ -17,7 +17,7 @@ class JDDGenerator {
 	static String trameJDD = my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('TRAMEJDDFILENAME')
 	static String tramePREJDD = my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('TRAMEPREJDDFILENAME')
 
-	static add(String table, String modObj, String fct='001',String msg='Initialisation') {
+	static add(String table, String modObj, String fct='001') {
 
 		XSSFWorkbook JDDbook
 		XSSFWorkbook PREJDDbook
@@ -32,14 +32,15 @@ class JDDGenerator {
 			JDDbook = my.XLS.open(my.JDDFiles.getFullName(modObj))
 		}
 
-		this.addJDDSheet(JDDbook, table, modObj,fct)
-
-		this.addParaFromInfoBDD(JDDbook.getSheet(fct))
-
-		this.addInfoVersion(JDDbook,GlobalVariable.AUTEUR,msg)
-
-		OutputStream JDDfileOut = new FileOutputStream(my.JDDFiles.getFullName(modObj))
-		JDDbook.write(JDDfileOut)
+		String msg=this.addJDDSheet(JDDbook, table, modObj,fct)
+		
+		if (msg) {
+			this.addParaFromInfoBDD(JDDbook.getSheet(fct))
+			this.addInfoVersion(JDDbook,GlobalVariable.AUTEUR,msg)
+			
+			OutputStream JDDfileOut = new FileOutputStream(my.JDDFiles.getFullName(modObj))
+			JDDbook.write(JDDfileOut)
+		}
 
 
 
@@ -52,12 +53,15 @@ class JDDGenerator {
 			my.Log.addINFO("Le fichier PREJDD pour $modObj existe déjà : " + my.PREJDDFiles.getFullName(modObj))
 			PREJDDbook = my.XLS.open(my.PREJDDFiles.getFullName(modObj))
 		}
-		this.addPREJDDSheet(PREJDDbook, table, modObj,fct)
-
-		this.addInfoVersion(PREJDDbook,GlobalVariable.AUTEUR,msg)
-
-		OutputStream PREJDDfileOut = new FileOutputStream(my.PREJDDFiles.getFullName(modObj))
-		PREJDDbook.write(PREJDDfileOut)
+		
+		msg=this.addPREJDDSheet(PREJDDbook, table, modObj,fct)
+		
+		if (msg) {
+			this.addInfoVersion(PREJDDbook,GlobalVariable.AUTEUR,msg)
+			
+			OutputStream PREJDDfileOut = new FileOutputStream(my.PREJDDFiles.getFullName(modObj))
+			PREJDDbook.write(PREJDDfileOut)
+		}
 	}
 
 
@@ -110,12 +114,13 @@ class JDDGenerator {
 	}
 
 
-	private static addJDDSheet(XSSFWorkbook JDDbook , String table, String modObj, String fct) {
+	private static String addJDDSheet(XSSFWorkbook JDDbook , String table, String modObj, String fct) {
 
 		Sheet shFCT = JDDbook.getSheet(fct)
-
+		String msg=''
 		if (!shFCT) {
 			my.Log.addDETAIL("Création de l'onglet $fct pour la table $table")
+			msg="Création de l'onglet $fct pour la table $table"
 			JDDbook.cloneSheet(JDDbook.getSheetIndex('MODELE'))
 			JDDbook.setSheetName(JDDbook.getNumberOfSheets()-1, fct)
 			JDDbook.setSheetOrder(fct, JDDbook.getNumberOfSheets()-3)
@@ -140,7 +145,7 @@ class JDDGenerator {
 
 			my.XLS.writeCell(shJDDInfo.getRow(rowNumInfo),0,fct,styleFct)
 			my.XLS.writeCell(shJDDInfo.getRow(rowNumInfo),1,table,styleTable)
-			my.XLS.writeCell(shJDDInfo.getRow(rowNumInfo),2,'')
+			my.XLS.writeCell(shJDDInfo.getRow(rowNumInfo),2,'',styleTable)
 			my.XLS.writeCell(shJDDInfo.getRow(rowNumInfo),3,numEcran,styleFct)
 			my.XLS.writeCell(shJDDInfo.getRow(rowNumInfo),4,'',styleFct)
 			my.XLS.writeCell(shJDDInfo.getRow(rowNumInfo),5,'',styleFct)
@@ -156,7 +161,6 @@ class JDDGenerator {
 			def stylePara = shFCT.getRow(1).getCell(1).getCellStyle()
 			def styleCdt = shFCT.getRow(5).getCell(1).getCellStyle()
 
-			//my.InfoBDD.colnameMap[table].each{
 			my.InfoBDD.map[table].each{col,vlist ->
 				// Sheet FCT
 				my.XLS.writeCell(shFCT.getRow(0),numColFct,col,styleChamp)
@@ -171,12 +175,31 @@ class JDDGenerator {
 				if (row == null) shJDDInfo.createRow(rowNumInfo)
 				my.XLS.writeCell(row,0,col)
 				my.XLS.writeCell(row,1,lib.getAt(col))
+				String type = my.InfoBDD.map[table][col][2]+'('+my.InfoBDD.map[table][col][3]+')'
+				if (my.InfoBDD.map[table][col][2]=='numeric') {
+					type = 'numeric'
+				}
+				if (my.InfoBDD.map[table][col][4]=='T_BOOLEEN') {
+					type = 'boolean'
+				}
+				if (my.InfoBDD.map[table][col][5]!='NULL') {
+					CellStyle stylePK = JDDbook.createCellStyle()
+					def fontPK = JDDbook.createFont()
+					fontPK.setColor(IndexedColors.RED.index)
+					fontPK.setBold(true)
+					stylePK.setFont(fontPK)
+					
+					my.XLS.writeCell(row,2,type,stylePK)
+				}else {
+					my.XLS.writeCell(row,2,type)
+				}
 				rowNumInfo++
 
 			}
 		}else {
 			my.Log.addERROR("L'onglet $fct du JDD existe déjà ")
 		}
+		return msg
 	}
 
 
@@ -212,12 +235,13 @@ class JDDGenerator {
 
 
 
-	private static addPREJDDSheet(XSSFWorkbook JDDbook , String table, String modObj, String fct) {
+	private static String addPREJDDSheet(XSSFWorkbook JDDbook , String table, String modObj, String fct) {
 
 		Sheet shFCT = JDDbook.getSheet(fct)
-
+		String msg=''
 		if (!shFCT) {
 			my.Log.addDETAIL("Création de l'onglet $fct pour la table $table")
+			msg="Création de l'onglet $fct pour la table $table"
 			JDDbook.cloneSheet(JDDbook.getSheetIndex('MODELE'))
 			JDDbook.setSheetName(JDDbook.getNumberOfSheets()-1, fct)
 			JDDbook.setSheetOrder(fct, JDDbook.getNumberOfSheets()-2)
@@ -233,44 +257,48 @@ class JDDGenerator {
 
 			def stylePREJDDChamp = shFCT.getRow(0).getCell(1).getCellStyle()
 
-			//my.InfoBDD.colnameMap[table].each{
 			my.InfoBDD.map[table].each{col,vlist ->
 				my.XLS.writeCell(shFCT.getRow(0),numColFct,col,stylePREJDDChamp)
 				numColFct++
 			}
 
+		}else {
+			my.Log.addERROR("L'onglet $fct du PREJDD existe déjà ")
 		}
+		return msg
 	}
 
 
-	private static addInfoVersion(XSSFWorkbook book, String auteur, String objet, String edition='', String version='' ) {
-
-		CreationHelper createHelper = book.getCreationHelper()
-		CellStyle cellStyle_date = book.createCellStyle()
-		// Créez un nouveau style avec les 4 bordures fines noires
-		def thinBlackBorderStyle = book.createCellStyle()
-		thinBlackBorderStyle.setBorderTop(BorderStyle.THIN)
-		thinBlackBorderStyle.setBorderBottom(BorderStyle.THIN)
-		thinBlackBorderStyle.setBorderLeft(BorderStyle.THIN)
-		thinBlackBorderStyle.setBorderRight(BorderStyle.THIN)
-		thinBlackBorderStyle.setTopBorderColor(IndexedColors.BLACK.getIndex())
-		thinBlackBorderStyle.setBottomBorderColor(IndexedColors.BLACK.getIndex())
-		thinBlackBorderStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex())
-		thinBlackBorderStyle.setRightBorderColor(IndexedColors.BLACK.getIndex())
-
-		cellStyle_date.cloneStyleFrom(thinBlackBorderStyle)
-		cellStyle_date.setDataFormat( createHelper.createDataFormat().getFormat("dd/MM/yyyy"))
-
-		Sheet shVersion = book.getSheet('Version')
-		my.Log.addDETAIL("Renseigner l'onglet Version")
-		int rowNumVersion = my.XLS.getLastRow(shVersion, 0)
-		//shVersion.shiftRows(rowNumVersion, shVersion.lastRowNum, 1, true, true)
-		def newRow = shVersion.createRow(rowNumVersion)
-		my.XLS.writeCell(newRow,0,new Date(),cellStyle_date)
-		my.XLS.writeCell(newRow,1,auteur,thinBlackBorderStyle)
-		my.XLS.writeCell(newRow,2,objet,thinBlackBorderStyle)
-		my.XLS.writeCell(newRow,3,edition,thinBlackBorderStyle)
-		my.XLS.writeCell(newRow,4,version,thinBlackBorderStyle)
+	private static addInfoVersion(XSSFWorkbook book, String auteur, String msg, String edition='', String version='' ) {
+		
+		if (msg) {
+			CreationHelper createHelper = book.getCreationHelper()
+			CellStyle cellStyle_date = book.createCellStyle()
+			// Créez un nouveau style avec les 4 bordures fines noires
+			def thinBlackBorderStyle = book.createCellStyle()
+			thinBlackBorderStyle.setBorderTop(BorderStyle.THIN)
+			thinBlackBorderStyle.setBorderBottom(BorderStyle.THIN)
+			thinBlackBorderStyle.setBorderLeft(BorderStyle.THIN)
+			thinBlackBorderStyle.setBorderRight(BorderStyle.THIN)
+			thinBlackBorderStyle.setTopBorderColor(IndexedColors.BLACK.getIndex())
+			thinBlackBorderStyle.setBottomBorderColor(IndexedColors.BLACK.getIndex())
+			thinBlackBorderStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex())
+			thinBlackBorderStyle.setRightBorderColor(IndexedColors.BLACK.getIndex())
+	
+			cellStyle_date.cloneStyleFrom(thinBlackBorderStyle)
+			cellStyle_date.setDataFormat( createHelper.createDataFormat().getFormat("dd/MM/yyyy"))
+	
+			Sheet shVersion = book.getSheet('Version')
+			my.Log.addDETAIL("Renseigner l'onglet Version")
+			int rowNumVersion = my.XLS.getLastRow(shVersion, 0)
+			//shVersion.shiftRows(rowNumVersion, shVersion.lastRowNum, 1, true, true)
+			def newRow = shVersion.createRow(rowNumVersion)
+			my.XLS.writeCell(newRow,0,new Date(),cellStyle_date)
+			my.XLS.writeCell(newRow,1,auteur,thinBlackBorderStyle)
+			my.XLS.writeCell(newRow,2,msg,thinBlackBorderStyle)
+			my.XLS.writeCell(newRow,3,edition,thinBlackBorderStyle)
+			my.XLS.writeCell(newRow,4,version,thinBlackBorderStyle)
+		}
 	}
 
 } // end of class
