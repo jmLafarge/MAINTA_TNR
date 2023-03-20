@@ -6,9 +6,7 @@
  * FAIT
  * -----------------------------------------------------------------------------------------------------
  * 
-	feat(JDDGenerator) Ajout pour générer automatiquement dans le bon dossier les JDD et PREJDD
-	feat(JDDGenerator) Ajouter les infos connu (ceux récoltés dans InfoBDD onglet PARA) dans les para du JDD
-	feat(InfoBDD) updateParaInfoBDD generique pour tous les para
+
 
  * 
  * -----------------------------------------------------------------------------------------------------

@@ -13,6 +13,6 @@ println findTestObject('0 - COMMUN/Accueil/div_desk').getParentObject()
 println findTestObject('0 - COMMUN/Accueil/div_desk').getSelectorCollection().get(SelectorMethod.XPATH)
 println findTestObject('0 - COMMUN/Accueil/div_desk').getSelectorMethod()
 
-println findTestObject('Object Repository/0 - COMMUN/Accueil/frame_main').getParentObject()
+println findTestObject('null').getParentObject()
 
 
