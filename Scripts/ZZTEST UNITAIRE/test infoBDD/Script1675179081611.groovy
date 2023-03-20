@@ -1,7 +1,29 @@
-
+import com.kms.katalon.core.cucumber.keyword.CucumberBuiltinKeywords as CucumberKW
 
 my.InfoBDD.load()
 
+
+my.InfoBDD.map['INTER'].each {k,v  ->
+		println k.getClass()
+		println k
+		println v.getClass()
+		println v[0]
+}
+my.InfoBDD.map['INTER'].each {
+	println it.getClass()
+	println it
+}
+
+
+//my.Tools.parseMap(my.InfoBDD.imap)
+
+//println my.InfoBDD.imap['INTER-ID_CODINT']
+
+//my.Tools.parseMap(my.InfoBDD.map)
+
+//println my.InfoBDD.map['INTER']['ID_CODINT']
+
+/*
 println my.InfoBDD.paraMap.containsKey('ID_CODSER')
 
 my.InfoBDD.paraMap.each{k,v ->
@@ -9,16 +31,17 @@ my.InfoBDD.paraMap.each{k,v ->
 	if (v[2]!=null) println v[2]
 	
 }
-
+*/
 /*
 my.InfoBDD.colnameMap['INTER'].eachWithIndex{v,i ->
 	
 	println "$i    $v"
 	
 }
-*/
 
-/*
+println my.InfoBDD.getPK('INTER')
+
+
 my.InfoBDD.line.eachWithIndex{v,i ->
 	
 	println "$i    $v"

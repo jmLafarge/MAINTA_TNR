@@ -1,14 +1,8 @@
 
-my.InfoBDD.load()
-int max =0
-my.InfoBDD.paraMap.each { k,v ->
-	
-	if (v.size()>max) max = v.size()
-	println "k: $k " +  v.size()
-	for (int i = 0; i < v.size(); i++) {
-		
-		println "\t-i $i "+v[i]
-	}
-}
+def myList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-println "max $max"
+// Récupérez les éléments de la liste de l'index 2 (inclus) à l'index 7 (non inclus)
+def subList = myList.subList(2, 7)
+
+// Affichez les éléments de la sous-liste
+println(subList)

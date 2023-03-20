@@ -6,7 +6,7 @@
  * FAIT
  * -----------------------------------------------------------------------------------------------------
  * 
-
+refactor(InfoBDD) Remplacer PKMap et line et colnameMap par map
 
  * 
  * -----------------------------------------------------------------------------------------------------
@@ -22,6 +22,11 @@
  * -----------------------------------------------------------------------------------------------------
  *
 
+	feat(JDDGenerator) Ajouter le type dans l'onglet Info de JDD
+		- type(taille) : varchar (50)
+		- pour les T_BOOLEAN mettre boolean
+		
+	feat(JDDGenerator) Mettre en couleur ROUGE les PK
 
 		
 	Traiter les valeurs des $DATESYS et $DATETIME
@@ -142,8 +147,9 @@
  * -----------------------------------------------------------------------------------------------------
  * 
 
-	  TABLE SERLOG log des server	et UTILOG 
+	  TABLE SERLOG log des server	et surtout UTILOG 
 	  	menu acteur > utilisateur Mainta > historique de connexion
+	  	manque la déconnexion
 	  	
 	  BTSYN table de lien entre BT et HISBT (historique)
 	  BTEFF BT effacé (si on veut tester si un BT effacé est supprimé de BT et mis dans BTEFF

@@ -60,27 +60,27 @@ class TestListener {
 		}else if (TCName == '__JDD GENERATOR'){
 			
 			my.Log.addTITLE("Lancement de $TCName")
-			if (my.InfoBDD.line.isEmpty()) { my.InfoBDD.load() }
+			if (my.InfoBDD.map.isEmpty()) { my.InfoBDD.load() }
 			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
 			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
 			
 		}else if (TCName == '_CHECK PREREQUIS'){
 			
 			my.Log.addTITLE("Lancement de $TCName")
-			if (my.InfoBDD.line.isEmpty()) { my.InfoBDD.load() }
+			if (my.InfoBDD.map.isEmpty()) { my.InfoBDD.load() }
 			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
 			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
 			
 		}else if (TCName == '_CREATE PREJDD IN DB'){
 			
 			my.Log.addTITLE("Lancement de $TCName")
-			if (my.InfoBDD.line.isEmpty()) { my.InfoBDD.load() }
+			if (my.InfoBDD.map.isEmpty()) { my.InfoBDD.load() }
 			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
 			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
 
 
 		}else if (TCName == '_TNR SEQUENCER') {
-			if (my.InfoBDD.line.isEmpty()) { my.InfoBDD.load() }
+			if (my.InfoBDD.map.isEmpty()) { my.InfoBDD.load() }
 			if (my.TCFiles.TCfileMap.isEmpty()) { my.TCFiles.load() }
 			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
 			if (my.Sequencer.testCasesList.isEmpty()) { my.Sequencer.load() }
@@ -104,7 +104,7 @@ class TestListener {
 			TCName = (TCName.contains(' ')) ? TCName.split(' ')[0] : TCName
 			
 			my.Log.addDEBUG("TCName after split(' ')[0] : " + TCName)
-			if (my.InfoBDD.line.isEmpty()) { my.InfoBDD.load() }
+			if (my.InfoBDD.map.isEmpty()) { my.InfoBDD.load() }
 			if (my.TCFiles.TCfileMap.isEmpty()) { my.TCFiles.load() }
 			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
 			if (my.Sequencer.testCasesList.isEmpty()) { my.Sequencer.load() }

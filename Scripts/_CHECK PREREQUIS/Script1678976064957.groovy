@@ -34,9 +34,10 @@ my.JDDFiles.JDDfilemap.each { modObj,fullName ->
 					
 					if (myJDD.headers.size()>1) {
 						my.Log.addDETAIL("Contrôle des colonnes (Présence, ordre, prérequis, foreignkey)")
-						my.InfoBDD.colnameMap[myJDD.getDBTableName()].eachWithIndex{col,index ->
+						//my.InfoBDD.colnameMap[myJDD.getDBTableName()].eachWithIndex{col,index ->
+						my.InfoBDD.map[myJDD.getDBTableName()].each{col,vlist ->
 							
-							if (col == myJDD.headers[index+1]) {
+							if (col == myJDD.headers[(int)vlist[0]]) {
 								my.Log.addDEBUG("'$col' OK")
 								
 								my.InfoBDD.updateParaInfoBDD(myJDD, col,fullName, modObj+'.'+sheet.getSheetName()) 
@@ -111,18 +112,10 @@ my.PREJDDFiles.PREJDDfilemap.each { modObj,fullName ->
 				
 				
 				my.Log.addDETAIL("Contrôle des colonnes")
-				/*
-				my.InfoBDD.colnameMap[myJDD.getDBTableName()].each{
-					if (it in headersPREJDD) {
-						my.Log.addDEBUG("'$it' OK")
-					}else {
-						my.Log.addDETAILFAIL("Le champ '$it' n'est pas dans le PREJDD")
-					}
-				}
-				*/
-				my.InfoBDD.colnameMap[myJDD.getDBTableName()].eachWithIndex{col,index ->
-					
-					if (col == headersPREJDD[index+1]) {
+
+				//my.InfoBDD.colnameMap[myJDD.getDBTableName()].eachWithIndex{col,index ->
+				my.InfoBDD.map[myJDD.getDBTableName()].each{col,vlist ->
+					if (col == headersPREJDD[(int)vlist[0]]) {
 						my.Log.addDEBUG("'$col' OK")
 					}else if (col in headersPREJDD) {
 						my.Log.addDETAILFAIL("'$col' est dans le PREJDD mais pas à la bonne place")

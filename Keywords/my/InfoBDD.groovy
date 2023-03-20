@@ -6,22 +6,21 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import com.kms.katalon.core.util.KeywordUtil
 
 public class InfoBDD {
+	
+	public static Map map = [:]
+	public static Map paraMap= [:]
+	
 
 	private static XSSFWorkbook book
 	private static String fileName = ''
 
 	private static CellStyle whereStyle
-	private static CellStyle paraStyle
-
-	private static Map colnameMap= [:]
-	private static Map PKMap= [:]
-	private static Map paraMap= [:]
+	private static CellStyle paraStyle	
 
 	private static final List HEADERS	 = ['TABLE_NAME', 'COLUMN_NAME', 'ORDINAL_POSITION', 'IS_NULLABLE', 'DATA_TYPE', 'MAXCHAR', 'DOMAIN_NAME', 'CONSTRAINT_NAME']
 
-	private static List line = []
-
 	private static Sheet shPara
+
 
 	public static load() {
 
@@ -49,17 +48,20 @@ public class InfoBDD {
 			if (my.XLS.getCellValue(row.getCell(0))=='') {
 				break
 			}
-			this.line << my.XLS.loadRow(row,this.HEADERS.size())
+
+			List listxls = my.XLS.loadRow(row,this.HEADERS.size())
+
+			if (!this.map[listxls[0]]) {
+				this.map[listxls[0]] = [:]
+			}
+			this.map[listxls[0]][listxls[1]] = listxls.subList(2, 8)
+			
 		}
-		this.colnameMap = this.line.groupBy { it[ 0 ] } .collectEntries { key, value -> [key, value*.getAt(this.HEADERS.indexOf('COLUMN_NAME'))]}
-
-		this.PKMap = this.line.groupBy { it[ 0 ] }.collectEntries { key, value -> [key, value*.getAt(this.HEADERS.indexOf('CONSTRAINT_NAME'))]}
-
-
+		
 		this.shPara = this.book.getSheet('PARA')
 		rowIt = this.shPara.rowIterator()
 		row = rowIt.next()
-		
+
 		if (my.XLS.getCellValue(row.getCell(2))=='') my.XLS.writeCell(row, 2, 'PREREQUIS')
 		if (my.XLS.getCellValue(row.getCell(3))=='') my.XLS.writeCell(row, 3, 'PREREQUIS_JDD')
 		if (my.XLS.getCellValue(row.getCell(4))=='') my.XLS.writeCell(row, 4, 'FOREIGNKEY')
@@ -68,7 +70,7 @@ public class InfoBDD {
 		if (my.XLS.getCellValue(row.getCell(7))=='') my.XLS.writeCell(row, 7, 'SEQUENCE_JDD')
 		if (my.XLS.getCellValue(row.getCell(8))=='') my.XLS.writeCell(row, 8, 'LOCATOR')
 		if (my.XLS.getCellValue(row.getCell(9))=='') my.XLS.writeCell(row, 9, 'LOCATOR_JDD')
-					
+
 		while(rowIt.hasNext()) {
 			row = rowIt.next()
 			if (my.XLS.getCellValue(row.getCell(0))=='') {
@@ -76,6 +78,8 @@ public class InfoBDD {
 			}
 			this.paraMap.putAt(my.XLS.getCellValue(row.getCell(0)),my.XLS.loadRow(row,10))
 		}
+		
+		
 
 		this.whereStyle = this.book.createCellStyle()
 		this.whereStyle.setWrapText(true)
@@ -151,17 +155,17 @@ public class InfoBDD {
 	public static List getPK(String table) {
 
 		List list=[]
-		this.PKMap.getAt(table).eachWithIndex { v,i ->
-			if (v!='NULL') {
-				list.add(this.colnameMap.getAt(table)[i])
-			}
+		this.map[table].each { k, li -> 
+			
+			if (li[5]!='NULL') list.add(k)
 		}
 		return list
 	}
 
 
 	public static boolean isTableExist(String table) {
-		return this.colnameMap.containsKey(table)
+		//return this.colnameMap.containsKey(table)
+		return this.map.containsKey(table)
 	}
 
 
@@ -192,7 +196,7 @@ public class InfoBDD {
 
 		int icol = 2
 		for (para in ['PREREQUIS', 'FOREIGNKEY', 'SEQUENCE', 'LOCATOR']) {
-			
+
 			String valPara = myJDD.getParamForThisName(para, col)
 			if (valPara) {
 				my.Log.addDEBUG("\t$para pour '$col' : $valPara")

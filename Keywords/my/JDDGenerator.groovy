@@ -34,7 +34,7 @@ class JDDGenerator {
 
 		this.addJDDSheet(JDDbook, table, modObj,fct)
 
-		this.addParaFromInfoBDD(JDDbook.getSheet(fct), table)
+		this.addParaFromInfoBDD(JDDbook.getSheet(fct))
 
 		this.addInfoVersion(JDDbook,GlobalVariable.AUTEUR,msg)
 
@@ -64,8 +64,10 @@ class JDDGenerator {
 
 
 
-	private static addParaFromInfoBDD(Sheet shFCT , String table) {
+	private static addParaFromInfoBDD(Sheet shFCT) {
 
+		my.Log.addDETAIL("Ajout des paramètres dans l'onglet "+shFCT.getSheetName())
+		
 		Row row = shFCT.getRow(0)
 
 		for (int i = 1; i < row.getLastCellNum(); i++) {
@@ -76,22 +78,31 @@ class JDDGenerator {
 				break
 			}
 
-			if(my.InfoBDD.paraMap.containsKey(cval)) {
-
-				my.XLS.writeCell(this.getRowOfPara(shFCT,'PREREQUIS'),i, my.InfoBDD.paraMap[cval][2])
-				my.XLS.writeCell(this.getRowOfPara(shFCT,'FOREIGNKEY'),i, my.InfoBDD.paraMap[cval][4])
+			if (my.InfoBDD.paraMap.containsKey(cval)) {
+				int icol = 2
+				for (para in ['PREREQUIS', 'FOREIGNKEY', 'SEQUENCE', 'LOCATOR']) {
+					
+					Row rowPara = this.getRowOfPara(shFCT,para)
+					if (rowPara!=null && my.InfoBDD.paraMap[cval][icol]!='') {
+						my.XLS.writeCell(rowPara,i, my.InfoBDD.paraMap[cval][icol])
+					}
+					icol+=2
+				}
 			}
 		}
 	}
 
 	private static Row getRowOfPara(Sheet sheet, String para) {
 
-		my.Log.addDETAIL("Ajout des paramètres dans l'onglet "+sheet.getSheetName())
 		Iterator<Row> rowIt = sheet.rowIterator()
 		Row row = rowIt.next()
 		while(rowIt.hasNext()) {
 			row = rowIt.next()
-			if (my.XLS.getCellValue(row.getCell(0))==para ||my.XLS.getCellValue(row.getCell(0))=='') {
+			if (my.XLS.getCellValue(row.getCell(0))==para) {
+				break
+			}
+			if (my.XLS.getCellValue(row.getCell(0))=='') {
+				row=null
 				break
 			}
 		}
@@ -129,9 +140,10 @@ class JDDGenerator {
 
 			my.XLS.writeCell(shJDDInfo.getRow(rowNumInfo),0,fct,styleFct)
 			my.XLS.writeCell(shJDDInfo.getRow(rowNumInfo),1,table,styleTable)
-			my.XLS.writeCell(shJDDInfo.getRow(rowNumInfo),2,numEcran,styleFct)
-			my.XLS.writeCell(shJDDInfo.getRow(rowNumInfo),3,'',styleFct)
+			my.XLS.writeCell(shJDDInfo.getRow(rowNumInfo),2,'')
+			my.XLS.writeCell(shJDDInfo.getRow(rowNumInfo),3,numEcran,styleFct)
 			my.XLS.writeCell(shJDDInfo.getRow(rowNumInfo),4,'',styleFct)
+			my.XLS.writeCell(shJDDInfo.getRow(rowNumInfo),5,'',styleFct)
 			rowNumInfo++
 
 
@@ -144,10 +156,10 @@ class JDDGenerator {
 			def stylePara = shFCT.getRow(1).getCell(1).getCellStyle()
 			def styleCdt = shFCT.getRow(5).getCell(1).getCellStyle()
 
-			my.InfoBDD.colnameMap[table].each{
-
+			//my.InfoBDD.colnameMap[table].each{
+			my.InfoBDD.map[table].each{col,vlist ->
 				// Sheet FCT
-				my.XLS.writeCell(shFCT.getRow(0),numColFct,it,styleChamp)
+				my.XLS.writeCell(shFCT.getRow(0),numColFct,col,styleChamp)
 				for (int i in 1..4) {
 					my.XLS.writeCell(shFCT.getRow(i),numColFct,null,stylePara)
 				}
@@ -157,8 +169,8 @@ class JDDGenerator {
 				// Sheet Info
 				Row row = shJDDInfo.getRow(rowNumInfo)
 				if (row == null) shJDDInfo.createRow(rowNumInfo)
-				my.XLS.writeCell(row,0,it)
-				my.XLS.writeCell(row,1,lib.getAt(it))
+				my.XLS.writeCell(row,0,col)
+				my.XLS.writeCell(row,1,lib.getAt(col))
 				rowNumInfo++
 
 			}
@@ -221,9 +233,9 @@ class JDDGenerator {
 
 			def stylePREJDDChamp = shFCT.getRow(0).getCell(1).getCellStyle()
 
-			my.InfoBDD.colnameMap[table].each{
-
-				my.XLS.writeCell(shFCT.getRow(0),numColFct,it,stylePREJDDChamp)
+			//my.InfoBDD.colnameMap[table].each{
+			my.InfoBDD.map[table].each{col,vlist ->
+				my.XLS.writeCell(shFCT.getRow(0),numColFct,col,stylePREJDDChamp)
 				numColFct++
 			}
 
