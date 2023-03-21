@@ -240,16 +240,16 @@ class KW {
 		if (text==null) text = myJDD.getStrData(name)
 		String gText = WebUI.getText(tObj)
 		/*
-		try {
-			WebUI.verifyElementText(tObj, text,FailureHandling.STOP_ON_FAILURE)
-			my.Log.addSTEPPASS("Vérification du texte '$text' sur '" + tObj.getObjectId() + "'")
-			return true
-		} catch (Exception ex) {
-			my.Log.addSTEP("Vérification du texte '$text' sur '" + tObj.getObjectId() + "' KO, la valeur est '$gText' !", status)
-			my.Log.addDETAIL(ex.getMessage())
-			return false
-		}
-		*/
+		 try {
+		 WebUI.verifyElementText(tObj, text,FailureHandling.STOP_ON_FAILURE)
+		 my.Log.addSTEPPASS("Vérification du texte '$text' sur '" + tObj.getObjectId() + "'")
+		 return true
+		 } catch (Exception ex) {
+		 my.Log.addSTEP("Vérification du texte '$text' sur '" + tObj.getObjectId() + "' KO, la valeur est '$gText' !", status)
+		 my.Log.addDETAIL(ex.getMessage())
+		 return false
+		 }
+		 */
 		if (WebUI.verifyElementText(tObj, text,FailureHandling.OPTIONAL)) {
 			my.Log.addSTEPPASS("Vérification du texte '$text' sur '" + tObj.getObjectId() + "'")
 			return true

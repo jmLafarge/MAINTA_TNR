@@ -320,7 +320,7 @@ public class JDD {
 	 * @return the TestObject created
 	 */
 	public TestObject makeTO(String ID, Map  binding = [:]){
-
+		
 		if (!this.xpathTO.containsKey(ID)) {
 			my.Log.addERROR("L'ID '$ID' n'existe pas, impossible de créer le TEST OBJET")
 		}
@@ -328,6 +328,34 @@ public class JDD {
 		TestObject to = new TestObject(ID)
 		to.setSelectorMethod(SelectorMethod.XPATH)
 		String xpath = this.xpathTO.getAt(ID)
+		
+		if (xpath.startsWith('$')) {
+			
+			if (xpath.split('\\$').size()==3){
+				
+				switch(xpath.split('\\$')[1]) {
+					
+					case "TAB":
+					
+						binding['tabname']=xpath.split('\\$')[2]
+						xpath = my.NAV.myGlobalJDD.xpathTO['TAB']
+						
+						break
+					case "TABSELECTED":
+					
+						binding['tabname']=xpath.split('\\$')[2]
+						xpath = my.NAV.myGlobalJDD.xpathTO['TABSELECTED']
+						break
+					default:
+						my.Log.addERROR("makeTO $ID, xpath avec "+'$'+" mot clé inconnu : $xpath")
+				}
+				
+			}else {
+				my.Log.addERROR("makeTO $ID, xpath avec "+'$'+" non conforme : $xpath")
+			}
+			
+		}
+		
 		my.Log.addDEBUG('\txpath :' + xpath)
 		// is it a dynamic xpath
 		def matcher = xpath =~  /\$\{(.+?)\}/
@@ -346,7 +374,7 @@ public class JDD {
 					binding.put(value,this.getData(value))
 					my.Log.addDEBUG('\tput in binding k --> v : '+ value + ' --> '+ this.getData(value),2)
 				}else {
-					my.Log.addDEBUG('binding not possible because xpath parameter not found : ' + k,2)
+					my.Log.addERROR('binding not possible because xpath parameter not found : ' + k)
 				}
 			}
 			my.Log.addDEBUG('\t\tdynamic xpath',2)

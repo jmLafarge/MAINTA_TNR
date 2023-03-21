@@ -1,9 +1,3 @@
-20 - Créationimport static com.kms.katalon.core.testcase.TestCaseFactory.findTestCase
-
-import com.kms.katalon.core.util.KeywordUtil as KU
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-
-import internal.GlobalVariable
 import my.KW
 import my.NAV
 

@@ -6,12 +6,12 @@
  * FAIT
  * -----------------------------------------------------------------------------------------------------
  * 
-feat(JDDGenerator) Ajouter le type dans l'onglet Info de JDD et standardisation du msg addInfoVersion
-- pour les varchar type(taille) : varchar (50)
-- pour les T_BOOLEAN mettre boolean
-- pour les numeric mettre numeric
-- mettre les PK en rouge gras
-		
+FEAT(JDD.makeTO) Gestion standardisé des TAB 
+
+-Ajout gestion $TAB$nom et $TABSELECTED$nom dans LOCATOR IHMTO des JDD
+-Ajout des noms TA B et TABSELECTED dans JDD.GLOBAL
++Correction erreur dans InfoBDD  getDATA_TYPE
+	
 
  * 
  * -----------------------------------------------------------------------------------------------------
@@ -27,9 +27,6 @@ feat(JDDGenerator) Ajouter le type dans l'onglet Info de JDD et standardisation 
  * -----------------------------------------------------------------------------------------------------
  *
 
-
-		
-	feat(JDDGenerator) Mettre en couleur ROUGE les PK
 
 		
 	Traiter les valeurs des $DATESYS et $DATETIME
@@ -116,6 +113,7 @@ feat(JDDGenerator) Ajouter le type dans l'onglet Info de JDD et standardisation 
 
 	LOG
 
+		Revoir le DEBUG --> c'est pourri
 		integrer LOG4J
   		Ajouter def var en para d'un DEBUG pour parser un map , un list,... --> pour une list.toListString() ou join mais c'est en ligne ... voir avec \n
   		ajouter une fonction addTRACE(def fct, def para=null, String msg=null)

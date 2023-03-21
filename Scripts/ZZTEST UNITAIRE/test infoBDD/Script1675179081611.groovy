@@ -2,7 +2,13 @@ import com.kms.katalon.core.cucumber.keyword.CucumberBuiltinKeywords as Cucumber
 
 my.InfoBDD.load()
 
-
+println my.InfoBDD.map['INTER']['ID_CODINT'][0]
+println my.InfoBDD.map['INTER']['ID_CODINT'][1]
+println my.InfoBDD.map['INTER']['ID_CODINT'][2]
+println my.InfoBDD.map['INTER']['ID_CODINT'][3]
+println my.InfoBDD.map['INTER']['ID_CODINT'][4]
+println my.InfoBDD.map['INTER']['ID_CODINT'][5]
+/*
 my.InfoBDD.map['INTER'].each {k,v  ->
 		println k.getClass()
 		println k
@@ -11,7 +17,7 @@ my.InfoBDD.map['INTER'].each {k,v  ->
 		println v[0]
 }
 
-
+*/
 //my.Tools.parseMap(my.InfoBDD.imap)
 
 //println my.InfoBDD.imap['INTER-ID_CODINT']

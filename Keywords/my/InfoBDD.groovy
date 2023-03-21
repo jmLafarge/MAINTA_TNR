@@ -8,7 +8,7 @@ import com.kms.katalon.core.util.KeywordUtil
 public class InfoBDD {
 
 	public static Map map = [:]
-	public static Map paraMap= [:]
+	public static Map paraMap= [:] // Map de Map de List[TABLE_NAME] [COLUMN_NAME] [0]:ORDINAL_POSITION [1]:IS_NULLABLE [2]:DATA_TYPE [3]:MAXCHAR [4]:DOMAIN_NAME [5]:CONSTRAINT_NAME
 
 
 	private static XSSFWorkbook book
@@ -170,14 +170,10 @@ public class InfoBDD {
 
 
 	private static String getDATA_TYPE(String table, String name) {
-		String ret = null
-		this.line.each {
-			if (it[0]==table && it[1]==name) {
-				ret = it[4]
-			}
-		}
-		return ret
+
+		return this.map[table][name][2]
 	}
+
 
 	public static castJDDVal(String table, String name, def val) {
 

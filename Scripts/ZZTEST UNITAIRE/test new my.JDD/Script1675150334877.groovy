@@ -1,8 +1,17 @@
+import com.kms.katalon.core.testobject.SelectorMethod
+import com.kms.katalon.core.testobject.TestObject
 
+my.NAV.loadJDDGLOBAL()
 
 def filename = 'TNR_JDD/RO/JDD.RO.ACT.xlsx'
 
-my.JDD myJDD = new my.JDD(filename,'004EMP','RO.ACT.004EMP.SRA.01')
+my.JDD myJDD = new my.JDD(filename,'001','RO.ACT.001.CRE.01')
+
+TestObject tObj = myJDD.makeTO('a_AffectationSelected')
+
+println tObj.getSelectorCollection().get(SelectorMethod.XPATH)
+
+/*
 myJDD.setCasDeTestNum(2)
 
 println '******************************************'
@@ -17,7 +26,7 @@ println '-----------------------------------------------------------------------
 println myJDD.datas
 
 println '------------------------------------------------------------------------------------'
-
+*/
 
 
 
