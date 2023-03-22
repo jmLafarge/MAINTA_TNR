@@ -6,13 +6,14 @@
  * FAIT
  * -----------------------------------------------------------------------------------------------------
  * 
-FEAT(JDD.makeTO) Gestion standardisé des TAB 
-
--Ajout gestion $TAB$nom et $TABSELECTED$nom dans LOCATOR IHMTO des JDD
--Ajout des noms TA B et TABSELECTED dans JDD.GLOBAL
-+Correction erreur dans InfoBDD  getDATA_TYPE
 	
+FEAT (infoBDD) sortir PARA de InfoBDD et renseigner un nouveau fichier et corrections diverses
 
+-créer une nouvelle class infoPARA
+-créer un nouveau TC pour lancer le remplissage de InfoPARA --> il sera à lancer après le CHECK PREREQUIS
+-inclure tous les champs du JDD y compris les champs NON IHM, ne plus s'occuper du nombre d'utilisation
+-XLS corrections
+-JDDGenerator corrections
  * 
  * -----------------------------------------------------------------------------------------------------
  * NOTE
@@ -28,6 +29,13 @@ FEAT(JDD.makeTO) Gestion standardisé des TAB
  *
 
 
+
+ 
+AJOUTER un ctrl prerequis 
+il faut pour tous les JDD "CDT + les PK" dans le PREJDD correspondant SAUF pour CRE et SRA
+ 
+ 
+ 
 		
 	Traiter les valeurs des $DATESYS et $DATETIME
 

@@ -66,8 +66,15 @@ class Log {
 	public static addDEBUG (String msg, int level=1) {
 		String stat= this.getStatFormat('DEBUG ' + level)
 		String h = new Date().format(this.dateTimeFormat)
-		if (level <= this.debugLevel) this.fileDebug.append("[$h][$stat]:" + this.tab +"$msg\n")
+		if (level <= this.debugLevel) {
+			this.fileDebug.append("[$h][$stat]:" + this.tab +"$msg\n")
+			println "[my Log][$stat]:" + this.tab +"$msg"
+		}
 	}
+
+
+
+
 
 	public static addINFO (String msg,int level=0) {
 

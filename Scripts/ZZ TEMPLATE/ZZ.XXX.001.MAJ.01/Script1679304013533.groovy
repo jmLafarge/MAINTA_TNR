@@ -20,11 +20,21 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
 	'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('xxxxxxxxxxxxxxxxxxxxxxxxxxxxx'))
 
-	
 	  my.Log.addSTEPGRP('ONGLET xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
 	  
-
-	  		 
+	  'Clic sur le bon onglet'
+	  KW.scrollAndClick(myJDD,'xxxxxxxxxxxxx')
+	  
+	  'Vérification de l\'onglet'
+	  KW.waitForElementVisible(myJDD,'xxxxxxxxxxxxxxxxxx')
+  
+	  'Début de sasie des valeurs du JDD'
+	  
+	  
+	  
+	  
+	  
+	  
 
 	my.Log.addSTEPGRP('VALIDATION')
 	

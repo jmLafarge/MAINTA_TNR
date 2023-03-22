@@ -52,34 +52,8 @@ class TestListener {
 		
 		my.Log.addDEBUG("TCName after split('/')[-1] : '" + TCName +"'")
 		
-		// si TC est un test on ne charge pas les fichiers TC et JDD
-		if (testCaseContext.getTestCaseId().contains('ZZTEST UNITAIRE')) {
-			
-			my.Log.addTITLE("Lancement du test $TCName")
-			
-		}else if (TCName == '__JDD GENERATOR'){
-			
-			my.Log.addTITLE("Lancement de $TCName")
-			if (my.InfoBDD.map.isEmpty()) { my.InfoBDD.load() }
-			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
-			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
-			
-		}else if (TCName == '_CHECK PREREQUIS'){
-			
-			my.Log.addTITLE("Lancement de $TCName")
-			if (my.InfoBDD.map.isEmpty()) { my.InfoBDD.load() }
-			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
-			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
-			
-		}else if (TCName == '_CREATE PREJDD IN DB'){
-			
-			my.Log.addTITLE("Lancement de $TCName")
-			if (my.InfoBDD.map.isEmpty()) { my.InfoBDD.load() }
-			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
-			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
-
-
-		}else if (TCName == '_TNR SEQUENCER') {
+		
+		if (TCName == '_TNR SEQUENCER') {
 			if (my.InfoBDD.map.isEmpty()) { my.InfoBDD.load() }
 			if (my.TCFiles.TCfileMap.isEmpty()) { my.TCFiles.load() }
 			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
@@ -99,20 +73,16 @@ class TestListener {
 			
 			if (my.NAV.myGlobalJDD == null) { my.NAV.loadJDDGLOBAL() }
 	
+		}else if (testCaseContext.getTestCaseId().contains('ZZTEST UNITAIRE')) {
+			
+			my.Log.addTITLE("Lancement du test $TCName")
+			
 		}else {
-			/*
-			TCName = (TCName.contains(' ')) ? TCName.split(' ')[0] : TCName
 			
-			my.Log.addDEBUG("TCName after split(' ')[0] : " + TCName)
+			my.Log.addTITLE("Lancement de $TCName")
 			if (my.InfoBDD.map.isEmpty()) { my.InfoBDD.load() }
-			if (my.TCFiles.TCfileMap.isEmpty()) { my.TCFiles.load() }
 			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
-			if (my.Sequencer.testCasesList.isEmpty()) { my.Sequencer.load() }
-			if (my.NAV.myGlobalJDD == null) { my.NAV.loadJDDGLOBAL() }
-			
-			
-			GlobalVariable.CASDETESTENCOURS = TCName
-			*/
+			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
 		}
 
 	}

@@ -18,6 +18,8 @@ class JDDGenerator {
 	static String tramePREJDD = my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('TRAMEPREJDDFILENAME')
 
 	static add(String table, String modObj, String fct='001') {
+		
+		if (my.InfoPARA.paraMap.isEmpty()) { my.InfoPARA.load() }
 
 		XSSFWorkbook JDDbook
 		XSSFWorkbook PREJDDbook
@@ -33,11 +35,11 @@ class JDDGenerator {
 		}
 
 		String msg=this.addJDDSheet(JDDbook, table, modObj,fct)
-		
+
 		if (msg) {
-			this.addParaFromInfoBDD(JDDbook.getSheet(fct))
+			this.addParaFromInfoPARA(JDDbook.getSheet(fct))
 			this.addInfoVersion(JDDbook,GlobalVariable.AUTEUR,msg)
-			
+
 			OutputStream JDDfileOut = new FileOutputStream(my.JDDFiles.getFullName(modObj))
 			JDDbook.write(JDDfileOut)
 		}
@@ -53,12 +55,12 @@ class JDDGenerator {
 			my.Log.addINFO("Le fichier PREJDD pour $modObj existe déjà : " + my.PREJDDFiles.getFullName(modObj))
 			PREJDDbook = my.XLS.open(my.PREJDDFiles.getFullName(modObj))
 		}
-		
+
 		msg=this.addPREJDDSheet(PREJDDbook, table, modObj,fct)
-		
+
 		if (msg) {
 			this.addInfoVersion(PREJDDbook,GlobalVariable.AUTEUR,msg)
-			
+
 			OutputStream PREJDDfileOut = new FileOutputStream(my.PREJDDFiles.getFullName(modObj))
 			PREJDDbook.write(PREJDDfileOut)
 		}
@@ -68,7 +70,7 @@ class JDDGenerator {
 
 
 
-	private static addParaFromInfoBDD(Sheet shFCT) {
+	private static addParaFromInfoPARA(Sheet shFCT) {
 
 		my.Log.addDETAIL("Ajout des paramètres dans l'onglet "+shFCT.getSheetName())
 
@@ -82,13 +84,13 @@ class JDDGenerator {
 				break
 			}
 
-			if (my.InfoBDD.paraMap.containsKey(cval)) {
+			if (my.InfoPARA.paraMap.containsKey(cval)) {
 				int icol = 2
 				for (para in ['PREREQUIS', 'FOREIGNKEY', 'SEQUENCE', 'LOCATOR']) {
 
 					Row rowPara = this.getRowOfPara(shFCT,para)
-					if (rowPara!=null && my.InfoBDD.paraMap[cval][icol]!='') {
-						my.XLS.writeCell(rowPara,i, my.InfoBDD.paraMap[cval][icol])
+					if (rowPara!=null && my.InfoPARA.paraMap[cval][icol]!='') {
+						my.XLS.writeCell(rowPara,i, my.InfoPARA.paraMap[cval][icol])
 					}
 					icol+=2
 				}
@@ -138,18 +140,18 @@ class JDDGenerator {
 			Map lib = my.SQL.getLibelle(table, numEcran)
 
 			my.Log.addDETAIL("Renseigner l'onglet Info")
-			int rowNumInfo = my.XLS.getLastRow(shJDDInfo, 0)
+			Row rowInfo = my.XLS.getNextRow(shJDDInfo)
 
 			def styleFct = shJDDInfo.getRow(0).getCell(0).getCellStyle()
 			def styleTable = shJDDInfo.getRow(0).getCell(1).getCellStyle()
 
-			my.XLS.writeCell(shJDDInfo.getRow(rowNumInfo),0,fct,styleFct)
-			my.XLS.writeCell(shJDDInfo.getRow(rowNumInfo),1,table,styleTable)
-			my.XLS.writeCell(shJDDInfo.getRow(rowNumInfo),2,'',styleTable)
-			my.XLS.writeCell(shJDDInfo.getRow(rowNumInfo),3,numEcran,styleFct)
-			my.XLS.writeCell(shJDDInfo.getRow(rowNumInfo),4,'',styleFct)
-			my.XLS.writeCell(shJDDInfo.getRow(rowNumInfo),5,'',styleFct)
-			rowNumInfo++
+			my.XLS.writeCell(rowInfo,0,fct,styleFct)
+			my.XLS.writeCell(rowInfo,1,table,styleTable)
+			my.XLS.writeCell(rowInfo,2,'',styleTable)
+			my.XLS.writeCell(rowInfo,3,numEcran,styleFct)
+			my.XLS.writeCell(rowInfo,4,'',styleFct)
+			my.XLS.writeCell(rowInfo,5,'',styleFct)
+			//rowNumInfo++
 
 
 			int numColFct = 1
@@ -171,29 +173,30 @@ class JDDGenerator {
 				numColFct++
 
 				// Sheet Info
-				Row row = shJDDInfo.getRow(rowNumInfo)
-				if (row == null) shJDDInfo.createRow(rowNumInfo)
-				my.XLS.writeCell(row,0,col)
-				my.XLS.writeCell(row,1,lib.getAt(col))
+				rowInfo = my.XLS.getNextRow(shJDDInfo)
+				my.XLS.writeCell(rowInfo,0,col)
+				my.XLS.writeCell(rowInfo,1,lib.getAt(col))
 				String type = my.InfoBDD.map[table][col][2]+'('+my.InfoBDD.map[table][col][3]+')'
 				if (my.InfoBDD.map[table][col][2]=='numeric') {
 					type = 'numeric'
-				}
-				if (my.InfoBDD.map[table][col][4]=='T_BOOLEEN') {
+				}else if (my.InfoBDD.map[table][col][2]=='datetime') {
+					type = 'datetime'
+				}else if (my.InfoBDD.map[table][col][4]=='T_BOOLEEN') {
 					type = 'boolean'
 				}
+				
 				if (my.InfoBDD.map[table][col][5]!='NULL') {
 					CellStyle stylePK = JDDbook.createCellStyle()
 					def fontPK = JDDbook.createFont()
 					fontPK.setColor(IndexedColors.RED.index)
 					fontPK.setBold(true)
 					stylePK.setFont(fontPK)
-					
-					my.XLS.writeCell(row,2,type,stylePK)
+
+					my.XLS.writeCell(rowInfo,2,type,stylePK)
 				}else {
-					my.XLS.writeCell(row,2,type)
+					my.XLS.writeCell(rowInfo,2,type)
 				}
-				rowNumInfo++
+				//rowNumInfo++
 
 			}
 		}else {
@@ -270,7 +273,7 @@ class JDDGenerator {
 
 
 	private static addInfoVersion(XSSFWorkbook book, String auteur, String msg, String edition='', String version='' ) {
-		
+
 		if (msg) {
 			CreationHelper createHelper = book.getCreationHelper()
 			CellStyle cellStyle_date = book.createCellStyle()
@@ -284,20 +287,20 @@ class JDDGenerator {
 			thinBlackBorderStyle.setBottomBorderColor(IndexedColors.BLACK.getIndex())
 			thinBlackBorderStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex())
 			thinBlackBorderStyle.setRightBorderColor(IndexedColors.BLACK.getIndex())
-	
+
 			cellStyle_date.cloneStyleFrom(thinBlackBorderStyle)
 			cellStyle_date.setDataFormat( createHelper.createDataFormat().getFormat("dd/MM/yyyy"))
-	
+
 			Sheet shVersion = book.getSheet('Version')
 			my.Log.addDETAIL("Renseigner l'onglet Version")
-			int rowNumVersion = my.XLS.getLastRow(shVersion, 0)
-			//shVersion.shiftRows(rowNumVersion, shVersion.lastRowNum, 1, true, true)
-			def newRow = shVersion.createRow(rowNumVersion)
-			my.XLS.writeCell(newRow,0,new Date(),cellStyle_date)
-			my.XLS.writeCell(newRow,1,auteur,thinBlackBorderStyle)
-			my.XLS.writeCell(newRow,2,msg,thinBlackBorderStyle)
-			my.XLS.writeCell(newRow,3,edition,thinBlackBorderStyle)
-			my.XLS.writeCell(newRow,4,version,thinBlackBorderStyle)
+			
+			Row row = my.XLS.getNextRow(shVersion)
+
+			my.XLS.writeCell(row,0,new Date(),cellStyle_date)
+			my.XLS.writeCell(row,1,auteur,thinBlackBorderStyle)
+			my.XLS.writeCell(row,2,msg,thinBlackBorderStyle)
+			my.XLS.writeCell(row,3,edition,thinBlackBorderStyle)
+			my.XLS.writeCell(row,4,version,thinBlackBorderStyle)
 		}
 	}
 

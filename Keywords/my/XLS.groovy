@@ -5,6 +5,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 
 
+/**
+ * @author X1009638
+ *
+ */
 public class XLS {
 
 
@@ -19,45 +23,75 @@ public class XLS {
 
 	static writeCell(Row row, int colIdx,def val,CellStyle cellStyle = null) {
 
-		my.Log.addDEBUG("writeCell $colIdx : $val",2)
-		Cell cell = row.getCell(colIdx)
+		my.Log.addDEBUG("----- writeCell(${row.getRowNum()}, $colIdx,$val,${cellStyle.toString()}",2)
+		if (row==null) {
+			my.Log.addERROR("row is NULL")
+		}else {
+			Cell cell = row.getCell(colIdx)
 
-		if (cell == null) {
-			row.createCell(colIdx)
-		}
-		cell = row.getCell(colIdx)
-		cell.setCellValue(val)
+			if (cell == null) {
+				row.createCell(colIdx)
+			}
+			cell = row.getCell(colIdx)
+			cell.setCellValue(val)
 
-		if (cellStyle != null) {
-			cell.setCellStyle(cellStyle)
+			if (cellStyle != null) {
+				cell.setCellStyle(cellStyle)
+			}
 		}
+		my.Log.addDEBUG("===== writeCell()",2)
 	}
 
 
 
 	/**
+	 * Retourne une List avec les valeurs de la ligne
+	 * @param row     : la ligne
+	 * @param ideb    : col index de début
+	 * @param size    : taille de la liste
+	 * @param nullval : valeur pour une cell null
 	 *
-	 * @param row
-	 * @param colIndexMax
-	 *
-	 * @return 	retourne une List avec les valeurs de la ligne jusqu'à l'index "colIndexMax"
-	 * 			Si colIndexMax=0 alors on remplit jusqu'à trouver une cellule vide
+	 * @return 	retourne une List de taille size avec les valeurs de la ligne de ideb à 
+	 * 			Si size=0 alors on remplit avec les valeurs de la ligne --> jusqu'à getLastCellNum()
 	 *
 	 */
-	static List loadRow(Row row, int size = 0) {
+	static List loadRow2(Row row, int ideb=0, int size=0, String nullval='') {
 		List data = []
-		for (Cell cell : row) {
-			def value = my.XLS.getCellValue(cell)
-			if ( (size == 0 && cell.getColumnIndex()!=0 && value =='') || (size != 0 && cell.getColumnIndex()>=size) ) {
-				break
-			}
-			data[cell.getColumnIndex()] = value
+		if (size==0) size = row.getLastCellNum()
+		if (ideb!=0) size = size + ideb
+
+		for (int i = ideb; i < size; i++) {
+			Cell cell = row.getCell(i)
+			def value = my.XLS.getCellValue(cell,nullval)
+			data[i-ideb] = value
 		}
 		return data
 	}
 
 
 
+	/**
+	 * Retourne une List avec les valeurs de la ligne
+	 * @param row     : la ligne
+	 * @param size    : taille de la liste
+	 * @param nullval : valeur pour une cell null
+	 *
+	 * @return 	retourne une List de taille size avec les valeurs de la ligne depuis 0
+	 * 			Si size=0 alors on remplit avec les valeurs de la ligne --> jusqu'à trouver une cellule vide ou null
+	 * 			si size > getLastCellNum alors on s'arrete à getLastCellNum
+	 *
+	 */
+	static List loadRow(Row row, int size = 0) {
+		List data = []
+		for (Cell cell : row) {
+			def value = my.XLS.getCellValue(cell)
+			if ( (size == 0 && cell.getColumnIndex()!=0 && value == '') || (size != 0 && cell.getColumnIndex()>=size) ) {
+				break
+			}
+			data[cell.getColumnIndex()] = value
+		}
+		return data
+	}
 
 
 	/**
@@ -67,13 +101,13 @@ public class XLS {
 	 *
 	 * @return cell value (type)
 	 */
-	public static def getCellValue(Cell cell){
+	public static def getCellValue(Cell cell, String nullval =''){
 
 		def CellData = null;
 
 		if (cell ==null) {
 
-			CellData = ''
+			CellData = nullval
 
 			my.Log.addDEBUG('\tgetCellValue() cell is null !',2)
 		}else {
@@ -142,18 +176,52 @@ public class XLS {
 
 
 
-	static int getLastRow(Sheet sheet, int col) {
-		Iterator<Row> rowIt = sheet.rowIterator()
-		Row row = rowIt.next()
-		while(rowIt.hasNext()) {
-			row = rowIt.next()
-			if (this.getCellValue(row.getCell(col))=='') {
-				return row.getRowNum()
+	/**
+	 * Retourne le numéro de la 1ere ligne ou la cellule est vide ou null (commence à 0)
+	 * @param sheet
+	 * @param col
+	 * @return
+	 */
+	static int getRowNumOfFirstCellFree(Sheet sheet, int col=0) {
+		my.Log.addDEBUG("-----getRowNumOfFirstCellFree(${sheet.getSheetName()},$col)")
+
+		int num = -1
+		for (int numLine : (0..sheet.getLastRowNum())) {
+			Row row = sheet.getRow(numLine)
+			if (row==null) {
+				num=numLine
+				break
+			}else if (this.getCellValue(row.getCell(col))==''){
+				num=numLine
 				break
 			}
+			num=numLine+1
 		}
+		if (num==-1) {
+			my.Log.addERROR("getRowNumOfFirstCellFree of "+sheet.getSheetName()+" : $num")
+		}else {
+			my.Log.addDEBUG("=====getRowNumOfFirstCellFree of "+sheet.getSheetName()+" : $num")
+		}
+		return num
 	}
 
+
+
+	static Row getNewRow(Sheet sheet, int numRow) {
+		Row row
+		if (sheet.getRow(numRow)==null) {
+			row = sheet.createRow(numRow)
+		}else {
+			row = sheet.getRow(numRow)
+		}
+		return row
+	}
+
+
+	static Row getNextRow(Sheet sheet, int col=0) {
+
+		return this.getNewRow(sheet, this.getRowNumOfFirstCellFree(sheet,col))
+	}
 
 
 } // end of class

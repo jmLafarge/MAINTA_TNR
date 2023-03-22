@@ -40,7 +40,7 @@ my.JDDFiles.JDDfilemap.each { modObj,fullName ->
 							if (col == myJDD.headers[(int)vlist[0]]) {
 								my.Log.addDEBUG("'$col' OK")
 								
-								my.InfoBDD.updateParaInfoBDD(myJDD, col,fullName, modObj+'.'+sheet.getSheetName()) 
+								//my.InfoBDD.updateParaInfoBDD(myJDD, col,fullName, modObj+'.'+sheet.getSheetName()) 
 
 
 							}else if (col in myJDD.headers) {
@@ -77,7 +77,7 @@ my.JDDFiles.JDDfilemap.each { modObj,fullName ->
 }
 
 
-my.InfoBDD.write()
+//my.InfoBDD.write()
 
 
 my.Log.addSubTITLE('Vérification des PREJDD')

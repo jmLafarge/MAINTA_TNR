@@ -21,7 +21,15 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 	my.Log.addSTEPGRP('ONGLET ')
 
+	'Clic sur le bon onglet'
+	KW.scrollAndClick(myJDD,'xxxxxxxxxxxxx')
+	
+	'Vérification de l\'onglet'
+	KW.waitForElementVisible(myJDD,'xxxxxxxxxxxxxxxxxx')
 
+	'Début de sasie des valeurs du JDD'
+	
+	
 	
 				
 	my.Log.addSTEPGRP('VALIDATION')
