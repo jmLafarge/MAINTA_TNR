@@ -3,6 +3,7 @@ package my
 import java.util.regex.Pattern
 
 import groovy.io.FileType
+import my.Log as MYLOG
 
 
 public class TCFiles {
@@ -14,9 +15,9 @@ public class TCFiles {
 
 	private static load() {
 
-		my.Log.addSubTITLE("Load TC file List",'-',120,1)
-		my.Log.addDEBUG("\t" + 'TCNAME'.padRight(24) + 'TCFULLNAME')
-		my.Log.addDEBUG("")
+		MYLOG.addSubTITLE("Load TC file List",'-',120,1)
+		MYLOG.addDEBUG("\t" + 'TCNAME'.padRight(24) + 'TCFULLNAME')
+		MYLOG.addDEBUG("")
 
 		new File(my.PropertiesReader.getMyProperty('TC_PATH')).eachFileRecurse(FileType.FILES) { file ->
 
@@ -27,7 +28,7 @@ public class TCFiles {
 
 				this.TCfileMap.put(TCName, TCFullName)
 
-				my.Log.addDEBUG('\t'+ TCName.padRight(24) + TCFullName)
+				MYLOG.addDEBUG('\t'+ TCName.padRight(24) + TCFullName)
 			}
 
 		}

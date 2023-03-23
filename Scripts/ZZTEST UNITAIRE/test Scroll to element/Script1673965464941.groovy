@@ -47,7 +47,7 @@ if (JDD_list.size() > 0) {
 	
 	// Navigation vers la bonne URL
     'Naviguer vers l\'url'
-    CustomKeywords.'my.NAV.goToURL_Creation'(FCTCODE)
+    CustomKeywords.'NAV.goToURL_Creation'(FCTCODE)
 
 
 	
@@ -114,7 +114,7 @@ if (JDD_list.size() > 0) {
 
     organisation = JDD.ID_CODGES.padRight(6, '.')
 
-    CustomKeywords.'my.NAV.goToURL_RUD'(FCTCODE, JDD.ID_CODINT)
+    CustomKeywords.'NAV.goToURL_RUD'(FCTCODE, JDD.ID_CODINT)
 	
 
 

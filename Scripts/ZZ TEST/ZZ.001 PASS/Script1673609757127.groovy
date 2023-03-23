@@ -1,2 +1,3 @@
+import my.Log as MYLOG
 
-my.Log.addPASS('pass')
+MYLOG.addPASS('pass')

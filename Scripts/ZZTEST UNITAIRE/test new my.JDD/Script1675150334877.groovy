@@ -1,7 +1,7 @@
 import com.kms.katalon.core.testobject.SelectorMethod
 import com.kms.katalon.core.testobject.TestObject
 
-my.NAV.loadJDDGLOBAL()
+NAV.loadJDDGLOBAL()
 
 def filename = 'TNR_JDD/RO/JDD.RO.ACT.xlsx'
 

@@ -11,7 +11,9 @@ import com.kms.katalon.core.webui.common.WebUiCommonHelper
 import com.kms.katalon.core.webui.driver.DriverFactory
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
-import internal.GlobalVariable as GlobalVariable
+import my.KW
+import my.KW as GlobalVariable
+import my.Log as MYLOG
 
 //click object using Javascript
 def clickUsingJS(TestObject to, int timeout) {
@@ -34,9 +36,9 @@ if (GlobalVariable.TC_CONNEXION) {
 	WebUI.callTestCase(findTestCase('AD ADMINISTRATION/AD.SEC SECURITE/AD.SEC.001.FON.01 Ouvrir session'), [:])
 }
 
-CustomKeywords.'my.NAV.goToURL_RUD_and_checkCartridge'('acteur', 'RO.ACT.003.HAB.AJT.01')
+CustomKeywords.'NAV.goToURL_RUD_and_checkCartridge'('acteur', 'RO.ACT.003.HAB.AJT.01')
 
-CustomKeywords.'my.KW.scrollAndClick'(findTestObject('null'))
+CustomKeywords.'KW.scrollAndClick'(findTestObject('null'))
 
 //clickUsingJS(findTestObject('null'),1)
 
@@ -68,7 +70,7 @@ println '********************'
 
 
 /*
-CustomKeywords.'my.KW.scrollAndDoubleClick'(findTestObject('null',
+CustomKeywords.'KW.scrollAndDoubleClick'(findTestObject('null',
 		[('textHAB') : 'ATEX1']))
 
 WebUI.waitForElementClickable(findTestObject('null', [('textHAB') : 'ATEX1']),2)

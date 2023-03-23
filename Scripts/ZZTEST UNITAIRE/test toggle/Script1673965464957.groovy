@@ -20,7 +20,7 @@ if (GlobalVariable.TC_CONNEXION) {
     WebUI.callTestCase(findTestCase('AD ADMINISTRATION/AD.SEC SECURITE/AD.SEC.001.FON.01 Ouvrir session'), [:])
 }
 
-//CustomKeywords.'my.NAV.goToURL_Grille_and_checkCartridge'(FCTCODE)
+//CustomKeywords.'NAV.goToURL_Grille_and_checkCartridge'(FCTCODE)
 String url = ((GlobalVariable.BASE_URL + 'E') + (mfct[FCTCODE])) + '?'
 
 KeywordUtil.logInfo('Got to : ' + url)

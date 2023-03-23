@@ -6,7 +6,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 import internal.GlobalVariable
 import my.KW
 import my.NAV
-
+import my.Log as MYLOG
 
 
 'Lecture du JDD'

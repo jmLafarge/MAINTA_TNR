@@ -1,13 +1,15 @@
 
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
+import my.Log as MYLOG
+import my.InfoPARA
+import my.JDDFiles
 
+MYLOG.addSubTITLE('Renseigner InfoPARA avec le contenu des JDD')
 
-my.Log.addSubTITLE('Renseigner InfoPARA avec le contenu des JDD')
+InfoPARA.load()
 
-my.InfoPARA.load()
-
-my.JDDFiles.JDDfilemap.each { modObj,fullName ->
+JDDFiles.JDDfilemap.each { modObj,fullName ->
 
 
 	def myJDD = new my.JDD(fullName)
@@ -16,14 +18,14 @@ my.JDDFiles.JDDfilemap.each { modObj,fullName ->
 
 			if (my.XLS.getCellValue(sheet.getRow(0).getCell(0))!='') {
 				
-				my.Log.addSUBSTEP("Onglet : " + sheet.getSheetName())
+				MYLOG.addSUBSTEP("Onglet : " + sheet.getSheetName())
 	
 				myJDD.loadTCSheet(sheet)
 	
 				for (col in myJDD.headers.drop(1)) {
 	
-					my.InfoPARA.update(myJDD, col,fullName, modObj+'.'+sheet.getSheetName())
-					//my.Log.addDETAIL(col)
+					InfoPARA.update(myJDD, col,fullName, modObj+'.'+sheet.getSheetName())
+					//MYLOG.addDETAIL(col)
 	
 				}
 			}
@@ -31,5 +33,5 @@ my.JDDFiles.JDDfilemap.each { modObj,fullName ->
 	}
 }
 
-my.InfoPARA.write()
+InfoPARA.write()
 

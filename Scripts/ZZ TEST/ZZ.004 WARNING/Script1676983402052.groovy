@@ -1,3 +1,4 @@
+import my.Log as MYLOG
 
-my.Log.addWARNING("warning")
+MYLOG.addWARNING("warning")
 

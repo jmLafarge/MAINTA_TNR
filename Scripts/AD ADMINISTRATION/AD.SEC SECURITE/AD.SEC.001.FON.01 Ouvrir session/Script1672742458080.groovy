@@ -3,6 +3,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
 import my.KW
+import my.Log as MYLOG
 
 
 'Lecture du JDD'
@@ -25,7 +26,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 	if (WebUI.verifyElementPresent(myJDD.makeTO('frame_Main'), GlobalVariable.TIMEOUT,FailureHandling.OPTIONAL)) {
 	
-		my.Log.addSTEPPASS("Connexion OK")
+		MYLOG.addSTEPPASS("Connexion OK")
 		
 	}else if (WebUI.verifyElementPresent(myJDD.makeTO('input_Oui'), GlobalVariable.TIMEOUT,FailureHandling.OPTIONAL)) {
 		
@@ -33,15 +34,15 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 			
 			if (WebUI.verifyElementPresent(myJDD.makeTO('frame_Main'), GlobalVariable.TIMEOUT,FailureHandling.OPTIONAL)) {
 				
-				my.Log.addSTEPPASS("Reconnexion OK")
+				MYLOG.addSTEPPASS("Reconnexion OK")
 			}else {
 				
-				my.Log.addSTEPFAIL("Erreur de re-connexion, le bureau Mainta n'est pas présent")
+				MYLOG.addSTEPFAIL("Erreur de re-connexion, le bureau Mainta n'est pas présent")
 			}
 			
 	} else {
 		
-		my.Log.addERROR("Erreur de connexion")
+		MYLOG.addERROR("Erreur de connexion")
 	}
 
 }

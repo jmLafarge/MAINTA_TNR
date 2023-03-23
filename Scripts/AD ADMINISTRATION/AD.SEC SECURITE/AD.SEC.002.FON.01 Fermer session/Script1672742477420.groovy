@@ -3,6 +3,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
 import my.KW
+import my.Log as MYLOG
 
 
 'Lecture du JDD'
@@ -31,9 +32,9 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 	if (!WebUI.waitForElementPresent(myJDD.makeTO('in_passw'), GlobalVariable.TIMEOUT)) {
 		
-		my.Log.addSTEPFAIL("Erreur de déconnexion la page de connexion n'est pas présente" )
+		MYLOG.addSTEPFAIL("Erreur de déconnexion la page de connexion n'est pas présente" )
 	}else {
-		my.Log.addSTEPPASS("Déconnexion OK")
+		MYLOG.addSTEPPASS("Déconnexion OK")
 	}
 	
 	KW.closeBrowser()

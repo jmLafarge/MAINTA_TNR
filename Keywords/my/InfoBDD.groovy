@@ -1,5 +1,6 @@
 package my
 
+import my.Log as MYLOG
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
@@ -25,7 +26,7 @@ public class InfoBDD {
 	public static load() {
 
 		this.fileName = my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('INFOBDDFILENAME')
-		my.Log.addSubTITLE("Chargement de : " + this.fileName,'-',120,1)
+		MYLOG.addSubTITLE("Chargement de : " + this.fileName,'-',120,1)
 		this.book = my.XLS.open(this.fileName)
 
 		Sheet sheet = this.book.getSheet('INFO')
@@ -34,11 +35,11 @@ public class InfoBDD {
 		Iterator<Row> rowIt = sheet.rowIterator()
 		Row row = rowIt.next()
 		List headers = my.XLS.loadRow(row)
-		my.Log.addINFO('Contrôle entête fichier',1)
+		MYLOG.addINFO('Contrôle entête fichier',1)
 		if (headers!=this.HEADERS) {
-			my.Log.addERROR(this.fileName + ' Entête fichier différente de celle attendue :')
-			my.Log.addDETAIL('Entête attendue : ' + this.HEADERS.join(' - '))
-			my.Log.addDETAIL('Entête lue      : ' + headers.join(' - '))
+			MYLOG.addERROR(this.fileName + ' Entête fichier différente de celle attendue :')
+			MYLOG.addDETAIL('Entête attendue : ' + this.HEADERS.join(' - '))
+			MYLOG.addDETAIL('Entête lue      : ' + headers.join(' - '))
 			KeywordUtil.markErrorAndStop("Entête fichier ${this.fileName} différente de celle attendue")
 		}
 
@@ -115,11 +116,11 @@ public class InfoBDD {
 	 row = rowIt.next()
 	 if (my.XLS.getCellValue(row.getCell(0))==col) {
 	 if (my.XLS.getCellValue(row.getCell(icol))==valPara) {
-	 my.Log.addDETAIL("\t$para, ajout du JDD '$where' pour $col")
+	 MYLOG.addDETAIL("\t$para, ajout du JDD '$where' pour $col")
 	 my.XLS.writeCell(row, icol+1,this.paraMap[col][icol+1])
 	 break
 	 }else {
-	 my.Log.addDETAIL("\tAjout du $para '$valPara' et JDD '$where' pour $col")
+	 MYLOG.addDETAIL("\tAjout du $para '$valPara' et JDD '$where' pour $col")
 	 my.XLS.writeCell(row, icol,valPara,this.paraStyle)
 	 my.XLS.writeCell(row, icol+1,this.paraMap[col][icol+1],this.whereStyle)
 	 break
@@ -135,14 +136,13 @@ public class InfoBDD {
 
 
 
-/*
-	public static write(){
-		my.Log.addDEBUG('update PARA dans InfoBDD')
-		OutputStream fileOut = new FileOutputStream(this.fileName)
-		this.book.write(fileOut);
-	}
-
-*/
+	/*
+	 public static write(){
+	 MYLOG.addDEBUG('update PARA dans InfoBDD')
+	 OutputStream fileOut = new FileOutputStream(this.fileName)
+	 this.book.write(fileOut);
+	 }
+	 */
 
 	public static List getPK(String table) {
 
@@ -185,21 +185,21 @@ public class InfoBDD {
 	 for (para in ['PREREQUIS', 'FOREIGNKEY', 'SEQUENCE', 'LOCATOR']) {
 	 String valPara = myJDD.getParamForThisName(para, col)
 	 if (valPara) {
-	 my.Log.addDEBUG("\t$para pour '$col' : $valPara")
+	 MYLOG.addDEBUG("\t$para pour '$col' : $valPara")
 	 if (this.paraMap.containsKey(col)) {
-	 my.Log.addDEBUG("\t'$col' trouvé dans InfoBDD")
+	 MYLOG.addDEBUG("\t'$col' trouvé dans InfoBDD")
 	 if (!this.paraMap[col][icol]) {
 	 this.updatePara(para,col,icol,valPara,where)
-	 my.Log.addDEBUG("\t\tTrouvé dans $where --> $fullName table : " + myJDD.getDBTableName())
-	 my.Log.addDEBUG("\t\t" + this.paraMap[col][icol] +" ajouté dans $col")
-	 my.Log.addDEBUG("\t\t" + this.paraMap[col][icol+1] +" ajouté dans $col")
+	 MYLOG.addDEBUG("\t\tTrouvé dans $where --> $fullName table : " + myJDD.getDBTableName())
+	 MYLOG.addDEBUG("\t\t" + this.paraMap[col][icol] +" ajouté dans $col")
+	 MYLOG.addDEBUG("\t\t" + this.paraMap[col][icol+1] +" ajouté dans $col")
 	 }else if (this.paraMap[col][icol]!=valPara) {
-	 my.Log.addDETAILWARNING("$para pour '$col'($icol) : $valPara différent de la valeur enregistrée " + this.paraMap[col][icol])
+	 MYLOG.addDETAILWARNING("$para pour '$col'($icol) : $valPara différent de la valeur enregistrée " + this.paraMap[col][icol])
 	 }else if(this.paraMap[col][icol+1].contains(where)) {
-	 my.Log.addDEBUG("\t$para $valPara pour '$col' et $where existe déjà")
+	 MYLOG.addDEBUG("\t$para $valPara pour '$col' et $where existe déjà")
 	 }else {
 	 this.updatePara(para,col,icol,valPara,where)
-	 my.Log.addDEBUG("\t$para $valPara pour '$col' existe déjà mais rajout de $where dans " + this.paraMap[col][icol+1])
+	 MYLOG.addDEBUG("\t$para $valPara pour '$col' existe déjà mais rajout de $where dans " + this.paraMap[col][icol+1])
 	 }
 	 }
 	 }

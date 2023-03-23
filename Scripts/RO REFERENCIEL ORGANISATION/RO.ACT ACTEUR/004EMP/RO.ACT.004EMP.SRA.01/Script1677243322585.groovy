@@ -6,7 +6,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 import internal.GlobalVariable
 import my.KW
 import my.NAV
-
+import my.Log as MYLOG
 
 
 'Lecture du JDD'
@@ -19,7 +19,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_CODINT'))
 	
-	my.Log.addSTEPGRP('ONGLET ZONE')
+	MYLOG.addSTEPGRP('ONGLET ZONE')
 	
 		'Clic sur le bon onglet'
 	    KW.scrollAndClick(myJDD,'a_Zone')
@@ -33,7 +33,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
 			
 			if (myJDD.getNbrLigneCasDeTest()>1) {
-				my.Log.addSTEPLOOP("Ajout $i / " + myJDD.getNbrLigneCasDeTest())
+				MYLOG.addSTEPLOOP("Ajout $i / " + myJDD.getNbrLigneCasDeTest())
 			}
 			
 			'Ajout'
@@ -95,7 +95,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 
 	    }// fin du for
 	
-		my.Log.addSTEPGRP('CONTROLE')
+		MYLOG.addSTEPGRP('CONTROLE')
 	
 		'Vérification des valeurs en BD'
 		my.SQL.checkJDDWithBD(myJDD)			

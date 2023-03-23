@@ -6,6 +6,7 @@ import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.io.FileType
+import my.Log as MYLOG
 
 public class PREJDDFiles {
 
@@ -15,16 +16,16 @@ public class PREJDDFiles {
 
 	public static load() {
 
-		my.Log.addSubTITLE("Load PREJDDfileList",'-',120,1)
-		my.Log.addINFO("\t"+'MODOBJ'.padRight(11) + 'JDDFULLNAME',1)
-		my.Log.addINFO('',1)
+		MYLOG.addSubTITLE("Load PREJDDfileList",'-',120,1)
+		MYLOG.addINFO("\t"+'MODOBJ'.padRight(11) + 'JDDFULLNAME',1)
+		MYLOG.addINFO('',1)
 
 		new File(my.PropertiesReader.getMyProperty('PREJDD_PATH')).eachFileRecurse(FileType.FILES) { file ->
 			// keep only TC Name like PREJDD.*.xlsx
 			if (file.getName()==~ /PREJDD\..*\.xlsx/ && file.getPath()==~ /^((?!standby).)*$/) {
 				String modObj = file.getName().replace('PREJDD.','').replace('.xlsx','')
 				this.PREJDDfilemap.put(modObj,file.getPath())
-				my.Log.addINFO('\t' + modObj.padRight(11) + file.getPath(),1)
+				MYLOG.addINFO('\t' + modObj.padRight(11) + file.getPath(),1)
 			}
 		}
 	}
@@ -39,16 +40,16 @@ public class PREJDDFiles {
 
 
 	static insertPREJDDinDB(String modObj, String tabName) {
-		my.Log.addDEBUG("insertPREJDDinDB() modObj = '$modObj' tabName = '$tabName'")
+		MYLOG.addDEBUG("insertPREJDDinDB() modObj = '$modObj' tabName = '$tabName'")
 		def myJDD = new my.JDD(my.JDDFiles.JDDfilemap.getAt(modObj),tabName)
 
-		my.Log.addSTEP("Lecture du PREJDD : '" + this.PREJDDfilemap.getAt(modObj))
+		MYLOG.addSTEP("Lecture du PREJDD : '" + this.PREJDDfilemap.getAt(modObj))
 		XSSFWorkbook book = my.XLS.open(this.PREJDDfilemap.getAt(modObj))
 		// set tab (sheet)
 		Sheet sheet = book.getSheet(tabName)
 		Row row0 = sheet.getRow(0)
 		String fileSQLName = my.PropertiesReader.getMyProperty('SQL_PATH') + File.separator +  modObj + '_' + tabName + '.sql'
-		my.Log.addSTEP("Création du script SQL : '$fileSQLName'")
+		MYLOG.addSTEP("Création du script SQL : '$fileSQLName'")
 		File fileSQL =new File(fileSQLName)
 		if (fileSQL.exists()){ fileSQL.delete() }
 		fileSQL =new File(fileSQLName)
@@ -70,9 +71,9 @@ public class PREJDDFiles {
 					break
 				}
 				def value = my.XLS.getCellValue(c)
-				my.Log.addDEBUG("\t\tCell value = '$value' getClass()=" + value.getClass(),2)
+				MYLOG.addDEBUG("\t\tCell value = '$value' getClass()=" + value.getClass(),2)
 				if (fieldName!='CAS_DE_TEST') {
-					my.Log.addDEBUG("\t\tAjout fieldName='$fieldName' value='$value' in req SQL",2)
+					MYLOG.addDEBUG("\t\tAjout fieldName='$fieldName' value='$value' in req SQL",2)
 					fields=fields +','+ fieldName
 					// cas d'un champ lié à une séquence
 					String seqTable = myJDD.getParamForThisName('SEQUENCE',fieldName)
@@ -82,7 +83,7 @@ public class PREJDDFiles {
 								sequence.put(seqTable, value)
 							}
 						}else {
-							my.Log.addDETAIL("Détection d'une sequence sur $fieldName, table $seqTable")
+							MYLOG.addDETAIL("Détection d'une sequence sur $fieldName, table $seqTable")
 							sequence.put(seqTable, value)
 						}
 					}
@@ -124,7 +125,7 @@ public class PREJDDFiles {
 							break
 						default :
 							if (value instanceof java.util.Date) {
-								my.Log.addDEBUG("\t\t instanceof java.util.Date = TRUE")
+								MYLOG.addDEBUG("\t\t instanceof java.util.Date = TRUE")
 								values = values + ",'" + value.format('yyyy-dd-MM HH:mm:ss.SSS') + "'"
 							}else {
 								values = values + ",'$value'"
@@ -136,7 +137,7 @@ public class PREJDDFiles {
 			fields = fields.substring(1)
 			values = values.substring(1)
 			String req = "INSERT INTO " + myJDD.getDBTableName() + " ($fields) VALUES ($values);"
-			my.Log.addDETAIL(req)
+			MYLOG.addDETAIL(req)
 			fileSQL.append("$req\n")
 		}
 
@@ -144,7 +145,7 @@ public class PREJDDFiles {
 		if (sequence.size()>0) {
 			sequence.each { table, val ->
 				String req = "DBCC CHECKIDENT ($table, RESEED,$val);"
-				my.Log.addDETAIL(req)
+				MYLOG.addDETAIL(req)
 				fileSQL.append("$req\n")
 			}
 		}

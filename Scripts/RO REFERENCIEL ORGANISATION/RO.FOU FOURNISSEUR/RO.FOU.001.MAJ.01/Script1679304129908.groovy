@@ -1,13 +1,6 @@
-import static com.kms.katalon.core.testcase.TestCaseFactory.findTestCase
-
-import com.kms.katalon.core.util.KeywordUtil
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-
-import internal.GlobalVariable
 import my.KW
 import my.NAV
-
-
+import my.Log as MYLOG
 
 
 'Lecture du JDD'
@@ -21,12 +14,12 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('xxxxxxxxxxxxxxxxxxxxxxxxxxxxx'))
 
 	
-	  my.Log.addSTEPGRP('ONGLET xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+	  MYLOG.addSTEPGRP('ONGLET xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
 	  
 
 	  		 
 
-	my.Log.addSTEPGRP('VALIDATION')
+	MYLOG.addSTEPGRP('VALIDATION')
 	
 	
     'Validation de la saisie'

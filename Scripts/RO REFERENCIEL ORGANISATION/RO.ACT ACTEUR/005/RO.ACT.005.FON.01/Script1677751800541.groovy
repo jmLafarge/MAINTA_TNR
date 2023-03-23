@@ -1,7 +1,7 @@
 import internal.GlobalVariable
 import my.KW
 import my.NAV
-
+import my.Log as MYLOG
 
 
 'Lecture du JDD'
@@ -12,10 +12,10 @@ def myJDD = new my.JDD()
 if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_RUD_and_checkCartridge(myJDD.getData('SOURCE'))
+    NAV.goToURL_RUD_and_checkCartridge(myJDD.getData('ID_CODINT_SRC'))
 
 	'Naviguer vers l url Copy'
-	String url = GlobalVariable.BASE_URL + "CopyIdent?IDSOURCE=" + myJDD.getData('SOURCE') + "&TABLE=" + myJDD.getDBTableName()
+	String url = GlobalVariable.BASE_URL + "CopyIdent?IDSOURCE=" + myJDD.getData('ID_CODINT_SRC') + "&TABLE=" + myJDD.getDBTableName()
 	KW.navigateToUrl(url,'Copie')
 	
 	"Vérifier l'écran"
@@ -29,7 +29,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
     KW.scrollAndSetText(myJDD,'input_ST_PRENEW', myJDD.getStrData('ST_PRE'))
 			
 	
-	my.Log.addSTEPGRP('VALIDATION')
+	MYLOG.addSTEPGRP('VALIDATION')
 		
     'Validation de la saisie'
     KW.scrollAndClick(myJDD,'button_ValiderCopie')

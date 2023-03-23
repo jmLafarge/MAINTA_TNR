@@ -8,7 +8,7 @@ import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import internal.GlobalVariable
-
+import my.Log as MYLOG
 
 
 class JDDGenerator {
@@ -23,14 +23,14 @@ class JDDGenerator {
 
 		XSSFWorkbook JDDbook
 		XSSFWorkbook PREJDDbook
-		my.Log.addINFO('')
+		MYLOG.addINFO('')
 		if (!my.JDDFiles.getFullName(modObj)) {
-			my.Log.addINFO("Création du fichier JDD pour $modObj")
+			MYLOG.addINFO("Création du fichier JDD pour $modObj")
 			String fullName = this.createJDDFileByCopy(table,modObj)
 			JDDbook = my.XLS.open(fullName)
 			my.JDDFiles.add(modObj, fullName)
 		}else {
-			my.Log.addINFO("Le fichier JDD pour $modObj existe déjà : " + my.JDDFiles.getFullName(modObj))
+			MYLOG.addINFO("Le fichier JDD pour $modObj existe déjà : " + my.JDDFiles.getFullName(modObj))
 			JDDbook = my.XLS.open(my.JDDFiles.getFullName(modObj))
 		}
 
@@ -47,12 +47,12 @@ class JDDGenerator {
 
 
 		if (!my.PREJDDFiles.getFullName(modObj)) {
-			my.Log.addINFO("Création du fichier PREJDD pour $modObj")
+			MYLOG.addINFO("Création du fichier PREJDD pour $modObj")
 			String fullName = this.createPREJDDFileByCopy(table,modObj)
 			PREJDDbook = my.XLS.open(fullName)
 			my.PREJDDFiles.add(modObj, fullName)
 		}else {
-			my.Log.addINFO("Le fichier PREJDD pour $modObj existe déjà : " + my.PREJDDFiles.getFullName(modObj))
+			MYLOG.addINFO("Le fichier PREJDD pour $modObj existe déjà : " + my.PREJDDFiles.getFullName(modObj))
 			PREJDDbook = my.XLS.open(my.PREJDDFiles.getFullName(modObj))
 		}
 
@@ -72,7 +72,7 @@ class JDDGenerator {
 
 	private static addParaFromInfoPARA(Sheet shFCT) {
 
-		my.Log.addDETAIL("Ajout des paramètres dans l'onglet "+shFCT.getSheetName())
+		MYLOG.addDETAIL("Ajout des paramètres dans l'onglet "+shFCT.getSheetName())
 
 		Row row = shFCT.getRow(0)
 
@@ -121,7 +121,7 @@ class JDDGenerator {
 		Sheet shFCT = JDDbook.getSheet(fct)
 		String msg=''
 		if (!shFCT) {
-			my.Log.addDETAIL("Création de l'onglet $fct pour la table $table")
+			MYLOG.addDETAIL("Création de l'onglet $fct pour la table $table")
 			msg="Création de l'onglet $fct pour la table $table"
 			JDDbook.cloneSheet(JDDbook.getSheetIndex('MODELE'))
 			JDDbook.setSheetName(JDDbook.getNumberOfSheets()-1, fct)
@@ -139,7 +139,7 @@ class JDDGenerator {
 			int numEcran = my.SQL.getNumEcran(table)
 			Map lib = my.SQL.getLibelle(table, numEcran)
 
-			my.Log.addDETAIL("Renseigner l'onglet Info")
+			MYLOG.addDETAIL("Renseigner l'onglet Info")
 			Row rowInfo = my.XLS.getNextRow(shJDDInfo)
 
 			def styleFct = shJDDInfo.getRow(0).getCell(0).getCellStyle()
@@ -157,7 +157,7 @@ class JDDGenerator {
 			int numColFct = 1
 			my.XLS.writeCell(shFCT.getRow(0),0,table)
 
-			my.Log.addDETAIL("Renseigner l'onglet $fct")
+			MYLOG.addDETAIL("Renseigner l'onglet $fct")
 
 			def styleChamp = shFCT.getRow(0).getCell(1).getCellStyle()
 			def stylePara = shFCT.getRow(1).getCell(1).getCellStyle()
@@ -200,7 +200,7 @@ class JDDGenerator {
 
 			}
 		}else {
-			my.Log.addERROR("L'onglet $fct du JDD existe déjà ")
+			MYLOG.addERROR("L'onglet $fct du JDD existe déjà ")
 		}
 		return msg
 	}
@@ -216,7 +216,7 @@ class JDDGenerator {
 
 		Path source = Paths.get(this.trameJDD)
 		String fullName = dir + File.separator + "JDD.${modObj}.xlsx"
-		my.Log.addDETAIL(fullName)
+		MYLOG.addDETAIL(fullName)
 		Path target = Paths.get(fullName)
 		Files.copy(source, target)
 		return fullName
@@ -230,7 +230,7 @@ class JDDGenerator {
 
 		Path source = Paths.get(this.tramePREJDD)
 		String fullName = dir + File.separator + "PREJDD.${modObj}.xlsx"
-		my.Log.addDETAIL(fullName)
+		MYLOG.addDETAIL(fullName)
 		Path target = Paths.get(fullName)
 		Files.copy(source, target)
 		return fullName
@@ -243,7 +243,7 @@ class JDDGenerator {
 		Sheet shFCT = JDDbook.getSheet(fct)
 		String msg=''
 		if (!shFCT) {
-			my.Log.addDETAIL("Création de l'onglet $fct pour la table $table")
+			MYLOG.addDETAIL("Création de l'onglet $fct pour la table $table")
 			msg="Création de l'onglet $fct pour la table $table"
 			JDDbook.cloneSheet(JDDbook.getSheetIndex('MODELE'))
 			JDDbook.setSheetName(JDDbook.getNumberOfSheets()-1, fct)
@@ -252,7 +252,7 @@ class JDDGenerator {
 
 			table = table.toUpperCase()
 
-			my.Log.addDETAIL("Renseigner l'onglet $fct")
+			MYLOG.addDETAIL("Renseigner l'onglet $fct")
 
 			my.XLS.writeCell(shFCT.getRow(0),0,"CAS DE TEST ($table)")
 
@@ -266,7 +266,7 @@ class JDDGenerator {
 			}
 
 		}else {
-			my.Log.addERROR("L'onglet $fct du PREJDD existe déjà ")
+			MYLOG.addERROR("L'onglet $fct du PREJDD existe déjà ")
 		}
 		return msg
 	}
@@ -292,7 +292,7 @@ class JDDGenerator {
 			cellStyle_date.setDataFormat( createHelper.createDataFormat().getFormat("dd/MM/yyyy"))
 
 			Sheet shVersion = book.getSheet('Version')
-			my.Log.addDETAIL("Renseigner l'onglet Version")
+			MYLOG.addDETAIL("Renseigner l'onglet Version")
 			
 			Row row = my.XLS.getNextRow(shVersion)
 

@@ -9,6 +9,8 @@ import com.kms.katalon.core.webui.keyword.internal.WebUIAbstractKeyword
 import org.openqa.selenium.Keys as Keys
 
 import internal.GlobalVariable
+import my.Log as MYLOG
+
 
 /**
  * Personaliser et de regrouper certaines actions WebUI
@@ -25,7 +27,7 @@ class KW {
 	 */
 	static delay(Number second) {
 
-		my.Log.addDEBUG("Delay $second second(s)")
+		MYLOG.addDEBUG("Delay $second second(s)")
 		WebUI.delay(second)
 	}
 
@@ -37,16 +39,16 @@ class KW {
 	static openBrowser(String url){
 		try {
 			WebUI.openBrowser(url, FailureHandling.STOP_ON_FAILURE)
-			my.Log.addSTEPPASS("Ouverture du navigateur à l'URL : $url")
+			MYLOG.addSTEPPASS("Ouverture du navigateur à l'URL : $url")
 			def browser = my.Tools.getBrowserAndVersion()
-			my.Log.addSUBSTEP("*********************************************************************")
-			my.Log.addSUBSTEP("  Nom du navigateur".padRight(26) + browser.NAME)
-			my.Log.addSUBSTEP("  Version du navigateur".padRight(26) + browser.VERSION)
-			my.Log.addSUBSTEP("*********************************************************************")
+			MYLOG.addSUBSTEP("*********************************************************************")
+			MYLOG.addSUBSTEP("  Nom du navigateur".padRight(26) + browser.NAME)
+			MYLOG.addSUBSTEP("  Version du navigateur".padRight(26) + browser.VERSION)
+			MYLOG.addSUBSTEP("*********************************************************************")
 			my.Result.addBrowserInfo()
 		} catch (Exception ex) {
-			my.Log.addSTEPFAIL("Ouverture du navigateur à l'URL : $url")
-			my.Log.addDETAIL(ex.getMessage())
+			MYLOG.addSTEPFAIL("Ouverture du navigateur à l'URL : $url")
+			MYLOG.addDETAIL(ex.getMessage())
 		}
 	}
 
@@ -54,10 +56,10 @@ class KW {
 	static navigateToUrl(String url,String nomUrl){
 		try {
 			WebUI.navigateToUrl(url, FailureHandling.STOP_ON_FAILURE)
-			my.Log.addSTEPPASS("Navigation vers l'URL '$nomUrl' : $url")
+			MYLOG.addSTEPPASS("Navigation vers l'URL '$nomUrl' : $url")
 		} catch (Exception ex) {
-			my.Log.addSTEPFAIL("Navigation vers l'URL '$nomUrl' : $url")
-			my.Log.addDETAIL(ex.getMessage())
+			MYLOG.addSTEPFAIL("Navigation vers l'URL '$nomUrl' : $url")
+			MYLOG.addDETAIL(ex.getMessage())
 		}
 	}
 
@@ -65,10 +67,10 @@ class KW {
 	static closeBrowser(){
 		try {
 			WebUI.closeBrowser()
-			my.Log.addSTEPPASS("Fermeture du navigateur")
+			MYLOG.addSTEPPASS("Fermeture du navigateur")
 		} catch (Exception ex) {
-			my.Log.addSTEPFAIL("Fermeture du navigateur")
-			my.Log.addDETAIL(ex.getMessage())
+			MYLOG.addSTEPFAIL("Fermeture du navigateur")
+			MYLOG.addDETAIL(ex.getMessage())
 		}
 	}
 
@@ -76,10 +78,10 @@ class KW {
 	static maximizeWindow(){
 		try {
 			WebUI.maximizeWindow(FailureHandling.STOP_ON_FAILURE)
-			my.Log.addSTEPPASS("Maximise la fenêtre")
+			MYLOG.addSTEPPASS("Maximise la fenêtre")
 		} catch (Exception ex) {
-			my.Log.addSTEPFAIL("Maximise la fenêtre")
-			my.Log.addDETAIL(ex.getMessage())
+			MYLOG.addSTEPFAIL("Maximise la fenêtre")
+			MYLOG.addDETAIL(ex.getMessage())
 		}
 	}
 
@@ -90,10 +92,10 @@ class KW {
 		if (text==null) text = myJDD.getStrData(name)
 		try {
 			WebUI.setText(tObj, text, FailureHandling.STOP_ON_FAILURE)
-			my.Log.addSTEPPASS("Saisie du texte '$text' sur '" + tObj.getObjectId() + "'")
+			MYLOG.addSTEPPASS("Saisie du texte '$text' sur '" + tObj.getObjectId() + "'")
 		} catch (Exception ex) {
-			my.Log.addSTEP("Saisie du texte '$text' sur '" + tObj.getObjectId() + "'", status)
-			my.Log.addDETAIL(ex.getMessage())
+			MYLOG.addSTEP("Saisie du texte '$text' sur '" + tObj.getObjectId() + "'", status)
+			MYLOG.addDETAIL(ex.getMessage())
 		}
 	}
 
@@ -105,10 +107,10 @@ class KW {
 		if (text==null) text = myJDD.getStrData(name)
 		try {
 			WebUI.setEncryptedText(tObj, text, FailureHandling.STOP_ON_FAILURE)
-			my.Log.addSTEPPASS("Saisie du mot de passe sur " + tObj.getObjectId() + "'")
+			MYLOG.addSTEPPASS("Saisie du mot de passe sur " + tObj.getObjectId() + "'")
 		} catch (Exception ex) {
-			my.Log.addSTEPFAIL("Saisie du mot de passe sur '" + tObj.getObjectId() + "'")
-			my.Log.addDETAIL(ex.getMessage())
+			MYLOG.addSTEPFAIL("Saisie du mot de passe sur '" + tObj.getObjectId() + "'")
+			MYLOG.addDETAIL(ex.getMessage())
 		}
 	}
 
@@ -118,10 +120,10 @@ class KW {
 		TestObject tObj = myJDD.makeTO(name)
 		try {
 			WebUI.click(tObj, FailureHandling.STOP_ON_FAILURE)
-			my.Log.addSTEPPASS("Clic sur '" + tObj.getObjectId() + "'")
+			MYLOG.addSTEPPASS("Clic sur '" + tObj.getObjectId() + "'")
 		} catch (Exception ex) {
-			my.Log.addSTEP("Clic sur '" + tObj.getObjectId() + "'",status)
-			my.Log.addDETAIL(ex.getMessage())
+			MYLOG.addSTEP("Clic sur '" + tObj.getObjectId() + "'",status)
+			MYLOG.addDETAIL(ex.getMessage())
 		}
 	}
 
@@ -130,10 +132,10 @@ class KW {
 		TestObject tObj = myJDD.makeTO(name)
 		try {
 			WebUI.doubleClick(tObj, FailureHandling.STOP_ON_FAILURE)
-			my.Log.addSTEPPASS("Double click sur '" + tObj.getObjectId() + "'")
+			MYLOG.addSTEPPASS("Double click sur '" + tObj.getObjectId() + "'")
 		} catch (Exception ex) {
-			my.Log.addSTEP("Double click sur '" + tObj.getObjectId() + "'",status)
-			my.Log.addDETAIL(ex.getMessage())
+			MYLOG.addSTEP("Double click sur '" + tObj.getObjectId() + "'",status)
+			MYLOG.addDETAIL(ex.getMessage())
 		}
 	}
 
@@ -142,10 +144,10 @@ class KW {
 		TestObject tObj = myJDD.makeTO(name)
 		try {
 			WebUI.scrollToElement(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
-			my.Log.addDEBUG("Scroll to '${tObj.getObjectId()}' OK")
+			MYLOG.addDEBUG("Scroll to '${tObj.getObjectId()}' OK")
 		} catch (Exception ex) {
-			my.Log.addSTEP("Scroll to '${tObj.getObjectId()}'", status)
-			my.Log.addDETAIL(ex.getMessage())
+			MYLOG.addSTEP("Scroll to '${tObj.getObjectId()}'", status)
+			MYLOG.addDETAIL(ex.getMessage())
 		}
 	}
 
@@ -153,11 +155,11 @@ class KW {
 	static boolean waitForAlert(int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		try {
 			WebUI.waitForAlert(timeOut, FailureHandling.STOP_ON_FAILURE)
-			my.Log.addSTEPPASS("Attendre la fenetre de confirmation")
+			MYLOG.addSTEPPASS("Attendre la fenetre de confirmation")
 			return true
 		} catch (Exception ex) {
-			my.Log.addSTEP("Attendre la fenetre de confirmation",status)
-			my.Log.addDETAIL(ex.getMessage())
+			MYLOG.addSTEP("Attendre la fenetre de confirmation",status)
+			MYLOG.addDETAIL(ex.getMessage())
 			return false
 		}
 	}
@@ -166,11 +168,11 @@ class KW {
 	static boolean acceptAlert(String status = 'FAIL') {
 		try {
 			WebUI.acceptAlert(FailureHandling.STOP_ON_FAILURE)
-			my.Log.addSTEPPASS("Accepter la demande de confirmation")
+			MYLOG.addSTEPPASS("Accepter la demande de confirmation")
 			return true
 		} catch (Exception ex) {
-			my.Log.addSTEP("Accepter la demande de confirmation", status)
-			my.Log.addDETAIL(ex.getMessage())
+			MYLOG.addSTEP("Accepter la demande de confirmation", status)
+			MYLOG.addDETAIL(ex.getMessage())
 			return false
 		}
 	}
@@ -182,15 +184,15 @@ class KW {
 		try {
 			WebUI.sendKeys(tObj, keys, FailureHandling.STOP_ON_FAILURE)
 			if (msg) {
-				my.Log.addSTEPPASS(msg)
+				MYLOG.addSTEPPASS(msg)
 			}else {
-				my.Log.addDEBUG("Envoie touche(s) clavier '$keys' sur '${tObj.getObjectId()}'")
+				MYLOG.addDEBUG("Envoie touche(s) clavier '$keys' sur '${tObj.getObjectId()}'")
 			}
 			return null
 		} catch (Exception ex) {
 			if (msg) {
-				my.Log.addSTEP(msg,status)
-				my.Log.addDETAIL(ex.getMessage())
+				MYLOG.addSTEP(msg,status)
+				MYLOG.addDETAIL(ex.getMessage())
 			}
 			return ex.getMessage()
 		}
@@ -207,11 +209,11 @@ class KW {
 		TestObject tObj = myJDD.makeTO(name)
 		try {
 			WebUI.verifyElementNotPresent(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
-			my.Log.addSTEPPASS("Vérifier que '${tObj.getObjectId()}' ne soit plus présent")
+			MYLOG.addSTEPPASS("Vérifier que '${tObj.getObjectId()}' ne soit plus présent")
 			return true
 		} catch (Exception ex) {
-			my.Log.addSTEP("Vérifier que '${tObj.getObjectId()}' ne soit plus présent", status)
-			my.Log.addDETAIL(ex.getMessage())
+			MYLOG.addSTEP("Vérifier que '${tObj.getObjectId()}' ne soit plus présent", status)
+			MYLOG.addDETAIL(ex.getMessage())
 			return false
 		}
 	}
@@ -224,11 +226,11 @@ class KW {
 		TestObject tObj = myJDD.makeTO(name)
 		try {
 			WebUI.verifyElementPresent(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
-			my.Log.addSTEPPASS("Vérifier que '${tObj.getObjectId()}' soit présent")
+			MYLOG.addSTEPPASS("Vérifier que '${tObj.getObjectId()}' soit présent")
 			return true
 		} catch (Exception ex) {
-			my.Log.addSTEP("Vérifier que '${tObj.getObjectId()}' soit présent", status)
-			my.Log.addDETAIL(ex.getMessage())
+			MYLOG.addSTEP("Vérifier que '${tObj.getObjectId()}' soit présent", status)
+			MYLOG.addDETAIL(ex.getMessage())
 			return false
 		}
 	}
@@ -242,20 +244,20 @@ class KW {
 		/*
 		 try {
 		 WebUI.verifyElementText(tObj, text,FailureHandling.STOP_ON_FAILURE)
-		 my.Log.addSTEPPASS("Vérification du texte '$text' sur '" + tObj.getObjectId() + "'")
+		 MYLOG.addSTEPPASS("Vérification du texte '$text' sur '" + tObj.getObjectId() + "'")
 		 return true
 		 } catch (Exception ex) {
-		 my.Log.addSTEP("Vérification du texte '$text' sur '" + tObj.getObjectId() + "' KO, la valeur est '$gText' !", status)
-		 my.Log.addDETAIL(ex.getMessage())
+		 MYLOG.addSTEP("Vérification du texte '$text' sur '" + tObj.getObjectId() + "' KO, la valeur est '$gText' !", status)
+		 MYLOG.addDETAIL(ex.getMessage())
 		 return false
 		 }
 		 */
 		if (WebUI.verifyElementText(tObj, text,FailureHandling.OPTIONAL)) {
-			my.Log.addSTEPPASS("Vérification du texte '$text' sur '" + tObj.getObjectId() + "'")
+			MYLOG.addSTEPPASS("Vérification du texte '$text' sur '" + tObj.getObjectId() + "'")
 			return true
 		} else {
-			my.Log.addSTEP("Vérification du texte '$text' sur '" + tObj.getObjectId() + "'",status)
-			my.Log.addDETAIL("la valeur est '$gText' !")
+			MYLOG.addSTEP("Vérification du texte '$text' sur '" + tObj.getObjectId() + "'",status)
+			MYLOG.addDETAIL("la valeur est '$gText' !")
 			return false
 		}
 	} // end of def
@@ -268,10 +270,10 @@ class KW {
 		TestObject tObj = myJDD.makeTO(name)
 		try {
 			WebUI.waitForElementClickable(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
-			my.Log.addDEBUG("'${tObj.getObjectId()}' est clickable")
+			MYLOG.addDEBUG("'${tObj.getObjectId()}' est clickable")
 		} catch (Exception ex) {
-			my.Log.addSTEP("'${tObj.getObjectId()}' n'est pas clickable", status)
-			my.Log.addDETAIL(ex.getMessage())
+			MYLOG.addSTEP("'${tObj.getObjectId()}' n'est pas clickable", status)
+			MYLOG.addDETAIL(ex.getMessage())
 		}
 	} // end of def
 
@@ -281,10 +283,10 @@ class KW {
 		TestObject tObj = myJDD.makeTO(name)
 		try {
 			WebUI.waitForElementVisible(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
-			my.Log.addSTEPPASS("Vérifier que l'élément '${tObj.getObjectId()}' soit visible")
+			MYLOG.addSTEPPASS("Vérifier que l'élément '${tObj.getObjectId()}' soit visible")
 		} catch (Exception ex) {
-			my.Log.addSTEP("Vérifier que l'élément '${tObj.getObjectId()}' soit visible", status)
-			my.Log.addDETAIL(ex.getMessage())
+			MYLOG.addSTEP("Vérifier que l'élément '${tObj.getObjectId()}' soit visible", status)
+			MYLOG.addDETAIL(ex.getMessage())
 		}
 	} // end of def
 
@@ -295,16 +297,16 @@ class KW {
 		TestObject tObj = myJDD.makeTO(name)
 		if (text==null) text = myJDD.getStrData(name)
 		def val = WebUI.getAttribute(tObj, 'value')
-		my.Log.addDEBUG('val.getClass() : ' + val.getClass() + '   ' + val)
+		MYLOG.addDEBUG('val.getClass() : ' + val.getClass() + '   ' + val)
 		if (val==null) {
-			my.Log.addERROR("L'attribut 'value' n'existe pas !")
+			MYLOG.addERROR("L'attribut 'value' n'existe pas !")
 		}
 		if (val==text) {
-			my.Log.addSTEPPASS("Vérifier que la valeur de '" + name + "', soit '$text'")
+			MYLOG.addSTEPPASS("Vérifier que la valeur de '" + name + "', soit '$text'")
 		}else if (text==my.JDDKW.getKW_NULL() && val=='') {
-			my.Log.addSTEPPASS("Vérifier que la valeur de '" + name + "', soit Null ou Vide")
+			MYLOG.addSTEPPASS("Vérifier que la valeur de '" + name + "', soit Null ou Vide")
 		}else {
-			my.Log.addSTEP("Vérifier la valeur de '" + name+ "' KO, valeur attendue '$text', valeur du champ '" + WebUI.getAttribute(tObj, 'value') + "' !", status)
+			MYLOG.addSTEP("Vérifier la valeur de '" + name+ "' KO, valeur attendue '$text', valeur du champ '" + WebUI.getAttribute(tObj, 'value') + "' !", status)
 		}
 	} // end of def
 
@@ -313,9 +315,9 @@ class KW {
 		TestObject tObj = myJDD.makeTO(name)
 		if (text==null) text = myJDD.getStrData(name)
 		if (WebUI.verifyOptionSelectedByValue(tObj, text, isRegex, timeOut)) {
-			my.Log.addSTEPPASS("Vérifier que l'option '$text' de '" + tObj.getObjectId() + "' soit sélectionnée")
+			MYLOG.addSTEPPASS("Vérifier que l'option '$text' de '" + tObj.getObjectId() + "' soit sélectionnée")
 		}else{
-			my.Log.addSTEP("Vérifier que l'option '$text' de '" + tObj.getObjectId() + "' soit sélectionnée KO", status)
+			MYLOG.addSTEP("Vérifier que l'option '$text' de '" + tObj.getObjectId() + "' soit sélectionnée KO", status)
 		}
 	}
 
@@ -346,10 +348,10 @@ class KW {
 		this.waitForElementVisible(myJDD, name, timeOut,status)
 		try {
 			WebUI.selectOptionByValue(tObj, text, isRegex,FailureHandling.STOP_ON_FAILURE)
-			my.Log.addSTEPPASS("Scroll et select option '$text' sur '" + tObj.getObjectId() + "'")
+			MYLOG.addSTEPPASS("Scroll et select option '$text' sur '" + tObj.getObjectId() + "'")
 		} catch (Exception ex) {
-			my.Log.addSTEP("Scroll et select option '$text' sur '" + tObj.getObjectId() + "'",status)
-			my.Log.addDETAIL(ex.getMessage())
+			MYLOG.addSTEP("Scroll et select option '$text' sur '" + tObj.getObjectId() + "'",status)
+			MYLOG.addDETAIL(ex.getMessage())
 		}
 	} // end of def
 
@@ -386,7 +388,7 @@ class KW {
 		if ( val instanceof Date) {
 			this.setText(myJDD, name, val.format(dateFormat), status)
 		}else {
-			my.Log.addERROR('Erreur de JDD de ' + tObj.getObjectId() + ', la valeur ' + val.toString() + "' n'est pas une date ! getClass = " + val.getClass())
+			MYLOG.addERROR('Erreur de JDD de ' + tObj.getObjectId() + ', la valeur ' + val.toString() + "' n'est pas une date ! getClass = " + val.getClass())
 		}
 	} // end of def
 
@@ -396,10 +398,10 @@ class KW {
 		TestObject tObj = myJDD.makeTO(name)
 		if (val==null) val = myJDD.getData(name)
 		if ( val instanceof Date) {
-			my.Log.addDEBUG('val.format(dateFormat) :' +val.format(dateFormat))
+			MYLOG.addDEBUG('val.format(dateFormat) :' +val.format(dateFormat))
 			this.verifyElementText(myJDD, name, val.format(dateFormat), status)
 		}else {
-			my.Log.addERROR('Erreur de JDD de ' + tObj.getObjectId() + ', la valeur ' + val.toString() + "' n'est pas une date ! getClass = " + val.getClass())
+			MYLOG.addERROR('Erreur de JDD de ' + tObj.getObjectId() + ', la valeur ' + val.toString() + "' n'est pas une date ! getClass = " + val.getClass())
 		}
 	} // end of def
 
@@ -435,28 +437,28 @@ class KW {
 
 		if (cond) {
 			if (WebUI.verifyElementChecked(tObj,timeOut, FailureHandling.OPTIONAL)) {
-				my.Log.addSTEPPASS("Cocher la case à cocher '" + name + "'")
-				my.Log.addDETAIL("déjà cochée")
+				MYLOG.addSTEPPASS("Cocher la case à cocher '" + name + "'")
+				MYLOG.addDETAIL("déjà cochée")
 			}else {
 				try {
 					WebUI.click(tObjLbl, FailureHandling.STOP_ON_FAILURE)
-					my.Log.addSTEPPASS("Cocher la case à cocher '" + name + "'")
+					MYLOG.addSTEPPASS("Cocher la case à cocher '" + name + "'")
 				} catch (Exception ex) {
-					my.Log.addSTEP("Cocher la case à cocher '" + name + "'", status)
-					my.Log.addDETAIL(ex.getMessage())
+					MYLOG.addSTEP("Cocher la case à cocher '" + name + "'", status)
+					MYLOG.addDETAIL(ex.getMessage())
 				}
 			}
 		}else {
 			if (WebUI.verifyElementNotChecked(tObj,timeOut, FailureHandling.OPTIONAL)) {
-				my.Log.addSTEPPASS("Décocher la case à cocher '" + name + "'")
-				my.Log.addDETAIL("déjà décochée")
+				MYLOG.addSTEPPASS("Décocher la case à cocher '" + name + "'")
+				MYLOG.addDETAIL("déjà décochée")
 			}else {
 				try {
 					WebUI.click(tObjLbl, FailureHandling.STOP_ON_FAILURE)
-					my.Log.addSTEPPASS("Décocher la case à cocher '" + name + "'")
+					MYLOG.addSTEPPASS("Décocher la case à cocher '" + name + "'")
 				} catch (Exception ex) {
-					my.Log.addSTEP("Décocher la case à cocher '" + name + "'", status)
-					my.Log.addDETAIL(ex.getMessage())
+					MYLOG.addSTEP("Décocher la case à cocher '" + name + "'", status)
+					MYLOG.addDETAIL(ex.getMessage())
 				}
 			}
 		}
@@ -473,17 +475,17 @@ class KW {
 
 		if (cond) {
 			if (WebUI.verifyElementChecked(tObj,timeOut, FailureHandling.OPTIONAL)) {
-				my.Log.addSTEPPASS("Vérifier que '${tObj.getObjectId()}'soit coché")
+				MYLOG.addSTEPPASS("Vérifier que '${tObj.getObjectId()}'soit coché")
 			}else {
-				my.Log.addSTEPFAIL("Vérifier que '${tObj.getObjectId()}'soit coché")
-				my.Log.addDETAIL('La case est décochée !')
+				MYLOG.addSTEPFAIL("Vérifier que '${tObj.getObjectId()}'soit coché")
+				MYLOG.addDETAIL('La case est décochée !')
 			}
 		}else {
 			if (WebUI.verifyElementNotChecked(tObj,timeOut, FailureHandling.OPTIONAL)) {
-				my.Log.addSTEPPASS("Vérifier que '${tObj.getObjectId()}' soit décoché")
+				MYLOG.addSTEPPASS("Vérifier que '${tObj.getObjectId()}' soit décoché")
 			}else {
-				my.Log.addSTEPFAIL("Vérifier que '${tObj.getObjectId()}' soit décoché")
-				my.Log.addDETAIL('La case est cochée !')
+				MYLOG.addSTEPFAIL("Vérifier que '${tObj.getObjectId()}' soit décoché")
+				MYLOG.addDETAIL('La case est cochée !')
 			}
 		}
 
@@ -499,7 +501,7 @@ class KW {
 		}else if (WebUI.getAttribute(tObj, 'src').endsWith('134.gif')) {
 			return false
 		}else {
-			my.Log.addERROR("L'attribut src de l'objet " + name + " n'est pas conforme, la valeur est : " + WebUI.getAttribute(tObj, 'src'))
+			MYLOG.addERROR("L'attribut src de l'objet " + name + " n'est pas conforme, la valeur est : " + WebUI.getAttribute(tObj, 'src'))
 			return null
 		}
 	}
@@ -510,9 +512,9 @@ class KW {
 		if (etat ==null) {
 			// l'erreur est déjà remontée par getCheckBoxImgStatus
 		}else if (etat) {
-			my.Log.addSTEPPASS("Vérifier que la case à cocher (img) '" + name + "' soit cochée")
+			MYLOG.addSTEPPASS("Vérifier que la case à cocher (img) '" + name + "' soit cochée")
 		}else {
-			my.Log.addSTEP("Vérifier que la case à cocher (img) '" + name + "' soit cochée", status)
+			MYLOG.addSTEP("Vérifier que la case à cocher (img) '" + name + "' soit cochée", status)
 		}
 
 	}
@@ -523,9 +525,9 @@ class KW {
 		if (etat ==null) {
 			// l'erreur est déjà remontée par getCheckBoxImgStatus
 		}else if (!etat) {
-			my.Log.addSTEPPASS("Vérifier que la case à cocher (img) '" + name + "' soit cochée")
+			MYLOG.addSTEPPASS("Vérifier que la case à cocher (img) '" + name + "' soit cochée")
 		}else {
-			my.Log.addSTEP("Vérifier que la case à cocher (img) '" + name + "' soit cochée", status)
+			MYLOG.addSTEP("Vérifier que la case à cocher (img) '" + name + "' soit cochée", status)
 		}
 	}
 
@@ -552,7 +554,7 @@ class KW {
 
 	static searchWithHelper(JDD myJDD, String name , String btnXpath = '' , String inputName = '' ){
 
-		my.Log.addSUBSTEP("Saisie de $name en utilisant l'assistant de recherche")
+		MYLOG.addSUBSTEP("Saisie de $name en utilisant l'assistant de recherche")
 
 		String val = myJDD.getStrData(name)
 

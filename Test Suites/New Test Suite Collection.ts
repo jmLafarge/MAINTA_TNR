@@ -12,7 +12,7 @@
             <groupName>Web Desktop</groupName>
             <profileName>PCJML</profileName>
             <requireConfigurationData>false</requireConfigurationData>
-            <runConfigurationId>Edge Chromium</runConfigurationId>
+            <runConfigurationId>Chrome</runConfigurationId>
          </configuration>
          <runEnabled>true</runEnabled>
          <testSuiteEntity>Test Suites/TS RO ACTEUR</testSuiteEntity>

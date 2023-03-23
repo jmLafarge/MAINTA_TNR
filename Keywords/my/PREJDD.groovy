@@ -4,7 +4,7 @@ package my
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
-
+import my.Log as MYLOG
 
 public class PREJDD {
 
@@ -18,7 +18,7 @@ public class PREJDD {
 		List list = []
 		this.getListOfCasDeTestAndIDValue(list,sheet, map.getAt('PREJDDID'))
 
-		my.Log.addSTEP("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "' (" + map.getAt('TAB') + ") dans '" + my.PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')) + "' '"+ map.getAt('PREJDDID') + "'")
+		MYLOG.addSTEP("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "' (" + map.getAt('TAB') + ") dans '" + my.PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')) + "' '"+ map.getAt('PREJDDID') + "'")
 		int nbFound =0
 		map.getAt('LISTCDTVAL').each{ cdtVal ->
 			boolean found = false
@@ -29,12 +29,12 @@ public class PREJDD {
 				}
 			}
 			if (found) {
-				my.Log.addDEBUG(cdtVal+' trouvé')
+				MYLOG.addDEBUG(cdtVal+' trouvé')
 			}else {
-				my.Log.addDETAILFAIL(cdtVal+' non trouvé')
+				MYLOG.addDETAILFAIL(cdtVal+' non trouvé')
 			}
 		}
-		my.Log.addDETAIL(nbFound + "/" +map.getAt('LISTCDTVAL').size() + ' trouvé(s)')
+		MYLOG.addDETAIL(nbFound + "/" +map.getAt('LISTCDTVAL').size() + ' trouvé(s)')
 	}
 
 
@@ -63,7 +63,7 @@ public class PREJDD {
 
 
 	static List loadDATA(Sheet sheet,int size) {
-		my.Log.addDEBUG('Lecture PREJDD data')
+		MYLOG.addDEBUG('Lecture PREJDD data')
 		Iterator<Row> rowIt = sheet.rowIterator()
 		Row row = rowIt.next()
 		List datas =[]
@@ -74,7 +74,7 @@ public class PREJDD {
 			}
 			datas << my.XLS.loadRow(row,size)
 		}
-		my.Log.addDEBUG('PREJDD data size = ' + datas.size() )
+		MYLOG.addDEBUG('PREJDD data size = ' + datas.size() )
 		return datas
 	}
 

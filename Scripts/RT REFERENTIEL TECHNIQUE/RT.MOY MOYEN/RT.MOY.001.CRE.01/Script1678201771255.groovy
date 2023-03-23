@@ -1,5 +1,6 @@
 import my.KW
 import my.NAV
+import my.Log as MYLOG
 
 'Lecture du JDD'
 def myJDD = new my.JDD()
@@ -22,7 +23,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	KW.scrollAndSetText(myJDD,'NU_COUHOR')
 	
 	
-	my.Log.addSTEPGRP('VALIDATION')
+	MYLOG.addSTEPGRP('VALIDATION')
 	
 	'Validation de la saisie'
 	KW.scrollAndClick(myJDD,'button_Valider')

@@ -5,7 +5,7 @@ package my
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
-
+import my.Log as MYLOG
 
 
 class NAV {
@@ -23,7 +23,7 @@ class NAV {
 
 	public static loadJDDGLOBAL() {
 
-		my.Log.addDEBUG('Load JDD GLOBAL')
+		MYLOG.addDEBUG('Load JDD GLOBAL')
 		this.myGlobalJDD = new my.JDD(my.PropertiesReader.getMyProperty('JDD_PATH') + File.separator + my.PropertiesReader.getMyProperty('JDD_GLOBALFILENAME'),'001',null,false)
 
 	}
@@ -58,7 +58,7 @@ class NAV {
 	 * Vérifier écran Résultat
 	 */
 	public static verifierEcranResultat(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
-		//my.Log.addSTEP("NAV.verifierEcranResultat( fct=$fct)")
+		//MYLOG.addSTEP("NAV.verifierEcranResultat( fct=$fct)")
 		if (fct=='') { fct = this.getFctFromModObj() }
 		String code = fct
 		WebUI.scrollToPosition(0, 0)
@@ -135,7 +135,7 @@ class NAV {
 	 */
 	public static goToURL_RUD_and_checkCartridge(String id, String fct='' , int timeOut = GlobalVariable.TIMEOUT) {
 		if (fct=='') { fct = this.getFctFromModObj() }
-		my.Log.addDEBUG("NAV.goToURL_RUD_and_checkCartridge(id='$id', fct='$fct')")
+		MYLOG.addDEBUG("NAV.goToURL_RUD_and_checkCartridge(id='$id', fct='$fct')")
 		this.goToURL_RUD(fct, id)
 		this.verifierEcranRUD(id, fct, timeOut)
 	} // end of def
@@ -145,7 +145,7 @@ class NAV {
 	 */
 	public static goToURL_Grille_and_checkCartridge(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
 		if (fct=='') { fct = this.getFctFromModObj() }
-		my.Log.addDEBUG("NAV.goToURL_Grille_and_checkCartridge(fct='$fct')")
+		MYLOG.addDEBUG("NAV.goToURL_Grille_and_checkCartridge(fct='$fct')")
 		this.goToURL_Grille(fct)
 		this.verifierEcranGrille(fct,timeOut)
 	} // end of def
@@ -155,7 +155,7 @@ class NAV {
 	 */
 	public static goToURL_Creation_and_checkCartridge(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
 		if (fct=='') { fct = this.getFctFromModObj() }
-		my.Log.addDEBUG("NAV.goToURL_Creation_and_checkCartridge(fct='$fct')")
+		MYLOG.addDEBUG("NAV.goToURL_Creation_and_checkCartridge(fct='$fct')")
 		this.goToURL_Creation(fct)
 		this.verifierEcranCreation(fct,timeOut)
 	} // end of def

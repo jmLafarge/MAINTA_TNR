@@ -1,6 +1,6 @@
 import my.KW
 import my.NAV
-
+import my.Log as MYLOG
 
 
 'Lecture du JDD'
@@ -13,7 +13,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
     'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_Creation_and_checkCartridge()
 	
-	my.Log.addSTEPGRP('ONGLET ACTEUR')
+	MYLOG.addSTEPGRP('ONGLET ACTEUR')
 
 		'Clic sur le bon onglet'
 		KW.scrollAndClick(myJDD,'a_Acteur')
@@ -46,7 +46,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		KW.scrollAndCheckIfNeeded(myJDD,'ST_GRP','O')
 
 	
-	my.Log.addSTEPGRP('ONGLET AFFECTATION')
+	MYLOG.addSTEPGRP('ONGLET AFFECTATION')
 		
 		'Clic sur le bon onglet'
 		KW.scrollAndClick(myJDD,'a_Affectation')
@@ -70,7 +70,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		KW.scrollAndSetText(myJDD,'NU_COUHOR')
 		
 	
-	my.Log.addSTEPGRP('ONGLET ROLE')
+	MYLOG.addSTEPGRP('ONGLET ROLE')
 	
 			
 		'Clic sur le bon onglet'
@@ -96,7 +96,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 
 
 	
-	my.Log.addSTEPGRP('ONGLET PREVENTIF')
+	MYLOG.addSTEPGRP('ONGLET PREVENTIF')
 		
 		'Clic sur le bon onglet'
 		KW.scrollAndClick(myJDD,'a_Preventif')
@@ -112,7 +112,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		KW.scrollAndSetText(myJDD,'ID_CODCAL')
 		
 		
-	my.Log.addSTEPGRP('ONGLET ZONE')
+	MYLOG.addSTEPGRP('ONGLET ZONE')
 	
 		'Clic sur le bon onglet'
 		KW.scrollAndClick(myJDD,'a_Zone')
@@ -129,7 +129,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		}
 	
 			
-	my.Log.addSTEPGRP('VALIDATION')
+	MYLOG.addSTEPGRP('VALIDATION')
 		
     'Validation de la saisie'
     KW.scrollAndClick(myJDD,'button_Valider')

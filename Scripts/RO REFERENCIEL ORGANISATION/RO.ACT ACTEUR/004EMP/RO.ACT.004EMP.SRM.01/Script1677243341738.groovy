@@ -5,7 +5,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 import internal.GlobalVariable
 import my.KW
 import my.NAV
-
+import my.Log as MYLOG
 
 
 
@@ -18,7 +18,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	'Naviguer vers la bonne url et controle des infos du cartouche'
 	NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_CODINT'))
 	
-	my.Log.addSTEPGRP('ONGLET ZONE')
+	MYLOG.addSTEPGRP('ONGLET ZONE')
 	
 		'Clic sur le bon onglet'
 		KW.scrollAndClick(myJDD,'a_Zone')
@@ -30,7 +30,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
 			
 			if (myJDD.getNbrLigneCasDeTest()>1) {
-				my.Log.addSTEPLOOP("Modification $i / " + myJDD.getNbrLigneCasDeTest())
+				MYLOG.addSTEPLOOP("Modification $i / " + myJDD.getNbrLigneCasDeTest())
 			}
 			
 			myJDD.setCasDeTestNum(i)
@@ -43,7 +43,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 				if (myJDD.getStrData('ST_DEF')=='O' && !etat_ST_DEF) {
 					'Mettre par défaut'
 					for ( n in 1..3) {
-						my.Log.addSTEP("Tentative pour cocher la valeur par défaut $n/3" )
+						MYLOG.addSTEP("Tentative pour cocher la valeur par défaut $n/3" )
 						KW.scrollAndClick(myJDD,'ST_DEF')
 						if (KW.waitAndAcceptAlert(GlobalVariable.TIMEOUT,null)) {
 							KW.delay(1)
@@ -51,13 +51,13 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 						}
 					}
 				}else if (myJDD.getStrData('ST_DEF')=='O' && etat_ST_DEF) {
-					my.Log.addSTEPPASS("La case à cocher (img) 'ST_DEF' est déjà cochée" )
+					MYLOG.addSTEPPASS("La case à cocher (img) 'ST_DEF' est déjà cochée" )
 				}else if (myJDD.getStrData('ST_DEF')=='N' && !etat_ST_DEF) {
-					my.Log.addSTEPPASS("La case à cocher (img) 'ST_DEF' est déjà décochée" )
+					MYLOG.addSTEPPASS("La case à cocher (img) 'ST_DEF' est déjà décochée" )
 				}else if (myJDD.getStrData('ST_DEF')=='N' && etat_ST_DEF) {
-					my.Log.addSTEP("La case à cocher (img) 'ST_DEF' est cochée" )
+					MYLOG.addSTEP("La case à cocher (img) 'ST_DEF' est cochée" )
 				}else {
-					my.Log.addERROR("Erreur inatendu sur la case à cocher (img) 'ST_DEF', vérifier la valeur : " + myJDD.getStrData('ST_DEF') )
+					MYLOG.addERROR("Erreur inatendu sur la case à cocher (img) 'ST_DEF', vérifier la valeur : " + myJDD.getStrData('ST_DEF') )
 				}
 				
 			}
@@ -83,7 +83,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 			
 		}// fin du for
 
-	my.Log.addSTEPGRP('CONTROLE')
+	MYLOG.addSTEPGRP('CONTROLE')
 	
 	'Vérification des valeurs en BD'
 	my.SQL.checkJDDWithBD(myJDD)	

@@ -1,5 +1,6 @@
 import my.KW
 import my.NAV
+import my.Log as MYLOG
 
 'Lecture du JDD'
 def myJDD = new my.JDD()

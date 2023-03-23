@@ -6,14 +6,9 @@
  * FAIT
  * -----------------------------------------------------------------------------------------------------
  * 
-	
-FEAT (infoBDD) sortir PARA de InfoBDD et renseigner un nouveau fichier et corrections diverses
 
--créer une nouvelle class infoPARA
--créer un nouveau TC pour lancer le remplissage de InfoPARA --> il sera à lancer après le CHECK PREREQUIS
--inclure tous les champs du JDD y compris les champs NON IHM, ne plus s'occuper du nombre d'utilisation
--XLS corrections
--JDDGenerator corrections
+Clean (my.Log) import my.Log as MYLOG and replace all my.log by MYLOG
+
  * 
  * -----------------------------------------------------------------------------------------------------
  * NOTE
@@ -33,6 +28,7 @@ FEAT (infoBDD) sortir PARA de InfoBDD et renseigner un nouveau fichier et correc
  
 AJOUTER un ctrl prerequis 
 il faut pour tous les JDD "CDT + les PK" dans le PREJDD correspondant SAUF pour CRE et SRA
+ 
  
  
  

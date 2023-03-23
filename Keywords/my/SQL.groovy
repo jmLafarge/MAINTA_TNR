@@ -2,9 +2,9 @@ package my
 
 import com.kms.katalon.core.util.KeywordUtil
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-
 import groovy.sql.Sql
 import internal.GlobalVariable
+import my.Log as MYLOG
 
 public class SQL {
 	/**
@@ -30,17 +30,17 @@ public class SQL {
 		KW.delay(1)
 
 		boolean pass = true
-		my.Log.addSTEP("Début de la vérification des valeurs en Base de Données")
+		MYLOG.addSTEP("Début de la vérification des valeurs en Base de Données")
 		int nbrLigneCasDeTest =myJDD.getNbrLigneCasDeTest()
 
 
 		for (casDeTestNum in 1..nbrLigneCasDeTest) {
 			myJDD.setCasDeTestNum(casDeTestNum)
 			if (nbrLigneCasDeTest>1) {
-				my.Log.addSUBSTEP("Contrôle cas de test $casDeTestNum / $nbrLigneCasDeTest")
+				MYLOG.addSUBSTEP("Contrôle cas de test $casDeTestNum / $nbrLigneCasDeTest")
 			}
 			String query = "SELECT * FROM " + myJDD.getDBTableName() + this.getWhereWithAllPK(myJDD,casDeTestNum)
-			my.Log.addDEBUG("query =  $query")
+			MYLOG.addDEBUG("query =  $query")
 
 			def rows
 
@@ -50,24 +50,24 @@ public class SQL {
 			}
 			catch(Exception ex) {
 				pass=false
-				my.Log.addERROR("Erreur d'execution de sql.rows($query) : ")
-				my.Log.addDETAIL(ex.getMessage())
+				MYLOG.addERROR("Erreur d'execution de sql.rows($query) : ")
+				MYLOG.addDETAIL(ex.getMessage())
 			}
 
-			my.Log.addDEBUG("size =  ${rows.size()}")
+			MYLOG.addDEBUG("size =  ${rows.size()}")
 
 			if (rows.size() == 0) {
-				my.Log.addERROR("Pas de résultat pour la requête : $query")
+				MYLOG.addERROR("Pas de résultat pour la requête : $query")
 				pass = false
 			}else if (rows.size() > 1){
-				my.Log.addERROR(rows.size() + "résultats pour la requête : $query")
+				MYLOG.addERROR(rows.size() + "résultats pour la requête : $query")
 				pass = false
 			}else {
 				rows.each { row ->
 
 					row.each{fieldName,val ->
 
-						my.Log.addDEBUG("fieldName = $fieldName , val = $val , JDD value = " + myJDD.getData(fieldName))
+						MYLOG.addDEBUG("fieldName = $fieldName , val = $val , JDD value = " + myJDD.getData(fieldName))
 
 						boolean specificValue = !specificValueMap.isEmpty() && specificValueMap.containsKey(fieldName)
 
@@ -84,9 +84,9 @@ public class SQL {
 								case my.JDDKW.getKW_NULL():
 									if (val == null || val =='') {
 
-										my.Log.addDEBUG("Contrôle de la valeur de $fieldName OK : la valeur attendue est VIDE ou null et la valeur en BD est  : $val" )
+										MYLOG.addDEBUG("Contrôle de la valeur de $fieldName OK : la valeur attendue est VIDE ou null et la valeur en BD est  : $val" )
 									}else {
-										my.Log.addDETAIL("Contrôle de la valeur de $fieldName KO : la valeur attendue est VIDE ou null et la valeur en BD est  : $val")
+										MYLOG.addDETAIL("Contrôle de la valeur de $fieldName KO : la valeur attendue est VIDE ou null et la valeur en BD est  : $val")
 										pass = false
 									}
 
@@ -94,30 +94,30 @@ public class SQL {
 
 								case my.JDDKW.getKW_DATE() :
 
-									my.Log.addDETAIL("Contrôle de la valeur DATE de $fieldName KO : ******* reste à faire ******* la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
+									MYLOG.addDETAIL("Contrôle de la valeur DATE de $fieldName KO : ******* reste à faire ******* la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
 									pass = false
 									break
 
 								case my.JDDKW.getKW_DATETIME() :
 
 									if (val instanceof java.sql.Timestamp) {
-										my.Log.addDEBUG("Contrôle de la valeur DATETIME de $fieldName OK : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val " )
+										MYLOG.addDEBUG("Contrôle de la valeur DATETIME de $fieldName OK : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val " )
 									}else {
-										my.Log.addDETAIL("Contrôle de la valeur DATETIME de $fieldName KO : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
+										MYLOG.addDETAIL("Contrôle de la valeur DATETIME de $fieldName KO : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
 										pass = false
 									}
 									break
 
 								case my.JDDKW.getKW_SEQUENCEID() :
 
-									my.Log.addDETAIL("Contrôle IDINTERNE valeur $fieldName KO : ******* reste à faire la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
+									MYLOG.addDETAIL("Contrôle IDINTERNE valeur $fieldName KO : ******* reste à faire la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
 								//il faut peut etre testé si la valeur est num et unique ? ******
 
-									my.Log.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' dans le JDD : ' + myJDD.getData(fieldName).getClass())
+									MYLOG.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' dans le JDD : ' + myJDD.getData(fieldName).getClass())
 									if ( val == myJDD.getData(fieldName)) {
-										my.Log.addDEBUG("Contrôle de la valeur SEQUENCEID de $fieldName OK : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val " )
+										MYLOG.addDEBUG("Contrôle de la valeur SEQUENCEID de $fieldName OK : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val " )
 									}else {
-										my.Log.addDETAIL("Contrôle de la valeur SEQUENCEID de $fieldName KO : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
+										MYLOG.addDETAIL("Contrôle de la valeur SEQUENCEID de $fieldName KO : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
 										pass = false
 									}
 
@@ -125,7 +125,7 @@ public class SQL {
 
 								case my.JDDKW.getKW_ORDRE() :
 
-									my.Log.addDETAIL("Contrôle de la valeur ORDRE de $fieldName KO : ******* reste à faire la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
+									MYLOG.addDETAIL("Contrôle de la valeur ORDRE de $fieldName KO : ******* reste à faire la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
 								//voir aussi le NU_NIV *******
 									pass = false
 									break
@@ -133,19 +133,19 @@ public class SQL {
 								default:
 
 									if (specificValue) {
-										my.Log.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' la valeur spécifique est  : ' + specificValueMap[fieldName].getClass())
+										MYLOG.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' la valeur spécifique est  : ' + specificValueMap[fieldName].getClass())
 										if ( val == my.InfoBDD.castJDDVal(myJDD.getDBTableName(), fieldName, specificValueMap[fieldName])) {
-											my.Log.addDEBUG("Contrôle de la valeur spécifique de $fieldName OK : la valeur attendue est : " + specificValueMap[fieldName] + " et la valeur en BD est : $val " )
+											MYLOG.addDEBUG("Contrôle de la valeur spécifique de $fieldName OK : la valeur attendue est : " + specificValueMap[fieldName] + " et la valeur en BD est : $val " )
 										}else {
-											my.Log.addDETAIL("Contrôle de la valeur spécifique de $fieldName KO : la valeur attendue est : " + specificValueMap[fieldName] + " et la valeur en BD est : $val")
+											MYLOG.addDETAIL("Contrôle de la valeur spécifique de $fieldName KO : la valeur attendue est : " + specificValueMap[fieldName] + " et la valeur en BD est : $val")
 											pass = false
 										}
 									}else {
-										my.Log.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' dans le JDD : ' + myJDD.getData(fieldName).getClass())
+										MYLOG.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' dans le JDD : ' + myJDD.getData(fieldName).getClass())
 										if ( val == my.InfoBDD.castJDDVal(myJDD.getDBTableName(), fieldName, myJDD.getData(fieldName))) {
-											my.Log.addDEBUG("Contrôle de la valeur de $fieldName OK : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val " )
+											MYLOG.addDEBUG("Contrôle de la valeur de $fieldName OK : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val " )
 										}else {
-											my.Log.addDETAIL("Contrôle de la valeur de $fieldName KO : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
+											MYLOG.addDETAIL("Contrôle de la valeur de $fieldName KO : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
 											pass = false
 										}
 									}
@@ -157,9 +157,9 @@ public class SQL {
 			}//else
 		}//else
 		if (pass) {
-			my.Log.addSTEPPASS("Fin de la vérification des valeurs en Base de Données")
+			MYLOG.addSTEPPASS("Fin de la vérification des valeurs en Base de Données")
 		}else {
-			my.Log.addSTEPFAIL("Fin de la  vérification des valeurs en Base de Données")
+			MYLOG.addSTEPFAIL("Fin de la  vérification des valeurs en Base de Données")
 		}
 	}
 
@@ -170,8 +170,8 @@ public class SQL {
 		try {
 			frow = sqlInstance.firstRow(query)
 		}catch(Exception ex) {
-			my.Log.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
-			my.Log.addDETAIL(ex.getMessage())
+			MYLOG.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
+			MYLOG.addDETAIL(ex.getMessage())
 		}
 		return frow
 	}
@@ -185,7 +185,7 @@ public class SQL {
 		def frow = this.getFirstRow(query)
 
 		if (frow == null) {
-			my.Log.addDEBUG("getMaintaVersion() est null")
+			MYLOG.addDEBUG("getMaintaVersion() est null")
 			return null
 		}else {
 			String val = frow.getAt(0).toString()
@@ -205,13 +205,13 @@ public class SQL {
 		def frow = sqlInstance.firstRow(query)
 
 		if (frow == null) {
-			my.Log.addDETAIL("Contrôle de la valeur de $fieldName (FK) KO, pas de résultat pour la query : $query")
+			MYLOG.addDETAIL("Contrôle de la valeur de $fieldName (FK) KO, pas de résultat pour la query : $query")
 			pass = false
 		}else if (val != frow.getAt(0)) {
-			my.Log.addDETAIL("Contrôle de la valeur de $fieldName (FK) KO : ** la valeur du JDD attendue est : " + myJDD.getData(fieldName) + ' et la valeur est BD est : ' +  frow.getAt(0))
+			MYLOG.addDETAIL("Contrôle de la valeur de $fieldName (FK) KO : ** la valeur du JDD attendue est : " + myJDD.getData(fieldName) + ' et la valeur est BD est : ' +  frow.getAt(0))
 			pass = false
 		}else {
-			my.Log.addDEBUG("Contrôle de la valeur de $fieldName (FK) OK : la valeur attendue est : " + frow.getAt(0) + " et la valeur en BD est : $val")
+			MYLOG.addDEBUG("Contrôle de la valeur de $fieldName (FK) OK : la valeur attendue est : " + frow.getAt(0) + " et la valeur en BD est : $val")
 		}
 		return pass
 	}
@@ -232,15 +232,15 @@ public class SQL {
 		boolean pass = true
 		int nbrLigneCasDeTest =myJDD.getNbrLigneCasDeTest()
 
-		my.Log.addSTEP("Début de la vérification de la suppression des valeurs en Base de Données")
+		MYLOG.addSTEP("Début de la vérification de la suppression des valeurs en Base de Données")
 		for (casDeTestNum in 1..nbrLigneCasDeTest) {
 			myJDD.setCasDeTestNum(casDeTestNum)
 			if (nbrLigneCasDeTest>1) {
-				my.Log.addSUBSTEP("Contrôle de la suppression du cas de test $casDeTestNum / $nbrLigneCasDeTest")
+				MYLOG.addSUBSTEP("Contrôle de la suppression du cas de test $casDeTestNum / $nbrLigneCasDeTest")
 			}
 			String query = "SELECT count(*) FROM " + myJDD.getDBTableName() + this.getWhereWithAllPK(myJDD,casDeTestNum)
 
-			my.Log.addDEBUG("query =  $query")
+			MYLOG.addDEBUG("query =  $query")
 
 			def row
 
@@ -249,21 +249,21 @@ public class SQL {
 
 			}catch(Exception ex) {
 				pass = false
-				my.Log.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
-				my.Log.addDETAIL(ex.getMessage())
+				MYLOG.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
+				MYLOG.addDETAIL(ex.getMessage())
 			}
 
 			if (row[0]>0) {
-				my.Log.addDETAIL("Supression KO")
+				MYLOG.addDETAIL("Supression KO")
 				pass = false
 			}
 		}
 
 		if (pass) {
-			my.Log.addSTEPPASS("Fin de la vérification de la suppression des valeurs en Base de Données")
+			MYLOG.addSTEPPASS("Fin de la vérification de la suppression des valeurs en Base de Données")
 			//KeywordUtil.markPassed("Supression OK")
 		}else {
-			my.Log.addSTEPFAIL("Fin de la  vérification de la suppression des valeurs en Base de Données")
+			MYLOG.addSTEPFAIL("Fin de la  vérification de la suppression des valeurs en Base de Données")
 			//KeywordUtil.markFailed("Supression KO")
 		}
 	}
@@ -292,15 +292,15 @@ public class SQL {
 		try {
 			def nbRowInserted = sqlInstance.executeInsert req
 			if (nbRowInserted <= 0) {
-				my.Log.addDEBUG("insertSQL($req) OK, nombre de ligne inséré : ${nbRowInserted}")
+				MYLOG.addDEBUG("insertSQL($req) OK, nombre de ligne inséré : ${nbRowInserted}")
 			}else {
-				my.Log.addERROR("Erreur d'execution de insertSQL() : $req")
+				MYLOG.addERROR("Erreur d'execution de insertSQL() : $req")
 			}
 			return nbRowInserted
 		}
 		catch(Exception ex) {
-			my.Log.addERROR("Erreur d'execution de insertSQL() : ")
-			my.Log.addDETAIL(ex.getMessage())
+			MYLOG.addERROR("Erreur d'execution de insertSQL() : ")
+			MYLOG.addDETAIL(ex.getMessage())
 			return false
 		}
 
@@ -311,17 +311,17 @@ public class SQL {
 
 	static int getMaxFromTable(String fieldName, String tableName) {
 
-		my.Log.addDEBUG("getMaxFromTable(String fieldName, String tableName) '$fieldName' , '$tableName'")
+		MYLOG.addDEBUG("getMaxFromTable(String fieldName, String tableName) '$fieldName' , '$tableName'")
 
 		String req = "SELECT MAX($fieldName) as num FROM $tableName"
 
 		try {
 			int num = sqlInstance.firstRow(req).num
-			my.Log.addDETAIL("get Max '$fieldName From Table '$tableName' = $num")
+			MYLOG.addDETAIL("get Max '$fieldName From Table '$tableName' = $num")
 			return num
 		} catch(Exception ex) {
-			my.Log.addERROR("Erreur d'execution de getMaxFromTable() : ")
-			my.Log.addDETAIL(ex.getMessage())
+			MYLOG.addERROR("Erreur d'execution de getMaxFromTable() : ")
+			MYLOG.addDETAIL(ex.getMessage())
 		}
 		return null
 	}
@@ -332,18 +332,18 @@ public class SQL {
 		def query = "SELECT ID_NUMECR as num FROM OBJ where ST_NOMOBJ=$table"
 		try {
 			int num = sqlInstance.firstRow(query).num
-			my.Log.addDETAIL("getNumEcran($table) = $num")
+			MYLOG.addDETAIL("getNumEcran($table) = $num")
 			return num
 		} catch(Exception ex) {
-			my.Log.addERROR("Erreur d'execution de getNumEcran($table) : ")
-			my.Log.addDETAIL(ex.getMessage())
+			MYLOG.addERROR("Erreur d'execution de getNumEcran($table) : ")
+			MYLOG.addDETAIL(ex.getMessage())
 		}
 		return null
 	}
 
 	static Map getLibelle(String table, int numEcran) {
 
-		my.Log.addDETAIL("Recherche des libellés pour la table $table et numéro écran $numEcran")
+		MYLOG.addDETAIL("Recherche des libellés pour la table $table et numéro écran $numEcran")
 		def query = """SELECT COLUMN_NAME as name, obj_lan.st_lib as lib
 						FROM INFORMATION_SCHEMA.COLUMNS
 						left join obj

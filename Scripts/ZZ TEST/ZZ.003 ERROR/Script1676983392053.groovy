@@ -1,2 +1,3 @@
+import my.Log as MYLOG
 
-my.Log.addERROR('err')
+MYLOG.addERROR('err')

@@ -1,2 +1,3 @@
+import my.Log as MYLOG
 
-my.Log.addFAIL('fail')
+MYLOG.addFAIL('fail')

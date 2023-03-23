@@ -2,7 +2,7 @@ package my
 
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
-
+import my.Log as MYLOG
 
 
 /**
@@ -23,9 +23,9 @@ public class XLS {
 
 	static writeCell(Row row, int colIdx,def val,CellStyle cellStyle = null) {
 
-		my.Log.addDEBUG("----- writeCell(${row.getRowNum()}, $colIdx,$val,${cellStyle.toString()}",2)
+		MYLOG.addDEBUG("----- writeCell(${row.getRowNum()}, $colIdx,$val,${cellStyle.toString()}",2)
 		if (row==null) {
-			my.Log.addERROR("row is NULL")
+			MYLOG.addERROR("row is NULL")
 		}else {
 			Cell cell = row.getCell(colIdx)
 
@@ -39,7 +39,7 @@ public class XLS {
 				cell.setCellStyle(cellStyle)
 			}
 		}
-		my.Log.addDEBUG("===== writeCell()",2)
+		MYLOG.addDEBUG("===== writeCell()",2)
 	}
 
 
@@ -109,10 +109,10 @@ public class XLS {
 
 			CellData = nullval
 
-			my.Log.addDEBUG('\tgetCellValue() cell is null !',2)
+			MYLOG.addDEBUG('\tgetCellValue() cell is null !',2)
 		}else {
 			//LOG
-			my.Log.addDEBUG("\tcell.getAddress() = '" + cell.getAddress().toString() + "' getCellType() = '" + cell.getCellType(),3)
+			MYLOG.addDEBUG("\tcell.getAddress() = '" + cell.getAddress().toString() + "' getCellType() = '" + cell.getCellType(),3)
 
 			switch (cell.getCellType()){
 				case Cell.CELL_TYPE_STRING: // 1
@@ -121,7 +121,7 @@ public class XLS {
 				case Cell.CELL_TYPE_NUMERIC: // 0
 
 					if (DateUtil.isCellDateFormatted(cell)) {
-						my.Log.addDEBUG('\t\tisCellDateFormatted() = true',3)
+						MYLOG.addDEBUG('\t\tisCellDateFormatted() = true',3)
 						CellData = cell.getDateCellValue()
 					}
 					else {
@@ -146,12 +146,12 @@ public class XLS {
 
 				case Cell.CELL_TYPE_ERROR: // 5
 					CellData = 'ERROR type Cell'
-					my.Log.addERROR('\tUnknown type Cell !')
+					MYLOG.addERROR('\tUnknown type Cell !')
 					break;
 
 				default :
 					CellData = 'Unknown type Cell : ' + cell.getCellType()
-					my.Log.addERROR('\tERROR type Cell !')
+					MYLOG.addERROR('\tERROR type Cell !')
 					break;
 
 			}
@@ -183,7 +183,7 @@ public class XLS {
 	 * @return
 	 */
 	static int getRowNumOfFirstCellFree(Sheet sheet, int col=0) {
-		my.Log.addDEBUG("-----getRowNumOfFirstCellFree(${sheet.getSheetName()},$col)")
+		MYLOG.addDEBUG("-----getRowNumOfFirstCellFree(${sheet.getSheetName()},$col)")
 
 		int num = -1
 		for (int numLine : (0..sheet.getLastRowNum())) {
@@ -198,9 +198,9 @@ public class XLS {
 			num=numLine+1
 		}
 		if (num==-1) {
-			my.Log.addERROR("getRowNumOfFirstCellFree of "+sheet.getSheetName()+" : $num")
+			MYLOG.addERROR("getRowNumOfFirstCellFree of "+sheet.getSheetName()+" : $num")
 		}else {
-			my.Log.addDEBUG("=====getRowNumOfFirstCellFree of "+sheet.getSheetName()+" : $num")
+			MYLOG.addDEBUG("=====getRowNumOfFirstCellFree of "+sheet.getSheetName()+" : $num")
 		}
 		return num
 	}

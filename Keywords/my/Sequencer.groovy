@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.io.FileType
+import my.Log as MYLOG
 
 public class Sequencer {
 
@@ -39,14 +40,14 @@ public class Sequencer {
 	 */
 	public static load() {
 
-		my.Log.addSubTITLE('Load testCasesList from TNR sequencer file','-',120,1)
-		my.Log.addDEBUG("\t" + 'TCNAME'.padRight(24) + 'TCFULLNAME'.padRight(90) + 'REP')
-		my.Log.addDEBUG("")
+		MYLOG.addSubTITLE('Load testCasesList from TNR sequencer file','-',120,1)
+		MYLOG.addDEBUG("\t" + 'TCNAME'.padRight(24) + 'TCFULLNAME'.padRight(90) + 'REP')
+		MYLOG.addDEBUG("")
 
 		// read JDD
 		Sheet shTNR = this.readSequencerFile()
 
-		my.Log.addDEBUG('shTNR.getLastRowNum() :' + shTNR.getLastRowNum(),2)
+		MYLOG.addDEBUG('shTNR.getLastRowNum() :' + shTNR.getLastRowNum(),2)
 
 		// for each data line
 		for (int numline : (1..shTNR.getLastRowNum())) {
@@ -60,7 +61,7 @@ public class Sequencer {
 
 			String casDeTestPatternFromSequencer = row.getCell(0).getStringCellValue()
 
-			my.Log.addDEBUG('casDeTestPatternFromSequencer = ' + casDeTestPatternFromSequencer,2)
+			MYLOG.addDEBUG('casDeTestPatternFromSequencer = ' + casDeTestPatternFromSequencer,2)
 
 			if (casDeTestPatternFromSequencer == "") {
 				break
@@ -74,7 +75,7 @@ public class Sequencer {
 			Map res= my.TCFiles.TCfileMap.findAll { it.key.contains(casDeTestPatternFromSequencer) }
 
 			if (res.size()==0) {
-				my.Log.addERROR("Pas de fichier trouvé pour le pattern $casDeTestPatternFromSequencer")
+				MYLOG.addERROR("Pas de fichier trouvé pour le pattern $casDeTestPatternFromSequencer")
 			}else {
 				res.each {
 					this.addToTestCasesList(it.key,it.value, rep)
@@ -90,7 +91,7 @@ public class Sequencer {
 
 		Map TCMap = [:]
 
-		my.Log.addINFO('\t' + TCName.padRight(24) + TCFullName.padRight(90) + rep.toString().padLeft(3),1)
+		MYLOG.addINFO('\t' + TCName.padRight(24) + TCFullName.padRight(90) + rep.toString().padLeft(3),1)
 
 		TCMap.put('TCNAME',TCName)
 		TCMap.put('TCFULLNAME',TCFullName)

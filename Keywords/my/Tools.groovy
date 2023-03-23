@@ -9,6 +9,8 @@ import com.kms.katalon.core.webui.driver.SmartWaitWebDriver
 
 import groovy.time.TimeCategory
 import groovy.time.TimeDuration
+import my.Log as MYLOG
+
 
 class Tools {
 
@@ -76,9 +78,9 @@ class Tools {
 		File fdir = new File(dir)
 		if (!fdir.exists()) {
 			fdir.mkdirs()
-			my.Log.addDEBUG("createDir() : Création dossier $dir")
+			MYLOG.addDEBUG("createDir() : Création dossier $dir")
 		}else {
-			my.Log.addDEBUG("createDir() : Dossier $dir existe déjà")
+			MYLOG.addDEBUG("createDir() : Dossier $dir existe déjà")
 		}
 	}
 } // end of class

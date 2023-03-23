@@ -1,5 +1,6 @@
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
+import my.Log as MYLOG
 
 my.JDDFiles.load()
 
@@ -18,10 +19,10 @@ my.JDDFiles.JDDfilemap.each { modObj,fullName ->
 
 list.eachWithIndex { map,idx ->
 	
-	my.Log.addDEBUG(idx + ' : ' + my.PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')))
+	MYLOG.addDEBUG(idx + ' : ' + my.PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')))
 	
 	map.each { key,val ->
-		my.Log.addDEBUG('\t' + key + ' : ' +val)
+		MYLOG.addDEBUG('\t' + key + ' : ' +val)
 	}
 	
 	my.PREJDD.checkPREJDD(map)
