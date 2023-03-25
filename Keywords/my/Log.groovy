@@ -1,5 +1,6 @@
 package my
 
+
 /*
  * use my.Log in the code without import --> to be sure that this Log is used
  * 
@@ -108,6 +109,9 @@ class Log {
 	}
 
 
+
+
+
 	public static addDETAIL (String msg) {
 		this.addINFO(this.PREDETAILTXT+ msg)
 	}
@@ -134,6 +138,9 @@ class Log {
 				break
 			case 'FAIL':
 				this.addSTEPFAIL(msg)
+				break
+			case 'ERROR':
+				this.addSTEPERROR(msg)
 				break
 			default :
 				this.add(status,this.PRESTEPTXT+ msg)
@@ -175,6 +182,9 @@ class Log {
 	}
 
 
+	public static addSTEPERROR (String msg) {
+		this.addERROR(this.PRESTEPTXT+ msg)
+	}
 
 
 	/*

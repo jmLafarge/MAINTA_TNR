@@ -18,8 +18,10 @@ class JDDGenerator {
 	static String tramePREJDD = my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('TRAMEPREJDDFILENAME')
 
 	static add(String table, String modObj, String fct='001') {
-		
-		if (my.InfoPARA.paraMap.isEmpty()) { my.InfoPARA.load() }
+
+		if (my.InfoPARA.paraMap.isEmpty()) {
+			my.InfoPARA.load()
+		}
 
 		XSSFWorkbook JDDbook
 		XSSFWorkbook PREJDDbook
@@ -130,14 +132,12 @@ class JDDGenerator {
 
 			table = table.toUpperCase()
 
-
-
-
 			Sheet shJDDInfo = JDDbook.getSheet('Info')
 
 			// sheet Info
-			int numEcran = my.SQL.getNumEcran(table)
-			Map lib = my.SQL.getLibelle(table, numEcran)
+			def numEcran = my.SQL.getNumEcran(table)
+
+			Map lib = numEcran ? my.SQL.getLibelle(table, numEcran) : [:]
 
 			MYLOG.addDETAIL("Renseigner l'onglet Info")
 			Row rowInfo = my.XLS.getNextRow(shJDDInfo)
@@ -155,9 +155,8 @@ class JDDGenerator {
 
 
 			int numColFct = 1
-			my.XLS.writeCell(shFCT.getRow(0),0,table)
-
 			MYLOG.addDETAIL("Renseigner l'onglet $fct")
+			my.XLS.writeCell(shFCT.getRow(0),0,table)
 
 			def styleChamp = shFCT.getRow(0).getCell(1).getCellStyle()
 			def stylePara = shFCT.getRow(1).getCell(1).getCellStyle()
@@ -184,7 +183,7 @@ class JDDGenerator {
 				}else if (my.InfoBDD.map[table][col][4]=='T_BOOLEEN') {
 					type = 'boolean'
 				}
-				
+
 				if (my.InfoBDD.map[table][col][5]!='NULL') {
 					CellStyle stylePK = JDDbook.createCellStyle()
 					def fontPK = JDDbook.createFont()
@@ -293,7 +292,7 @@ class JDDGenerator {
 
 			Sheet shVersion = book.getSheet('Version')
 			MYLOG.addDETAIL("Renseigner l'onglet Version")
-			
+
 			Row row = my.XLS.getNextRow(shVersion)
 
 			my.XLS.writeCell(row,0,new Date(),cellStyle_date)

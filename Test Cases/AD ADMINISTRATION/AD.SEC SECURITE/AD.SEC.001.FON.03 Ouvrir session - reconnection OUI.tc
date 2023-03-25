@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestCaseEntity>
    <description></description>
-   <name>AD.SEC.001.FON.01 Ouvrir session</name>
+   <name>AD.SEC.001.FON.03 Ouvrir session - reconnection OUI</name>
    <tag></tag>
    <comment></comment>
-   <testCaseGuid>e0c31f2a-889d-481e-813e-f17a51dffd96</testCaseGuid>
+   <testCaseGuid>225e1f7a-34b4-471c-8c60-22e612628223</testCaseGuid>
 </TestCaseEntity>

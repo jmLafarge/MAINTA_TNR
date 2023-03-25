@@ -8,14 +8,17 @@ public class JDDKW {
 		KW_DATE:'$DATESYS',
 		KW_DATETIME:'$DATETIMESYS',
 		KW_ORDRE:'$ORDRE',
-		KW_SEQUENCEID:'$SEQUENCEID'
+		KW_SEQUENCEID:'$SEQUENCEID',
+		KW_NU:'$NU'
 	]
 
 	static boolean isAllowedKeyword(String val) {
 		return this.KEYWORD_ALLOWED.containsValue(val)
 	}
 
-
+	static boolean isNU(String val) {
+		return (val == this.KEYWORD_ALLOWED.getAt('KW_NU'))
+	}
 
 	static boolean isVIDE(String val) {
 		return (val == this.KEYWORD_ALLOWED.getAt('KW_VIDE'))
@@ -43,6 +46,10 @@ public class JDDKW {
 
 
 
+	static String getKW_NU() {
+		return this.KEYWORD_ALLOWED.getAt('KW_NU')
+	}
+	
 	static String getKW_VIDE() {
 		return this.KEYWORD_ALLOWED.getAt('KW_VIDE')
 	}

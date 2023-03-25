@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCaseEntity>
+   <description></description>
+   <name>AD.SEC.001.FON.02 Ouvrir session - mot de passe invalide</name>
+   <tag></tag>
+   <comment></comment>
+   <testCaseGuid>c3181636-ea0e-4b31-b568-6b6fdb8be403</testCaseGuid>
+</TestCaseEntity>

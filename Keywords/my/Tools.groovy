@@ -3,19 +3,19 @@ package my
 import org.openqa.selenium.Capabilities
 import org.openqa.selenium.WebDriver
 
-import com.kms.katalon.core.configuration.RunConfiguration
 import com.kms.katalon.core.webui.driver.DriverFactory
 import com.kms.katalon.core.webui.driver.SmartWaitWebDriver
 
 import groovy.time.TimeCategory
 import groovy.time.TimeDuration
+import internal.GlobalVariable
 import my.Log as MYLOG
 
 
 class Tools {
 
 
-	static getBrowserAndVersion() {
+	public static getBrowserAndVersion() {
 		WebDriver driver = DriverFactory.getWebDriver()
 		Capabilities caps = ((SmartWaitWebDriver) driver).getCapabilities()
 		String browserName = caps.getBrowserName().capitalize()
@@ -24,8 +24,17 @@ class Tools {
 	}
 
 
+	public static addInfoContext() {
+		MYLOG.addSUBSTEP('INFO CONTEXTE')
+		MYLOG.addDETAIL("Nom de l'OS".padRight(26) + System.getProperty("os.name"))
+		MYLOG.addDETAIL("Version de l'OS".padRight(26) + System.getProperty("os.version"))
+		MYLOG.addDETAIL("Architecture de l'OS".padRight(26) + System.getProperty("os.arch"))
+		MYLOG.addDETAIL("Version de MAINTA".padRight(26) + my.SQL.getMaintaVersion())
+		MYLOG.addDETAIL("Base de donnée".padRight(26) + GlobalVariable.BDD_URL)
+		MYLOG.addINFO('')
+	}
 
-
+	
 	public static String getDuration(Date start,stop) {
 
 		TimeDuration timeDuration = TimeCategory.minus( stop, start )
@@ -72,8 +81,8 @@ class Tools {
 		}
 		println ''
 	}
-	
-	
+
+
 	static createDir(String dir) {
 		File fdir = new File(dir)
 		if (!fdir.exists()) {

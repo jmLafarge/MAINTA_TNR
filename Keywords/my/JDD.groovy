@@ -43,7 +43,7 @@ public class JDD {
 	JDD(String JDDFullName = null, String TCTabName = null,String casDeTest = null,boolean step=true) {
 
 		MYLOG.addDEBUG("JDD Construtor JDDFullName = '$JDDFullName'    TCTabName = '$TCTabName' Cas de test = '$casDeTest' step = $step")
-		
+		MYLOG.addDEBUG("GlobalVariable.CASDETESTENCOURS : "+GlobalVariable.CASDETESTENCOURS)
 
 		if(JDDFullName == null) {
 			this.JDDFullName = my.JDDFiles.getJDDFullNameFromCasDeTest(GlobalVariable.CASDETESTENCOURS)
@@ -108,7 +108,7 @@ public class JDD {
 
 
 
-	public loadTCSheet(Sheet sheet) {
+	def loadTCSheet(Sheet sheet) {
 		MYLOG.addDEBUG('loadTCSheet : ' + sheet.getSheetName())
 
 		this.TCSheet = sheet
@@ -166,7 +166,7 @@ public class JDD {
 	 ]
 	 * 
 	 */
-	public getAllPrerequis(List list) {
+	def getAllPrerequis(List list) {
 
 		for(Sheet sheet: this.book) {
 			if (sheet.getSheetName() in SKIP_LIST_SHEETNAME) {
@@ -227,7 +227,7 @@ public class JDD {
 	 * 
 	 * @return : nombre de ligne pour le cas de test en cours (très souvent 1)
 	 */
-	public int getNbrLigneCasDeTest(String casDeTest = this.casDeTest) {
+	def int getNbrLigneCasDeTest(String casDeTest = this.casDeTest) {
 		int nbr = 0
 		this.datas.each{
 			if (it[0]==casDeTest) {
@@ -238,11 +238,11 @@ public class JDD {
 	}
 
 
-	public setCasDeTestNum(int i) {
+	def setCasDeTestNum(int i) {
 		this.casDeTestNum=i
 	}
 
-	public getCasDeTestNum() {
+	def getCasDeTestNum() {
 		return this.casDeTestNum
 	}
 
@@ -288,11 +288,11 @@ public class JDD {
 	 * 
 	 * @return				: la valeur du champ pour la ligne du cas de test en cours
 	 */
-	public getData(String name, int casDeTestNum = this.casDeTestNum) {
+	def getData(String name, int casDeTestNum = this.casDeTestNum) {
 		MYLOG.addDEBUG("getData($name, $casDeTestNum)" , 2)
 		if (casDeTestNum > this.getNbrLigneCasDeTest() || casDeTestNum < 1) {
 			MYLOG.addERROR("Le cas de test N° : $casDeTestNum n'existe pas (max = "+ this.getNbrLigneCasDeTest() + ')')
-			return null
+			return
 		}
 		def ret = null
 		int cdtnum = 0
@@ -316,14 +316,14 @@ public class JDD {
 
 
 
-	public getStrData(String name, int casDeTestNum = this.casDeTestNum) {
+	def getStrData(String name, int casDeTestNum = this.casDeTestNum) {
 
 		return this.getData(name, casDeTestNum).toString()
 
 	}
 
 
-	public String getDBTableName() {
+	def String getDBTableName() {
 		return this.headers[0]
 	}
 
@@ -337,12 +337,12 @@ public class JDD {
 	 *
 	 * @return the TestObject created
 	 */
-	public TestObject makeTO(String ID, Map  binding = [:]){
+	def makeTO(String ID, Map  binding = [:]){
 
 		if (!this.xpathTO.containsKey(ID)) {
-			MYLOG.addERROR("L'ID '$ID' n'existe pas, impossible de créer le TEST OBJET")
+			return [null,"L'ID '$ID' n'existe pas, impossible de créer le TEST OBJET"]
 		}
-		MYLOG.addDEBUG("makeTO( $ID, Map  binding = [:])" + Tools.parseMap(binding))
+		MYLOG.addDEBUG("makeTO( $ID, Map  binding = [:])" + binding.toString())
 		TestObject to = new TestObject(ID)
 		to.setSelectorMethod(SelectorMethod.XPATH)
 		String xpath = this.xpathTO.getAt(ID)
@@ -365,11 +365,11 @@ public class JDD {
 						xpath = NAV.myGlobalJDD.xpathTO['TABSELECTED']
 						break
 					default:
-						MYLOG.addERROR("makeTO $ID, xpath avec "+'$'+" mot clé inconnu : $xpath")
+						return [null,"makeTO $ID, xpath avec "+'$'+" mot clé inconnu : $xpath"]
 				}
 
 			}else {
-				MYLOG.addERROR("makeTO $ID, xpath avec "+'$'+" non conforme : $xpath")
+				return [null,"makeTO $ID, xpath avec "+'$'+" non conforme : $xpath"]
 			}
 
 		}
@@ -404,7 +404,7 @@ public class JDD {
 		}
 		MYLOG.addDEBUG('getObjectId : ' + to.getObjectId())
 		MYLOG.addDEBUG('get(SelectorMethod.XPATH) : ' + to.getSelectorCollection().get(SelectorMethod.XPATH))
-		return to
+		return [to,'']
 	}
 
 
@@ -463,7 +463,7 @@ public class JDD {
 	}
 
 
-	public String getParamForThisName(String param, String name) {
+	def String getParamForThisName(String param, String name) {
 		String ret = null
 		if (this.getParam(param) != null) {
 			if (this.headers.contains(name)) { /// verifier si pas dans headers
@@ -479,7 +479,7 @@ public class JDD {
 
 
 
-	public String getSqlForForeignKey(String name) {
+	def String getSqlForForeignKey(String name) {
 
 		def sql = this.getParamForThisName('FOREIGNKEY', name).toString().split(/\*/)
 
@@ -493,7 +493,7 @@ public class JDD {
 
 
 
-	public readSEQUENCID() {
+	def readSEQUENCID() {
 		int dataLineNum = this.getDataLineNum()
 		this.datas[dataLineNum].eachWithIndex { val,i ->
 			if (my.JDDKW.isSEQUENCEID(val)) {
@@ -504,7 +504,7 @@ public class JDD {
 	}
 
 
-	public replaceSEQUENCIDInJDD() {
+	def replaceSEQUENCIDInJDD() {
 		int dataLineNum = this.getDataLineNum()
 		this.datas[dataLineNum].eachWithIndex { val,i ->
 			if (my.JDDKW.isSEQUENCEID(val)) {

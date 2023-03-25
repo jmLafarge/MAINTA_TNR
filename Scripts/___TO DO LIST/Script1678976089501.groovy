@@ -7,7 +7,10 @@
  * -----------------------------------------------------------------------------------------------------
  * 
 
-Clean (my.Log) import my.Log as MYLOG and replace all my.log by MYLOG
+Add TC AD.SEC + update
+
+retour erreur sur makTO
+
 
  * 
  * -----------------------------------------------------------------------------------------------------
@@ -22,14 +25,17 @@ Clean (my.Log) import my.Log as MYLOG and replace all my.log by MYLOG
  * EN COURS
  * -----------------------------------------------------------------------------------------------------
  *
+	Ajouter le $NU dans les docs
+	
+	fermer session --> mettre une question dans le doc pour savoir s'il faut un ctrl en BDD et quoi 
+	
+	utiliser le sequencer avec test suite
 
-
-
+ 
+ Voir si on prut trouver le type de navigateur dans le run (pour headless surtout)
  
 AJOUTER un ctrl prerequis 
 il faut pour tous les JDD "CDT + les PK" dans le PREJDD correspondant SAUF pour CRE et SRA
- 
- 
  
  
 		
@@ -43,8 +49,13 @@ il faut pour tous les JDD "CDT + les PK" dans le PREJDD correspondant SAUF pour 
  * EVOLUTION
  * -----------------------------------------------------------------------------------------------------
  * 
-	
-	
+	takeScreenshot --> A TESTER
+		gReportPathway = ".\\Reports\\Screenshots\\RT 030 RPCS\\"
+		WebUI.takeScreenshot(gReportPathway + "msg1.png")
+
+	JDD
+		créer une class pour makeTO ?
+
 	XLS
 		ajouter un controle sur open file
 		Verifier si XLS.open est poertinant ! car il faut normalement fermer la connexion

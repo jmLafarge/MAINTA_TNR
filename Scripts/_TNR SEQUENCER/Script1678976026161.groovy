@@ -21,9 +21,12 @@ Sequencer.testCasesList.each { TCMap ->
 		
 		MYLOG.addStartTestCase(GlobalVariable.CASDETESTENCOURS)
 		
+		//WebUI.callTestCase(findTestCase(TCMap.TCFULLNAME), [:], FailureHandling.OPTIONAL)
+		
+
 		try {
 			WebUI.callTestCase(findTestCase(TCMap.TCFULLNAME), [:], FailureHandling.STOP_ON_FAILURE)
-		 
+
 		} catch (StepErrorException  ex) {
 			MYLOG.addERROR("Erreur d'exécution du TestCase")
 			MYLOG.addDETAIL(ex.getMessage())
@@ -37,6 +40,7 @@ Sequencer.testCasesList.each { TCMap ->
 			MYLOG.addERROR("KatalonRuntimeException")
 			MYLOG.addDETAIL(ke.getMessage())
 		}
+
 		
 		MYLOG.addEndTestCase()
 	}	

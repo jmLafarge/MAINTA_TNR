@@ -8,7 +8,7 @@ import my.JDDGenerator
 
 
 
-JDDGenerator.add('CMP','RO.CCO')
+JDDGenerator.add('UTILOG','AD.SEC')
 
 
 

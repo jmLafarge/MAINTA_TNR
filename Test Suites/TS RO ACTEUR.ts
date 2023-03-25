@@ -15,7 +15,7 @@
       <guid>eaf570f6-bfdc-43c1-a938-67b62f04b40a</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/AD ADMINISTRATION/AD.SEC SECURITE/AD.SEC.001.FON.01 Ouvrir session</testCaseId>
+      <testCaseId>Test Cases/AD ADMINISTRATION/AD.SEC SECURITE/AD.SEC.001.FON.01 Ouvrir session - mot de passe valide</testCaseId>
       <usingDataBindingAtTestSuiteLevel>true</usingDataBindingAtTestSuiteLevel>
    </testCaseLink>
    <testCaseLink>
@@ -148,7 +148,7 @@
       <guid>89f3ed66-62fd-4cd0-8615-1a51ca613e8b</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/AD ADMINISTRATION/AD.SEC SECURITE/AD.SEC.002.FON.01 Fermer session</testCaseId>
+      <testCaseId>Test Cases/AD ADMINISTRATION/AD.SEC SECURITE/AD.SEC.014.FON.01 Fermer session</testCaseId>
       <usingDataBindingAtTestSuiteLevel>true</usingDataBindingAtTestSuiteLevel>
    </testCaseLink>
 </TestSuiteEntity>

@@ -1,5 +1,6 @@
 import com.kms.katalon.core.model.FailureHandling
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
+import com.kms.katalon.core.webui.keyword.internal.WebUIAbstractKeyword
 
 import internal.GlobalVariable
 import my.KW
@@ -12,10 +13,10 @@ def myJDD = new my.JDD()
 'Si il y a un test case'
 if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
-	if (WebUI.waitForElementPresent(myJDD.makeTO('frame_Main'), 1, FailureHandling.OPTIONAL)) {
+	if (KW.isElementPresent(myJDD,'frame_Main', GlobalVariable.TIMEOUT)) {
 		
-		WebUI.switchToFrame(myJDD.makeTO('frame_Main'), GlobalVariable.TIMEOUT)
-		
+		KW.switchToFrame(myJDD,'frame_Main')
+
 	    WebUI.scrollToPosition(0, 0)
 	    KW.delay(1)
 
@@ -24,17 +25,23 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		WebUI.switchToDefaultContent()
 		
 	} else {
+		// y a pas de frame_main quand on appelle les url en direct ! 
+		
 		WebUI.scrollToPosition(0, 0)
 	    KW.delay(1)
 	
 	    KW.click(myJDD,'icon_Logout')
+
 	}
 	
-	if (!WebUI.waitForElementPresent(myJDD.makeTO('in_passw'), GlobalVariable.TIMEOUT)) {
+	if (KW.waitForElementVisible(myJDD,'in_passw', GlobalVariable.TIMEOUT)) {
 		
-		MYLOG.addSTEPFAIL("Erreur de déconnexion la page de connexion n'est pas présente" )
+		MYLOG.addSTEP("Déconnexion OK",null)
+		
+		// il manque le ctrl en BDD car on ne sais pas quoi tester ?
+		
 	}else {
-		MYLOG.addSTEPPASS("Déconnexion OK")
+		MYLOG.addSTEP("Déconnexion KO",null )
 	}
 	
 	KW.closeBrowser()

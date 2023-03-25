@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestCaseEntity>
    <description></description>
-   <name>AD.SEC.002.FON.01 Fermer session</name>
+   <name>AD.SEC.001.FON.01 Ouvrir session - mot de passe valide</name>
    <tag></tag>
    <comment></comment>
-   <testCaseGuid>b4533c31-0158-4866-938e-cb8822476e39</testCaseGuid>
+   <testCaseGuid>e0c31f2a-889d-481e-813e-f17a51dffd96</testCaseGuid>
 </TestCaseEntity>

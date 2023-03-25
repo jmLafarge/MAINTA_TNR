@@ -1,4 +1,5 @@
 import com.kms.katalon.core.annotation.AfterTestCase
+import com.kms.katalon.core.annotation.AfterTestSuite
 import com.kms.katalon.core.annotation.BeforeTestCase
 import com.kms.katalon.core.annotation.BeforeTestSuite
 import com.kms.katalon.core.context.TestCaseContext
@@ -7,9 +8,12 @@ import com.kms.katalon.core.context.TestSuiteContext
 import internal.GlobalVariable
 import my.Log as MYLOG
 import my.NAV as NAV
+import my.Tools
+import my.Result
 
 class TestListener {
 	
+	boolean testSuite=false
 	/**
 	 * Executes before every test suite starts.
 	 * @param testSuiteContext: related information of the executed test suite.
@@ -17,7 +21,20 @@ class TestListener {
 	@BeforeTestSuite
 	def beforeTestSuite(TestSuiteContext testSuiteContext) {
 		
+		this.testSuite=true
+
 		MYLOG.addTITLE('Lancement de ' + testSuiteContext.getTestSuiteId())
+
+		if (my.InfoBDD.map.isEmpty()) { my.InfoBDD.load() }
+		if (my.TCFiles.TCfileMap.isEmpty()) { my.TCFiles.load() }
+		if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
+		if (my.Sequencer.testCasesList.isEmpty()) { my.Sequencer.load() }
+		
+		Result.addStartInfo(testSuiteContext.getTestSuiteId())
+
+		Tools.addInfoContext()
+		
+		if (NAV.myGlobalJDD == null) { NAV.loadJDDGLOBAL() }
 
 
 	}
@@ -47,18 +64,34 @@ class TestListener {
 			
 			MYLOG.addTITLE("Lancement de $TCName")
 			
-			my.Result.addStartInfo()
+			my.Result.addStartInfo('TNR SEQUENCER')
 			
-			MYLOG.addSUBSTEP('INFO CONTEXTE')
-			MYLOG.addDETAIL("Nom de l'OS".padRight(26) + System.getProperty("os.name"))
-			MYLOG.addDETAIL("Version de l'OS".padRight(26) + System.getProperty("os.version"))
-			MYLOG.addDETAIL("Architecture de l'OS".padRight(26) + System.getProperty("os.arch"))
-			MYLOG.addDETAIL("Version de MAINTA".padRight(26) + my.SQL.getMaintaVersion())
-			MYLOG.addDETAIL("Base de donnée".padRight(26) + GlobalVariable.BDD_URL)
-			MYLOG.addINFO('')
+			Tools.addInfoContext()
 			
 			if (NAV.myGlobalJDD == null) { NAV.loadJDDGLOBAL() }
 	
+		}else if (TCName == '__JDD GENERATOR'){
+			
+			my.Log.addTITLE("Lancement de $TCName")
+			if (my.InfoBDD.map.isEmpty()) { my.InfoBDD.load() }
+			//if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
+			//if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
+			
+		}else if (TCName == '_CHECK PREREQUIS'){
+			
+			my.Log.addTITLE("Lancement de $TCName")
+			if (my.InfoBDD.map.isEmpty()) { my.InfoBDD.load() }
+			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
+			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
+			
+		}else if (TCName == '_CREATE PREJDD IN DB'){
+			
+			my.Log.addTITLE("Lancement de $TCName")
+			if (my.InfoBDD.map.isEmpty()) { my.InfoBDD.load() }
+			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
+			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
+			
+			
 		}else if (testCaseContext.getTestCaseId().contains('ZZTEST UNITAIRE')) {
 			
 			MYLOG.addTITLE("Lancement du test $TCName")
@@ -68,18 +101,21 @@ class TestListener {
 			TCName = (TCName.contains(' ')) ? TCName.split(' ')[0] : TCName
 			
 			MYLOG.addDEBUG("TCName after split(' ')[0] : " + TCName)
-			if (my.InfoBDD.map.isEmpty()) { my.InfoBDD.load() }
-			if (my.TCFiles.TCfileMap.isEmpty()) { my.TCFiles.load() }
-			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
-			if (my.Sequencer.testCasesList.isEmpty()) { my.Sequencer.load() }
-			if (NAV.myGlobalJDD == null) { NAV.loadJDDGLOBAL() }
+
 			
 			
 			GlobalVariable.CASDETESTENCOURS = TCName
+			
+
+			
+			MYLOG.addStartTestCase(GlobalVariable.CASDETESTENCOURS)
 		}
 
 	}
 
+	
+	
+	
 	
 	
 	/**
@@ -90,10 +126,32 @@ class TestListener {
 	def afterTestCase(TestCaseContext testCaseContext) {
 		
 		MYLOG.addDEBUG('afterTestCase : ' + testCaseContext.getTestCaseStatus())
-		MYLOG.addINFO('')
-		MYLOG.addINFO('************  FIN  du test : ' + testCaseContext.getTestCaseId().split('/')[-1] +' ************')
+		
+		if (testSuite) {
+			MYLOG.addEndTestCase()
+		}else {
+			MYLOG.addINFO('')
+			MYLOG.addINFO('************  FIN  du test : ' + testCaseContext.getTestCaseId().split('/')[-1] +' ************')
+		}
 	}
 
-
+	
+	
+	
+	
+	
+	/**
+	 * Executes after every test suite ends.
+	 * @param testSuiteContext: related information of the executed test suite.
+	 */
+	@AfterTestSuite
+	def sampleAfterTestSuite(TestSuiteContext testSuiteContext) {
+		println testSuiteContext.getTestSuiteId()
+		
+		Result.addEndInfo()
+		
+		MYLOG.addINFO('')
+		MYLOG.addINFO('************  FIN  de : ' + testSuiteContext.getTestSuiteId() +' ************')
+	}
 
 }

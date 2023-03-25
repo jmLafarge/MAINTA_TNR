@@ -15,7 +15,7 @@ import internal.GlobalVariable as GlobalVariable
 
 'A supprimer : pour tester seul'
 if (GlobalVariable.TC_CONNEXION) {
-    WebUI.callTestCase(findTestCase('AD ADMINISTRATION/AD.SEC SECURITE/AD.SEC.001.FON.01 Ouvrir session'), [:])
+    WebUI.callTestCase(findTestCase('AD ADMINISTRATION/AD.SEC SECURITE/AD.SEC.001.FON.01 Ouvrir session - mot de passe valide'), [:])
 }
 
 /*------------------------------------------------
@@ -154,6 +154,6 @@ if (JDD_list.size() > 0) {
 
 'A supprimer : pour tester seul'
 if (GlobalVariable.TC_CONNEXION) {
-    WebUI.callTestCase(findTestCase('AD ADMINISTRATION/AD.SEC SECURITE/AD.SEC.002.FON.01 Fermer session'), [:])
+    WebUI.callTestCase(findTestCase('AD ADMINISTRATION/AD.SEC SECURITE/AD.SEC.014.FON.01 Fermer session'), [:])
 }
 

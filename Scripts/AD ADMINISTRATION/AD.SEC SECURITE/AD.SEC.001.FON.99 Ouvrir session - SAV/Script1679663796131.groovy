@@ -17,22 +17,27 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 
 	KW.maximizeWindow()
 	
-	//KW.setText(myJDD.makeTO('in_user'), myJDD.getData('in_user'))
-	KW.setText(myJDD,'in_user')
+	KW.scrollAndSetText(myJDD,'in_user')
 	
 	KW.setEncryptedText(myJDD,'in_passw')
 
 	KW.click(myJDD,'button_Connexion')
 	
-	if (WebUI.verifyElementPresent(myJDD.makeTO('frame_Main'), GlobalVariable.TIMEOUT,FailureHandling.OPTIONAL)) {
+	//if (WebUI.verifyElementPresent(myJDD.makeTO('frame_Main'), GlobalVariable.TIMEOUT,FailureHandling.OPTIONAL)) {
 	
+	if (KW.verifyElementPresent(myJDD,'frame_Main', GlobalVariable.TIMEOUT,null)) {
+			
 		MYLOG.addSTEPPASS("Connexion OK")
 		
-	}else if (WebUI.verifyElementPresent(myJDD.makeTO('input_Oui'), GlobalVariable.TIMEOUT,FailureHandling.OPTIONAL)) {
+	//}else if (WebUI.verifyElementPresent(myJDD.makeTO('input_Oui'), GlobalVariable.TIMEOUT,FailureHandling.OPTIONAL)) {
+		
+	}else if (KW.verifyElementPresent(myJDD,'input_Oui', GlobalVariable.TIMEOUT,null)) {
 		
 		    KW.click(myJDD,'input_Oui')
 			
-			if (WebUI.verifyElementPresent(myJDD.makeTO('frame_Main'), GlobalVariable.TIMEOUT,FailureHandling.OPTIONAL)) {
+			//if (WebUI.verifyElementPresent(myJDD.makeTO('frame_Main'), GlobalVariable.TIMEOUT,FailureHandling.OPTIONAL)) {
+				
+			if (KW.verifyElementPresent(myJDD,'frame_Main', GlobalVariable.TIMEOUT,null)) {
 				
 				MYLOG.addSTEPPASS("Reconnexion OK")
 			}else {
@@ -42,7 +47,8 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 			
 	} else {
 		
-		MYLOG.addERROR("Erreur de connexion")
+		MYLOG.addSTEPFAIL("Connexion KO")
+		
 	}
 
 }

@@ -33,7 +33,7 @@ def doubleClickUsingJS(TestObject to, int timeout) {
 
 'pour tester seul --> à supprimer'
 if (GlobalVariable.TC_CONNEXION) {
-	WebUI.callTestCase(findTestCase('AD ADMINISTRATION/AD.SEC SECURITE/AD.SEC.001.FON.01 Ouvrir session'), [:])
+	WebUI.callTestCase(findTestCase('AD ADMINISTRATION/AD.SEC SECURITE/AD.SEC.001.FON.01 Ouvrir session - mot de passe valide'), [:])
 }
 
 CustomKeywords.'NAV.goToURL_RUD_and_checkCartridge'('acteur', 'RO.ACT.003.HAB.AJT.01')

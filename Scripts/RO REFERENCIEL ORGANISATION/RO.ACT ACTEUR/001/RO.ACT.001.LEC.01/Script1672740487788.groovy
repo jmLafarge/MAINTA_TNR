@@ -1,6 +1,9 @@
+import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
+
+import internal.GlobalVariable
 import my.KW
-import my.NAV as NAV
 import my.Log as MYLOG
+import my.NAV
 
 'Lecture du JDD'
 def myJDD = new my.JDD()
@@ -19,11 +22,11 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		
 		'Vérification de l\'onglet'
 		KW.waitForElementVisible(myJDD,'a_ActeurSelected')
-	
+
 		'Début de lecture des valeurs du JDD'
 	
 		KW.verifyOptionSelectedByValue(myJDD,'ST_ETA')
-		
+	
 		KW.verifyElementCheckedOrNot(myJDD,'ST_INA','O')
 		
 	    KW.verifyValue(myJDD,'ID_CODINT')
@@ -131,7 +134,6 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		}else {
 			KW.verifyValue(myJDD,'ID_NUMZON', '')
 		}
-
 
 }
 
