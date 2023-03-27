@@ -6,15 +6,7 @@
  * FAIT
  * -----------------------------------------------------------------------------------------------------
  * 
-update TAG GLOBAL mot clé dyn
-
-Renommage des TAG pour REC
-button_Valider et button_Supprimer dans GLOBAL --> maj des TC CRE MAJ SUP de FOU et ZZ TEMPLATE (ACT garde le spécifique car pas le mm ID)
-a_Resultat_ID dans GLOBAL --> maj des TC CRE et MAJ  de FOU ACT+ACT.FON et ZZ TEMPLATE 
-input_Filtre_Grille dans GLOBAL --> créer mot clé FILTREGRILLE --> modifier REC
-nbrecordsGRID dans GLOBAL --> modifier REC
-td_Grille dans GLOBAL --> créer mot clé dynamique TDGRILLE
-Ajout le $NU dans les docs JDD Lisez moi et ORGANISATION DES JDD DE REFERENCE POUR TNR
+update TAG GLOBAL mot cle dyn
 
 
  * 
