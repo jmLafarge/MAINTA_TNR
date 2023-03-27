@@ -42,7 +42,7 @@ public class InfoPARA {
 
 		Row row = this.shPara.getRow(0)
 		if (row==null) {
-			MYLOG.addDEBUG("\tCréer la premiere ligne ")
+			MYLOG.addDEBUG("Créer la premiere ligne ")
 			row =this.shPara.createRow(0)
 		}
 
@@ -67,7 +67,7 @@ public class InfoPARA {
 			this.paraMap.putAt(my.XLS.getCellValue(row.getCell(0)),my.XLS.loadRow2(row,0,10,null))
 		}
 
-		MYLOG.addDEBUG("\tthis.paraMap.size= " + this.paraMap.size())
+		MYLOG.addDEBUG("this.paraMap.size= " + this.paraMap.size())
 
 		//my.Tools.parseMap(this.paraMap)
 	}
@@ -81,9 +81,10 @@ public class InfoPARA {
 		for (para in ['PREREQUIS', 'FOREIGNKEY', 'SEQUENCE', 'LOCATOR']) {
 
 			String valPara = myJDD.getParamForThisName(para, col)
-			MYLOG.addDEBUG("\tvalPara $valPara")
+			
 			if (valPara) {
-				MYLOG.addDEBUG("\t$para pour '$col' : $valPara")
+				
+				MYLOG.addDEBUG("\t$para = $valPara")
 
 				if (!this.paraMap.containsKey(col)) {
 
@@ -103,11 +104,11 @@ public class InfoPARA {
 
 					this.updatePara(para,col,icol,valPara,where)
 
-					MYLOG.addDEBUG("\t\tTrouvé dans $where --> $fullName table : " + myJDD.getDBTableName())
-					MYLOG.addDEBUG("\t\t" + this.paraMap[col][icol] +" ajouté dans $col")
-					MYLOG.addDEBUG("\t\t" + this.paraMap[col][icol+1] +" ajouté dans $col")
+					MYLOG.addDEBUG("\tTrouvé dans $where --> $fullName table : " + myJDD.getDBTableName())
+					MYLOG.addDEBUG('\t' +this.paraMap[col][icol] +" ajouté dans $col")
+					MYLOG.addDEBUG('\t' + this.paraMap[col][icol+1] +" ajouté dans $col")
 				}else if (this.paraMap[col][icol]!=valPara) {
-					MYLOG.addDETAILWARNING("$para pour '$col'($icol) : $valPara différent de la valeur enregistrée " + this.paraMap[col][icol])
+					MYLOG.addDETAILWARNING("\t$para pour '$col'($icol) : $valPara différent de la valeur enregistrée " + this.paraMap[col][icol])
 				}else if(this.paraMap[col][icol+1].contains(where)) {
 					MYLOG.addDEBUG("\t$para $valPara pour '$col' et $where existe déjà")
 				}else {
@@ -149,11 +150,13 @@ public class InfoPARA {
 
 			if (my.XLS.getCellValue(row.getCell(0))==col) {
 				if (my.XLS.getCellValue(row.getCell(icol))==valPara) {
-					MYLOG.addDETAIL("\t$para, ajout du JDD '$where' pour $col")
+					//MYLOG.addDETAIL("$para, ajout du JDD '$where' pour $col")
+					MYLOG.addDETAIL("$col : ajout du JDD '$where'")
 					my.XLS.writeCell(row, icol+1,this.paraMap[col][icol+1])
 					break
 				}else {
-					MYLOG.addDETAIL("\tAjout du $para '$valPara' et JDD '$where' pour $col")
+					//MYLOG.addDETAIL("Ajout du $para '$valPara' et JDD '$where' pour $col")
+					MYLOG.addDETAIL("$col : ajout du $para '$valPara' et du JDD '$where'")
 					my.XLS.writeCell(row, icol,valPara,this.paraStyle)
 					my.XLS.writeCell(row, icol+1,this.paraMap[col][icol+1],this.whereStyle)
 					break

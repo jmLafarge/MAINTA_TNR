@@ -13,7 +13,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	NAV.goToURL_Grille_and_checkCartridge()
 	
 	'Début de sasie des valeurs du JDD dans l\'écran'
-	KW.scrollAndSetText(myJDD,'input_Filtre', myJDD.getData('ID_CODMOY'))
+	KW.scrollAndSetText(myJDD,'input_Filtre_Grille', myJDD.getData('ID_CODMOY'))
 
 	'Attendre le filtrage du tableau'
 	KW.delay(1)

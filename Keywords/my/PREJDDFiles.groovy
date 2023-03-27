@@ -141,7 +141,7 @@ public class PREJDDFiles {
 			fileSQL.append("$req\n")
 		}
 
-		my.Tools.parseMap(sequence)
+		//my.Tools.parseMap(sequence)
 		if (sequence.size()>0) {
 			sequence.each { table, val ->
 				String req = "DBCC CHECKIDENT ($table, RESEED,$val);"

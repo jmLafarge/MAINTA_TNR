@@ -74,8 +74,8 @@ class TestListener {
 			
 			my.Log.addTITLE("Lancement de $TCName")
 			if (my.InfoBDD.map.isEmpty()) { my.InfoBDD.load() }
-			//if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
-			//if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
+			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
+			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
 			
 		}else if (TCName == '_CHECK PREREQUIS'){
 			
@@ -91,6 +91,11 @@ class TestListener {
 			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
 			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
 			
+		}else if (TCName == '_FILL INFOPARA'){
+			
+			my.Log.addTITLE("Lancement de $TCName")
+			if (my.InfoBDD.map.isEmpty()) { my.InfoBDD.load() }
+			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
 			
 		}else if (testCaseContext.getTestCaseId().contains('ZZTEST UNITAIRE')) {
 			
@@ -146,8 +151,7 @@ class TestListener {
 	 */
 	@AfterTestSuite
 	def sampleAfterTestSuite(TestSuiteContext testSuiteContext) {
-		println testSuiteContext.getTestSuiteId()
-		
+				
 		Result.addEndInfo()
 		
 		MYLOG.addINFO('')

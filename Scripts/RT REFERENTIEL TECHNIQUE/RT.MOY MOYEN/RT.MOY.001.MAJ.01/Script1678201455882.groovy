@@ -12,26 +12,20 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getData('ID_CODMOY'))
 	
 	
-	KW.scrollAndSetText(myJDD,'ST_DES')
-	
-	KW.scrollAndSetText(myJDD,'ST_GRO')
-	
-	KW.searchWithHelper(myJDD,'ID_CODCAT',"//a[@title='Rechercher']/i")
-	
-	KW.scrollAndSetText(myJDD,'NU_COUHOR')
+		KW.scrollAndSetText(myJDD,'ST_DES')
+		KW.scrollAndSetText(myJDD,'ST_GRO')
+		KW.searchWithHelper(myJDD,'ID_CODCAT',"//a[@title='Rechercher']/i")
+		KW.scrollAndSetText(myJDD,'NU_COUHOR')
 	
 	
 	MYLOG.addSTEPGRP('VALIDATION')
-	
-	'Validation de la saisie'
-	KW.scrollAndClick(myJDD,'button_Valider')
-	
-	'Vérification du test case - écran résulat'
-	//NAV.verifierEcranResultat()
-		
-	KW.verifyElementText(NAV.myGlobalJDD,'span_Selection', myJDD.getStrData('ID_CODMOY'))
-	
-	'Vérification des valeurs en BD'
-	my.SQL.checkJDDWithBD(myJDD)
+
+		KW.scrollAndClick(myJDD,'button_Valider')
+
+		//NAV.verifierEcranResultat()
+			
+		KW.verifyElementText(NAV.myGlobalJDD,'span_Selection', myJDD.getStrData('ID_CODMOY'))
+
+		my.SQL.checkJDDWithBD(myJDD)
 
 } // fin du if

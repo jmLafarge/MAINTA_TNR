@@ -15,71 +15,41 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 	MYLOG.addSTEPGRP('ONGLET ACTEUR')
 
-		'Clic sur le bon onglet'
 		KW.scrollAndClick(myJDD,'a_Acteur')
-		
-		'Vérification de l\'onglet'
 		KW.waitForElementVisible(myJDD,'a_ActeurSelected')
 	
-		'Début de sasie des valeurs du JDD'
-	
 		KW.scrollAndSelectOptionByValue(myJDD,'ST_ETA')
-
 		KW.scrollAndCheckIfNeeded(myJDD,'ST_INA','O')
-		
 	    KW.scrollAndSetText(myJDD,'ID_CODINT')
-	
 	    KW.scrollAndSetText(myJDD,'ST_NOM')
-	
 	    KW.scrollAndSetText(myJDD,'ST_PRE')
-	
 	    KW.scrollAndSetText(myJDD,'ST_MAIL')
-	
 	    KW.scrollAndSetText(myJDD,'ST_TELPHO')
-	
 	    KW.scrollAndSetText(myJDD,'ST_TELMOB')
-	
 	    KW.scrollAndSetText(myJDD,'ST_TELCOP')
-	
 		KW.scrollAndSetText(myJDD,'ID_CODGES')
-		
 		KW.scrollAndCheckIfNeeded(myJDD,'ST_GRP','O')
 
 	
 	MYLOG.addSTEPGRP('ONGLET AFFECTATION')
 		
-		'Clic sur le bon onglet'
 		KW.scrollAndClick(myJDD,'a_Affectation')
-		
-		'Vérification de l\'onglet'
 		KW.waitForElementVisible(myJDD,'a_AffectationSelected')
 		
-		'Début de sasie des valeurs du JDD'
 		KW.scrollAndSetText(myJDD,'ID_CODGESAFF')
-	
 		KW.scrollAndSetText(myJDD,'ST_MAT')
-	
 		KW.scrollAndSetText(myJDD,'ST_FAM')
-		
 		KW.scrollAndSetText(myJDD,'ST_GRO')
-		
 		KW.scrollAndSetText(myJDD,'ST_DES')
-		
 		KW.scrollAndSetText(myJDD,'ID_CODCAT')
-		
 		KW.scrollAndSetText(myJDD,'NU_COUHOR')
 		
 	
 	MYLOG.addSTEPGRP('ONGLET ROLE')
 	
-			
-		'Clic sur le bon onglet'
 		KW.scrollAndClick(myJDD,'a_Role')
-		
-		'Vérification de l\'onglet'
 		KW.waitForElementVisible(myJDD,'a_RoleSelected')
-		
-		'Début de sasie des valeurs du JDD'
+
 		KW.scrollAndCheckIfNeeded(myJDD,'ST_GES','O')
 		KW.scrollAndCheckIfNeeded(myJDD,'ST_EXP','O')
 		KW.scrollAndCheckIfNeeded(myJDD,'ST_MAI','O')
@@ -98,29 +68,19 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 	MYLOG.addSTEPGRP('ONGLET PREVENTIF')
 		
-		'Clic sur le bon onglet'
 		KW.scrollAndClick(myJDD,'a_Preventif')
-		
-		'Vérification de l\'onglet'
 		KW.waitForElementVisible(myJDD,'a_PreventifSelected')
 		
-		'Début de sasie des valeurs du JDD'
 		KW.scrollAndCheckIfNeeded(myJDD,'ST_PRIPRE','O')
-		
 		KW.scrollAndSetText(myJDD,'NU_TAUPRE')
-		
 		KW.scrollAndSetText(myJDD,'ID_CODCAL')
 		
 		
 	MYLOG.addSTEPGRP('ONGLET ZONE')
 	
-		'Clic sur le bon onglet'
 		KW.scrollAndClick(myJDD,'a_Zone')
-		
-		'Vérification de l\'onglet'
 		KW.waitForElementVisible(myJDD,'a_ZoneSelected')
 		
-		'Début de sasie des valeurs du JDD'
 		Map specificValueMap = [:]
 		if (myJDD.getData('ID_NUMZON')!=0) {
 			KW.scrollAndSetText(myJDD,'ID_NUMZON')
@@ -131,16 +91,13 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 			
 	MYLOG.addSTEPGRP('VALIDATION')
 		
-    'Validation de la saisie'
-    KW.scrollAndClick(myJDD,'button_Valider')
-
-    'Vérification du test case - écran résulat'
-    NAV.verifierEcranResultat()
-		
-    KW.verifyElementText(myJDD,'a_Resultat_ID', myJDD.getStrData('ID_CODINT'))
+	    KW.scrollAndClick(myJDD,'button_Valider')
 	
-	'Vérification des valeurs en BD'
-	my.SQL.checkJDDWithBD(myJDD,specificValueMap)
+	    NAV.verifierEcranResultat()
+			
+	    KW.verifyElementText(NAV.myGlobalJDD,'a_Resultat_ID', myJDD.getStrData('ID_CODINT'))
+		
+		my.SQL.checkJDDWithBD(myJDD,specificValueMap)
 
 } // fin du if
 

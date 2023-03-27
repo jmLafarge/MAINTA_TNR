@@ -11,7 +11,7 @@ InfoPARA.load()
 
 JDDFiles.JDDfilemap.each { modObj,fullName ->
 
-
+	MYLOG.addINFO("")
 	def myJDD = new my.JDD(fullName)
 	for(Sheet sheet: myJDD.book) {
 		if (!(sheet.getSheetName() in myJDD.SKIP_LIST_SHEETNAME)) {
@@ -23,9 +23,9 @@ JDDFiles.JDDfilemap.each { modObj,fullName ->
 				myJDD.loadTCSheet(sheet)
 	
 				for (col in myJDD.headers.drop(1)) {
-	
+					MYLOG.addDEBUG("Traitement $col")
 					InfoPARA.update(myJDD, col,fullName, modObj+'.'+sheet.getSheetName())
-					//MYLOG.addDETAIL(col)
+					
 	
 				}
 			}

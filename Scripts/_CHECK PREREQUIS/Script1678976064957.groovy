@@ -3,9 +3,9 @@ import checkprerequis.*
 import groovy.util.logging.Log4j2
 
 
-//CheckJDD.run()
+CheckJDD.run()
 
-//CheckPREJDD.run()
+CheckPREJDD.run()
 
 CheckPrerequis.run()
 

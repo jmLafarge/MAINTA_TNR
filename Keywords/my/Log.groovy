@@ -25,13 +25,17 @@ class Log {
 	private static String TCName = ''
 
 	private static Date start
-
-	private static String PRESTEPTXT 	= '            STEP : '
-	private static String PRESUBSTEPTXT	= '                   '
-	private static String PREDETAILTXT	= '                   - '
-
-
-
+/*
+	private static String PRESTEPTXT 	= '\t\t  STEP : '
+	private static String PRESUBSTEPTXT	= '\t\t\t    '
+	private static String PREDETAILTXT	= '\t\t\t    - '
+	private static String PREDEBUGTXT	= '\t\t\t\t  + '
+*/
+	private static String PRESTEPTXT 	= '\tSTEP : '
+	private static String PRESUBSTEPTXT	= '\t\t'
+	private static String PREDETAILTXT	= '\t\t- '
+	private static String PREDEBUGTXT	= '\t\t\t'
+	
 	private static File createFile(String txt){
 
 		String dateFile = new Date().format("yyyyMMdd_HHmmss")
@@ -65,11 +69,11 @@ class Log {
 
 
 	public static addDEBUG (String msg, int level=1) {
-		String stat= this.getStatFormat('DEBUG ' + level)
+		String stat= this.getStatFormat("  D $level  ")
 		String h = new Date().format(this.dateTimeFormat)
 		if (level <= this.debugLevel) {
-			this.fileDebug.append("[$h][$stat]:" + this.tab +"$msg\n")
-			println "[my Log][$stat]:" + this.tab +"$msg"
+			this.fileDebug.append("[$h][$stat]:" + this.PREDEBUGTXT + this.tab +"$msg\n")
+			//println "[my Log][$stat]:" + this.tab +"$msg"
 		}
 	}
 
@@ -155,12 +159,12 @@ class Log {
 
 
 	public static addSTEPGRP (String msg) {
-		this.addINFO('      '+ msg.padRight(80, '_'))
+		this.addINFO('\t'+ msg.padRight(80, '_'))
 	}
 
 
 	public static addSTEPLOOP (String msg) {
-		this.addINFO('            '+ msg.padRight(40, '.'))
+		this.addINFO('\t'+ msg.padRight(40, '.'))
 	}
 
 
@@ -199,7 +203,7 @@ class Log {
 		this.status.PASS = 0
 		this.status.ERROR = 0
 		this.addINFO('')
-		this.addINFO('START  TEST CASE : '+ testCaseName )
+		this.addINFO('START TEST CASE : '+ testCaseName )
 	}
 
 
@@ -209,13 +213,13 @@ class Log {
 		my.Result.addCasDeTest(this.TCName, this.status, this.start , stop)
 
 		if (this.status.ERROR !=0) {
-			this.addERROR('END    TEST CASE : ' + this.TCName.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
+			this.addERROR('END TEST CASE : ' + this.TCName.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
 		} else if (this.status.FAIL !=0) {
-			this.addFAIL('END    TEST CASE : ' + this.TCName.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
+			this.addFAIL('END TEST CASE : ' + this.TCName.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
 		} else if (this.status.WARNING !=0) {
-			this.addWARNING('END    TEST CASE : ' + this.TCName.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
+			this.addWARNING('END TEST CASE : ' + this.TCName.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
 		} else {
-			this.addPASS('END    TEST CASE : ' + this.TCName.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
+			this.addPASS('END TEST CASE : ' + this.TCName.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
 		}
 
 		this.TCName = ''

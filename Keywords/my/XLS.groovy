@@ -23,7 +23,7 @@ public class XLS {
 
 	static writeCell(Row row, int colIdx,def val,CellStyle cellStyle = null) {
 
-		MYLOG.addDEBUG("----- writeCell(${row.getRowNum()}, $colIdx,$val,${cellStyle.toString()}",2)
+		MYLOG.addDEBUG("\twriteCell(${row.getRowNum()}, $colIdx,$val,${cellStyle.toString()}",2)
 		if (row==null) {
 			MYLOG.addERROR("row is NULL")
 		}else {
@@ -39,7 +39,6 @@ public class XLS {
 				cell.setCellStyle(cellStyle)
 			}
 		}
-		MYLOG.addDEBUG("===== writeCell()",2)
 	}
 
 
@@ -173,6 +172,21 @@ public class XLS {
 
 
 
+	static int getLastColumnIndex(Sheet sheet, int numRow) {
+
+		int lastCellNum = sheet.getRow(numRow).getLastCellNum()
+		for (int i : (0..lastCellNum)) {
+			Cell cell = sheet.getRow(numRow).getCell(i)
+			if (!this.getCellValue(cell)) {
+				return i
+			}
+		}
+		return lastCellNum
+	}
+
+
+
+
 
 
 
@@ -183,7 +197,6 @@ public class XLS {
 	 * @return
 	 */
 	static int getRowNumOfFirstCellFree(Sheet sheet, int col=0) {
-		MYLOG.addDEBUG("-----getRowNumOfFirstCellFree(${sheet.getSheetName()},$col)")
 
 		int num = -1
 		for (int numLine : (0..sheet.getLastRowNum())) {
@@ -200,7 +213,7 @@ public class XLS {
 		if (num==-1) {
 			MYLOG.addERROR("getRowNumOfFirstCellFree of "+sheet.getSheetName()+" : $num")
 		}else {
-			MYLOG.addDEBUG("=====getRowNumOfFirstCellFree of "+sheet.getSheetName()+" : $num")
+			MYLOG.addDEBUG("getRowNumOfFirstCellFree of "+sheet.getSheetName()+" : $num",2)
 		}
 		return num
 	}

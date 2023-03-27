@@ -121,7 +121,7 @@ public class Result {
 
 
 	public static addStartInfo(String text) {
-		
+
 		my.XLS.writeCell(this.shRESUM.getRow(1),3,text)
 
 		this.startDate = new Date()

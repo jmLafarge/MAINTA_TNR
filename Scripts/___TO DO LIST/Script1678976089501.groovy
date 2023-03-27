@@ -6,10 +6,15 @@
  * FAIT
  * -----------------------------------------------------------------------------------------------------
  * 
+update TAG GLOBAL mot clé dyn
 
-Add TC AD.SEC + update
-
-retour erreur sur makTO
+Renommage des TAG pour REC
+button_Valider et button_Supprimer dans GLOBAL --> maj des TC CRE MAJ SUP de FOU et ZZ TEMPLATE (ACT garde le spécifique car pas le mm ID)
+a_Resultat_ID dans GLOBAL --> maj des TC CRE et MAJ  de FOU ACT+ACT.FON et ZZ TEMPLATE 
+input_Filtre_Grille dans GLOBAL --> créer mot clé FILTREGRILLE --> modifier REC
+nbrecordsGRID dans GLOBAL --> modifier REC
+td_Grille dans GLOBAL --> créer mot clé dynamique TDGRILLE
+Ajout le $NU dans les docs JDD Lisez moi et ORGANISATION DES JDD DE REFERENCE POUR TNR
 
 
  * 
@@ -25,14 +30,19 @@ retour erreur sur makTO
  * EN COURS
  * -----------------------------------------------------------------------------------------------------
  *
-	Ajouter le $NU dans les docs
+	Pour les NAV.goToURL_RUD_and_checkCartridge inclure la recherche de la PK par défaut --> pour standardiser
+		et laisser la possibilité de mettre une autre valeur
 	
-	fermer session --> mettre une question dans le doc pour savoir s'il faut un ctrl en BDD et quoi 
+
+
+	JDDGenerator --> inclure la lecture du TCGenerator pour alimenter le LOCATOR du JDD
+	
+	
 	
 	utiliser le sequencer avec test suite
 
  
- Voir si on prut trouver le type de navigateur dans le run (pour headless surtout)
+ Voir si on peut trouver le type de navigateur dans le run (pour headless surtout)
  
 AJOUTER un ctrl prerequis 
 il faut pour tous les JDD "CDT + les PK" dans le PREJDD correspondant SAUF pour CRE et SRA

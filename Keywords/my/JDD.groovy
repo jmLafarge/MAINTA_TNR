@@ -88,18 +88,17 @@ public class JDD {
 					String tab = my.XLS.getCellValue(row.getCell(0))
 					String name = my.XLS.getCellValue(row.getCell(1))
 					String xpath = my.XLS.getCellValue(row.getCell(2))
-					MYLOG.addDEBUG("\t\ttab : $tab name : $name xpath : $xpath TCTabName =${this.TCTabName}",2)
+					MYLOG.addDEBUG("tab : $tab name : $name xpath : $xpath TCTabName =${this.TCTabName}",2)
 					if (tab == '') {
 						break
 					}else if (tab in [this.TCTabName, 'ALL']) {
-						MYLOG.addDEBUG("\t\tthis.xpathTO.put($name, $xpath)",2)
+						MYLOG.addDEBUG("this.xpathTO.put($name, $xpath)",2)
 						this.xpathTO.put(name, xpath)
 					}
 
 				}
 			}
-			MYLOG.addDEBUG("my.Tools.parseMap(this.xpathTO)",2)
-			my.Tools.parseMap(this.xpathTO)
+			MYLOG.addDEBUG("xpathTO = " + this.xpathTO.toString(),2)
 
 		}
 	}
@@ -112,13 +111,13 @@ public class JDD {
 		MYLOG.addDEBUG('loadTCSheet : ' + sheet.getSheetName())
 
 		this.TCSheet = sheet
-		MYLOG.addDEBUG('Lecture headers')
+		MYLOG.addDEBUG('\tLecture headers')
 		Iterator<Row> rowIt = sheet.rowIterator()
 		Row row = rowIt.next()
 		this.headers = my.XLS.loadRow(row)
-		MYLOG.addDEBUG('headers.size = ' + this.headers.size())
+		MYLOG.addDEBUG('\t - headers.size = ' + this.headers.size())
 
-		MYLOG.addDEBUG('Lecture paramètres')
+		MYLOG.addDEBUG('\tLecture paramètres')
 		this.params =[]
 		while(rowIt.hasNext()) {
 			row = rowIt.next()
@@ -131,9 +130,9 @@ public class JDD {
 				MYLOG.addERROR("Le paramètre '" +  my.XLS.getCellValue(row.getCell(0)) + "' n'est pas autorisé")
 			}
 		}
-		MYLOG.addDEBUG('params.size = ' + this.params.size())
+		MYLOG.addDEBUG('\t - params.size = ' + this.params.size())
 
-		MYLOG.addDEBUG('Lecture data')
+		MYLOG.addDEBUG('\tLecture data')
 		this.datas =[]
 		while(rowIt.hasNext()) {
 			row = rowIt.next()
@@ -142,7 +141,7 @@ public class JDD {
 			}
 			this.datas << my.XLS.loadRow(row,this.headers.size())
 		}
-		MYLOG.addDEBUG('datas.size = ' + this.datas.size())
+		MYLOG.addDEBUG('\t - datas.size = ' + this.datas.size())
 	}
 
 
@@ -340,13 +339,15 @@ public class JDD {
 	def makeTO(String ID, Map  binding = [:]){
 
 		if (!this.xpathTO.containsKey(ID)) {
-			return [null,"L'ID '$ID' n'existe pas, impossible de créer le TEST OBJET"]
+			return [null, "L'ID '$ID' n'existe pas, impossible de créer le TEST OBJET"]
 		}
 		MYLOG.addDEBUG("makeTO( $ID, Map  binding = [:])" + binding.toString())
+		
 		TestObject to = new TestObject(ID)
 		to.setSelectorMethod(SelectorMethod.XPATH)
 		String xpath = this.xpathTO.getAt(ID)
-
+		MYLOG.addDEBUG("\txpath : $xpath")
+		
 		if (xpath.startsWith('$')) {
 
 			if (xpath.split('\\$').size()==3){
@@ -354,67 +355,86 @@ public class JDD {
 				switch(xpath.split('\\$')[1]) {
 
 					case "TAB":
-
 						binding['tabname']=xpath.split('\\$')[2]
 						xpath = NAV.myGlobalJDD.xpathTO['TAB']
-
 						break
-					case "TABSELECTED":
 
+					case "TABSELECTED":
 						binding['tabname']=xpath.split('\\$')[2]
 						xpath = NAV.myGlobalJDD.xpathTO['TABSELECTED']
 						break
-					default:
-						return [null,"makeTO $ID, xpath avec "+'$'+" mot clé inconnu : $xpath"]
-				}
 
+					case "FILTREGRILLE":
+						binding['idname']=xpath.split('\\$')[2]
+						xpath = NAV.myGlobalJDD.xpathTO['FILTREGRILLE']
+						break
+						
+					case "TDGRILLE":
+						binding['idnameval']=this.getData(xpath.split('\\$')[2])
+						xpath = NAV.myGlobalJDD.xpathTO['TDGRILLE']
+						break
+						
+					default:
+						return [null, "makeTO $ID, xpath avec "+'$'+" mot clé inconnu : $xpath"]
+				}
+				MYLOG.addDEBUG("\t\tGLOBAL xpath : $xpath")
+				MYLOG.addDEBUG("\t\tbinding  : " + binding.toString())
 			}else {
-				return [null,"makeTO $ID, xpath avec "+'$'+" non conforme : $xpath"]
+				return [null, "makeTO $ID, xpath avec "+'$'+" non conforme : $xpath"]
 			}
 
 		}
 
-		MYLOG.addDEBUG('\txpath :' + xpath)
+		MYLOG.addDEBUG("\txpath : $xpath")
+		
+		xpath = this.bindingXpath(xpath, binding)
+		
+		to.setSelectorValue(SelectorMethod.XPATH, xpath)
+		
+		MYLOG.addDEBUG('\tgetObjectId : ' + to.getObjectId())
+		MYLOG.addDEBUG('\tget(SelectorMethod.XPATH) : ' + to.getSelectorCollection().get(SelectorMethod.XPATH))
+		return [to, '']
+	}
+
+
+
+	private String bindingXpath(String xpath,Map  binding) {
+		
 		// is it a dynamic xpath
 		def matcher = xpath =~  /\$\{(.+?)\}/
 		//LOG
 		MYLOG.addDEBUG('\tmatcher.size() = ' + matcher.size())
 		if (matcher.size() > 0) {
-			// yes it's a dynamic path
+			MYLOG.addDEBUG('\tdynamic xpath')
 			def engine = new SimpleTemplateEngine()
 			matcher.each{k,value->
-				//LOG
-				MYLOG.addDEBUG('\t\tmatcher k --> v : ' + k + ' --> ' + value,2)
+				MYLOG.addDEBUG('\t\tmatcher k --> v : ' + k + ' --> ' + value)
 				if (binding.containsKey(value)) {
-					//LOG
-					MYLOG.addDEBUG('\tnothing to do because external binding already set')
+					MYLOG.addDEBUG('\t\tExternal binding')
 				}else if (value in this.headers) {
 					binding.put(value,this.getData(value))
-					MYLOG.addDEBUG('\tput in binding k --> v : '+ value + ' --> '+ this.getData(value),2)
+					MYLOG.addDEBUG('\t\tJDD binding k --> v : '+ value + ' --> '+ this.getData(value))
 				}else {
-					MYLOG.addERROR('binding not possible because xpath parameter not found : ' + k)
+					MYLOG.addERROR('binding not possible because xpath parameter not in JDD : ' + k)
 				}
 			}
-			MYLOG.addDEBUG('\t\tdynamic xpath',2)
-			String dynxpath = engine.createTemplate(xpath).make(binding).toString()
-			to.setSelectorValue(SelectorMethod.XPATH, dynxpath)
+			xpath = engine.createTemplate(xpath).make(binding).toString()
+			MYLOG.addDEBUG("\tdynamic xpath = $xpath")
+			return xpath
 		}else {
-			MYLOG.addDEBUG('\t\tnormal xpath',2)
-			to.setSelectorValue(SelectorMethod.XPATH, xpath)
+			MYLOG.addDEBUG('\tnormal xpath')
+			return xpath
 		}
-		MYLOG.addDEBUG('getObjectId : ' + to.getObjectId())
-		MYLOG.addDEBUG('get(SelectorMethod.XPATH) : ' + to.getSelectorCollection().get(SelectorMethod.XPATH))
-		return [to,'']
 	}
 
-
-
-
+	
+	
+	
 	private addXpath(List locators) {
 		locators.eachWithIndex {loc,i ->
 			if (loc!=null && loc!='' && i!=0) {
 				String name = this.headers[i]
-				MYLOG.addDEBUG("\t\taddXpath i = $i name = '$name' loc='$loc' ",2 )
+				MYLOG.addDEBUG("addXpath i = $i name = '$name' loc='$loc' ",2 )
 				if (loc in TAG_LIST_ALLOWED) {
 					if (loc=='checkbox') {
 						this.xpathTO.put(name, "//input[@id='$name']")
@@ -428,7 +448,7 @@ public class JDD {
 					def lo = loc.toString().split(/\*/)
 					if (lo[0] in TAG_LIST_ALLOWED) {
 						this.xpathTO.put(name, "//${lo[0]}[@${lo[1]}='$name']")
-						MYLOG.addDEBUG("LOCATOR //${lo[0]}[@${lo[1]}='$name']",2)
+						MYLOG.addDEBUG("\tLOCATOR //${lo[0]}[@${lo[1]}='$name']",2)
 					}else {
 						MYLOG.addERROR("LOCATOR inconnu : ${lo[0]} in '$loc'")
 					}

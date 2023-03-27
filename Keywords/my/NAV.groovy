@@ -25,7 +25,7 @@ class NAV {
 
 		MYLOG.addDEBUG('Load JDD GLOBAL')
 		this.myGlobalJDD = new my.JDD(my.PropertiesReader.getMyProperty('JDD_PATH') + File.separator + my.PropertiesReader.getMyProperty('JDD_GLOBALFILENAME'),'001',null,false)
-
+		MYLOG.addDEBUG(myGlobalJDD.xpathTO.toString())
 	}
 
 

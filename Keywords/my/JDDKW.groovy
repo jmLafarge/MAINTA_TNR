@@ -49,7 +49,7 @@ public class JDDKW {
 	static String getKW_NU() {
 		return this.KEYWORD_ALLOWED.getAt('KW_NU')
 	}
-	
+
 	static String getKW_VIDE() {
 		return this.KEYWORD_ALLOWED.getAt('KW_VIDE')
 	}
