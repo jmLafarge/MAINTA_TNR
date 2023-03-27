@@ -19,13 +19,14 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
 	'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_Grille_and_checkCartridge()
 	
-    KW.scrollAndSetText(myJDD,'input_Filtre_Grille', myJDD.getData('ID_CODINT'))
+	'Filtrer la valeur dans la grille'
+    KW.scrollAndSetText(myJDD,'input_Filtre_Grille', myJDD.getStrData())
 
-	'Attendre le filtrage du tableau'
-	KW.delay(1)
+	'Attendre que le nombre de record = 1'
+	KW.waitForElementVisible(NAV.myGlobalJDD,'nbrecordsGRID_1')
 	
-	KW.verifyElementText(NAV.myGlobalJDD,'nbrecordsGRID','1')
-	KW.verifyElementText(myJDD,'td_Grille', myJDD.getData('ID_CODINT'))
+	'Vérifier que la valeur soit dans la grille filtrée'
+	KW.verifyElementText(myJDD,'td_Grille', myJDD.getStrData())
 
 } // fin du if
 

@@ -13,7 +13,7 @@ def myJDD = new my.JDD()
 if (myJDD.getNbrLigneCasDeTest() > 0 ) {
 	
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_RUD_and_checkCartridge(myJDD.getData('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'))
+    NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData())
 
 
 

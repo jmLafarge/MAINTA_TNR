@@ -10,7 +10,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_RUD_and_checkCartridge(myJDD.getData('ID_CODMOY'))
+    NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData())
 
 		KW.verifyValue(myJDD,'ID_CODMOY')
 		KW.verifyValue(myJDD,'ST_DES')

@@ -288,38 +288,48 @@ public class JDD {
 	 * @return				: la valeur du champ pour la ligne du cas de test en cours
 	 */
 	def getData(String name, int casDeTestNum = this.casDeTestNum) {
+
 		MYLOG.addDEBUG("getData($name, $casDeTestNum)" , 2)
 		if (casDeTestNum > this.getNbrLigneCasDeTest() || casDeTestNum < 1) {
 			MYLOG.addERROR("Le cas de test N° : $casDeTestNum n'existe pas (max = "+ this.getNbrLigneCasDeTest() + ')')
 			return
 		}
-		def ret = null
-		int cdtnum = 0
+		//def ret = null
+		//int cdtnum = 0
 		if (this.headers.contains(name)) {
-			for (def li : this.datas) {
-				if (li[0]==this.casDeTest) {
-					cdtnum++
-					if (cdtnum==casDeTestNum) {
-						ret = li[this.headers.indexOf(name)]
-						MYLOG.addDEBUG("getData($name, $casDeTestNum) = " + li[this.headers.indexOf(name)], 2)
-						break
-					}
-				}
-			}
 
+			return this.datas[this.getDataLineNum(this.casDeTest, casDeTestNum)][this.headers.indexOf(name)]
+			/*
+			 for (def li : this.datas) {
+			 if (li[0]==this.casDeTest) {
+			 cdtnum++
+			 if (cdtnum==casDeTestNum) {
+			 ret = li[this.headers.indexOf(name)]
+			 MYLOG.addDEBUG("getData($name, $casDeTestNum) = " + li[this.headers.indexOf(name)], 2)
+			 break
+			 }
+			 }
+			 }
+			 */
 		}else {
 			MYLOG.addERROR("getData($name, $casDeTestNum ) '$name' n'est pas une colonne du JDD")
+			return null
 		}
-		return ret
 	}
 
 
 
-	def getStrData(String name, int casDeTestNum = this.casDeTestNum) {
+	def getStrData(String name='', int casDeTestNum = this.casDeTestNum) {
 
-		return this.getData(name, casDeTestNum).toString()
-
+		if (name=='') {
+			int dataLineNum = this.getDataLineNum()
+			return this.datas[dataLineNum][1]
+		}else {
+			return this.getData(name, casDeTestNum).toString()
+		}
 	}
+
+
 
 
 	def String getDBTableName() {
@@ -342,12 +352,12 @@ public class JDD {
 			return [null, "L'ID '$ID' n'existe pas, impossible de créer le TEST OBJET"]
 		}
 		MYLOG.addDEBUG("makeTO( $ID, Map  binding = [:])" + binding.toString())
-		
+
 		TestObject to = new TestObject(ID)
 		to.setSelectorMethod(SelectorMethod.XPATH)
 		String xpath = this.xpathTO.getAt(ID)
 		MYLOG.addDEBUG("\txpath : $xpath")
-		
+
 		if (xpath.startsWith('$')) {
 
 			if (xpath.split('\\$').size()==3){
@@ -368,12 +378,12 @@ public class JDD {
 						binding['idname']=xpath.split('\\$')[2]
 						xpath = NAV.myGlobalJDD.xpathTO['FILTREGRILLE']
 						break
-						
+
 					case "TDGRILLE":
 						binding['idnameval']=this.getData(xpath.split('\\$')[2])
 						xpath = NAV.myGlobalJDD.xpathTO['TDGRILLE']
 						break
-						
+
 					default:
 						return [null, "makeTO $ID, xpath avec "+'$'+" mot clé inconnu : $xpath"]
 				}
@@ -386,11 +396,11 @@ public class JDD {
 		}
 
 		MYLOG.addDEBUG("\txpath : $xpath")
-		
+
 		xpath = this.bindingXpath(xpath, binding)
-		
+
 		to.setSelectorValue(SelectorMethod.XPATH, xpath)
-		
+
 		MYLOG.addDEBUG('\tgetObjectId : ' + to.getObjectId())
 		MYLOG.addDEBUG('\tget(SelectorMethod.XPATH) : ' + to.getSelectorCollection().get(SelectorMethod.XPATH))
 		return [to, '']
@@ -399,7 +409,7 @@ public class JDD {
 
 
 	private String bindingXpath(String xpath,Map  binding) {
-		
+
 		// is it a dynamic xpath
 		def matcher = xpath =~  /\$\{(.+?)\}/
 		//LOG
@@ -427,9 +437,9 @@ public class JDD {
 		}
 	}
 
-	
-	
-	
+
+
+
 	private addXpath(List locators) {
 		locators.eachWithIndex {loc,i ->
 			if (loc!=null && loc!='' && i!=0) {

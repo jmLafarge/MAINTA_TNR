@@ -25,7 +25,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		
 		//NAV.verifierEcranResultat()
 			
-		KW.verifyElementText(NAV.myGlobalJDD,'span_Selection', myJDD.getStrData('ID_CODMOY'))
+		KW.verifyElementText(NAV.myGlobalJDD,'span_Selection', myJDD.getStrData())
 		
 		my.SQL.checkJDDWithBD(myJDD)
 

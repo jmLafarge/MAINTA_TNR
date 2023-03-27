@@ -6,7 +6,13 @@
  * FAIT
  * -----------------------------------------------------------------------------------------------------
  * 
-update TAG GLOBAL mot cle dyn
+update getStrData pour prendre en compte la PK et autre modif
+
+quand pas de name prendre index data=1
+update CRUD ACT FOU MOY et ZZ TEMPLATE
+supression du name dans les NAV.goToURL... et KW.verifyElementText(NAV.myGlobalJDD,'a_Resultat_ID'
+update getData pour prendre en compte getDataLineNum
+update GLOBAL nbrecordsGRID_1 et REC
 
 
  * 
@@ -16,7 +22,8 @@ update TAG GLOBAL mot cle dyn
  * 
 	le double click fonctionne de temps en temps avec Chrome 
 
-
+	Smart Wait = disabled permet de supprimer le popup chrome mais trop rapide avec edge (double click souvent KO)
+	--> peur ajouter un temps, à vérifier sur Firefox et Chrome
  *
  * -----------------------------------------------------------------------------------------------------
  * EN COURS
@@ -60,7 +67,7 @@ il faut pour tous les JDD "CDT + les PK" dans le PREJDD correspondant SAUF pour 
 
 	XLS
 		ajouter un controle sur open file
-		Verifier si XLS.open est poertinant ! car il faut normalement fermer la connexion
+		Verifier si XLS.open est pertinant ! car il faut normalement fermer la connexion
 		JDD et autre : Ajouter un close() du fichier dans tous les TC --> créer un JDD.close()
 		
 		

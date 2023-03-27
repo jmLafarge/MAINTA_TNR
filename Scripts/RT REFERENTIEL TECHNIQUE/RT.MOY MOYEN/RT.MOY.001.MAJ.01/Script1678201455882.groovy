@@ -9,7 +9,7 @@ def myJDD = new my.JDD()
 if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_RUD_and_checkCartridge(myJDD.getData('ID_CODMOY'))
+    NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData())
 	
 	
 		KW.scrollAndSetText(myJDD,'ST_DES')
@@ -24,7 +24,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 
 		//NAV.verifierEcranResultat()
 			
-		KW.verifyElementText(NAV.myGlobalJDD,'span_Selection', myJDD.getStrData('ID_CODMOY'))
+		KW.verifyElementText(NAV.myGlobalJDD,'span_Selection', myJDD.getStrData())
 
 		my.SQL.checkJDDWithBD(myJDD)
 
