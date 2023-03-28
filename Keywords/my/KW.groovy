@@ -26,11 +26,18 @@ class KW {
 	}
 
 
+	static waitForPageLoad(int seconds=GlobalVariable.TIMEOUTForPageLoad) {
+		
+		MYLOG.addSTEP("Attendre chargement de la page ...MAX $seconds seconde(s)")
+		WebUI.waitForPageLoad(seconds)
+		
+	}
 
 
 	static openBrowser(String url){
 		try {
 			WebUI.openBrowser(url, FailureHandling.STOP_ON_FAILURE)
+			this.waitForPageLoad()
 			MYLOG.addSTEPPASS("Ouverture du navigateur à l'URL : $url")
 			def browser = my.Tools.getBrowserAndVersion()
 			MYLOG.addSUBSTEP("*********************************************************************")
@@ -51,6 +58,7 @@ class KW {
 	static navigateToUrl(String url,String nomUrl){
 		try {
 			WebUI.navigateToUrl(url, FailureHandling.STOP_ON_FAILURE)
+			this.waitForPageLoad()
 			MYLOG.addSTEPPASS("Navigation vers l'URL '$nomUrl' : $url")
 		} catch (Exception ex) {
 			MYLOG.addSTEPERROR("Navigation vers l'URL '$nomUrl' : $url")
@@ -388,8 +396,12 @@ class KW {
 		if (tObj) {
 
 			try {
-				WebUI.waitForElementVisible(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
-				MYLOG.addSTEPPASS("Vérifier que l'élément '${tObj.getObjectId()}' soit visible")
+				if (WebUI.waitForElementVisible(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)) {
+					MYLOG.addSTEPPASS("Vérifier que l'élément '${tObj.getObjectId()}' soit visible")
+				}else {
+					MYLOG.addSTEP("Vérifier que l'élément '${tObj.getObjectId()}' soit visible KO après $timeOut seconde(s)", status)
+				}
+				//WebUI.verifyElementInViewport(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
 			} catch (Exception ex) {
 				MYLOG.addSTEP("Vérifier que l'élément '${tObj.getObjectId()}' soit visible", status)
 				MYLOG.addDETAIL(ex.getMessage())
@@ -462,6 +474,7 @@ class KW {
 
 	static scrollAndClick(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		this.scrollToElement(myJDD, name, timeOut,status)
+		this.delay(1)
 		this.waitForElementVisible(myJDD, name, timeOut,status)
 		this.click(myJDD, name,status)
 	} // end of def
@@ -473,6 +486,7 @@ class KW {
 
 	static scrollAndDoubleClick(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		this.scrollToElement(myJDD, name, timeOut,status)
+		this.delay(1)
 		this.waitForElementVisible(myJDD, name, timeOut,status)
 		this.doubleClick(myJDD, name,status)
 	} // end of def

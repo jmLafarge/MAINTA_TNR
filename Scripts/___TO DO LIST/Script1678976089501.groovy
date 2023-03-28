@@ -6,51 +6,60 @@
  * FAIT
  * -----------------------------------------------------------------------------------------------------
  * 
-update getStrData pour prendre en compte la PK et autre modif
+Update KW et Tools
 
-quand pas de name prendre index data=1
-update CRUD ACT FOU MOY et ZZ TEMPLATE
-supression du name dans les NAV.goToURL... et KW.verifyElementText(NAV.myGlobalJDD,'a_Resultat_ID'
-update getData pour prendre en compte getDataLineNum
-update GLOBAL nbrecordsGRID_1 et REC
-
-
+KW Ajout de GlobalVariable.TIMEOUTForPageLoad = 5 sec
+KW Ajout de waitForPageLoad() dans openBrowser()
+KWAjout de waitForPageLoad() dans navigateToUrl()
+Tools getBrowserAndVersion ajout DriverFactory.getExecutedBrowser()
+KW ajout deay() dans scrollAndClick et scrollAndDoubleClick
+TC ajout de delay dans les TC HAB.SRM et MET.SRM
+TC waitForElementVisible prise en compte du retour TRUE/FASE
  * 
  * -----------------------------------------------------------------------------------------------------
  * NOTE
  * -----------------------------------------------------------------------------------------------------
  * 
-	le double click fonctionne de temps en temps avec Chrome 
-
-	Smart Wait = disabled permet de supprimer le popup chrome mais trop rapide avec edge (double click souvent KO)
-	--> peur ajouter un temps, à vérifier sur Firefox et Chrome
+	PROJET SETTING 
+	
+		SMART WAIT disabled permet de supprimer le popup chrome, l'ajout de waitForPageLoad() et de delay à solutionner le probléme
+	 
+	PROFIL
+	
+		TIMEOUT à 1 ça passe, je mets 2
  *
  * -----------------------------------------------------------------------------------------------------
  * EN COURS
  * -----------------------------------------------------------------------------------------------------
  *
-	Pour les NAV.goToURL_RUD_and_checkCartridge inclure la recherche de la PK par défaut --> pour standardiser
-		et laisser la possibilité de mettre une autre valeur
 	
 
 
+	
+	
+	
+	
+	
+
+ 
+
+ 
+
+ 
+ * 
+ * -----------------------------------------------------------------------------------------------------
+ * A FAIRE EN PRIORITE
+ * -----------------------------------------------------------------------------------------------------
+ * 
+	
+	
 	JDDGenerator --> inclure la lecture du TCGenerator pour alimenter le LOCATOR du JDD
-	
-	
-	
-	utiliser le sequencer avec test suite
-
- 
- Voir si on peut trouver le type de navigateur dans le run (pour headless surtout)
- 
-AJOUTER un ctrl prerequis 
-il faut pour tous les JDD "CDT + les PK" dans le PREJDD correspondant SAUF pour CRE et SRA
- 
- 
 		
 	Traiter les valeurs des $DATESYS et $DATETIME
 
 	DOC ORGANISATION DES JDD DE RÉFÉRENCE DANS LE CADRE DES TNR --> Stockage par version ? A préciser par JML
+
+
 
 	
  * 
@@ -58,10 +67,20 @@ il faut pour tous les JDD "CDT + les PK" dans le PREJDD correspondant SAUF pour 
  * EVOLUTION
  * -----------------------------------------------------------------------------------------------------
  * 
-	takeScreenshot --> A TESTER
+	
+	HEADLESS 
+	
+		Chrome  : marche pas, par exemple le click sur a_Habilitation (voir pour prendre une capture écran)
+		Firefox : marche mais pas le double click 
+	
+	
+	A TESTER takeScreenshot
+		
 		gReportPathway = ".\\Reports\\Screenshots\\RT 030 RPCS\\"
 		WebUI.takeScreenshot(gReportPathway + "msg1.png")
 
+ 
+ 
 	JDD
 		créer une class pour makeTO ?
 
@@ -74,6 +93,8 @@ il faut pour tous les JDD "CDT + les PK" dans le PREJDD correspondant SAUF pour 
 	CHECK PREREQUIS 
 	  
 		Ajouter les controle des PARAM_LIST_ALLOWED et des TAG_LIST_ALLOWED dans les controles JDD "CHECK PREREQUIS" plutot que dans le code des tests
+		
+		AJOUTER un ctrl sur les PK il faut que tous les JDD "CDT + les PK" des JDD soit dans les PREJDD correspondant, SAUF pour CRE et SRA
 		   
 		Le controle des PREREQUIS des JDD dans les PREJDD est fait mais il faudrait aussi  controler les PREREQUIS des PREJDD dans les PREJDD 
 		  		--> voir si on peut utiliser le paramètrage PREREQUIS ou s'il faut mettre en place des regles, par exemple
@@ -89,7 +110,7 @@ il faut pour tous les JDD "CDT + les PK" dans le PREJDD correspondant SAUF pour 
 		  
 		Dans les JDD, mettre en vert les cellules des attributs modifiés par rapport aux PREJDD pour les cas de tests MODIF
 		
-		Ajout du controle de l'ordre des champs des JDD /PREJDD dans l'onglet Info
+		
 		  
 		  
 	RESULT

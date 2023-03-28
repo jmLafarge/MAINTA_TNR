@@ -18,11 +18,12 @@ class Tools {
 	public static getBrowserAndVersion() {
 		WebDriver driver = DriverFactory.getWebDriver()
 		Capabilities caps = ((SmartWaitWebDriver) driver).getCapabilities()
-		String browserName = caps.getBrowserName().capitalize()
+		String browserName = DriverFactory.getExecutedBrowser()
 		String browserVersion = caps.getVersion()
 		return [NAME:browserName , VERSION:browserVersion]
 	}
 
+	
 
 	public static addInfoContext() {
 		MYLOG.addSUBSTEP('INFO CONTEXTE')
@@ -34,7 +35,7 @@ class Tools {
 		MYLOG.addINFO('')
 	}
 
-	
+
 	public static String getDuration(Date start,stop) {
 
 		TimeDuration timeDuration = TimeCategory.minus( stop, start )

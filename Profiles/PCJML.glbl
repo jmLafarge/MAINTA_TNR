@@ -35,6 +35,11 @@
       <name>TIMEOUT</name>
    </GlobalVariableEntity>
    <GlobalVariableEntity>
+      <description></description>
+      <initValue>5</initValue>
+      <name>TIMEOUTForPageLoad</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
       <description>INTERNAL DATA</description>
       <initValue>''</initValue>
       <name>CASDETESTENCOURS</name>
