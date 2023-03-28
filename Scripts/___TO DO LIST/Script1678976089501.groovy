@@ -6,15 +6,13 @@
  * FAIT
  * -----------------------------------------------------------------------------------------------------
  * 
-Update KW et Tools
 
-KW Ajout de GlobalVariable.TIMEOUTForPageLoad = 5 sec
-KW Ajout de waitForPageLoad() dans openBrowser()
-KWAjout de waitForPageLoad() dans navigateToUrl()
-Tools getBrowserAndVersion ajout DriverFactory.getExecutedBrowser()
-KW ajout deay() dans scrollAndClick et scrollAndDoubleClick
-TC ajout de delay dans les TC HAB.SRM et MET.SRM
-TC waitForElementVisible prise en compte du retour TRUE/FASE
+
+ Add AD.SEC.001.FON.99 Ouvrir session OU reconnection pour moi :-)
+
+
+
+
  * 
  * -----------------------------------------------------------------------------------------------------
  * NOTE
@@ -32,10 +30,6 @@ TC waitForElementVisible prise en compte du retour TRUE/FASE
  * EN COURS
  * -----------------------------------------------------------------------------------------------------
  *
-	
-
-
-	
 	
 	
 	

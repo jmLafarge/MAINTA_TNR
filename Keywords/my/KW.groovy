@@ -27,10 +27,9 @@ class KW {
 
 
 	static waitForPageLoad(int seconds=GlobalVariable.TIMEOUTForPageLoad) {
-		
+
 		MYLOG.addSTEP("Attendre chargement de la page ...MAX $seconds seconde(s)")
 		WebUI.waitForPageLoad(seconds)
-		
 	}
 
 

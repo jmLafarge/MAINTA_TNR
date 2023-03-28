@@ -33,25 +33,16 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 			}
 			
 			myJDD.setCasDeTestNum(i)
-	
-	        KW.waitAndVerifyElementText(myJDD,'ID_CODMET')
-			KW.delay(1)
+			
 	        KW.scrollAndDoubleClick(myJDD,'td_DateDebut')
-			KW.delay(1)
 			KW.waitForElementVisible(myJDD,'DT_DATDEB')
-			KW.delay(1)
 	        KW.setDate(myJDD,'DT_DATDEB')
-			KW.delay(1)
 			KW.sendKeys(myJDD,'DT_DATDEB', Keys.chord(Keys.RETURN),"Envoie de la touche ENTREE pour valider la date")
 			KW.delay(1)
-	        KW.scrollAndClick(myJDD,'ID_CODMET')
-			KW.delay(1)
+			
 	        KW.scrollAndDoubleClick(myJDD,'td_DateFin')
-			KW.delay(1)
 			KW.waitForElementVisible(myJDD,'DT_DATFIN')
-			KW.delay(1)
 	        KW.setDate(myJDD,'DT_DATFIN')
-			KW.delay(1)
 			KW.sendKeys(myJDD,'DT_DATFIN', Keys.chord(Keys.RETURN),"Envoie de la touche ENTREE pour valider la date")
 			KW.delay(1)
 			
