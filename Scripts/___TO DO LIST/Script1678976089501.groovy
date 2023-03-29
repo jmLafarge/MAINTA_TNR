@@ -6,9 +6,14 @@
  * FAIT
  * -----------------------------------------------------------------------------------------------------
  * 
-
-
- Add AD.SEC.001.FON.99 Ouvrir session OU reconnection pour moi :-)
+Update RESULT et LOG pour integrer les STEPs
+	
+RESULT ajout de styles
+RESULT groupe les DETAILS
+RESULT gestion des types de STEP
+RESULT Renommage du fichier resultat
+LOG synchronisation du DateTime avec RESULT : logDate
+LOG ajout de addStepInResult
 
 
 
@@ -31,7 +36,7 @@
  * -----------------------------------------------------------------------------------------------------
  *
 	
-	
+
 	
 	
 

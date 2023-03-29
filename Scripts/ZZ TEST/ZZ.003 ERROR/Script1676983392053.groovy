@@ -1,3 +1,3 @@
 import my.Log as MYLOG
 
-MYLOG.addERROR('err')
+MYLOG.addSTEPERROR("C'est une erreur")

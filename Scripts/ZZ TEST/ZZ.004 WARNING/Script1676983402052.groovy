@@ -1,4 +1,4 @@
 import my.Log as MYLOG
 
-MYLOG.addWARNING("warning")
+MYLOG.addSTEPWARNING("Ici un warning")
 

@@ -22,9 +22,6 @@ Sequencer.testCasesList.each { TCMap ->
 	for(int i = 1 ; i <= TCMap.REP ;i++) {
 		
 		MYLOG.addStartTestCase(GlobalVariable.CASDETESTENCOURS)
-		
-		//WebUI.callTestCase(findTestCase(TCMap.TCFULLNAME), [:], FailureHandling.OPTIONAL)
-		
 
 		try {
 			WebUI.callTestCase(findTestCase(TCMap.TCFULLNAME), [:], FailureHandling.STOP_ON_FAILURE)

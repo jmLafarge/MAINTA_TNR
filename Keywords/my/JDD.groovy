@@ -56,16 +56,11 @@ public class JDD {
 		}
 
 		if (step) {
-			/*			
-			 if (this.TCTabName == null) {
-			 MYLOG.addSTEP("Lecture du JDD : " + this.JDDFullName)
-			 }else {
-			 MYLOG.addSTEP("Lecture du JDD : " + this.JDDFullName + '     Onglet : ' + this.TCTabName + '     Cas de test : ' + this.casDeTest)
-			 }
-			 */
-			MYLOG.addSTEP("Lecture du JDD : " + this.JDDFullName + '     Onglet : ' + this.TCTabName + '     Cas de test : ' + this.casDeTest)
+			MYLOG.addSTEP("Lecture du JDD : " + this.JDDFullName)
+			MYLOG.addDETAIL("Onglet : " + this.TCTabName)
+			MYLOG.addDETAIL("Cas de test : " + this.casDeTest)
 		}else {
-			MYLOG.addDETAIL("Lecture du JDD : " + this.JDDFullName)
+			MYLOG.addINFO("Lecture du JDD : " + this.JDDFullName)
 		}
 
 		this.book = my.XLS.open(this.JDDFullName)

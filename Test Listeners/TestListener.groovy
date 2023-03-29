@@ -97,7 +97,7 @@ class TestListener {
 			if (my.InfoBDD.map.isEmpty()) { my.InfoBDD.load() }
 			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
 			
-		}else if (testCaseContext.getTestCaseId().contains('ZZTEST UNITAIRE')) {
+		}else if (testCaseContext.getTestCaseId().contains('ZZ TEST UNITAIRE')) {
 			
 			MYLOG.addTITLE("Lancement du test $TCName")
 			
@@ -107,11 +107,7 @@ class TestListener {
 			
 			MYLOG.addDEBUG("TCName after split(' ')[0] : " + TCName)
 
-			
-			
 			GlobalVariable.CASDETESTENCOURS = TCName
-			
-
 			
 			MYLOG.addStartTestCase(GlobalVariable.CASDETESTENCOURS)
 		}
@@ -137,6 +133,8 @@ class TestListener {
 		}else {
 			MYLOG.addINFO('')
 			MYLOG.addINFO('************  FIN  du test : ' + testCaseContext.getTestCaseId().split('/')[-1] +' ************')
+			
+			my.Result.close()
 		}
 	}
 
@@ -156,6 +154,7 @@ class TestListener {
 		
 		MYLOG.addINFO('')
 		MYLOG.addINFO('************  FIN  de : ' + testSuiteContext.getTestSuiteId() +' ************')
+		my.Result.close()
 	}
 
 }

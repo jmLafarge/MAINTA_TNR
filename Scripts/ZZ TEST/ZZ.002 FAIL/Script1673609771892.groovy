@@ -1,3 +1,3 @@
 import my.Log as MYLOG
 
-MYLOG.addFAIL('fail')
+MYLOG.addSTEPFAIL("Un exemple de step fail")

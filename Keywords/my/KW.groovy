@@ -36,16 +36,16 @@ class KW {
 	static openBrowser(String url){
 		try {
 			WebUI.openBrowser(url, FailureHandling.STOP_ON_FAILURE)
-			this.waitForPageLoad()
-			MYLOG.addSTEPPASS("Ouverture du navigateur à l'URL : $url")
 			def browser = my.Tools.getBrowserAndVersion()
-			MYLOG.addSUBSTEP("*********************************************************************")
-			MYLOG.addSUBSTEP("  Nom du navigateur".padRight(26) + browser.NAME)
-			MYLOG.addSUBSTEP("  Version du navigateur".padRight(26) + browser.VERSION)
-			MYLOG.addSUBSTEP("*********************************************************************")
-			my.Result.addBrowserInfo()
+			MYLOG.addSTEPPASS("Ouverture du navigateur à l'URL :")
+			MYLOG.addDETAIL("URL : $url")
+			MYLOG.addDETAIL("Nom du navigateur : " + browser.NAME)
+			MYLOG.addDETAIL("Version du navigateur : " + browser.VERSION)
+			this.waitForPageLoad()
+			my.Result.addBrowserInfo(browser.NAME,browser.VERSION)
 		} catch (Exception ex) {
-			MYLOG.addSTEPERROR("Ouverture du navigateur à l'URL : $url")
+			MYLOG.addSTEPERROR("Ouverture du navigateur à l'URL :")
+			MYLOG.addDETAIL("URL : $url")
 			MYLOG.addDETAIL(ex.getMessage())
 		}
 	}
@@ -58,9 +58,11 @@ class KW {
 		try {
 			WebUI.navigateToUrl(url, FailureHandling.STOP_ON_FAILURE)
 			this.waitForPageLoad()
-			MYLOG.addSTEPPASS("Navigation vers l'URL '$nomUrl' : $url")
+			MYLOG.addSTEPPASS("Navigation vers l'URL '$nomUrl' :")
+			MYLOG.addDETAIL("URL : $url")
 		} catch (Exception ex) {
-			MYLOG.addSTEPERROR("Navigation vers l'URL '$nomUrl' : $url")
+			MYLOG.addSTEPERROR("Navigation vers l'URL '$nomUrl' :")
+			MYLOG.addDETAIL("URL : $url")
 			MYLOG.addDETAIL(ex.getMessage())
 		}
 	}

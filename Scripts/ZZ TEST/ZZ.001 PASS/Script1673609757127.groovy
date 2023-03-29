@@ -1,3 +1,3 @@
 import my.Log as MYLOG
 
-MYLOG.addPASS('pass')
+MYLOG.addSTEPPASS("C'est un exemple de step")

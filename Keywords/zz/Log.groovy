@@ -1,4 +1,4 @@
-package my
+package zz
 
 
 /*
@@ -25,7 +25,6 @@ class Log {
 	private static String TCName = ''
 
 	private static Date start
-	private static Date logDate
 
 
 	/*
@@ -64,8 +63,7 @@ class Log {
 
 	private static add (String stat, String msg) {
 		stat= this.getStatFormat(stat)
-		this.logDate = new Date()
-		String h = this.logDate.format(this.dateTimeFormat)
+		String h = new Date().format(this.dateTimeFormat)
 		this.file.append("[$h][$stat]:" + this.tab +"$msg\n")
 		//println "[my Log][$stat]:" + this.tab +"$msg"
 		this.fileDebug.append("[$h][$stat]:" + this.tab +"$msg\n")
@@ -113,7 +111,7 @@ class Log {
 
 	public static addERROR (String msg) {
 		this.add('ERROR',msg )
-		// this.status.ERROR++ // 20230329 j'ai mis cette ligne en commentaire, on ne veut que les STEP ERROR
+		this.status.ERROR++
 	}
 
 
@@ -164,8 +162,8 @@ class Log {
 		this.addStepInResult(msg,'SUBSTEP')
 	}
 
-
-
+	
+	
 	public static addSTEPGRP (String msg) {
 		this.addINFO('\t'+ msg.padRight(80, '_'))
 		this.addStepInResult(msg,'STEPGRP')
@@ -207,7 +205,7 @@ class Log {
 
 	private static addStepInResult(String msg, String status) {
 
-		my.Result.addStep(this.logDate,msg,status)
+		my.Result.addStep(msg,status)
 	}
 
 	/*
@@ -215,6 +213,7 @@ class Log {
 	 */
 	public static addStartTestCase (String testCaseName) {
 
+		this.start = new Date()
 		this.TCName = testCaseName
 		this.status.WARNING = 0
 		this.status.FAIL = 0
@@ -222,7 +221,6 @@ class Log {
 		this.status.ERROR = 0
 		this.addINFO('')
 		this.addINFO('START TEST CASE : '+ testCaseName )
-		this.start = this.logDate
 		my.Result.addStartCasDeTest(this.TCName, this.start)
 	}
 

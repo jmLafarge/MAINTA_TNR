@@ -26,18 +26,18 @@ class Tools {
 	
 
 	public static addInfoContext() {
-		MYLOG.addSUBSTEP('INFO CONTEXTE')
-		MYLOG.addDETAIL("Nom de l'OS".padRight(26) + System.getProperty("os.name"))
-		MYLOG.addDETAIL("Version de l'OS".padRight(26) + System.getProperty("os.version"))
-		MYLOG.addDETAIL("Architecture de l'OS".padRight(26) + System.getProperty("os.arch"))
-		MYLOG.addDETAIL("Version de MAINTA".padRight(26) + my.SQL.getMaintaVersion())
-		MYLOG.addDETAIL("Base de donnée".padRight(26) + GlobalVariable.BDD_URL)
+		MYLOG.addINFO('INFO CONTEXTE')
+		MYLOG.addINFO("Nom de l'OS".padRight(26) + System.getProperty("os.name"))
+		MYLOG.addINFO("Version de l'OS".padRight(26) + System.getProperty("os.version"))
+		MYLOG.addINFO("Architecture de l'OS".padRight(26) + System.getProperty("os.arch"))
+		MYLOG.addINFO("Version de MAINTA".padRight(26) + my.SQL.getMaintaVersion())
+		MYLOG.addINFO("Base de donnée".padRight(26) + GlobalVariable.BDD_URL)
 		MYLOG.addINFO('')
 	}
 
 
-	public static String getDuration(Date start,stop) {
-
+	public static String getDuration(Date start,Date stop) {
+		
 		TimeDuration timeDuration = TimeCategory.minus( stop, start )
 
 		String SS = this.addZero(timeDuration.getSeconds())
