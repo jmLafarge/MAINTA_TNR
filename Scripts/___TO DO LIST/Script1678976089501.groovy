@@ -8,7 +8,7 @@
  * 
 
 
-JDD supprimer MYLOG.addDETAIL("Cas de test : " + this.casDeTest)
+Rename TC
 
 
  * 
