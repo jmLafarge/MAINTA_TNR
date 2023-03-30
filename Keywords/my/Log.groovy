@@ -41,6 +41,10 @@ class Log {
 
 	private static File createFile(String txt){
 
+		//Create folder if not exist
+		File dir = new File(my.PropertiesReader.getMyProperty('LOG_PATH'))
+		if (!dir.exists()) dir.mkdirs()
+
 		String dateFile = new Date().format("yyyyMMdd_HHmmss")
 
 		File file =new File(my.PropertiesReader.getMyProperty('LOG_PATH') + File.separator +  dateFile + "-log${txt}.txt")
@@ -201,6 +205,7 @@ class Log {
 
 	public static addSTEPERROR (String msg) {
 		this.addERROR(this.PRESTEPTXT+ msg)
+		this.status.ERROR++
 		this.addStepInResult(msg,'ERROR')
 	}
 
@@ -215,13 +220,13 @@ class Log {
 	 */
 	public static addStartTestCase (String testCaseName) {
 
-		this.TCName = testCaseName
+		this.TCName = testCaseName + ' : ' + TCFiles.getTCNameTitle(testCaseName)
 		this.status.WARNING = 0
 		this.status.FAIL = 0
 		this.status.PASS = 0
 		this.status.ERROR = 0
 		this.addINFO('')
-		this.addINFO('START TEST CASE : '+ testCaseName )
+		this.addINFO('START TEST CASE : '+ this.TCName )
 		this.start = this.logDate
 		my.Result.addStartCasDeTest(this.TCName, this.start)
 	}

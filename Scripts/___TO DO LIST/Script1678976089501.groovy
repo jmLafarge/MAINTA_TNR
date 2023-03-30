@@ -6,16 +6,15 @@
  * FAIT
  * -----------------------------------------------------------------------------------------------------
  * 
-Update RESULT et LOG pour integrer les STEPs
-	
-RESULT ajout de styles
-RESULT groupe les DETAILS
-RESULT gestion des types de STEP
-RESULT Renommage du fichier resultat
-LOG synchronisation du DateTime avec RESULT : logDate
-LOG ajout de addStepInResult
 
 
+Log : Create folder if not exist
+PREJDDFiles : Create folder if not exist
+Result : Create folder if not exist
+Result.addStep : update 
+TCFiles : add getTCNameTitle and getAutoTitle
+Log.addStartTestCase : add getTCNameTitle
+Log.addSTEPERROR : add this.status.ERROR++
 
 
  * 

@@ -112,7 +112,7 @@ public class Result {
 
 			case 'PASS':
 				my.XLS.writeCell(row,0,date.format('yyyy-MM-dd HH:mm:ss.SSS'),this.cellStyle_RESULT_STEP)
-				my.XLS.writeCell(row,1,msg,this.cellStyle_RESULT_STEP)
+				my.XLS.writeCell(row,1,msg,this.cellStyle_RESULT_STEPPASS)
 				my.XLS.writeCell(row,2,'PASS',this.cellStyle_RESULT_STEPPASS)
 
 				break
@@ -137,6 +137,7 @@ public class Result {
 				break
 			case 'STEPGRP':
 				my.XLS.writeCell(row,1,msg,this.cellStyle_RESULT_STEPGRP)
+				my.XLS.writeCell(row,2,'',this.cellStyle_RESULT_STEPGRP)
 
 				break
 			case 'SUBSTEP':
@@ -144,8 +145,9 @@ public class Result {
 
 				break
 			case 'INFO':
-				my.XLS.writeCell(row,0,date.format('yyyy-MM-dd HH:mm:ss.SSS'),this.cellStyle_RESULT_STEP)
-				my.XLS.writeCell(row,1,msg,this.cellStyle_RESULT_STEP)
+				my.XLS.writeCell(row,0,date.format('yyyy-MM-dd HH:mm:ss.SSS'),this.cellStyle_RESULT_STEPDETAIL)
+				my.XLS.writeCell(row,1,msg,this.cellStyle_RESULT_STEPDETAIL)
+				my.XLS.writeCell(row,2,'INFO',this.cellStyle_RESULT_STEPDETAIL)
 
 				break
 			case 'DETAIL':
@@ -331,7 +333,13 @@ public class Result {
 		Path source = Paths.get(my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + this.RES_MODELFILENAME)
 
 		String dateFile = new Date().format("yyyyMMdd_HHmmss")
+
+		//Create folder if not exist
+		File dir = new File(my.PropertiesReader.getMyProperty('RES_PATH'))
+		if (!dir.exists()) dir.mkdirs()
+
 		String resFullName = my.PropertiesReader.getMyProperty('RES_PATH') + File.separator + dateFile + this.RES_FILENAME
+
 
 		Path target = Paths.get(resFullName)
 

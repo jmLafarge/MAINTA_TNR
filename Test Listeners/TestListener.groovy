@@ -64,7 +64,7 @@ class TestListener {
 			
 			MYLOG.addTITLE("Lancement de $TCName")
 			
-			my.Result.addStartInfo('TNR SEQUENCER')
+			Result.addStartInfo('TNR SEQUENCEUR')
 			
 			Tools.addInfoContext()
 			

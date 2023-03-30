@@ -48,6 +48,11 @@ public class PREJDDFiles {
 		// set tab (sheet)
 		Sheet sheet = book.getSheet(tabName)
 		Row row0 = sheet.getRow(0)
+		
+		//Create folder if not exist
+		File dir = new File(my.PropertiesReader.getMyProperty('SQL_PATH'))
+		if (!dir.exists()) dir.mkdirs()
+
 		String fileSQLName = my.PropertiesReader.getMyProperty('SQL_PATH') + File.separator +  modObj + '_' + tabName + '.sql'
 		MYLOG.addSTEP("Création du script SQL : '$fileSQLName'")
 		File fileSQL =new File(fileSQLName)
