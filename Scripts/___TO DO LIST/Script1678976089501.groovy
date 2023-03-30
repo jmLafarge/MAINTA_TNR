@@ -8,13 +8,7 @@
  * 
 
 
-Log : Create folder if not exist
-PREJDDFiles : Create folder if not exist
-Result : Create folder if not exist
-Result.addStep : update 
-TCFiles : add getTCNameTitle and getAutoTitle
-Log.addStartTestCase : add getTCNameTitle
-Log.addSTEPERROR : add this.status.ERROR++
+Rename TC Folders
 
 
  * 
