@@ -58,7 +58,6 @@ public class JDD {
 		if (step) {
 			MYLOG.addSTEP("Lecture du JDD : " + this.JDDFullName)
 			MYLOG.addDETAIL("Onglet : " + this.TCTabName)
-			MYLOG.addDETAIL("Cas de test : " + this.casDeTest)
 		}else {
 			MYLOG.addINFO("Lecture du JDD : " + this.JDDFullName)
 		}

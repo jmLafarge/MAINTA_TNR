@@ -8,7 +8,7 @@
  * 
 
 
-TNR Sequencer addSTEPERROR
+JDD supprimer MYLOG.addDETAIL("Cas de test : " + this.casDeTest)
 
 
  * 
