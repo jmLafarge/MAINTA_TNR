@@ -55,6 +55,7 @@ public class Result {
 	private static CellStyle cellStyle_RESULT_STEPWARNING
 	private static CellStyle cellStyle_RESULT_STEPERROR
 	private static CellStyle cellStyle_RESULT_STEPGRP
+	private static CellStyle cellStyle_RESULT_STEPSSGRP
 	private static CellStyle cellStyle_RESULT_STEPLOOP
 	private static CellStyle cellStyle_RESULT_SUBSTEP
 	private static CellStyle cellStyle_RESULT_STEPDETAIL
@@ -142,6 +143,13 @@ public class Result {
 				my.XLS.writeCell(row,2,'',this.cellStyle_RESULT_STEPGRP)
 
 				break
+				
+			case 'STEPSSGRP':
+				my.XLS.writeCell(row,1,(' '+msg+' ').center(70, '-'),this.cellStyle_RESULT_STEPSSGRP)
+				my.XLS.writeCell(row,2,'',this.cellStyle_RESULT_STEPSSGRP)
+
+				break			
+				
 			case 'SUBSTEP':
 				my.XLS.writeCell(row,1,msg,this.cellStyle_RESULT_SUBSTEP)
 
@@ -491,6 +499,11 @@ public class Result {
 		this.cellStyle_RESULT_STEPGRP.setFillPattern(FillPatternType.SOLID_FOREGROUND)
 		this.cellStyle_RESULT_STEPGRP.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.index)
 
+		
+		this.cellStyle_RESULT_STEPSSGRP = this.book.createCellStyle()
+		this.cellStyle_RESULT_STEPSSGRP.setFont(fontStep)
+		
+		
 		def fontStepLOOP = this.book.createFont()
 		fontStepLOOP.setFontName('Arial')
 		fontStepLOOP.setFontHeightInPoints(10 as short)

@@ -7,8 +7,10 @@
  * -----------------------------------------------------------------------------------------------------
  * 
 
-Result all collapse à true
-...SRA... suppression d'un delay
+Add STEPSSGRP
+
+Log.addSTEPSSGRP
+Result : cellStyle_RESULT_STEPSSGRP
 
 
  * 
@@ -28,11 +30,6 @@ Result all collapse à true
  * EN COURS
  * -----------------------------------------------------------------------------------------------------
  *
-	
-
-	
-Result all collapse à true
-...SRA... suppression d'un delay
 
  
 

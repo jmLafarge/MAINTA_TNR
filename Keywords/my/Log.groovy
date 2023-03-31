@@ -162,6 +162,7 @@ class Log {
 		}
 	}
 
+	
 
 	public static addSUBSTEP (String msg) {
 		this.addINFO(this.PRESUBSTEPTXT+ msg)
@@ -171,11 +172,17 @@ class Log {
 
 
 	public static addSTEPGRP (String msg) {
-		this.addINFO('\t'+ msg.padRight(80, '_'))
+		this.addINFO('\t'+ msg.padRight(90, '_'))
 		this.addStepInResult(msg,'STEPGRP')
 	}
 
-
+	public static addSTEPSSGRP (String msg) {
+		this.addINFO('\t'+ msg.center(70, '-'))
+		this.addStepInResult(msg,'STEPSSGRP')
+	}
+	
+	
+	
 	public static addSTEPLOOP (String msg) {
 		this.addINFO('\t'+ msg.padRight(40, '.'))
 		this.addStepInResult(msg,'STEPLOOP')
