@@ -18,7 +18,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		KW.scrollAndSetText(myJDD,'NU_COUHOR')
 	
 	
-	MYLOG.addSTEPGRP('VALIDATION')
+	MYLOG.addSTEPACTION('VALIDATION')
 
 		KW.scrollAndClick(myJDD,'button_Valider')
 

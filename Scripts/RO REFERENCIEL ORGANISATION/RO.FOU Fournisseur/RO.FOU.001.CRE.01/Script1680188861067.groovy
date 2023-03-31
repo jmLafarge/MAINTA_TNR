@@ -76,7 +76,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 	
 				
-	MYLOG.addSTEPGRP('VALIDATION')
+	MYLOG.addSTEPACTION('VALIDATION')
 
     KW.scrollAndClick(NAV.myGlobalJDD,'button_Valider')
 

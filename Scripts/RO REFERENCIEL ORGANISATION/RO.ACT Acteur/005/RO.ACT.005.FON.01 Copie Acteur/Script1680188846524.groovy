@@ -29,7 +29,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
     KW.scrollAndSetText(myJDD,'input_ST_PRENEW', myJDD.getStrData('ST_PRE'))
 			
 	
-	MYLOG.addSTEPGRP('VALIDATION')
+	MYLOG.addSTEPACTION('VALIDATION')
 		
     'Validation de la saisie'
     KW.scrollAndClick(myJDD,'button_ValiderCopie')

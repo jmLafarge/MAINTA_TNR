@@ -86,7 +86,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	    }// fin du for
 	
 	
-	MYLOG.addSTEPGRP('CONTROLE')
+	MYLOG.addSTEPACTION('CONTROLE')
 
 		'Vérification des valeurs en BD'
 		my.SQL.checkJDDWithBD(myJDD)

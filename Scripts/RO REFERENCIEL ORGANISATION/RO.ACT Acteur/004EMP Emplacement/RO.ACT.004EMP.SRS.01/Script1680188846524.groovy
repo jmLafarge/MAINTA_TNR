@@ -44,7 +44,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 			}
 	    }
 		
-	MYLOG.addSTEPGRP('CONTROLE')
+	MYLOG.addSTEPACTION('CONTROLE')
 	'Vérification en BD que l\'objet n\'existe plus'
 	my.SQL.checkIDNotInBD(myJDD)		
 

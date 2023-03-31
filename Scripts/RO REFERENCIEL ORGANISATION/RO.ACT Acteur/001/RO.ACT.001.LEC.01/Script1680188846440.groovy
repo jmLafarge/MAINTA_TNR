@@ -52,7 +52,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		KW.scrollAndClick(myJDD,'a_Role')
 		KW.waitForElementVisible(myJDD,'a_RoleSelected')
 
-		MYLOG.addSTEPSSGRP("PROFIL")
+		MYLOG.addSTEPBLOCK("PROFIL")
 		KW.verifyElementCheckedOrNot(myJDD,'ST_GES','O')
 		KW.verifyElementCheckedOrNot(myJDD,'ST_EXP','O')
 		KW.verifyElementCheckedOrNot(myJDD,'ST_MAI','O')
@@ -62,7 +62,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		KW.verifyElementCheckedOrNot(myJDD,'ST_ACH','O')
 		KW.verifyElementCheckedOrNot(myJDD,'ST_REC','O')
 		KW.verifyElementCheckedOrNot(myJDD,'ST_UTI','O')
-		MYLOG.addSTEPSSGRP("ROLE DANS L'ORGANISATION")
+		MYLOG.addSTEPBLOCK("ROLE DANS L'ORGANISATION")
 		KW.verifyElementCheckedOrNot(myJDD,'ST_UTIMOB','O')
 		KW.verifyElementCheckedOrNot(myJDD,'ST_INVPRE','O')
 		KW.verifyElementCheckedOrNot(myJDD,'ST_INVBT','O')

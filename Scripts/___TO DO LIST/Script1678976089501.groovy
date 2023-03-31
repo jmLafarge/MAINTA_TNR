@@ -7,11 +7,10 @@
  * -----------------------------------------------------------------------------------------------------
  * 
 
-Add STEPSSGRP
+Add STEPACTION and rename addSTEPSSGRP en addSTEPBLOCK
 
-Log.addSTEPSSGRP
-Result : cellStyle_RESULT_STEPSSGRP
-
+Log.addSTEPACTION
+Result : cellStyle_RESULT_STEPACTION
 
  * 
  * -----------------------------------------------------------------------------------------------------

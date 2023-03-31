@@ -55,7 +55,8 @@ public class Result {
 	private static CellStyle cellStyle_RESULT_STEPWARNING
 	private static CellStyle cellStyle_RESULT_STEPERROR
 	private static CellStyle cellStyle_RESULT_STEPGRP
-	private static CellStyle cellStyle_RESULT_STEPSSGRP
+	private static CellStyle cellStyle_RESULT_STEPACTION
+	private static CellStyle cellStyle_RESULT_STEPBLOCK
 	private static CellStyle cellStyle_RESULT_STEPLOOP
 	private static CellStyle cellStyle_RESULT_SUBSTEP
 	private static CellStyle cellStyle_RESULT_STEPDETAIL
@@ -143,13 +144,19 @@ public class Result {
 				my.XLS.writeCell(row,2,'',this.cellStyle_RESULT_STEPGRP)
 
 				break
-				
-			case 'STEPSSGRP':
-				my.XLS.writeCell(row,1,(' '+msg+' ').center(70, '-'),this.cellStyle_RESULT_STEPSSGRP)
-				my.XLS.writeCell(row,2,'',this.cellStyle_RESULT_STEPSSGRP)
 
-				break			
-				
+			case 'STEPACTION':
+				my.XLS.writeCell(row,1,msg,this.cellStyle_RESULT_STEPACTION)
+				my.XLS.writeCell(row,2,'',this.cellStyle_RESULT_STEPACTION)
+
+				break
+
+			case 'STEPBLOCK':
+				my.XLS.writeCell(row,1,(' '+msg+' ').center(70, '-'),this.cellStyle_RESULT_STEPBLOCK)
+				my.XLS.writeCell(row,2,'',this.cellStyle_RESULT_STEPBLOCK)
+
+				break
+
 			case 'SUBSTEP':
 				my.XLS.writeCell(row,1,msg,this.cellStyle_RESULT_SUBSTEP)
 
@@ -499,11 +506,16 @@ public class Result {
 		this.cellStyle_RESULT_STEPGRP.setFillPattern(FillPatternType.SOLID_FOREGROUND)
 		this.cellStyle_RESULT_STEPGRP.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.index)
 
+		this.cellStyle_RESULT_STEPACTION = this.book.createCellStyle()
+		this.cellStyle_RESULT_STEPACTION.setFont(fontStepGRP)
+		this.cellStyle_RESULT_STEPACTION.setFillPattern(FillPatternType.SOLID_FOREGROUND)
+		this.cellStyle_RESULT_STEPACTION.setFillForegroundColor(IndexedColors.LIGHT_CORNFLOWER_BLUE.index)
 		
-		this.cellStyle_RESULT_STEPSSGRP = this.book.createCellStyle()
-		this.cellStyle_RESULT_STEPSSGRP.setFont(fontStep)
-		
-		
+
+		this.cellStyle_RESULT_STEPBLOCK = this.book.createCellStyle()
+		this.cellStyle_RESULT_STEPBLOCK.setFont(fontStep)
+
+
 		def fontStepLOOP = this.book.createFont()
 		fontStepLOOP.setFontName('Arial')
 		fontStepLOOP.setFontHeightInPoints(10 as short)

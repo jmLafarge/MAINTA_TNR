@@ -30,7 +30,7 @@ for (j in 1..maxj) {
 			for (i in 1..3) MYLOG.addSTEPPASS("Step $i encore un exemple")
 			break
 		case 6:
-			MYLOG.addSTEP('VALIDATION')
+			MYLOG.addSTEPACTION('VALIDATION')
 			for (i in 1..4) MYLOG.addSTEPPASS("Encore des step  $i pour commentaire")
 			break
 		default:
