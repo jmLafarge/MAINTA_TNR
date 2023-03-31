@@ -45,7 +45,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 	        KW.scrollAndSetText(myJDD,'SelectionHabilitation_input_Filtre', myJDD.getStrData('ID_CODHAB'))
 	
-	        KW.delay(1)
+	        //KW.delay(1)
 	
 	        KW.scrollAndClick(myJDD,'SelectionHabilitation_td')
 	

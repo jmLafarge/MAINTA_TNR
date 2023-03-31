@@ -86,7 +86,9 @@ public class Result {
 
 		}else if (this.firstLineDETAIL != 0){
 			//fin du DETAIL
-			boolean collapse = !(this.statusDETAIL in ['WARNING', 'FAIL', 'ERROR'])
+			//boolean collapse = !(this.statusDETAIL in ['WARNING', 'FAIL', 'ERROR'])
+			boolean collapse=true
+
 			this.shRESULT.setRowSumsBelow(false)
 			this.shRESULT.groupRow(this.firstLineDETAIL, this.nextLineNumber-1)
 			this.shRESULT.setRowGroupCollapsed(this.firstLineDETAIL, collapse)
@@ -190,7 +192,7 @@ public class Result {
 
 		this.groupDetail()
 
-		boolean collapse = false
+		boolean collapse = true //false
 
 		if (status.ERROR !=0 ) {
 

@@ -44,7 +44,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 	        KW.scrollAndSetText(myJDD,'SelectionMetier_input_Filtre', myJDD.getStrData('ID_CODMET'))
 	
-	        KW.delay(1)
+	       // KW.delay(1)
 	
 	        KW.scrollAndClick(myJDD,'SelectionMetier_td')
 			

@@ -45,7 +45,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 	        KW.scrollAndSetText(myJDD,'SelectionEmplacement_input_Filtre', myJDD.getStrData('ID_NUMREF'))
 	
-	        KW.delay(1)
+	       // KW.delay(1)
 	
 	        KW.scrollAndClick(myJDD,'SelectionEmplacement_td')
 
