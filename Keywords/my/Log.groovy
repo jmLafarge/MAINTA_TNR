@@ -169,13 +169,13 @@ class Log {
 		this.addStepInResult(msg,'SUBSTEP')
 	}
 
-	
+
 	public static addSTEPACTION (String msg) {
 		this.addINFO('\t'+ msg.padRight(90, '_'))
 		this.addStepInResult(msg,'STEPACTION')
 	}
 
-	
+
 	public static addSTEPGRP (String msg) {
 		this.addINFO('\t'+ msg.padRight(90, '_'))
 		this.addStepInResult(msg,'STEPGRP')

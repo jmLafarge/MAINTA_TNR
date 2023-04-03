@@ -62,6 +62,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		KW.verifyElementCheckedOrNot(myJDD,'ST_ACH','O')
 		KW.verifyElementCheckedOrNot(myJDD,'ST_REC','O')
 		KW.verifyElementCheckedOrNot(myJDD,'ST_UTI','O')
+		
 		MYLOG.addSTEPBLOCK("ROLE DANS L'ORGANISATION")
 		KW.verifyElementCheckedOrNot(myJDD,'ST_UTIMOB','O')
 		KW.verifyElementCheckedOrNot(myJDD,'ST_INVPRE','O')

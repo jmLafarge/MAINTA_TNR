@@ -117,7 +117,7 @@ public class SQL {
 
 					MYLOG.addDEBUG("NU : Pas de contrôle pour $fieldName : la valeur en BD est  : $val" )
 					break
-					
+
 				case my.JDDKW.getKW_VIDE() :
 				case my.JDDKW.getKW_NULL():
 					if (val == null || val =='') {

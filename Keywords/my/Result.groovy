@@ -510,7 +510,7 @@ public class Result {
 		this.cellStyle_RESULT_STEPACTION.setFont(fontStepGRP)
 		this.cellStyle_RESULT_STEPACTION.setFillPattern(FillPatternType.SOLID_FOREGROUND)
 		this.cellStyle_RESULT_STEPACTION.setFillForegroundColor(IndexedColors.LIGHT_CORNFLOWER_BLUE.index)
-		
+
 
 		this.cellStyle_RESULT_STEPBLOCK = this.book.createCellStyle()
 		this.cellStyle_RESULT_STEPBLOCK.setFont(fontStep)

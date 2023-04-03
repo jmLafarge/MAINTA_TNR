@@ -7,10 +7,7 @@
  * -----------------------------------------------------------------------------------------------------
  * 
 
-Add STEPACTION and rename addSTEPSSGRP en addSTEPBLOCK
-
-Log.addSTEPACTION
-Result : cellStyle_RESULT_STEPACTION
+TC
 
  * 
  * -----------------------------------------------------------------------------------------------------
@@ -30,7 +27,7 @@ Result : cellStyle_RESULT_STEPACTION
  * -----------------------------------------------------------------------------------------------------
  *
 
- 
+ Ajouter ST_DESID_NUMZON dans JDD.RO.ACT
 
  
 
