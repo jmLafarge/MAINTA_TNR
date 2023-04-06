@@ -1,6 +1,7 @@
 package checkprerequis
 
 import my.Log as MYLOG
+import my.InfoBDD as MYINFOBDD
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
@@ -31,7 +32,8 @@ public class CheckPREJDD {
 					myJDD.loadTCSheet(myJDD.book.getSheet(sheet.getSheetName()))
 					List headersPREJDD = my.XLS.loadRow(sheet.getRow(0))
 					List datas = my.PREJDD.loadDATA(sheet,headersPREJDD.size())
-					List PKList = my.InfoBDD.getPK(myJDD.getDBTableName())
+					String table = myJDD.getDBTableName()
+					List PKList = MYINFOBDD.getPK(table)
 
 					MYLOG.addSUBSTEP("Onglet : " + sheet.getSheetName() )
 
@@ -42,8 +44,8 @@ public class CheckPREJDD {
 
 						MYLOG.addDETAIL("Contrôle des colonnes")
 
-						//my.InfoBDD.colnameMap[myJDD.getDBTableName()].eachWithIndex{col,index ->
-						my.InfoBDD.map[myJDD.getDBTableName()].each{col,vlist ->
+						//MYINFOBDD.colnameMap[table].eachWithIndex{col,index ->
+						MYINFOBDD.map[table].each{col,vlist ->
 							if (col == headersPREJDD[(int)vlist[0]]) {
 								MYLOG.addDEBUG("'$col' OK")
 							}else if (col in headersPREJDD) {
@@ -63,6 +65,31 @@ public class CheckPREJDD {
 								}
 							}
 						}
+						
+						
+						
+						
+						MYLOG.addDETAIL("Contrôle des types dans les DATA")
+						
+						datas.eachWithIndex { li,numli ->
+							li.eachWithIndex { val,i ->
+								String name = myJDD.getHeaderNameOfIndex(i)
+								if (i!=0 && MYINFOBDD.inTable(table, name) && !myJDD.isFK(name)) {
+								
+									if (MYINFOBDD.isNumeric(table, name)) {
+	
+										if (val.toString().isNumber() || val in ['$NULL','$NU','$SEQUENCEID']) {
+											// c'est bon
+										}else {
+											
+											MYLOG.addDETAILFAIL(li[0] + "($name) : La valeur '$val' n'est pas autorisé pour un champ numérique")
+										}
+									}
+								}
+							}
+						}
+						
+						
 
 
 						MYLOG.addDETAIL("Contrôle absence de doublon sur PRIMARY KEY : " +  PKList.join(' , '))

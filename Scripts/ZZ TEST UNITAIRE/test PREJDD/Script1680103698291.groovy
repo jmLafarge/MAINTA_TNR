@@ -9,7 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 //my.PREJDDFiles.insertPREJDDinDB('RO.MET','001')
 
 
-my.InfoBDD.load()
+MYINFOBDD.load()
 
 XSSFWorkbook book = my.XLS.open('TNR_PREJDD/PREJDD.RO.CAL.xlsx')
 
@@ -17,7 +17,7 @@ for(Sheet sheet: book) {
 
 	List headersPREJDD = my.XLS.loadRow(sheet.getRow(0))
 	List datas = my.PREJDD.loadDATA(sheet,headersPREJDD.size())
-	List PKList = my.InfoBDD.getPK('CALDEF')
+	List PKList = MYINFOBDD.getPK('CALDEF')
 	
 	
 	println '----------------------------------------------'

@@ -10,7 +10,7 @@ List listRubriquesIHM = []
 
 //listRubriquesIHM = ['ST_DESGES','ST_DESID_CODMOD','ST_DESID_CODPAI','ST_DESID_CODMOD','ST_DESID_CODDEV','ST_DESID_CODPOR','ST_DESID_CODEMB']
 
-listRubriquesIHM = ['ST_DESGES']
-JDDGenerator.add('COM','MP.CPT','001', listRubriquesIHM)
+//listRubriquesIHM = ['ST_DESGES']
+//JDDGenerator.add('COM','MP.CPT','001', listRubriquesIHM)
 
 

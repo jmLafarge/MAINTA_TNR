@@ -20,43 +20,44 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_CODINT'))
 
-	'Clic sur le bon onglet'
-    KW.scrollAndClick(myJDD,'a_Habilitation')
+	MYLOG.addSTEPGRP("ONGLET HABILITATION")
 
-	'Vérification de l\'onglet'
-    KW.waitForElementVisible(myJDD,'a_HabilitationSelected')
-
-	'Boucle sur les lignes d\'un même TC'
-    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
+		KW.scrollAndClick(myJDD,"tab_Habilitation")
+		KW.waitForElementVisible(myJDD,"tab_HabilitationSelected")
+	
 		
-		if (myJDD.getNbrLigneCasDeTest()>1) {
-			MYLOG.addSTEPLOOP("Lecture $i / " + myJDD.getNbrLigneCasDeTest())
-		}
-		
-		myJDD.setCasDeTestNum(i)
-		
-        KW.waitAndVerifyElementText(myJDD,'ID_CODHAB')
-
-
-		if (myJDD.getData('DT_DATDEB',i) != '$VIDE') {
+	
+		'Boucle sur les lignes d\'un même TC'
+	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
 			
-			KW.verifyDate(myJDD,'td_DateDebut', myJDD.getData('DT_DATDEB'))
+			if (myJDD.getNbrLigneCasDeTest()>1) {
+				MYLOG.addSTEPLOOP("Lecture $i / " + myJDD.getNbrLigneCasDeTest())
+			}
 			
-		}else {
+			myJDD.setCasDeTestNum(i)
 			
-			KW.verifyElementText(myJDD,'td_DateDebut', '')
-		}
-		
-		if (myJDD.getData('DT_DATFIN',i) != '$VIDE') {
+	        KW.waitAndVerifyElementText(myJDD,'ID_CODHAB')
+	
+	
+			if (myJDD.getData('DT_DATDEB',i) != '$VIDE') {
+				
+				KW.verifyDate(myJDD,'td_DateDebut', myJDD.getData('DT_DATDEB'))
+				
+			}else {
+				
+				KW.verifyElementText(myJDD,'td_DateDebut', '')
+			}
 			
-			KW.verifyDate(myJDD,'td_DateFin', myJDD.getData('DT_DATFIN'))
+			if (myJDD.getData('DT_DATFIN',i) != '$VIDE') {
+				
+				KW.verifyDate(myJDD,'td_DateFin', myJDD.getData('DT_DATFIN'))
+				
+			}else {
+				
+				KW.verifyElementText(myJDD,'td_DateFin', '')
+			}
 			
-		}else {
-			
-			KW.verifyElementText(myJDD,'td_DateFin', '')
-		}
-		
-    }// fin du for
+	    }// fin du for
 	
 } // fin du if
 

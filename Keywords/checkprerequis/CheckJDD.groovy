@@ -2,6 +2,7 @@ package checkprerequis
 
 import org.apache.poi.ss.usermodel.*
 import my.Log as MYLOG
+import my.InfoBDD as MYINFOBDD
 
 public class CheckJDD {
 
@@ -18,6 +19,8 @@ public class CheckJDD {
 		my.JDDFiles.JDDfilemap.each { modObj,fullName ->
 
 			def myJDD = new my.JDD(fullName)
+			
+			
 			for(Sheet sheet: myJDD.book) {
 				if (!(sheet.getSheetName() in myJDD.SKIP_LIST_SHEETNAME)) {
 
@@ -25,22 +28,23 @@ public class CheckJDD {
 					MYLOG.addSUBSTEP("Onglet : " + sheet.getSheetName())
 					MYLOG.addDETAIL("Contrôle de la liste des paramètres")
 					myJDD.loadTCSheet(sheet)
+					String table = myJDD.getDBTableName()
 					//if (fullName.split('\\\\')[-1] in JDDTOSKIP) {
-					if (myJDD.getDBTableName()=='') {
+					if (table=='') {
 						MYLOG.addDETAIL("Pas de table DB")
 					}else {
-						if (my.InfoBDD.isTableExist(myJDD.getDBTableName())) {
-							MYLOG.addDETAIL("Contrôle de la table DB '" + myJDD.getDBTableName() + "'")
+						if (MYINFOBDD.isTableExist(table)) {
+							MYLOG.addDETAIL("Contrôle de la table DB '$table'")
 
 							if (myJDD.headers.size()>1) {
-								MYLOG.addDETAIL("Contrôle des colonnes (Présence, ordre, prérequis, foreignkey)")
-								//my.InfoBDD.colnameMap[myJDD.getDBTableName()].eachWithIndex{col,index ->
-								my.InfoBDD.map[myJDD.getDBTableName()].each{col,vlist ->
+								MYLOG.addDETAIL("Contrôle des colonnes (Présence, ordre)")
+								//MYINFOBDD.colnameMap[table].eachWithIndex{col,index ->
+								MYINFOBDD.map[table].each{col,vlist ->
 
 									if (col == myJDD.headers[(int)vlist[0]]) {
 										MYLOG.addDEBUG("'$col' OK")
 
-										//my.InfoBDD.updateParaInfoBDD(myJDD, col,fullName, modObj+'.'+sheet.getSheetName())
+										//MYINFOBDD.updateParaInfoBDD(myJDD, col,fullName, modObj+'.'+sheet.getSheetName())
 
 
 									}else if (col in myJDD.headers) {
@@ -56,9 +60,35 @@ public class CheckJDD {
 							}
 
 						}else {
-							MYLOG.addDETAILFAIL("Contrôle de la table DB KO, la table '" + myJDD.getDBTableName() + "' n'existe pas !")
+							MYLOG.addDETAILFAIL("Contrôle de la table DB KO, la table '$table' n'existe pas !")
 						}
 					}
+
+					if (myJDD.headers.size()>1) {
+						MYLOG.addDETAIL("Contrôle des LOCATOR")
+						myJDD.getParam('LOCATOR').eachWithIndex {loc,i ->
+							if (loc!=null && loc!='' && i!=0) {
+								String name = myJDD.headers[i]
+
+								if (loc in myJDD.TAG_LIST_ALLOWED) {
+									MYLOG.addDEBUG("$name : $loc in myJDD.TAG_LIST_ALLOWED")
+								}else if ((loc[0] != '/') && (loc.toString().split(/\*/).size()>1)) {
+									//it's a tag with an attribut
+									def lo = loc.toString().split(/\*/)
+									if (lo[0] in myJDD.TAG_LIST_ALLOWED) {
+										MYLOG.addDEBUG("$name : $name : ${loc[0]} in myJDD.TAG_LIST_ALLOWED dans $loc")
+									}else {
+										MYLOG.addDETAILFAIL("$name : LOCATOR inconnu : ${lo[0]} in '$loc'")
+									}
+								}else if (loc[0] == '/') {
+									MYLOG.addDEBUG("$loc OK")
+								}else {
+									MYLOG.addDETAILFAIL("$name : LOCATOR inconnu : '$loc'")
+								}
+							}
+						}
+					}
+
 
 					if (myJDD.headers.size()>1) {
 
@@ -72,6 +102,33 @@ public class CheckJDD {
 							}
 						}
 					}
+
+
+
+					if (myJDD.headers.size()>1) {
+
+						MYLOG.addDETAIL("Contrôle des types dans les DATA")
+						myJDD.datas.eachWithIndex { li,numli ->
+							li.eachWithIndex { val,i ->
+								String name = myJDD.getHeaderNameOfIndex(i)
+								if (i!=0 && MYINFOBDD.inTable(table, name) && !myJDD.isFK(name)) {
+								
+									if (MYINFOBDD.isNumeric(table, name)) {
+	
+										if (val.toString().isNumber() || val in ['$NULL','$NU','$SEQUENCEID']) {
+											// c'est bon
+										}else {
+											
+											MYLOG.addDETAILFAIL(li[0] + "($name) : La valeur '$val' n'est pas autorisé pour un champ numérique")
+										}
+									}
+								}
+							}
+						}
+					}
+
+
+
 				}
 			}
 		}

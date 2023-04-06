@@ -7,6 +7,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.io.FileType
 import my.Log as MYLOG
+import my.SQL as MYSQL
+import my.InfoBDD as MYINFOBDD
 
 public class PREJDDFiles {
 
@@ -48,19 +50,12 @@ public class PREJDDFiles {
 		// set tab (sheet)
 		Sheet sheet = book.getSheet(tabName)
 		Row row0 = sheet.getRow(0)
-		
-		//Create folder if not exist
-		File dir = new File(my.PropertiesReader.getMyProperty('SQL_PATH'))
-		if (!dir.exists()) dir.mkdirs()
 
-		String fileSQLName = my.PropertiesReader.getMyProperty('SQL_PATH') + File.separator +  modObj + '_' + tabName + '.sql'
-		MYLOG.addSTEP("Création du script SQL : '$fileSQLName'")
-		File fileSQL =new File(fileSQLName)
-		if (fileSQL.exists()){ fileSQL.delete() }
-		fileSQL =new File(fileSQLName)
-		fileSQL.append("PRINT 'DEBUT INSERTION TABLE " + myJDD.getDBTableName() + "';\n")
 		Map sequence = [:]
 		def maxORDRE = null
+
+		List PKlist=MYINFOBDD.getPK(myJDD.getDBTableName())
+
 		// for each data line
 		for (int numline : (1..sheet.getLastRowNum())) {
 			Row row = sheet.getRow(numline)
@@ -68,18 +63,28 @@ public class PREJDDFiles {
 			if (my.XLS.getCellValue(row.getCell(0))=="") {
 				break
 			}
-			String fields =''
-			String values =''
+			List fields =[]
+			List values =[]
+			String val = ''
+			List PKwhere = []
 			for (Cell c in row) {
 				String fieldName = my.XLS.getCellValue(row0.getCell(c.getColumnIndex()))
 				if (fieldName=="") {
 					break
 				}
+
+
+
 				def value = my.XLS.getCellValue(c)
 				MYLOG.addDEBUG("\t\tCell value = '$value' getClass()=" + value.getClass(),2)
-				if (fieldName!='CAS_DE_TEST') {
+				if (c.getColumnIndex()>0) {
 					MYLOG.addDEBUG("\t\tAjout fieldName='$fieldName' value='$value' in req SQL",2)
-					fields=fields +','+ fieldName
+
+					if (!my.JDDKW.isNU(value.toString()) ) {
+						fields.add(fieldName)
+					}
+
+
 					// cas d'un champ lié à une séquence
 					String seqTable = myJDD.getParamForThisName('SEQUENCE',fieldName)
 					if (seqTable!=null){
@@ -93,68 +98,88 @@ public class PREJDDFiles {
 						}
 					}
 
-					/* Pas utilisé dans les PREJDD car on ne peut pas toujours faire le lien
-					 // cas d'un champ lié à une clé étrangère
-					 String FK = myJDD.getParamForThisName('FOREIGNKEY',fieldName)
-					 if (FK!=null){
-					 value = my.SQL.getValueFromForeignKey(myJDD.getSqlForForeignKey(FK, value))
-					 }
-					 */
-
 					switch (value) {
 
 						case my.JDDKW.getKW_ORDRE() :
 							if (maxORDRE == null) {
-								maxORDRE = my.SQL.getMaxFromTable(fieldName, myJDD.getDBTableName())
+								maxORDRE = MYSQL.getMaxFromTable(fieldName, myJDD.getDBTableName())
 							}
 							maxORDRE++
-							values = values + ',' + maxORDRE.toString()
+							val = maxORDRE.toString()
 							break
 
 						case my.JDDKW.getKW_NULL() :
-							values = values + ",NULL"
+							val = "NULL"
 							break
 
 						case my.JDDKW.getKW_VIDE() :
-							values = values + ",''"
+							val = "''"
 							break
 
 						case my.JDDKW.getKW_DATE() :
 							def now = new Date()
-							values = values + ",'" + now.format('yyyy-dd-MM') + "'"
+							val =  "'${now.format('yyyy-dd-MM')}'"
 							break
 
 						case my.JDDKW.getKW_DATETIME() :
 							def now = new Date()
-							values = values + ",'" + now.format('yyyy-dd-MM HH:mm:ss.SSS') + "'"
+							val = "'${now.format('yyyy-dd-MM HH:mm:ss.SSS')}'"
 							break
 						default :
 							if (value instanceof java.util.Date) {
 								MYLOG.addDEBUG("\t\t instanceof java.util.Date = TRUE")
-								values = values + ",'" + value.format('yyyy-dd-MM HH:mm:ss.SSS') + "'"
+								val = "'${value.format('yyyy-dd-MM HH:mm:ss.SSS')}'"
 							}else {
-								values = values + ",'$value'"
+								val = "'$value'"
 							}
 							break
 					}
+
+					if (!my.JDDKW.isNU(value.toString()) ) {
+						values.add(val)
+					}
+
+					if (PKlist.contains(fieldName)) {
+						PKwhere.add("$fieldName = $val")
+
+					}
+
 				}
 			}
-			fields = fields.substring(1)
-			values = values.substring(1)
-			String req = "INSERT INTO " + myJDD.getDBTableName() + " ($fields) VALUES ($values);"
-			MYLOG.addDETAIL(req)
-			fileSQL.append("$req\n")
+
+
+			this.insertIfNotExist(myJDD.getDBTableName(), PKwhere.join(' AND '), fields.join(','), values.join(','))
+
 		}
 
-		//my.Tools.parseMap(sequence)
 		if (sequence.size()>0) {
 			sequence.each { table, val ->
 				String req = "DBCC CHECKIDENT ($table, RESEED,$val);"
 				MYLOG.addDETAIL(req)
-				fileSQL.append("$req\n")
+				MYSQL.executeSQL(req)
+				//fileSQL.append("$req\n")
 			}
 		}
-		fileSQL.append("PRINT 'FIN INSERTION TABLE " + myJDD.getDBTableName() + "';\n")
+	}
+
+
+
+
+	static insertIfNotExist(String table, String PKwhere, String fields, String values) {
+
+		MYLOG.addDEBUG("SELECT count(*) FROM $table WHERE $PKwhere")
+		def result = MYSQL.getFirstRow("SELECT count(*) FROM $table WHERE $PKwhere")
+		if(result) {
+			if (result[0] == 0) {
+				MYLOG.addDETAIL("INSERT INTO $table ($fields) VALUES ($values);")
+				MYSQL.executeSQL("INSERT INTO $table ($fields) VALUES ($values);")
+			}else if (result[0] ==1){
+				MYLOG.addDEBUG("La valeur $PKwhere existe déjà")
+			}else {
+				MYLOG.addERROR("Plusieurs valeurs trouvées pour :")
+				MYLOG.addDETAIL("SELECT count(*) FROM $table WHERE $PKwhere")
+			}
+		}
 	}
 
 

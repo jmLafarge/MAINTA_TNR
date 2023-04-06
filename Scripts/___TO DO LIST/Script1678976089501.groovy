@@ -7,8 +7,12 @@
  * -----------------------------------------------------------------------------------------------------
  * 
 
-TC
+Les JDD et PREJDD sont modifiés en ajoutant le prefixe de l'objet depuis les codes des Sous ressources
+--> mettre à jour la doc
 
+CheckJDD.run ajout du controle de LOCATOR (TAG_LIST_ALLOWED)
+JDD.getListCDTVAL : ne pas ajouter à la liste des controles, les objets qu'on doit créer (CRE - PK)
+Ajout de Check_CAL
  * 
  * -----------------------------------------------------------------------------------------------------
  * NOTE
@@ -27,18 +31,23 @@ TC
  * -----------------------------------------------------------------------------------------------------
  *
 
- Ajouter ST_DESID_NUMZON dans JDD.RO.ACT
+
+MYLOG.addDETAIL("Contrôle des types dans les DATA" CheckPREJDD ligne 71
 
  
-
+Envoyer le JDD.AD.SEC à Nicolas
  
  * 
  * -----------------------------------------------------------------------------------------------------
  * A FAIRE EN PRIORITE
  * -----------------------------------------------------------------------------------------------------
  * 
-	
-	
+		
+		
+		  
+		  		
+		  		
+		  		
 	JDDGenerator --> inclure la lecture du TCGenerator pour alimenter le LOCATOR du JDD
 		
 	Traiter les valeurs des $DATESYS et $DATETIME
@@ -53,6 +62,11 @@ TC
  * EVOLUTION
  * -----------------------------------------------------------------------------------------------------
  * 
+	
+	CONTROLE
+	
+		Préférer les imports vs appel direct de type my.XLS ....
+	
 	
 	HEADLESS 
 	
@@ -77,22 +91,13 @@ TC
 		
 		
 	CHECK PREREQUIS 
+	
+		J'ai ajouté le Check_CAL --> faire pareil avec les autres chck spécifique , comme par exe les org/ser et inter...
 	  
 		Ajouter les controle des PARAM_LIST_ALLOWED et des TAG_LIST_ALLOWED dans les controles JDD "CHECK PREREQUIS" plutot que dans le code des tests
-		
-		AJOUTER un ctrl sur les PK il faut que tous les JDD "CDT + les PK" des JDD soit dans les PREJDD correspondant, SAUF pour CRE et SRA
-		   
-		Le controle des PREREQUIS des JDD dans les PREJDD est fait mais il faudrait aussi  controler les PREREQUIS des PREJDD dans les PREJDD 
-		  		--> voir si on peut utiliser le paramètrage PREREQUIS ou s'il faut mettre en place des regles, par exemple
-		  		check ('PREJDD.RO.CAL','001.IDCODCAL','001A.ID_CODCAL')
-		  		check ('PREJDD.RO.CAL','001A.IDCODCAL','001.ID_CODCAL')
-		  
-		CREER UNE FONCTION POUR ça : --> je ne sais plus trop ce que c'est --> a vérifier si encore valable
-		  		Vérifier que pour tous les PRE.XX.ICB.ID_ENTMOS='INT', les ICB.ID_CODMOS sont dans PRE.RO.ACT.ID_CODINT
-		  		Vérifier que pour tous les PRE.XX.UTI.IDCODPRO='SOC', les UTI.ID_CODUTI sont dans dans PRE.RO.ACT.ID_CODINT
-		  		Vérifier que pour tous les PRE.XX.UTI.IDCODPRO='SOC', les UTI.ID_NUMSOC sont dans dans PRE.XX.SOCIETE.ID_NUMSOC
 		 
-		Verifir si les valeurs collent avec les types :  my.InfoBDD.getDATA_TYPE( myJDD.getDBTableName(), fieldName)
+		Verifir si les valeurs collent avec les types :  MYINFOBDD.getDATA_TYPE( myJDD.getDBTableName(), fieldName)
+		Par exemple les numéric ne doivent pas être vide mais $NULL
 		  
 		Dans les JDD, mettre en vert les cellules des attributs modifiés par rapport aux PREJDD pour les cas de tests MODIF
 		

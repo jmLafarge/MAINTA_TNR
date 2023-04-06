@@ -9,6 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import internal.GlobalVariable
 import my.Log as MYLOG
+import my.InfoBDD as MYINFOBDD
 
 
 class JDDGenerator {
@@ -194,7 +195,7 @@ class JDDGenerator {
 
 
 
-			my.InfoBDD.map[table].each{col,vlist ->
+			MYINFOBDD.map[table].each{col,vlist ->
 				// Sheet FCT
 				my.XLS.writeCell(shFCT.getRow(0),numColFct,col,styleChamp)
 				for (int i in 1..4) {
@@ -207,16 +208,16 @@ class JDDGenerator {
 				rowInfo = my.XLS.getNextRow(shJDDInfo)
 				my.XLS.writeCell(rowInfo,0,col)
 				my.XLS.writeCell(rowInfo,1,lib.getAt(col))
-				String type = my.InfoBDD.map[table][col][2]+'('+my.InfoBDD.map[table][col][3]+')'
-				if (my.InfoBDD.map[table][col][2]=='numeric') {
+				String type = MYINFOBDD.map[table][col][2]+'('+MYINFOBDD.map[table][col][3]+')'
+				if (MYINFOBDD.map[table][col][2]=='numeric') {
 					type = 'numeric'
-				}else if (my.InfoBDD.map[table][col][2]=='datetime') {
+				}else if (MYINFOBDD.map[table][col][2]=='datetime') {
 					type = 'datetime'
-				}else if (my.InfoBDD.map[table][col][4]=='T_BOOLEEN') {
+				}else if (MYINFOBDD.map[table][col][4]=='T_BOOLEEN') {
 					type = 'boolean'
 				}
 
-				if (my.InfoBDD.map[table][col][5]!='NULL') {
+				if (MYINFOBDD.map[table][col][5]!='NULL') {
 					CellStyle stylePK = JDDbook.createCellStyle()
 					def fontPK = JDDbook.createFont()
 					fontPK.setColor(IndexedColors.RED.index)
@@ -335,7 +336,7 @@ class JDDGenerator {
 
 			def stylePREJDDChamp = shFCT.getRow(0).getCell(1).getCellStyle()
 
-			my.InfoBDD.map[table].each{col,vlist ->
+			MYINFOBDD.map[table].each{col,vlist ->
 				my.XLS.writeCell(shFCT.getRow(0),numColFct,col,stylePREJDDChamp)
 				numColFct++
 			}

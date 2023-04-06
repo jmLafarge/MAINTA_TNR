@@ -19,11 +19,9 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 	MYLOG.addSTEPGRP('ONGLET HABILITATION')
 	
-		'Clic sur le bon onglet'
-		KW.scrollAndClick(myJDD,'a_Habilitation')
-		
-		'Vérification de l\'onglet'
-		KW.waitForElementVisible(myJDD,'a_HabilitationSelected')
+		KW.scrollAndClick(myJDD,"tab_Habilitation")
+		KW.waitForElementVisible(myJDD,"tab_HabilitationSelected")
+
 		
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {

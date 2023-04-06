@@ -5,6 +5,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 import groovy.sql.Sql
 import internal.GlobalVariable
 import my.Log as MYLOG
+import my.InfoBDD as MYINFOBDD
 
 public class SQL {
 	/**
@@ -14,6 +15,30 @@ public class SQL {
 
 	private static sqlInstance = Sql.newInstance(GlobalVariable.BDD_URL, GlobalVariable.BDD_USER, GlobalVariable.BDD_MDP)
 
+
+
+	static executeSQL(String query) {
+		try {
+			sqlInstance.execute(query)
+		}
+		catch(Exception ex) {
+			MYLOG.addERROR("Erreur d'execution de execute($query) : ")
+			MYLOG.addDETAIL("executeSQL()")
+			MYLOG.addDETAIL(ex.getMessage())
+		}
+	}
+
+	
+	static getFirstRow(String query) {
+		try {
+			return sqlInstance.firstRow(query)
+		} catch(Exception ex) {
+			MYLOG.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
+			MYLOG.addDETAIL("getFirstRow()")
+			MYLOG.addDETAIL(ex.getMessage())
+			return null
+		}
+	} 
 
 
 	/**
@@ -49,8 +74,8 @@ public class SQL {
 				try {
 					row = sqlInstance.firstRow(query)
 				} catch(Exception ex) {
-					MYLOG.addERROR("Erreur d'execution de sqlInstance.firstRow(query) : ")
-					MYLOG.addDETAIL("Query : $query")
+					MYLOG.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
+					MYLOG.addDETAIL("checkJDDWithBD()")
 					MYLOG.addDETAIL(ex.getMessage())
 				}
 			}else {
@@ -71,6 +96,7 @@ public class SQL {
 				catch(Exception ex) {
 					pass=false
 					MYLOG.addERROR("Erreur d'execution de sql.rows($query) : ")
+					MYLOG.addDETAIL("checkJDDWithBD()")
 					MYLOG.addDETAIL(ex.getMessage())
 				}
 			}
@@ -172,7 +198,7 @@ public class SQL {
 
 					if (specificValue) {
 						MYLOG.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' la valeur spécifique est  : ' + specificValueMap[fieldName].getClass())
-						if ( val == my.InfoBDD.castJDDVal(myJDD.getDBTableName(), fieldName, specificValueMap[fieldName])) {
+						if ( val == MYINFOBDD.castJDDVal(myJDD.getDBTableName(), fieldName, specificValueMap[fieldName])) {
 							MYLOG.addDEBUG("Contrôle de la valeur spécifique de $fieldName OK : la valeur attendue est : " + specificValueMap[fieldName] + " et la valeur en BD est : $val " )
 						}else {
 							MYLOG.addDETAIL("Contrôle de la valeur spécifique de $fieldName KO : la valeur attendue est : " + specificValueMap[fieldName] + " et la valeur en BD est : $val")
@@ -180,7 +206,7 @@ public class SQL {
 						}
 					}else {
 						MYLOG.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' dans le JDD : ' + myJDD.getData(fieldName).getClass())
-						if ( val == my.InfoBDD.castJDDVal(myJDD.getDBTableName(), fieldName, myJDD.getData(fieldName))) {
+						if ( val == MYINFOBDD.castJDDVal(myJDD.getDBTableName(), fieldName, myJDD.getData(fieldName))) {
 							MYLOG.addDEBUG("Contrôle de la valeur de $fieldName OK : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val " )
 						}else {
 							MYLOG.addDETAIL("Contrôle de la valeur de $fieldName KO : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
@@ -196,31 +222,25 @@ public class SQL {
 
 
 
-	private static getFirstRow(String query) {
-		def frow = null
-		try {
-			frow = sqlInstance.firstRow(query)
-		}catch(Exception ex) {
-			MYLOG.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
-			MYLOG.addDETAIL(ex.getMessage())
-		}
-		return frow
-	}
 
 
 
 	public static String getMaintaVersion() {
 
 		String query = "SELECT ST_VAL FROM VER WHERE ID_CODINF = 'CURR_VERS'"
-
-		def frow = this.getFirstRow(query)
-
-		if (frow == null) {
-			MYLOG.addDEBUG("getMaintaVersion() est null")
-			return null
-		}else {
-			String val = frow.getAt(0).toString()
-			return val
+		
+		try {
+			def frow = sqlInstance.firstRow(query)
+			if (frow ) {
+				return frow.getAt(0).toString()
+			}else {
+				MYLOG.addDEBUG("getMaintaVersion() est null")
+				return null
+			}
+		}catch(Exception ex) {
+			MYLOG.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
+			MYLOG.addDETAIL("getMaintaVersion()")
+			MYLOG.addDETAIL(ex.getMessage())
 		}
 	}
 
@@ -230,19 +250,22 @@ public class SQL {
 
 
 	private static boolean checkForeignKey(JDD myJDD, String fieldName, def val) {
-		boolean pass = true
+		boolean pass = false
 		String query = myJDD.getSqlForForeignKey(fieldName)
-
-		def frow = sqlInstance.firstRow(query)
-
-		if (frow == null) {
-			MYLOG.addDETAIL("Contrôle de la valeur de $fieldName (FK) KO, pas de résultat pour la query : $query")
-			pass = false
-		}else if (val != frow.getAt(0)) {
-			MYLOG.addDETAIL("Contrôle de la valeur de $fieldName (FK) KO : ** la valeur du JDD attendue est : " + myJDD.getData(fieldName) + ' et la valeur est BD est : ' +  frow.getAt(0))
-			pass = false
-		}else {
-			MYLOG.addDEBUG("Contrôle de la valeur de $fieldName (FK) OK : la valeur attendue est : " + frow.getAt(0) + " et la valeur en BD est : $val")
+		try {
+			def frow = sqlInstance.firstRow(query)
+			if (frow == null) {
+				MYLOG.addDETAIL("Contrôle de la valeur de $fieldName (FK) KO, pas de résultat pour la query : $query")
+			}else if (val != frow.getAt(0)) {
+				MYLOG.addDETAIL("Contrôle de la valeur de $fieldName (FK) KO : ** la valeur du JDD attendue est : " + myJDD.getData(fieldName) + ' et la valeur est BD est : ' +  frow.getAt(0))
+			}else {
+				MYLOG.addDEBUG("Contrôle de la valeur de $fieldName (FK) OK : la valeur attendue est : " + frow.getAt(0) + " et la valeur en BD est : $val")
+				pass = true
+			}
+		}catch(Exception ex) {
+			MYLOG.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
+			MYLOG.addDETAIL("checkForeignKey()")
+			MYLOG.addDETAIL(ex.getMessage())
 		}
 		return pass
 	}
@@ -281,6 +304,7 @@ public class SQL {
 			}catch(Exception ex) {
 				pass = false
 				MYLOG.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
+				MYLOG.addDETAIL("checkIDNotInBD()")
 				MYLOG.addDETAIL(ex.getMessage())
 			}
 
@@ -308,7 +332,7 @@ public class SQL {
 	 * @return
 	 */
 	private static String getWhereWithAllPK(JDD myJDD,int casDeTestNum) {
-		List PKList = my.InfoBDD.getPK(myJDD.getDBTableName())
+		List PKList = MYINFOBDD.getPK(myJDD.getDBTableName())
 		if (PKList) {
 			String query = ' WHERE '
 			PKList.each {
@@ -320,22 +344,24 @@ public class SQL {
 	}
 
 
+	
 
 
 	static insertSQL(String req) {
 		try {
 			def nbRowInserted = sqlInstance.executeInsert req
-			if (nbRowInserted <= 0) {
+			if (nbRowInserted >= 0) {
 				MYLOG.addDEBUG("insertSQL($req) OK, nombre de ligne inséré : ${nbRowInserted}")
 			}else {
-				MYLOG.addERROR("Erreur d'execution de insertSQL() : $req")
+				MYLOG.addERROR("Erreur de insertSQL()")
+				MYLOG.addDETAIL(req)
 			}
 			return nbRowInserted
 		}
 		catch(Exception ex) {
-			MYLOG.addERROR("Erreur d'execution de insertSQL() : ")
+			MYLOG.addERROR("Erreur d'execution de insertSQL() : $req ")
 			MYLOG.addDETAIL(ex.getMessage())
-			return false
+			return -1
 		}
 
 	}
@@ -354,7 +380,8 @@ public class SQL {
 			MYLOG.addDETAIL("get Max '$fieldName From Table '$tableName' = $num")
 			return num
 		} catch(Exception ex) {
-			MYLOG.addERROR("Erreur d'execution de getMaxFromTable() : ")
+			MYLOG.addERROR("Erreur d'execution de firstRow($req) : ")
+			MYLOG.addDETAIL("getMaxFromTable()")
 			MYLOG.addDETAIL(ex.getMessage())
 		}
 		return null
@@ -371,8 +398,8 @@ public class SQL {
 			MYLOG.addDETAIL("getNumEcran($table) = $ret")
 			return ret
 		} catch(Exception ex) {
-			MYLOG.addERROR("Erreur d'execution de getNumEcran($table) : ")
-			MYLOG.addDETAIL("Query : $query")
+			MYLOG.addERROR("Erreur d'execution de firstRow($query) : ")
+			MYLOG.addDETAIL("getNumEcran()")
 			MYLOG.addDETAIL(ex.getMessage())
 			return null
 		}

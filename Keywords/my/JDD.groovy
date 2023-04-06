@@ -9,6 +9,7 @@ import com.kms.katalon.core.testobject.TestObject
 import groovy.text.SimpleTemplateEngine
 import internal.GlobalVariable
 import my.Log as MYLOG
+import my.InfoBDD as MYINFOBDD
 
 
 public class JDD {
@@ -180,6 +181,7 @@ public class JDD {
 						prerequisMap.putAt('TAB',sheet.getSheetName())
 						prerequisMap.putAt('JDDID',this.headers[i])
 						prerequisMap.putAt('LISTCDTVAL',this.getListCDTVAL(i))
+						MYLOG.addDEBUG('\tPrerequisMap : ')
 						prerequisMap.each { key,val ->
 							MYLOG.addDEBUG('\t\t'+key + ' : ' +val)
 						}
@@ -205,9 +207,16 @@ public class JDD {
 	 * @return
 	 */
 	private List getListCDTVAL(int index) {
+		List PKlist=MYINFOBDD.getPK(this.getDBTableName())
 		List list =[]
 		this.datas.each{
-			if (it[index]!=null && it[index]!='') list.add("'" + it[0] + "' - '" + it[index] + "'")
+			if (it[index]!=null && it[index]!='') {
+				if (it[0].toString().contains('.CRE.') && PKlist.contains(this.headers[index])) {
+					MYLOG.addDEBUG("skip : " + "'" + it[0] + "' - '" + it[index] + "'")
+				}else {
+					list.add("'" + it[0] + "' - '" + it[index] + "'")
+				}
+			}
 		}
 		return list
 	}
@@ -330,6 +339,12 @@ public class JDD {
 		return this.headers[0]
 	}
 
+	
+	
+	def String getHeaderNameOfIndex(int i) {
+		return this.headers[i]
+	}
+	
 
 
 	/**
@@ -490,7 +505,7 @@ public class JDD {
 	def String getParamForThisName(String param, String name) {
 		String ret = null
 		if (this.getParam(param) != null) {
-			if (this.headers.contains(name)) { /// verifier si pas dans headers
+			if (this.headers.contains(name)) { /// verifier si dans headers
 				if (this.getParam(param)[this.headers.indexOf(name)] !='') {
 					ret = this.getParam(param)[this.headers.indexOf(name)]
 				}
@@ -499,6 +514,11 @@ public class JDD {
 			}
 		}
 		return ret
+	}
+	
+	def boolean isFK(String name) {
+		
+		return this.getParamForThisName('FOREIGNKEY', name)
 	}
 
 
@@ -537,6 +557,9 @@ public class JDD {
 			}
 		}
 	}
+	
+	
+	
 
 
 

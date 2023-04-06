@@ -69,24 +69,28 @@ public class InfoBDD {
 		return list
 	}
 
-	
-	
+
+
 
 	public static boolean isTableExist(String table) {
 		//return this.colnameMap.containsKey(table)
 		return this.map.containsKey(table)
 	}
 
-	
-	
 
-	private static String getDATA_TYPE(String table, String name) {
+
+
+	public static String getDATA_TYPE(String table, String name) {
 
 		return this.map[table][name][2]
 	}
 
-	
-	
+
+	public static boolean isNumeric(String table, String name) {
+		
+		return this.map[table][name][2]=='numeric'
+	}
+
 
 	public static castJDDVal(String table, String name, def val) {
 
@@ -100,6 +104,10 @@ public class InfoBDD {
 		}
 	}
 
+	public static inTable(String table, String name) {
+		println ("table $table , name $name")
+		return this.map[table].containsKey(name)
+	}
 
 
 }// end of class

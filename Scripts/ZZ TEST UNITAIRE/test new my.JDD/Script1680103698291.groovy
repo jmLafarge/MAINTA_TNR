@@ -1,12 +1,16 @@
-import com.kms.katalon.core.testobject.SelectorMethod
-import com.kms.katalon.core.testobject.TestObject
-
-
 def filename = 'TNR_JDD/RO/JDD.RO.ACT.xlsx'
 
 my.JDD myJDD = new my.JDD(filename,'001','RO.ACT.001.CRE.01')
 
-println myJDD.getPKStrData('ID_CODINT')
+
+myJDD.datas.eachWithIndex { li,numli ->
+	li.eachWithIndex { val,i ->
+		
+		if (val.toString().isNumber()) 	println "$val : " + val.getClass()
+		
+	}
+}
+
 
 /*
 TestObject tObj = myJDD.makeTO('a_AffectationSelected')
@@ -41,7 +45,7 @@ println '-----------------------------------------------------------------------
 
 //println myJDD.getDataLine('RO.ACT.004EMP.SRM.01',2)
 
-//my.InfoBDD.load()
+//MYINFOBDD.load()
 /*
 println myJDD.getParamForThisName('FOREIGNKE', 'TOTO')
 println myJDD.getParamForThisName('FOREIGNKEY', 'TOTO')

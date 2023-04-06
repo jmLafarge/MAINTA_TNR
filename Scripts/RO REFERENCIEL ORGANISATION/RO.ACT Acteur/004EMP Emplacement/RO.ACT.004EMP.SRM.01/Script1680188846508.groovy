@@ -20,11 +20,9 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 	MYLOG.addSTEPGRP('ONGLET ZONE')
 	
-		'Clic sur le bon onglet'
-		KW.scrollAndClick(myJDD,'a_Zone')
-		
-		'Vérification de l\'onglet'
-		KW.waitForElementVisible(myJDD,'a_ZoneSelected')
+		KW.scrollAndClick(myJDD,"tab_Zone")
+		KW.waitForElementVisible(myJDD,"tab_ZoneSelected")
+
 		
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
