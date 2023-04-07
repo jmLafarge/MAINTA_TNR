@@ -26,6 +26,7 @@ public class CheckJDD {
 
 		MYJDDFILES.JDDfilemap.each { modObj,fullName ->
 
+			MYLOG.addINFO("Lecture du JDD : $fullName")
 			myJDD = new my.JDD(fullName,null,null,false)
 
 			for(Sheet sheet: myJDD.book) {

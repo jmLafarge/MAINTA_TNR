@@ -60,7 +60,7 @@ public class JDD {
 			MYLOG.addSTEP("Lecture du JDD : " + this.JDDFullName)
 			MYLOG.addDETAIL("Onglet : " + this.TCTabName)
 		}else {
-			MYLOG.addINFO("Lecture du JDD : " + this.JDDFullName)
+			MYLOG.addDEBUG("Lecture du JDD : " + this.JDDFullName)
 		}
 
 		this.book = my.XLS.open(this.JDDFullName)

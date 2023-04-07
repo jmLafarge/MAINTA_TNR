@@ -3,10 +3,10 @@ import checkprerequis.*
 
 
 
-CheckJDD.run()
+//CheckJDD.run()
 
 
-//CheckPREJDD.run()
+CheckPREJDD.run()
 /*
 CheckPrerequis.run()
 

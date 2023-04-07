@@ -7,8 +7,8 @@
  * -----------------------------------------------------------------------------------------------------
  * 
 
-refactor checkJDD.run() 
 
+refactor checkPREJDD.run() 
 
 
 
@@ -35,7 +35,7 @@ Contrôle des types dans les DATA sur PREJDD.RO.FOU.xlsx
  	--> voir comment gérer le ID_NUMADR
  
  
- addDEBUG
+continuer refactor _CHECK PREREQUIS
  
  
  
