@@ -5,7 +5,8 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 import groovy.sql.Sql
 import internal.GlobalVariable
 import my.Log as MYLOG
-import my.InfoBDD as MYINFOBDD
+import my.InfoBDD as INFOBDD
+import my.JDDKW as MYJDDKW
 
 public class SQL {
 	/**
@@ -28,7 +29,7 @@ public class SQL {
 		}
 	}
 
-	
+
 	static getFirstRow(String query) {
 		try {
 			return sqlInstance.firstRow(query)
@@ -38,7 +39,7 @@ public class SQL {
 			MYLOG.addDETAIL(ex.getMessage())
 			return null
 		}
-	} 
+	}
 
 
 	/**
@@ -139,13 +140,13 @@ public class SQL {
 
 			switch (myJDD.getData(fieldName)) {
 
-				case my.JDDKW.getKW_NU() :
+				case MYJDDKW.getKW_NU() :
 
 					MYLOG.addDEBUG("NU : Pas de contrôle pour $fieldName : la valeur en BD est  : $val" )
 					break
 
-				case my.JDDKW.getKW_VIDE() :
-				case my.JDDKW.getKW_NULL():
+				case MYJDDKW.getKW_VIDE() :
+				case MYJDDKW.getKW_NULL():
 					if (val == null || val =='') {
 
 						MYLOG.addDEBUG("Contrôle de la valeur de $fieldName OK : la valeur attendue est VIDE ou null et la valeur en BD est  : $val" )
@@ -156,13 +157,13 @@ public class SQL {
 
 					break
 
-				case my.JDDKW.getKW_DATE() :
+				case MYJDDKW.getKW_DATE() :
 
 					MYLOG.addDETAIL("Contrôle de la valeur DATE de $fieldName KO : ******* reste à faire ******* la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
 					pass = false
 					break
 
-				case my.JDDKW.getKW_DATETIME() :
+				case MYJDDKW.getKW_DATETIME() :
 
 					if (val instanceof java.sql.Timestamp) {
 						MYLOG.addDEBUG("Contrôle de la valeur DATETIME de $fieldName OK : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val " )
@@ -172,7 +173,7 @@ public class SQL {
 					}
 					break
 
-				case my.JDDKW.getKW_SEQUENCEID() :
+				case MYJDDKW.getKW_SEQUENCEID() :
 
 					MYLOG.addDETAIL("Contrôle IDINTERNE valeur $fieldName KO : ******* reste à faire la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
 				//il faut peut etre testé si la valeur est num et unique ? ******
@@ -187,7 +188,7 @@ public class SQL {
 
 					break
 
-				case my.JDDKW.getKW_ORDRE() :
+				case MYJDDKW.getKW_ORDRE() :
 
 					MYLOG.addDETAIL("Contrôle de la valeur ORDRE de $fieldName KO : ******* reste à faire la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
 				//voir aussi le NU_NIV *******
@@ -198,7 +199,7 @@ public class SQL {
 
 					if (specificValue) {
 						MYLOG.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' la valeur spécifique est  : ' + specificValueMap[fieldName].getClass())
-						if ( val == MYINFOBDD.castJDDVal(myJDD.getDBTableName(), fieldName, specificValueMap[fieldName])) {
+						if ( val == INFOBDD.castJDDVal(myJDD.getDBTableName(), fieldName, specificValueMap[fieldName])) {
 							MYLOG.addDEBUG("Contrôle de la valeur spécifique de $fieldName OK : la valeur attendue est : " + specificValueMap[fieldName] + " et la valeur en BD est : $val " )
 						}else {
 							MYLOG.addDETAIL("Contrôle de la valeur spécifique de $fieldName KO : la valeur attendue est : " + specificValueMap[fieldName] + " et la valeur en BD est : $val")
@@ -206,7 +207,7 @@ public class SQL {
 						}
 					}else {
 						MYLOG.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' dans le JDD : ' + myJDD.getData(fieldName).getClass())
-						if ( val == MYINFOBDD.castJDDVal(myJDD.getDBTableName(), fieldName, myJDD.getData(fieldName))) {
+						if ( val == INFOBDD.castJDDVal(myJDD.getDBTableName(), fieldName, myJDD.getData(fieldName))) {
 							MYLOG.addDEBUG("Contrôle de la valeur de $fieldName OK : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val " )
 						}else {
 							MYLOG.addDETAIL("Contrôle de la valeur de $fieldName KO : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
@@ -228,7 +229,7 @@ public class SQL {
 	public static String getMaintaVersion() {
 
 		String query = "SELECT ST_VAL FROM VER WHERE ID_CODINF = 'CURR_VERS'"
-		
+
 		try {
 			def frow = sqlInstance.firstRow(query)
 			if (frow ) {
@@ -332,7 +333,7 @@ public class SQL {
 	 * @return
 	 */
 	private static String getWhereWithAllPK(JDD myJDD,int casDeTestNum) {
-		List PKList = MYINFOBDD.getPK(myJDD.getDBTableName())
+		List PKList = INFOBDD.getPK(myJDD.getDBTableName())
 		if (PKList) {
 			String query = ' WHERE '
 			PKList.each {
@@ -344,7 +345,7 @@ public class SQL {
 	}
 
 
-	
+
 
 
 	static insertSQL(String req) {

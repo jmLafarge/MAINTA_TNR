@@ -1,18 +1,18 @@
 import my.Log as MYLOG
 
-MYINFOBDD.load()
+INFOBDD.load()
 
-println MYINFOBDD.map['INTER']['ID_CODINT'][0]
-println MYINFOBDD.map['INTER']['ID_CODINT'][1]
-println MYINFOBDD.map['INTER']['ID_CODINT'][2]
-println MYINFOBDD.map['INTER']['ID_CODINT'][3]
-println MYINFOBDD.map['INTER']['ID_CODINT'][4]
-println MYINFOBDD.map['INTER']['ID_CODINT'][5]
+println INFOBDD.map['INTER']['ID_CODINT'][0]
+println INFOBDD.map['INTER']['ID_CODINT'][1]
+println INFOBDD.map['INTER']['ID_CODINT'][2]
+println INFOBDD.map['INTER']['ID_CODINT'][3]
+println INFOBDD.map['INTER']['ID_CODINT'][4]
+println INFOBDD.map['INTER']['ID_CODINT'][5]
 
-println MYINFOBDD.inTable('INTER', 'ID_CODINT')
+println INFOBDD.inTable('INTER', 'ID_CODINT')
 
 /*
-MYINFOBDD.map['INTER'].each {k,v  ->
+INFOBDD.map['INTER'].each {k,v  ->
 		println k.getClass()
 		println k
 		println v.getClass()
@@ -21,61 +21,61 @@ MYINFOBDD.map['INTER'].each {k,v  ->
 }
 
 */
-//my.Tools.parseMap(MYINFOBDD.imap)
+//my.Tools.parseMap(INFOBDD.imap)
 
-//println MYINFOBDD.imap['INTER-ID_CODINT']
+//println INFOBDD.imap['INTER-ID_CODINT']
 
-//my.Tools.parseMap(MYINFOBDD.map)
+//my.Tools.parseMap(INFOBDD.map)
 
-//println MYINFOBDD.map['INTER']['ID_CODINT']
+//println INFOBDD.map['INTER']['ID_CODINT']
 
 /*
-println MYINFOBDD.paraMap.containsKey('ID_CODSER')
+println INFOBDD.paraMap.containsKey('ID_CODSER')
 
-MYINFOBDD.paraMap.each{k,v ->
+INFOBDD.paraMap.each{k,v ->
 	
 	if (v[2]!=null) println v[2]
 	
 }
 */
 /*
-MYINFOBDD.colnameMap['INTER'].eachWithIndex{v,i ->
+INFOBDD.colnameMap['INTER'].eachWithIndex{v,i ->
 	
 	println "$i    $v"
 	
 }
 
-println MYINFOBDD.getPK('INTER')
+println INFOBDD.getPK('INTER')
 
 
-MYINFOBDD.line.eachWithIndex{v,i ->
+INFOBDD.line.eachWithIndex{v,i ->
 	
 	println "$i    $v"
 	
 }
 */
 
-//println MYINFOBDD.line[0]
+//println INFOBDD.line[0]
 
 //MYLOG.addINFO('deb')
-//MYINFOBDD.line.eachWithIndex { v,i -> if (v[0]=='INTER' && v[1]==['ST_ETA']) MYLOG.addINFO( i+':'+v) }
-//MYINFOBDD.line.eachWithIndex { v,i -> if (v[0]=='INTER' && v[1]=='ST_ETA') println i+':'+v[1] }
-//println MYINFOBDD.getDATA_TYPE('INTER', 'ST_ETA')
+//INFOBDD.line.eachWithIndex { v,i -> if (v[0]=='INTER' && v[1]==['ST_ETA']) MYLOG.addINFO( i+':'+v) }
+//INFOBDD.line.eachWithIndex { v,i -> if (v[0]=='INTER' && v[1]=='ST_ETA') println i+':'+v[1] }
+//println INFOBDD.getDATA_TYPE('INTER', 'ST_ETA')
 
 //if (ret !=null) MYLOG.addINFO(ret)
 //MYLOG.addINFO('fin')
-//my.Tools.parseMap(MYINFOBDD.colnameMap)
+//my.Tools.parseMap(INFOBDD.colnameMap)
 
 
 
 
-//println MYINFOBDD.colnameMap.containsKey('EMP')
+//println INFOBDD.colnameMap.containsKey('EMP')
 
-//MYINFOBDD.line.eachWithIndex { v,i -> println i+':'+v }
+//INFOBDD.line.eachWithIndex { v,i -> println i+':'+v }
 
-//MYINFOBDD.line.sort { a,b -> b[0] <=> a[0] }.eachWithIndex { v,i -> println i+':'+v }
+//INFOBDD.line.sort { a,b -> b[0] <=> a[0] }.eachWithIndex { v,i -> println i+':'+v }
 
-//Map map = MYINFOBDD.line.groupBy { it[ 0 ] } .collectEntries { key, value -> [key, value*.getAt( 1 )]}
+//Map map = INFOBDD.line.groupBy { it[ 0 ] } .collectEntries { key, value -> [key, value*.getAt( 1 )]}
 
 //map.eachWithIndex { v,i -> println i+':'+v }
 
@@ -88,12 +88,12 @@ MYINFOBDD.line.eachWithIndex{v,i ->
 /*
 println map.getAt('INTER_HAB')
 
-println MYINFOBDD.colnameMap.getAt('INTER_HAB')
+println INFOBDD.colnameMap.getAt('INTER_HAB')
 
 map.getAt('INTER_HAB').eachWithIndex { v,i ->
 	
 	if (v!='NULL') {
-		println MYINFOBDD.colnameMap.getAt('INTER_HAB')[i]
+		println INFOBDD.colnameMap.getAt('INTER_HAB')[i]
 	}
 	
 	//println "$i : $v"
@@ -101,5 +101,5 @@ map.getAt('INTER_HAB').eachWithIndex { v,i ->
 
 */
 
-//println MYINFOBDD.getPK('INTER')
+//println INFOBDD.getPK('INTER')
 

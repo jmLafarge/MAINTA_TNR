@@ -7,12 +7,11 @@
  * -----------------------------------------------------------------------------------------------------
  * 
 
-Les JDD et PREJDD sont modifiés en ajoutant le prefixe de l'objet depuis les codes des Sous ressources
---> mettre à jour la doc
+refactor checkJDD.run() 
 
-CheckJDD.run ajout du controle de LOCATOR (TAG_LIST_ALLOWED)
-JDD.getListCDTVAL : ne pas ajouter à la liste des controles, les objets qu'on doit créer (CRE - PK)
-Ajout de Check_CAL
+
+
+
  * 
  * -----------------------------------------------------------------------------------------------------
  * NOTE
@@ -31,11 +30,14 @@ Ajout de Check_CAL
  * -----------------------------------------------------------------------------------------------------
  *
 
-
-MYLOG.addDETAIL("Contrôle des types dans les DATA" CheckPREJDD ligne 71
-
+Contrôle des types dans les DATA sur PREJDD.RO.FOU.xlsx
+	RO.FOU.001.XXX.01(ID_NUMADR) : La valeur '?' n'est pas autorisé pour un champ numérique
+ 	--> voir comment gérer le ID_NUMADR
  
-Envoyer le JDD.AD.SEC à Nicolas
+ 
+ addDEBUG
+ 
+ 
  
  * 
  * -----------------------------------------------------------------------------------------------------
@@ -43,7 +45,8 @@ Envoyer le JDD.AD.SEC à Nicolas
  * -----------------------------------------------------------------------------------------------------
  * 
 		
-		
+Les JDD et PREJDD sont modifiés en ajoutant le prefixe de l'objet depuis les codes des Sous ressources
+--> mettre à jour la doc		
 		  
 		  		
 		  		
@@ -96,7 +99,7 @@ Envoyer le JDD.AD.SEC à Nicolas
 	  
 		Ajouter les controle des PARAM_LIST_ALLOWED et des TAG_LIST_ALLOWED dans les controles JDD "CHECK PREREQUIS" plutot que dans le code des tests
 		 
-		Verifir si les valeurs collent avec les types :  MYINFOBDD.getDATA_TYPE( myJDD.getDBTableName(), fieldName)
+		Verifir si les valeurs collent avec les types :  INFOBDD.getDATA_TYPE( myJDD.getDBTableName(), fieldName)
 		Par exemple les numéric ne doivent pas être vide mais $NULL
 		  
 		Dans les JDD, mettre en vert les cellules des attributs modifiés par rapport aux PREJDD pour les cas de tests MODIF

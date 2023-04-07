@@ -9,7 +9,7 @@ import com.kms.katalon.core.testobject.TestObject
 import groovy.text.SimpleTemplateEngine
 import internal.GlobalVariable
 import my.Log as MYLOG
-import my.InfoBDD as MYINFOBDD
+import my.InfoBDD as INFOBDD
 
 
 public class JDD {
@@ -207,7 +207,7 @@ public class JDD {
 	 * @return
 	 */
 	private List getListCDTVAL(int index) {
-		List PKlist=MYINFOBDD.getPK(this.getDBTableName())
+		List PKlist=INFOBDD.getPK(this.getDBTableName())
 		List list =[]
 		this.datas.each{
 			if (it[index]!=null && it[index]!='') {

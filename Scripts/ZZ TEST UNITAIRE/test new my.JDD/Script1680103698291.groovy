@@ -45,7 +45,7 @@ println '-----------------------------------------------------------------------
 
 //println myJDD.getDataLine('RO.ACT.004EMP.SRM.01',2)
 
-//MYINFOBDD.load()
+//INFOBDD.load()
 /*
 println myJDD.getParamForThisName('FOREIGNKE', 'TOTO')
 println myJDD.getParamForThisName('FOREIGNKEY', 'TOTO')

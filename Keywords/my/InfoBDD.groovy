@@ -1,6 +1,7 @@
 package my
 
 import my.Log as MYLOG
+import my.XLS as MYXLS
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
@@ -15,6 +16,8 @@ public class InfoBDD {
 	private static String fileName = ''
 
 	private static final List HEADERS	 = ['TABLE_NAME', 'COLUMN_NAME', 'ORDINAL_POSITION', 'IS_NULLABLE', 'DATA_TYPE', 'MAXCHAR', 'DOMAIN_NAME', 'CONSTRAINT_NAME']
+	
+	private static final String NUMERIC = 'numeric'
 
 
 
@@ -22,14 +25,15 @@ public class InfoBDD {
 
 		this.fileName = my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('INFOBDDFILENAME')
 		MYLOG.addSubTITLE("Chargement de : " + this.fileName,'-',120,1)
-		this.book = my.XLS.open(this.fileName)
+		
+		this.book = MYXLS.open(this.fileName)
 
 		Sheet sheet = this.book.getSheet('INFO')
 
-
 		Iterator<Row> rowIt = sheet.rowIterator()
 		Row row = rowIt.next()
-		List headers = my.XLS.loadRow(row)
+		List headers = MYXLS.loadRow(row)
+		
 		MYLOG.addINFO('Contrôle entête fichier',1)
 		if (headers!=this.HEADERS) {
 			MYLOG.addERROR(this.fileName + ' Entête fichier différente de celle attendue :')
@@ -40,17 +44,14 @@ public class InfoBDD {
 
 		while(rowIt.hasNext()) {
 			row = rowIt.next()
-			if (my.XLS.getCellValue(row.getCell(0))=='') {
+			if (MYXLS.getCellValue(row.getCell(0))=='') {
 				break
 			}
-
-			List listxls = my.XLS.loadRow(row,this.HEADERS.size())
-
+			List listxls = MYXLS.loadRow(row,this.HEADERS.size())
 			if (!this.map[listxls[0]]) {
 				this.map[listxls[0]] = [:]
 			}
 			this.map[listxls[0]][listxls[1]] = listxls.subList(2, 8)
-
 		}
 
 	}
@@ -60,10 +61,8 @@ public class InfoBDD {
 
 
 	public static List getPK(String table) {
-
 		List list=[]
 		this.map[table].each { k, li ->
-
 			if (li[5]!='NULL') list.add(k)
 		}
 		return list
@@ -73,7 +72,6 @@ public class InfoBDD {
 
 
 	public static boolean isTableExist(String table) {
-		//return this.colnameMap.containsKey(table)
 		return this.map.containsKey(table)
 	}
 
@@ -81,21 +79,19 @@ public class InfoBDD {
 
 
 	public static String getDATA_TYPE(String table, String name) {
-
 		return this.map[table][name][2]
 	}
 
+	
 
 	public static boolean isNumeric(String table, String name) {
-		
-		return this.map[table][name][2]=='numeric'
+		return this.map[table][name][2]==this.NUMERIC
 	}
 
 
+	
 	public static castJDDVal(String table, String name, def val) {
-
 		switch (this.getDATA_TYPE( table, name)) {
-
 			case 'varchar':
 				return val.toString()
 				break
@@ -104,8 +100,8 @@ public class InfoBDD {
 		}
 	}
 
+	
 	public static inTable(String table, String name) {
-		println ("table $table , name $name")
 		return this.map[table].containsKey(name)
 	}
 

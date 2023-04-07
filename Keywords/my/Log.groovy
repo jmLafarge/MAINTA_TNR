@@ -1,5 +1,6 @@
 package my
 
+import my.Result as RESULT
 
 /*
  * use my.Log in the code without import --> to be sure that this Log is used
@@ -37,7 +38,7 @@ class Log {
 	private static String PRESTEPTXT 	= '\tSTEP : '
 	private static String PRESUBSTEPTXT	= '\t\t'
 	private static String PREDETAILTXT	= '\t\t- '
-	private static String PREDEBUGTXT	= '\t\t\t'
+	private static String PREDEBUGTXT	= '\t\t'
 
 	private static File createFile(String txt){
 
@@ -85,7 +86,10 @@ class Log {
 		}
 	}
 
-
+	
+	public static addDEBUGDETAIL (String msg, int level=1) {
+		this.addDEBUG('- '+ msg,level)
+	}
 
 
 
@@ -224,7 +228,7 @@ class Log {
 
 	private static addStepInResult(String msg, String status) {
 
-		my.Result.addStep(this.logDate,msg,status)
+		if (RESULT.resulFileName) RESULT.addStep(this.logDate,msg,status)
 	}
 
 	/*
@@ -240,14 +244,14 @@ class Log {
 		this.addINFO('')
 		this.addINFO('START TEST CASE : '+ this.TCName )
 		this.start = this.logDate
-		my.Result.addStartCasDeTest(this.TCName, this.start)
+		if (RESULT.resulFileName) RESULT.addStartCasDeTest(this.TCName, this.start)
 	}
 
 
 	public static addEndTestCase () {
 
 		Date stop = new Date()
-		my.Result.addEndCasDeTest(this.TCName, this.status, this.start , stop)
+		if (RESULT.resulFileName) RESULT.addEndCasDeTest(this.TCName, this.status, this.start , stop)
 
 		if (this.status.ERROR !=0) {
 			this.addERROR('END TEST CASE : ' + this.TCName.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))

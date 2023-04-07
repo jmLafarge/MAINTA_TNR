@@ -9,7 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import internal.GlobalVariable
 import my.Log as MYLOG
-import my.InfoBDD as MYINFOBDD
+import my.InfoBDD as INFOBDD
 
 
 class JDDGenerator {
@@ -49,11 +49,11 @@ class JDDGenerator {
 		}
 
 		String msg=this.addJDDSheet(JDDbook, table, modObj,fct,listRubriquesIHM)
-		
+
 		this.addParaFromInfoPARA(JDDbook.getSheet(fct),msg)
-		
+
 		if (msg) {
-			
+
 			this.addInfoVersion(JDDbook,GlobalVariable.AUTEUR,msg)
 
 			OutputStream JDDfileOut = new FileOutputStream(my.JDDFiles.getFullName(modObj))
@@ -106,16 +106,15 @@ class JDDGenerator {
 
 					Row rowPara = this.getRowOfPara(shFCT,para)
 					if (rowPara!=null && my.InfoPARA.paraMap[cval][icol]) {
-						
+
 						if(my.XLS.getCellValue(rowPara.getCell(i))==''){
-							
+
 							MYLOG.addDEBUG("$cval : $para = " + my.InfoPARA.paraMap[cval][icol])
 							my.XLS.writeCell(rowPara,i, my.InfoPARA.paraMap[cval][icol])
-							
+
 							if (!mes) "Mise à jour paramètre"
-							
 						}else if(my.XLS.getCellValue(rowPara.getCell(i))!=my.InfoPARA.paraMap[cval][icol]){
-							
+
 							MYLOG.addDETAILWARNING("\t$cval : $para, valeur du JDD '"+my.XLS.getCellValue(rowPara.getCell(i))+"' différente de InfoPARA '" + my.InfoPARA.paraMap[cval][icol] + "'")
 						}
 					}
@@ -123,11 +122,10 @@ class JDDGenerator {
 				}
 			}
 		}
-		
 	}
-	
-	
-	
+
+
+
 
 	private static Row getRowOfPara(Sheet sheet, String para) {
 
@@ -145,7 +143,7 @@ class JDDGenerator {
 		}
 		return row
 	}
-	
+
 
 
 	private static String addJDDSheet(XSSFWorkbook JDDbook , String table, String modObj, String fct,List listRubriquesIHM) {
@@ -195,7 +193,7 @@ class JDDGenerator {
 
 
 
-			MYINFOBDD.map[table].each{col,vlist ->
+			INFOBDD.map[table].each{col,vlist ->
 				// Sheet FCT
 				my.XLS.writeCell(shFCT.getRow(0),numColFct,col,styleChamp)
 				for (int i in 1..4) {
@@ -208,16 +206,16 @@ class JDDGenerator {
 				rowInfo = my.XLS.getNextRow(shJDDInfo)
 				my.XLS.writeCell(rowInfo,0,col)
 				my.XLS.writeCell(rowInfo,1,lib.getAt(col))
-				String type = MYINFOBDD.map[table][col][2]+'('+MYINFOBDD.map[table][col][3]+')'
-				if (MYINFOBDD.map[table][col][2]=='numeric') {
+				String type = INFOBDD.map[table][col][2]+'('+INFOBDD.map[table][col][3]+')'
+				if (INFOBDD.map[table][col][2]=='numeric') {
 					type = 'numeric'
-				}else if (MYINFOBDD.map[table][col][2]=='datetime') {
+				}else if (INFOBDD.map[table][col][2]=='datetime') {
 					type = 'datetime'
-				}else if (MYINFOBDD.map[table][col][4]=='T_BOOLEEN') {
+				}else if (INFOBDD.map[table][col][4]=='T_BOOLEEN') {
 					type = 'boolean'
 				}
 
-				if (MYINFOBDD.map[table][col][5]!='NULL') {
+				if (INFOBDD.map[table][col][5]!='NULL') {
 					CellStyle stylePK = JDDbook.createCellStyle()
 					def fontPK = JDDbook.createFont()
 					fontPK.setColor(IndexedColors.RED.index)
@@ -257,7 +255,7 @@ class JDDGenerator {
 
 	}
 
-	
+
 
 	private static String ajouterRubriqueIHM(Sheet shFCT, List listRubriquesIHM) {
 
@@ -336,7 +334,7 @@ class JDDGenerator {
 
 			def stylePREJDDChamp = shFCT.getRow(0).getCell(1).getCellStyle()
 
-			MYINFOBDD.map[table].each{col,vlist ->
+			INFOBDD.map[table].each{col,vlist ->
 				my.XLS.writeCell(shFCT.getRow(0),numColFct,col,stylePREJDDChamp)
 				numColFct++
 			}

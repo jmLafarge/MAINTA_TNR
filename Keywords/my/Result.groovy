@@ -18,7 +18,7 @@ public class Result {
 	private static String RES_RESUMESHEETNAME ='RESUME'
 	private static String RES_RESULTSHEETNAME ='RESULTATS'
 
-	private static String resulFileName = this.openResultFile()
+	private static String resulFileName = ''
 	private static XSSFWorkbook book
 	private static Sheet shRESUM
 	private static Sheet shRESULT
@@ -294,6 +294,8 @@ public class Result {
 
 
 	public static addStartInfo(String text) {
+		
+		if (!this.resulFileName) this.openResultFile()
 
 
 		my.XLS.writeCell(this.shRESUM.getRow(1),3,text)
@@ -355,26 +357,24 @@ public class Result {
 		File dir = new File(my.PropertiesReader.getMyProperty('RES_PATH'))
 		if (!dir.exists()) dir.mkdirs()
 
-		String resFullName = my.PropertiesReader.getMyProperty('RES_PATH') + File.separator + dateFile + this.RES_FILENAME
+		this.resulFileName = my.PropertiesReader.getMyProperty('RES_PATH') + File.separator + dateFile + this.RES_FILENAME
 
-
-		Path target = Paths.get(resFullName)
+		Path target = Paths.get(this.resulFileName)
 
 		Files.copy(source, target)
 
-		return 	resFullName
 	}
 
 
 
 
 
-	private static String openResultFile() {
+	private static openResultFile() {
 
 
-		String resFullName = this.createFileByCopy()
+		this.createFileByCopy()
 
-		this.book = my.XLS.open(resFullName)
+		this.book = my.XLS.open(this.resulFileName)
 
 		// set tab (sheet)
 		this.shRESUM = book.getSheet(this.RES_RESUMESHEETNAME)
@@ -545,27 +545,28 @@ public class Result {
 		this.cellStyle_RESULT_STEPDETAIL.setFont(fontStepDetail)
 
 
-		return resFullName
-
 	}
 
 
+	
 	private static write(){
 
 		OutputStream fileOut = new FileOutputStream(this.resulFileName)
-
 		this.book.write(fileOut);
 	}
 
+	
+	
+	
 	private static close(){
-
-		this.book.close()
-
-		def file = new File(this.resulFileName)
-		String newName = file.getParent()+ File.separator +file.getName().replace('.xlsx','')
-		newName= newName + '_MSSQL_'+ this.browserName.split(' ')[0] + '_Mainta_' + this.maintaVersion.replace(' ', '_') + '.xlsx'
-		file.renameTo(newName)
-
+		
+		if (this.resulFileName) {
+			this.book.close()
+			def file = new File(this.resulFileName)
+			String newName = file.getParent()+ File.separator +file.getName().replace('.xlsx','')
+			newName= newName + '_MSSQL_'+ this.browserName.split(' ')[0] + '_Mainta_' + this.maintaVersion.replace(' ', '_') + '.xlsx'
+			file.renameTo(newName)
+		}
 	}
 
 

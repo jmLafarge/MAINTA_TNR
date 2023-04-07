@@ -8,7 +8,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import groovy.io.FileType
 import my.Log as MYLOG
 import my.SQL as MYSQL
-import my.InfoBDD as MYINFOBDD
+import my.InfoBDD as INFOBDD
 
 public class PREJDDFiles {
 
@@ -54,7 +54,7 @@ public class PREJDDFiles {
 		Map sequence = [:]
 		def maxORDRE = null
 
-		List PKlist=MYINFOBDD.getPK(myJDD.getDBTableName())
+		List PKlist=INFOBDD.getPK(myJDD.getDBTableName())
 
 		// for each data line
 		for (int numline : (1..sheet.getLastRowNum())) {

@@ -10,7 +10,7 @@ import my.Log as MYLOG
 import my.NAV as NAV
 import my.Tools
 import my.Result
-import my.InfoBDD as MYINFOBDD
+import my.InfoBDD as INFOBDD
 
 class TestListener {
 	
@@ -26,7 +26,7 @@ class TestListener {
 
 		MYLOG.addTITLE('Lancement de ' + testSuiteContext.getTestSuiteId())
 
-		if (MYINFOBDD.map.isEmpty()) { MYINFOBDD.load() }
+		if (INFOBDD.map.isEmpty()) { INFOBDD.load() }
 		if (my.TCFiles.TCfileMap.isEmpty()) { my.TCFiles.load() }
 		if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
 		if (my.Sequencer.testCasesList.isEmpty()) { my.Sequencer.load() }
@@ -58,7 +58,7 @@ class TestListener {
 		
 		
 		if (TCName == '_TNR SEQUENCER') {
-			if (MYINFOBDD.map.isEmpty()) { MYINFOBDD.load() }
+			if (INFOBDD.map.isEmpty()) { INFOBDD.load() }
 			if (my.TCFiles.TCfileMap.isEmpty()) { my.TCFiles.load() }
 			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
 			if (my.Sequencer.testCasesList.isEmpty()) { my.Sequencer.load() }
@@ -74,28 +74,28 @@ class TestListener {
 		}else if (TCName == '__JDD GENERATOR'){
 			
 			my.Log.addTITLE("Lancement de $TCName")
-			if (MYINFOBDD.map.isEmpty()) { MYINFOBDD.load() }
+			if (INFOBDD.map.isEmpty()) { INFOBDD.load() }
 			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
 			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
 			
 		}else if (TCName == '_CHECK PREREQUIS'){
 			
 			my.Log.addTITLE("Lancement de $TCName")
-			if (MYINFOBDD.map.isEmpty()) { MYINFOBDD.load() }
+			if (INFOBDD.map.isEmpty()) { INFOBDD.load() }
 			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
 			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
 			
 		}else if (TCName == '_CREATE PREJDD IN DB'){
 			
 			my.Log.addTITLE("Lancement de $TCName")
-			if (MYINFOBDD.map.isEmpty()) { MYINFOBDD.load() }
+			if (INFOBDD.map.isEmpty()) { INFOBDD.load() }
 			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
 			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
 			
 		}else if (TCName == '_FILL INFOPARA'){
 			
 			my.Log.addTITLE("Lancement de $TCName")
-			if (MYINFOBDD.map.isEmpty()) { MYINFOBDD.load() }
+			if (INFOBDD.map.isEmpty()) { INFOBDD.load() }
 			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
 			
 		}else if (testCaseContext.getTestCaseId().contains('ZZ TEST UNITAIRE')) {
