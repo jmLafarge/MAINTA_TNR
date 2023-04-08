@@ -40,6 +40,7 @@ public class JDD {
 	 * @param JDDFullName 
 	 * @param TCTabName
 	 * @param casDeTest
+	 * @param step
 	 */
 	JDD(String JDDFullName = null, String TCTabName = null,String casDeTest = null,boolean step=true) {
 
@@ -189,10 +190,10 @@ public class JDD {
 					}
 				}
 				if (PRInThisSheet.size()>0) {
-					MYLOG.addDETAIL("Lecture onglet '" + sheet.getSheetName() + "' --> PREREQUIS : " + PRInThisSheet.substring(0,PRInThisSheet.length()-1) )
+					MYLOG.addDEBUGDETAIL("Lecture onglet '" + sheet.getSheetName() + "' --> PREREQUIS : " + PRInThisSheet.substring(0,PRInThisSheet.length()-1),0 )
 					//MYLOG.addDETAIL('\t'+list.join('|'))
 				}else {
-					MYLOG.addDETAIL("Lecture onglet '" + sheet.getSheetName() + "'" )
+					MYLOG.addDEBUGDETAIL("Lecture onglet '" + sheet.getSheetName() + "'",0 )
 				}
 			}
 		}
@@ -335,16 +336,16 @@ public class JDD {
 
 
 
-	def String getDBTableName() {
+	public String getDBTableName() {
 		return this.headers[0]
 	}
 
-	
-	
+
+
 	def String getHeaderNameOfIndex(int i) {
 		return this.headers[i]
 	}
-	
+
 
 
 	/**
@@ -515,9 +516,9 @@ public class JDD {
 		}
 		return ret
 	}
-	
+
 	def boolean isFK(String name) {
-		
+
 		return this.getParamForThisName('FOREIGNKEY', name)
 	}
 
@@ -557,9 +558,9 @@ public class JDD {
 			}
 		}
 	}
-	
-	
-	
+
+
+
 
 
 

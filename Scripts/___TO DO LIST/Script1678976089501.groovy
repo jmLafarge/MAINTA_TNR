@@ -7,8 +7,8 @@
  * -----------------------------------------------------------------------------------------------------
  * 
 
+refactor _CHECK PREREQUIS
 
-refactor checkPREJDD.run() 
 
 
 
@@ -34,8 +34,7 @@ Contrôle des types dans les DATA sur PREJDD.RO.FOU.xlsx
 	RO.FOU.001.XXX.01(ID_NUMADR) : La valeur '?' n'est pas autorisé pour un champ numérique
  	--> voir comment gérer le ID_NUMADR
  
- 
-continuer refactor _CHECK PREREQUIS
+
  
  
  

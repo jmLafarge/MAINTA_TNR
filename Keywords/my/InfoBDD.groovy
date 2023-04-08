@@ -16,7 +16,7 @@ public class InfoBDD {
 	private static String fileName = ''
 
 	private static final List HEADERS	 = ['TABLE_NAME', 'COLUMN_NAME', 'ORDINAL_POSITION', 'IS_NULLABLE', 'DATA_TYPE', 'MAXCHAR', 'DOMAIN_NAME', 'CONSTRAINT_NAME']
-	
+
 	private static final String NUMERIC = 'numeric'
 
 
@@ -25,7 +25,7 @@ public class InfoBDD {
 
 		this.fileName = my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('INFOBDDFILENAME')
 		MYLOG.addSubTITLE("Chargement de : " + this.fileName,'-',120,1)
-		
+
 		this.book = MYXLS.open(this.fileName)
 
 		Sheet sheet = this.book.getSheet('INFO')
@@ -33,7 +33,7 @@ public class InfoBDD {
 		Iterator<Row> rowIt = sheet.rowIterator()
 		Row row = rowIt.next()
 		List headers = MYXLS.loadRow(row)
-		
+
 		MYLOG.addINFO('Contrôle entête fichier',1)
 		if (headers!=this.HEADERS) {
 			MYLOG.addERROR(this.fileName + ' Entête fichier différente de celle attendue :')
@@ -82,14 +82,14 @@ public class InfoBDD {
 		return this.map[table][name][2]
 	}
 
-	
+
 
 	public static boolean isNumeric(String table, String name) {
 		return this.map[table][name][2]==this.NUMERIC
 	}
 
 
-	
+
 	public static castJDDVal(String table, String name, def val) {
 		switch (this.getDATA_TYPE( table, name)) {
 			case 'varchar':
@@ -100,7 +100,7 @@ public class InfoBDD {
 		}
 	}
 
-	
+
 	public static inTable(String table, String name) {
 		return this.map[table].containsKey(name)
 	}

@@ -18,7 +18,7 @@ public class PREJDD {
 		List list = []
 		this.getListOfCasDeTestAndIDValue(list,sheet, map.getAt('PREJDDID'))
 
-		MYLOG.addSTEP("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "' (" + map.getAt('TAB') + ") dans '" + my.PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')) + "' '"+ map.getAt('PREJDDID') + "'")
+		MYLOG.addDEBUG("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "' (" + map.getAt('TAB') + ") dans '" + my.PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')) + "' '"+ map.getAt('PREJDDID') + "'",0)
 		int nbFound =0
 		map.getAt('LISTCDTVAL').each{ cdtVal ->
 			boolean found = false
@@ -31,10 +31,11 @@ public class PREJDD {
 			if (found) {
 				MYLOG.addDEBUG(cdtVal+' trouvé')
 			}else {
+				MYLOG.addINFO("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "' (" + map.getAt('TAB') + ") dans '" + my.PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')) + "' '"+ map.getAt('PREJDDID') + "'")
 				MYLOG.addDETAILFAIL(cdtVal+' non trouvé')
 			}
 		}
-		MYLOG.addDETAIL(nbFound + "/" +map.getAt('LISTCDTVAL').size() + ' trouvé(s)')
+		MYLOG.addDEBUGDETAIL(nbFound + "/" +map.getAt('LISTCDTVAL').size() + ' trouvé(s)',0)
 	}
 
 

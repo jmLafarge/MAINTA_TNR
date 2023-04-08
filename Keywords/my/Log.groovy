@@ -86,7 +86,7 @@ class Log {
 		}
 	}
 
-	
+
 	public static addDEBUGDETAIL (String msg, int level=1) {
 		this.addDEBUG('- '+ msg,level)
 	}

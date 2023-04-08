@@ -34,7 +34,7 @@ public class Check_CAL {
 			
 			for (def i in [1,2,3,4,5,6,7,'$VIDE']){
 				if (!this.listCALDEF.contains(it+' - '+ i.toString())) {
-					MYLOG.addDETAIL("Manque $it - $i dans CALDEF")
+					MYLOG.addDETAILFAIL("Manque $it - $i dans CALDEF")
 				}
 			}
 		}

@@ -3,13 +3,12 @@ import checkprerequis.*
 
 
 
-//CheckJDD.run()
-
+CheckJDD.run()
 
 CheckPREJDD.run()
-/*
+
 CheckPrerequis.run()
 
 Check_CAL.run()
-*/
+
 

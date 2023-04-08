@@ -5,6 +5,7 @@ import my.Log as MYLOG
 
 public class CheckPrerequis {
 
+
 	static run() {
 
 		MYLOG.addSubTITLE('Collecte de tous les PREREQUIS JDD')
@@ -13,11 +14,10 @@ public class CheckPrerequis {
 		 */
 		List list =[]
 		my.JDDFiles.JDDfilemap.each { modObj,fullName ->
-			def myJDD = new my.JDD(fullName)
+			MYLOG.addDEBUG("Lecture du JDD : " + fullName,0)
+			def myJDD = new my.JDD(fullName,null,null,false)
 			myJDD.getAllPrerequis(list)
 		}
-
-
 
 
 
