@@ -172,7 +172,11 @@ public class CheckJDD {
 					String name = myJDD.getHeaderNameOfIndex(i)
 					if (i!=0 && INFOBDD.inTable(myTable, name) && !myJDD.isFK(name)) {
 						if (INFOBDD.isNumeric(myTable, name)) {
-							if (val.toString().isNumber() || val in ['$NULL', '$NU', '$SEQUENCEID']) {
+							if (val.toString().isNumber() || val in [
+								'$NULL',
+								'$NU',
+								'$SEQUENCEID'
+							]) {
 								// c'est bon
 							}else {
 								MYLOG.addDETAILFAIL(li[0] + "($name) : La valeur '$val' n'est pas autorisé pour un champ numérique")

@@ -7,10 +7,12 @@
  * -----------------------------------------------------------------------------------------------------
  * 
 
-refactor _CHECK PREREQUIS
 
 
 
+	MODIF JDD de JML à reporter dans DRIVE
+	
+		PREJDD.RO.ACT 003HAB colonne ID_CODHAB ajout du suffixe HAB. --> idem pour 003MET
 
  * 
  * -----------------------------------------------------------------------------------------------------
@@ -24,6 +26,15 @@ refactor _CHECK PREREQUIS
 	PROFIL
 	
 		TIMEOUT à 1 ça passe, je mets 2
+		
+		
+	UTILISATION de this.
+	
+		L'utilisation de this.variable dans une boucle d'un map semble poser problème 
+		Par exemple dans checkJDD.run() mettre this.myJDD = new my.JDD(fullName,null,null,false) --> provoque une erreur
+		--> je ne sais pas pourquoi
+		
+		
  *
  * -----------------------------------------------------------------------------------------------------
  * EN COURS
@@ -108,10 +119,11 @@ Les JDD et PREJDD sont modifiés en ajoutant le prefixe de l'objet depuis les co
 		  
 	RESULT
 	 
-		renommer le fichier resultat avec la version et le nav
+		renommer le fichier resultat avec la version et le nav dés qu'on connait le nav (avant la fin des test)
 		Ajouter les step FAIL dans le xls en grouper sous le test ou dans un autre onglet --> avec les élements nécessaire pour le ticket
 		Ou faire un plan(regrouper) avec les STEPs
 	  		si on veut lister les STEP dans le xls il faut peut être simplifiué
+	  	
 	
 	RESULT RECAP
 		
