@@ -1,5 +1,7 @@
 package my
 
+
+import internal.GlobalVariable
 import my.Result as RESULT
 
 /*
@@ -224,6 +226,9 @@ class Log {
 		this.status.ERROR++
 		this.addStepInResult(msg,'ERROR')
 	}
+
+
+
 
 
 	private static addStepInResult(String msg, String status) {

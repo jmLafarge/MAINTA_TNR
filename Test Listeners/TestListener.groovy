@@ -73,28 +73,28 @@ class TestListener {
 	
 		}else if (TCName == '__JDD GENERATOR'){
 			
-			my.Log.addTITLE("Lancement de $TCName")
+			MYLOG.addTITLE("Lancement de $TCName")
 			if (INFOBDD.map.isEmpty()) { INFOBDD.load() }
 			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
 			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
 			
 		}else if (TCName == '_CHECK PREREQUIS'){
 			
-			my.Log.addTITLE("Lancement de $TCName")
+			MYLOG.addTITLE("Lancement de $TCName")
 			if (INFOBDD.map.isEmpty()) { INFOBDD.load() }
 			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
 			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
 			
 		}else if (TCName == '_CREATE PREJDD IN DB'){
 			
-			my.Log.addTITLE("Lancement de $TCName")
+			MYLOG.addTITLE("Lancement de $TCName")
 			if (INFOBDD.map.isEmpty()) { INFOBDD.load() }
 			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
 			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
 			
 		}else if (TCName == '_FILL INFOPARA'){
 			
-			my.Log.addTITLE("Lancement de $TCName")
+			MYLOG.addTITLE("Lancement de $TCName")
 			if (INFOBDD.map.isEmpty()) { INFOBDD.load() }
 			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
 			

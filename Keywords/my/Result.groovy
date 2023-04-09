@@ -8,6 +8,8 @@ import java.nio.file.Paths
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
+import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
+
 import internal.GlobalVariable
 
 public class Result {
@@ -22,6 +24,8 @@ public class Result {
 	private static XSSFWorkbook book
 	private static Sheet shRESUM
 	private static Sheet shRESULT
+	
+	private static String casDeTestName = ''
 
 	private static int lineNumberSTART = 2	// casDeTest first line
 
@@ -100,6 +104,14 @@ public class Result {
 	}
 
 
+	private static takeScreenshot(Date date, String msg, String status) {
+	
+		String dateFile = date.format("yyyyMMdd_HHmmss")
+		String filename = date.format("yyyyMMdd_HHmmss") + '_'+ this.casDeTestName + '_' + status + '.png'
+		
+		WebUI.takeScreenshot('Test/Demo.png',["text" : msg])
+	
+	}
 
 
 	public static addStep(Date date, String msg, String status) {
@@ -121,16 +133,19 @@ public class Result {
 
 				break
 			case 'WARNING':
+				this.takeScreenshot(date,msg,status)
 				my.XLS.writeCell(row,0,date.format('yyyy-MM-dd HH:mm:ss.SSS'),this.cellStyle_RESULT_STEP)
 				my.XLS.writeCell(row,1,msg,this.cellStyle_RESULT_STEPWARNING)
 				my.XLS.writeCell(row,2,'WARNING',this.cellStyle_RESULT_STEPWARNING)
 				break
 			case 'FAIL':
+				this.takeScreenshot(date,msg,status)
 				my.XLS.writeCell(row,0,date.format('yyyy-MM-dd HH:mm:ss.SSS'),this.cellStyle_RESULT_STEP)
 				my.XLS.writeCell(row,1,msg,this.cellStyle_RESULT_STEPFAIL)
 				my.XLS.writeCell(row,2,'FAIL',this.cellStyle_RESULT_STEPFAIL)
 				break
 			case 'ERROR':
+				this.takeScreenshot(date,msg,status)
 				my.XLS.writeCell(row,0,date.format('yyyy-MM-dd HH:mm:ss.SSS'),this.cellStyle_RESULT_STEP)
 				my.XLS.writeCell(row,1,msg,this.cellStyle_RESULT_STEPERROR)
 				my.XLS.writeCell(row,2,'ERROR',this.cellStyle_RESULT_STEPERROR)
@@ -183,6 +198,8 @@ public class Result {
 
 
 	public static addStartCasDeTest(String casDeTestName, Date start) {
+		
+		this.casDeTestName = casDeTestName
 
 		Row row = this.shRESULT.createRow(this.lineNumberSTART)
 
@@ -294,7 +311,7 @@ public class Result {
 
 
 	public static addStartInfo(String text) {
-		
+
 		if (!this.resulFileName) this.openResultFile()
 
 
@@ -352,12 +369,14 @@ public class Result {
 		Path source = Paths.get(my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + this.RES_MODELFILENAME)
 
 		String dateFile = new Date().format("yyyyMMdd_HHmmss")
+		
+		String path = my.PropertiesReader.getMyProperty('RES_PATH')+ File.separator + dateFile
 
 		//Create folder if not exist
-		File dir = new File(my.PropertiesReader.getMyProperty('RES_PATH'))
+		File dir = new File(path)
 		if (!dir.exists()) dir.mkdirs()
-
-		this.resulFileName = my.PropertiesReader.getMyProperty('RES_PATH') + File.separator + dateFile + this.RES_FILENAME
+			
+		this.resulFileName = path + File.separator + dateFile + this.RES_FILENAME
 
 		Path target = Paths.get(this.resulFileName)
 
@@ -548,18 +567,18 @@ public class Result {
 	}
 
 
-	
+
 	private static write(){
 
 		OutputStream fileOut = new FileOutputStream(this.resulFileName)
 		this.book.write(fileOut);
 	}
 
-	
-	
-	
+
+
+
 	private static close(){
-		
+
 		if (this.resulFileName) {
 			this.book.close()
 			def file = new File(this.resulFileName)

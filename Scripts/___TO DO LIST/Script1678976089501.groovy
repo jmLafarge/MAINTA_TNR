@@ -7,7 +7,7 @@
  * -----------------------------------------------------------------------------------------------------
  * 
 
-
+Ajout dossier dans TNR_Result
 
 
 	MODIF JDD de JML à reporter dans DRIVE
@@ -46,7 +46,7 @@ Contrôle des types dans les DATA sur PREJDD.RO.FOU.xlsx
  	--> voir comment gérer le ID_NUMADR
  
 
- 
+ Result.takeScreenshot() ajouter le path en private pour pouvoir mettre les screenshot
  
  
  * 
@@ -89,8 +89,8 @@ Les JDD et PREJDD sont modifiés en ajoutant le prefixe de l'objet depuis les co
 	
 	A TESTER takeScreenshot
 		
-		gReportPathway = ".\\Reports\\Screenshots\\RT 030 RPCS\\"
-		WebUI.takeScreenshot(gReportPathway + "msg1.png")
+	def timestamp = new Date().format("YYYY-MM-dd HH:mm:ss")
+	WebUI.takeScreenshot('Test/Demo.png',["text" : timestamp + ' '+ GlobalVariable.BASE_URL])
 
  
  

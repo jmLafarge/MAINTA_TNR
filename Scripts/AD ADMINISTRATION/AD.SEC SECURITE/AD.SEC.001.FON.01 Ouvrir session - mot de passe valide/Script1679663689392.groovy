@@ -35,7 +35,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		MYLOG.addSTEP("Connexion KO")
 		
 	}
-
+	
 }
 
 
