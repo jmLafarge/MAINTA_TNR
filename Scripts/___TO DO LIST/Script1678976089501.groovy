@@ -7,7 +7,8 @@
  * -----------------------------------------------------------------------------------------------------
  * 
 
-Ajout dossier dans TNR_Result
+Ajout takeScreenshot
+
 
 
 	MODIF JDD de JML à reporter dans DRIVE
@@ -45,8 +46,6 @@ Contrôle des types dans les DATA sur PREJDD.RO.FOU.xlsx
 	RO.FOU.001.XXX.01(ID_NUMADR) : La valeur '?' n'est pas autorisé pour un champ numérique
  	--> voir comment gérer le ID_NUMADR
  
-
- Result.takeScreenshot() ajouter le path en private pour pouvoir mettre les screenshot
  
  
  * 
@@ -87,12 +86,7 @@ Les JDD et PREJDD sont modifiés en ajoutant le prefixe de l'objet depuis les co
 		Firefox : marche mais pas le double click 
 	
 	
-	A TESTER takeScreenshot
-		
-	def timestamp = new Date().format("YYYY-MM-dd HH:mm:ss")
-	WebUI.takeScreenshot('Test/Demo.png',["text" : timestamp + ' '+ GlobalVariable.BASE_URL])
 
- 
  
 	JDD
 		créer une class pour makeTO ?

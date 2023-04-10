@@ -24,8 +24,6 @@ public class Result {
 	private static XSSFWorkbook book
 	private static Sheet shRESUM
 	private static Sheet shRESULT
-	
-	private static String casDeTestName = ''
 
 	private static int lineNumberSTART = 2	// casDeTest first line
 
@@ -104,15 +102,29 @@ public class Result {
 	}
 
 
+	
+	
+	
+	
+	
 	private static takeScreenshot(Date date, String msg, String status) {
-	
-		String dateFile = date.format("yyyyMMdd_HHmmss")
-		String filename = date.format("yyyyMMdd_HHmmss") + '_'+ this.casDeTestName + '_' + status + '.png'
+
+		String filename = date.format("yyyyMMdd_HHmmss.SSS") + '_'+ GlobalVariable.CASDETESTENCOURS + '_' + status + '.png'
 		
-		WebUI.takeScreenshot('Test/Demo.png',["text" : msg])
-	
+		String path = new File(this.resulFileName).getParent()+ File.separator + 'screenshot'
+		
+		//Create folder if not exist
+		File dir = new File(path)
+		if (!dir.exists()) dir.mkdirs()
+			
+		WebUI.takeScreenshot(path+ File.separator +filename,["text" : msg])
+
 	}
 
+	
+	
+	
+	
 
 	public static addStep(Date date, String msg, String status) {
 
@@ -197,14 +209,16 @@ public class Result {
 	}
 
 
-	public static addStartCasDeTest(String casDeTestName, Date start) {
-		
-		this.casDeTestName = casDeTestName
+	
+	
+	
+	
+	public static addStartCasDeTest(Date start) {
 
 		Row row = this.shRESULT.createRow(this.lineNumberSTART)
 
 		my.XLS.writeCell(row,0,start.format('yyyy-MM-dd HH:mm:ss.SSS'),this.cellStyle_RESULT_CDT)
-		my.XLS.writeCell(row,1,casDeTestName,this.cellStyle_RESULT_CDT)
+		my.XLS.writeCell(row,1,GlobalVariable.CASDETESTENCOURS + ' : ' + TCFiles.getTCNameTitle(),this.cellStyle_RESULT_CDT)
 		my.XLS.writeCell(row,8,start,this.cellStyle_time)
 
 		this.write()
@@ -215,7 +229,7 @@ public class Result {
 
 
 
-	public static addEndCasDeTest(String casDeTestName, Map status, Date start, Date stop) {
+	public static addEndCasDeTest(Map status, Date start, Date stop) {
 
 
 		Row row = this.shRESULT.getRow(this.lineNumberSTART)
@@ -247,7 +261,7 @@ public class Result {
 		}
 
 		my.XLS.writeCell(row,0,start.format('yyyy-MM-dd HH:mm:ss.SSS'),this.cellStyle_RESULT_CDT)
-		my.XLS.writeCell(row,1,casDeTestName,this.cellStyle_RESULT_CDT)
+		my.XLS.writeCell(row,1, GlobalVariable.CASDETESTENCOURS + ' : ' + TCFiles.getTCNameTitle(),this.cellStyle_RESULT_CDT)
 
 		int total = status.PASS + status.WARNING + status.FAIL + status.ERROR
 
@@ -334,6 +348,9 @@ public class Result {
 		this.write()
 	}
 
+	
+	
+	
 
 	public static addEndInfo() {
 
@@ -369,13 +386,13 @@ public class Result {
 		Path source = Paths.get(my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + this.RES_MODELFILENAME)
 
 		String dateFile = new Date().format("yyyyMMdd_HHmmss")
-		
+
 		String path = my.PropertiesReader.getMyProperty('RES_PATH')+ File.separator + dateFile
 
 		//Create folder if not exist
 		File dir = new File(path)
 		if (!dir.exists()) dir.mkdirs()
-			
+
 		this.resulFileName = path + File.separator + dateFile + this.RES_FILENAME
 
 		Path target = Paths.get(this.resulFileName)

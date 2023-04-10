@@ -110,7 +110,7 @@ class TestListener {
 
 			GlobalVariable.CASDETESTENCOURS = TCName
 			
-			MYLOG.addStartTestCase(GlobalVariable.CASDETESTENCOURS)
+			MYLOG.addStartTestCase()
 		}
 
 	}

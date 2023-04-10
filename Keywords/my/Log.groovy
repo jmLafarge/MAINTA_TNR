@@ -25,8 +25,6 @@ class Log {
 
 	private static String tab = ''
 
-	private static String TCName = ''
-
 	private static Date start
 	private static Date logDate
 
@@ -239,36 +237,35 @@ class Log {
 	/*
 	 *
 	 */
-	public static addStartTestCase (String testCaseName) {
-
-		this.TCName = testCaseName + ' : ' + TCFiles.getTCNameTitle(testCaseName)
+	public static addStartTestCase () {
+		
+		String cdt = GlobalVariable.CASDETESTENCOURS + ' : ' + TCFiles.getTCNameTitle()
 		this.status.WARNING = 0
 		this.status.FAIL = 0
 		this.status.PASS = 0
 		this.status.ERROR = 0
 		this.addINFO('')
-		this.addINFO('START TEST CASE : '+ this.TCName )
+		this.addINFO("START TEST CASE : $cdt" )
 		this.start = this.logDate
-		if (RESULT.resulFileName) RESULT.addStartCasDeTest(this.TCName, this.start)
+		if (RESULT.resulFileName) RESULT.addStartCasDeTest( this.start)
 	}
 
 
 	public static addEndTestCase () {
 
+		String cdt = GlobalVariable.CASDETESTENCOURS + ' : ' + TCFiles.getTCNameTitle()
 		Date stop = new Date()
-		if (RESULT.resulFileName) RESULT.addEndCasDeTest(this.TCName, this.status, this.start , stop)
+		if (RESULT.resulFileName) RESULT.addEndCasDeTest(this.status, this.start , stop)
 
 		if (this.status.ERROR !=0) {
-			this.addERROR('END TEST CASE : ' + this.TCName.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
+			this.addERROR('END TEST CASE : ' + cdt.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
 		} else if (this.status.FAIL !=0) {
-			this.addFAIL('END TEST CASE : ' + this.TCName.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
+			this.addFAIL('END TEST CASE : ' + cdt.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
 		} else if (this.status.WARNING !=0) {
-			this.addWARNING('END TEST CASE : ' + this.TCName.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
+			this.addWARNING('END TEST CASE : ' + cdt.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
 		} else {
-			this.addPASS('END TEST CASE : ' + this.TCName.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
+			this.addPASS('END TEST CASE : ' + cdt.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
 		}
-
-		this.TCName = ''
 	}
 
 

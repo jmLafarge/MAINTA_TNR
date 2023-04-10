@@ -3,6 +3,7 @@ package my
 import java.util.regex.Pattern
 
 import groovy.io.FileType
+import internal.GlobalVariable
 import my.Log as MYLOG
 
 
@@ -38,10 +39,10 @@ public class TCFiles {
 
 
 
-	public static String getTCNameTitle(String TCName) {
-		
-		List liTCFullName= TCfileMap[TCName].split(Pattern.quote(File.separator))
-		
+	public static String getTCNameTitle() {
+
+		List liTCFullName= TCfileMap[GlobalVariable.CASDETESTENCOURS].split(Pattern.quote(File.separator))
+
 		//Détermine objet et sous-ressources à partir des noms des dossier père (SR) et grandpère(OBJ) des TC
 		String obj =''
 		String sr =''
@@ -51,13 +52,13 @@ public class TCFiles {
 				sr = liTCFullName[liTCFullName.size()-2].split(' ').drop(1).join(' ')
 			}
 		}
-		
+
 		// si un titre existe au niveau du TC on le prend sinon on le construit
 		List liTCName = liTCFullName[-1].split(' ')
 		if (liTCName.size()>1) {
 			return liTCName.drop(1).join(' ')
 		}else {
-			def liTCName2 = TCName.split('\\.')
+			def liTCName2 = GlobalVariable.CASDETESTENCOURS.split('\\.')
 			if (liTCName2.size()>2) {
 				return this.getAutoTitle(obj,sr,liTCName2[-2])
 			}
@@ -65,10 +66,10 @@ public class TCFiles {
 		}
 	}
 
-	
+
 
 	private static String getAutoTitle(String obj, String sr, String code) {
-		
+
 		switch (code) {
 			case "CRE" :
 				return "Création $obj"
