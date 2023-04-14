@@ -238,7 +238,7 @@ class Log {
 	 *
 	 */
 	public static addStartTestCase () {
-		
+
 		String cdt = GlobalVariable.CASDETESTENCOURS + ' : ' + TCFiles.getTCNameTitle()
 		this.status.WARNING = 0
 		this.status.FAIL = 0

@@ -370,7 +370,7 @@ class JDDGenerator {
 
 			Row row = my.XLS.getNextRow(shVersion)
 
-			my.XLS.writeCell(row,0,new Date(),cellStyle_date)
+			my.XLS.writeCell(row,0,new Date().format('dd/MM/yyyy'),cellStyle_date)
 			my.XLS.writeCell(row,1,auteur,thinBlackBorderStyle)
 			my.XLS.writeCell(row,2,msg,thinBlackBorderStyle)
 			my.XLS.writeCell(row,3,edition,thinBlackBorderStyle)

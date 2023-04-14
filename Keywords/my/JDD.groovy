@@ -16,9 +16,25 @@ public class JDD {
 
 	private final String TOSHEETNAME = 'IHMTO'
 
-	private final List PARAM_LIST_ALLOWED		= ['PREREQUIS', 'FOREIGNKEY', 'LOCATOR', 'SEQUENCE']
-	private final List TAG_LIST_ALLOWED			= ['input', 'select', 'textarea', 'td', 'checkbox']
-	private final List SKIP_LIST_SHEETNAME		= ['Version', 'Info', TOSHEETNAME, 'MODELE']
+	private final List PARAM_LIST_ALLOWED		= [
+		'PREREQUIS',
+		'FOREIGNKEY',
+		'LOCATOR',
+		'SEQUENCE'
+	]
+	private final List TAG_LIST_ALLOWED			= [
+		'input',
+		'select',
+		'textarea',
+		'td',
+		'checkbox'
+	]
+	private final List SKIP_LIST_SHEETNAME		= [
+		'Version',
+		'Info',
+		TOSHEETNAME,
+		'MODELE'
+	]
 	private final String START_DATA_WORD		= 'CAS_DE_TEST'
 
 	private XSSFWorkbook book
@@ -359,8 +375,12 @@ public class JDD {
 	def makeTO(String ID, Map  binding = [:]){
 
 		if (!this.xpathTO.containsKey(ID)) {
-			return [null, "L'ID '$ID' n'existe pas, impossible de créer le TEST OBJET"]
+			return [
+				null,
+				"L'ID '$ID' n'existe pas, impossible de créer le TEST OBJET"
+			]
 		}
+	
 		MYLOG.addDEBUG("makeTO( $ID, Map  binding = [:])" + binding.toString())
 
 		TestObject to = new TestObject(ID)
@@ -395,12 +415,18 @@ public class JDD {
 						break
 
 					default:
-						return [null, "makeTO $ID, xpath avec "+'$'+" mot clé inconnu : $xpath"]
+						return [
+							null,
+							"makeTO $ID, xpath avec "+'$'+" mot clé inconnu : $xpath"
+						]
 				}
 				MYLOG.addDEBUG("\t\tGLOBAL xpath : $xpath")
 				MYLOG.addDEBUG("\t\tbinding  : " + binding.toString())
 			}else {
-				return [null, "makeTO $ID, xpath avec "+'$'+" non conforme : $xpath"]
+				return [
+					null,
+					"makeTO $ID, xpath avec "+'$'+" non conforme : $xpath"
+				]
 			}
 
 		}

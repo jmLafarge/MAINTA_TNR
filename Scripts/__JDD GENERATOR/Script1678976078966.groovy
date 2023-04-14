@@ -3,6 +3,10 @@ import my.JDDGenerator
 
 
 List listRubriquesIHM = []
+
+//my.JDDGenerator.add('ADR','RO.ADR','001')
+my.JDDGenerator.add('LIE','RO.LIE','001')
+
 //my.JDDGenerator.add('INTER','ZZ.YYY')
 //my.JDDGenerator.add('INTER_HAB','ZZ.YYY','002')
 //my.JDDGenerator.add('INT_MET','ZZ.YYY','003')

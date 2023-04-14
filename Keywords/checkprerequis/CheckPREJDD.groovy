@@ -14,15 +14,15 @@ import my.JDDFiles
 
 
 public class CheckPREJDD {
-	
-	
+
+
 	private static my.JDD myJDD
 	private static List datas = []
 	private static String table =''
 	private static List headersPREJDD=[]
 	private static List PKList=[]
-	
-	
+
+
 
 	/**
 	 * 
@@ -52,11 +52,11 @@ public class CheckPREJDD {
 				if (!(sheet.getSheetName() in myJDD.SKIP_LIST_SHEETNAME)) {
 
 					myJDD.loadTCSheet(myJDD.book.getSheet(sheet.getSheetName()))
-					
+
 					headersPREJDD = MYXLS.loadRow(sheet.getRow(0))
-					
+
 					datas = my.PREJDD.loadDATA(sheet,headersPREJDD.size())
-					
+
 					table = myJDD.getDBTableName()
 					PKList = INFOBDD.getPK(table)
 
@@ -66,24 +66,23 @@ public class CheckPREJDD {
 
 						this.checkColumn()
 						this.checkKWInDATA()
-						this.checkTypeInDATA()
+						CheckTypeInDATA.run(datas,myJDD, table)
 						this.checkDoublonOnPK()
 					}
 				}
 			}
 		}
-
 	}
 
-	
-	
-	
-	
-	
+
+
+
+
+
 	private static checkColumn() {
-		
+
 		MYLOG.addDEBUGDETAIL("Contrôle des colonnes",0)
-		
+
 		//INFOBDD.colnameMap[table].eachWithIndex{col,index ->
 		INFOBDD.map[table].each{col,vlist ->
 			if (col == headersPREJDD[(int)vlist[0]]) {
@@ -95,12 +94,12 @@ public class CheckPREJDD {
 			}
 		}
 	}
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 	private static checkKWInDATA() {
 
 		MYLOG.addDEBUGDETAIL("Contrôle des mots clés dans les DATA",0)
@@ -112,38 +111,14 @@ public class CheckPREJDD {
 			}
 		}
 	}
-	
-	
-	
 
-	
-	private static checkTypeInDATA() {
 
-		MYLOG.addDEBUGDETAIL("Contrôle des types dans les DATA",0)
 
-		datas.eachWithIndex { li,numli ->
-			li.eachWithIndex { val,i ->
-				String name = myJDD.getHeaderNameOfIndex(i)
-				if (i!=0 && INFOBDD.inTable(table, name) && !myJDD.isFK(name)) {
 
-					if (INFOBDD.isNumeric(table, name)) {
 
-						if (val.toString().isNumber() || val in ['$NULL', '$NU', '$SEQUENCEID', '$ORDRE']) {
-							// c'est bon
-						}else {
 
-							MYLOG.addDETAILFAIL(li[0] + "($name) : La valeur '$val' n'est pas autorisé pour un champ numérique")
-						}
-					}
-				}
-			}
-		}
-	}
-	
-	
-	
 	private static checkDoublonOnPK() {
-		
+
 		MYLOG.addDEBUGDETAIL("Contrôle absence de doublon sur PRIMARY KEY : " +  PKList.join(' , '),0)
 		Map PKval = [:]
 		this.datas.eachWithIndex { li,numli ->
@@ -159,7 +134,7 @@ public class CheckPREJDD {
 			}
 		}
 	}
-	
-	
-	
+
+
+
 }

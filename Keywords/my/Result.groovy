@@ -5,6 +5,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
+import org.apache.poi.common.usermodel.HyperlinkType
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
@@ -19,6 +20,7 @@ public class Result {
 
 	private static String RES_RESUMESHEETNAME ='RESUME'
 	private static String RES_RESULTSHEETNAME ='RESULTATS'
+	private static String SCREENSHOTSUBFOLDER = 'screenshot'
 
 	private static String resulFileName = ''
 	private static XSSFWorkbook book
@@ -36,6 +38,7 @@ public class Result {
 	private static CellStyle cellStyle_time
 	private static CellStyle cellStyle_duration
 	private static CellStyle cellStyle_date
+	private static CellStyle cellStyle_hyperlink
 
 	private static CellStyle cellStyle_PASS
 	private static CellStyle cellStyle_WARNING
@@ -102,29 +105,39 @@ public class Result {
 	}
 
 
-	
-	
-	
-	
-	
-	private static takeScreenshot(Date date, String msg, String status) {
 
-		String filename = date.format("yyyyMMdd_HHmmss.SSS") + '_'+ GlobalVariable.CASDETESTENCOURS + '_' + status + '.png'
-		
-		String path = new File(this.resulFileName).getParent()+ File.separator + 'screenshot'
-		
-		//Create folder if not exist
-		File dir = new File(path)
-		if (!dir.exists()) dir.mkdirs()
-			
-		WebUI.takeScreenshot(path+ File.separator +filename,["text" : msg])
 
+
+
+
+	private static takeScreenshot(Row row,Date date, String msg, String status) {
+
+		if (!msg.contains("Fin de la  vérification des valeurs en Base de Données")) {
+
+			String filename = date.format("yyyyMMdd_HHmmss.SSS") + '_'+ GlobalVariable.CASDETESTENCOURS + '_' + status + '.png'
+
+			String path = new File(this.resulFileName).getParent()+ File.separator + this.SCREENSHOTSUBFOLDER
+
+			//Create folder if not exist
+			File dir = new File(path)
+			if (!dir.exists()) dir.mkdirs()
+
+			WebUI.takeScreenshot(path+ File.separator +filename,["text" : status+':'+msg, "fontSize" : 24, "fontColor": "#FF0000"])
+			//WebUI.takeScreenshot(path+ File.separator +filename,["text" : status])
+
+			Hyperlink hyperlink = this.createHelper.createHyperlink(HyperlinkType.URL);
+
+			hyperlink.setAddress('./'+this.SCREENSHOTSUBFOLDER+ '/' +filename);
+
+			my.XLS.writeCell(row,11, filename  ,this.cellStyle_hyperlink,hyperlink)
+
+		}
 	}
 
-	
-	
-	
-	
+
+
+
+
 
 	public static addStep(Date date, String msg, String status) {
 
@@ -145,19 +158,19 @@ public class Result {
 
 				break
 			case 'WARNING':
-				this.takeScreenshot(date,msg,status)
+				this.takeScreenshot(row,date,msg,status)
 				my.XLS.writeCell(row,0,date.format('yyyy-MM-dd HH:mm:ss.SSS'),this.cellStyle_RESULT_STEP)
 				my.XLS.writeCell(row,1,msg,this.cellStyle_RESULT_STEPWARNING)
 				my.XLS.writeCell(row,2,'WARNING',this.cellStyle_RESULT_STEPWARNING)
 				break
 			case 'FAIL':
-				this.takeScreenshot(date,msg,status)
+				this.takeScreenshot(row,date,msg,status)
 				my.XLS.writeCell(row,0,date.format('yyyy-MM-dd HH:mm:ss.SSS'),this.cellStyle_RESULT_STEP)
 				my.XLS.writeCell(row,1,msg,this.cellStyle_RESULT_STEPFAIL)
 				my.XLS.writeCell(row,2,'FAIL',this.cellStyle_RESULT_STEPFAIL)
 				break
 			case 'ERROR':
-				this.takeScreenshot(date,msg,status)
+				this.takeScreenshot(row,date,msg,status)
 				my.XLS.writeCell(row,0,date.format('yyyy-MM-dd HH:mm:ss.SSS'),this.cellStyle_RESULT_STEP)
 				my.XLS.writeCell(row,1,msg,this.cellStyle_RESULT_STEPERROR)
 				my.XLS.writeCell(row,2,'ERROR',this.cellStyle_RESULT_STEPERROR)
@@ -209,10 +222,10 @@ public class Result {
 	}
 
 
-	
-	
-	
-	
+
+
+
+
 	public static addStartCasDeTest(Date start) {
 
 		Row row = this.shRESULT.createRow(this.lineNumberSTART)
@@ -348,9 +361,9 @@ public class Result {
 		this.write()
 	}
 
-	
-	
-	
+
+
+
 
 	public static addEndInfo() {
 
@@ -427,6 +440,21 @@ public class Result {
 
 		this.cellStyle_date = this.book.createCellStyle()
 		this.cellStyle_date.setDataFormat( this.createHelper.createDataFormat().getFormat("dd/MM/yyyy"))
+
+
+		this.cellStyle_hyperlink = this.book.createCellStyle()
+
+		def fontHyperLink = this.book.createFont()
+		fontHyperLink.setFontName('Arial')
+		fontHyperLink.setFontHeightInPoints(10 as short)
+		fontHyperLink.setUnderline(FontUnderline.SINGLE.getByteValue())
+		fontHyperLink.setColor(IndexedColors.BLUE.getIndex())
+
+		//this.cellStyle_hyperlink.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex())
+		//this.cellStyle_hyperlink.setFillPattern(FillPatternType.SOLID_FOREGROUND)
+		this.cellStyle_hyperlink.setFont(fontHyperLink)
+
+
 
 		def fontCDT = this.book.createFont()
 		fontCDT.setFontName('Arial')

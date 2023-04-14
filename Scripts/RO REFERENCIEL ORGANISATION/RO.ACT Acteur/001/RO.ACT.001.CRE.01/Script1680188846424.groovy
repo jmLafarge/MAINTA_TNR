@@ -107,7 +107,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 	    NAV.verifierEcranResultat()
 			
-	    KW.verifyElementText(NAV.myGlobalJDD,'a_Resultat_ID', myJDD.getStrData())
+	    KW.verifyElementText(NAV.myGlobalJDD,'Resultat_ID', myJDD.getStrData())
 		
 		my.SQL.checkJDDWithBD(myJDD,specificValueMap)
 

@@ -1,6 +1,13 @@
 package my
 
 import my.Log as MYLOG
+
+//Pour la lecture du format RTF
+import javax.swing.text.DefaultStyledDocument
+import javax.swing.text.rtf.RTFEditorKit
+import java.io.StringReader
+
+
 import my.XLS as MYXLS
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
@@ -16,9 +23,6 @@ public class InfoBDD {
 	private static String fileName = ''
 
 	private static final List HEADERS	 = ['TABLE_NAME', 'COLUMN_NAME', 'ORDINAL_POSITION', 'IS_NULLABLE', 'DATA_TYPE', 'MAXCHAR', 'DOMAIN_NAME', 'CONSTRAINT_NAME']
-
-	private static final String NUMERIC = 'numeric'
-
 
 
 	public static load() {
@@ -82,19 +86,51 @@ public class InfoBDD {
 		return this.map[table][name][2]
 	}
 
-
-
-	public static boolean isNumeric(String table, String name) {
-		return this.map[table][name][2]==this.NUMERIC
+	
+	
+	public static def getDATA_MAXCHAR(String table, String name) {
+		return this.map[table][name][3]
 	}
 
 
+	
+	public static boolean isNumeric(String table, String name) {
+		return this.map[table][name][2]==this.getNumeric()
+	}
+
+	public static boolean isImage(String table, String name) {
+		return this.map[table][name][2]==this.getImage()
+	}
+	
+	public static String getNumeric() {
+		return 'numeric'
+	}
+	
+	
+	
+	public static String getVarchar() {
+		return 'varchar'
+	}
+	
+	
+	public static String getImage() {
+		return 'image'
+	}
 
 	public static castJDDVal(String table, String name, def val) {
 		switch (this.getDATA_TYPE( table, name)) {
-			case 'varchar':
+			case this.getVarchar():
 				return val.toString()
 				break
+				/*
+			case this.getImage():
+				def texte = new DefaultStyledDocument()
+				def editorKit = new RTFEditorKit()
+				editorKit.read(new StringReader(val), texte, 0)
+			
+				return texte.getText(0, texte.getLength())
+				break
+				*/
 			default :
 				return val
 		}

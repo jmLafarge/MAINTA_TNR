@@ -4,6 +4,8 @@ import my.Log as MYLOG
 
 MYLOG.addSubTITLE('Création des PREJDD')
 
+
+
 // pour le proto
 PREJDDFiles.insertPREJDDinDB('RO.CAT','001')
 
@@ -42,5 +44,9 @@ PREJDDFiles.insertPREJDDinDB('AC.CMR','001')
 PREJDDFiles.insertPREJDDinDB('AC.CPA','001')
 PREJDDFiles.insertPREJDDinDB('AC.CPO','001')
 
+
+PREJDDFiles.insertPREJDDinDB('RO.ADR','001')
+PREJDDFiles.insertPREJDDinDB('RO.LIE','001')
+PREJDDFiles.insertPREJDDinDB('RO.FOU','001A')
 PREJDDFiles.insertPREJDDinDB('RO.FOU','001')
 

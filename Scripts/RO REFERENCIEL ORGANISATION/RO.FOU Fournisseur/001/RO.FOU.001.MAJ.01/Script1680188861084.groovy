@@ -1,6 +1,9 @@
+import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
+
+import internal.GlobalVariable
 import my.KW
-import my.NAV
 import my.Log as MYLOG
+import my.NAV
 
 
 'Lecture du JDD'
@@ -14,20 +17,35 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData())
 
 
+
 	MYLOG.addSTEPGRP("ONGLET FOURNISSEUR")
-		
+		/*
 		KW.scrollAndClick(myJDD,"tab_Fournisseur")
 		KW.waitForElementVisible(myJDD,"tab_FournisseurSelected")
 		
-		KW.scrollAndSetText(myJDD, "ID_CODFOU")
+		//KW.scrollAndSetText(myJDD, "ID_CODFOU")
 		KW.scrollAndSetText(myJDD, "ST_NOM")
 		KW.searchWithHelper(myJDD, "ID_CODGES","","")
 		//ST_DESGES --> pas d'action en modification
 		KW.scrollAndCheckIfNeeded(myJDD,"ST_CONSTR","O")
 		KW.scrollAndCheckIfNeeded(myJDD,"ST_INA","O")
-		KW.searchWithHelper(myJDD, "ST_CODCOM","","")
+		KW.searchWithHelper(myJDD, "ST_CODCOM","","SEARCH_ID_CODCMP") //specific
 		//ST_DESST_CODCOM --> pas d'action en modification
+		*/
 		
+		MYLOG.addSTEPBLOCK("ADRESSE")
+		
+		//myJDD.bindingXpath(xpath, binding)
+		//KW.scrollAndClick(myJDD,"TD_Adresse")
+		//KW.scrollAndClick(myJDD,"BTN_ModifierAdresse")
+		//WebUI.switchToWindowIndex('1')
+		
+		
+		
+		
+		
+		/*
+		MYLOG.addSTEPBLOCK("CONTACT")
 		KW.scrollAndSetText(myJDD, "ST_TELPHO")
 		KW.scrollAndSetText(myJDD, "ST_CON")
 		KW.scrollAndSetText(myJDD, "ST_TELMOB")
@@ -55,6 +73,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
 		KW.scrollAndSetText(myJDD, "ST_REL")
 		KW.scrollAndCheckIfNeeded(myJDD,"ST_FIGCAT","O")
 		
+		MYLOG.addSTEPBLOCK("TEXTES COMMANDE")
 		KW.scrollAndSetText(myJDD, "ST_TXTBAS1")
 		KW.scrollAndSetText(myJDD, "ST_TXTBAS2")
 		KW.scrollAndSetText(myJDD, "ST_TXTBAS3")
@@ -62,19 +81,35 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
 		KW.scrollAndSetText(myJDD, "ST_TXTBAS5")
 		KW.scrollAndSetText(myJDD, "ST_TXTBAS6")
 		KW.scrollAndCheckIfNeeded(myJDD,"ST_FIGCDE","O")
-		
+
 	MYLOG.addSTEPGRP("ONGLET NOTES")
+	
+		def JDD_Note = new my.JDD(my.JDDFiles.getFullName('RO.FOU'),'001A',GlobalVariable.CASDETESTENCOURS)
 		
 		KW.scrollAndClick(myJDD,"tab_Notes")
 		KW.waitForElementVisible(myJDD,"tab_NotesSelected")
 	
-
+		WebUI.scrollToPosition(0, 0)
+		KW.delay(1)
+		
+		KW.scrollAndClick(myJDD,"ModifierNote")
+		KW.delay(1)
+		
+		WebUI.switchToWindowIndex('1')
+		
+		if (KW.isElementPresent(myJDD,'frameNote', GlobalVariable.TIMEOUT)) {
+			
+			KW.switchToFrame(myJDD, 'frameNote')
+			
+			
+			KW.setText(myJDD, 'textNote',JDD_Note.getStrData("OL_DOC"))
+			
+			WebUI.switchToDefaultContent()
+			
+			KW.scrollAndClick(myJDD,"BTN_ValiderEtFermerNote")
+			WebUI.switchToWindowIndex('0')
+		}
 	
-	
-	
-	
-	  
-
 	  		 
 
 	MYLOG.addSTEPACTION('VALIDATION')
@@ -83,9 +118,12 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
 	
 	    NAV.verifierEcranResultat()
 	
-	    KW.verifyElementText(NAV.myGlobalJDD,'a_Resultat_ID', myJDD.getStrData())
+	    KW.verifyElementText(NAV.myGlobalJDD,'Resultat_ID', myJDD.getStrData())
 	
 		my.SQL.checkJDDWithBD(myJDD)
+		
+		my.SQL.checkJDDWithBD(JDD_Note)
+		*/
 	
 } // fin du if
 

@@ -126,9 +126,13 @@ public class PREJDDFiles {
 							val = "'${now.format('yyyy-dd-MM HH:mm:ss.SSS')}'"
 							break
 						default :
+							
 							if (value instanceof java.util.Date) {
 								MYLOG.addDEBUG("\t\t instanceof java.util.Date = TRUE")
 								val = "'${value.format('yyyy-dd-MM HH:mm:ss.SSS')}'"
+							}else if (INFOBDD.isImage(myJDD.getDBTableName(), fieldName)) {
+								
+								val = "'${this.getRTFTEXT(value)}'"
 							}else {
 								val = "'$value'"
 							}
@@ -188,5 +192,11 @@ public class PREJDDFiles {
 	}
 
 
+	
+	private static String getRTFTEXT(String val) {
+		String strBegin ="{\\rtf1\\fbidis\\ansi\\ansicpg0\\uc1\\deff0\\deflang0\\deflangfe0{\\fonttbl{\\f0\\fnil Arial;}}{\\colortbl;}{\\stylesheet{\\s0\\fi0\\li0\\ql\\ri0\\sb0\\sa0 Paragraph Style;}{\\*\\cs1\\f0\\fs24 Font Style;}}\\pard\\s0\\fi0\\li0\\ql\\ri0\\sb0\\sa0\\itap0 \\plain \\cs1\\f0\\fs24 "
+		String strEnd	="\\par}"
+		return strBegin+val+strEnd
+	}
 
 } // end of class

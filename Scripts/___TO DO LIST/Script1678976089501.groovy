@@ -7,13 +7,13 @@
  * -----------------------------------------------------------------------------------------------------
  * 
 
-Ajout takeScreenshot
-
-
-
-	MODIF JDD de JML à reporter dans DRIVE
-	
-		PREJDD.RO.ACT 003HAB colonne ID_CODHAB ajout du suffixe HAB. --> idem pour 003MET
+ Correction format date dans JDD Generator.addInfoVersion
+ Suppression du screenshot sur msg = "Fin de la  vérification des valeurs en Base de Données"
+ Ajout des liens vers screenshot
+ Ajout du ctrl varchar dans CheckTypeInDATA.run()
+ Ajout de fonction dans InfoBDD
+ Traitement des memo dans RO.FOU
+ en cours traitement de ADR
 
  * 
  * -----------------------------------------------------------------------------------------------------
@@ -34,6 +34,7 @@ Ajout takeScreenshot
 		L'utilisation de this.variable dans une boucle d'un map semble poser problème 
 		Par exemple dans checkJDD.run() mettre this.myJDD = new my.JDD(fullName,null,null,false) --> provoque une erreur
 		--> je ne sais pas pourquoi
+		--> peut être parce que .each est une closure
 		
 		
  *
@@ -41,10 +42,13 @@ Ajout takeScreenshot
  * EN COURS
  * -----------------------------------------------------------------------------------------------------
  *
-
-Contrôle des types dans les DATA sur PREJDD.RO.FOU.xlsx
-	RO.FOU.001.XXX.01(ID_NUMADR) : La valeur '?' n'est pas autorisé pour un champ numérique
- 	--> voir comment gérer le ID_NUMADR
+ 	
+ RO.FOU.001.MAJ le cas des adresses
+ - il faut revoir les binding pour les xpath dyn car le para dans makeTO ne sert plus ! vu que les TO sont créé depuis KW
+ - mettre à jour le map xpath ne va pas car on perd le paramètrage
+ - il faudrait un autre moyen de mettre à jour le xpath
+ - il serit peut etre temps de sortie makeTO de JDD pour en faire une calass à part
+ 
  
  
  
@@ -113,7 +117,6 @@ Les JDD et PREJDD sont modifiés en ajoutant le prefixe de l'objet depuis les co
 		  
 	RESULT
 	 
-		renommer le fichier resultat avec la version et le nav dés qu'on connait le nav (avant la fin des test)
 		Ajouter les step FAIL dans le xls en grouper sous le test ou dans un autre onglet --> avec les élements nécessaire pour le ticket
 		Ou faire un plan(regrouper) avec les STEPs
 	  		si on veut lister les STEP dans le xls il faut peut être simplifiué
@@ -129,20 +132,15 @@ Les JDD et PREJDD sont modifiés en ajoutant le prefixe de l'objet depuis les co
 	
 		Vérifier si fonctionne encore 
 
-	TEST LISTENER 
 
-	  	beforeTestCase	: Vérifier le besoin dans les differents cas 
-	  	afterTestCase 	: dans le cas de test suite	  
+
 		  
 		  
 	SELENIUM
 	
 		Penser à passer sur Selenium
 	 
-	
-	PREJDD
-	
-		Faire un script pour lancer les script SQL PREJDD dans l'ordre	
+
 	
 	
 	BDD
@@ -157,8 +155,10 @@ Les JDD et PREJDD sont modifiés en ajoutant le prefixe de l'objet depuis les co
 
 	LOG
 
-		Revoir le DEBUG --> c'est pourri
-		integrer LOG4J
+		Revoir le DEBUG --> c'est pourri 
+		
+		integrer LOG4J --> non pas avec Katalon
+		
   		Ajouter def var en para d'un DEBUG pour parser un map , un list,... --> pour une list.toListString() ou join mais c'est en ligne ... voir avec \n
   		ajouter une fonction addTRACE(def fct, def para=null, String msg=null)
   			this donne le package

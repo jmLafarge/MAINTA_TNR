@@ -10,7 +10,7 @@ import my.JDDFiles as MYJDDFILES
 public class CheckJDD {
 
 	private static my.JDD myJDD
-	private static String myTable
+	private static String table
 
 
 	/**
@@ -36,7 +36,7 @@ public class CheckJDD {
 					MYLOG.addDEBUGDETAIL("Contrôle de la liste des paramètres",0)
 
 					myJDD.loadTCSheet(sheet)
-					myTable = myJDD.getDBTableName()
+					table = myJDD.getDBTableName()
 
 					if (myJDD.headers.size()>1) {
 
@@ -46,7 +46,7 @@ public class CheckJDD {
 
 						this.checkKWInDATA()
 					}else {
-						MYLOG.addDETAILFAIL("Pas de colonnes dans le JDD ! ")
+						MYLOG.addDETAILWARNING("Pas de colonnes dans le JDD ! ")
 					}
 				}
 			}
@@ -66,16 +66,16 @@ public class CheckJDD {
 
 	private static checkTable() {
 
-		if (myTable=='') {
+		if (table=='') {
 			MYLOG.addDEBUGDETAIL("Pas de table DB dans le JDD ",0)
 		}else {
-			if (INFOBDD.isTableExist(myTable)) {
-				MYLOG.addDEBUGDETAIL("Contrôle de la table DB '$myTable'",0)
+			if (INFOBDD.isTableExist(table)) {
+				MYLOG.addDEBUGDETAIL("Contrôle de la table DB '$table'",0)
 
 				this.checkColumn()
-				this.checkTypeInDATA()
+				CheckTypeInDATA.run(myJDD.datas, myJDD, table)
 			}else {
-				MYLOG.addDETAILFAIL("Contrôle de la table DB KO, la table '$myTable' n'existe pas !")
+				MYLOG.addDETAILFAIL("Contrôle de la table DB KO, la table '$table' n'existe pas !")
 			}
 		}
 	}
@@ -88,7 +88,7 @@ public class CheckJDD {
 
 		MYLOG.addDEBUGDETAIL("Contrôle des colonnes (Présence, ordre)",0)
 		//INFOBDD.colnameMap[table].eachWithIndex{col,index ->
-		INFOBDD.map[myTable].each{col,vlist ->
+		INFOBDD.map[table].each{col,vlist ->
 
 			if (col == myJDD.headers[(int)vlist[0]]) {
 				MYLOG.addDEBUG("'$col' OK")
@@ -163,30 +163,7 @@ public class CheckJDD {
 
 
 
-	private static checkTypeInDATA() {
 
-		if (myJDD.headers.size()>1) {
-			MYLOG.addDEBUGDETAIL("Contrôle des types dans les DATA",0)
-			myJDD.datas.eachWithIndex { li,numli ->
-				li.eachWithIndex { val,i ->
-					String name = myJDD.getHeaderNameOfIndex(i)
-					if (i!=0 && INFOBDD.inTable(myTable, name) && !myJDD.isFK(name)) {
-						if (INFOBDD.isNumeric(myTable, name)) {
-							if (val.toString().isNumber() || val in [
-								'$NULL',
-								'$NU',
-								'$SEQUENCEID'
-							]) {
-								// c'est bon
-							}else {
-								MYLOG.addDETAILFAIL(li[0] + "($name) : La valeur '$val' n'est pas autorisé pour un champ numérique")
-							}
-						}
-					}
-				}
-			}
-		}
-	}
 
 
 

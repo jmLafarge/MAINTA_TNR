@@ -1,6 +1,8 @@
+import internal.GlobalVariable
 import my.KW
-import my.NAV as NAV
 import my.Log as MYLOG
+import my.NAV
+
 
 'Lecture du JDD'
 def myJDD = new my.JDD()
@@ -27,6 +29,9 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		KW.verifyValue(myJDD,"ST_CODCOM")
 		KW.verifyValue(myJDD,"ST_DESST_CODCOM")
 		
+		//MYLOG.addSTEPBLOCK("ADRESSE")
+		
+		MYLOG.addSTEPBLOCK("CONTACT")
 		KW.verifyValue(myJDD,"ST_TELPHO")
 		KW.verifyValue(myJDD,"ST_CON")
 		KW.verifyValue(myJDD,"ST_TELMOB")
@@ -54,6 +59,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		KW.verifyValue(myJDD,"ST_REL")
 		KW.verifyElementCheckedOrNot(myJDD,"ST_FIGCAT","O")
 		
+		MYLOG.addSTEPBLOCK("TEXTES COMMANDE")
 		KW.verifyValue(myJDD,"ST_TXTBAS1")
 		KW.verifyValue(myJDD,"ST_TXTBAS2")
 		KW.verifyValue(myJDD,"ST_TXTBAS3")
@@ -67,7 +73,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		KW.scrollAndClick(myJDD,"tab_Notes")
 		KW.waitForElementVisible(myJDD,"tab_NotesSelected")
 		
-		
+		KW.verifyElementText(new my.JDD(my.JDDFiles.getFullName('RO.FOU'),'001A',GlobalVariable.CASDETESTENCOURS),"OL_DOC")
 
 
 }

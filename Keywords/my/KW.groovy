@@ -125,6 +125,7 @@ class KW {
 			} catch (Exception ex) {
 				MYLOG.addSTEP("Saisie du texte '$text' sur '" + tObj.getObjectId() + "'", status)
 				MYLOG.addDETAIL(ex.getMessage())
+				MYLOG.addDEBUG('')
 			}
 		}else {
 			MYLOG.addSTEPERROR("Saisie du texte '$text' sur '$name' impossible")
@@ -435,7 +436,7 @@ class KW {
 				MYLOG.addSTEP("Vérifier la valeur de '" + name+ "' KO, valeur attendue '$text', valeur du champ '" + WebUI.getAttribute(tObj, 'value') + "' !", status)
 			}
 		}else {
-			MYLOG.addSTEPERROR("Vérifier que la valeur de '" + name + "', soit Null ou Vide impossible")
+			MYLOG.addSTEPERROR("Vérifier que la valeur de '$name' = '$text'  impossible")
 			MYLOG.addDETAIL(msgTO)
 		}
 	} // end of def
@@ -761,7 +762,7 @@ class KW {
 
 
 
-	static searchWithHelper(JDD myJDD, String name , String btnXpath = '' , String inputName = '' ){
+	static searchWithHelper(JDD myJDD, String name , String btnXpath = '' , String inputSearchName = '' ){
 
 		MYLOG.addSUBSTEP("Saisie de $name en utilisant l'assistant de recherche")
 
@@ -771,11 +772,11 @@ class KW {
 			btnXpath = "//a[@id='Btn$name']/i"
 		}
 
-		if (inputName=='') inputName = "SEARCH_$name"
+		if (inputSearchName=='') inputSearchName = "SEARCH_$name"
 
 
 
-		String inputXpath 	= "//input[@name='$inputName']"
+		String inputXpath 	= "//input[@name='$inputSearchName']"
 		String tdXpath 		= "//div[@id='v-dbtdhtmlx1']/table/tbody//td[3][text()='$val']"
 
 		myJDD.xpathTO.put('btnSearch', btnXpath)

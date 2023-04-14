@@ -29,6 +29,10 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		KW.scrollAndSetText(myJDD,"ST_CODCOM")
 		//ST_DESST_CODCOM --> pas d'action en création
 		
+		//MYLOG.addSTEPBLOCK("ADRESSE")
+		
+		
+		MYLOG.addSTEPBLOCK("CONTACT")
 		KW.scrollAndSetText(myJDD,"ST_TELPHO")
 		KW.scrollAndSetText(myJDD,"ST_CON")
 		KW.scrollAndSetText(myJDD,"ST_TELMOB")
@@ -56,6 +60,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		KW.scrollAndSetText(myJDD,"ST_REL")
 		KW.scrollAndCheckIfNeeded(myJDD,"ST_FIGCAT","O")
 		
+		MYLOG.addSTEPBLOCK("TEXTES COMMANDE")
 		KW.scrollAndSetText(myJDD,"ST_TXTBAS1")
 		KW.scrollAndSetText(myJDD,"ST_TXTBAS2")
 		KW.scrollAndSetText(myJDD,"ST_TXTBAS3")
@@ -78,7 +83,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 	    NAV.verifierEcranResultat()
 			
-	    KW.verifyElementText(NAV.myGlobalJDD,'a_Resultat_ID', myJDD.getStrData())
+	    KW.verifyElementText(NAV.myGlobalJDD,'Resultat_ID', myJDD.getStrData())
 	
 		my.SQL.checkJDDWithBD(myJDD)
 

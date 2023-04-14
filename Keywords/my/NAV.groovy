@@ -37,7 +37,7 @@ class NAV {
 		KW.delay(1)
 		KW.click(myGlobalJDD,'a_Toggle','WARNING')
 		KW.delay(1)
-		KW.waitAndVerifyElementText(myGlobalJDD, 'span_Ecran', txt,timeOut,'WARNING')
+		KW.waitAndVerifyElementText(myGlobalJDD, 'Fonction_code', txt,timeOut,'WARNING')
 	} // end of def
 
 
@@ -51,7 +51,7 @@ class NAV {
 		KW.delay(1)
 		KW.click(myGlobalJDD, 'a_Toggle','WARNING')
 		KW.delay(1)
-		KW.waitAndVerifyElementText(myGlobalJDD, 'span_Ecran', 'E'+ fct, timeOut,'WARNING')
+		KW.waitAndVerifyElementText(myGlobalJDD, 'Fonction_code', 'E'+ fct, timeOut,'WARNING')
 	} // end of def
 
 	/**
@@ -65,7 +65,7 @@ class NAV {
 		KW.delay(1)
 		KW.click(myGlobalJDD, 'a_Toggle','WARNING')
 		KW.delay(1)
-		KW.waitAndVerifyElementText(myGlobalJDD, 'span_Ecran', code,timeOut,'WARNING')
+		KW.waitAndVerifyElementText(myGlobalJDD, 'Fonction_code', code,timeOut,'WARNING')
 	} // end of def
 
 	/**
@@ -78,7 +78,7 @@ class NAV {
 		KW.delay(1)
 		KW.click(myGlobalJDD, 'a_Toggle','WARNING')
 		KW.delay(1)
-		KW.waitAndVerifyElementText(myGlobalJDD, 'span_Ecran', code,timeOut,'WARNING')
+		KW.waitAndVerifyElementText(myGlobalJDD, 'Fonction_code', code,timeOut,'WARNING')
 	} // end of def
 
 	/**
@@ -89,10 +89,10 @@ class NAV {
 		String code = fct + " - Consultation ou modification"
 		WebUI.scrollToPosition(0, 0)
 		KW.delay(1)
-		KW.waitAndVerifyElementText(myGlobalJDD, 'span_Selection', id,timeOut,'WARNING')
+		KW.waitAndVerifyElementText(myGlobalJDD, 'Selection_ID', id,timeOut,'WARNING')
 		KW.click(myGlobalJDD, 'a_Toggle','WARNING')
 		KW.delay(1)
-		KW.waitAndVerifyElementText(myGlobalJDD, 'span_Ecran', code,timeOut,'WARNING')
+		KW.waitAndVerifyElementText(myGlobalJDD, 'Fonction_code', code,timeOut,'WARNING')
 	} // end of def
 
 

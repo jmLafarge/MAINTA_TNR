@@ -8,6 +8,11 @@ import my.Log as MYLOG
 import my.InfoBDD as INFOBDD
 import my.JDDKW as MYJDDKW
 
+//Pour la lecture du format RTF
+import javax.swing.text.DefaultStyledDocument
+import javax.swing.text.rtf.RTFEditorKit
+import java.io.StringReader
+
 public class SQL {
 	/**
 	 * 
@@ -56,7 +61,7 @@ public class SQL {
 		KW.delay(1)
 
 		boolean pass = true
-		MYLOG.addSTEP("Début de la vérification des valeurs en Base de Données")
+		MYLOG.addSTEP("Début de la vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
 		int nbrLigneCasDeTest =myJDD.getNbrLigneCasDeTest()
 
 
@@ -80,7 +85,15 @@ public class SQL {
 					MYLOG.addDETAIL(ex.getMessage())
 				}
 			}else {
+
+
+
 				query = "SELECT * FROM " + myJDD.getDBTableName() + this.getWhereWithAllPK(myJDD,casDeTestNum)
+
+
+
+
+
 				MYLOG.addDEBUG("query =  $query")
 				try {
 					rows = sqlInstance.rows(query)
@@ -110,15 +123,15 @@ public class SQL {
 
 					MYLOG.addDEBUG("fieldName = $fieldName , val = $val , JDD value = " + myJDD.getData(fieldName))
 
-					pass = this.checkValue(myJDD,fieldName, val,pass,specificValueMap)
+					pass = this.checkValue(myJDD,fieldName, val,pass,specificValueMap,casDeTestNum)
 				}//row
 
 			}//pass
 		}//for
 		if (pass) {
-			MYLOG.addSTEPPASS("Fin de la vérification des valeurs en Base de Données")
+			MYLOG.addSTEPPASS("Fin de la vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
 		}else {
-			MYLOG.addSTEPFAIL("Fin de la  vérification des valeurs en Base de Données")
+			MYLOG.addSTEPFAIL("Fin de la  vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
 		}
 	}
 
@@ -126,7 +139,7 @@ public class SQL {
 
 
 
-	private static boolean checkValue(my.JDD myJDD, String fieldName, val,boolean pass,Map specificValueMap) {
+	private static boolean checkValue(my.JDD myJDD, String fieldName, val,boolean pass,Map specificValueMap, int casDeTestNum) {
 
 		boolean specificValue = !specificValueMap.isEmpty() && specificValueMap.containsKey(fieldName)
 
@@ -142,16 +155,16 @@ public class SQL {
 
 				case MYJDDKW.getKW_NU() :
 
-					MYLOG.addDEBUG("NU : Pas de contrôle pour $fieldName : la valeur en BD est  : $val" )
+					MYLOG.addDEBUG("NU : Pas de contrôle pour '$fieldName' : la valeur en BD est  : '$val'" )
 					break
 
 				case MYJDDKW.getKW_VIDE() :
 				case MYJDDKW.getKW_NULL():
 					if (val == null || val =='') {
 
-						MYLOG.addDEBUG("Contrôle de la valeur de $fieldName OK : la valeur attendue est VIDE ou null et la valeur en BD est  : $val" )
+						this.logAddDEBUG('',fieldName,'VIDE ou NULL',val)
 					}else {
-						MYLOG.addDETAIL("Contrôle de la valeur de $fieldName KO : la valeur attendue est VIDE ou null et la valeur en BD est  : $val")
+						this.logAddDETAIL('',fieldName,'VIDE ou NULL',val)
 						pass = false
 					}
 
@@ -159,30 +172,30 @@ public class SQL {
 
 				case MYJDDKW.getKW_DATE() :
 
-					MYLOG.addDETAIL("Contrôle de la valeur DATE de $fieldName KO : ******* reste à faire ******* la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
+					this.logAddDETAIL('DATE ***** reste à faire *****',fieldName,myJDD.getData(fieldName),val)
 					pass = false
 					break
 
 				case MYJDDKW.getKW_DATETIME() :
 
 					if (val instanceof java.sql.Timestamp) {
-						MYLOG.addDEBUG("Contrôle de la valeur DATETIME de $fieldName OK : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val " )
+						this.logAddDEBUG('DATETIME',fieldName,myJDD.getData(fieldName),val)
 					}else {
-						MYLOG.addDETAIL("Contrôle de la valeur DATETIME de $fieldName KO : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
+						this.logAddDETAIL('DATETIME ***** reste à faire *****',fieldName,myJDD.getData(fieldName),val)
 						pass = false
 					}
 					break
 
 				case MYJDDKW.getKW_SEQUENCEID() :
 
-					MYLOG.addDETAIL("Contrôle IDINTERNE valeur $fieldName KO : ******* reste à faire la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
-				//il faut peut etre testé si la valeur est num et unique ? ******
+					this.logAddDETAIL('IDINTERNE ***** reste à faire *****',fieldName,myJDD.getData(fieldName),val)
+					//il faut peut etre testé si la valeur est num et unique ? ******
 
 					MYLOG.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' dans le JDD : ' + myJDD.getData(fieldName).getClass())
 					if ( val == myJDD.getData(fieldName)) {
-						MYLOG.addDEBUG("Contrôle de la valeur SEQUENCEID de $fieldName OK : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val " )
+						this.logAddDEBUG('SEQUENCEID',fieldName,myJDD.getData(fieldName),val)
 					}else {
-						MYLOG.addDETAIL("Contrôle de la valeur SEQUENCEID de $fieldName KO : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
+						this.logAddDETAIL('SEQUENCEID',fieldName,myJDD.getData(fieldName),val)
 						pass = false
 					}
 
@@ -190,7 +203,7 @@ public class SQL {
 
 				case MYJDDKW.getKW_ORDRE() :
 
-					MYLOG.addDETAIL("Contrôle de la valeur ORDRE de $fieldName KO : ******* reste à faire la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
+					this.logAddDETAIL('ORDRE ***** reste àfaire *****',fieldName,myJDD.getData(fieldName),val)
 				//voir aussi le NU_NIV *******
 					pass = false
 					break
@@ -200,19 +213,36 @@ public class SQL {
 					if (specificValue) {
 						MYLOG.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' la valeur spécifique est  : ' + specificValueMap[fieldName].getClass())
 						if ( val == INFOBDD.castJDDVal(myJDD.getDBTableName(), fieldName, specificValueMap[fieldName])) {
-							MYLOG.addDEBUG("Contrôle de la valeur spécifique de $fieldName OK : la valeur attendue est : " + specificValueMap[fieldName] + " et la valeur en BD est : $val " )
+							this.logAddDEBUG('spécifique',fieldName,specificValueMap[fieldName],val)
 						}else {
-							MYLOG.addDETAIL("Contrôle de la valeur spécifique de $fieldName KO : la valeur attendue est : " + specificValueMap[fieldName] + " et la valeur en BD est : $val")
+							this.logAddDETAIL('spécifique',fieldName,specificValueMap[fieldName],val)
 							pass = false
 						}
 					}else {
+
+						if (INFOBDD.isImage(myJDD.getDBTableName(), fieldName)) {
+
+							String query = "SELECT cast(cast($fieldName as varbinary(max)) as varchar(max)) FROM " + myJDD.getDBTableName() + this.getWhereWithAllPK(myJDD,casDeTestNum)
+							def frow = this.getFirstRow(query)
+							if (frow ) {
+								def texte = new DefaultStyledDocument()
+								
+								def editorKit = new RTFEditorKit()
+								editorKit.read(new StringReader(frow.getAt(0).toString()), texte , 0)
+								val = texte.getText(0, texte.getLength()-2)
+
+							}
+						}
+
 						MYLOG.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' dans le JDD : ' + myJDD.getData(fieldName).getClass())
 						if ( val == INFOBDD.castJDDVal(myJDD.getDBTableName(), fieldName, myJDD.getData(fieldName))) {
-							MYLOG.addDEBUG("Contrôle de la valeur de $fieldName OK : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val " )
+							this.logAddDEBUG('',fieldName,myJDD.getData(fieldName),val)
 						}else {
-							MYLOG.addDETAIL("Contrôle de la valeur de $fieldName KO : la valeur attendue est : " + myJDD.getData(fieldName) + " et la valeur en BD est : $val")
+							this.logAddDETAIL('',fieldName,myJDD.getData(fieldName),val)
 							pass = false
 						}
+
+
 					}
 					break
 			}//case
@@ -220,9 +250,18 @@ public class SQL {
 		return pass
 	}
 
+	
+	
 
-
-
+	private static logAddDEBUG(String type,String fieldName, def valJDD, def val) {
+		MYLOG.addDEBUG("Contrôle de la valeur $type de '$fieldName' OK : la valeur attendue est '$valJDD' et la valeur en BD est  : '$val'" )
+	}
+	
+	
+	
+	private static logAddDETAIL(String type,String fieldName, def valJDD, def val) {
+		MYLOG.addDETAIL("Contrôle de la valeur $type de '$fieldName' KO : la valeur attendue est '$valJDD' et la valeur en BD est  : '$val'")
+	}
 
 
 
