@@ -1,3 +1,5 @@
+import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
+
 import internal.GlobalVariable
 import my.KW
 import my.Log as MYLOG
@@ -72,6 +74,9 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		
 		KW.scrollAndClick(myJDD,"tab_Notes")
 		KW.waitForElementVisible(myJDD,"tab_NotesSelected")
+		
+		WebUI.scrollToPosition(0, 0)
+		KW.delay(1)
 		
 		KW.verifyElementText(new my.JDD(my.JDDFiles.getFullName('RO.FOU'),'001A',GlobalVariable.CASDETESTENCOURS),"OL_DOC")
 

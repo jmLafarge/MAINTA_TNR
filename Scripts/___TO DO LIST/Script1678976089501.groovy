@@ -7,13 +7,12 @@
  * -----------------------------------------------------------------------------------------------------
  * 
 
- Correction format date dans JDD Generator.addInfoVersion
- Suppression du screenshot sur msg = "Fin de la  vérification des valeurs en Base de Données"
- Ajout des liens vers screenshot
- Ajout du ctrl varchar dans CheckTypeInDATA.run()
- Ajout de fonction dans InfoBDD
- Traitement des memo dans RO.FOU
- en cours traitement de ADR
+Fournisseur terminé 
+
+JDD modifier gestion du binding pour pour paramètrer le binding dans le cas de test
+ - depuis le makeTO, ca n'était plus utilisable car les makeTO sont tous appelés depuis KW
+ - ex : myJDD.setBinding('le nom du paramètre', 'une valeur') --> à tester car finalement pas utilisé
+
 
  * 
  * -----------------------------------------------------------------------------------------------------
@@ -36,6 +35,14 @@
 		--> je ne sais pas pourquoi
 		--> peut être parce que .each est une closure
 		
+	FOU
+	
+		cas des adresses --> la clé primaire ID_NUMADR n'est pas présente dans le table ! 
+		 - je ne peux pas savoir de quelle adresse il s'agit
+		 - apparement le javascript utilise .getSelectedRowId() sur boutonModifier.click()
+		
+		
+		
 		
  *
  * -----------------------------------------------------------------------------------------------------
@@ -44,10 +51,8 @@
  *
  	
  RO.FOU.001.MAJ le cas des adresses
- - il faut revoir les binding pour les xpath dyn car le para dans makeTO ne sert plus ! vu que les TO sont créé depuis KW
- - mettre à jour le map xpath ne va pas car on perd le paramètrage
- - il faudrait un autre moyen de mettre à jour le xpath
- - il serit peut etre temps de sortie makeTO de JDD pour en faire une calass à part
+ 
+
  
  
  
@@ -71,6 +76,7 @@ Les JDD et PREJDD sont modifiés en ajoutant le prefixe de l'objet depuis les co
 	DOC ORGANISATION DES JDD DE RÉFÉRENCE DANS LE CADRE DES TNR --> Stockage par version ? A préciser par JML
 
 
+	voir pour modition le step de ctrl en BDD pour faire une ligne + details avec un refrech de la ligne du dessus comme ....
 
 	
  * 

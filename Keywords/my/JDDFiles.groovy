@@ -41,7 +41,7 @@ public class JDDFiles {
 
 				String modObj = file.getName().replace('JDD.','').replace('.xlsx','')
 
-				this.JDDfilemap.put(modObj,file.getPath())
+				JDDfilemap.put(modObj,file.getPath())
 
 				MYLOG.addINFO('\t' + modObj.padRight(16) + file.getPath(),1)
 			}
@@ -51,12 +51,15 @@ public class JDDFiles {
 
 
 	/**
-	 * @param casDeTest
-	 * @return
+	 * Récupère le nom complet du fichier JDD à partir du nom du cas de test.
+	 * @param casDeTest le nom du cas de test.
+	 * @return le nom complet du fichier JDD correspondant, ou null si aucun fichier JDD ne correspond.
 	 */
 	static getJDDFullNameFromCasDeTest(String casDeTest) {
 
-		return this.JDDfilemap.getAt(casDeTest.find(/^\w+\.\w+/))
+		def modObj = casDeTest.find(/^\w+\.\w+/)
+
+		return modObj ? JDDfilemap[modObj] : null
 	}
 
 
@@ -66,7 +69,7 @@ public class JDDFiles {
 	 * @return
 	 */
 	static String getFullName(String modObj) {
-		return this.JDDfilemap.getAt(modObj)
+		return JDDfilemap[modObj]
 	}
 
 

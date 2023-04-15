@@ -49,6 +49,8 @@ public class JDD {
 	private List params  = []
 	private List datas   = []
 	private Map xpathTO  = [:]
+	
+	private Map  binding = [:]
 
 	/**
 	 * CONSTRUCTEUR : lit le JDD, si pas de paramètre, utilise la variable globale CASDETESTENCOURS pour définir le JDD à utiliser
@@ -372,7 +374,7 @@ public class JDD {
 	 *
 	 * @return the TestObject created
 	 */
-	def makeTO(String ID, Map  binding = [:]){
+	def makeTO(String ID){
 
 		if (!this.xpathTO.containsKey(ID)) {
 			return [
@@ -381,7 +383,7 @@ public class JDD {
 			]
 		}
 	
-		MYLOG.addDEBUG("makeTO( $ID, Map  binding = [:])" + binding.toString())
+		MYLOG.addDEBUG("makeTO( '$ID' ) with binding = )" + binding.toString())
 
 		TestObject to = new TestObject(ID)
 		to.setSelectorMethod(SelectorMethod.XPATH)
@@ -433,18 +435,22 @@ public class JDD {
 
 		MYLOG.addDEBUG("\txpath : $xpath")
 
-		xpath = this.bindingXpath(xpath, binding)
+		xpath = this.resolveXpath(xpath)
 
 		to.setSelectorValue(SelectorMethod.XPATH, xpath)
 
 		MYLOG.addDEBUG('\tgetObjectId : ' + to.getObjectId())
 		MYLOG.addDEBUG('\tget(SelectorMethod.XPATH) : ' + to.getSelectorCollection().get(SelectorMethod.XPATH))
+		
+		binding=[:]
+		
 		return [to, '']
 	}
 
 
+	
 
-	private String bindingXpath(String xpath,Map  binding) {
+	private String resolveXpath(String xpath) {
 
 		// is it a dynamic xpath
 		def matcher = xpath =~  /\$\{(.+?)\}/
@@ -472,9 +478,19 @@ public class JDD {
 			return xpath
 		}
 	}
+	
+	
+	
+	
+	public setBinding(String name, String val) {
+		
+		binding[name]=val
+	}
 
 
-
+	
+	
+	
 
 	private addXpath(List locators) {
 		locators.eachWithIndex {loc,i ->

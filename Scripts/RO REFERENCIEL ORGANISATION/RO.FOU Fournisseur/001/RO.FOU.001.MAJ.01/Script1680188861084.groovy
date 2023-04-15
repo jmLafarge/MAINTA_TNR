@@ -19,7 +19,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
 
 
 	MYLOG.addSTEPGRP("ONGLET FOURNISSEUR")
-		/*
+
 		KW.scrollAndClick(myJDD,"tab_Fournisseur")
 		KW.waitForElementVisible(myJDD,"tab_FournisseurSelected")
 		
@@ -31,20 +31,36 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
 		KW.scrollAndCheckIfNeeded(myJDD,"ST_INA","O")
 		KW.searchWithHelper(myJDD, "ST_CODCOM","","SEARCH_ID_CODCMP") //specific
 		//ST_DESST_CODCOM --> pas d'action en modification
-		*/
+
 		
 		MYLOG.addSTEPBLOCK("ADRESSE")
 		
-		//myJDD.bindingXpath(xpath, binding)
-		//KW.scrollAndClick(myJDD,"TD_Adresse")
-		//KW.scrollAndClick(myJDD,"BTN_ModifierAdresse")
+		def JDD_Adr = new my.JDD(my.JDDFiles.getFullName('RO.ADR'),'001',GlobalVariable.CASDETESTENCOURS)
+		
+		KW.scrollAndClick(myJDD,"TD_Adresse")
+		KW.scrollAndClick(myJDD,"BTN_ModifierAdresse")
+		
 		//WebUI.switchToWindowIndex('1')
 		
+		//KW.scrollAndCheckIfNeeded(JDD_Adr,"ST_ADRPAR","O")
+		KW.scrollAndSetText(JDD_Adr, "ST_ADR")
+		KW.scrollAndSetText(JDD_Adr, "ST_ADRCOM")
+		KW.scrollAndSetText(JDD_Adr, "ST_ADRCOM2")
+		KW.scrollAndSetText(JDD_Adr, "ST_MENSPE")
+		KW.scrollAndSetText(JDD_Adr, "ST_CODPOS")
+		KW.scrollAndSetText(JDD_Adr, "ST_VIL")
+		KW.scrollAndSetText(JDD_Adr, "ST_CEDEX")
+		KW.scrollAndSetText(JDD_Adr, "NU_CEDEX")
+		KW.scrollAndSetText(JDD_Adr, "ID_CODPAY")
+		KW.scrollAndSetText(JDD_Adr, "ST_PAY")
+		KW.scrollAndSetText(JDD_Adr, "ST_REFEXT")
+		KW.scrollAndSetText(JDD_Adr, "ST_RELAPA")
+		KW.scrollAndSetText(JDD_Adr, "ST_GPS")
+		
+		KW.scrollAndClick(JDD_Adr,"BTN_Valider")
 		
 		
 		
-		
-		/*
 		MYLOG.addSTEPBLOCK("CONTACT")
 		KW.scrollAndSetText(myJDD, "ST_TELPHO")
 		KW.scrollAndSetText(myJDD, "ST_CON")
@@ -112,6 +128,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
 	
 	  		 
 
+		
 	MYLOG.addSTEPACTION('VALIDATION')
 	
 	    KW.scrollAndClick(NAV.myGlobalJDD,'button_Valider')
@@ -122,8 +139,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
 	
 		my.SQL.checkJDDWithBD(myJDD)
 		
-		my.SQL.checkJDDWithBD(JDD_Note)
-		*/
+		my.SQL.checkJDDWithBD(JDD_Adr)
 	
 } // fin du if
 
