@@ -23,7 +23,7 @@ class Tools {
 		return [NAME:browserName , VERSION:browserVersion]
 	}
 
-	
+
 
 	public static addInfoContext() {
 		MYLOG.addINFO('INFO CONTEXTE')
@@ -37,7 +37,7 @@ class Tools {
 
 
 	public static String getDuration(Date start,Date stop) {
-		
+
 		TimeDuration timeDuration = TimeCategory.minus( stop, start )
 
 		String SS = this.addZero(timeDuration.getSeconds())
@@ -84,13 +84,15 @@ class Tools {
 	}
 
 
-	static createDir(String dir) {
+	static createFolderIfNotExist(String dir) {
 		File fdir = new File(dir)
 		if (!fdir.exists()) {
 			fdir.mkdirs()
-			MYLOG.addDEBUG("createDir() : Création dossier $dir")
+			MYLOG.addDEBUG("createFolderIfNotExist() : Création dossier $dir")
 		}else {
-			MYLOG.addDEBUG("createDir() : Dossier $dir existe déjà")
+			MYLOG.addDEBUG("createFolderIfNotExist() : Dossier $dir existe déjà")
 		}
 	}
+	
+	
 } // end of class

@@ -9,7 +9,7 @@ import internal.GlobalVariable
 import my.Log as MYLOG
 import my.NAV as NAV
 import my.Tools
-import my.Result
+import my.result.ResultGenerator as MYRESULT
 import my.InfoBDD as INFOBDD
 
 class TestListener {
@@ -31,7 +31,7 @@ class TestListener {
 		if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
 		if (my.Sequencer.testCasesList.isEmpty()) { my.Sequencer.load() }
 		
-		Result.addStartInfo(testSuiteContext.getTestSuiteId())
+		MYRESULT.addStartInfo(testSuiteContext.getTestSuiteId())
 
 		Tools.addInfoContext()
 		
@@ -65,7 +65,7 @@ class TestListener {
 			
 			MYLOG.addTITLE("Lancement de $TCName")
 			
-			Result.addStartInfo('TNR SEQUENCEUR')
+			MYRESULT.addStartInfo('TNR SEQUENCEUR')
 			
 			Tools.addInfoContext()
 			
@@ -135,7 +135,7 @@ class TestListener {
 			MYLOG.addINFO('')
 			MYLOG.addINFO('************  FIN  du test : ' + testCaseContext.getTestCaseId().split('/')[-1] +' ************')
 			
-			my.Result.close()
+			MYRESULT.close()
 		}
 	}
 
@@ -151,11 +151,11 @@ class TestListener {
 	@AfterTestSuite
 	def sampleAfterTestSuite(TestSuiteContext testSuiteContext) {
 				
-		Result.addEndInfo()
+		MYRESULT.addEndInfo()
 		
 		MYLOG.addINFO('')
 		MYLOG.addINFO('************  FIN  de : ' + testSuiteContext.getTestSuiteId() +' ************')
-		my.Result.close()
+		MYRESULT.close()
 	}
 
 }

@@ -2,7 +2,7 @@ package my
 
 
 import internal.GlobalVariable
-import my.Result as RESULT
+import my.result.ResultGenerator as MYRESULT
 
 /*
  * use my.Log in the code without import --> to be sure that this Log is used
@@ -231,7 +231,7 @@ class Log {
 
 	private static addStepInResult(String msg, String status) {
 
-		if (RESULT.resulFileName) RESULT.addStep(this.logDate,msg,status)
+		if (MYRESULT.resulFileName) MYRESULT.addStep(this.logDate,msg,status)
 	}
 
 	/*
@@ -247,7 +247,7 @@ class Log {
 		this.addINFO('')
 		this.addINFO("START TEST CASE : $cdt" )
 		this.start = this.logDate
-		if (RESULT.resulFileName) RESULT.addStartCasDeTest( this.start)
+		if (MYRESULT.resulFileName) MYRESULT.addStartCasDeTest( this.start)
 	}
 
 
@@ -255,7 +255,7 @@ class Log {
 
 		String cdt = GlobalVariable.CASDETESTENCOURS + ' : ' + TCFiles.getTCNameTitle()
 		Date stop = new Date()
-		if (RESULT.resulFileName) RESULT.addEndCasDeTest(this.status, this.start , stop)
+		if (MYRESULT.resulFileName) MYRESULT.addEndCasDeTest(this.status, this.start , stop)
 
 		if (this.status.ERROR !=0) {
 			this.addERROR('END TEST CASE : ' + cdt.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))

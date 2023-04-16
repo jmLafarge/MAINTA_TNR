@@ -7,11 +7,6 @@
  * -----------------------------------------------------------------------------------------------------
  * 
 
-Fournisseur terminé 
-
-JDD modifier gestion du binding pour pour paramètrer le binding dans le cas de test
- - depuis le makeTO, ca n'était plus utilisable car les makeTO sont tous appelés depuis KW
- - ex : myJDD.setBinding('le nom du paramètre', 'une valeur') --> à tester car finalement pas utilisé
 
 
  * 
@@ -49,11 +44,16 @@ JDD modifier gestion du binding pour pour paramètrer le binding dans le cas de 
  * EN COURS
  * -----------------------------------------------------------------------------------------------------
  *
- 	
- RO.FOU.001.MAJ le cas des adresses
  
 
- 
+
+modif le step de ctrl en BDD pour faire une ligne + details avec un refrech de la ligne du dessus comme ....
+
+
+
+
+
+
  
  
  
@@ -76,7 +76,7 @@ Les JDD et PREJDD sont modifiés en ajoutant le prefixe de l'objet depuis les co
 	DOC ORGANISATION DES JDD DE RÉFÉRENCE DANS LE CADRE DES TNR --> Stockage par version ? A préciser par JML
 
 
-	voir pour modition le step de ctrl en BDD pour faire une ligne + details avec un refrech de la ligne du dessus comme ....
+	
 
 	
  * 

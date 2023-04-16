@@ -8,7 +8,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
 import my.Log as MYLOG
-import my.Result
+import my.result.ResultGenerator as MYRESULT
 import my.Sequencer
 
 
@@ -46,4 +46,4 @@ Sequencer.testCasesList.each { TCMap ->
 }
 
 
-Result.addEndInfo()
+MYRESULT.addEndInfo()

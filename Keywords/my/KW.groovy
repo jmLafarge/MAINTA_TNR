@@ -7,6 +7,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
 import my.Log as MYLOG
+import my.result.ResultGenerator as MYRESULT
 
 
 /**
@@ -42,7 +43,7 @@ class KW {
 			MYLOG.addDETAIL("Nom du navigateur : " + browser.NAME)
 			MYLOG.addDETAIL("Version du navigateur : " + browser.VERSION)
 			this.waitForPageLoad()
-			my.Result.addBrowserInfo(browser.NAME,browser.VERSION)
+			MYRESULT.addBrowserInfo(browser.NAME,browser.VERSION)
 		} catch (Exception ex) {
 			MYLOG.addSTEPERROR("Ouverture du navigateur à l'URL :")
 			MYLOG.addDETAIL("URL : $url")

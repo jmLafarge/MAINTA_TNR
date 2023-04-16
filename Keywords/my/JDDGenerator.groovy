@@ -10,6 +10,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import internal.GlobalVariable
 import my.Log as MYLOG
 import my.InfoBDD as INFOBDD
+import my.Tools as TOOLS
 
 
 class JDDGenerator {
@@ -286,7 +287,7 @@ class JDDGenerator {
 	private static String createJDDFileByCopy(String table, String modObj) {
 
 		String dir = my.PropertiesReader.getMyProperty('JDD_PATH') + File.separator + modObj.split(/\./)[0]
-		my.Tools.createDir(dir)
+		TOOLS.createFolderIfNotExist(dir)
 
 		Path source = Paths.get(this.trameJDD)
 		String fullName = dir + File.separator + "JDD.${modObj}.xlsx"
@@ -300,7 +301,7 @@ class JDDGenerator {
 	private static String createPREJDDFileByCopy(String table,String modObj) {
 
 		String dir = my.PropertiesReader.getMyProperty('PREJDD_PATH') + File.separator + modObj.split(/\./)[0]
-		my.Tools.createDir(dir)
+		TOOLS.createFolderIfNotExist(dir)
 
 		Path source = Paths.get(this.tramePREJDD)
 		String fullName = dir + File.separator + "PREJDD.${modObj}.xlsx"

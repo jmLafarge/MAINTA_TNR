@@ -22,7 +22,16 @@ public class InfoBDD {
 	private static XSSFWorkbook book
 	private static String fileName = ''
 
-	private static final List HEADERS	 = ['TABLE_NAME', 'COLUMN_NAME', 'ORDINAL_POSITION', 'IS_NULLABLE', 'DATA_TYPE', 'MAXCHAR', 'DOMAIN_NAME', 'CONSTRAINT_NAME']
+	private static final List HEADERS	 = [
+		'TABLE_NAME',
+		'COLUMN_NAME',
+		'ORDINAL_POSITION',
+		'IS_NULLABLE',
+		'DATA_TYPE',
+		'MAXCHAR',
+		'DOMAIN_NAME',
+		'CONSTRAINT_NAME'
+	]
 
 
 	public static load() {
@@ -86,14 +95,14 @@ public class InfoBDD {
 		return this.map[table][name][2]
 	}
 
-	
-	
+
+
 	public static def getDATA_MAXCHAR(String table, String name) {
 		return this.map[table][name][3]
 	}
 
 
-	
+
 	public static boolean isNumeric(String table, String name) {
 		return this.map[table][name][2]==this.getNumeric()
 	}
@@ -101,18 +110,18 @@ public class InfoBDD {
 	public static boolean isImage(String table, String name) {
 		return this.map[table][name][2]==this.getImage()
 	}
-	
+
 	public static String getNumeric() {
 		return 'numeric'
 	}
-	
-	
-	
+
+
+
 	public static String getVarchar() {
 		return 'varchar'
 	}
-	
-	
+
+
 	public static String getImage() {
 		return 'image'
 	}
@@ -122,15 +131,14 @@ public class InfoBDD {
 			case this.getVarchar():
 				return val.toString()
 				break
-				/*
-			case this.getImage():
-				def texte = new DefaultStyledDocument()
-				def editorKit = new RTFEditorKit()
-				editorKit.read(new StringReader(val), texte, 0)
-			
-				return texte.getText(0, texte.getLength())
-				break
-				*/
+			/*
+			 case this.getImage():
+			 def texte = new DefaultStyledDocument()
+			 def editorKit = new RTFEditorKit()
+			 editorKit.read(new StringReader(val), texte, 0)
+			 return texte.getText(0, texte.getLength())
+			 break
+			 */
 			default :
 				return val
 		}
