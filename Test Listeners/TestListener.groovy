@@ -104,6 +104,9 @@ class TestListener {
 			
 		}else {
 			
+			if (INFOBDD.map.isEmpty()) { INFOBDD.load() }
+			if (my.TCFiles.TCfileMap.isEmpty()) { my.TCFiles.load() }
+			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
 			TCName = (TCName.contains(' ')) ? TCName.split(' ')[0] : TCName
 			
 			MYLOG.addDEBUG("TCName after split(' ')[0] : " + TCName)

@@ -288,12 +288,13 @@ public class ResultGenerator {
 
 	public static addBrowserInfo(String browser, String version) {
 
+		if (resulFileName) {
+			this.browserName = browser
+			my.XLS.writeCell(this.shRESUM.getRow(11),1,browser)
+			my.XLS.writeCell(this.shRESUM.getRow(12),1,version)
 
-		this.browserName = browser
-		my.XLS.writeCell(this.shRESUM.getRow(11),1,browser)
-		my.XLS.writeCell(this.shRESUM.getRow(12),1,version)
-
-		this.write()
+			this.write()
+		}
 	}
 
 
