@@ -55,7 +55,7 @@ public class Sequencer {
 			Row row = shTNR.getRow(numline)
 
 			// exit if lastRow of CAS_DE_TEST
-			if (row==null || row.getCell(0) == null) {
+			if (!row || my.XLS.getCellValue(row.getCell(0))=='') {
 				break
 			}
 

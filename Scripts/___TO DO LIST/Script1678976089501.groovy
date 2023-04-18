@@ -47,7 +47,7 @@
  
 
 
-modif le step de ctrl en BDD pour faire une ligne + details avec un refrech de la ligne du dessus comme ....
+
 
 
 
@@ -62,14 +62,9 @@ modif le step de ctrl en BDD pour faire une ligne + details avec un refrech de l
  * A FAIRE EN PRIORITE
  * -----------------------------------------------------------------------------------------------------
  * 
-		
-Les JDD et PREJDD sont modifiés en ajoutant le prefixe de l'objet depuis les codes des Sous ressources
---> mettre à jour la doc		
+				
 		  
 		  		
-		  		
-		  		
-	JDDGenerator --> inclure la lecture du TCGenerator pour alimenter le LOCATOR du JDD
 		
 	Traiter les valeurs des $DATESYS et $DATETIME
 
@@ -96,10 +91,9 @@ Les JDD et PREJDD sont modifiés en ajoutant le prefixe de l'objet depuis les co
 		Firefox : marche mais pas le double click 
 	
 	
-
- 
 	JDD
 		créer une class pour makeTO ?
+
 
 	XLS
 		ajouter un controle sur open file
@@ -126,6 +120,7 @@ Les JDD et PREJDD sont modifiés en ajoutant le prefixe de l'objet depuis les co
 		Ajouter les step FAIL dans le xls en grouper sous le test ou dans un autre onglet --> avec les élements nécessaire pour le ticket
 		Ou faire un plan(regrouper) avec les STEPs
 	  		si on veut lister les STEP dans le xls il faut peut être simplifiué
+	  	modif le step de ctrl en BDD pour faire une ligne + details avec un refrech de la ligne du dessus comme ....
 	  	
 	
 	RESULT RECAP

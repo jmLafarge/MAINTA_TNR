@@ -434,7 +434,8 @@ class KW {
 			}else if (text==my.JDDKW.getKW_NULL() && val=='') {
 				MYLOG.addSTEPPASS("Vérifier que la valeur de '" + name + "', soit Null ou Vide")
 			}else {
-				MYLOG.addSTEP("Vérifier la valeur de '" + name+ "' KO, valeur attendue '$text', valeur du champ '" + WebUI.getAttribute(tObj, 'value') + "' !", status)
+				MYLOG.addSTEP("Vérifier que la valeur de '" + name + "', soit '$text'",status)
+				MYLOG.addDETAIL("La valeur du champ est '" + WebUI.getAttribute(tObj, 'value') + "' !")
 			}
 		}else {
 			MYLOG.addSTEPERROR("Vérifier que la valeur de '$name' = '$text'  impossible")

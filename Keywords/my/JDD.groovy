@@ -10,6 +10,7 @@ import groovy.text.SimpleTemplateEngine
 import internal.GlobalVariable
 import my.Log as MYLOG
 import my.InfoBDD as INFOBDD
+import my.JDDKW as JDDKW
 
 
 public class JDD {
@@ -49,7 +50,7 @@ public class JDD {
 	private List params  = []
 	private List datas   = []
 	private Map xpathTO  = [:]
-	
+
 	private Map  binding = [:]
 
 	/**
@@ -229,7 +230,7 @@ public class JDD {
 		List PKlist=INFOBDD.getPK(this.getDBTableName())
 		List list =[]
 		this.datas.each{
-			if (it[index]!=null && it[index]!='') {
+			if (it[index]!=null && it[index]!='' && !JDDKW.isNU(it[index]) && !JDDKW.isNULL(it[index]) ) {
 				if (it[0].toString().contains('.CRE.') && PKlist.contains(this.headers[index])) {
 					MYLOG.addDEBUG("skip : " + "'" + it[0] + "' - '" + it[index] + "'")
 				}else {
@@ -382,7 +383,7 @@ public class JDD {
 				"L'ID '$ID' n'existe pas, impossible de créer le TEST OBJET"
 			]
 		}
-	
+
 		MYLOG.addDEBUG("makeTO( '$ID' ) with binding = )" + binding.toString())
 
 		TestObject to = new TestObject(ID)
@@ -441,14 +442,14 @@ public class JDD {
 
 		MYLOG.addDEBUG('\tgetObjectId : ' + to.getObjectId())
 		MYLOG.addDEBUG('\tget(SelectorMethod.XPATH) : ' + to.getSelectorCollection().get(SelectorMethod.XPATH))
-		
+
 		binding=[:]
-		
+
 		return [to, '']
 	}
 
 
-	
+
 
 	private String resolveXpath(String xpath) {
 
@@ -478,19 +479,19 @@ public class JDD {
 			return xpath
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 	public setBinding(String name, String val) {
-		
+
 		binding[name]=val
 	}
 
 
-	
-	
-	
+
+
+
 
 	private addXpath(List locators) {
 		locators.eachWithIndex {loc,i ->
@@ -583,7 +584,7 @@ public class JDD {
 	def readSEQUENCID() {
 		int dataLineNum = this.getDataLineNum()
 		this.datas[dataLineNum].eachWithIndex { val,i ->
-			if (my.JDDKW.isSEQUENCEID(val)) {
+			if (JDDKW.isSEQUENCEID(val)) {
 				MYLOG.addSTEP("Récupération de la séquence actuelle de ${this.headers[i]} ")
 				my.SQL.getMaxFromTable(this.headers[i], this.getDBTableName())
 			}
@@ -594,7 +595,7 @@ public class JDD {
 	def replaceSEQUENCIDInJDD() {
 		int dataLineNum = this.getDataLineNum()
 		this.datas[dataLineNum].eachWithIndex { val,i ->
-			if (my.JDDKW.isSEQUENCEID(val)) {
+			if (JDDKW.isSEQUENCEID(val)) {
 				MYLOG.addSTEP("Récupération de la séquence ${this.headers[i]} de l'objet créé")
 				this.datas[dataLineNum][i] = my.SQL.getMaxFromTable(this.headers[i], this.getDBTableName())
 			}

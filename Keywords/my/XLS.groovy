@@ -2,6 +2,7 @@ package my
 
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
+//import org.apache.poi.common.usermodel.HyperlinkType
 import my.Log as MYLOG
 
 
@@ -23,31 +24,19 @@ public class XLS {
 
 	static writeCell(Row row, int colIdx,def val,CellStyle cellStyle = null, Hyperlink hyperlink = null) {
 
-		MYLOG.addDEBUG("\twriteCell(${row.getRowNum()}, $colIdx,$val,${cellStyle.toString()}",2)
+		MYLOG.addDEBUG("\twriteCell( RowNum:${row.getRowNum()}, colIdx:$colIdx,$val, cellStyle:${cellStyle.toString()},hyperlink:${hyperlink.toString()}",2)
 		if (row==null) {
 			MYLOG.addERROR("row is NULL")
 		}else {
 			Cell cell = row.getCell(colIdx)
-			/*
-			if (cell == null) {
-				row.createCell(colIdx)
-			}
-			*/
+
 			if (!cell) row.createCell(colIdx)
 				
 			cell = row.getCell(colIdx)
 			cell.setCellValue(val)
-			/*
-			if (cellStyle != null) {
-				cell.setCellStyle(cellStyle)
-			}
-			*/
 			
 			if (hyperlink) cell.setHyperlink(hyperlink)
-				
 			if (cellStyle) cell.setCellStyle(cellStyle)
-				
-			
 		}
 	}
 

@@ -16,28 +16,28 @@ public class JDDKW {
 		return this.KEYWORD_ALLOWED.containsValue(val)
 	}
 
-	static boolean isNU(String val) {
-		return (val == this.KEYWORD_ALLOWED.getAt('KW_NU'))
+	static boolean isNU(def val) {
+		return ((val instanceof String) && val == this.KEYWORD_ALLOWED.getAt('KW_NU'))
 	}
 
-	static boolean isVIDE(String val) {
-		return (val == this.KEYWORD_ALLOWED.getAt('KW_VIDE'))
+	static boolean isVIDE(def val) {
+		return ((val instanceof String) && val == this.KEYWORD_ALLOWED.getAt('KW_VIDE'))
 	}
 
-	static boolean isNULL(String val) {
-		return (val == this.KEYWORD_ALLOWED.getAt('KW_NULL'))
+	static boolean isNULL(def val) {
+		return ((val instanceof String) && val == this.KEYWORD_ALLOWED.getAt('KW_NULL'))
 	}
 
-	static boolean isDATE(String val) {
-		return (val == this.KEYWORD_ALLOWED.getAt('KW_DATE'))
+	static boolean isDATE(def val) {
+		return ((val instanceof String) && val == this.KEYWORD_ALLOWED.getAt('KW_DATE'))
 	}
 
-	static boolean isDATETIME(String val) {
-		return (val == this.KEYWORD_ALLOWED.getAt('KW_DATETIME'))
+	static boolean isDATETIME(def val) {
+		return ((val instanceof String) && val == this.KEYWORD_ALLOWED.getAt('KW_DATETIME'))
 	}
 
-	static boolean isORDRE(String val) {
-		return (val == this.KEYWORD_ALLOWED.getAt('KW_ORDRE'))
+	static boolean isORDRE(def val) {
+		return ((val instanceof String) && val == this.KEYWORD_ALLOWED.getAt('KW_ORDRE'))
 	}
 
 	static boolean isSEQUENCEID(def val) {

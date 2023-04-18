@@ -60,7 +60,7 @@ public class PREJDDFiles {
 		for (int numline : (1..sheet.getLastRowNum())) {
 			Row row = sheet.getRow(numline)
 			// exit if lastRow
-			if (my.XLS.getCellValue(row.getCell(0))=="") {
+			if (!row || my.XLS.getCellValue(row.getCell(0))=='') {
 				break
 			}
 			List fields =[]

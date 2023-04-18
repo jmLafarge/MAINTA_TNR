@@ -233,10 +233,10 @@ class Log {
 
 		if (MYRESULT.resulFileName) MYRESULT.addStep(this.logDate,msg,status)
 	}
-	
-	
-	
-	
+
+
+
+
 	public static addStartTestCase () {
 
 		String cdt = GlobalVariable.CASDETESTENCOURS + ' : ' + TCFiles.getTCNameTitle()

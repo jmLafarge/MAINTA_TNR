@@ -8,7 +8,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 public class CELLStyleFactory {
 
 
-
+	public CreationHelper createHelper
+	
 	public CellStyle cellStyle_time
 	public CellStyle cellStyle_duration
 	public CellStyle cellStyle_date
@@ -39,15 +40,9 @@ public class CELLStyleFactory {
 	public CellStyle cellStyle_RESULT_STEPLOOP
 	public CellStyle cellStyle_RESULT_SUBSTEP
 	public CellStyle cellStyle_RESULT_STEPDETAIL
-	
-	public Hyperlink hyperlink_screenshotFile
-
-
-
 
 	private XSSFWorkbook book
-	private CreationHelper createHelper
-
+	
 	private Font fontCDT
 	private Font fontStep
 	private Font fontStepGRP
@@ -65,7 +60,7 @@ public class CELLStyleFactory {
 		createCellStyle_fontStep()
 		createCellStyle_fontStepGRP()
 
-		
+
 		createCellStyle_time()
 		createCellStyle_duration()
 		createCellStyle_date()
@@ -93,20 +88,7 @@ public class CELLStyleFactory {
 		createCellStyle_RESULT_STEPLOOP()
 		createCellStyle_RESULT_SUBSTEP()
 		createCellStyle_RESULT_STEPDETAIL()
-		createHyperlink_screenshotFile()
-
 	}
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -292,7 +274,7 @@ public class CELLStyleFactory {
 
 
 	private createCellStyle_RESULT_STEPNBR() {
-		
+
 		cellStyle_RESULT_STEPNBR = book.createCellStyle()
 		cellStyle_RESULT_STEPNBR.setFillPattern(FillPatternType.NO_FILL)
 		cellStyle_RESULT_STEPNBR.setAlignment(HorizontalAlignment.RIGHT)
@@ -301,7 +283,7 @@ public class CELLStyleFactory {
 
 	//////////////////////////////////////////////////////////////////////////////////////////// à vérifier le besoin
 	private createCellStyle_RESULT_CDT() {
-		
+
 		cellStyle_RESULT_CDT = book.createCellStyle()
 	}
 
@@ -331,7 +313,7 @@ public class CELLStyleFactory {
 
 		cellStyle_RESULT_STEPPASS = book.createCellStyle()
 		cellStyle_RESULT_STEPPASS.cloneStyleFrom(cellStyle_RESULT_STEP)
-		
+
 		cellStyle_RESULT_STEPPASS.setFillPattern(FillPatternType.SOLID_FOREGROUND)
 		cellStyle_RESULT_STEPPASS.setFillForegroundColor(IndexedColors.LIGHT_GREEN.index)
 	}
@@ -343,7 +325,7 @@ public class CELLStyleFactory {
 
 		cellStyle_RESULT_STEPWARNING = book.createCellStyle()
 		cellStyle_RESULT_STEPWARNING.cloneStyleFrom(cellStyle_RESULT_STEP)
-		
+
 		cellStyle_RESULT_STEPWARNING.setFillPattern(FillPatternType.SOLID_FOREGROUND)
 		cellStyle_RESULT_STEPWARNING.setFillForegroundColor(IndexedColors.LIGHT_YELLOW.index)
 	}
@@ -355,7 +337,7 @@ public class CELLStyleFactory {
 
 		cellStyle_RESULT_STEPFAIL = book.createCellStyle()
 		cellStyle_RESULT_STEPFAIL.cloneStyleFrom(cellStyle_RESULT_STEP)
-		
+
 		cellStyle_RESULT_STEPFAIL.setFillPattern(FillPatternType.SOLID_FOREGROUND)
 		cellStyle_RESULT_STEPFAIL.setFillForegroundColor(IndexedColors.TAN.index)
 	}
@@ -367,7 +349,7 @@ public class CELLStyleFactory {
 
 		cellStyle_RESULT_STEPERROR = book.createCellStyle()
 		cellStyle_RESULT_STEPERROR.cloneStyleFrom(cellStyle_RESULT_STEP)
-		
+
 		cellStyle_RESULT_STEPERROR.setFillPattern(FillPatternType.SOLID_FOREGROUND)
 		cellStyle_RESULT_STEPERROR.setFillForegroundColor(IndexedColors.CORAL.index)
 	}
@@ -390,7 +372,7 @@ public class CELLStyleFactory {
 		cellStyle_RESULT_STEPGRP = book.createCellStyle()
 		cellStyle_RESULT_STEPGRP.setFillPattern(FillPatternType.SOLID_FOREGROUND)
 		cellStyle_RESULT_STEPGRP.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.index)
-		
+
 		cellStyle_RESULT_STEPGRP.setFont(fontStepGRP)
 	}
 
@@ -402,7 +384,7 @@ public class CELLStyleFactory {
 		cellStyle_RESULT_STEPACTION = book.createCellStyle()
 		cellStyle_RESULT_STEPACTION.setFillPattern(FillPatternType.SOLID_FOREGROUND)
 		cellStyle_RESULT_STEPACTION.setFillForegroundColor(IndexedColors.LIGHT_CORNFLOWER_BLUE.index)
-		
+
 		cellStyle_RESULT_STEPACTION.setFont(fontStepGRP)
 	}
 
@@ -412,7 +394,7 @@ public class CELLStyleFactory {
 	private createCellStyle_RESULT_STEPBLOCK() {
 
 		cellStyle_RESULT_STEPBLOCK = book.createCellStyle()
-		
+
 		cellStyle_RESULT_STEPBLOCK.setFont(fontStep)
 	}
 
@@ -452,7 +434,7 @@ public class CELLStyleFactory {
 
 
 	private createCellStyle_RESULT_STEPDETAIL() {
-		
+
 		def fontStepDetail = book.createFont()
 		fontStepDetail.setFontName('Arial')
 		fontStepDetail.setFontHeightInPoints(10 as short)
@@ -462,14 +444,6 @@ public class CELLStyleFactory {
 		cellStyle_RESULT_STEPDETAIL = book.createCellStyle()
 		cellStyle_RESULT_STEPDETAIL.setFont(fontStepDetail)
 	}
-	
-	
-	private createHyperlink_screenshotFile() {
-		
-		hyperlink_screenshotFile = createHelper.createHyperlink(HyperlinkType.URL)
-	}
-	
-	
-	
-	
+
+
 }

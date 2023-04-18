@@ -5,16 +5,15 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
+import org.apache.poi.common.usermodel.HyperlinkType
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
+import internal.GlobalVariable
 import my.TCFiles as MYTCFILES
 import my.Tools as TOOLS
-import my.result.CELLStyleFactory
-
-import internal.GlobalVariable
 
 public class ResultGenerator {
 
@@ -86,7 +85,7 @@ public class ResultGenerator {
 
 	private static takeScreenshot(Row row,Date date, String msg, String status) {
 
-		if (!msg.contains("Fin de la  vérification des valeurs en Base de Données")) {
+		if (!msg.contains("Fin de la  vérification des valeurs en Base de Données") || status == 'ERROR') {
 
 			String filename = date.format("yyyyMMdd_HHmmss.SSS") + '_'+ GlobalVariable.CASDETESTENCOURS + '_' + status + '.png'
 
@@ -95,10 +94,12 @@ public class ResultGenerator {
 			TOOLS.createFolderIfNotExist(path)
 
 			WebUI.takeScreenshot(path+ File.separator +filename,["text" : status+':'+msg, "fontSize" : 24, "fontColor": "#FF0000"])
+			
+			def hyperlink_screenshotFile = CSF.createHelper.createHyperlink(HyperlinkType.FILE)
 
-			CSF.hyperlink_screenshotFile.setAddress('./'+this.SCREENSHOTSUBFOLDER+ '/' +filename);
+			hyperlink_screenshotFile.setAddress('./'+this.SCREENSHOTSUBFOLDER+ '/' +filename)
 
-			my.XLS.writeCell(row,11, filename  ,CSF.cellStyle_hyperlink,CSF.hyperlink_screenshotFile)
+			my.XLS.writeCell(row,11, filename  ,CSF.cellStyle_hyperlink,hyperlink_screenshotFile)
 
 		}
 	}

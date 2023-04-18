@@ -14,34 +14,36 @@ public class CheckTypeInDATA {
 					String name = myJDD.getHeaderNameOfIndex(i)
 					if (i!=0 && INFOBDD.inTable(table, name) && !myJDD.isFK(name)) {
 
-						switch (INFOBDD.getDATA_TYPE(table, name)){
+						if (val!='$NU') {
 
-							case INFOBDD.getNumeric() :
-								if (val.toString().isNumber() || val in [
-									'$NULL',
-									'$NU',
-									'$SEQUENCEID',
-									'$ORDRE'
-								]) {
-									// c'est bon
-									MYLOG.addDEBUG("$name est un numeric autorisé = '$val'")
-								}else {
-									MYLOG.addDETAILFAIL(li[0] + "($name) : La valeur '$val' n'est pas autorisé pour un champ numérique")
-								}
-								break
-							case INFOBDD.getVarchar() :
+							switch (INFOBDD.getDATA_TYPE(table, name)){
 
-								if (!(val in ['$VIDE', '$NULL']) && val.toString().length() > INFOBDD.getDATA_MAXCHAR(table, name)) {
+								case INFOBDD.getNumeric() :
+									if (val.toString().isNumber() || val in [
+										'$NULL',
+										'$SEQUENCEID',
+										'$ORDRE'
+									]) {
+										// c'est bon
+										MYLOG.addDEBUG("$name est un numeric autorisé = '$val'")
+									}else {
+										MYLOG.addDETAILFAIL(li[0] + "($name) : La valeur '$val' n'est pas autorisé pour un champ numérique")
+									}
+									break
+								case INFOBDD.getVarchar() :
 
-									MYLOG.addDETAILFAIL(li[0] +" ($name) : La valeur $val est trop longue,  "+val.toString().length() + ' > ' + INFOBDD.getDATA_MAXCHAR(table, name) )
-								}else {
+									if (!(val in ['$VIDE', '$NULL']) && val.toString().length() > INFOBDD.getDATA_MAXCHAR(table, name)) {
 
-									MYLOG.addDEBUG(li[0] +" ($name) : La valeur $val est un varchar autorisé,  "+val.toString().length() + ' / ' + INFOBDD.getDATA_MAXCHAR(table, name) )
-								}
+										MYLOG.addDETAILFAIL(li[0] +" ($name) : La valeur $val est trop longue,  "+val.toString().length() + ' > ' + INFOBDD.getDATA_MAXCHAR(table, name) )
+									}else {
 
-								break
-							default :
-								MYLOG.addDEBUG("$name est de type "+ INFOBDD.getDATA_TYPE(table, name) + " = '$val' : " )
+										MYLOG.addDEBUG(li[0] +" ($name) : La valeur $val est un varchar autorisé,  "+val.toString().length() + ' / ' + INFOBDD.getDATA_MAXCHAR(table, name) )
+									}
+
+									break
+								default :
+									MYLOG.addDEBUG("$name est de type "+ INFOBDD.getDATA_TYPE(table, name) + " = '$val' : " )
+							}
 						}
 					}
 				}
@@ -50,5 +52,5 @@ public class CheckTypeInDATA {
 	}
 
 
-	
+
 }
