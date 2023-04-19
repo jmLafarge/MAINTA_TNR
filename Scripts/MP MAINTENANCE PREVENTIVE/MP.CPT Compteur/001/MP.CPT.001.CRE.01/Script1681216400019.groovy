@@ -1,3 +1,5 @@
+import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
+
 import my.KW
 import my.Log as MYLOG
 import my.NAV
@@ -48,8 +50,9 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		KW.scrollAndCheckIfNeeded(myJDD,"ST_COMMAJMAT","O")
 		KW.scrollAndCheckIfNeeded(myJDD,"ST_COMNOTMAJ","O")
 		
-	MYLOG.addSTEPGRP("ONGLET EQUIPEMENT")
 		
+	MYLOG.addSTEPGRP("ONGLET EQUIPEMENT")
+	
 		KW.scrollAndClick(myJDD,"tab_Equipement")
 		KW.waitForElementVisible(myJDD,"tab_EquipementSelected")
 		

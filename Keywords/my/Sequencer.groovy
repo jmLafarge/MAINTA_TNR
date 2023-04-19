@@ -40,9 +40,9 @@ public class Sequencer {
 	 */
 	public static load() {
 
-		MYLOG.addSubTITLE('Load testCasesList from TNR sequencer file','-',120,1)
-		MYLOG.addDEBUG("\t" + 'TCNAME'.padRight(24) + 'TCFULLNAME'.padRight(90) + 'REP')
-		MYLOG.addDEBUG("")
+		MYLOG.addSubTITLE('Load testCasesList from TNR sequencer file','-',120)
+		MYLOG.addINFO("\t" + 'TCNAME'.padRight(24) + 'TCFULLNAME'.padRight(90) + 'REP')
+		MYLOG.addINFO("")
 
 		// read JDD
 		Sheet shTNR = this.readSequencerFile()
@@ -75,7 +75,7 @@ public class Sequencer {
 			Map res= my.TCFiles.TCfileMap.findAll { it.key.contains(casDeTestPatternFromSequencer) }
 
 			if (res.size()==0) {
-				MYLOG.addERROR("Pas de fichier trouvé pour le pattern $casDeTestPatternFromSequencer")
+				MYLOG.addWARNING("\tPas de fichier trouvé pour le pattern $casDeTestPatternFromSequencer")
 			}else {
 				res.each {
 					this.addToTestCasesList(it.key,it.value, rep)
@@ -91,7 +91,7 @@ public class Sequencer {
 
 		Map TCMap = [:]
 
-		MYLOG.addINFO('\t' + TCName.padRight(24) + TCFullName.padRight(90) + rep.toString().padLeft(3),1)
+		MYLOG.addINFO('\t' + TCName.padRight(24) + TCFullName.padRight(90) + rep.toString().padLeft(3))
 
 		TCMap.put('TCNAME',TCName)
 		TCMap.put('TCFULLNAME',TCFullName)

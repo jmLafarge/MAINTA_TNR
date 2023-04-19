@@ -94,7 +94,7 @@ public class ResultGenerator {
 			TOOLS.createFolderIfNotExist(path)
 
 			WebUI.takeScreenshot(path+ File.separator +filename,["text" : status+':'+msg, "fontSize" : 24, "fontColor": "#FF0000"])
-			
+
 			def hyperlink_screenshotFile = CSF.createHelper.createHyperlink(HyperlinkType.FILE)
 
 			hyperlink_screenshotFile.setAddress('./'+this.SCREENSHOTSUBFOLDER+ '/' +filename)

@@ -39,23 +39,10 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 			
 			KW.verifyImg(myJDD,'span_ST_TYP_emp',myJDD.getStrData('ST_TYP')=='EMP')
 	
-			if (myJDD.getData('DT_DATDEB',i) != '$VIDE') {
+			KW.verifyDateText(myJDD,'td_DateDebut', myJDD.getData('DT_DATDEB'))
 				
-				KW.verifyDate(myJDD,'td_DateDebut', myJDD.getData('DT_DATDEB'))
+			KW.verifyDateText(myJDD,'td_DateFin', myJDD.getData('DT_DATFIN'))
 				
-			}else {
-				
-				KW.verifyElementText(myJDD,'td_DateDebut', '')
-			}
-			
-			if (myJDD.getData('DT_DATFIN',i) != '$VIDE') {
-				
-				KW.verifyDate(myJDD,'td_DateFin', myJDD.getData('DT_DATFIN'))
-				
-			}else {
-				
-				KW.verifyElementText(myJDD,'td_DateFin', '')
-			}
 			
 	    }// fin du for
 	

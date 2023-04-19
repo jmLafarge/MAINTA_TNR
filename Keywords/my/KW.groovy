@@ -416,9 +416,9 @@ class KW {
 		}
 	} // end of def
 
-
-
-
+	
+	
+	
 
 	static verifyValue(JDD myJDD, String name, String text=null, String status = 'FAIL') {
 		def (TestObject tObj, String msgTO) = myJDD.makeTO(name)
@@ -442,8 +442,12 @@ class KW {
 			MYLOG.addDETAIL(msgTO)
 		}
 	} // end of def
+	
 
 
+
+	
+	
 
 
 
@@ -566,19 +570,40 @@ class KW {
 
 
 
-	static verifyDate(JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT , String status = 'FAIL')  {
+	static verifyDateText(JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT , String status = 'FAIL')  {
+		
+		MYLOG.addDEBUG("verifyDateText : name='$name' val='${val.toString()} dateFormat='dateFormat' status='$status'")
+		
 		if (val==null) val = myJDD.getData(name)
-		if ( val instanceof Date) {
+			
+		if (val == '$VIDE') {
+			verifyElementText(myJDD, name, '', status)
+		}else if ( val instanceof Date) {
 			MYLOG.addDEBUG('val.format(dateFormat) :' +val.format(dateFormat))
-			this.verifyElementText(myJDD, name, val.format(dateFormat), status)
+			verifyElementText(myJDD, name, val.format(dateFormat), status)
 		}else {
 			MYLOG.addSTEPERROR("Vérification du texte '${val.toString()}' sur '$name'")
 			MYLOG.addDETAIL("Erreur de JDD de '$name', la valeur '${val.toString()}' n'est pas une date ! getClass = " + val.getClass())
 		}
 	} // end of def
 
+	
+	
 
+	static verifyDateValue(JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT , String status = 'FAIL')  {
 
+		MYLOG.addDEBUG("verifyDateFromValue : name='$name' val='${val.toString()} dateFormat='dateFormat' status='$status'")
+
+		if (val==null) val = myJDD.getData(name)
+		if (val == '$VIDE') {
+			verifyValue(myJDD, name, '', status)
+		}else if ( val instanceof Date) {
+			verifyValue(myJDD, name, val.format(dateFormat), status)
+		}else {
+			MYLOG.addSTEPERROR("Vérification du texte '${val.toString()}' sur '$name'")
+			MYLOG.addDETAIL("Erreur de JDD de '$name', la valeur '${val.toString()}' n'est pas une date ! getClass = " + val.getClass())
+		}
+	} // end of def
 
 
 	static scrollWaitAndVerifyElementText(JDD myJDD, String name, String text=null, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {

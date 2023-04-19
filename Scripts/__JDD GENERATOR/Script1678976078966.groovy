@@ -5,8 +5,7 @@ import my.JDDGenerator
 List listRubriquesIHM = []
 
 
-my.JDDGenerator.add('ART','RT.ART','001')
-my.JDDGenerator.add('ARTDOC','RT.ART','001A')
+my.JDDGenerator.add('ART_NOM','RT.ART','001C')
 
 
 //my.JDDGenerator.add('INTER','ZZ.YYY')

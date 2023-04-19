@@ -37,23 +37,11 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	
 			KW.waitAndVerifyElementText(myJDD,'ST_NIV')
 			
-			if (myJDD.getData('DT_DATDEB',i) != '$VIDE') {
+			KW.verifyDateText(myJDD,'td_DateDebut', myJDD.getData('DT_DATDEB'))
 				
-				KW.verifyDate(myJDD,'td_DateDebut', myJDD.getData('DT_DATDEB'))
+			KW.verifyDateText(myJDD,'td_DateFin', myJDD.getData('DT_DATFIN'))
 				
-			}else {
-				
-				KW.verifyElementText(myJDD,'td_DateDebut', '')
-			}
-			
-			if (myJDD.getData('DT_DATFIN',i) != '$VIDE') {
-				
-				KW.verifyDate(myJDD,'td_DateFin', myJDD.getData('DT_DATFIN'))
-				
-			}else {
-				
-				KW.verifyElementText(myJDD,'td_DateFin', '')
-			}
+
 			
 	    }// fin du for
 	
