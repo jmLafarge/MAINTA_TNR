@@ -416,9 +416,9 @@ class KW {
 		}
 	} // end of def
 
-	
-	
-	
+
+
+
 
 	static verifyValue(JDD myJDD, String name, String text=null, String status = 'FAIL') {
 		def (TestObject tObj, String msgTO) = myJDD.makeTO(name)
@@ -442,12 +442,12 @@ class KW {
 			MYLOG.addDETAIL(msgTO)
 		}
 	} // end of def
-	
 
 
 
-	
-	
+
+
+
 
 
 
@@ -571,11 +571,11 @@ class KW {
 
 
 	static verifyDateText(JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT , String status = 'FAIL')  {
-		
+
 		MYLOG.addDEBUG("verifyDateText : name='$name' val='${val.toString()} dateFormat='dateFormat' status='$status'")
-		
+
 		if (val==null) val = myJDD.getData(name)
-			
+
 		if (val == '$VIDE') {
 			verifyElementText(myJDD, name, '', status)
 		}else if ( val instanceof Date) {
@@ -587,8 +587,8 @@ class KW {
 		}
 	} // end of def
 
-	
-	
+
+
 
 	static verifyDateValue(JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT , String status = 'FAIL')  {
 
