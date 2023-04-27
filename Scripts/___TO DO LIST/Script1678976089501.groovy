@@ -6,7 +6,22 @@
  * FAIT
  * -----------------------------------------------------------------------------------------------------
  * 
+ * 
+ grosse mise à jour
 
+Ajout du ctrl Resultat_ID dans verifierEcranResultat
+Reprise waitAndVerifyElementText et verifyElementText pour ajouter le return
+Ajout scrollAndSetDate
+MAJ TCGenerator pour inclure scrollAndSetDate
+Ajout JDD.isOBSOLETE pour ne pas controler les prerequis des champs obsolete
+Ajout CheckTypeInDATA.isCasDeTestSUPorREC pour ne pas controler les prerequis des champs non PK et vide des cdt SUP ou REC 
+JDD Generator : Suppression le sub folder dans les JDD et PREJDD  
+JDD Generator : les PK en rouge
+SQL.checkValue prendre en compte OBSOLETE
+Modif pour la gestion des TC/CDT
+ex:TestCase ZZ.YYY.001.CRE pour tous les CDT ZZ.YYY.001.CRE.*
+si TestCase ZZ.YYY.001.CRE.01 existe, c'est lui qui sera utilisé pour le CDT correspondant
+Ajout de Log.testCaseStarted pour clore correctement le xls result
 
 
  * 
@@ -23,10 +38,10 @@
 		TIMEOUT à 1 ça passe, je mets 2
 		
 		
-	UTILISATION de this.
+	UTILISATION de 
 	
-		L'utilisation de this.variable dans une boucle d'un map semble poser problème 
-		Par exemple dans checkJDD.run() mettre this.myJDD = new my.JDD(fullName,null,null,false) --> provoque une erreur
+		L'utilisation de variable dans une boucle d'un map semble poser problème 
+		Par exemple dans checkJDD.run() mettre myJDD = new my.JDD(fullName,null,null,false) --> provoque une erreur
 		--> je ne sais pas pourquoi
 		--> peut être parce que .each est une closure
 		
@@ -37,6 +52,10 @@
 		 - apparement le javascript utilise .getSelectedRowId() sur boutonModifier.click()
 		
 		
+	TC et CDT
+		
+		si TestCase ZZ.YYY.001.CRE existe, il est utilisé pour tous les CDT ZZ.YYY.001.CRE.*
+		si TestCase ZZ.YYY.001.CRE.01 existe, c'est lui qui sera utilisé pour le CDT correspondant
 		
 		
  *
@@ -45,14 +64,6 @@
  * -----------------------------------------------------------------------------------------------------
  *
  
-
-
-
-
-
-
-
-
 
  
  
@@ -63,7 +74,16 @@
  * -----------------------------------------------------------------------------------------------------
  * 
 				
-		  
+	
+	Ajouter un ctrl d'unicité des cdt	  
+
+
+	Problème du ctrl prerequis dans les prejdd avec cdt-valeur dans le cas des liens 
+		Controle de 'ID_CODINT' de 'TNR_JDD\JDD.RO.ACT.xlsx' (003HAB) dans 'TNR_PREJDD\PREJDD.RO.ACT.xlsx' 'ID_CODINT'
+			- 'RO.ACT.003HAB.SRA.02' - 'RO.ACT.003HAB.SRA.01' non trouvé
+		Controle de 'ID_CODINT' de 'TNR_JDD\JDD.RO.ACT.xlsx' (003HAB) dans 'TNR_PREJDD\PREJDD.RO.ACT.xlsx' 'ID_CODINT'
+			- 'RO.ACT.003HAB.SRM.02' - 'RO.ACT.003HAB.SRM.01' non trouvé
+
 		  		
 		
 	Traiter les valeurs des $DATESYS et $DATETIME
@@ -105,10 +125,11 @@
 	
 		J'ai ajouté le Check_CAL --> faire pareil avec les autres chck spécifique , comme par exe les org/ser et inter...
 	  
-		Ajouter les controle des PARAM_LIST_ALLOWED et des TAG_LIST_ALLOWED dans les controles JDD "CHECK PREREQUIS" plutot que dans le code des tests
-		 
-		Verifir si les valeurs collent avec les types :  INFOBDD.getDATA_TYPE( myJDD.getDBTableName(), fieldName)
-		Par exemple les numéric ne doivent pas être vide mais $NULL
+		Ajouter les controle des PARAM_LIST_ALLOWED dans les controles JDD "CHECK PREREQUIS" plutot que dans le code des tests
+		
+		Ajouter un ctrl sur les valeurs de chaque paramètre ex : 
+			pour PREREQUIS --> OBSOLETE ou ?*?*?
+			pour LOCATOR --> c'est déjà fait
 		  
 		Dans les JDD, mettre en vert les cellules des attributs modifiés par rapport aux PREJDD pour les cas de tests MODIF
 		
@@ -117,9 +138,15 @@
 		  
 	RESULT
 	 
+		Sortir la gestion des STEP et du Status de Log
+			- Mettre status dans une class à part
+			- Mettre la gestion des STEPs dans Result --> ou à part ?
+			
 		Ajouter les step FAIL dans le xls en grouper sous le test ou dans un autre onglet --> avec les élements nécessaire pour le ticket
+		
 		Ou faire un plan(regrouper) avec les STEPs
 	  		si on veut lister les STEP dans le xls il faut peut être simplifiué
+	  		
 	  	modif le step de ctrl en BDD pour faire une ligne + details avec un refrech de la ligne du dessus comme ....
 	  	
 	
@@ -133,9 +160,6 @@
 	
 		Vérifier si fonctionne encore 
 
-
-
-		  
 		  
 	SELENIUM
 	
@@ -155,7 +179,9 @@
 	
 
 	LOG
-
+	
+		Sortir la gestion des STEP et du Status
+		
 		Revoir le DEBUG --> c'est pourri 
 		
 		integrer LOG4J --> non pas avec Katalon

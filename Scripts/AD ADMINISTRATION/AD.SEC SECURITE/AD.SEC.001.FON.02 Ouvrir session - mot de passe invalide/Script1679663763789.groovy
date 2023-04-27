@@ -5,14 +5,17 @@ import internal.GlobalVariable
 import my.JDD
 import my.KW
 import my.Log as MYLOG
-
+import my.JDD
 
 'Lecture du JDD'
-def myJDD = new my.JDD()
+def myJDD = new JDD()
 
 
-'Si il y a un test case'
-if (myJDD.getNbrLigneCasDeTest() > 0) {
+for (String cdt in myJDD.CDTList) {
+	
+	myJDD.setCasDeTest(cdt)
+		
+	MYLOG.addStartTestCase(cdt)
 	
 	KW.openBrowser(GlobalVariable.BASE_URL)
 
@@ -40,6 +43,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	}
 	
 	KW.closeBrowser()
+	MYLOG.addEndTestCase()
 }
 
 

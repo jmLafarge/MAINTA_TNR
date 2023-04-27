@@ -7,6 +7,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import groovy.io.FileType
 import my.Log as MYLOG
 
+
 public class Sequencer {
 
 	/*
@@ -35,17 +36,17 @@ public class Sequencer {
 
 
 	/*
-	 * CONSTRUCTOR
+	 * 
 	 *
 	 */
 	public static load() {
 
 		MYLOG.addSubTITLE('Load testCasesList from TNR sequencer file','-',120)
-		MYLOG.addINFO("\t" + 'TCNAME'.padRight(24) + 'TCFULLNAME'.padRight(90) + 'REP')
+		MYLOG.addINFO("\t" + 'CDTPATTERN'.padRight(24) + 'TCFULLNAME'.padRight(90) + 'REP')
 		MYLOG.addINFO("")
 
 		// read JDD
-		Sheet shTNR = this.readSequencerFile()
+		Sheet shTNR = readSequencerFile()
 
 		MYLOG.addDEBUG('shTNR.getLastRowNum() :' + shTNR.getLastRowNum(),2)
 
@@ -67,18 +68,23 @@ public class Sequencer {
 				break
 			}
 
-
 			// Default value if REPETITION cell is null
 			int rep = (row.getCell(1) == null) ? 1 : row.getCell(1).getNumericCellValue()
 
-			//def res= my.TCFiles.TCfileList.findAll{ it.contains(casDeTestPatternFromSequencer)}
-			Map res= my.TCFiles.TCfileMap.findAll { it.key.contains(casDeTestPatternFromSequencer) }
+			Map res= TCFiles.TCfileMap.findAll { it.key.contains(casDeTestPatternFromSequencer) }
 
 			if (res.size()==0) {
-				MYLOG.addWARNING("\tPas de fichier trouvé pour le pattern $casDeTestPatternFromSequencer")
+
+				def key = TCFiles.TCfileMap.keySet().find { casDeTestPatternFromSequencer.contains(it) }
+
+				if (key) {
+					addToTestCasesList(casDeTestPatternFromSequencer,TCFiles.TCfileMap[key], rep)
+				}else {
+					MYLOG.addWARNING("\tPas de fichier trouvé pour le pattern $casDeTestPatternFromSequencer")
+				}
 			}else {
 				res.each {
-					this.addToTestCasesList(it.key,it.value, rep)
+					addToTestCasesList(it.key,it.value, rep)
 				}
 			}
 
@@ -87,17 +93,19 @@ public class Sequencer {
 	}//end of constructor
 
 
+
+
 	private static addToTestCasesList (String TCName,TCFullName, int rep) {
 
 		Map TCMap = [:]
 
 		MYLOG.addINFO('\t' + TCName.padRight(24) + TCFullName.padRight(90) + rep.toString().padLeft(3))
 
-		TCMap.put('TCNAME',TCName)
+		TCMap.put('CDTPATTERN',TCName)
 		TCMap.put('TCFULLNAME',TCFullName)
 		TCMap.put('REP',rep)
 
-		this.testCasesList.add(TCMap)
+		testCasesList.add(TCMap)
 
 	}
 
@@ -114,6 +122,10 @@ public class Sequencer {
 		return book.getSheet(my.PropertiesReader.getMyProperty('SEQUENCER_SHEETNAME'))
 
 	}
+
+
+
+
 
 
 

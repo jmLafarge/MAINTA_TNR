@@ -1,6 +1,9 @@
 package checkprerequis
 
 import my.Log as MYLOG
+import my.JDDFiles
+import my.PREJDDFiles
+import my.PREJDD
 
 
 public class CheckPrerequis {
@@ -13,7 +16,7 @@ public class CheckPrerequis {
 		 * Récupére la liste de tous les PREREQUIS de tous les JDD
 		 */
 		List list =[]
-		my.JDDFiles.JDDfilemap.each { modObj,fullName ->
+		JDDFiles.JDDfilemap.each { modObj,fullName ->
 			MYLOG.addDEBUG("Lecture du JDD : " + fullName,0)
 			def myJDD = new my.JDD(fullName,null,null,false)
 			myJDD.getAllPrerequis(list)
@@ -29,11 +32,11 @@ public class CheckPrerequis {
 		 * Controle si tous les PREREQUIS des JDD sont bien dans les PREJDD
 		 */
 		list.eachWithIndex { map,idx ->
-			MYLOG.addDEBUG(idx + ' : ' + my.PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')))
+			MYLOG.addDEBUG(idx + ' : ' + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')))
 			map.each { key,val ->
 				MYLOG.addDEBUG('\t' + key + ' : ' +val)
 			}
-			my.PREJDD.checkPREJDD(map)
+			PREJDD.checkPREJDD(map)
 		}
 	}
 }

@@ -57,28 +57,28 @@
       <guid>ecf0aea4-599d-4124-bd1e-9b39e6e2ab66</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/003HAB Habilitation/RO.ACT.003HAB.SRA.01</testCaseId>
+      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/003HAB Habilitation/RO.ACT.003HAB.SRA</testCaseId>
       <usingDataBindingAtTestSuiteLevel>true</usingDataBindingAtTestSuiteLevel>
    </testCaseLink>
    <testCaseLink>
       <guid>439b14a4-801a-4470-9854-92ba7049ad3d</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/003HAB Habilitation/RO.ACT.003HAB.SRL.01</testCaseId>
+      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/003HAB Habilitation/RO.ACT.003HAB.SRL</testCaseId>
       <usingDataBindingAtTestSuiteLevel>true</usingDataBindingAtTestSuiteLevel>
    </testCaseLink>
    <testCaseLink>
       <guid>29e4962f-170f-4862-82ea-1b534f800c4c</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/003HAB Habilitation/RO.ACT.003HAB.SRM.01</testCaseId>
+      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/003HAB Habilitation/RO.ACT.003HAB.SRM</testCaseId>
       <usingDataBindingAtTestSuiteLevel>true</usingDataBindingAtTestSuiteLevel>
    </testCaseLink>
    <testCaseLink>
       <guid>a6f31013-7fa0-4358-a300-68feee66f09e</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/003HAB Habilitation/RO.ACT.003HAB.SRS.01</testCaseId>
+      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/003HAB Habilitation/RO.ACT.003HAB.SRS</testCaseId>
       <usingDataBindingAtTestSuiteLevel>true</usingDataBindingAtTestSuiteLevel>
    </testCaseLink>
    <testCaseLink>

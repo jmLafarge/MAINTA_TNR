@@ -26,24 +26,24 @@ public class InfoPARA {
 
 	public static load() {
 
-		this.fileName = my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('INFOPARAFILENAME')
-		MYLOG.addSubTITLE("Chargement de : " + this.fileName,'-',120,1)
-		this.book = my.XLS.open(this.fileName)
+		fileName = my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('INFOPARAFILENAME')
+		MYLOG.addSubTITLE("Chargement de : " + fileName,'-',120,1)
+		book = my.XLS.open(fileName)
 
-		this.shPara = this.book.getSheet('PARA')
+		shPara = book.getSheet('PARA')
 
-		this.whereStyle = this.book.createCellStyle()
-		this.whereStyle.setWrapText(true)
-		this.whereStyle.setVerticalAlignment(VerticalAlignment.TOP)
+		whereStyle = book.createCellStyle()
+		whereStyle.setWrapText(true)
+		whereStyle.setVerticalAlignment(VerticalAlignment.TOP)
 
-		this.paraStyle = this.book.createCellStyle()
-		this.paraStyle.setVerticalAlignment(VerticalAlignment.TOP)
+		paraStyle = book.createCellStyle()
+		paraStyle.setVerticalAlignment(VerticalAlignment.TOP)
 
 
-		Row row = this.shPara.getRow(0)
+		Row row = shPara.getRow(0)
 		if (row==null) {
 			MYLOG.addDEBUG("Créer la premiere ligne ")
-			row =this.shPara.createRow(0)
+			row =shPara.createRow(0)
 		}
 
 		if (my.XLS.getCellValue(row.getCell(0))=='') my.XLS.writeCell(row, 0, 'NOM',)
@@ -57,19 +57,19 @@ public class InfoPARA {
 		if (my.XLS.getCellValue(row.getCell(8))=='') my.XLS.writeCell(row, 8, 'LOCATOR')
 		if (my.XLS.getCellValue(row.getCell(9))=='') my.XLS.writeCell(row, 9, 'LOCATOR_JDD')
 
-		Iterator<Row> rowIt = this.shPara.rowIterator()
+		Iterator<Row> rowIt = shPara.rowIterator()
 		row = rowIt.next()
 		while(rowIt.hasNext()) {
 			row = rowIt.next()
 			if (my.XLS.getCellValue(row.getCell(0))=='') {
 				break
 			}
-			this.paraMap.putAt(my.XLS.getCellValue(row.getCell(0)),my.XLS.loadRow2(row,0,10,null))
+			paraMap.putAt(my.XLS.getCellValue(row.getCell(0)),my.XLS.loadRow2(row,0,10,null))
 		}
 
-		MYLOG.addDEBUG("this.paraMap.size= " + this.paraMap.size())
+		MYLOG.addDEBUG("paraMap.size= " + paraMap.size())
 
-		//my.Tools.parseMap(this.paraMap)
+		//my.Tools.parseMap(paraMap)
 	}
 
 
@@ -86,35 +86,35 @@ public class InfoPARA {
 				
 				MYLOG.addDEBUG("\t$para = $valPara")
 
-				if (!this.paraMap.containsKey(col)) {
+				if (!paraMap.containsKey(col)) {
 
-					this.paraMap[col]=[null]*10
+					paraMap[col]=[null]*10
 
 
-					MYLOG.addDEBUG("\tCréation '$col' pour sheetname "+this.shPara.getSheetName())
+					MYLOG.addDEBUG("\tCréation '$col' pour sheetname "+shPara.getSheetName())
 
-					Row row = my.XLS.getNextRow(this.shPara)
+					Row row = my.XLS.getNextRow(shPara)
 					
-					my.XLS.writeCell(row,0,col,this.paraStyle)
+					my.XLS.writeCell(row,0,col,paraStyle)
 				}
 
 
 
-				if (this.paraMap[col][icol]==null) {
+				if (paraMap[col][icol]==null) {
 
-					this.updatePara(para,col,icol,valPara,where)
+					updatePara(para,col,icol,valPara,where)
 
 					MYLOG.addDEBUG("\tTrouvé dans $where --> $fullName table : " + myJDD.getDBTableName())
-					MYLOG.addDEBUG('\t' +this.paraMap[col][icol] +" ajouté dans $col")
-					MYLOG.addDEBUG('\t' + this.paraMap[col][icol+1] +" ajouté dans $col")
-				}else if (this.paraMap[col][icol]!=valPara) {
-					MYLOG.addDETAILWARNING("\t$para pour '$col'($icol) : $valPara différent de la valeur enregistrée " + this.paraMap[col][icol])
-				}else if(this.paraMap[col][icol+1].contains(where)) {
+					MYLOG.addDEBUG('\t' +paraMap[col][icol] +" ajouté dans $col")
+					MYLOG.addDEBUG('\t' + paraMap[col][icol+1] +" ajouté dans $col")
+				}else if (paraMap[col][icol]!=valPara) {
+					MYLOG.addDETAILWARNING("\t$para pour '$col'($icol) : $valPara différent de la valeur enregistrée " + paraMap[col][icol])
+				}else if(paraMap[col][icol+1].contains(where)) {
 					MYLOG.addDEBUG("\t$para $valPara pour '$col' et $where existe déjà")
 				}else {
-					this.updatePara(para,col,icol,valPara,where)
+					updatePara(para,col,icol,valPara,where)
 
-					MYLOG.addDEBUG("\t$para $valPara pour '$col' existe déjà mais rajout de $where dans " + this.paraMap[col][icol+1])
+					MYLOG.addDEBUG("\t$para $valPara pour '$col' existe déjà mais rajout de $where dans " + paraMap[col][icol+1])
 				}
 			}
 			icol+=2
@@ -131,20 +131,20 @@ public class InfoPARA {
 	private static updatePara(String para, String col, int icol,String valPara, String where) {
 
 		//Agrandit la liste di besoin
-		while (this.paraMap[col].size()<=icol+1) {
-			this.paraMap[col].add(this.paraMap[col].size(),null)
+		while (paraMap[col].size()<=icol+1) {
+			paraMap[col].add(paraMap[col].size(),null)
 		}
 
-		if (!this.paraMap[col][icol]) {
+		if (!paraMap[col][icol]) {
 			//add
-			this.paraMap[col].set(icol,valPara)
-			this.paraMap[col].set(icol+1,where)
+			paraMap[col].set(icol,valPara)
+			paraMap[col].set(icol+1,where)
 		}else {
 			//update
-			this.paraMap[col].set(icol+1,this.paraMap[col][icol+1]+'\n'+where)
+			paraMap[col].set(icol+1,paraMap[col][icol+1]+'\n'+where)
 		}
 
-		Iterator<Row> rowIt = this.shPara.rowIterator()
+		Iterator<Row> rowIt = shPara.rowIterator()
 		while(rowIt.hasNext()) {
 			Row row = rowIt.next()
 
@@ -152,13 +152,13 @@ public class InfoPARA {
 				if (my.XLS.getCellValue(row.getCell(icol))==valPara) {
 					//MYLOG.addDETAIL("$para, ajout du JDD '$where' pour $col")
 					MYLOG.addDETAIL("$col : ajout du JDD '$where'")
-					my.XLS.writeCell(row, icol+1,this.paraMap[col][icol+1])
+					my.XLS.writeCell(row, icol+1,paraMap[col][icol+1])
 					break
 				}else {
 					//MYLOG.addDETAIL("Ajout du $para '$valPara' et JDD '$where' pour $col")
 					MYLOG.addDETAIL("$col : ajout du $para '$valPara' et du JDD '$where'")
-					my.XLS.writeCell(row, icol,valPara,this.paraStyle)
-					my.XLS.writeCell(row, icol+1,this.paraMap[col][icol+1],this.whereStyle)
+					my.XLS.writeCell(row, icol,valPara,paraStyle)
+					my.XLS.writeCell(row, icol+1,paraMap[col][icol+1],whereStyle)
 					break
 				}
 			}
@@ -171,8 +171,8 @@ public class InfoPARA {
 
 	public static write(){
 		MYLOG.addDEBUG('update PARA dans InfoPARA')
-		OutputStream fileOut = new FileOutputStream(this.fileName)
-		this.book.write(fileOut);
+		OutputStream fileOut = new FileOutputStream(fileName)
+		book.write(fileOut);
 	}
 
 

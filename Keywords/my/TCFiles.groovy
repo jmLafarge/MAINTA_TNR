@@ -10,8 +10,8 @@ import my.Log as MYLOG
 public class TCFiles {
 
 
-	//private static List TCfileList = []
-	private static Map TCfileMap = [:]
+	public static Map TCfileMap = [:]
+	
 
 
 	private static load() {
@@ -27,7 +27,7 @@ public class TCFiles {
 
 			if (TCFullName.matches("^[A-Z]{2}[ ].*") && !TCName.startsWith('.')) {
 
-				this.TCfileMap.put(TCName, TCFullName)
+				TCfileMap.put(TCName, TCFullName)
 
 				MYLOG.addDEBUG('\t'+ TCName.padRight(24) + TCFullName)
 			}
@@ -41,7 +41,33 @@ public class TCFiles {
 
 	public static String getTCNameTitle() {
 
+			/*
+		String TCFullName=''
+		String cdt=''
+		if (GlobalVariable.CASDETESTENCOURS) {
+			cdt = GlobalVariable.CASDETESTENCOURS
+		}else {
+			cdt = GlobalVariable.CASDETESTPATTERN
+		}
+
+		if (TCfileMap[cdt]) {
+			TCFullName = TCfileMap[cdt]
+		}else{
+			def key = TCfileMap.keySet().find { cdt.contains(it) }
+			if (key) {
+				TCFullName = TCfileMap[key]
+			}else {
+				MYLOG.addWARNING("\tPas de fichier trouvé pour le cas de test $cdt")
+			}
+		}
+
 		List liTCFullName= TCfileMap[GlobalVariable.CASDETESTENCOURS].split(Pattern.quote(File.separator))
+		*/
+		MYLOG.addINFO ('GlobalVariable.CASDETESTPATTERN :' + GlobalVariable.CASDETESTPATTERN)
+
+
+		
+		List liTCFullName= TCfileMap[GlobalVariable.CASDETESTPATTERN].split(Pattern.quote(File.separator))
 
 		//Détermine objet et sous-ressources à partir des noms des dossier père (SR) et grandpère(OBJ) des TC
 		String obj =''
@@ -58,15 +84,55 @@ public class TCFiles {
 		if (liTCName.size()>1) {
 			return liTCName.drop(1).join(' ')
 		}else {
-			def liTCName2 = GlobalVariable.CASDETESTENCOURS.split('\\.')
+			def liTCName2 = GlobalVariable.CASDETESTPATTERN.split('\\.')
 			if (liTCName2.size()>2) {
-				return this.getAutoTitle(obj,sr,liTCName2[-2])
+				return getAutoTitle(obj,sr,liTCName2[-2])
 			}
 			return ''
 		}
 	}
 
 
+	
+	
+	
+	
+	
+	
+	public static String getTitle() {
+
+		List liTCFullName= TCfileMap[GlobalVariable.CASDETESTPATTERN].split(Pattern.quote(File.separator))
+
+		//Détermine objet et sous-ressources à partir des noms des dossier père (SR) et grandpère(OBJ) des TC
+		String obj =''
+		String sr =''
+		if (liTCFullName.size()>2) {
+			obj = liTCFullName[liTCFullName.size()-3].split(' ').drop(1).join(' ')
+			if (liTCFullName[liTCFullName.size()-2].split(' ').size()>1) {
+				sr = liTCFullName[liTCFullName.size()-2].split(' ').drop(1).join(' ')
+			}
+		}
+		
+		
+		// si un titre existe au niveau du TC on le prend sinon on le construit
+		List liTCName = liTCFullName[-1].split(' ')
+		if (liTCName.size()>1) {
+			return liTCName.drop(1).join(' ')
+		}else {
+			def liTCName2 = liTCFullName[-1].split('\\.')
+			if (liTCName2.size()>2) {
+				return getAutoTitle(obj,sr,liTCName2[3])
+			}
+			return ''
+		}
+	}
+		
+			
+	
+	
+	
+	
+			
 
 	private static String getAutoTitle(String obj, String sr, String code) {
 
@@ -99,7 +165,7 @@ public class TCFiles {
 				return "$obj : Suppression $sr"
 				break
 			default :
-				return ''
+				return '--'
 		}
 	}
 

@@ -4,12 +4,16 @@ import internal.GlobalVariable
 import my.KW
 import my.Log as MYLOG
 import my.NAV
+import my.JDD
 
 'Lecture du JDD'
-def myJDD = new my.JDD()
+def myJDD = new JDD()
 
-'Si il y a un test case'
-if (myJDD.getNbrLigneCasDeTest() > 0) {
+for (String cdt in myJDD.CDTList) {
+	
+	myJDD.setCasDeTest(cdt)
+		
+	MYLOG.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData())
@@ -99,5 +103,6 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 			KW.verifyValue(myJDD,'ID_NUMZON', '')
 		}
 
+	MYLOG.addEndTestCase()
 }
 

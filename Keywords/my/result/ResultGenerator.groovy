@@ -12,8 +12,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
-import my.TCFiles as MYTCFILES
+import my.TCFiles
 import my.Tools as TOOLS
+import my.Log as MYLOG
 
 public class ResultGenerator {
 
@@ -58,23 +59,20 @@ public class ResultGenerator {
 	private static groupDetail(String status='') {
 
 		if (status == 'DETAIL') {
-			if (this.firstLineDETAIL == 0) {
+			if (firstLineDETAIL == 0) {
 				//début du DETAIL
-				this.firstLineDETAIL = this.nextLineNumber
-				this.statusDETAIL = this.previousStatus
+				firstLineDETAIL = nextLineNumber
+				statusDETAIL = previousStatus
 			}
 
-		}else if (this.firstLineDETAIL != 0){
-			//fin du DETAIL
-			//boolean collapse = !(this.statusDETAIL in ['WARNING', 'FAIL', 'ERROR'])
-			boolean collapse=true
+		}else if (firstLineDETAIL != 0){
 
-			this.shRESULT.setRowSumsBelow(false)
-			this.shRESULT.groupRow(this.firstLineDETAIL, this.nextLineNumber-1)
-			this.shRESULT.setRowGroupCollapsed(this.firstLineDETAIL, collapse)
-			this.firstLineDETAIL=0
+			shRESULT.setRowSumsBelow(false)
+			shRESULT.groupRow(firstLineDETAIL, nextLineNumber-1)
+			shRESULT.setRowGroupCollapsed(firstLineDETAIL, true)
+			firstLineDETAIL=0
 		}
-		this.previousStatus=status
+		previousStatus=status
 	}
 
 
@@ -89,7 +87,7 @@ public class ResultGenerator {
 
 			String filename = date.format("yyyyMMdd_HHmmss.SSS") + '_'+ GlobalVariable.CASDETESTENCOURS + '_' + status + '.png'
 
-			String path = new File(this.resulFileName).getParent()+ File.separator + this.SCREENSHOTSUBFOLDER
+			String path = new File(resulFileName).getParent()+ File.separator + SCREENSHOTSUBFOLDER
 
 			TOOLS.createFolderIfNotExist(path)
 
@@ -97,7 +95,7 @@ public class ResultGenerator {
 
 			def hyperlink_screenshotFile = CSF.createHelper.createHyperlink(HyperlinkType.FILE)
 
-			hyperlink_screenshotFile.setAddress('./'+this.SCREENSHOTSUBFOLDER+ '/' +filename)
+			hyperlink_screenshotFile.setAddress('./'+SCREENSHOTSUBFOLDER+ '/' +filename)
 
 			my.XLS.writeCell(row,11, filename  ,CSF.cellStyle_hyperlink,hyperlink_screenshotFile)
 
@@ -111,11 +109,11 @@ public class ResultGenerator {
 
 	public static addStep(Date date, String msg, String status) {
 
-		Row row = this.shRESULT.createRow(this.nextLineNumber)
+		Row row = shRESULT.createRow(nextLineNumber)
 
 		int rowResult = 2
 
-		this.groupDetail(status)
+		groupDetail(status)
 
 		switch (status) {
 
@@ -126,19 +124,19 @@ public class ResultGenerator {
 
 				break
 			case 'WARNING':
-				this.takeScreenshot(row,date,msg,status)
+				takeScreenshot(row,date,msg,status)
 				my.XLS.writeCell(row,0,date.format('yyyy-MM-dd HH:mm:ss.SSS'),CSF.cellStyle_RESULT_STEP)
 				my.XLS.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPWARNING)
 				my.XLS.writeCell(row,2,'WARNING',CSF.cellStyle_RESULT_STEPWARNING)
 				break
 			case 'FAIL':
-				this.takeScreenshot(row,date,msg,status)
+				takeScreenshot(row,date,msg,status)
 				my.XLS.writeCell(row,0,date.format('yyyy-MM-dd HH:mm:ss.SSS'),CSF.cellStyle_RESULT_STEP)
 				my.XLS.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPFAIL)
 				my.XLS.writeCell(row,2,'FAIL',CSF.cellStyle_RESULT_STEPFAIL)
 				break
 			case 'ERROR':
-				this.takeScreenshot(row,date,msg,status)
+				takeScreenshot(row,date,msg,status)
 				my.XLS.writeCell(row,0,date.format('yyyy-MM-dd HH:mm:ss.SSS'),CSF.cellStyle_RESULT_STEP)
 				my.XLS.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPERROR)
 				my.XLS.writeCell(row,2,'ERROR',CSF.cellStyle_RESULT_STEPERROR)
@@ -183,9 +181,9 @@ public class ResultGenerator {
 				println "*********************** Result.addStep, status inconnu $status"
 		}
 
-		this.write()
+		write()
 
-		this.nextLineNumber ++
+		nextLineNumber ++
 
 	}
 
@@ -196,66 +194,64 @@ public class ResultGenerator {
 
 	public static addStartCasDeTest(Date start) {
 
-		Row row = this.shRESULT.createRow(this.lineNumberSTART)
+		Row row = shRESULT.createRow(lineNumberSTART)
 
-		my.XLS.writeCell(row,0,start.format('yyyy-MM-dd HH:mm:ss.SSS'),CSF.cellStyle_RESULT_CDT)
-		my.XLS.writeCell(row,1,GlobalVariable.CASDETESTENCOURS + ' : ' + MYTCFILES.getTCNameTitle(),CSF.cellStyle_RESULT_CDT)
 		my.XLS.writeCell(row,8,start,CSF.cellStyle_time)
 
-		this.write()
+		write()
 
-		nextLineNumber=this.lineNumberSTART+1
+		nextLineNumber=lineNumberSTART+1
 	}
 
 
 
 
-	public static addEndCasDeTest(Map status, Date start, Date stop) {
+	public static addEndCasDeTest(Map status, Date start, Date stop,String cdt) {
 
 
-		Row row = this.shRESULT.getRow(this.lineNumberSTART)
+		Row row = shRESULT.getRow(lineNumberSTART)
 
 		int rowResult = 2
 
-		this.groupDetail()
+		groupDetail()
 
-		boolean collapse = true //false
+		boolean collapse = true //Mettre false si on veut collapser que les PASS
 
 		if (status.ERROR !=0 ) {
 
 			my.XLS.writeCell(row,rowResult,'ERROR',CSF.cellStyle_ERROR)
 			CSF.cellStyle_RESULT_CDT=CSF.cellStyle_ERROR
-			this.totalERROR++
+			totalERROR++
 
 		}else if (status.FAIL != 0 ) {
 
 			my.XLS.writeCell(row,rowResult,'FAIL',CSF.cellStyle_FAIL)
 			CSF.cellStyle_RESULT_CDT=CSF.cellStyle_FAIL
-			this.totalFAIL++
+			totalFAIL++
 
 		}else if (status.WARNING != 0 ) {
 
 			my.XLS.writeCell(row,rowResult,'WARNING',CSF.cellStyle_WARNING)
 			CSF.cellStyle_RESULT_CDT=CSF.cellStyle_WARNING
-			this.totalWARNING++
+			totalWARNING++
 
 		}else {
 
 			my.XLS.writeCell(row,rowResult,'PASS',CSF.cellStyle_PASS)
 			CSF.cellStyle_RESULT_CDT=CSF.cellStyle_PASS
 			collapse = true
-			this.totalPASS++
+			totalPASS++
 		}
 
 		my.XLS.writeCell(row,0,start.format('yyyy-MM-dd HH:mm:ss.SSS'),CSF.cellStyle_RESULT_CDT)
-		my.XLS.writeCell(row,1, GlobalVariable.CASDETESTENCOURS + ' : ' + MYTCFILES.getTCNameTitle(),CSF.cellStyle_RESULT_CDT)
+		my.XLS.writeCell(row,1, cdt,CSF.cellStyle_RESULT_CDT)
 
 		int total = status.PASS + status.WARNING + status.FAIL + status.ERROR
 
-		this.totalStepPASS 		+= status.PASS
-		this.totalStepWARNING 	+= status.WARNING
-		this.totalStepFAIL 		+= status.FAIL
-		this.totalStepERROR 	+= status.ERROR
+		totalStepPASS 		+= status.PASS
+		totalStepWARNING 	+= status.WARNING
+		totalStepFAIL 		+= status.FAIL
+		totalStepERROR 	+= status.ERROR
 
 		my.XLS.writeCell(row,3,total,CSF.cellStyle_RESULT_STEPNBR)
 
@@ -271,16 +267,13 @@ public class ResultGenerator {
 		my.XLS.writeCell(row,9,stop,CSF.cellStyle_time)
 		my.XLS.writeCell(row,10,my.Tools.getDuration(start, stop),CSF.cellStyle_duration)
 
+		shRESULT.setRowSumsBelow(false)
+		shRESULT.groupRow(lineNumberSTART+1, nextLineNumber-1)
+		shRESULT.setRowGroupCollapsed(lineNumberSTART+1, collapse)
 
-		this.shRESULT.setRowSumsBelow(false)
-		this.shRESULT.groupRow(this.lineNumberSTART+1, this.nextLineNumber-1)
-		this.shRESULT.setRowGroupCollapsed(this.lineNumberSTART+1, collapse)
+		write()
 
-
-		this.write()
-
-		this.lineNumberSTART=nextLineNumber
-
+		lineNumberSTART=nextLineNumber
 	}
 
 
@@ -290,11 +283,11 @@ public class ResultGenerator {
 	public static addBrowserInfo(String browser, String version) {
 
 		if (resulFileName) {
-			this.browserName = browser
-			my.XLS.writeCell(this.shRESUM.getRow(11),1,browser)
-			my.XLS.writeCell(this.shRESUM.getRow(12),1,version)
+			browserName = browser
+			my.XLS.writeCell(shRESUM.getRow(11),1,browser)
+			my.XLS.writeCell(shRESUM.getRow(12),1,version)
 
-			this.write()
+			write()
 		}
 	}
 
@@ -304,26 +297,26 @@ public class ResultGenerator {
 
 	public static addStartInfo(String text) {
 
-		if (!this.resulFileName) this.openResultFile()
+		if (!resulFileName) openResultFile()
 
 
-		my.XLS.writeCell(this.shRESUM.getRow(1),3,text)
+		my.XLS.writeCell(shRESUM.getRow(1),3,text)
 
-		this.startDateTNR = new Date()
+		startDateTNR = new Date()
 
-		my.XLS.writeCell(this.shRESUM.getRow(1),1,this.startDateTNR,CSF.cellStyle_date)
-		my.XLS.writeCell(this.shRESUM.getRow(3),1,this.startDateTNR,CSF.cellStyle_time)
+		my.XLS.writeCell(shRESUM.getRow(1),1,startDateTNR,CSF.cellStyle_date)
+		my.XLS.writeCell(shRESUM.getRow(3),1,startDateTNR,CSF.cellStyle_time)
 
 
-		my.XLS.writeCell(this.shRESUM.getRow(8),1,System.getProperty("os.name"))
-		my.XLS.writeCell(this.shRESUM.getRow(9),1,System.getProperty("os.version"))
-		my.XLS.writeCell(this.shRESUM.getRow(10),1,System.getProperty("os.arch"))
+		my.XLS.writeCell(shRESUM.getRow(8),1,System.getProperty("os.name"))
+		my.XLS.writeCell(shRESUM.getRow(9),1,System.getProperty("os.version"))
+		my.XLS.writeCell(shRESUM.getRow(10),1,System.getProperty("os.arch"))
 
-		this.maintaVersion = my.SQL.getMaintaVersion()
-		my.XLS.writeCell(this.shRESUM.getRow(13),1,this.maintaVersion)
-		my.XLS.writeCell(this.shRESUM.getRow(14),1,GlobalVariable.BDD_URL)
+		maintaVersion = my.SQL.getMaintaVersion()
+		my.XLS.writeCell(shRESUM.getRow(13),1,maintaVersion)
+		my.XLS.writeCell(shRESUM.getRow(14),1,GlobalVariable.BDD_URL)
 
-		this.write()
+		write()
 	}
 
 
@@ -334,34 +327,34 @@ public class ResultGenerator {
 
 		Date endDate = new Date()
 
-		my.XLS.writeCell(this.shRESUM.getRow(4),1,endDate,CSF.cellStyle_time)
+		my.XLS.writeCell(shRESUM.getRow(4),1,endDate,CSF.cellStyle_time)
 
-		my.XLS.writeCell(this.shRESUM.getRow(5),1,my.Tools.getDuration(this.startDateTNR, endDate),CSF.cellStyle_duration)
+		my.XLS.writeCell(shRESUM.getRow(5),1,my.Tools.getDuration(startDateTNR, endDate),CSF.cellStyle_duration)
 
-		Row row = this.shRESUM.getRow(17)
+		Row row = shRESUM.getRow(17)
 
-		my.XLS.writeCell(row,1,this.totalPASS + this.totalWARNING + this.totalFAIL + this.totalERROR,CSF.cellStyle_TOT)
-		my.XLS.writeCell(row,2,this.totalPASS,CSF.cellStyle_PASSTOT)
-		my.XLS.writeCell(row,3,this.totalWARNING,CSF.cellStyle_WARNINGTOT)
-		my.XLS.writeCell(row,4,this.totalFAIL,CSF.cellStyle_FAILTOT)
-		my.XLS.writeCell(row,5,this.totalERROR,CSF.cellStyle_ERRORTOT)
+		my.XLS.writeCell(row,1,totalPASS + totalWARNING + totalFAIL + totalERROR,CSF.cellStyle_TOT)
+		my.XLS.writeCell(row,2,totalPASS,CSF.cellStyle_PASSTOT)
+		my.XLS.writeCell(row,3,totalWARNING,CSF.cellStyle_WARNINGTOT)
+		my.XLS.writeCell(row,4,totalFAIL,CSF.cellStyle_FAILTOT)
+		my.XLS.writeCell(row,5,totalERROR,CSF.cellStyle_ERRORTOT)
 
-		row = this.shRESUM.getRow(18)
+		row = shRESUM.getRow(18)
 
-		my.XLS.writeCell(row,1,this.totalStepPASS + this.totalStepWARNING + this.totalStepFAIL + this.totalStepERROR,CSF.cellStyle_STEPTOT)
-		my.XLS.writeCell(row,2,this.totalStepPASS,CSF.cellStyle_STEPTOT)
-		my.XLS.writeCell(row,3,this.totalStepWARNING,CSF.cellStyle_STEPTOT)
-		my.XLS.writeCell(row,4,this.totalStepFAIL,CSF.cellStyle_STEPTOT)
-		my.XLS.writeCell(row,5,this.totalStepERROR,CSF.cellStyle_STEPTOT)
+		my.XLS.writeCell(row,1,totalStepPASS + totalStepWARNING + totalStepFAIL + totalStepERROR,CSF.cellStyle_STEPTOT)
+		my.XLS.writeCell(row,2,totalStepPASS,CSF.cellStyle_STEPTOT)
+		my.XLS.writeCell(row,3,totalStepWARNING,CSF.cellStyle_STEPTOT)
+		my.XLS.writeCell(row,4,totalStepFAIL,CSF.cellStyle_STEPTOT)
+		my.XLS.writeCell(row,5,totalStepERROR,CSF.cellStyle_STEPTOT)
 
-		this.write()
+		write()
 	}
 
 
 
 	private static String createFileByCopy() {
 
-		Path source = Paths.get(my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + this.RES_MODELFILENAME)
+		Path source = Paths.get(my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + RES_MODELFILENAME)
 
 		String dateFile = new Date().format("yyyyMMdd_HHmmss")
 
@@ -369,9 +362,9 @@ public class ResultGenerator {
 
 		TOOLS.createFolderIfNotExist(path)
 
-		this.resulFileName = path + File.separator + dateFile + this.RES_FILENAME
+		resulFileName = path + File.separator + dateFile + RES_FILENAME
 
-		Path target = Paths.get(this.resulFileName)
+		Path target = Paths.get(resulFileName)
 
 		Files.copy(source, target)
 
@@ -383,22 +376,22 @@ public class ResultGenerator {
 
 	private static openResultFile() {
 
-		this.createFileByCopy()
+		createFileByCopy()
 
-		this.book = my.XLS.open(this.resulFileName)
+		book = my.XLS.open(resulFileName)
 
-		this.shRESUM = book.getSheet(this.RES_RESUMESHEETNAME)
-		this.shRESULT = book.getSheet(this.RES_RESULTSHEETNAME)
+		shRESUM = book.getSheet(RES_RESUMESHEETNAME)
+		shRESULT = book.getSheet(RES_RESULTSHEETNAME)
 
-		CSF  = new CELLStyleFactory(this.book)
+		CSF  = new CELLStyleFactory(book)
 	}
 
 
 
 	private static write(){
 
-		OutputStream fileOut = new FileOutputStream(this.resulFileName)
-		this.book.write(fileOut);
+		OutputStream fileOut = new FileOutputStream(resulFileName)
+		book.write(fileOut);
 	}
 
 
@@ -406,11 +399,11 @@ public class ResultGenerator {
 
 	private static close(){
 
-		if (this.resulFileName) {
-			this.book.close()
-			def file = new File(this.resulFileName)
+		if (resulFileName) {
+			book.close()
+			def file = new File(resulFileName)
 			String newName = file.getParent()+ File.separator +file.getName().replace('.xlsx','')
-			newName= newName + '_MSSQL_'+ this.browserName.split(' ')[0] + '_Mainta_' + this.maintaVersion.replace(' ', '_') + '.xlsx'
+			newName= newName + '_MSSQL_'+ browserName.split(' ')[0] + '_Mainta_' + maintaVersion.replace(' ', '_') + '.xlsx'
 			file.renameTo(newName)
 		}
 	}

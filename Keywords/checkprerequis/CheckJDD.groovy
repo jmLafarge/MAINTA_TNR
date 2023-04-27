@@ -2,7 +2,7 @@ package checkprerequis
 
 import org.apache.poi.ss.usermodel.*
 import my.Log as MYLOG
-import my.InfoBDD as INFOBDD
+import my.InfoBDD
 import my.JDD
 import my.JDDFiles as MYJDDFILES
 
@@ -40,11 +40,11 @@ public class CheckJDD {
 
 					if (myJDD.headers.size()>1) {
 
-						this.checkTable()
+						checkTable()
 
-						this.checkLOCATOR()
+						checkLOCATOR()
 
-						this.checkKWInDATA()
+						checkKWInDATA()
 					}else {
 						MYLOG.addDETAILWARNING("Pas de colonnes dans le JDD ! ")
 					}
@@ -69,10 +69,10 @@ public class CheckJDD {
 		if (table=='') {
 			MYLOG.addDEBUGDETAIL("Pas de table DB dans le JDD ",0)
 		}else {
-			if (INFOBDD.isTableExist(table)) {
+			if (InfoBDD.isTableExist(table)) {
 				MYLOG.addDEBUGDETAIL("Contrôle de la table DB '$table'",0)
 
-				this.checkColumn()
+				checkColumn()
 				CheckTypeInDATA.run(myJDD.datas, myJDD, table)
 			}else {
 				MYLOG.addDETAILFAIL("Contrôle de la table DB KO, la table '$table' n'existe pas !")
@@ -87,13 +87,13 @@ public class CheckJDD {
 	private static checkColumn() {
 
 		MYLOG.addDEBUGDETAIL("Contrôle des colonnes (Présence, ordre)",0)
-		//INFOBDD.colnameMap[table].eachWithIndex{col,index ->
-		INFOBDD.map[table].each{col,vlist ->
+		//InfoBDD.colnameMap[table].eachWithIndex{col,index ->
+		InfoBDD.map[table].each{col,vlist ->
 
 			if (col == myJDD.headers[(int)vlist[0]]) {
 				MYLOG.addDEBUG("'$col' OK")
 
-				//INFOBDD.updateParaInfoBDD(myJDD, col,fullName, modObj+'.'+sheet.getSheetName())
+				//InfoBDD.updateParaInfoBDD(myJDD, col,fullName, modObj+'.'+sheet.getSheetName())
 
 			}else if (col in myJDD.headers) {
 				MYLOG.addDETAILFAIL("'$col' est dans le JDD mais pas à la bonne place")

@@ -8,23 +8,37 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
 import my.Log as MYLOG
-import my.result.ResultGenerator as MYRESULT
 import my.Sequencer
+import my.result.ResultGenerator as MYRES
+import my.InfoBDD
+import my.NAV
+import my.Tools
+import my.TCFiles
+import my.JDDFiles
 
+if (InfoBDD.map.isEmpty()) { InfoBDD.load() }
+if (TCFiles.TCfileMap.isEmpty()) { TCFiles.load() }
+if (JDDFiles.JDDfilemap.isEmpty()) { JDDFiles.load() }
+if (Sequencer.testCasesList.isEmpty()) { Sequencer.load() }
 
+MYLOG.addTITLE("Lancement de TNR SEQUENCER")
 
+MYRES.addStartInfo('TNR SEQUENCEUR')
 
+Tools.addInfoContext()
+
+if (NAV.myGlobalJDD == null) { NAV.loadJDDGLOBAL() }
 
 Sequencer.testCasesList.each { TCMap ->
 	
-	GlobalVariable.CASDETESTENCOURS =TCMap.TCNAME
 	
+	GlobalVariable.CASDETESTPATTERN = TCMap.CDTPATTERN
+			
 	for(int i = 1 ; i <= TCMap.REP ;i++) {
-		
-		MYLOG.addStartTestCase()
+
 
 		try {
-			WebUI.callTestCase(findTestCase(TCMap.TCFULLNAME), [:], FailureHandling.STOP_ON_FAILURE)
+			WebUI.callTestCase(findTestCase(TCMap.TCFULLNAME), ['MYNAME':'JML'], FailureHandling.STOP_ON_FAILURE)
 
 		} catch (StepErrorException  ex) {
 			MYLOG.addSTEPERROR("Erreur d'exécution du TestCase")
@@ -39,11 +53,15 @@ Sequencer.testCasesList.each { TCMap ->
 			MYLOG.addSTEPERROR("KatalonRuntimeException")
 			MYLOG.addDETAIL(ke.getMessage())
 		}
-
 		
+		// pour être sur en cas d'erreur du try/catch
 		MYLOG.addEndTestCase()
+
 	}	
 }
 
+MYRES.addEndInfo()
+MYLOG.addINFO('')
+MYLOG.addINFO('************  FIN  du test : TNR SEQUENCER ************')
 
-MYRESULT.addEndInfo()
+MYRES.close()

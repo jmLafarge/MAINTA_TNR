@@ -5,13 +5,16 @@ import com.kms.katalon.core.webui.keyword.internal.WebUIAbstractKeyword
 import internal.GlobalVariable
 import my.KW
 import my.Log as MYLOG
-
+import my.JDD
 
 'Lecture du JDD'
-def myJDD = new my.JDD()
+def myJDD = new JDD()
 
-'Si il y a un test case'
-if (myJDD.getNbrLigneCasDeTest() > 0) {
+for (String cdt in myJDD.CDTList) {
+	
+	myJDD.setCasDeTest(cdt)
+		
+	MYLOG.addStartTestCase(cdt)
 	
 	if (KW.isElementPresent(myJDD,'frame_Main', GlobalVariable.TIMEOUT)) {
 		
@@ -45,6 +48,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 	}
 	
 	KW.closeBrowser()
+	MYLOG.addEndTestCase()
 
 }
 

@@ -1,8 +1,20 @@
 package my
 
-import org.apache.poi.ss.usermodel.*
+//import org.apache.poi.ss.usermodel.hy
+
+import org.apache.poi.ss.usermodel.Hyperlink
+import org.apache.poi.ss.usermodel.Cell
+import org.apache.poi.ss.usermodel.CellStyle
+import org.apache.poi.ss.usermodel.CreationHelper
+import org.apache.poi.ss.usermodel.DateUtil
+import org.apache.poi.ss.usermodel.FormulaEvaluator
+import org.apache.poi.ss.usermodel.Row
+import org.apache.poi.ss.usermodel.Sheet
+import org.apache.poi.ss.usermodel.Workbook
+
+
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
-//import org.apache.poi.common.usermodel.HyperlinkType
+
 import my.Log as MYLOG
 
 
@@ -14,6 +26,8 @@ public class XLS {
 
 
 	static XSSFWorkbook open(String fullname) {
+		
+		if (!fullname) MYLOG.addERROR("my.XLS.open() fullname = '$fullname'") 
 
 		File sourceExcel = new File(fullname)
 		def fxls = new FileInputStream(sourceExcel)
@@ -135,7 +149,7 @@ public class XLS {
 					CreationHelper crateHelper = wb.getCreationHelper()
 					FormulaEvaluator evaluator = crateHelper.createFormulaEvaluator()
 				// get recursively if the value is still formula
-					CellData = this.getCellValue(evaluator.evaluateInCell(cell))
+					CellData = getCellValue(evaluator.evaluateInCell(cell))
 					break;
 
 				case Cell.CELL_TYPE_BLANK: // 3
@@ -162,7 +176,7 @@ public class XLS {
 	static int getColumnIndexOfColumnName(Sheet sheet, String columnName, int numRow = 0) {
 
 		for (Cell cell : sheet.getRow(numRow)) {
-			if (this.getCellValue(cell) == columnName) {
+			if (getCellValue(cell) == columnName) {
 				return cell.getColumnIndex()
 			}
 		}
@@ -176,7 +190,7 @@ public class XLS {
 		int lastCellNum = sheet.getRow(numRow).getLastCellNum()
 		for (int i : (0..lastCellNum)) {
 			Cell cell = sheet.getRow(numRow).getCell(i)
-			if (!this.getCellValue(cell)) {
+			if (!getCellValue(cell)) {
 				return i
 			}
 		}
@@ -203,7 +217,7 @@ public class XLS {
 			if (row==null) {
 				num=numLine
 				break
-			}else if (this.getCellValue(row.getCell(col))==''){
+			}else if (getCellValue(row.getCell(col))==''){
 				num=numLine
 				break
 			}
@@ -232,7 +246,7 @@ public class XLS {
 
 	static Row getNextRow(Sheet sheet, int col=0) {
 
-		return this.getNewRow(sheet, this.getRowNumOfFirstCellFree(sheet,col))
+		return getNewRow(sheet, getRowNumOfFirstCellFree(sheet,col))
 	}
 
 

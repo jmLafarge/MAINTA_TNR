@@ -36,23 +36,23 @@ public class InfoBDD {
 
 	public static load() {
 
-		this.fileName = my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('INFOBDDFILENAME')
-		MYLOG.addSubTITLE("Chargement de : " + this.fileName,'-',120,1)
+		fileName = my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('INFOBDDFILENAME')
+		MYLOG.addSubTITLE("Chargement de : " + fileName,'-',120,1)
 
-		this.book = MYXLS.open(this.fileName)
+		book = MYXLS.open(fileName)
 
-		Sheet sheet = this.book.getSheet('INFO')
+		Sheet sheet = book.getSheet('INFO')
 
 		Iterator<Row> rowIt = sheet.rowIterator()
 		Row row = rowIt.next()
 		List headers = MYXLS.loadRow(row)
 
 		MYLOG.addINFO('Contrôle entête fichier',1)
-		if (headers!=this.HEADERS) {
-			MYLOG.addERROR(this.fileName + ' Entête fichier différente de celle attendue :')
-			MYLOG.addDETAIL('Entête attendue : ' + this.HEADERS.join(' - '))
+		if (headers!=HEADERS) {
+			MYLOG.addERROR(fileName + ' Entête fichier différente de celle attendue :')
+			MYLOG.addDETAIL('Entête attendue : ' + HEADERS.join(' - '))
 			MYLOG.addDETAIL('Entête lue      : ' + headers.join(' - '))
-			KeywordUtil.markErrorAndStop("Entête fichier ${this.fileName} différente de celle attendue")
+			KeywordUtil.markErrorAndStop("Entête fichier ${fileName} différente de celle attendue")
 		}
 
 		while(rowIt.hasNext()) {
@@ -60,11 +60,11 @@ public class InfoBDD {
 			if (MYXLS.getCellValue(row.getCell(0))=='') {
 				break
 			}
-			List listxls = MYXLS.loadRow(row,this.HEADERS.size())
-			if (!this.map[listxls[0]]) {
-				this.map[listxls[0]] = [:]
+			List listxls = MYXLS.loadRow(row,HEADERS.size())
+			if (!map[listxls[0]]) {
+				map[listxls[0]] = [:]
 			}
-			this.map[listxls[0]][listxls[1]] = listxls.subList(2, 8)
+			map[listxls[0]][listxls[1]] = listxls.subList(2, 8)
 		}
 
 	}
@@ -75,40 +75,44 @@ public class InfoBDD {
 
 	public static List getPK(String table) {
 		List list=[]
-		this.map[table].each { k, li ->
+		map[table].each { k, li ->
 			if (li[5]!='NULL') list.add(k)
 		}
 		return list
 	}
 
 
+	public static boolean isPK(String table, String name) {
+
+		return map[table][name][5]!='NULL'
+	}
 
 
 	public static boolean isTableExist(String table) {
-		return this.map.containsKey(table)
+		return map.containsKey(table)
 	}
 
 
 
 
 	public static String getDATA_TYPE(String table, String name) {
-		return this.map[table][name][2]
+		return map[table][name][2]
 	}
 
 
 
 	public static def getDATA_MAXCHAR(String table, String name) {
-		return this.map[table][name][3]
+		return map[table][name][3]
 	}
 
 
 
 	public static boolean isNumeric(String table, String name) {
-		return this.map[table][name][2]==this.getNumeric()
+		return map[table][name][2]==getNumeric()
 	}
 
 	public static boolean isImage(String table, String name) {
-		return this.map[table][name][2]==this.getImage()
+		return map[table][name][2]==getImage()
 	}
 
 	public static String getNumeric() {
@@ -127,12 +131,12 @@ public class InfoBDD {
 	}
 
 	public static castJDDVal(String table, String name, def val) {
-		switch (this.getDATA_TYPE( table, name)) {
-			case this.getVarchar():
+		switch (getDATA_TYPE( table, name)) {
+			case getVarchar():
 				return val.toString()
 				break
 			/*
-			 case this.getImage():
+			 case getImage():
 			 def texte = new DefaultStyledDocument()
 			 def editorKit = new RTFEditorKit()
 			 editorKit.read(new StringReader(val), texte, 0)
@@ -146,7 +150,7 @@ public class InfoBDD {
 
 
 	public static inTable(String table, String name) {
-		return this.map[table].containsKey(name)
+		return map[table].containsKey(name)
 	}
 
 

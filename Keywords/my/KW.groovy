@@ -7,7 +7,8 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
 import my.Log as MYLOG
-import my.result.ResultGenerator as MYRESULT
+import my.result.ResultGenerator as MYRES
+import my.JDDKW as JDDKW
 
 
 /**
@@ -42,8 +43,8 @@ class KW {
 			MYLOG.addDETAIL("URL : $url")
 			MYLOG.addDETAIL("Nom du navigateur : " + browser.NAME)
 			MYLOG.addDETAIL("Version du navigateur : " + browser.VERSION)
-			this.waitForPageLoad()
-			MYRESULT.addBrowserInfo(browser.NAME,browser.VERSION)
+			waitForPageLoad()
+			MYRES.addBrowserInfo(browser.NAME,browser.VERSION)
 		} catch (Exception ex) {
 			MYLOG.addSTEPERROR("Ouverture du navigateur à l'URL :")
 			MYLOG.addDETAIL("URL : $url")
@@ -58,7 +59,7 @@ class KW {
 	static navigateToUrl(String url,String nomUrl){
 		try {
 			WebUI.navigateToUrl(url, FailureHandling.STOP_ON_FAILURE)
-			this.waitForPageLoad()
+			waitForPageLoad()
 			MYLOG.addSTEPPASS("Navigation vers l'URL '$nomUrl' :")
 			MYLOG.addDETAIL("URL : $url")
 		} catch (Exception ex) {
@@ -401,13 +402,17 @@ class KW {
 			try {
 				if (WebUI.waitForElementVisible(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)) {
 					MYLOG.addSTEPPASS("Vérifier que l'élément '${tObj.getObjectId()}' soit visible")
+					return true
 				}else {
-					MYLOG.addSTEP("Vérifier que l'élément '${tObj.getObjectId()}' soit visible KO après $timeOut seconde(s)", status)
+					MYLOG.addSTEP("Vérifier que l'élément '${tObj.getObjectId()}' soit visible", status)
+					MYLOG.addDETAIL("KO après $timeOut seconde(s)")
+					return false
 				}
 				//WebUI.verifyElementInViewport(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
 			} catch (Exception ex) {
 				MYLOG.addSTEP("Vérifier que l'élément '${tObj.getObjectId()}' soit visible", status)
 				MYLOG.addDETAIL(ex.getMessage())
+				return false
 			}
 		}else {
 			MYLOG.addSTEPERROR("Vérifier que l'élément '$name' soit visible impossible")
@@ -424,18 +429,22 @@ class KW {
 		def (TestObject tObj, String msgTO) = myJDD.makeTO(name)
 		if (tObj) {
 			if (text==null) text = myJDD.getStrData(name)
-			def val = WebUI.getAttribute(tObj, 'value')
-			MYLOG.addDEBUG('val.getClass() : ' + val.getClass() + '   ' + val)
-			if (val==null) {
-				MYLOG.addSTEPERROR("Vérifier que la valeur de '" + name + "', soit '$text'")
-				MYLOG.addDETAIL("L'attribut 'value' n'existe pas !")
-			}else if (val==text) {
-				MYLOG.addSTEPPASS("Vérifier que la valeur de '" + name + "', soit '$text'")
-			}else if (text==my.JDDKW.getKW_NULL() && val=='') {
-				MYLOG.addSTEPPASS("Vérifier que la valeur de '" + name + "', soit Null ou Vide")
+			if (JDDKW.isNU(text)) {
+				MYLOG.addSTEP("Pas de vérification pour $name, valeur du JDD = NU")
 			}else {
-				MYLOG.addSTEP("Vérifier que la valeur de '" + name + "', soit '$text'",status)
-				MYLOG.addDETAIL("La valeur du champ est '" + WebUI.getAttribute(tObj, 'value') + "' !")
+				def val = WebUI.getAttribute(tObj, 'value')
+				MYLOG.addDEBUG('val.getClass() : ' + val.getClass() + '   ' + val)
+				if (val==null) {
+					MYLOG.addSTEPERROR("Vérifier que la valeur de '" + name + "', soit '$text'")
+					MYLOG.addDETAIL("L'attribut 'value' n'existe pas !")
+				}else if (val==text) {
+					MYLOG.addSTEPPASS("Vérifier que la valeur de '" + name + "', soit '$text'")
+				}else if (text==my.JDDKW.getKW_NULL() && val=='') {
+					MYLOG.addSTEPPASS("Vérifier que la valeur de '" + name + "', soit Null ou Vide")
+				}else {
+					MYLOG.addSTEP("Vérifier que la valeur de '" + name + "', soit '$text'",status)
+					MYLOG.addDETAIL("La valeur du champ est '" + WebUI.getAttribute(tObj, 'value') + "' !")
+				}
 			}
 		}else {
 			MYLOG.addSTEPERROR("Vérifier que la valeur de '$name' = '$text'  impossible")
@@ -481,10 +490,10 @@ class KW {
 
 
 	static scrollAndClick(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		this.scrollToElement(myJDD, name, timeOut,status)
-		this.delay(1)
-		this.waitForElementVisible(myJDD, name, timeOut,status)
-		this.click(myJDD, name,status)
+		scrollToElement(myJDD, name, timeOut,status)
+		delay(1)
+		waitForElementVisible(myJDD, name, timeOut,status)
+		click(myJDD, name,status)
 	} // end of def
 
 
@@ -493,10 +502,10 @@ class KW {
 
 
 	static scrollAndDoubleClick(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		this.scrollToElement(myJDD, name, timeOut,status)
-		this.delay(1)
-		this.waitForElementVisible(myJDD, name, timeOut,status)
-		this.doubleClick(myJDD, name,status)
+		scrollToElement(myJDD, name, timeOut,status)
+		delay(1)
+		waitForElementVisible(myJDD, name, timeOut,status)
+		doubleClick(myJDD, name,status)
 	} // end of def
 
 
@@ -508,8 +517,8 @@ class KW {
 		def (TestObject tObj, String msgTO) = myJDD.makeTO(name)
 		if (tObj) {
 			if (text==null) text = myJDD.getStrData(name)
-			this.scrollToElement(myJDD, name, timeOut,status)
-			this.waitForElementVisible(myJDD, name, timeOut,status)
+			scrollToElement(myJDD, name, timeOut,status)
+			waitForElementVisible(myJDD, name, timeOut,status)
 			try {
 				WebUI.selectOptionByValue(tObj, text, isRegex,FailureHandling.STOP_ON_FAILURE)
 				MYLOG.addSTEPPASS("Scroll et select option '$text' sur '" + tObj.getObjectId() + "'")
@@ -533,20 +542,27 @@ class KW {
 		if (text==null) text = myJDD.getStrData(name)
 		if (text != my.JDDKW.getKW_NULL()) {
 			if (text == my.JDDKW.getKW_VIDE()) text=''
-			this.scrollToElement(myJDD, name, timeOut, status)
-			this.waitForElementVisible(myJDD, name, timeOut, status)
-			this.setText(myJDD, name, text, status)
+			scrollToElement(myJDD, name, timeOut, status)
+			waitForElementVisible(myJDD, name, timeOut, status)
+			setText(myJDD, name, text, status)
 		}
 	} // end of def
 
 
 
-
+	static scrollAndSetDate(JDD myJDD, String name, def val=null,  String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		if (val==null) val = myJDD.getData(name)
+		if (val != my.JDDKW.getKW_NULL()) {
+			scrollToElement(myJDD, name, timeOut, status)
+			waitForElementVisible(myJDD, name, timeOut, status)
+			setDate(myJDD, name, val, dateFormat, timeOut,status)
+		}
+	} // end of def
 
 
 	static boolean waitAndAcceptAlert(int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		if (this.waitForAlert(timeOut, status)) {
-			return this.acceptAlert(status)
+		if (waitForAlert(timeOut, status)) {
+			return acceptAlert(status)
 		}else {
 			return false
 		}
@@ -559,7 +575,7 @@ class KW {
 	static setDate(JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		if (val==null) val = myJDD.getData(name)
 		if ( val instanceof Date) {
-			this.setText(myJDD, name, val.format(dateFormat), status)
+			setText(myJDD, name, val.format(dateFormat), status)
 		}else {
 			MYLOG.addSTEPERROR("Saisie du texte '${val.toString()}' sur '$name'")
 			MYLOG.addDETAIL("Erreur de JDD de '$name', la valeur '${val.toString()}' n'est pas une date ! getClass = " + val.getClass())
@@ -609,8 +625,8 @@ class KW {
 	static scrollWaitAndVerifyElementText(JDD myJDD, String name, String text=null, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 
 		if (text==null) text = myJDD.getStrData(name)
-		this.scrollToElement(myJDD, name, timeOut, status)
-		this.waitAndVerifyElementText(myJDD, name, text,timeOut, status)
+		scrollToElement(myJDD, name, timeOut, status)
+		waitAndVerifyElementText(myJDD, name, text,timeOut, status)
 
 	} // end of def
 
@@ -620,8 +636,12 @@ class KW {
 	static boolean waitAndVerifyElementText(JDD myJDD, String name, String text=null, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL')  {
 
 		if (text==null) text = myJDD.getStrData(name)
-		this.waitForElementVisible(myJDD, name, timeOut, status)
-		return this.verifyElementText(myJDD, name, text, status)
+		if (waitForElementVisible(myJDD, name, timeOut, status)) {
+			return verifyElementText(myJDD, name, text, status)
+		}else {
+			return false
+		}
+
 	} // end of def
 
 
@@ -636,8 +656,8 @@ class KW {
 			if (tObjLbl) {
 				boolean cond = myJDD.getStrData(name)==textTrue
 
-				this.scrollToElement(myJDD, name,timeOut,status)
-				this.waitForElementVisible(myJDD, name, timeOut,status)
+				scrollToElement(myJDD, name,timeOut,status)
+				waitForElementVisible(myJDD, name, timeOut,status)
 				if (cond) {
 					if (WebUI.verifyElementChecked(tObj,timeOut, FailureHandling.OPTIONAL)) {
 						MYLOG.addSTEPPASS("Cocher la case à cocher '" + name + "'")
@@ -685,8 +705,8 @@ class KW {
 		if (tObj) {
 			boolean cond = myJDD.getStrData(name)==textTrue
 
-			this.scrollToElement(myJDD, name,timeOut,status)
-			this.waitForElementVisible(myJDD, name, timeOut,status)
+			scrollToElement(myJDD, name,timeOut,status)
+			waitForElementVisible(myJDD, name, timeOut,status)
 			if (cond) {
 				if (WebUI.verifyElementChecked(tObj,timeOut, FailureHandling.OPTIONAL)) {
 					MYLOG.addSTEPPASS("Vérifier que '${tObj.getObjectId()}'soit coché")
@@ -736,7 +756,7 @@ class KW {
 
 
 	static verifyCheckBoxImgChecked(JDD myJDD, String name, String status = 'FAIL')  {
-		def etat = this.getCheckBoxImgStatus(myJDD, name)
+		def etat = getCheckBoxImgStatus(myJDD, name)
 		if (etat ==null) {
 			// l'erreur est déjà remontée par getCheckBoxImgStatus
 		}else if (etat) {
@@ -752,7 +772,7 @@ class KW {
 
 
 	static verifyCheckBoxImgNotChecked(JDD myJDD, String name, String status = 'FAIL')  {
-		def etat = this.getCheckBoxImgStatus(myJDD, name)
+		def etat = getCheckBoxImgStatus(myJDD, name)
 		if (etat ==null) {
 			// l'erreur est déjà remontée par getCheckBoxImgStatus
 		}else if (!etat) {
@@ -769,9 +789,9 @@ class KW {
 	static verifyImgCheckedOrNot(JDD myJDD, String name, String textTrue, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		boolean cond = myJDD.getStrData(name)==textTrue
 		if (cond) {
-			this.verifyCheckBoxImgChecked(myJDD, name, status)
+			verifyCheckBoxImgChecked(myJDD, name, status)
 		}else {
-			this.verifyCheckBoxImgNotChecked(myJDD, name, status)
+			verifyCheckBoxImgNotChecked(myJDD, name, status)
 		}
 	}
 
@@ -781,7 +801,7 @@ class KW {
 
 	static verifyImg(JDD myJDD, String name, boolean cond, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		if (cond) {
-			this.verifyElementPresent(myJDD, name, timeOut, status)
+			verifyElementPresent(myJDD, name, timeOut, status)
 		}
 	}
 
@@ -791,37 +811,44 @@ class KW {
 
 	static searchWithHelper(JDD myJDD, String name , String btnXpath = '' , String inputSearchName = '' ){
 
-		MYLOG.addSUBSTEP("Saisie de $name en utilisant l'assistant de recherche")
-
 		String val = myJDD.getStrData(name)
 
-		if (btnXpath=='') {
-			btnXpath = "//a[@id='Btn$name']/i"
+		if (JDDKW.isNULL(val) || JDDKW.isNU(val)) {
+
+			MYLOG.addSTEP("Pas de recherche pour $name, valeur du JDD = $val")
+
+		}else {
+
+			MYLOG.addSUBSTEP("Saisie de $name en utilisant l'assistant de recherche")
+
+			if (btnXpath=='') {
+				btnXpath = "//a[@id='Btn$name']/i"
+			}
+
+			if (inputSearchName=='') inputSearchName = "SEARCH_$name"
+
+
+
+			String inputXpath 	= "//input[@name='$inputSearchName']"
+			String tdXpath 		= "//div[@id='v-dbtdhtmlx1']/table/tbody//td[3][text()='$val']"
+
+			myJDD.xpathTO.put('btnSearch', btnXpath)
+			myJDD.xpathTO.put('inputSearch', inputXpath)
+			myJDD.xpathTO.put('tdSearch', tdXpath)
+
+			scrollAndClick(myJDD,'btnSearch')
+
+			WebUI.switchToWindowIndex('1')
+
+			setText(myJDD,'inputSearch', myJDD.getStrData(name))
+
+			'mise à jour dynamique du xpath'
+			scrollWaitAndVerifyElementText(myJDD,'tdSearch', myJDD.getStrData(name))
+
+			click(myJDD,'tdSearch')
+
+			WebUI.switchToWindowIndex('0')
 		}
-
-		if (inputSearchName=='') inputSearchName = "SEARCH_$name"
-
-
-
-		String inputXpath 	= "//input[@name='$inputSearchName']"
-		String tdXpath 		= "//div[@id='v-dbtdhtmlx1']/table/tbody//td[3][text()='$val']"
-
-		myJDD.xpathTO.put('btnSearch', btnXpath)
-		myJDD.xpathTO.put('inputSearch', inputXpath)
-		myJDD.xpathTO.put('tdSearch', tdXpath)
-
-		this.scrollAndClick(myJDD,'btnSearch')
-
-		WebUI.switchToWindowIndex('1')
-
-		this.setText(myJDD,'inputSearch', myJDD.getStrData(name))
-
-		'mise à jour dynamique du xpath'
-		this.scrollWaitAndVerifyElementText(myJDD,'tdSearch', myJDD.getStrData(name))
-
-		this.click(myJDD,'tdSearch')
-
-		WebUI.switchToWindowIndex('0')
 
 	}
 

@@ -5,7 +5,7 @@ import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import my.Log as MYLOG
-import my.InfoBDD as INFOBDD
+import my.InfoBDD
 import my.JDD
 import my.XLS as MYXLS
 import my.PREJDDFiles
@@ -58,16 +58,16 @@ public class CheckPREJDD {
 					datas = my.PREJDD.loadDATA(sheet,headersPREJDD.size())
 
 					table = myJDD.getDBTableName()
-					PKList = INFOBDD.getPK(table)
+					PKList = InfoBDD.getPK(table)
 
 					MYLOG.addDEBUG("Onglet : " + sheet.getSheetName(),0)
 
 					if (headersPREJDD.size()>1) {
 
-						this.checkColumn()
-						this.checkKWInDATA()
+						checkColumn()
+						checkKWInDATA()
 						CheckTypeInDATA.run(datas,myJDD, table)
-						this.checkDoublonOnPK()
+						checkDoublonOnPK()
 					}
 				}
 			}
@@ -83,8 +83,8 @@ public class CheckPREJDD {
 
 		MYLOG.addDEBUGDETAIL("Contrôle des colonnes",0)
 
-		//INFOBDD.colnameMap[table].eachWithIndex{col,index ->
-		INFOBDD.map[table].each{col,vlist ->
+		//InfoBDD.colnameMap[table].eachWithIndex{col,index ->
+		InfoBDD.map[table].each{col,vlist ->
 			if (col == headersPREJDD[(int)vlist[0]]) {
 				MYLOG.addDEBUG("'$col' OK")
 			}else if (col in headersPREJDD) {
@@ -121,7 +121,7 @@ public class CheckPREJDD {
 
 		MYLOG.addDEBUGDETAIL("Contrôle absence de doublon sur PRIMARY KEY : " +  PKList.join(' , '),0)
 		Map PKval = [:]
-		this.datas.eachWithIndex { li,numli ->
+		datas.eachWithIndex { li,numli ->
 			List PKnames = []
 			List PKvalues = []
 			li.eachWithIndex { val,i ->

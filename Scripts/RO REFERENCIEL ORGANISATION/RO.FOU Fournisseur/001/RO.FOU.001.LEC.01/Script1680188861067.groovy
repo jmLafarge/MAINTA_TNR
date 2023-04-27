@@ -4,13 +4,18 @@ import internal.GlobalVariable
 import my.KW
 import my.Log as MYLOG
 import my.NAV
+import my.JDD
+import my.JDDFiles
 
 
 'Lecture du JDD'
-def myJDD = new my.JDD()
+def myJDD = new JDD()
 
-'Si il y a un test case'
-if (myJDD.getNbrLigneCasDeTest() > 0) {
+for (String cdt in myJDD.CDTList) {
+	
+	myJDD.setCasDeTest(cdt)
+		
+	MYLOG.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData())
@@ -78,8 +83,8 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		WebUI.scrollToPosition(0, 0)
 		KW.delay(1)
 		
-		KW.verifyElementText(new my.JDD(my.JDDFiles.getFullName('RO.FOU'),'001A',GlobalVariable.CASDETESTENCOURS),"OL_DOC")
+		KW.verifyElementText(new JDD(JDDFiles.getFullName('RO.FOU'),'001A',GlobalVariable.CASDETESTENCOURS),"OL_DOC")
 
-
+	MYLOG.addEndTestCase()
 }
 

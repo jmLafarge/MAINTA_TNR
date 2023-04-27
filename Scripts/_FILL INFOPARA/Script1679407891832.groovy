@@ -4,6 +4,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import my.Log as MYLOG
 import my.InfoPARA
 import my.JDDFiles
+import my.InfoBDD
+
+
+MYLOG.addTITLE("Lancement de FILL INFOPARA")
+if (InfoBDD.map.isEmpty()) { InfoBDD.load() }
+if (JDDFiles.JDDfilemap.isEmpty()) { JDDFiles.load() }
+
 
 MYLOG.addSubTITLE('Renseigner InfoPARA avec le contenu des JDD')
 

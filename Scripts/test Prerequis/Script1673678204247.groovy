@@ -2,13 +2,13 @@ import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import my.Log as MYLOG
 
-my.JDDFiles.load()
+JDDFiles.load()
 
-my.PREJDDFiles.load()
+PREJDDFiles.load()
 
 List list =[]
 
-my.JDDFiles.JDDfilemap.each { modObj,fullName ->
+JDDFiles.JDDfilemap.each { modObj,fullName ->
 	
 	def myJDD = new my.JDD(fullName)
 	
@@ -19,7 +19,7 @@ my.JDDFiles.JDDfilemap.each { modObj,fullName ->
 
 list.eachWithIndex { map,idx ->
 	
-	MYLOG.addDEBUG(idx + ' : ' + my.PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')))
+	MYLOG.addDEBUG(idx + ' : ' + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')))
 	
 	map.each { key,val ->
 		MYLOG.addDEBUG('\t' + key + ' : ' +val)
@@ -34,7 +34,7 @@ list.eachWithIndex { map,idx ->
 
 
 /*
-my.JDDFiles.JDDfilemap.each { modObj,fullName ->
+JDDFiles.JDDfilemap.each { modObj,fullName ->
 	
 	//println modObj + '            ' +fullName
 	

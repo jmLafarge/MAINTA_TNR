@@ -1,6 +1,14 @@
 import internal.GlobalVariable
 import my.PREJDDFiles
 import my.Log as MYLOG
+import my.InfoBDD
+import my.JDDFiles
+
+MYLOG.addTITLE("Lancement de CREATE PREJDD IN DB")
+if (InfoBDD.map.isEmpty()) { InfoBDD.load() }
+if (JDDFiles.JDDfilemap.isEmpty()) { JDDFiles.load() }
+if (PREJDDFiles.PREJDDfilemap.isEmpty()) { PREJDDFiles.load() }
+
 
 MYLOG.addSubTITLE('Création des PREJDD')
 

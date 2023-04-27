@@ -7,10 +7,12 @@ import com.kms.katalon.core.context.TestSuiteContext
 
 import internal.GlobalVariable
 import my.Log as MYLOG
-import my.NAV as NAV
+import my.NAV
 import my.Tools
-import my.result.ResultGenerator as MYRESULT
-import my.InfoBDD as INFOBDD
+import my.result.ResultGenerator as MYRES
+import my.InfoBDD
+import my.TCFiles
+import my.JDDFiles
 
 class TestListener {
 	
@@ -22,16 +24,15 @@ class TestListener {
 	@BeforeTestSuite
 	def beforeTestSuite(TestSuiteContext testSuiteContext) {
 		
-		this.testSuite=true
+		testSuite=true
 
 		MYLOG.addTITLE('Lancement de ' + testSuiteContext.getTestSuiteId())
 
-		if (INFOBDD.map.isEmpty()) { INFOBDD.load() }
-		if (my.TCFiles.TCfileMap.isEmpty()) { my.TCFiles.load() }
-		if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
-		if (my.Sequencer.testCasesList.isEmpty()) { my.Sequencer.load() }
+		if (InfoBDD.map.isEmpty()) { InfoBDD.load() }
+		if (TCFiles.TCfileMap.isEmpty()) { TCFiles.load() }
+		if (JDDFiles.JDDfilemap.isEmpty()) { JDDFiles.load() }
 		
-		MYRESULT.addStartInfo(testSuiteContext.getTestSuiteId())
+		MYRES.addStartInfo(testSuiteContext.getTestSuiteId())
 
 		Tools.addInfoContext()
 		
@@ -48,74 +49,14 @@ class TestListener {
 	@BeforeTestCase
 	def beforeTestCase(TestCaseContext testCaseContext) {
 		
-		GlobalVariable.CASDETESTENCOURS = ''
+		MYLOG.addDEBUG("beforeTestCase : '${testCaseContext.getTestCaseId()}'")
 		
-		MYLOG.addDEBUG("beforeTestCase : '" + testCaseContext.getTestCaseId() + "'")
-		
-		String TCName = testCaseContext.getTestCaseId().split('/')[-1]	
-		
-		MYLOG.addDEBUG("TCName after split('/')[-1] : '" + TCName +"'")
-		
-		
-		if (TCName == '_TNR SEQUENCER') {
-			if (INFOBDD.map.isEmpty()) { INFOBDD.load() }
-			if (my.TCFiles.TCfileMap.isEmpty()) { my.TCFiles.load() }
-			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
-			if (my.Sequencer.testCasesList.isEmpty()) { my.Sequencer.load() }
-			
-			MYLOG.addTITLE("Lancement de $TCName")
-			
-			MYRESULT.addStartInfo('TNR SEQUENCEUR')
-			
-			Tools.addInfoContext()
-			
-			if (NAV.myGlobalJDD == null) { NAV.loadJDDGLOBAL() }
-	
-		}else if (TCName == '__JDD GENERATOR'){
-			
-			MYLOG.addTITLE("Lancement de $TCName")
-			if (INFOBDD.map.isEmpty()) { INFOBDD.load() }
-			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
-			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
-			
-		}else if (TCName == '_CHECK PREREQUIS'){
-			
-			MYLOG.addTITLE("Lancement de $TCName")
-			if (INFOBDD.map.isEmpty()) { INFOBDD.load() }
-			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
-			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
-			
-		}else if (TCName == '_CREATE PREJDD IN DB'){
-			
-			MYLOG.addTITLE("Lancement de $TCName")
-			if (INFOBDD.map.isEmpty()) { INFOBDD.load() }
-			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
-			if (my.PREJDDFiles.PREJDDfilemap.isEmpty()) { my.PREJDDFiles.load() }
-			
-		}else if (TCName == '_FILL INFOPARA'){
-			
-			MYLOG.addTITLE("Lancement de $TCName")
-			if (INFOBDD.map.isEmpty()) { INFOBDD.load() }
-			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
-			
-		}else if (testCaseContext.getTestCaseId().contains('ZZ TEST UNITAIRE')) {
-			
-			MYLOG.addTITLE("Lancement du test $TCName")
-			
-		}else {
-			
-			if (INFOBDD.map.isEmpty()) { INFOBDD.load() }
-			if (my.TCFiles.TCfileMap.isEmpty()) { my.TCFiles.load() }
-			if (my.JDDFiles.JDDfilemap.isEmpty()) { my.JDDFiles.load() }
-			TCName = (TCName.contains(' ')) ? TCName.split(' ')[0] : TCName
-			
-			MYLOG.addDEBUG("TCName after split(' ')[0] : " + TCName)
-
+		if (testSuite) {
+			String TCName = testCaseContext.getTestCaseId().split('/')[-1].split(' ')[0]
+			MYLOG.addDEBUG("TCName : '$TCName'")
 			GlobalVariable.CASDETESTENCOURS = TCName
-			
-			MYLOG.addStartTestCase()
+			GlobalVariable.CASDETESTPATTERN = TCName
 		}
-
 	}
 
 	
@@ -130,16 +71,8 @@ class TestListener {
 	@AfterTestCase
 	def afterTestCase(TestCaseContext testCaseContext) {
 		
-		MYLOG.addDEBUG('afterTestCase : ' + testCaseContext.getTestCaseStatus())
+		MYLOG.addDEBUG('afterTestCase : ' + testCaseContext.getTestCaseId().split('/')[-1] + ' '+testCaseContext.getTestCaseStatus())
 		
-		if (testSuite) {
-			MYLOG.addEndTestCase()
-		}else {
-			MYLOG.addINFO('')
-			MYLOG.addINFO('************  FIN  du test : ' + testCaseContext.getTestCaseId().split('/')[-1] +' ************')
-			
-			MYRESULT.close()
-		}
 	}
 
 	
@@ -154,11 +87,12 @@ class TestListener {
 	@AfterTestSuite
 	def sampleAfterTestSuite(TestSuiteContext testSuiteContext) {
 				
-		MYRESULT.addEndInfo()
+		MYRES.addEndInfo()
 		
 		MYLOG.addINFO('')
 		MYLOG.addINFO('************  FIN  de : ' + testSuiteContext.getTestSuiteId() +' ************')
-		MYRESULT.close()
+		
+		MYRES.close()
 	}
 
 }

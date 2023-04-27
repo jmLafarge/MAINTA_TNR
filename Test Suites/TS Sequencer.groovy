@@ -16,7 +16,7 @@ import internal.GlobalVariable
 @SetUp(skipped = false) // Please change skipped to be false to activate this method.
 def setUp() {
 	// Put your code here.
-	my.JDDFiles.load()
+	JDDFiles.load()
 }
 
 /**
@@ -40,7 +40,7 @@ def setupTestCase() {
 	
 	GlobalVariable.JDDTABNAME = my.Tools.getTabNameFromTCName(TCName)
 	GlobalVariable.CASDETESTPATTERN = TCName
-	GlobalVariable.JDDFULLNAME = my.JDDFiles.getJDDFileFullNameFromModObj(my.Tools.getModObjFromTCName(TCName))
+	GlobalVariable.JDDFULLNAME = JDDFiles.getJDDFileFullNameFromModObj(my.Tools.getModObjFromTCName(TCName))
 	*/
 }
 

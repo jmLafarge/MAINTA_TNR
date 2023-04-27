@@ -24,7 +24,7 @@ class NAV {
 	public static loadJDDGLOBAL() {
 
 		MYLOG.addDEBUG('Load JDD GLOBAL')
-		myGlobalJDD = new my.JDD(my.PropertiesReader.getMyProperty('JDD_PATH') + File.separator + my.PropertiesReader.getMyProperty('JDD_GLOBALFILENAME'),'001',null,false)
+		myGlobalJDD = new my.JDD(my.PropertiesReader.getMyProperty('JDD_PATH') + File.separator + my.PropertiesReader.getMyProperty('JDD_GLOBALFILENAME'),null,null,false)
 		MYLOG.addDEBUG(myGlobalJDD.xpathTO.toString())
 	}
 
@@ -45,7 +45,7 @@ class NAV {
 	 * Vérifier écran Grille / recherche
 	 */
 	public static verifierEcranGrille(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
-		if (fct=='') { fct = this.getFctFromModObj() }
+		if (fct=='') { fct = getFctFromModObj() }
 		String code = "E" + fct
 		WebUI.scrollToPosition(0, 0)
 		KW.delay(1)
@@ -57,22 +57,22 @@ class NAV {
 	/**
 	 * Vérifier écran Résultat
 	 */
-	public static verifierEcranResultat(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
-		//MYLOG.addSTEP("NAV.verifierEcranResultat( fct=$fct)")
-		if (fct=='') { fct = this.getFctFromModObj() }
-		String code = fct
+	public static verifierEcranResultat(String val,String fct='', int timeOut = GlobalVariable.TIMEOUT) {
+		if (!fct) fct = getFctFromModObj()
 		WebUI.scrollToPosition(0, 0)
 		KW.delay(1)
 		KW.click(myGlobalJDD, 'a_Toggle','WARNING')
 		KW.delay(1)
-		KW.waitAndVerifyElementText(myGlobalJDD, 'Fonction_code', code,timeOut,'WARNING')
+		KW.waitAndVerifyElementText(myGlobalJDD, 'Fonction_code', fct,timeOut,'WARNING')
+		KW.waitAndVerifyElementText(myGlobalJDD, 'Resultat_ID', val,timeOut)
+
 	} // end of def
 
 	/**
 	 * Vérifier écran Création
 	 */
 	public static verifierEcranCreation(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
-		if (fct=='') { fct = this.getFctFromModObj() }
+		if (fct=='') { fct = getFctFromModObj() }
 		String code = fct + " - Création"
 		WebUI.scrollToPosition(0, 0)
 		KW.delay(1)
@@ -85,7 +85,7 @@ class NAV {
 	 * Vérifier écran Lecture / modification / suppression
 	 */
 	public static verifierEcranRUD(String id, String fct='' , int timeOut = GlobalVariable.TIMEOUT) {
-		if (fct=='') { fct = this.getFctFromModObj() }
+		if (fct=='') { fct = getFctFromModObj() }
 		String code = fct + " - Consultation ou modification"
 		WebUI.scrollToPosition(0, 0)
 		KW.delay(1)
@@ -134,37 +134,37 @@ class NAV {
 	 * Aller à l'url de Lecture / modification / suppression et vérifier le cartouche
 	 */
 	public static goToURL_RUD_and_checkCartridge(String id, String fct='' , int timeOut = GlobalVariable.TIMEOUT) {
-		if (fct=='') { fct = this.getFctFromModObj() }
+		if (fct=='') { fct = getFctFromModObj() }
 		MYLOG.addDEBUG("NAV.goToURL_RUD_and_checkCartridge(id='$id', fct='$fct')")
-		this.goToURL_RUD(fct, id)
-		this.verifierEcranRUD(id, fct, timeOut)
+		goToURL_RUD(fct, id)
+		verifierEcranRUD(id, fct, timeOut)
 	} // end of def
 
 	/**
 	 * Aller à l'url de Grille / recherche et vérifier le cartouche
 	 */
 	public static goToURL_Grille_and_checkCartridge(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
-		if (fct=='') { fct = this.getFctFromModObj() }
+		if (fct=='') { fct = getFctFromModObj() }
 		MYLOG.addDEBUG("NAV.goToURL_Grille_and_checkCartridge(fct='$fct')")
-		this.goToURL_Grille(fct)
-		this.verifierEcranGrille(fct,timeOut)
+		goToURL_Grille(fct)
+		verifierEcranGrille(fct,timeOut)
 	} // end of def
 
 	/**
 	 * Aller à l'url de création et vérifier le cartouche
 	 */
 	public static goToURL_Creation_and_checkCartridge(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
-		if (fct=='') { fct = this.getFctFromModObj() }
+		if (fct=='') { fct = getFctFromModObj() }
 		MYLOG.addDEBUG("NAV.goToURL_Creation_and_checkCartridge(fct='$fct')")
-		this.goToURL_Creation(fct)
-		this.verifierEcranCreation(fct,timeOut)
+		goToURL_Creation(fct)
+		verifierEcranCreation(fct,timeOut)
 	} // end of def
 
 
 
 	private static String getFctFromModObj() {
 
-		return my.PropertiesReader.getMyProperty('CODESCREEN_' + GlobalVariable.CASDETESTENCOURS.find(/^\w+\.\w+/))
+		return my.PropertiesReader.getMyProperty('CODESCREEN_' + Tools.getMobObj(GlobalVariable.CASDETESTENCOURS))
 	}
 
 } // end of class

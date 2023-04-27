@@ -12,12 +12,12 @@ class PropertiesReader {
 
 	static String getMyProperty(String propertyName) {
 
-		if (properties == null ) { this.loadProperties() }
+		if (properties == null ) { loadProperties() }
 
 		String prop = properties.getProperty(propertyName)
 
 		if (prop==null) {
-			KeywordUtil.markErrorAndStop("La propriété $propertyName n'existe pas dans " + this.propertiesFilename)
+			KeywordUtil.markErrorAndStop("La propriété $propertyName n'existe pas dans " + propertiesFilename)
 		}
 
 		return prop
@@ -26,9 +26,9 @@ class PropertiesReader {
 
 	private static loadProperties() {
 
-		FileInputStream file = new FileInputStream (this.propertiesFilename)
-		this.properties = new Properties()
-		this.properties.load(file)
+		FileInputStream file = new FileInputStream (propertiesFilename)
+		properties = new Properties()
+		properties.load(file)
 		file.close()
 	}
 

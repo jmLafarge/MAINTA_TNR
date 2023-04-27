@@ -3,12 +3,16 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 import my.KW
 import my.Log as MYLOG
 import my.NAV
+import my.JDD
 
 'Lecture du JDD'
-def myJDD = new my.JDD()
+def myJDD = new JDD()
 
-'Si il y a un test case'
-if (myJDD.getNbrLigneCasDeTest() > 0) {
+for (String cdt in myJDD.CDTList) {
+	
+	myJDD.setCasDeTest(cdt)
+		
+	MYLOG.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData())
@@ -28,6 +32,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		KW.verifyElementCheckedOrNot(myJDD,"ST_MAJDEL","O")
 		KW.verifyValue(myJDD,"NU_DEL")
 		KW.verifyElementCheckedOrNot(myJDD,"ST_MPH","O")
+		KW.verifyElementCheckedOrNot(myJDD,"ST_TELE","O")
 		
 		MYLOG.addSTEPBLOCK("INDICATION ACTUELLE")
 		KW.verifyValue(myJDD,"DT_MAJN")
@@ -36,12 +41,16 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		
 		
 		KW.verifyValue(myJDD,"NU_VALN")
+		
+		/* pas de test pour l'instant sur cette partie
 		MYLOG.addSTEPBLOCK("SAISIR UNE NOUVELLE VALEUR")
 		KW.verifyElementCheckedOrNot(myJDD,"ST_MAJDEL","O")
 		KW.verifyElementCheckedOrNot(myJDD,"ST_DELTA","O")
 		KW.verifyValue(myJDD,"DATE")
 		KW.verifyValue(myJDD,"HEURE")
 		KW.verifyValue(myJDD,"INDICATION")
+		*/
+		
 		MYLOG.addSTEPBLOCK("COMPTEUR PRINCIPAL")
 		KW.verifyValue(myJDD,"ID_CODCOMPRI")
 		KW.verifyValue(myJDD,"ST_DESID_CODCOMPRI")
@@ -50,6 +59,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		KW.verifyElementCheckedOrNot(myJDD,"ST_COMMAJMAT","O")
 		KW.verifyElementCheckedOrNot(myJDD,"ST_COMNOTMAJ","O")
 		
+		/* pas de test pour l'instant sur cette partie
 	MYLOG.addSTEPGRP("ONGLET EQUIPEMENT")
 	
 		WebUI.scrollToPosition(0, 0)
@@ -73,9 +83,9 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		
 		KW.scrollAndClick(myJDD,"tab_CompteurAux")
 		KW.waitForElementVisible(myJDD,"tab_CompteurAuxSelected")
-	
+		*/
 
 
-
+	MYLOG.addEndTestCase()
 }
 

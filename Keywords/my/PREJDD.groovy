@@ -4,21 +4,23 @@ package my
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
+
 import my.Log as MYLOG
+import my.PREJDDFiles
 
 public class PREJDD {
 
 
 	static checkPREJDD(Map map){
 
-		XSSFWorkbook book = my.XLS.open(my.PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')))
+		XSSFWorkbook book = my.XLS.open(PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')))
 
 		Sheet sheet = book.getSheet(map.getAt('PREJDDTAB'))
 
 		List list = []
-		MYLOG.addDEBUG("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "' (" + map.getAt('TAB') + ") dans '" + my.PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')) + "' '"+ map.getAt('PREJDDID') + "'",0)
-		
-		this.getListOfCasDeTestAndIDValue(list,sheet, map.getAt('PREJDDID'))
+		MYLOG.addDEBUG("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "' (" + map.getAt('TAB') + ") dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')) + "' '"+ map.getAt('PREJDDID') + "'",0)
+
+		getListOfCasDeTestAndIDValue(list,sheet, map.getAt('PREJDDID'))
 
 		int nbFound =0
 		map.getAt('LISTCDTVAL').each{ cdtVal ->
@@ -32,7 +34,7 @@ public class PREJDD {
 			if (found) {
 				MYLOG.addDEBUG(cdtVal+' trouvé')
 			}else {
-				MYLOG.addINFO("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "' (" + map.getAt('TAB') + ") dans '" + my.PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')) + "' '"+ map.getAt('PREJDDID') + "'")
+				MYLOG.addINFO("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "' (" + map.getAt('TAB') + ") dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')) + "' '"+ map.getAt('PREJDDID') + "'")
 				MYLOG.addDETAILFAIL(cdtVal+' non trouvé')
 			}
 		}
@@ -47,12 +49,12 @@ public class PREJDD {
 		for (int numLine : 1..sheet.getLastRowNum()) {
 
 			Row row = sheet.getRow(numLine)
-			
+
 			// exit if lastRow of param
 			if (!row || my.XLS.getCellValue(row.getCell(0))=='') {
 				break
 			}
-			
+
 			String casDeTest = my.XLS.getCellValue(row.getCell(0))
 			String IDvalue = my.XLS.getCellValue(row.getCell(idxID))
 

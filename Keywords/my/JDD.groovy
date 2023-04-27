@@ -8,9 +8,9 @@ import com.kms.katalon.core.testobject.TestObject
 
 import groovy.text.SimpleTemplateEngine
 import internal.GlobalVariable
+import my.InfoBDD
 import my.Log as MYLOG
-import my.InfoBDD as INFOBDD
-import my.JDDKW as JDDKW
+import my.JDDFiles
 
 
 public class JDD {
@@ -36,6 +36,8 @@ public class JDD {
 		TOSHEETNAME,
 		'MODELE'
 	]
+
+
 	private final String START_DATA_WORD		= 'CAS_DE_TEST'
 
 	private XSSFWorkbook book
@@ -43,7 +45,7 @@ public class JDD {
 
 	private String JDDFullName = ''
 	private String TCTabName   = ''
-	private String casDeTest   = ''
+	private String casDeTest = ''
 	private int casDeTestNum   = 1
 
 	private List headers = []
@@ -53,6 +55,9 @@ public class JDD {
 
 	private Map  binding = [:]
 
+	////////////////////
+	private List CDTList = []
+
 	/**
 	 * CONSTRUCTEUR : lit le JDD, si pas de paramètre, utilise la variable globale CASDETESTENCOURS pour définir le JDD à utiliser
 	 * 
@@ -61,61 +66,66 @@ public class JDD {
 	 * @param casDeTest
 	 * @param step
 	 */
-	JDD(String JDDFullName = null, String TCTabName = null,String casDeTest = null,boolean step=true) {
+	JDD(String JDDFullName = null, String TCTabName = null,String cdt = null,boolean step=true) {
 
-		MYLOG.addDEBUG("JDD Construtor JDDFullName = '$JDDFullName'    TCTabName = '$TCTabName' Cas de test = '$casDeTest' step = $step")
-		MYLOG.addDEBUG("GlobalVariable.CASDETESTENCOURS : "+GlobalVariable.CASDETESTENCOURS)
+		MYLOG.addDEBUG("JDD Construtor JDDFullName = '$JDDFullName'    TCTabName = '$TCTabName' Cas de test = '$cdt' step = $step")
+		MYLOG.addDEBUG("GlobalVariable.CASDETESTPATTERN : "+GlobalVariable.CASDETESTPATTERN)
 
 		if(JDDFullName == null) {
-			this.JDDFullName = my.JDDFiles.getJDDFullNameFromCasDeTest(GlobalVariable.CASDETESTENCOURS)
-			this.TCTabName = GlobalVariable.CASDETESTENCOURS.split('\\.')[2]
-			this.casDeTest = GlobalVariable.CASDETESTENCOURS
+			def modObj = Tools.getMobObj(GlobalVariable.CASDETESTPATTERN)
+			JDDFullName = JDDFiles.getJDDFullName(modObj)
+			TCTabName = GlobalVariable.CASDETESTPATTERN.split('\\.')[2]
 		}else {
-			this.JDDFullName = JDDFullName
-			this.TCTabName = TCTabName
-			this.casDeTest = casDeTest
+			JDDFullName = JDDFullName
+			TCTabName = TCTabName
+			casDeTest = cdt
 		}
 
-		if (step) {
-			MYLOG.addSTEP("Lecture du JDD : " + this.JDDFullName)
-			MYLOG.addDETAIL("Onglet : " + this.TCTabName)
-		}else {
-			MYLOG.addDEBUG("Lecture du JDD : " + this.JDDFullName)
-		}
+		/*
+		 if (step) {
+		 MYLOG.addSTEP("Lecture du JDD : " + JDDFullName)
+		 MYLOG.addDETAIL("Onglet : " + TCTabName)
+		 }else {
+		 MYLOG.addDEBUG("Lecture du JDD : " + JDDFullName)
+		 }
+		 */
+		MYLOG.addDEBUG("Lecture du JDD : " + JDDFullName)
 
-		this.book = my.XLS.open(this.JDDFullName)
 
-		if (this.TCTabName != null) {
+		book = my.XLS.open(JDDFullName)
 
-			this.TCSheet = this.book.getSheet(this.TCTabName)
-			this.loadTCSheet(this.TCSheet)
+		if (TCTabName) {
+
+			TCSheet = book.getSheet(TCTabName)
+			loadTCSheet(TCSheet)
+
+			if (!casDeTest) casDeTest = CDTList[0]
 
 			// ajout des xpath de l'onglet des cas de test en cours
-			this.addXpath(this.getParam('LOCATOR'))
-
-
-			// ajout des xpath de l'onglet Test_Object sil existe
-			if (this.book.getSheet(this.TOSHEETNAME) != null) {
-				Iterator<Row> rowIt = this.book.getSheet(this.TOSHEETNAME).rowIterator()
-				rowIt.next()
-				while(rowIt.hasNext()) {
-					Row row = rowIt.next()
-					String tab = my.XLS.getCellValue(row.getCell(0))
-					String name = my.XLS.getCellValue(row.getCell(1))
-					String xpath = my.XLS.getCellValue(row.getCell(2))
-					MYLOG.addDEBUG("tab : $tab name : $name xpath : $xpath TCTabName =${this.TCTabName}",2)
-					if (tab == '') {
-						break
-					}else if (tab in [this.TCTabName, 'ALL']) {
-						MYLOG.addDEBUG("this.xpathTO.put($name, $xpath)",2)
-						this.xpathTO.put(name, xpath)
-					}
-
-				}
-			}
-			MYLOG.addDEBUG("xpathTO = " + this.xpathTO.toString(),2)
-
+			addXpath(getParam('LOCATOR'))
 		}
+
+		// ajout des xpath de l'onglet Test_Object sil existe
+		if (book.getSheet(TOSHEETNAME) != null) {
+			Iterator<Row> rowIt = book.getSheet(TOSHEETNAME).rowIterator()
+			rowIt.next()
+			while(rowIt.hasNext()) {
+				Row row = rowIt.next()
+				String tab = my.XLS.getCellValue(row.getCell(0))
+				String name = my.XLS.getCellValue(row.getCell(1))
+				String xpath = my.XLS.getCellValue(row.getCell(2))
+				MYLOG.addDEBUG("tab : $tab name : $name xpath : $xpath TCTabName =${TCTabName}",2)
+				if (tab == '') {
+					break
+				}else if (tab in [TCTabName, 'ALL']) {
+					MYLOG.addDEBUG("xpathTO.put($name, $xpath)",2)
+					xpathTO.put(name, xpath)
+				}
+
+			}
+		}
+		MYLOG.addDEBUG("xpathTO = " + xpathTO.toString(),2)
+
 	}
 
 
@@ -123,40 +133,58 @@ public class JDD {
 
 
 	def loadTCSheet(Sheet sheet) {
+
 		MYLOG.addDEBUG('loadTCSheet : ' + sheet.getSheetName())
 
-		this.TCSheet = sheet
+		TCSheet = sheet
 		MYLOG.addDEBUG('\tLecture headers')
 		Iterator<Row> rowIt = sheet.rowIterator()
 		Row row = rowIt.next()
-		this.headers = my.XLS.loadRow(row)
-		MYLOG.addDEBUG('\t - headers.size = ' + this.headers.size())
+		headers = my.XLS.loadRow(row)
+		MYLOG.addDEBUG('\t - headers.size = ' + headers.size())
 
 		MYLOG.addDEBUG('\tLecture paramètres')
-		this.params =[]
+		params =[]
 		while(rowIt.hasNext()) {
 			row = rowIt.next()
-			if (my.XLS.getCellValue(row.getCell(0))==this.START_DATA_WORD) {
+			if (my.XLS.getCellValue(row.getCell(0))==START_DATA_WORD) {
 				break
 			}
-			if (my.XLS.getCellValue(row.getCell(0)) in this.PARAM_LIST_ALLOWED) {
-				this.params << my.XLS.loadRow(row,this.headers.size())
+			if (my.XLS.getCellValue(row.getCell(0)) in PARAM_LIST_ALLOWED) {
+				params << my.XLS.loadRow(row,headers.size())
 			}else {
 				MYLOG.addERROR("Le paramètre '" +  my.XLS.getCellValue(row.getCell(0)) + "' n'est pas autorisé")
 			}
 		}
-		MYLOG.addDEBUG('\t - params.size = ' + this.params.size())
+		MYLOG.addDEBUG('\t - params.size = ' + params.size())
 
 		MYLOG.addDEBUG('\tLecture data')
-		this.datas =[]
+		datas =[]
 		while(rowIt.hasNext()) {
 			row = rowIt.next()
 			if (my.XLS.getCellValue(row.getCell(0)) == '') {
 				break
 			}
-			this.datas << my.XLS.loadRow(row,this.headers.size())
+			datas << my.XLS.loadRow(row,headers.size())
 		}
-		MYLOG.addDEBUG('\t - datas.size = ' + this.datas.size())
+		MYLOG.addDEBUG('\t - datas.size = ' + datas.size())
+
+
+		String cdtPattern = casDeTest ? casDeTest : GlobalVariable.CASDETESTPATTERN
+
+		//Liste des cas de test qui répondent au pattern, sans doublons (les doublons sont des casDeTestNum)
+		List cdtli = datas.findAll{it[0].contains(cdtPattern)}.collect { it[0] }.unique()
+
+		//supprimer de la liste les cas de test traités par un autre Test Case
+		CDTList = cdtli.findAll { cdt ->
+			cdt.startsWith(cdtPattern) && (!TCFiles.TCfileMap.containsKey(cdt) || cdt == cdtPattern)
+		}
+
+
+		if (CDTList.size()==0 && cdtPattern){
+			MYLOG.addINFO('Pas de cas de test défini pour '+cdtPattern)
+		}
+
 	}
 
 
@@ -182,25 +210,25 @@ public class JDD {
 	 */
 	def getAllPrerequis(List list) {
 
-		for(Sheet sheet: this.book) {
+		for(Sheet sheet: book) {
 			if (sheet.getSheetName() in SKIP_LIST_SHEETNAME) {
 				// skip
 			}else {
-				this.loadTCSheet(sheet)
+				loadTCSheet(sheet)
 				String PRInThisSheet =''
-				this.getParam('PREREQUIS').eachWithIndex { value,i ->
+				getParam('PREREQUIS').eachWithIndex { value,i ->
 					if (!(value in ['', 'PREREQUIS', 'OBSOLETE'])) {
-						PRInThisSheet = PRInThisSheet + this.headers[i]+','
-						MYLOG.addDEBUG('\theader = ' + this.headers[i])
+						PRInThisSheet = PRInThisSheet + headers[i]+','
+						MYLOG.addDEBUG('\theader = ' + headers[i])
 						MYLOG.addDEBUG('\tvalue = ' + value)
 						Map prerequisMap = [:]
 						prerequisMap.putAt('PREJDDMODOBJ',value.split(/\*/)[0])
 						prerequisMap.putAt('PREJDDTAB',value.split(/\*/)[1])
 						prerequisMap.putAt('PREJDDID',value.split(/\*/)[2])
-						prerequisMap.putAt('JDDNAME',this.JDDFullName)
+						prerequisMap.putAt('JDDNAME',JDDFullName)
 						prerequisMap.putAt('TAB',sheet.getSheetName())
-						prerequisMap.putAt('JDDID',this.headers[i])
-						prerequisMap.putAt('LISTCDTVAL',this.getListCDTVAL(i))
+						prerequisMap.putAt('JDDID',headers[i])
+						prerequisMap.putAt('LISTCDTVAL',getListCDTVAL(i))
 						MYLOG.addDEBUG('\tPrerequisMap : ')
 						prerequisMap.each { key,val ->
 							MYLOG.addDEBUG('\t\t'+key + ' : ' +val)
@@ -227,11 +255,11 @@ public class JDD {
 	 * @return
 	 */
 	private List getListCDTVAL(int index) {
-		List PKlist=INFOBDD.getPK(this.getDBTableName())
+		List PKlist=InfoBDD.getPK(getDBTableName())
 		List list =[]
-		this.datas.each{
+		datas.each{
 			if (it[index]!=null && it[index]!='' && !JDDKW.isNU(it[index]) && !JDDKW.isNULL(it[index]) ) {
-				if (it[0].toString().contains('.CRE.') && PKlist.contains(this.headers[index])) {
+				if (it[0].toString().contains('.CRE.') && PKlist.contains(headers[index])) {
 					MYLOG.addDEBUG("skip : " + "'" + it[0] + "' - '" + it[index] + "'")
 				}else {
 					list.add("'" + it[0] + "' - '" + it[index] + "'")
@@ -249,29 +277,20 @@ public class JDD {
 	 * 
 	 * @return : nombre de ligne pour le cas de test en cours (très souvent 1)
 	 */
-	def int getNbrLigneCasDeTest(String casDeTest = this.casDeTest) {
-		int nbr = 0
-		this.datas.each{
-			if (it[0]==casDeTest) {
-				nbr++
-			}
-		}
-		return nbr
+	def int getNbrLigneCasDeTest(String cdt = casDeTest) {
+
+		return datas.count { it[0] == cdt }
 	}
 
 
 	def setCasDeTestNum(int i) {
-		this.casDeTestNum=i
-	}
-
-	def getCasDeTestNum() {
-		return this.casDeTestNum
+		casDeTestNum=i
 	}
 
 
-
-
-
+	def setCasDeTest(String cdt) {
+		casDeTest = cdt
+	}
 
 	/**
 	 *
@@ -280,16 +299,16 @@ public class JDD {
 	 *
 	 * @return				: la valeur du champ pour la ligne du cas de test en cours
 	 */
-	def getDataLineNum(String casDeTest = this.casDeTest, int casDeTestNum = this.casDeTestNum) {
-		MYLOG.addDEBUG("getDataLineNum($casDeTest, $casDeTestNum)" )
-		if (casDeTestNum > this.getNbrLigneCasDeTest(casDeTest) || casDeTestNum < 1) {
-			MYLOG.addERROR("Le cas de test N° : $casDeTestNum n'existe pas (max = "+ this.getNbrLigneCasDeTest(casDeTest) + ')')
+	def getDataLineNum(String cdt = casDeTest, int casDeTestNum = casDeTestNum) {
+		MYLOG.addDEBUG("getDataLineNum($cdt, $casDeTestNum)" )
+		if (casDeTestNum > getNbrLigneCasDeTest(cdt) || casDeTestNum < 1) {
+			MYLOG.addERROR("Le cas de test N° : $casDeTestNum n'existe pas (max = "+ getNbrLigneCasDeTest(cdt) + ')')
 			return null
 		}
 		int dataLineNum = 0
 		int cdtnum = 0
-		for (int i=0; i< this.datas.size();i++) {
-			if (this.datas[i][0]==casDeTest) {
+		for (int i=0; i< datas.size();i++) {
+			if (datas[i][0]==cdt) {
 				cdtnum++
 				if (cdtnum==casDeTestNum) {
 					dataLineNum = i
@@ -310,30 +329,15 @@ public class JDD {
 	 * 
 	 * @return				: la valeur du champ pour la ligne du cas de test en cours
 	 */
-	def getData(String name, int casDeTestNum = this.casDeTestNum) {
+	def getData(String name, int casDeTestNum = casDeTestNum) {
 
 		MYLOG.addDEBUG("getData($name, $casDeTestNum)" , 2)
-		if (casDeTestNum > this.getNbrLigneCasDeTest() || casDeTestNum < 1) {
-			MYLOG.addERROR("Le cas de test N° : $casDeTestNum n'existe pas (max = "+ this.getNbrLigneCasDeTest() + ')')
-			return
+		if (casDeTestNum > getNbrLigneCasDeTest() || casDeTestNum < 1) {
+			MYLOG.addERROR("Le cas de test N° : $casDeTestNum n'existe pas (max = "+ getNbrLigneCasDeTest() + ')')
+			return null
 		}
-		//def ret = null
-		//int cdtnum = 0
-		if (this.headers.contains(name)) {
-
-			return this.datas[this.getDataLineNum(this.casDeTest, casDeTestNum)][this.headers.indexOf(name)]
-			/*
-			 for (def li : this.datas) {
-			 if (li[0]==this.casDeTest) {
-			 cdtnum++
-			 if (cdtnum==casDeTestNum) {
-			 ret = li[this.headers.indexOf(name)]
-			 MYLOG.addDEBUG("getData($name, $casDeTestNum) = " + li[this.headers.indexOf(name)], 2)
-			 break
-			 }
-			 }
-			 }
-			 */
+		if (headers.contains(name)) {
+			return datas[getDataLineNum(casDeTest, casDeTestNum)][headers.indexOf(name)]
 		}else {
 			MYLOG.addERROR("getData($name, $casDeTestNum ) '$name' n'est pas une colonne du JDD")
 			return null
@@ -342,13 +346,13 @@ public class JDD {
 
 
 
-	def getStrData(String name='', int casDeTestNum = this.casDeTestNum) {
+	def getStrData(String name='', int casDeTestNum = casDeTestNum) {
 
 		if (name=='') {
-			int dataLineNum = this.getDataLineNum()
-			return this.datas[dataLineNum][1]
+			int dataLineNum = getDataLineNum()
+			return datas[dataLineNum][1]
 		}else {
-			return this.getData(name, casDeTestNum).toString()
+			return getData(name, casDeTestNum).toString()
 		}
 	}
 
@@ -356,13 +360,13 @@ public class JDD {
 
 
 	public String getDBTableName() {
-		return this.headers[0]
+		return headers[0]
 	}
 
 
 
 	def String getHeaderNameOfIndex(int i) {
-		return this.headers[i]
+		return headers[i]
 	}
 
 
@@ -377,7 +381,7 @@ public class JDD {
 	 */
 	def makeTO(String ID){
 
-		if (!this.xpathTO.containsKey(ID)) {
+		if (!xpathTO.containsKey(ID)) {
 			return [
 				null,
 				"L'ID '$ID' n'existe pas, impossible de créer le TEST OBJET"
@@ -388,55 +392,55 @@ public class JDD {
 
 		TestObject to = new TestObject(ID)
 		to.setSelectorMethod(SelectorMethod.XPATH)
-		String xpath = this.xpathTO.getAt(ID)
+		String xpath = xpathTO.getAt(ID)
 		MYLOG.addDEBUG("\txpath : $xpath")
 
 		if (xpath.startsWith('$')) {
 
-			if (xpath.split('\\$').size()==3){
+			switch(xpath.split('\\$')[1]) {
 
-				switch(xpath.split('\\$')[1]) {
+				case "TAB":
+					binding['tabname']=xpath.split('\\$')[2]
+					xpath = NAV.myGlobalJDD.xpathTO['TAB']
+					break
 
-					case "TAB":
-						binding['tabname']=xpath.split('\\$')[2]
-						xpath = NAV.myGlobalJDD.xpathTO['TAB']
-						break
+				case "TABSELECTED":
+					binding['tabname']=xpath.split('\\$')[2]
+					xpath = NAV.myGlobalJDD.xpathTO['TABSELECTED']
+					break
 
-					case "TABSELECTED":
-						binding['tabname']=xpath.split('\\$')[2]
-						xpath = NAV.myGlobalJDD.xpathTO['TABSELECTED']
-						break
+				case "FILTREGRILLE":
+					binding['idname']=xpath.split('\\$')[2]
+					xpath = NAV.myGlobalJDD.xpathTO['FILTREGRILLE']
+					break
 
-					case "FILTREGRILLE":
-						binding['idname']=xpath.split('\\$')[2]
-						xpath = NAV.myGlobalJDD.xpathTO['FILTREGRILLE']
-						break
-
-					case "TDGRILLE":
-						binding['idnameval']=this.getData(xpath.split('\\$')[2])
-						xpath = NAV.myGlobalJDD.xpathTO['TDGRILLE']
-						break
-
-					default:
+				case "TDGRILLE":
+				// faire la m^me chose sur les autrees
+					if (xpath.split('\\$').size()!=4){
 						return [
 							null,
-							"makeTO $ID, xpath avec "+'$'+" mot clé inconnu : $xpath"
+							"makeTO $ID, xpath avec "+'$'+" non conforme : $xpath"
 						]
-				}
-				MYLOG.addDEBUG("\t\tGLOBAL xpath : $xpath")
-				MYLOG.addDEBUG("\t\tbinding  : " + binding.toString())
-			}else {
-				return [
-					null,
-					"makeTO $ID, xpath avec "+'$'+" non conforme : $xpath"
-				]
-			}
+					}
+				//////
+					binding['numTD']=xpath.split('\\$')[2]
+					binding['idnameval']=getData(xpath.split('\\$')[3])
+					xpath = NAV.myGlobalJDD.xpathTO['TDGRILLE']
+					break
 
+				default:
+					return [
+						null,
+						"makeTO $ID, xpath avec "+'$'+" mot clé inconnu : $xpath"
+					]
+			}
+			MYLOG.addDEBUG("\t\tGLOBAL xpath : $xpath")
+			MYLOG.addDEBUG("\t\tbinding  : " + binding.toString())
 		}
 
 		MYLOG.addDEBUG("\txpath : $xpath")
 
-		xpath = this.resolveXpath(xpath)
+		xpath = resolveXpath(xpath)
 
 		to.setSelectorValue(SelectorMethod.XPATH, xpath)
 
@@ -464,9 +468,9 @@ public class JDD {
 				MYLOG.addDEBUG('\t\tmatcher k --> v : ' + k + ' --> ' + value)
 				if (binding.containsKey(value)) {
 					MYLOG.addDEBUG('\t\tExternal binding')
-				}else if (value in this.headers) {
-					binding.put(value,this.getData(value))
-					MYLOG.addDEBUG('\t\tJDD binding k --> v : '+ value + ' --> '+ this.getData(value))
+				}else if (value in headers) {
+					binding.put(value,getData(value))
+					MYLOG.addDEBUG('\t\tJDD binding k --> v : '+ value + ' --> '+ getData(value))
 				}else {
 					MYLOG.addERROR('binding not possible because xpath parameter not in JDD : ' + k)
 				}
@@ -496,21 +500,21 @@ public class JDD {
 	private addXpath(List locators) {
 		locators.eachWithIndex {loc,i ->
 			if (loc!=null && loc!='' && i!=0) {
-				String name = this.headers[i]
+				String name = headers[i]
 				MYLOG.addDEBUG("addXpath i = $i name = '$name' loc='$loc' ",2 )
 				if (loc in TAG_LIST_ALLOWED) {
 					if (loc=='checkbox') {
-						this.xpathTO.put(name, "//input[@id='$name']")
-						this.xpathTO.put('Lbl'+name, "//label[@id='Lbl$name']")
+						xpathTO.put(name, "//input[@id='$name']")
+						xpathTO.put('Lbl'+name, "//label[@id='Lbl$name']")
 					}else {
 						// it's a standard xpath
-						this.xpathTO.put(name, "//$loc[@id='$name']")
+						xpathTO.put(name, "//$loc[@id='$name']")
 					}
 				}else if ((loc[0] != '/') && (loc.toString().split(/\*/).size()>1)) {
 					//it's a tag with an attribut
 					def lo = loc.toString().split(/\*/)
 					if (lo[0] in TAG_LIST_ALLOWED) {
-						this.xpathTO.put(name, "//${lo[0]}[@${lo[1]}='$name']")
+						xpathTO.put(name, "//${lo[0]}[@${lo[1]}='$name']")
 						MYLOG.addDEBUG("\tLOCATOR //${lo[0]}[@${lo[1]}='$name']",2)
 					}else {
 						MYLOG.addERROR("LOCATOR inconnu : ${lo[0]} in '$loc'")
@@ -518,7 +522,7 @@ public class JDD {
 
 				}else if (loc[0] == '/') {
 					// it's a xpath with potential dynamic values
-					this.xpathTO.put(name,loc)
+					xpathTO.put(name,loc)
 				}else {
 					MYLOG.addERROR("LOCATOR inconnu : '$loc'")
 				}
@@ -533,10 +537,10 @@ public class JDD {
 
 	private List getParam(String param) {
 		List ret = null
-		if (!(param in this.PARAM_LIST_ALLOWED)) {
+		if (!(param in PARAM_LIST_ALLOWED)) {
 			MYLOG.addERROR("getParam(param=$param) Ce paramètre n'est pas autorisé")
 		}
-		for (def para : this.params) {
+		for (def para : params) {
 			if (para[0] == param) {
 				ret = para
 				break
@@ -546,12 +550,13 @@ public class JDD {
 	}
 
 
+
 	def String getParamForThisName(String param, String name) {
-		String ret = null
-		if (this.getParam(param) != null) {
-			if (this.headers.contains(name)) { /// verifier si dans headers
-				if (this.getParam(param)[this.headers.indexOf(name)] !='') {
-					ret = this.getParam(param)[this.headers.indexOf(name)]
+		String ret = ''
+		if (getParam(param) != null) {
+			if (headers.contains(name)) { /// verifier si dans headers
+				if (getParam(param)[headers.indexOf(name)] !='') {
+					ret = getParam(param)[headers.indexOf(name)]
 				}
 			}else {
 				MYLOG.addERROR("getParamForThisName(param=$param, name=$name) '$name' n'est pas une colonne du JDD")
@@ -560,18 +565,32 @@ public class JDD {
 		return ret
 	}
 
+
+
+	def boolean isOBSOLETE(String name) {
+
+		String ret = getParamForThisName('PREREQUIS',name)
+
+		if (ret) return ret == 'OBSOLETE'
+
+		return false
+	}
+
+
+
+
 	def boolean isFK(String name) {
 
-		return this.getParamForThisName('FOREIGNKEY', name)
+		return getParamForThisName('FOREIGNKEY', name)!=''
 	}
 
 
 
 	def String getSqlForForeignKey(String name) {
 
-		def sql = this.getParamForThisName('FOREIGNKEY', name).toString().split(/\*/)
+		def sql = getParamForThisName('FOREIGNKEY', name).toString().split(/\*/)
 
-		String query = "SELECT ${sql[0]} FROM ${sql[1]} WHERE ${sql[2]} = '" + this.getData(name) + "'"
+		String query = "SELECT ${sql[0]} FROM ${sql[1]} WHERE ${sql[2]} = '" + getData(name) + "'"
 
 		MYLOG.addDEBUG("getSqlForForeignKey = $query")
 
@@ -582,22 +601,22 @@ public class JDD {
 
 
 	def readSEQUENCID() {
-		int dataLineNum = this.getDataLineNum()
-		this.datas[dataLineNum].eachWithIndex { val,i ->
+		int dataLineNum = getDataLineNum()
+		datas[dataLineNum].eachWithIndex { val,i ->
 			if (JDDKW.isSEQUENCEID(val)) {
-				MYLOG.addSTEP("Récupération de la séquence actuelle de ${this.headers[i]} ")
-				my.SQL.getMaxFromTable(this.headers[i], this.getDBTableName())
+				MYLOG.addSTEP("Récupération de la séquence actuelle de ${headers[i]} ")
+				my.SQL.getMaxFromTable(headers[i], getDBTableName())
 			}
 		}
 	}
 
 
 	def replaceSEQUENCIDInJDD() {
-		int dataLineNum = this.getDataLineNum()
-		this.datas[dataLineNum].eachWithIndex { val,i ->
+		int dataLineNum = getDataLineNum()
+		datas[dataLineNum].eachWithIndex { val,i ->
 			if (JDDKW.isSEQUENCEID(val)) {
-				MYLOG.addSTEP("Récupération de la séquence ${this.headers[i]} de l'objet créé")
-				this.datas[dataLineNum][i] = my.SQL.getMaxFromTable(this.headers[i], this.getDBTableName())
+				MYLOG.addSTEP("Récupération de la séquence ${headers[i]} de l'objet créé")
+				datas[dataLineNum][i] = my.SQL.getMaxFromTable(headers[i], getDBTableName())
 			}
 		}
 	}

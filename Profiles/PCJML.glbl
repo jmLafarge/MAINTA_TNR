@@ -44,4 +44,9 @@
       <initValue>''</initValue>
       <name>CASDETESTENCOURS</name>
    </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description>INTERNAL DATA</description>
+      <initValue>''</initValue>
+      <name>CASDETESTPATTERN</name>
+   </GlobalVariableEntity>
 </GlobalVariableEntities>

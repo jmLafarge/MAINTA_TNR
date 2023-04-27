@@ -5,14 +5,17 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 import my.KW
 import my.NAV
 import my.Log as MYLOG
-
+import my.JDD
 
 
 'Lecture du JDD'
-def myJDD = new my.JDD()
+def myJDD = new JDD()
 
-'Si il y a un test case'
-if (myJDD.getNbrLigneCasDeTest() > 0) {
+for (String cdt in myJDD.CDTList) {
+	
+	myJDD.setCasDeTest(cdt)
+		
+	MYLOG.addStartTestCase(cdt)
 	
 	'Naviguer vers la bonne url et controle des infos du cartouche'
 	NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_CODINT'))
@@ -52,6 +55,8 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		'Vérification des valeurs en BD'
 		my.SQL.checkJDDWithBD(myJDD)
 		
+		
+	MYLOG.addEndTestCase()
 } // fin du if
 
 

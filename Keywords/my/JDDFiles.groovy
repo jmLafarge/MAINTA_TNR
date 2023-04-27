@@ -57,7 +57,14 @@ public class JDDFiles {
 	 */
 	static getJDDFullNameFromCasDeTest(String casDeTest) {
 
-		def modObj = casDeTest.find(/^\w+\.\w+/)
+		def modObj = Tools.getMobObj(casDeTest)
+
+		return modObj ? JDDfilemap[modObj] : null
+	}
+
+
+
+	static getJDDFullName(String modObj) {
 
 		return modObj ? JDDfilemap[modObj] : null
 	}
@@ -80,7 +87,7 @@ public class JDDFiles {
 	 * @return
 	 */
 	static add(String modObj,String fullName) {
-		this.JDDfilemap.put(modObj,fullName)
+		JDDfilemap.put(modObj,fullName)
 	}
 
 } // end of class

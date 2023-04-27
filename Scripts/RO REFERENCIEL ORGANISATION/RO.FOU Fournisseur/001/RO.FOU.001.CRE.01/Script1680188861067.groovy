@@ -1,14 +1,17 @@
 import my.KW
 import my.Log as MYLOG
 import my.NAV
-
+import my.JDD
 
 'Lecture du JDD'
-def myJDD = new my.JDD()
+def myJDD = new JDD()
 		
 		
-'Si il y a un test case'
-if (myJDD.getNbrLigneCasDeTest() > 0) {
+for (String cdt in myJDD.CDTList) {
+	
+	myJDD.setCasDeTest(cdt)
+		
+	MYLOG.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_Creation_and_checkCartridge()
@@ -30,7 +33,6 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		//ST_DESST_CODCOM --> pas d'action en création
 		
 		//MYLOG.addSTEPBLOCK("ADRESSE")
-		
 		
 		MYLOG.addSTEPBLOCK("CONTACT")
 		KW.scrollAndSetText(myJDD,"ST_TELPHO")
@@ -73,20 +75,17 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		
 		KW.scrollAndClick(myJDD,"tab_Notes")
 		KW.waitForElementVisible(myJDD,"tab_NotesSelected")
-		
-	
-	
+
 				
 	MYLOG.addSTEPACTION('VALIDATION')
 
 	    KW.scrollAndClick(NAV.myGlobalJDD,'button_Valider')
 	
-	    NAV.verifierEcranResultat()
-			
-	    KW.verifyElementText(NAV.myGlobalJDD,'Resultat_ID', myJDD.getStrData())
-	
+	    NAV.verifierEcranResultat(myJDD.getStrData())
+
 		my.SQL.checkJDDWithBD(myJDD)
 
+	MYLOG.addEndTestCase()
 } // fin du if
 
 

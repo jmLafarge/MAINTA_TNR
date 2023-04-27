@@ -4,14 +4,18 @@ import internal.GlobalVariable
 import my.KW
 import my.Log as MYLOG
 import my.NAV
-
+import my.JDD
+import my.JDDFiles
 
 'Lecture du JDD'
-def myJDD = new my.JDD()
+def myJDD = new JDD()
 
 
-'Si il y a un test case'
-if (myJDD.getNbrLigneCasDeTest() > 0 ) {
+for (String cdt in myJDD.CDTList) {
+	
+	myJDD.setCasDeTest(cdt)
+		
+	MYLOG.addStartTestCase(cdt)
 	
 	'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData())
@@ -35,7 +39,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
 		
 		MYLOG.addSTEPBLOCK("ADRESSE")
 		
-		def JDD_Adr = new my.JDD(my.JDDFiles.getFullName('RO.ADR'),'001',GlobalVariable.CASDETESTENCOURS)
+		def JDD_Adr = new my.JDD(JDDFiles.getFullName('RO.ADR'),'001',GlobalVariable.CASDETESTENCOURS)
 		
 		KW.scrollAndClick(myJDD,"TD_Adresse")
 		KW.scrollAndClick(myJDD,"BTN_ModifierAdresse")
@@ -100,7 +104,7 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
 
 	MYLOG.addSTEPGRP("ONGLET NOTES")
 	
-		def JDD_Note = new my.JDD(my.JDDFiles.getFullName('RO.FOU'),'001A',GlobalVariable.CASDETESTENCOURS)
+		def JDD_Note = new JDD(JDDFiles.getFullName('RO.FOU'),'001A',GlobalVariable.CASDETESTENCOURS)
 		
 		KW.scrollAndClick(myJDD,"tab_Notes")
 		KW.waitForElementVisible(myJDD,"tab_NotesSelected")
@@ -133,14 +137,13 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
 	
 	    KW.scrollAndClick(NAV.myGlobalJDD,'button_Valider')
 	
-	    NAV.verifierEcranResultat()
-	
-	    KW.verifyElementText(NAV.myGlobalJDD,'Resultat_ID', myJDD.getStrData())
+	    NAV.verifierEcranResultat(myJDD.getStrData())
 	
 		my.SQL.checkJDDWithBD(myJDD)
 		
 		my.SQL.checkJDDWithBD(JDD_Adr)
 	
+	MYLOG.addEndTestCase()
 } // fin du if
 
 

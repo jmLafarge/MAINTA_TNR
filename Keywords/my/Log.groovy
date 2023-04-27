@@ -2,7 +2,7 @@ package my
 
 
 import internal.GlobalVariable
-import my.result.ResultGenerator as MYRESULT
+import my.result.ResultGenerator as MYRES
 
 /*
  * use my.Log in the code without import --> to be sure that this Log is used
@@ -16,8 +16,8 @@ class Log {
 
 	private static String dateTimeFormat = 'yyyy-MM-dd HH:mm:ss.SSS'
 
-	private static File file = this.createFile('')
-	private static File fileDebug = this.createFile('DEBUG')
+	private static File file = createFile('')
+	private static File fileDebug = createFile('DEBUG')
 
 	private static int nbCarStatus = 7
 
@@ -25,6 +25,7 @@ class Log {
 
 	private static String tab = ''
 
+	private static boolean testCaseStarted = false
 	private static Date start
 	private static Date logDate
 
@@ -50,7 +51,7 @@ class Log {
 
 		File file =new File(my.PropertiesReader.getMyProperty('LOG_PATH') + File.separator +  dateFile + "-log${txt}.txt")
 
-		this.debugLevel = my.PropertiesReader.getMyProperty('LOG_DEBUGLEVEL').toInteger()
+		debugLevel = my.PropertiesReader.getMyProperty('LOG_DEBUGLEVEL').toInteger()
 
 		return file
 	}
@@ -59,36 +60,36 @@ class Log {
 	private static String getStatFormat(String stat) {
 
 		if (stat=='') {
-			stat='-'*this.nbCarStatus
+			stat='-'*nbCarStatus
 		}else {
-			if (stat.length()> this.nbCarStatus) stat=stat.substring(0,this.nbCarStatus)
-			stat=stat.center(this.nbCarStatus)
+			if (stat.length()> nbCarStatus) stat=stat.substring(0,nbCarStatus)
+			stat=stat.center(nbCarStatus)
 		}
 	}
 
 
 	private static add (String stat, String msg) {
-		stat= this.getStatFormat(stat)
-		this.logDate = new Date()
-		String h = this.logDate.format(this.dateTimeFormat)
-		this.file.append("[$h][$stat]:" + this.tab +"$msg\n")
-		//println "[my Log][$stat]:" + this.tab +"$msg"
-		this.fileDebug.append("[$h][$stat]:" + this.tab +"$msg\n")
+		stat= getStatFormat(stat)
+		logDate = new Date()
+		String h = logDate.format(dateTimeFormat)
+		file.append("[$h][$stat]:" + tab +"$msg\n")
+		//println "[my Log][$stat]:" + tab +"$msg"
+		fileDebug.append("[$h][$stat]:" + tab +"$msg\n")
 	}
 
 
 	public static addDEBUG (String msg, int level=1) {
-		String stat= this.getStatFormat("  D $level  ")
-		String h = new Date().format(this.dateTimeFormat)
-		if (level <= this.debugLevel) {
-			this.fileDebug.append("[$h][$stat]:" + this.PREDEBUGTXT + this.tab +"$msg\n")
-			//println "[my Log][$stat]:" + this.tab +"$msg"
+		String stat= getStatFormat("  D $level  ")
+		String h = new Date().format(dateTimeFormat)
+		if (level <= debugLevel) {
+			fileDebug.append("[$h][$stat]:" + PREDEBUGTXT + tab +"$msg\n")
+			//println "[my Log][$stat]:" + tab +"$msg"
 		}
 	}
 
 
 	public static addDEBUGDETAIL (String msg, int level=1) {
-		this.addDEBUG('- '+ msg,level)
+		addDEBUG('- '+ msg,level)
 	}
 
 
@@ -96,32 +97,32 @@ class Log {
 	public static addINFO (String msg,int level=0) {
 
 		if (level==0) {
-			this.add('',msg )
+			add('',msg )
 		}else {
-			this.addDEBUG(msg,level )
+			addDEBUG(msg,level )
 		}
 	}
 
 
 
 	public static addWARNING (String msg) {
-		this.add('WARNING',msg )
+		add('WARNING',msg )
 	}
 
 
 	public static addFAIL (String msg) {
-		this.add('FAIL',msg )
+		add('FAIL',msg )
 	}
 
 
 	public static addPASS (String msg) {
-		this.add('PASS',msg )
+		add('PASS',msg )
 	}
 
 
 	public static addERROR (String msg) {
-		this.add('ERROR',msg )
-		// this.status.ERROR++ // 20230329 j'ai mis cette ligne en commentaire, on ne veut que les STEP ERROR
+		add('ERROR',msg )
+		// status.ERROR++ // 20230329 j'ai mis cette ligne en commentaire, on ne veut que les STEP ERROR
 	}
 
 
@@ -129,39 +130,39 @@ class Log {
 
 
 	public static addDETAIL (String msg) {
-		this.addINFO(this.PREDETAILTXT+ msg)
-		this.addStepInResult(msg,'DETAIL')
+		addINFO(PREDETAILTXT+ msg)
+		addStepInResult(msg,'DETAIL')
 	}
 
 
 	public static addDETAILFAIL (String msg) {
-		this.addFAIL(this.PREDETAILTXT+ msg)
+		addFAIL(PREDETAILTXT+ msg)
 	}
 
 	public static addDETAILWARNING (String msg) {
-		this.addWARNING(this.PREDETAILTXT+ msg)
+		addWARNING(PREDETAILTXT+ msg)
 	}
 
 	public static addSTEP (String msg, String status = null) {
 		switch (status) {
 			case null :
-				this.addINFO(this.PRESTEPTXT+ msg)
-				this.addStepInResult(msg,'INFO')
+				addINFO(PRESTEPTXT+ msg)
+				addStepInResult(msg,'INFO')
 				break
 			case 'PASS':
-				this.addSTEPPASS(msg)
+				addSTEPPASS(msg)
 				break
 			case 'WARNING':
-				this.addSTEPWARNING(msg)
+				addSTEPWARNING(msg)
 				break
 			case 'FAIL':
-				this.addSTEPFAIL(msg)
+				addSTEPFAIL(msg)
 				break
 			case 'ERROR':
-				this.addSTEPERROR(msg)
+				addSTEPERROR(msg)
 				break
 			default :
-				this.add(status,this.PRESTEPTXT+ msg)
+				add(status,PRESTEPTXT+ msg)
 				break
 		}
 	}
@@ -169,60 +170,60 @@ class Log {
 
 
 	public static addSUBSTEP (String msg) {
-		this.addINFO(this.PRESUBSTEPTXT+ msg)
-		this.addStepInResult(msg,'SUBSTEP')
+		addINFO(PRESUBSTEPTXT+ msg)
+		addStepInResult(msg,'SUBSTEP')
 	}
 
 
 	public static addSTEPACTION (String msg) {
-		this.addINFO('\t'+ msg.padRight(90, '_'))
-		this.addStepInResult(msg,'STEPACTION')
+		addINFO('\t'+ msg.padRight(90, '_'))
+		addStepInResult(msg,'STEPACTION')
 	}
 
 
 	public static addSTEPGRP (String msg) {
-		this.addINFO('\t'+ msg.padRight(90, '_'))
-		this.addStepInResult(msg,'STEPGRP')
+		addINFO('\t'+ msg.padRight(90, '_'))
+		addStepInResult(msg,'STEPGRP')
 	}
 
 	public static addSTEPBLOCK (String msg) {
-		this.addINFO('\t'+ msg.center(70, '-'))
-		this.addStepInResult(msg,'STEPBLOCK')
+		addINFO('\t'+ msg.center(70, '-'))
+		addStepInResult(msg,'STEPBLOCK')
 	}
 
 
 
 	public static addSTEPLOOP (String msg) {
-		this.addINFO('\t'+ msg.padRight(40, '.'))
-		this.addStepInResult(msg,'STEPLOOP')
+		addINFO('\t'+ msg.padRight(40, '.'))
+		addStepInResult(msg,'STEPLOOP')
 	}
 
 
 	public static addSTEPPASS (String msg) {
-		this.addPASS(this.PRESTEPTXT+ msg)
-		this.status.PASS++
-		this.addStepInResult(msg,'PASS')
+		addPASS(PRESTEPTXT+ msg)
+		status.PASS++
+		addStepInResult(msg,'PASS')
 	}
 
 
 	public static addSTEPFAIL (String msg) {
-		this.addFAIL(this.PRESTEPTXT+ msg)
-		this.status.FAIL++
-		this.addStepInResult(msg,'FAIL')
+		addFAIL(PRESTEPTXT+ msg)
+		status.FAIL++
+		addStepInResult(msg,'FAIL')
 	}
 
 
 	public static addSTEPWARNING (String msg) {
-		this.addWARNING(this.PRESTEPTXT+ msg)
-		this.status.WARNING++
-		this.addStepInResult(msg,'WARNING')
+		addWARNING(PRESTEPTXT+ msg)
+		status.WARNING++
+		addStepInResult(msg,'WARNING')
 	}
 
 
 	public static addSTEPERROR (String msg) {
-		this.addERROR(this.PRESTEPTXT+ msg)
-		this.status.ERROR++
-		this.addStepInResult(msg,'ERROR')
+		addERROR(PRESTEPTXT+ msg)
+		status.ERROR++
+		addStepInResult(msg,'ERROR')
 	}
 
 
@@ -231,40 +232,48 @@ class Log {
 
 	private static addStepInResult(String msg, String status) {
 
-		if (MYRESULT.resulFileName) MYRESULT.addStep(this.logDate,msg,status)
+		if (MYRES.resulFileName) MYRES.addStep(logDate,msg,status)
 	}
 
 
 
 
-	public static addStartTestCase () {
+	public static addStartTestCase (String cdt) {
 
-		String cdt = GlobalVariable.CASDETESTENCOURS + ' : ' + TCFiles.getTCNameTitle()
-		this.status.WARNING = 0
-		this.status.FAIL = 0
-		this.status.PASS = 0
-		this.status.ERROR = 0
-		this.addINFO('')
-		this.addINFO("START TEST CASE : $cdt" )
-		this.start = this.logDate
-		if (MYRESULT.resulFileName) MYRESULT.addStartCasDeTest( this.start)
+		testCaseStarted = true
+
+		GlobalVariable.CASDETESTENCOURS = cdt
+		cdt += ' : ' + TCFiles.getTitle()
+		status.WARNING = 0
+		status.FAIL = 0
+		status.PASS = 0
+		status.ERROR = 0
+		addINFO('')
+		addINFO("START TEST CASE : $cdt" )
+		start = logDate
+		if (MYRES.resulFileName) MYRES.addStartCasDeTest( start)
 	}
 
 
 	public static addEndTestCase () {
 
-		String cdt = GlobalVariable.CASDETESTENCOURS + ' : ' + TCFiles.getTCNameTitle()
-		Date stop = new Date()
-		if (MYRESULT.resulFileName) MYRESULT.addEndCasDeTest(this.status, this.start , stop)
+		if (testCaseStarted) {
 
-		if (this.status.ERROR !=0) {
-			this.addERROR('END TEST CASE : ' + cdt.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
-		} else if (this.status.FAIL !=0) {
-			this.addFAIL('END TEST CASE : ' + cdt.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
-		} else if (this.status.WARNING !=0) {
-			this.addWARNING('END TEST CASE : ' + cdt.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
-		} else {
-			this.addPASS('END TEST CASE : ' + cdt.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(this.start,stop))
+			testCaseStarted = false
+			String cdt = GlobalVariable.CASDETESTENCOURS + ' : ' + TCFiles.getTitle()
+
+			Date stop = new Date()
+			if (MYRES.resulFileName) MYRES.addEndCasDeTest(status, start , stop,cdt)
+
+			if (status.ERROR !=0) {
+				addERROR('END TEST CASE : ' + cdt.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(start,stop))
+			} else if (status.FAIL !=0) {
+				addFAIL('END TEST CASE : ' + cdt.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(start,stop))
+			} else if (status.WARNING !=0) {
+				addWARNING('END TEST CASE : ' + cdt.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(start,stop))
+			} else {
+				addPASS('END TEST CASE : ' + cdt.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(start,stop))
+			}
 		}
 	}
 
@@ -273,21 +282,21 @@ class Log {
 	public static addTITLE(String title, String car ='*',int nbcar = 140,int level=0) {
 		if (title.length()+4 >= nbcar) nbcar = title.length()+4
 
-		this.addINFO('',level)
-		this.addINFO(car*nbcar,level)
-		this.addINFO(car + ' ' * (nbcar-2) + car,level)
-		this.addINFO(car + title.center(nbcar-2) + car,level)
-		this.addINFO(car + ' ' * (nbcar-2) + car,level)
-		this.addINFO(car*nbcar,level)
-		this.addINFO('',level)
+		addINFO('',level)
+		addINFO(car*nbcar,level)
+		addINFO(car + ' ' * (nbcar-2) + car,level)
+		addINFO(car + title.center(nbcar-2) + car,level)
+		addINFO(car + ' ' * (nbcar-2) + car,level)
+		addINFO(car*nbcar,level)
+		addINFO('',level)
 	}
 
 
 	public static addSubTITLE(String subtitle, String car ='-', int nbcar = 120 ,int level=0) {
-		this.addINFO('',level)
-		this.addINFO(car*nbcar,level)
-		this.addINFO(subtitle,level)
-		this.addINFO(car*nbcar,level)
-		this.addINFO('',level)
+		addINFO('',level)
+		addINFO(car*nbcar,level)
+		addINFO(subtitle,level)
+		addINFO(car*nbcar,level)
+		addINFO('',level)
 	}
 }// end of class

@@ -1,14 +1,18 @@
 import my.KW
 import my.NAV
-
+import my.Log as MYLOG
+import my.JDD
 
 
 'Lecture du JDD'
-def myJDD = new my.JDD()
+def myJDD = new JDD()
 
 
-'Si il y a un test case'
-if (myJDD.getNbrLigneCasDeTest() > 0 ) {
+for (String cdt in myJDD.CDTList) {
+	
+	myJDD.setCasDeTest(cdt)
+		
+	MYLOG.addStartTestCase(cdt)
 
 	'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_Grille_and_checkCartridge()
@@ -22,6 +26,8 @@ if (myJDD.getNbrLigneCasDeTest() > 0 ) {
 	'Vérifier que la valeur soit dans la grille filtrée'
 	KW.verifyElementText(myJDD,'td_Grille', myJDD.getStrData())
 
+	
+	MYLOG.addEndTestCase()
 } // fin du if
 
 

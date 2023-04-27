@@ -1,14 +1,17 @@
 import my.KW
 import my.Log as MYLOG
 import my.NAV
-
+import my.JDD
 
 'Lecture du JDD'
-def myJDD = new my.JDD()
+def myJDD = new JDD()
 		
 		
-'Si il y a un test case'
-if (myJDD.getNbrLigneCasDeTest() > 0) {
+for (String cdt in myJDD.CDTList) {
+	
+	myJDD.setCasDeTest(cdt)
+		
+	MYLOG.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_Creation_and_checkCartridge()
@@ -48,13 +51,12 @@ if (myJDD.getNbrLigneCasDeTest() > 0) {
 		
 	    KW.scrollAndClick(NAV.myGlobalJDD,'button_Valider')
 	
-	    NAV.verifierEcranResultat()
-			
-	    KW.verifyElementText(NAV.myGlobalJDD,'Resultat_ID', myJDD.getStrData('ID_CODART')) // prendre en compte la valeur de ARTNUM
+	    NAV.verifierEcranResultat(myJDD.getStrData('ID_CODART')) // prendre en compte la valeur de ARTNUM
 	
 		my.SQL.checkJDDWithBD(myJDD) // prendre en compte la valeur de ARTNUM car le where du elect se fait sur ID_CODART
 		
-	
+		
+	MYLOG.addEndTestCase()
 
 } // fin du if
 

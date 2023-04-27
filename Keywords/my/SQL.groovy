@@ -5,7 +5,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 import groovy.sql.Sql
 import internal.GlobalVariable
 import my.Log as MYLOG
-import my.InfoBDD as INFOBDD
+import my.InfoBDD
 import my.JDDKW as MYJDDKW
 
 //Pour la lecture du format RTF
@@ -63,7 +63,7 @@ public class SQL {
 		String verifStatus = 'PASS'
 
 		MYLOG.addSTEP("Début de la vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
-		
+
 		int nbrLigneCasDeTest =myJDD.getNbrLigneCasDeTest()
 
 
@@ -88,17 +88,17 @@ public class SQL {
 				}
 			}else {
 
-				query = "SELECT * FROM " + myJDD.getDBTableName() + this.getWhereWithAllPK(myJDD,casDeTestNum)
+				query = "SELECT * FROM " + myJDD.getDBTableName() + getWhereWithAllPK(myJDD,casDeTestNum)
 
 				MYLOG.addDEBUG("query =  $query")
 				try {
 					rows = sqlInstance.rows(query)
 					if (rows.size() == 0) {
 						MYLOG.addDETAIL("Pas de résultat pour la requête : $query")
-						verifStatus = 'ERROR'
+						verifStatus = 'FAIL'
 					}else if (rows.size() > 1){
 						MYLOG.addDETAIL(rows.size() + "résultats pour la requête : $query")
-						verifStatus = 'ERROR'
+						verifStatus = 'FAIL'
 					}else {
 						row=rows[0]
 					}
@@ -118,7 +118,7 @@ public class SQL {
 
 					MYLOG.addDEBUG("fieldName = $fieldName , val = $val , JDD value = " + myJDD.getData(fieldName))
 
-					verifStatus = this.checkValue(myJDD,fieldName, val,verifStatus,specificValueMap,casDeTestNum)
+					verifStatus = checkValue(myJDD,fieldName, val,verifStatus, specificValueMap,casDeTestNum)
 				}//row
 
 			}//pass
@@ -134,10 +134,10 @@ public class SQL {
 			case 'ERROR':
 				MYLOG.addSTEPERROR("Fin de la  vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
 				break
-			default : 
+			default :
 				MYLOG.addDETAIL("verifStatus inconnu '$verifStatus'")
 				MYLOG.addSTEPERROR("Fin de la  vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
-				
+
 				break
 		}
 
@@ -147,15 +147,19 @@ public class SQL {
 
 
 
-	private static String checkValue(my.JDD myJDD, String fieldName, val,String statusCheckValue,Map specificValueMap, int casDeTestNum) {
+	private static String checkValue(my.JDD myJDD, String fieldName, val,String verifStatus, Map specificValueMap, int casDeTestNum) {
+
+
+		if (myJDD.isOBSOLETE(fieldName)) return verifStatus
+
 
 		boolean specificValue = !specificValueMap.isEmpty() && specificValueMap.containsKey(fieldName)
 
-		if (!specificValue && myJDD.getParamForThisName('FOREIGNKEY', fieldName)!=null) {
 
-			if (!this.checkForeignKey(myJDD, fieldName, val)) {
-				statusCheckValue = 'FAIL'
-			}
+		if (!specificValue && myJDD.getParamForThisName('FOREIGNKEY', fieldName)) {
+
+			if (!checkForeignKey(myJDD, fieldName, val)) verifStatus= 'FAIL'
+
 
 		}else {
 
@@ -163,99 +167,97 @@ public class SQL {
 
 				case MYJDDKW.getKW_NU() :
 
-				MYLOG.addDEBUG("NU : Pas de contrôle pour '$fieldName' : la valeur en BD est  : '$val'" )
-				break
+					MYLOG.addDEBUG("NU : Pas de contrôle pour '$fieldName' : la valeur en BD est  : '$val'" )
+					break
 
 				case MYJDDKW.getKW_VIDE() :
 				case MYJDDKW.getKW_NULL():
-				if (val == null || val =='') {
+					if (val == null || val =='') {
 
-					this.logAddDEBUG('',fieldName,'VIDE ou NULL',val)
-				}else {
-					this.logAddDETAIL('',fieldName,'VIDE ou NULL',val)
-					statusCheckValue = 'FAIL'
-				}
+						logAddDEBUG('',fieldName,'VIDE ou NULL',val)
+					}else {
+						logAddDETAIL('',fieldName,'VIDE ou NULL',val)
+						verifStatus= 'FAIL'
+					}
 
-				break
+					break
 
 				case MYJDDKW.getKW_DATE() :
 
-				this.logAddDETAIL('DATE ***** reste à faire *****',fieldName,myJDD.getData(fieldName),val)
-				statusCheckValue = 'FAIL'
-				break
+					logAddDETAIL('DATE ***** reste à faire *****',fieldName,myJDD.getData(fieldName),val)
+					verifStatus= 'FAIL'
+					break
 
 				case MYJDDKW.getKW_DATETIME() :
 
-				if (val instanceof java.sql.Timestamp) {
-					this.logAddDEBUG('DATETIME',fieldName,myJDD.getData(fieldName),val)
-				}else {
-					this.logAddDETAIL('DATETIME ***** reste à faire *****',fieldName,myJDD.getData(fieldName),val)
-					statusCheckValue = 'FAIL'
-				}
-				break
+					if (val instanceof java.sql.Timestamp) {
+						logAddDEBUG('DATETIME',fieldName,myJDD.getData(fieldName),val)
+					}else {
+						logAddDETAIL('DATETIME ***** reste à faire *****',fieldName,myJDD.getData(fieldName),val)
+						verifStatus= 'FAIL'
+					}
+					break
 
 				case MYJDDKW.getKW_SEQUENCEID() :
 
-				this.logAddDETAIL('IDINTERNE ***** reste à faire *****',fieldName,myJDD.getData(fieldName),val)
+					logAddDETAIL('IDINTERNE ***** reste à faire *****',fieldName,myJDD.getData(fieldName),val)
 				//il faut peut etre testé si la valeur est num et unique ? ******
 
-				MYLOG.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' dans le JDD : ' + myJDD.getData(fieldName).getClass())
-				if ( val == myJDD.getData(fieldName)) {
-					this.logAddDEBUG('SEQUENCEID',fieldName,myJDD.getData(fieldName),val)
-				}else {
-					this.logAddDETAIL('SEQUENCEID',fieldName,myJDD.getData(fieldName),val)
-					statusCheckValue = 'FAIL'
-				}
+					MYLOG.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' dans le JDD : ' + myJDD.getData(fieldName).getClass())
+					if ( val == myJDD.getData(fieldName)) {
+						logAddDEBUG('SEQUENCEID',fieldName,myJDD.getData(fieldName),val)
+					}else {
+						logAddDETAIL('SEQUENCEID',fieldName,myJDD.getData(fieldName),val)
+						verifStatus= 'FAIL'
+					}
 
-				break
+					break
 
 				case MYJDDKW.getKW_ORDRE() :
 
-				this.logAddDETAIL('ORDRE ***** reste àfaire *****',fieldName,myJDD.getData(fieldName),val)
+					logAddDETAIL('ORDRE ***** reste àfaire *****',fieldName,myJDD.getData(fieldName),val)
 				//voir aussi le NU_NIV *******
-				statusCheckValue = 'FAIL'
-				break
+					verifStatus= 'FAIL'
+					break
 
 				default:
 
-				if (specificValue) {
-					MYLOG.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' la valeur spécifique est  : ' + specificValueMap[fieldName].getClass())
-					if ( val == INFOBDD.castJDDVal(myJDD.getDBTableName(), fieldName, specificValueMap[fieldName])) {
-						this.logAddDEBUG('spécifique',fieldName,specificValueMap[fieldName],val)
+					if (specificValue) {
+						MYLOG.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' la valeur spécifique est  : ' + specificValueMap[fieldName].getClass())
+						if ( val == InfoBDD.castJDDVal(myJDD.getDBTableName(), fieldName, specificValueMap[fieldName])) {
+							logAddDEBUG('spécifique',fieldName,specificValueMap[fieldName],val)
+						}else {
+							logAddDETAIL('spécifique',fieldName,specificValueMap[fieldName],val)
+							verifStatus = 'FAIL'
+						}
 					}else {
-						this.logAddDETAIL('spécifique',fieldName,specificValueMap[fieldName],val)
-						statusCheckValue = 'FAIL'
-					}
-				}else {
 
-					if (INFOBDD.isImage(myJDD.getDBTableName(), fieldName)) {
+						if (InfoBDD.isImage(myJDD.getDBTableName(), fieldName)) {
 
-						String query = "SELECT cast(cast($fieldName as varbinary(max)) as varchar(max)) FROM " + myJDD.getDBTableName() + this.getWhereWithAllPK(myJDD,casDeTestNum)
-						def frow = this.getFirstRow(query)
-						if (frow ) {
-							def texte = new DefaultStyledDocument()
+							String query = "SELECT cast(cast($fieldName as varbinary(max)) as varchar(max)) FROM " + myJDD.getDBTableName() + getWhereWithAllPK(myJDD,casDeTestNum)
+							def frow = getFirstRow(query)
+							if (frow ) {
+								def texte = new DefaultStyledDocument()
 
-							def editorKit = new RTFEditorKit()
-							editorKit.read(new StringReader(frow.getAt(0).toString()), texte , 0)
-							val = texte.getText(0, texte.getLength()-2)
+								def editorKit = new RTFEditorKit()
+								editorKit.read(new StringReader(frow.getAt(0).toString()), texte , 0)
+								val = texte.getText(0, texte.getLength()-2)
 
+							}
+						}
+
+						MYLOG.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' dans le JDD : ' + myJDD.getData(fieldName).getClass())
+						if ( val == InfoBDD.castJDDVal(myJDD.getDBTableName(), fieldName, myJDD.getData(fieldName))) {
+							logAddDEBUG('',fieldName,myJDD.getData(fieldName),val)
+						}else {
+							logAddDETAIL('',fieldName,myJDD.getData(fieldName),val)
+							verifStatus = 'FAIL'
 						}
 					}
-
-					MYLOG.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' dans le JDD : ' + myJDD.getData(fieldName).getClass())
-					if ( val == INFOBDD.castJDDVal(myJDD.getDBTableName(), fieldName, myJDD.getData(fieldName))) {
-						this.logAddDEBUG('',fieldName,myJDD.getData(fieldName),val)
-					}else {
-						this.logAddDETAIL('',fieldName,myJDD.getData(fieldName),val)
-						statusCheckValue = 'FAIL'
-					}
-
-
-				}
-				break
+					break
 			}//case
 		}
-		return statusCheckValue
+		return verifStatus
 	}
 
 
@@ -340,7 +342,7 @@ public class SQL {
 			if (nbrLigneCasDeTest>1) {
 				MYLOG.addSUBSTEP("Contrôle de la suppression du cas de test $casDeTestNum / $nbrLigneCasDeTest")
 			}
-			String query = "SELECT count(*) FROM " + myJDD.getDBTableName() + this.getWhereWithAllPK(myJDD,casDeTestNum)
+			String query = "SELECT count(*) FROM " + myJDD.getDBTableName() + getWhereWithAllPK(myJDD,casDeTestNum)
 
 			MYLOG.addDEBUG("query =  $query")
 
@@ -380,7 +382,7 @@ public class SQL {
 	 * @return
 	 */
 	private static String getWhereWithAllPK(JDD myJDD,int casDeTestNum) {
-		List PKList = INFOBDD.getPK(myJDD.getDBTableName())
+		List PKList = InfoBDD.getPK(myJDD.getDBTableName())
 		if (PKList) {
 			String query = ' WHERE '
 			PKList.each {

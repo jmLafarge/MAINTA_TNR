@@ -9,7 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import internal.GlobalVariable
 import my.Log as MYLOG
-import my.InfoBDD as INFOBDD
+import my.InfoBDD
 import my.Tools as TOOLS
 
 
@@ -39,46 +39,46 @@ class JDDGenerator {
 		XSSFWorkbook JDDbook
 		XSSFWorkbook PREJDDbook
 		MYLOG.addINFO('')
-		if (!my.JDDFiles.getFullName(modObj)) {
+		if (!JDDFiles.getFullName(modObj)) {
 			MYLOG.addINFO("Création du fichier JDD pour $modObj")
-			String fullName = this.createJDDFileByCopy(table,modObj)
+			String fullName = createJDDFileByCopy(table,modObj)
 			JDDbook = my.XLS.open(fullName)
-			my.JDDFiles.add(modObj, fullName)
+			JDDFiles.add(modObj, fullName)
 		}else {
-			MYLOG.addINFO("Le fichier JDD pour $modObj existe déjà : " + my.JDDFiles.getFullName(modObj))
-			JDDbook = my.XLS.open(my.JDDFiles.getFullName(modObj))
+			MYLOG.addINFO("Le fichier JDD pour $modObj existe déjà : " + JDDFiles.getFullName(modObj))
+			JDDbook = my.XLS.open(JDDFiles.getFullName(modObj))
 		}
 
-		String msg=this.addJDDSheet(JDDbook, table, modObj,fct,listRubriquesIHM)
+		String msg=addJDDSheet(JDDbook, table, modObj,fct,listRubriquesIHM)
 
-		this.addParaFromInfoPARA(JDDbook.getSheet(fct),msg)
+		addParaFromInfoPARA(JDDbook.getSheet(fct),msg)
 
 		if (msg) {
 
-			this.addInfoVersion(JDDbook,GlobalVariable.AUTEUR,msg)
+			addInfoVersion(JDDbook,GlobalVariable.AUTEUR,msg)
 
-			OutputStream JDDfileOut = new FileOutputStream(my.JDDFiles.getFullName(modObj))
+			OutputStream JDDfileOut = new FileOutputStream(JDDFiles.getFullName(modObj))
 			JDDbook.write(JDDfileOut)
 		}
 
 
 		MYLOG.addINFO('')
-		if (!my.PREJDDFiles.getFullName(modObj)) {
+		if (!PREJDDFiles.getFullName(modObj)) {
 			MYLOG.addINFO("Création du fichier PREJDD pour $modObj")
-			String fullName = this.createPREJDDFileByCopy(table,modObj)
+			String fullName = createPREJDDFileByCopy(table,modObj)
 			PREJDDbook = my.XLS.open(fullName)
-			my.PREJDDFiles.add(modObj, fullName)
+			PREJDDFiles.add(modObj, fullName)
 		}else {
-			MYLOG.addINFO("Le fichier PREJDD pour $modObj existe déjà : " + my.PREJDDFiles.getFullName(modObj))
-			PREJDDbook = my.XLS.open(my.PREJDDFiles.getFullName(modObj))
+			MYLOG.addINFO("Le fichier PREJDD pour $modObj existe déjà : " + PREJDDFiles.getFullName(modObj))
+			PREJDDbook = my.XLS.open(PREJDDFiles.getFullName(modObj))
 		}
 
-		msg=this.addPREJDDSheet(PREJDDbook, table, modObj,fct)
+		msg=addPREJDDSheet(PREJDDbook, table, modObj,fct)
 
 		if (msg) {
-			this.addInfoVersion(PREJDDbook,GlobalVariable.AUTEUR,msg)
+			addInfoVersion(PREJDDbook,GlobalVariable.AUTEUR,msg)
 
-			OutputStream PREJDDfileOut = new FileOutputStream(my.PREJDDFiles.getFullName(modObj))
+			OutputStream PREJDDfileOut = new FileOutputStream(PREJDDFiles.getFullName(modObj))
 			PREJDDbook.write(PREJDDfileOut)
 		}
 	}
@@ -105,7 +105,7 @@ class JDDGenerator {
 				int icol = 2
 				for (para in ['PREREQUIS', 'FOREIGNKEY', 'SEQUENCE', 'LOCATOR']) {
 
-					Row rowPara = this.getRowOfPara(shFCT,para)
+					Row rowPara = getRowOfPara(shFCT,para)
 					if (rowPara!=null && my.InfoPARA.paraMap[cval][icol]) {
 
 						if(my.XLS.getCellValue(rowPara.getCell(i))==''){
@@ -190,13 +190,24 @@ class JDDGenerator {
 			MYLOG.addDETAIL("Renseigner l'onglet $fct")
 			my.XLS.writeCell(shFCT.getRow(0),0,table)
 
-			this.setStyle(JDDbook,shFCT)
+			setStyle(JDDbook,shFCT)
 
 
 
-			INFOBDD.map[table].each{col,vlist ->
+			InfoBDD.map[table].each{col,vlist ->
 				// Sheet FCT
-				my.XLS.writeCell(shFCT.getRow(0),numColFct,col,styleChamp)
+				CellStyle stylePK = JDDbook.createCellStyle()
+				def fontPK = JDDbook.createFont()
+				fontPK.setColor(IndexedColors.RED.index)
+				fontPK.setBold(true)
+				stylePK.setFont(fontPK)
+				
+				if (InfoBDD.isPK(table,col)) {
+					my.XLS.writeCell(shFCT.getRow(0),numColFct,col,stylePK)
+				}else {
+					my.XLS.writeCell(shFCT.getRow(0),numColFct,col,styleChamp)
+				}
+				
 				for (int i in 1..4) {
 					my.XLS.writeCell(shFCT.getRow(i),numColFct,null,stylePara)
 				}
@@ -207,35 +218,29 @@ class JDDGenerator {
 				rowInfo = my.XLS.getNextRow(shJDDInfo)
 				my.XLS.writeCell(rowInfo,0,col)
 				my.XLS.writeCell(rowInfo,1,lib.getAt(col))
-				String type = INFOBDD.map[table][col][2]+'('+INFOBDD.map[table][col][3]+')'
-				if (INFOBDD.map[table][col][2]=='numeric') {
+				String type = InfoBDD.map[table][col][2]+'('+InfoBDD.map[table][col][3]+')'
+				if (InfoBDD.map[table][col][2]=='numeric') {
 					type = 'numeric'
-				}else if (INFOBDD.map[table][col][2]=='datetime') {
+				}else if (InfoBDD.map[table][col][2]=='datetime') {
 					type = 'datetime'
-				}else if (INFOBDD.map[table][col][4]=='T_BOOLEEN') {
+				}else if (InfoBDD.map[table][col][4]=='T_BOOLEEN') {
 					type = 'boolean'
 				}
 
-				if (INFOBDD.map[table][col][5]!='NULL') {
-					CellStyle stylePK = JDDbook.createCellStyle()
-					def fontPK = JDDbook.createFont()
-					fontPK.setColor(IndexedColors.RED.index)
-					fontPK.setBold(true)
-					stylePK.setFont(fontPK)
-
+				if (InfoBDD.isPK(table,col)) {
 					my.XLS.writeCell(rowInfo,2,type,stylePK)
 				}else {
 					my.XLS.writeCell(rowInfo,2,type)
 				}
 			}
 
-			this.ajouterRubriqueIHM(shFCT, listRubriquesIHM)
+			ajouterRubriqueIHM(shFCT, listRubriquesIHM)
 
 
 		}else {
 
-			this.setStyle(JDDbook,shFCT)
-			msg = this.ajouterRubriqueIHM(shFCT, listRubriquesIHM)
+			setStyle(JDDbook,shFCT)
+			msg = ajouterRubriqueIHM(shFCT, listRubriquesIHM)
 
 		}
 		return msg
@@ -245,14 +250,14 @@ class JDDGenerator {
 
 	private static setStyle(XSSFWorkbook JDDbook,Sheet shFCT) {
 
-		this.styleChamp = shFCT.getRow(0).getCell(1).getCellStyle()
-		this.stylePara = shFCT.getRow(1).getCell(1).getCellStyle()
-		this.styleCdt = shFCT.getRow(5).getCell(1).getCellStyle()
+		styleChamp = shFCT.getRow(0).getCell(1).getCellStyle()
+		stylePara = shFCT.getRow(1).getCell(1).getCellStyle()
+		styleCdt = shFCT.getRow(5).getCell(1).getCellStyle()
 
-		this.styleChampIHM = JDDbook.createCellStyle()
-		this.styleChampIHM.cloneStyleFrom(shFCT.getRow(0).getCell(1).getCellStyle())
-		this.styleChampIHM.setFillPattern(FillPatternType.SOLID_FOREGROUND)
-		this.styleChampIHM.setFillForegroundColor(IndexedColors.PALE_BLUE.index)
+		styleChampIHM = JDDbook.createCellStyle()
+		styleChampIHM.cloneStyleFrom(shFCT.getRow(0).getCell(1).getCellStyle())
+		styleChampIHM.setFillPattern(FillPatternType.SOLID_FOREGROUND)
+		styleChampIHM.setFillForegroundColor(IndexedColors.PALE_BLUE.index)
 
 	}
 
@@ -271,11 +276,11 @@ class JDDGenerator {
 				MYLOG.addDETAIL("\tAjout de $rub")
 				msg="Ajout des rubriques IHM pour l'onglet " + shFCT.getSheetName()
 				int numColFct = my.XLS.getLastColumnIndex(shFCT,0)
-				my.XLS.writeCell(shFCT.getRow(0),numColFct,rub,this.styleChampIHM)
+				my.XLS.writeCell(shFCT.getRow(0),numColFct,rub,styleChampIHM)
 				for (int i in 1..4) {
-					my.XLS.writeCell(shFCT.getRow(i),numColFct,null,this.stylePara)
+					my.XLS.writeCell(shFCT.getRow(i),numColFct,null,stylePara)
 				}
-				my.XLS.writeCell(shFCT.getRow(5),numColFct,null,this.styleCdt)
+				my.XLS.writeCell(shFCT.getRow(5),numColFct,null,styleCdt)
 			}
 		}
 
@@ -286,10 +291,10 @@ class JDDGenerator {
 
 	private static String createJDDFileByCopy(String table, String modObj) {
 
-		String dir = my.PropertiesReader.getMyProperty('JDD_PATH') + File.separator + modObj.split(/\./)[0]
+		String dir = my.PropertiesReader.getMyProperty('JDD_PATH')
 		TOOLS.createFolderIfNotExist(dir)
 
-		Path source = Paths.get(this.trameJDD)
+		Path source = Paths.get(trameJDD)
 		String fullName = dir + File.separator + "JDD.${modObj}.xlsx"
 		MYLOG.addDETAIL(fullName)
 		Path target = Paths.get(fullName)
@@ -300,10 +305,10 @@ class JDDGenerator {
 
 	private static String createPREJDDFileByCopy(String table,String modObj) {
 
-		String dir = my.PropertiesReader.getMyProperty('PREJDD_PATH') + File.separator + modObj.split(/\./)[0]
+		String dir = my.PropertiesReader.getMyProperty('PREJDD_PATH')
 		TOOLS.createFolderIfNotExist(dir)
 
-		Path source = Paths.get(this.tramePREJDD)
+		Path source = Paths.get(tramePREJDD)
 		String fullName = dir + File.separator + "PREJDD.${modObj}.xlsx"
 		MYLOG.addDETAIL(fullName)
 		Path target = Paths.get(fullName)
@@ -335,8 +340,18 @@ class JDDGenerator {
 
 			def stylePREJDDChamp = shFCT.getRow(0).getCell(1).getCellStyle()
 
-			INFOBDD.map[table].each{col,vlist ->
-				my.XLS.writeCell(shFCT.getRow(0),numColFct,col,stylePREJDDChamp)
+			InfoBDD.map[table].each{col,vlist ->
+				
+				if (InfoBDD.isPK(table,col)) {
+					CellStyle stylePK = JDDbook.createCellStyle()
+					def fontPK = JDDbook.createFont()
+					fontPK.setColor(IndexedColors.RED.index)
+					fontPK.setBold(true)
+					stylePK.setFont(fontPK)
+					my.XLS.writeCell(shFCT.getRow(0),numColFct,col,stylePK)
+				}else {
+					my.XLS.writeCell(shFCT.getRow(0),numColFct,col,stylePREJDDChamp)
+				}
 				numColFct++
 			}
 

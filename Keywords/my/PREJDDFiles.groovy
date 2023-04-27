@@ -8,7 +8,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import groovy.io.FileType
 import my.Log as MYLOG
 import my.SQL as MYSQL
-import my.InfoBDD as INFOBDD
+import my.InfoBDD
 
 public class PREJDDFiles {
 
@@ -26,7 +26,7 @@ public class PREJDDFiles {
 			// keep only TC Name like PREJDD.*.xlsx
 			if (file.getName()==~ /PREJDD\..*\.xlsx/ && file.getPath()==~ /^((?!standby).)*$/) {
 				String modObj = file.getName().replace('PREJDD.','').replace('.xlsx','')
-				this.PREJDDfilemap.put(modObj,file.getPath())
+				PREJDDfilemap.put(modObj,file.getPath())
 				MYLOG.addINFO('\t' + modObj.padRight(11) + file.getPath(),1)
 			}
 		}
@@ -36,17 +36,17 @@ public class PREJDDFiles {
 
 	public static String getFullName(String modObj){
 
-		return this.PREJDDfilemap.getAt(modObj)
+		return PREJDDfilemap.getAt(modObj)
 	}
 
 
 
 	static insertPREJDDinDB(String modObj, String tabName) {
 		MYLOG.addDEBUG("insertPREJDDinDB() modObj = '$modObj' tabName = '$tabName'")
-		def myJDD = new my.JDD(my.JDDFiles.JDDfilemap.getAt(modObj),tabName)
+		def myJDD = new my.JDD(JDDFiles.JDDfilemap.getAt(modObj),tabName)
 
-		MYLOG.addSTEP("Lecture du PREJDD : '" + this.PREJDDfilemap.getAt(modObj))
-		XSSFWorkbook book = my.XLS.open(this.PREJDDfilemap.getAt(modObj))
+		MYLOG.addSTEP("Lecture du PREJDD : '" + PREJDDfilemap.getAt(modObj))
+		XSSFWorkbook book = my.XLS.open(PREJDDfilemap.getAt(modObj))
 		// set tab (sheet)
 		Sheet sheet = book.getSheet(tabName)
 		Row row0 = sheet.getRow(0)
@@ -54,7 +54,7 @@ public class PREJDDFiles {
 		Map sequence = [:]
 		def maxORDRE = null
 
-		List PKlist=INFOBDD.getPK(myJDD.getDBTableName())
+		List PKlist=InfoBDD.getPK(myJDD.getDBTableName())
 
 		// for each data line
 		for (int numline : (1..sheet.getLastRowNum())) {
@@ -87,7 +87,7 @@ public class PREJDDFiles {
 
 					// cas d'un champ lié à une séquence
 					String seqTable = myJDD.getParamForThisName('SEQUENCE',fieldName)
-					if (seqTable!=null){
+					if (seqTable){
 						if (sequence.containsKey(seqTable)) {
 							if (value > sequence.getAt(seqTable)) {
 								sequence.put(seqTable, value)
@@ -126,13 +126,13 @@ public class PREJDDFiles {
 							val = "'${now.format('yyyy-dd-MM HH:mm:ss.SSS')}'"
 							break
 						default :
-							
+
 							if (value instanceof java.util.Date) {
 								MYLOG.addDEBUG("\t\t instanceof java.util.Date = TRUE")
 								val = "'${value.format('yyyy-dd-MM HH:mm:ss.SSS')}'"
-							}else if (INFOBDD.isImage(myJDD.getDBTableName(), fieldName)) {
-								
-								val = "'${this.getRTFTEXT(value)}'"
+							}else if (InfoBDD.isImage(myJDD.getDBTableName(), fieldName)) {
+
+								val = "'${getRTFTEXT(value)}'"
 							}else {
 								val = "'$value'"
 							}
@@ -152,7 +152,7 @@ public class PREJDDFiles {
 			}
 
 
-			this.insertIfNotExist(myJDD.getDBTableName(), PKwhere.join(' AND '), fields.join(','), values.join(','))
+			insertIfNotExist(myJDD.getDBTableName(), PKwhere.join(' AND '), fields.join(','), values.join(','))
 
 		}
 
@@ -188,11 +188,11 @@ public class PREJDDFiles {
 
 
 	static add(String modObj,String fullName) {
-		this.PREJDDfilemap.put(modObj,fullName)
+		PREJDDfilemap.put(modObj,fullName)
 	}
 
 
-	
+
 	private static String getRTFTEXT(String val) {
 		String strBegin ="{\\rtf1\\fbidis\\ansi\\ansicpg0\\uc1\\deff0\\deflang0\\deflangfe0{\\fonttbl{\\f0\\fnil Arial;}}{\\colortbl;}{\\stylesheet{\\s0\\fi0\\li0\\ql\\ri0\\sb0\\sa0 Paragraph Style;}{\\*\\cs1\\f0\\fs24 Font Style;}}\\pard\\s0\\fi0\\li0\\ql\\ri0\\sb0\\sa0\\itap0 \\plain \\cs1\\f0\\fs24 "
 		String strEnd	="\\par}"

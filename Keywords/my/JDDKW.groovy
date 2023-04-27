@@ -13,64 +13,64 @@ public class JDDKW {
 	]
 
 	static boolean isAllowedKeyword(String val) {
-		return this.KEYWORD_ALLOWED.containsValue(val)
+		return KEYWORD_ALLOWED.containsValue(val)
 	}
 
 	static boolean isNU(def val) {
-		return ((val instanceof String) && val == this.KEYWORD_ALLOWED.getAt('KW_NU'))
+		return ((val instanceof String) && val == KEYWORD_ALLOWED.getAt('KW_NU'))
 	}
 
 	static boolean isVIDE(def val) {
-		return ((val instanceof String) && val == this.KEYWORD_ALLOWED.getAt('KW_VIDE'))
+		return ((val instanceof String) && val == KEYWORD_ALLOWED.getAt('KW_VIDE'))
 	}
 
 	static boolean isNULL(def val) {
-		return ((val instanceof String) && val == this.KEYWORD_ALLOWED.getAt('KW_NULL'))
+		return ((val instanceof String) && val == KEYWORD_ALLOWED.getAt('KW_NULL'))
 	}
 
 	static boolean isDATE(def val) {
-		return ((val instanceof String) && val == this.KEYWORD_ALLOWED.getAt('KW_DATE'))
+		return ((val instanceof String) && val == KEYWORD_ALLOWED.getAt('KW_DATE'))
 	}
 
 	static boolean isDATETIME(def val) {
-		return ((val instanceof String) && val == this.KEYWORD_ALLOWED.getAt('KW_DATETIME'))
+		return ((val instanceof String) && val == KEYWORD_ALLOWED.getAt('KW_DATETIME'))
 	}
 
 	static boolean isORDRE(def val) {
-		return ((val instanceof String) && val == this.KEYWORD_ALLOWED.getAt('KW_ORDRE'))
+		return ((val instanceof String) && val == KEYWORD_ALLOWED.getAt('KW_ORDRE'))
 	}
 
 	static boolean isSEQUENCEID(def val) {
-		return ((val instanceof String) && val == this.KEYWORD_ALLOWED.getAt('KW_SEQUENCEID'))
+		return ((val instanceof String) && val == KEYWORD_ALLOWED.getAt('KW_SEQUENCEID'))
 	}
 
 
 
 	static String getKW_NU() {
-		return this.KEYWORD_ALLOWED.getAt('KW_NU')
+		return KEYWORD_ALLOWED.getAt('KW_NU')
 	}
 
 	static String getKW_VIDE() {
-		return this.KEYWORD_ALLOWED.getAt('KW_VIDE')
+		return KEYWORD_ALLOWED.getAt('KW_VIDE')
 	}
 
 	static String getKW_NULL() {
-		return this.KEYWORD_ALLOWED.getAt('KW_NULL')
+		return KEYWORD_ALLOWED.getAt('KW_NULL')
 	}
 
 	static String getKW_DATE() {
-		return this.KEYWORD_ALLOWED.getAt('KW_DATE')
+		return KEYWORD_ALLOWED.getAt('KW_DATE')
 	}
 
 	static String getKW_DATETIME() {
-		return this.KEYWORD_ALLOWED.getAt('KW_DATETIME')
+		return KEYWORD_ALLOWED.getAt('KW_DATETIME')
 	}
 
 	static String getKW_ORDRE() {
-		return this.KEYWORD_ALLOWED.getAt('KW_ORDRE')
+		return KEYWORD_ALLOWED.getAt('KW_ORDRE')
 	}
 
 	static String getKW_SEQUENCEID() {
-		return this.KEYWORD_ALLOWED.getAt('KW_SEQUENCEID')
+		return KEYWORD_ALLOWED.getAt('KW_SEQUENCEID')
 	}
 }

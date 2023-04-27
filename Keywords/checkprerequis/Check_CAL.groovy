@@ -5,7 +5,7 @@ import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
-import my.PREJDDFiles as MYPREJDDFILES
+import my.PREJDDFiles
 import my.Log as MYLOG
 import my.XLS as MYXLS
 
@@ -22,18 +22,18 @@ public class Check_CAL {
 				
 		MYLOG.addSubTITLE('Vérification spécifique de CAL/CALDEF')
 		
-		XSSFWorkbook book = my.XLS.open(MYPREJDDFILES.PREJDDfilemap['RO.CAL'])
+		XSSFWorkbook book = MYXLS.open(PREJDDFiles.PREJDDfilemap['RO.CAL'])
 		
 		Sheet shCAL = book.getSheet('001')
 		Sheet shCALDEF = book.getSheet('001A')
 
-		this.loadListCAL(shCAL)
-		this.loadListCALDEF(shCALDEF)
+		loadListCAL(shCAL)
+		loadListCALDEF(shCALDEF)
 		
-		this.listCAL.each { 
+		listCAL.each { 
 			
 			for (def i in [1,2,3,4,5,6,7,'$VIDE']){
-				if (!this.listCALDEF.contains(it+' - '+ i.toString())) {
+				if (!listCALDEF.contains(it+' - '+ i.toString())) {
 					MYLOG.addDETAILFAIL("Manque $it - $i dans CALDEF")
 				}
 			}
@@ -52,7 +52,7 @@ public class Check_CAL {
 			if (MYXLS.getCellValue(row.getCell(0)) == '') {
 				break
 			}
-			this.listCAL.add(MYXLS.getCellValue(row.getCell(0))+ ' - ' + MYXLS.getCellValue(row.getCell(1)))
+			listCAL.add(MYXLS.getCellValue(row.getCell(0))+ ' - ' + MYXLS.getCellValue(row.getCell(1)))
 		}
 	}
 	
@@ -67,7 +67,7 @@ public class Check_CAL {
 			if (MYXLS.getCellValue(row.getCell(0)) == '') {
 				break
 			}
-			this.listCALDEF.add(MYXLS.getCellValue(row.getCell(0))+ ' - ' + MYXLS.getCellValue(row.getCell(1))+ ' - ' + MYXLS.getCellValue(row.getCell(5)))
+			listCALDEF.add(MYXLS.getCellValue(row.getCell(0))+ ' - ' + MYXLS.getCellValue(row.getCell(1))+ ' - ' + MYXLS.getCellValue(row.getCell(5)))
 		}
 	}
 	

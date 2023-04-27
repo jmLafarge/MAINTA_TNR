@@ -13,6 +13,12 @@ import my.Log as MYLOG
 
 
 class Tools {
+	
+	
+	public static String getMobObj(String tc) {
+		
+		return tc.find(/^\w+\.\w+/)
+	}
 
 
 	public static getBrowserAndVersion() {
@@ -40,9 +46,9 @@ class Tools {
 
 		TimeDuration timeDuration = TimeCategory.minus( stop, start )
 
-		String SS = this.addZero(timeDuration.getSeconds())
-		String MM = this.addZero(timeDuration.getMinutes())
-		String HH = this.addZero(timeDuration.getHours() + (timeDuration.getDays()*24))
+		String SS = addZero(timeDuration.getSeconds())
+		String MM = addZero(timeDuration.getMinutes())
+		String HH = addZero(timeDuration.getHours() + (timeDuration.getDays()*24))
 
 		return "$HH:$MM:$SS"
 	}
@@ -93,6 +99,4 @@ class Tools {
 			MYLOG.addDEBUG("createFolderIfNotExist() : Dossier $dir existe déjà")
 		}
 	}
-	
-	
 } // end of class
