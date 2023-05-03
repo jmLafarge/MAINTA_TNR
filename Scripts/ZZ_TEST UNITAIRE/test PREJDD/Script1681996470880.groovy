@@ -35,7 +35,7 @@ for(Sheet sheet: book) {
 			List PKvalues = []
 			li.eachWithIndex { val,i ->
 				if (headersPREJDD.get(i) in PKList) {
-					//MYLOG.addDETAIL("- CDT : " + li[0] + ' PK : ' + headersPREJDD.get(i) +' = ' + val)
+					//TNRResult.addDETAIL("- CDT : " + li[0] + ' PK : ' + headersPREJDD.get(i) +' = ' + val)
 					PKvalues.add(val)
 				}
 			}
@@ -59,7 +59,7 @@ for(Sheet sheet: book) {
 		datas.eachWithIndex { li,numli ->
 			li.eachWithIndex { val,i ->
 				if (headersPREJDD.get(i) in PKList) {
-					//MYLOG.addDETAIL("- CDT : " + li[0] + ' PK : ' + headersPREJDD.get(i) +' = ' + val)
+					//TNRResult.addDETAIL("- CDT : " + li[0] + ' PK : ' + headersPREJDD.get(i) +' = ' + val)
 					
 					println "- CDT : " + li[0] + ' PK : ' + headersPREJDD.get(i) +' = ' + val
 					if (PKval.containsKey(val)) {

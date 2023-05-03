@@ -1,12 +1,12 @@
 
 import my.JDDGenerator
-import my.Log as MYLOG
+import my.result.TNRResult
 import my.InfoBDD
 import my.PREJDDFiles
 import my.JDDFiles
 
 
-MYLOG.addTITLE("Lancement de JDD GENERATOR")
+Log.addTITLE("Lancement de JDD GENERATOR")
 if (InfoBDD.map.isEmpty()) { InfoBDD.load() }
 if (JDDFiles.JDDfilemap.isEmpty()) { JDDFiles.load() }
 if (PREJDDFiles.PREJDDfilemap.isEmpty()) { PREJDDFiles.load() }

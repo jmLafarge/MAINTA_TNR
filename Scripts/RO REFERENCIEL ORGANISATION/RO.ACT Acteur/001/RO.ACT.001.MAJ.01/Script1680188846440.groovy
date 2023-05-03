@@ -1,6 +1,6 @@
 import my.KW
 import my.NAV
-import my.Log as MYLOG
+import my.result.TNRResult
 import my.JDD
 
 
@@ -12,14 +12,14 @@ for (String cdt in myJDD.CDTList) {
 	
 	myJDD.setCasDeTest(cdt)
 		
-	MYLOG.addStartTestCase(cdt)
+	TNRResult.addStartTestCase(cdt)
 
 	'Naviguer vers la bonne url et controle des infos du cartouche'
 	NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData())
 
 
 
-	MYLOG.addSTEPGRP("ONGLET ACTEUR")
+	TNRResult.addSTEPGRP("ONGLET ACTEUR")
 		
 		KW.scrollAndClick(myJDD,"tab_Acteur")
 		KW.waitForElementVisible(myJDD,"tab_ActeurSelected")
@@ -34,13 +34,13 @@ for (String cdt in myJDD.CDTList) {
 		KW.scrollAndSetText(myJDD, "ST_TELMOB")
 		KW.scrollAndSetText(myJDD, "ST_TELCOP")
 		
-		MYLOG.addSTEPBLOCK("SERVICE")
+		TNRResult.addSTEPBLOCK("SERVICE")
 		KW.searchWithHelper(myJDD, "ID_CODGES","","")
 		//ST_DESGES --> pas d'action en modification
 		KW.scrollAndCheckIfNeeded(myJDD,"ST_GRP","O")
 		
 		
-	MYLOG.addSTEPGRP("ONGLET AFFECTATION")
+	TNRResult.addSTEPGRP("ONGLET AFFECTATION")
 		
 		KW.scrollAndClick(myJDD,"tab_Affectation")
 		KW.waitForElementVisible(myJDD,"tab_AffectationSelected")
@@ -52,13 +52,13 @@ for (String cdt in myJDD.CDTList) {
 		KW.scrollAndSetText(myJDD, "ST_GRO")
 		KW.scrollAndSetText(myJDD, "ST_DES")
 		
-		MYLOG.addSTEPBLOCK("CATEGORIE")
+		TNRResult.addSTEPBLOCK("CATEGORIE")
 		KW.searchWithHelper(myJDD, "ID_CODCAT","","")
 		//ST_DESID_CODCAT --> pas d'action en modification
 		KW.scrollAndSetText(myJDD, "NU_COUHOR")
 		
 		
-	MYLOG.addSTEPGRP("ONGLET ROLE")
+	TNRResult.addSTEPGRP("ONGLET ROLE")
 		
 		KW.scrollAndClick(myJDD,"tab_Role")
 		KW.waitForElementVisible(myJDD,"tab_RoleSelected")
@@ -72,14 +72,14 @@ for (String cdt in myJDD.CDTList) {
 		KW.scrollAndCheckIfNeeded(myJDD,"ST_ACH","O")
 		KW.scrollAndCheckIfNeeded(myJDD,"ST_REC","O")
 		
-		MYLOG.addSTEPBLOCK("ROLE DANS L'ORGANISATION")
+		TNRResult.addSTEPBLOCK("ROLE DANS L'ORGANISATION")
 		KW.scrollAndCheckIfNeeded(myJDD,"ST_UTI","O")
 		KW.scrollAndCheckIfNeeded(myJDD,"ST_UTIMOB","O")
 		KW.scrollAndCheckIfNeeded(myJDD,"ST_INVPRE","O")
 		KW.scrollAndCheckIfNeeded(myJDD,"ST_INVBT","O")
 		KW.scrollAndCheckIfNeeded(myJDD,"ST_INVDA","O")
 		
-	MYLOG.addSTEPGRP("ONGLET PREVENTIF")
+	TNRResult.addSTEPGRP("ONGLET PREVENTIF")
 		
 		KW.scrollAndClick(myJDD,"tab_Preventif")
 		KW.waitForElementVisible(myJDD,"tab_PreventifSelected")
@@ -89,7 +89,7 @@ for (String cdt in myJDD.CDTList) {
 		KW.searchWithHelper(myJDD, "ID_CODCAL","","")
 		//ST_DESID_CODCAL --> pas d'action en modification
 		
-	MYLOG.addSTEPGRP("ONGLET ZONE")
+	TNRResult.addSTEPGRP("ONGLET ZONE")
 		
 		KW.scrollAndClick(myJDD,"tab_Zone")
 		KW.waitForElementVisible(myJDD,"tab_ZoneSelected")
@@ -107,7 +107,7 @@ for (String cdt in myJDD.CDTList) {
 		}
 
 
-	MYLOG.addSTEPACTION('VALIDATION')
+	TNRResult.addSTEPACTION('VALIDATION')
 
 		KW.scrollAndClick(myJDD,'button_Valider')
 	
@@ -115,7 +115,7 @@ for (String cdt in myJDD.CDTList) {
 	
 		my.SQL.checkJDDWithBD(myJDD,specificValueMap)
 		
-	MYLOG.addEndTestCase()
+	TNRResult.addEndTestCase()
 } // fin du if
 
 

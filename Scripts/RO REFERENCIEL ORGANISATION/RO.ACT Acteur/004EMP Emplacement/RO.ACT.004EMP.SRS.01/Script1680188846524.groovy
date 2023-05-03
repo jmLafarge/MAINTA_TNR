@@ -2,7 +2,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import my.KW
 import my.NAV
-import my.Log as MYLOG
+import my.result.TNRResult
 import my.JDD
 
 
@@ -14,12 +14,12 @@ for (String cdt in myJDD.CDTList) {
 	
 	myJDD.setCasDeTest(cdt)
 		
-	MYLOG.addStartTestCase(cdt)
+	TNRResult.addStartTestCase(cdt)
 
 	'Naviguer vers la bonne url et controle des infos du cartouche'
 	NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_CODINT'))
 	
-	MYLOG.addSTEPGRP('ONGLET ZONE')
+	TNRResult.addSTEPGRP('ONGLET ZONE')
 	
 		KW.scrollAndClick(myJDD,"tab_Zone")
 		KW.waitForElementVisible(myJDD,"tab_ZoneSelected")
@@ -30,7 +30,7 @@ for (String cdt in myJDD.CDTList) {
 		for (i in 2..1) {
 			
 			if (myJDD.getNbrLigneCasDeTest()>1) {
-				MYLOG.addSTEPLOOP("Ajout $i / " + myJDD.getNbrLigneCasDeTest())
+				TNRResult.addSTEPLOOP("Ajout $i / " + myJDD.getNbrLigneCasDeTest())
 			}
 			
 			myJDD.setCasDeTestNum(i)
@@ -45,11 +45,11 @@ for (String cdt in myJDD.CDTList) {
 			}
 	    }
 		
-	MYLOG.addSTEPACTION('CONTROLE')
+	TNRResult.addSTEPACTION('CONTROLE')
 	'Vérification en BD que l\'objet n\'existe plus'
 	my.SQL.checkIDNotInBD(myJDD)		
 
-	MYLOG.addEndTestCase()
+	TNRResult.addEndTestCase()
 } // fin du if
 
 

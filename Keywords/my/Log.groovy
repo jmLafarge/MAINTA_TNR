@@ -1,8 +1,8 @@
 package my
 
 
-import internal.GlobalVariable
-import my.result.ResultGenerator as MYRES
+import groovy.transform.CompileStatic
+
 
 /*
  * use my.Log in the code without import --> to be sure that this Log is used
@@ -10,9 +10,11 @@ import my.result.ResultGenerator as MYRES
  * To log message in files
  * 
  */
+@CompileStatic
 class Log {
 
-	private static Map status = ['WARNING':0,'FAIL':0,'PASS':0,'ERROR':0]
+
+	public static Date logDate = null
 
 	private static String dateTimeFormat = 'yyyy-MM-dd HH:mm:ss.SSS'
 
@@ -25,21 +27,13 @@ class Log {
 
 	private static String tab = ''
 
-	private static boolean testCaseStarted = false
-	private static Date start
-	private static Date logDate
 
-
-	/*
-	 private static String PRESTEPTXT 	= '\t\t  STEP : '
-	 private static String PRESUBSTEPTXT	= '\t\t\t    '
-	 private static String PREDETAILTXT	= '\t\t\t    - '
-	 private static String PREDEBUGTXT	= '\t\t\t\t  + '
-	 */
-	private static String PRESTEPTXT 	= '\tSTEP : '
-	private static String PRESUBSTEPTXT	= '\t\t'
-	private static String PREDETAILTXT	= '\t\t- '
 	private static String PREDEBUGTXT	= '\t\t'
+	private static String PREDETAILTXT	= '\t\t- '
+
+
+
+
 
 	private static File createFile(String txt){
 
@@ -57,7 +51,8 @@ class Log {
 	}
 
 
-	private static String getStatFormat(String stat) {
+
+	private static String getStatusFormat(String stat) {
 
 		if (stat=='') {
 			stat='-'*nbCarStatus
@@ -68,8 +63,9 @@ class Log {
 	}
 
 
-	private static add (String stat, String msg) {
-		stat= getStatFormat(stat)
+
+	public static add (String stat, String msg) {
+		stat= getStatusFormat(stat)
 		logDate = new Date()
 		String h = logDate.format(dateTimeFormat)
 		file.append("[$h][$stat]:" + tab +"$msg\n")
@@ -78,14 +74,16 @@ class Log {
 	}
 
 
+
 	public static addDEBUG (String msg, int level=1) {
-		String stat= getStatFormat("  D $level  ")
+		String stat= getStatusFormat("  D $level  ")
 		String h = new Date().format(dateTimeFormat)
 		if (level <= debugLevel) {
 			fileDebug.append("[$h][$stat]:" + PREDEBUGTXT + tab +"$msg\n")
 			//println "[my Log][$stat]:" + tab +"$msg"
 		}
 	}
+
 
 
 	public static addDEBUGDETAIL (String msg, int level=1) {
@@ -97,7 +95,7 @@ class Log {
 	public static addINFO (String msg,int level=0) {
 
 		if (level==0) {
-			add('',msg )
+			add('',msg)
 		}else {
 			addDEBUG(msg,level )
 		}
@@ -105,176 +103,21 @@ class Log {
 
 
 
-	public static addWARNING (String msg) {
-		add('WARNING',msg )
-	}
-
-
-	public static addFAIL (String msg) {
-		add('FAIL',msg )
-	}
-
-
-	public static addPASS (String msg) {
-		add('PASS',msg )
-	}
 
 
 	public static addERROR (String msg) {
 		add('ERROR',msg )
-		// status.ERROR++ // 20230329 j'ai mis cette ligne en commentaire, on ne veut que les STEP ERROR
 	}
 
 
-
-
-
-	public static addDETAIL (String msg) {
-		addINFO(PREDETAILTXT+ msg)
-		addStepInResult(msg,'DETAIL')
-	}
 
 
 	public static addDETAILFAIL (String msg) {
-		addFAIL(PREDETAILTXT+ msg)
+		add('FAIL',PREDETAILTXT+ msg)
 	}
 
 	public static addDETAILWARNING (String msg) {
-		addWARNING(PREDETAILTXT+ msg)
-	}
-
-	public static addSTEP (String msg, String status = null) {
-		switch (status) {
-			case null :
-				addINFO(PRESTEPTXT+ msg)
-				addStepInResult(msg,'INFO')
-				break
-			case 'PASS':
-				addSTEPPASS(msg)
-				break
-			case 'WARNING':
-				addSTEPWARNING(msg)
-				break
-			case 'FAIL':
-				addSTEPFAIL(msg)
-				break
-			case 'ERROR':
-				addSTEPERROR(msg)
-				break
-			default :
-				add(status,PRESTEPTXT+ msg)
-				break
-		}
-	}
-
-
-
-	public static addSUBSTEP (String msg) {
-		addINFO(PRESUBSTEPTXT+ msg)
-		addStepInResult(msg,'SUBSTEP')
-	}
-
-
-	public static addSTEPACTION (String msg) {
-		addINFO('\t'+ msg.padRight(90, '_'))
-		addStepInResult(msg,'STEPACTION')
-	}
-
-
-	public static addSTEPGRP (String msg) {
-		addINFO('\t'+ msg.padRight(90, '_'))
-		addStepInResult(msg,'STEPGRP')
-	}
-
-	public static addSTEPBLOCK (String msg) {
-		addINFO('\t'+ msg.center(70, '-'))
-		addStepInResult(msg,'STEPBLOCK')
-	}
-
-
-
-	public static addSTEPLOOP (String msg) {
-		addINFO('\t'+ msg.padRight(40, '.'))
-		addStepInResult(msg,'STEPLOOP')
-	}
-
-
-	public static addSTEPPASS (String msg) {
-		addPASS(PRESTEPTXT+ msg)
-		status.PASS++
-		addStepInResult(msg,'PASS')
-	}
-
-
-	public static addSTEPFAIL (String msg) {
-		addFAIL(PRESTEPTXT+ msg)
-		status.FAIL++
-		addStepInResult(msg,'FAIL')
-	}
-
-
-	public static addSTEPWARNING (String msg) {
-		addWARNING(PRESTEPTXT+ msg)
-		status.WARNING++
-		addStepInResult(msg,'WARNING')
-	}
-
-
-	public static addSTEPERROR (String msg) {
-		addERROR(PRESTEPTXT+ msg)
-		status.ERROR++
-		addStepInResult(msg,'ERROR')
-	}
-
-
-
-
-
-	private static addStepInResult(String msg, String status) {
-
-		if (MYRES.resulFileName) MYRES.addStep(logDate,msg,status)
-	}
-
-
-
-
-	public static addStartTestCase (String cdt) {
-
-		testCaseStarted = true
-
-		GlobalVariable.CASDETESTENCOURS = cdt
-		cdt += ' : ' + TCFiles.getTitle()
-		status.WARNING = 0
-		status.FAIL = 0
-		status.PASS = 0
-		status.ERROR = 0
-		addINFO('')
-		addINFO("START TEST CASE : $cdt" )
-		start = logDate
-		if (MYRES.resulFileName) MYRES.addStartCasDeTest( start)
-	}
-
-
-	public static addEndTestCase () {
-
-		if (testCaseStarted) {
-
-			testCaseStarted = false
-			String cdt = GlobalVariable.CASDETESTENCOURS + ' : ' + TCFiles.getTitle()
-
-			Date stop = new Date()
-			if (MYRES.resulFileName) MYRES.addEndCasDeTest(status, start , stop,cdt)
-
-			if (status.ERROR !=0) {
-				addERROR('END TEST CASE : ' + cdt.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(start,stop))
-			} else if (status.FAIL !=0) {
-				addFAIL('END TEST CASE : ' + cdt.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(start,stop))
-			} else if (status.WARNING !=0) {
-				addWARNING('END TEST CASE : ' + cdt.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(start,stop))
-			} else {
-				addPASS('END TEST CASE : ' + cdt.padRight(100, '.') +  ' Duration : ' + my.Tools.getDuration(start,stop))
-			}
-		}
+		add('WARNING',PREDETAILTXT+ msg)
 	}
 
 

@@ -1,7 +1,7 @@
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import my.KW
-import my.Log as MYLOG
+import my.result.TNRResult
 import my.NAV
 import my.JDD
 
@@ -13,7 +13,7 @@ for (String cdt in myJDD.CDTList) {
 	
 	myJDD.setCasDeTest(cdt)
 		
-	MYLOG.addStartTestCase(cdt)
+	TNRResult.addStartTestCase(cdt)
 	
 	
 	'Boucle sur les lignes d\'un même TC'
@@ -24,7 +24,7 @@ for (String cdt in myJDD.CDTList) {
 	    'Naviguer vers la bonne url et controle des infos du cartouche'
 	    NAV.goToURL_Creation_and_checkCartridge()
 		
-		MYLOG.addSTEPGRP("ONGLET COMPTEUR")
+		TNRResult.addSTEPGRP("ONGLET COMPTEUR")
 			
 			
 			KW.scrollAndSetText(myJDD,"ID_CODCOM")
@@ -34,7 +34,7 @@ for (String cdt in myJDD.CDTList) {
 		
 		
 					
-		MYLOG.addSTEPACTION('VALIDATION')
+		TNRResult.addSTEPACTION('VALIDATION')
 			
 		    KW.scrollAndClick(NAV.myGlobalJDD,'button_Valider')
 		
@@ -43,7 +43,7 @@ for (String cdt in myJDD.CDTList) {
 
 	my.SQL.checkJDDWithBD(myJDD)
 	
-	MYLOG.addEndTestCase()
+	TNRResult.addEndTestCase()
 
 } // fin du if
 

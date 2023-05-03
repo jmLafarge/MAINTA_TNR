@@ -4,21 +4,21 @@ import java.util.regex.Pattern
 
 import groovy.io.FileType
 import internal.GlobalVariable
-import my.Log as MYLOG
+import my.Log
 
 
 public class TCFiles {
 
 
 	public static Map TCfileMap = [:]
-	
+
 
 
 	private static load() {
 
-		MYLOG.addSubTITLE("Load TC file List",'-',120,1)
-		MYLOG.addDEBUG("\t" + 'TCNAME'.padRight(24) + 'TCFULLNAME')
-		MYLOG.addDEBUG("")
+		Log.addSubTITLE("Load TC file List",'-',120,1)
+		Log.addDEBUG("\t" + 'TCNAME'.padRight(24) + 'TCFULLNAME')
+		Log.addDEBUG("")
 
 		new File(my.PropertiesReader.getMyProperty('TC_PATH')).eachFileRecurse(FileType.FILES) { file ->
 
@@ -29,9 +29,8 @@ public class TCFiles {
 
 				TCfileMap.put(TCName, TCFullName)
 
-				MYLOG.addDEBUG('\t'+ TCName.padRight(24) + TCFullName)
+				Log.addDEBUG('\t'+ TCName.padRight(24) + TCFullName)
 			}
-
 		}
 	} //end
 
@@ -41,32 +40,30 @@ public class TCFiles {
 
 	public static String getTCNameTitle() {
 
-			/*
-		String TCFullName=''
-		String cdt=''
-		if (GlobalVariable.CASDETESTENCOURS) {
-			cdt = GlobalVariable.CASDETESTENCOURS
-		}else {
-			cdt = GlobalVariable.CASDETESTPATTERN
-		}
-
-		if (TCfileMap[cdt]) {
-			TCFullName = TCfileMap[cdt]
-		}else{
-			def key = TCfileMap.keySet().find { cdt.contains(it) }
-			if (key) {
-				TCFullName = TCfileMap[key]
-			}else {
-				MYLOG.addWARNING("\tPas de fichier trouvé pour le cas de test $cdt")
-			}
-		}
-
-		List liTCFullName= TCfileMap[GlobalVariable.CASDETESTENCOURS].split(Pattern.quote(File.separator))
-		*/
-		MYLOG.addINFO ('GlobalVariable.CASDETESTPATTERN :' + GlobalVariable.CASDETESTPATTERN)
+		/*
+		 String TCFullName=''
+		 String cdt=''
+		 if (GlobalVariable.CASDETESTENCOURS) {
+		 cdt = GlobalVariable.CASDETESTENCOURS
+		 }else {
+		 cdt = GlobalVariable.CASDETESTPATTERN
+		 }
+		 if (TCfileMap[cdt]) {
+		 TCFullName = TCfileMap[cdt]
+		 }else{
+		 def key = TCfileMap.keySet().find { cdt.contains(it) }
+		 if (key) {
+		 TCFullName = TCfileMap[key]
+		 }else {
+		 Log.add('WARNING',"\tPas de fichier trouvé pour le cas de test $cdt")
+		 }
+		 }
+		 List liTCFullName= TCfileMap[GlobalVariable.CASDETESTENCOURS].split(Pattern.quote(File.separator))
+		 */
+		Log.addINFO ('GlobalVariable.CASDETESTPATTERN :' + GlobalVariable.CASDETESTPATTERN)
 
 
-		
+
 		List liTCFullName= TCfileMap[GlobalVariable.CASDETESTPATTERN].split(Pattern.quote(File.separator))
 
 		//Détermine objet et sous-ressources à partir des noms des dossier père (SR) et grandpère(OBJ) des TC
@@ -93,46 +90,52 @@ public class TCFiles {
 	}
 
 
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 	public static String getTitle() {
 
-		List liTCFullName= TCfileMap[GlobalVariable.CASDETESTPATTERN].split(Pattern.quote(File.separator))
+		String TCfile = TCfileMap[GlobalVariable.CASDETESTPATTERN]
 
-		//Détermine objet et sous-ressources à partir des noms des dossier père (SR) et grandpère(OBJ) des TC
-		String obj =''
-		String sr =''
-		if (liTCFullName.size()>2) {
-			obj = liTCFullName[liTCFullName.size()-3].split(' ').drop(1).join(' ')
-			if (liTCFullName[liTCFullName.size()-2].split(' ').size()>1) {
-				sr = liTCFullName[liTCFullName.size()-2].split(' ').drop(1).join(' ')
+		if (TCfile) {
+
+			List liTCFullName= TCfile.split(Pattern.quote(File.separator))
+
+			//Détermine objet et sous-ressources à partir des noms des dossier père (SR) et grandpère(OBJ) des TC
+			String obj =''
+			String sr =''
+			if (liTCFullName.size()>2) {
+				obj = liTCFullName[liTCFullName.size()-3].split(' ').drop(1).join(' ')
+				if (liTCFullName[liTCFullName.size()-2].split(' ').size()>1) {
+					sr = liTCFullName[liTCFullName.size()-2].split(' ').drop(1).join(' ')
+				}
 			}
-		}
-		
-		
-		// si un titre existe au niveau du TC on le prend sinon on le construit
-		List liTCName = liTCFullName[-1].split(' ')
-		if (liTCName.size()>1) {
-			return liTCName.drop(1).join(' ')
+
+			// si un titre existe au niveau du TC on le prend sinon on le construit
+			List liTCName = liTCFullName[-1].split(' ')
+			if (liTCName.size()>1) {
+				return liTCName.drop(1).join(' ')
+			}else {
+				def liTCName2 = liTCFullName[-1].split('\\.')
+				if (liTCName2.size()>2) {
+					return getAutoTitle(obj,sr,liTCName2[3])
+				}
+				return ''
+			}
 		}else {
-			def liTCName2 = liTCFullName[-1].split('\\.')
-			if (liTCName2.size()>2) {
-				return getAutoTitle(obj,sr,liTCName2[3])
-			}
-			return ''
+			return 'UNKNOWN TITLE'
 		}
 	}
-		
-			
-	
-	
-	
-	
-			
+
+
+
+
+
+
+
 
 	private static String getAutoTitle(String obj, String sr, String code) {
 

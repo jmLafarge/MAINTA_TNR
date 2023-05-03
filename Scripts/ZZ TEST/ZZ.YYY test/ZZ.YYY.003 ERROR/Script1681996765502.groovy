@@ -1,3 +1,3 @@
-import my.Log as MYLOG
+import my.result.TNRResult
 
-MYLOG.addSTEPERROR("C'est une erreur")
+TNRResult.addSTEPERROR("C'est une erreur")

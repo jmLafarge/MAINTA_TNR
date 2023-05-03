@@ -1,7 +1,7 @@
 import internal.GlobalVariable
 import my.KW
 import my.NAV
-import my.Log as MYLOG
+import my.result.TNRResult
 import my.JDD
 
 'Lecture du JDD'
@@ -12,7 +12,7 @@ for (String cdt in myJDD.CDTList) {
 	
 	myJDD.setCasDeTest(cdt)
 		
-	MYLOG.addStartTestCase(cdt)
+	TNRResult.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getData('ID_CODINT_SRC'))
@@ -32,7 +32,7 @@ for (String cdt in myJDD.CDTList) {
     KW.scrollAndSetText(myJDD,'input_ST_PRENEW', myJDD.getStrData('ST_PRE'))
 			
 	
-	MYLOG.addSTEPACTION('VALIDATION')
+	TNRResult.addSTEPACTION('VALIDATION')
 		
     'Validation de la saisie'
     KW.scrollAndClick(myJDD,'button_ValiderCopie')
@@ -48,7 +48,7 @@ for (String cdt in myJDD.CDTList) {
 	'Vérification des valeurs en BD'
 	my.SQL.checkJDDWithBD(myJDD,specificValueMap)
 
-	MYLOG.addEndTestCase()
+	TNRResult.addEndTestCase()
 } // fin du if
 
 

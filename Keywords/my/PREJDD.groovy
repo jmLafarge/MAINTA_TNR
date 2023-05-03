@@ -5,7 +5,7 @@ import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
-import my.Log as MYLOG
+import my.Log
 import my.PREJDDFiles
 
 public class PREJDD {
@@ -18,7 +18,7 @@ public class PREJDD {
 		Sheet sheet = book.getSheet(map.getAt('PREJDDTAB'))
 
 		List list = []
-		MYLOG.addDEBUG("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "' (" + map.getAt('TAB') + ") dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')) + "' '"+ map.getAt('PREJDDID') + "'",0)
+		Log.addDEBUG("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "' (" + map.getAt('TAB') + ") dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')) + "' '"+ map.getAt('PREJDDID') + "'",0)
 
 		getListOfCasDeTestAndIDValue(list,sheet, map.getAt('PREJDDID'))
 
@@ -32,13 +32,13 @@ public class PREJDD {
 				}
 			}
 			if (found) {
-				MYLOG.addDEBUG(cdtVal+' trouvé')
+				Log.addDEBUG(cdtVal+' trouvé')
 			}else {
-				MYLOG.addINFO("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "' (" + map.getAt('TAB') + ") dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')) + "' '"+ map.getAt('PREJDDID') + "'")
-				MYLOG.addDETAILFAIL(cdtVal+' non trouvé')
+				Log.addINFO("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "' (" + map.getAt('TAB') + ") dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')) + "' '"+ map.getAt('PREJDDID') + "'")
+				Log.addDETAILFAIL(cdtVal+' non trouvé')
 			}
 		}
-		MYLOG.addDEBUGDETAIL(nbFound + "/" +map.getAt('LISTCDTVAL').size() + ' trouvé(s)',0)
+		Log.addDEBUGDETAIL(nbFound + "/" +map.getAt('LISTCDTVAL').size() + ' trouvé(s)',0)
 	}
 
 
@@ -65,7 +65,7 @@ public class PREJDD {
 
 
 	static List loadDATA(Sheet sheet,int size) {
-		MYLOG.addDEBUG('Lecture PREJDD data')
+		Log.addDEBUG('Lecture PREJDD data')
 		Iterator<Row> rowIt = sheet.rowIterator()
 		Row row = rowIt.next()
 		List datas =[]
@@ -76,7 +76,7 @@ public class PREJDD {
 			}
 			datas << my.XLS.loadRow(row,size)
 		}
-		MYLOG.addDEBUG('PREJDD data size = ' + datas.size() )
+		Log.addDEBUG('PREJDD data size = ' + datas.size() )
 		return datas
 	}
 

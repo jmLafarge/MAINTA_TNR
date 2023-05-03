@@ -2,12 +2,20 @@ import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.*
 
 // Ouvrir un fichier Excel
-def fichier = new XSSFWorkbook(new FileInputStream("workbook.xlsx"))
+def inputFile = new File('Workbook.xlsx')
+
+def workbook
+if (inputFile.exists() && inputFile.size() > 0) {
+  def inputStream = inputFile.newInputStream()
+  workbook = new XSSFWorkbook(inputStream)
+} else {
+  workbook = new XSSFWorkbook()
+}
 
 // Obtenir la première feuille de calcul
-def sheet = fichier.getSheetAt(0)
+def sheet = workbook.getSheet('Sheet0') ?: workbook.createSheet('Sheet0')
 
-sheet.setRowSumsBelow(false) // rouper par la ligne du haut
+sheet.setRowSumsBelow(false) // grouper par la ligne du haut
 
 sheet.groupRow(4, 10) // ça veut dire que les lignes de 4 à 10 (5 à 11 sur xls) sont cachées. lka ligfne 3 (4 sur xls) est la ligne où il y a le +
 
@@ -58,6 +66,6 @@ cellule.setCellStyle(style)
 
 // Enregistrer les modifications dans le fichier Excel
 def fileOut = new FileOutputStream("workbook.xlsx")
-fichier.write(fileOut)
+workbook.write(fileOut)
 fileOut.close()
-fichier.close()
+workbook.close()

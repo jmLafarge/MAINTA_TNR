@@ -1,6 +1,8 @@
 package my
 
-import my.Log as MYLOG
+import groovy.transform.CompileStatic
+import my.Log
+import my.result.TNRResult
 
 //Pour la lecture du format RTF
 import javax.swing.text.DefaultStyledDocument
@@ -14,15 +16,16 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import com.kms.katalon.core.util.KeywordUtil
 
+@CompileStatic
 public class InfoBDD {
 
-	public static Map map = [:]      // Map de Map de List[TABLE_NAME] [COLUMN_NAME] [0]:ORDINAL_POSITION [1]:IS_NULLABLE [2]:DATA_TYPE [3]:MAXCHAR [4]:DOMAIN_NAME [5]:CONSTRAINT_NAME
+	public static Map  <String, Map<String, List<Object>>> map = [:]      // Map de Map de List[TABLE_NAME] [COLUMN_NAME] [0]:ORDINAL_POSITION [1]:IS_NULLABLE [2]:DATA_TYPE [3]:MAXCHAR [4]:DOMAIN_NAME [5]:CONSTRAINT_NAME
 
 
 	private static XSSFWorkbook book
 	private static String fileName = ''
 
-	private static final List HEADERS	 = [
+	private static final List <String> HEADERS	 = [
 		'TABLE_NAME',
 		'COLUMN_NAME',
 		'ORDINAL_POSITION',
@@ -37,7 +40,7 @@ public class InfoBDD {
 	public static load() {
 
 		fileName = my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('INFOBDDFILENAME')
-		MYLOG.addSubTITLE("Chargement de : " + fileName,'-',120,1)
+		Log.addSubTITLE("Chargement de : " + fileName,'-',120,1)
 
 		book = MYXLS.open(fileName)
 
@@ -45,13 +48,13 @@ public class InfoBDD {
 
 		Iterator<Row> rowIt = sheet.rowIterator()
 		Row row = rowIt.next()
-		List headers = MYXLS.loadRow(row)
+		List <String> headers = MYXLS.loadRow(row)
 
-		MYLOG.addINFO('Contrôle entête fichier',1)
+		Log.addINFO('Contrôle entête fichier',1)
 		if (headers!=HEADERS) {
-			MYLOG.addERROR(fileName + ' Entête fichier différente de celle attendue :')
-			MYLOG.addDETAIL('Entête attendue : ' + HEADERS.join(' - '))
-			MYLOG.addDETAIL('Entête lue      : ' + headers.join(' - '))
+			Log.addERROR(fileName + ' Entête fichier différente de celle attendue :')
+			TNRResult.addDETAIL('Entête attendue : ' + HEADERS.join(' - '))
+			TNRResult.addDETAIL('Entête lue      : ' + headers.join(' - '))
 			KeywordUtil.markErrorAndStop("Entête fichier ${fileName} différente de celle attendue")
 		}
 
@@ -61,10 +64,12 @@ public class InfoBDD {
 				break
 			}
 			List listxls = MYXLS.loadRow(row,HEADERS.size())
-			if (!map[listxls[0]]) {
-				map[listxls[0]] = [:]
+			String tableName = listxls[0].toString()
+			String columnName= listxls[1].toString()
+			if (!map[tableName]) {
+				map[tableName] = [:]
 			}
-			map[listxls[0]][listxls[1]] = listxls.subList(2, 8)
+			map[tableName][columnName] = listxls.subList(2, 8)
 		}
 
 	}
@@ -101,8 +106,8 @@ public class InfoBDD {
 
 
 
-	public static def getDATA_MAXCHAR(String table, String name) {
-		return map[table][name][3]
+	public static int getDATA_MAXCHAR(String table, String name) {
+		return (int)map[table][name][3]
 	}
 
 

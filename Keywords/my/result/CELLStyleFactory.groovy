@@ -1,15 +1,17 @@
 package my.result
 
+import groovy.transform.CompileStatic
 
 import org.apache.poi.common.usermodel.HyperlinkType
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
+@CompileStatic
 public class CELLStyleFactory {
 
 
 	public CreationHelper createHelper
-	
+
 	public CellStyle cellStyle_time
 	public CellStyle cellStyle_duration
 	public CellStyle cellStyle_date
@@ -42,7 +44,7 @@ public class CELLStyleFactory {
 	public CellStyle cellStyle_RESULT_STEPDETAIL
 
 	private XSSFWorkbook book
-	
+
 	private Font fontCDT
 	private Font fontStep
 	private Font fontStepGRP

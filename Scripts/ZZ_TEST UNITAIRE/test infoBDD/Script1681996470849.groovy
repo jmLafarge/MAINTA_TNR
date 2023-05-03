@@ -1,4 +1,4 @@
-import my.Log as MYLOG
+import my.result.TNRResult
 
 InfoBDD.load()
 
@@ -57,13 +57,13 @@ InfoBDD.line.eachWithIndex{v,i ->
 
 //println InfoBDD.line[0]
 
-//MYLOG.addINFO('deb')
-//InfoBDD.line.eachWithIndex { v,i -> if (v[0]=='INTER' && v[1]==['ST_ETA']) MYLOG.addINFO( i+':'+v) }
+//Log.addINFO('deb')
+//InfoBDD.line.eachWithIndex { v,i -> if (v[0]=='INTER' && v[1]==['ST_ETA']) Log.addINFO( i+':'+v) }
 //InfoBDD.line.eachWithIndex { v,i -> if (v[0]=='INTER' && v[1]=='ST_ETA') println i+':'+v[1] }
 //println InfoBDD.getDATA_TYPE('INTER', 'ST_ETA')
 
-//if (ret !=null) MYLOG.addINFO(ret)
-//MYLOG.addINFO('fin')
+//if (ret !=null) Log.addINFO(ret)
+//Log.addINFO('fin')
 //my.Tools.parseMap(InfoBDD.colnameMap)
 
 

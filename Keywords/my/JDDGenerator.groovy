@@ -1,18 +1,23 @@
 package my
 
 import java.nio.file.Files
+
 import java.nio.file.Path
 import java.nio.file.Paths
 
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
+import groovy.transform.CompileStatic
 import internal.GlobalVariable
-import my.Log as MYLOG
+import my.Log
 import my.InfoBDD
-import my.Tools as TOOLS
+import my.Tools
+import my.result.TNRResult
+import my.InfoPARA
 
 
+@CompileStatic
 class JDDGenerator {
 
 
@@ -32,20 +37,20 @@ class JDDGenerator {
 
 	static add(String table, String modObj, String fct='001',List listRubriquesIHM = []) {
 
-		if (my.InfoPARA.paraMap.isEmpty()) {
-			my.InfoPARA.load()
+		if (InfoPARA.paraMap.isEmpty()) {
+			InfoPARA.load()
 		}
 
 		XSSFWorkbook JDDbook
 		XSSFWorkbook PREJDDbook
-		MYLOG.addINFO('')
+		Log.addINFO('')
 		if (!JDDFiles.getFullName(modObj)) {
-			MYLOG.addINFO("Création du fichier JDD pour $modObj")
+			Log.addINFO("Création du fichier JDD pour $modObj")
 			String fullName = createJDDFileByCopy(table,modObj)
 			JDDbook = my.XLS.open(fullName)
 			JDDFiles.add(modObj, fullName)
 		}else {
-			MYLOG.addINFO("Le fichier JDD pour $modObj existe déjà : " + JDDFiles.getFullName(modObj))
+			Log.addINFO("Le fichier JDD pour $modObj existe déjà : " + JDDFiles.getFullName(modObj))
 			JDDbook = my.XLS.open(JDDFiles.getFullName(modObj))
 		}
 
@@ -55,28 +60,28 @@ class JDDGenerator {
 
 		if (msg) {
 
-			addInfoVersion(JDDbook,GlobalVariable.AUTEUR,msg)
+			addInfoVersion(JDDbook,msg)
 
 			OutputStream JDDfileOut = new FileOutputStream(JDDFiles.getFullName(modObj))
 			JDDbook.write(JDDfileOut)
 		}
 
 
-		MYLOG.addINFO('')
+		Log.addINFO('')
 		if (!PREJDDFiles.getFullName(modObj)) {
-			MYLOG.addINFO("Création du fichier PREJDD pour $modObj")
+			Log.addINFO("Création du fichier PREJDD pour $modObj")
 			String fullName = createPREJDDFileByCopy(table,modObj)
 			PREJDDbook = my.XLS.open(fullName)
 			PREJDDFiles.add(modObj, fullName)
 		}else {
-			MYLOG.addINFO("Le fichier PREJDD pour $modObj existe déjà : " + PREJDDFiles.getFullName(modObj))
+			Log.addINFO("Le fichier PREJDD pour $modObj existe déjà : " + PREJDDFiles.getFullName(modObj))
 			PREJDDbook = my.XLS.open(PREJDDFiles.getFullName(modObj))
 		}
 
 		msg=addPREJDDSheet(PREJDDbook, table, modObj,fct)
 
 		if (msg) {
-			addInfoVersion(PREJDDbook,GlobalVariable.AUTEUR,msg)
+			addInfoVersion(PREJDDbook,msg)
 
 			OutputStream PREJDDfileOut = new FileOutputStream(PREJDDFiles.getFullName(modObj))
 			PREJDDbook.write(PREJDDfileOut)
@@ -89,7 +94,7 @@ class JDDGenerator {
 
 	private static addParaFromInfoPARA(Sheet shFCT,def mes) {
 
-		MYLOG.addDETAIL("Ajout des paramètres dans l'onglet "+shFCT.getSheetName())
+		TNRResult.addDETAIL("Ajout des paramètres dans l'onglet "+shFCT.getSheetName())
 
 		Row row = shFCT.getRow(0)
 
@@ -101,22 +106,27 @@ class JDDGenerator {
 				break
 			}
 
-			if (my.InfoPARA.paraMap.containsKey(cval)) {
+			if (InfoPARA.paraMap.containsKey(cval)) {
 				int icol = 2
-				for (para in ['PREREQUIS', 'FOREIGNKEY', 'SEQUENCE', 'LOCATOR']) {
+				for (para in [
+					'PREREQUIS',
+					'FOREIGNKEY',
+					'SEQUENCE',
+					'LOCATOR'
+				]) {
 
 					Row rowPara = getRowOfPara(shFCT,para)
-					if (rowPara!=null && my.InfoPARA.paraMap[cval][icol]) {
+					if (rowPara!=null && InfoPARA.paraMap[cval][icol]) {
 
 						if(my.XLS.getCellValue(rowPara.getCell(i))==''){
 
-							MYLOG.addDEBUG("$cval : $para = " + my.InfoPARA.paraMap[cval][icol])
-							my.XLS.writeCell(rowPara,i, my.InfoPARA.paraMap[cval][icol])
+							Log.addDEBUG("$cval : $para = " + InfoPARA.paraMap[cval][icol])
+							my.XLS.writeCell(rowPara,i, InfoPARA.paraMap[cval][icol])
 
 							if (!mes) "Mise à jour paramètre"
-						}else if(my.XLS.getCellValue(rowPara.getCell(i))!=my.InfoPARA.paraMap[cval][icol]){
+						}else if(my.XLS.getCellValue(rowPara.getCell(i))!=InfoPARA.paraMap[cval][icol]){
 
-							MYLOG.addDETAILWARNING("\t$cval : $para, valeur du JDD '"+my.XLS.getCellValue(rowPara.getCell(i))+"' différente de InfoPARA '" + my.InfoPARA.paraMap[cval][icol] + "'")
+							Log.addDETAILWARNING("\t$cval : $para, valeur du JDD '"+my.XLS.getCellValue(rowPara.getCell(i))+"' différente de InfoPARA '" + InfoPARA.paraMap[cval][icol] + "'")
 						}
 					}
 					icol+=2
@@ -156,7 +166,7 @@ class JDDGenerator {
 		int numColFct = 1
 
 		if (!shFCT) {
-			MYLOG.addDETAIL("Création de l'onglet $fct pour la table $table")
+			TNRResult.addDETAIL("Création de l'onglet $fct pour la table $table")
 			msg="Création de l'onglet $fct pour la table $table"
 			JDDbook.cloneSheet(JDDbook.getSheetIndex('MODELE'))
 			JDDbook.setSheetName(JDDbook.getNumberOfSheets()-1, fct)
@@ -172,7 +182,7 @@ class JDDGenerator {
 
 			Map lib = numEcran ? my.SQL.getLibelle(table, numEcran) : [:]
 
-			MYLOG.addDETAIL("Renseigner l'onglet Info")
+			TNRResult.addDETAIL("Renseigner l'onglet Info")
 			Row rowInfo = my.XLS.getNextRow(shJDDInfo)
 
 			def styleFct = shJDDInfo.getRow(0).getCell(0).getCellStyle()
@@ -187,7 +197,7 @@ class JDDGenerator {
 			//rowNumInfo++
 
 
-			MYLOG.addDETAIL("Renseigner l'onglet $fct")
+			TNRResult.addDETAIL("Renseigner l'onglet $fct")
 			my.XLS.writeCell(shFCT.getRow(0),0,table)
 
 			setStyle(JDDbook,shFCT)
@@ -201,13 +211,13 @@ class JDDGenerator {
 				fontPK.setColor(IndexedColors.RED.index)
 				fontPK.setBold(true)
 				stylePK.setFont(fontPK)
-				
+
 				if (InfoBDD.isPK(table,col)) {
 					my.XLS.writeCell(shFCT.getRow(0),numColFct,col,stylePK)
 				}else {
 					my.XLS.writeCell(shFCT.getRow(0),numColFct,col,styleChamp)
 				}
-				
+
 				for (int i in 1..4) {
 					my.XLS.writeCell(shFCT.getRow(i),numColFct,null,stylePara)
 				}
@@ -218,7 +228,7 @@ class JDDGenerator {
 				rowInfo = my.XLS.getNextRow(shJDDInfo)
 				my.XLS.writeCell(rowInfo,0,col)
 				my.XLS.writeCell(rowInfo,1,lib.getAt(col))
-				String type = InfoBDD.map[table][col][2]+'('+InfoBDD.map[table][col][3]+')'
+				String type = InfoBDD.map[table][col][2].toString()+'('+InfoBDD.map[table][col][3]+')'
 				if (InfoBDD.map[table][col][2]=='numeric') {
 					type = 'numeric'
 				}else if (InfoBDD.map[table][col][2]=='datetime') {
@@ -265,15 +275,15 @@ class JDDGenerator {
 
 	private static String ajouterRubriqueIHM(Sheet shFCT, List listRubriquesIHM) {
 
-		MYLOG.addDETAIL("Ajouter les rubriques IHM")
+		TNRResult.addDETAIL("Ajouter les rubriques IHM")
 
 		List headers = my.XLS.loadRow(shFCT.getRow(0))
 		String msg
 		for (rub in listRubriquesIHM) {
 			if (rub in headers) {  // si la rub existe déjà
-				MYLOG.addDETAIL("\t$rub existe déjà")
+				TNRResult.addDETAIL("\t$rub existe déjà")
 			}else {
-				MYLOG.addDETAIL("\tAjout de $rub")
+				TNRResult.addDETAIL("\tAjout de $rub")
 				msg="Ajout des rubriques IHM pour l'onglet " + shFCT.getSheetName()
 				int numColFct = my.XLS.getLastColumnIndex(shFCT,0)
 				my.XLS.writeCell(shFCT.getRow(0),numColFct,rub,styleChampIHM)
@@ -292,11 +302,11 @@ class JDDGenerator {
 	private static String createJDDFileByCopy(String table, String modObj) {
 
 		String dir = my.PropertiesReader.getMyProperty('JDD_PATH')
-		TOOLS.createFolderIfNotExist(dir)
+		Tools.createFolderIfNotExist(dir)
 
 		Path source = Paths.get(trameJDD)
 		String fullName = dir + File.separator + "JDD.${modObj}.xlsx"
-		MYLOG.addDETAIL(fullName)
+		TNRResult.addDETAIL(fullName)
 		Path target = Paths.get(fullName)
 		Files.copy(source, target)
 		return fullName
@@ -306,11 +316,11 @@ class JDDGenerator {
 	private static String createPREJDDFileByCopy(String table,String modObj) {
 
 		String dir = my.PropertiesReader.getMyProperty('PREJDD_PATH')
-		TOOLS.createFolderIfNotExist(dir)
+		Tools.createFolderIfNotExist(dir)
 
 		Path source = Paths.get(tramePREJDD)
 		String fullName = dir + File.separator + "PREJDD.${modObj}.xlsx"
-		MYLOG.addDETAIL(fullName)
+		TNRResult.addDETAIL(fullName)
 		Path target = Paths.get(fullName)
 		Files.copy(source, target)
 		return fullName
@@ -323,7 +333,7 @@ class JDDGenerator {
 		Sheet shFCT = JDDbook.getSheet(fct)
 		String msg
 		if (!shFCT) {
-			MYLOG.addDETAIL("Création de l'onglet $fct pour la table $table")
+			TNRResult.addDETAIL("Création de l'onglet $fct pour la table $table")
 			msg="Création de l'onglet $fct pour la table $table"
 			JDDbook.cloneSheet(JDDbook.getSheetIndex('MODELE'))
 			JDDbook.setSheetName(JDDbook.getNumberOfSheets()-1, fct)
@@ -332,7 +342,7 @@ class JDDGenerator {
 
 			table = table.toUpperCase()
 
-			MYLOG.addDETAIL("Renseigner l'onglet $fct")
+			TNRResult.addDETAIL("Renseigner l'onglet $fct")
 
 			my.XLS.writeCell(shFCT.getRow(0),0,"CAS DE TEST ($table)")
 
@@ -341,7 +351,7 @@ class JDDGenerator {
 			def stylePREJDDChamp = shFCT.getRow(0).getCell(1).getCellStyle()
 
 			InfoBDD.map[table].each{col,vlist ->
-				
+
 				if (InfoBDD.isPK(table,col)) {
 					CellStyle stylePK = JDDbook.createCellStyle()
 					def fontPK = JDDbook.createFont()
@@ -356,13 +366,13 @@ class JDDGenerator {
 			}
 
 		}else {
-			MYLOG.addDETAIL("L'onglet $fct du PREJDD existe déjà ")
+			TNRResult.addDETAIL("L'onglet $fct du PREJDD existe déjà ")
 		}
 		return msg
 	}
 
 
-	private static addInfoVersion(XSSFWorkbook book, String auteur, String msg, String edition='', String version='' ) {
+	private static addInfoVersion(XSSFWorkbook book, String msg, String edition='', String version='' ) {
 
 		if (msg) {
 			CreationHelper createHelper = book.getCreationHelper()
@@ -382,12 +392,12 @@ class JDDGenerator {
 			cellStyle_date.setDataFormat( createHelper.createDataFormat().getFormat("dd/MM/yyyy"))
 
 			Sheet shVersion = book.getSheet('Version')
-			MYLOG.addDETAIL("Renseigner l'onglet Version")
+			TNRResult.addDETAIL("Renseigner l'onglet Version")
 
 			Row row = my.XLS.getNextRow(shVersion)
 
 			my.XLS.writeCell(row,0,new Date().format('dd/MM/yyyy'),cellStyle_date)
-			my.XLS.writeCell(row,1,auteur,thinBlackBorderStyle)
+			my.XLS.writeCell(row,1,GlobalVariable.AUTEUR,thinBlackBorderStyle)
 			my.XLS.writeCell(row,2,msg,thinBlackBorderStyle)
 			my.XLS.writeCell(row,3,edition,thinBlackBorderStyle)
 			my.XLS.writeCell(row,4,version,thinBlackBorderStyle)

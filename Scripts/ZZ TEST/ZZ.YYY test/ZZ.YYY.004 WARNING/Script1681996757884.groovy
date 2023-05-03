@@ -1,4 +1,4 @@
-import my.Log as MYLOG
+import my.result.TNRResult
 
-MYLOG.addSTEPWARNING("Ici un warning")
+TNRResult.addSTEPWARNING("Ici un warning")
 

@@ -13,7 +13,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import my.KW
 import my.KW as GlobalVariable
-import my.Log as MYLOG
+import my.result.TNRResult
 
 //click object using Javascript
 def clickUsingJS(TestObject to, int timeout) {

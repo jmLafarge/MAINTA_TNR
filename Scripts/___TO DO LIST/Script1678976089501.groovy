@@ -7,21 +7,7 @@
  * -----------------------------------------------------------------------------------------------------
  * 
  * 
- grosse mise à jour
-
-Ajout du ctrl Resultat_ID dans verifierEcranResultat
-Reprise waitAndVerifyElementText et verifyElementText pour ajouter le return
-Ajout scrollAndSetDate
-MAJ TCGenerator pour inclure scrollAndSetDate
-Ajout JDD.isOBSOLETE pour ne pas controler les prerequis des champs obsolete
-Ajout CheckTypeInDATA.isCasDeTestSUPorREC pour ne pas controler les prerequis des champs non PK et vide des cdt SUP ou REC 
-JDD Generator : Suppression le sub folder dans les JDD et PREJDD  
-JDD Generator : les PK en rouge
-SQL.checkValue prendre en compte OBSOLETE
-Modif pour la gestion des TC/CDT
-ex:TestCase ZZ.YYY.001.CRE pour tous les CDT ZZ.YYY.001.CRE.*
-si TestCase ZZ.YYY.001.CRE.01 existe, c'est lui qui sera utilisé pour le CDT correspondant
-Ajout de Log.testCaseStarted pour clore correctement le xls result
+Création de my.TO et autres
 
 
  * 
@@ -58,15 +44,56 @@ Ajout de Log.testCaseStarted pour clore correctement le xls result
 		si TestCase ZZ.YYY.001.CRE.01 existe, c'est lui qui sera utilisé pour le CDT correspondant
 		
 		
+		
+	ANNOTATION
+	
+		import groovy.transform.CompileStatic et @CompileStatic sur une class (ou une fonction)
+			--> active les controle à la compilation
+			
+		import groovy.transform.CompileDynamic et @CompileDynamic sur une class (ou une fonction) 
+			indique que la méthode ou la classe doit être compilée dynamiquement plutôt que statiquement
+			même si la compilation statique est activée pour la classe parente.
+		
+		
+		
  *
  * -----------------------------------------------------------------------------------------------------
  * EN COURS
  * -----------------------------------------------------------------------------------------------------
  *
  
+ Ajouter les DES dans ART avec JDD Generator listRubriquesIHM
+ 
 
+ Ajouter
+ 	import groovy.transform.CompileStatic
+	 @CompileStatic
+	 FAIT
+		 tout checkprerequis
+		 InfoBDD
+		 InfoPARA
+		 JDD
+		 JDDFiles
+		 JDDGenerator
+		 JDDKW
+		 KW
+		 
+		 
+		 TO
+		 
+		 
+		 
+		 
+	 EN COURS
  
  
+ 
+ Remplacer les GlobalVariable.CASDETESTENCOURS  et GlobalVariable.CASDETESTPATTERN --> voir ou les mettre
+ 
+ 
+ 
+ 
+
  
  * 
  * -----------------------------------------------------------------------------------------------------
@@ -75,22 +102,23 @@ Ajout de Log.testCaseStarted pour clore correctement le xls result
  * 
 				
 	
-	Ajouter un ctrl d'unicité des cdt	  
 
-
-	Problème du ctrl prerequis dans les prejdd avec cdt-valeur dans le cas des liens 
-		Controle de 'ID_CODINT' de 'TNR_JDD\JDD.RO.ACT.xlsx' (003HAB) dans 'TNR_PREJDD\PREJDD.RO.ACT.xlsx' 'ID_CODINT'
-			- 'RO.ACT.003HAB.SRA.02' - 'RO.ACT.003HAB.SRA.01' non trouvé
-		Controle de 'ID_CODINT' de 'TNR_JDD\JDD.RO.ACT.xlsx' (003HAB) dans 'TNR_PREJDD\PREJDD.RO.ACT.xlsx' 'ID_CODINT'
-			- 'RO.ACT.003HAB.SRM.02' - 'RO.ACT.003HAB.SRM.01' non trouvé
 
 		  		
 		
-	Traiter les valeurs des $DATESYS et $DATETIME
+	
 
 	DOC ORGANISATION DES JDD DE RÉFÉRENCE DANS LE CADRE DES TNR --> Stockage par version ? A préciser par JML
 
 
+
+
+
+
+
+ 	XLSResult
+ 	
+ 		groupDetail pose problème, les lignes jusquà 595 sont masquées !? --> mis en commentaire
 	
 
 	
@@ -112,7 +140,10 @@ Ajout de Log.testCaseStarted pour clore correctement le xls result
 	
 	
 	JDD
-		créer une class pour makeTO ?
+		créer une class pour parametre
+		
+	SQL
+		Traiter les valeurs des $DATESYS et $DATETIME --> voir pour ajouter un ctrl que la valeur soit autour de la datetime du moment voir Tools.getDurationFromNow
 
 
 	XLS
@@ -123,6 +154,8 @@ Ajout de Log.testCaseStarted pour clore correctement le xls result
 		
 	CHECK PREREQUIS 
 	
+		Ajouter un ctrl sur les prérequis des préreuis
+		
 		J'ai ajouté le Check_CAL --> faire pareil avec les autres chck spécifique , comme par exe les org/ser et inter...
 	  
 		Ajouter les controle des PARAM_LIST_ALLOWED dans les controles JDD "CHECK PREREQUIS" plutot que dans le code des tests

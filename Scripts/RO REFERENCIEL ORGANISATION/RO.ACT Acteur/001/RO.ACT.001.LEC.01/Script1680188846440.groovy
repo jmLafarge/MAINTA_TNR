@@ -2,7 +2,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
 import my.KW
-import my.Log as MYLOG
+import my.result.TNRResult
 import my.NAV
 import my.JDD
 
@@ -13,13 +13,13 @@ for (String cdt in myJDD.CDTList) {
 	
 	myJDD.setCasDeTest(cdt)
 		
-	MYLOG.addStartTestCase(cdt)
+	TNRResult.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData())
 	
 
-	MYLOG.addSTEPGRP("ONGLET ACTEUR")
+	TNRResult.addSTEPGRP("ONGLET ACTEUR")
 		
 		KW.scrollAndClick(myJDD,"tab_Acteur")
 		KW.waitForElementVisible(myJDD,"tab_ActeurSelected")
@@ -34,13 +34,13 @@ for (String cdt in myJDD.CDTList) {
 		KW.verifyValue(myJDD,"ST_TELMOB")
 		KW.verifyValue(myJDD,"ST_TELCOP")
 		
-		MYLOG.addSTEPBLOCK("SERVICE")
+		TNRResult.addSTEPBLOCK("SERVICE")
 		KW.verifyValue(myJDD,"ID_CODGES")
 		KW.verifyValue(myJDD,"ST_DESGES")
 		KW.verifyElementCheckedOrNot(myJDD,"ST_GRP","O")
 		
 		
-	MYLOG.addSTEPGRP("ONGLET AFFECTATION")
+	TNRResult.addSTEPGRP("ONGLET AFFECTATION")
 		
 		KW.scrollAndClick(myJDD,"tab_Affectation")
 		KW.waitForElementVisible(myJDD,"tab_AffectationSelected")
@@ -52,13 +52,13 @@ for (String cdt in myJDD.CDTList) {
 		KW.verifyValue(myJDD,"ST_GRO")
 		KW.verifyValue(myJDD,"ST_DES")
 		
-		MYLOG.addSTEPBLOCK("CATEGORIE")
+		TNRResult.addSTEPBLOCK("CATEGORIE")
 		KW.verifyValue(myJDD,"ID_CODCAT")
 		KW.verifyValue(myJDD,"ST_DESID_CODCAT")
 		KW.verifyValue(myJDD,"NU_COUHOR")
 		
 		
-	MYLOG.addSTEPGRP("ONGLET ROLE")
+	TNRResult.addSTEPGRP("ONGLET ROLE")
 		
 		KW.scrollAndClick(myJDD,"tab_Role")
 		KW.waitForElementVisible(myJDD,"tab_RoleSelected")
@@ -72,14 +72,14 @@ for (String cdt in myJDD.CDTList) {
 		KW.verifyElementCheckedOrNot(myJDD,"ST_ACH","O")
 		KW.verifyElementCheckedOrNot(myJDD,"ST_REC","O")
 		
-		MYLOG.addSTEPBLOCK("ROLE DANS L'ORGANISATION")
+		TNRResult.addSTEPBLOCK("ROLE DANS L'ORGANISATION")
 		KW.verifyElementCheckedOrNot(myJDD,"ST_UTI","O")
 		KW.verifyElementCheckedOrNot(myJDD,"ST_UTIMOB","O")
 		KW.verifyElementCheckedOrNot(myJDD,"ST_INVPRE","O")
 		KW.verifyElementCheckedOrNot(myJDD,"ST_INVBT","O")
 		KW.verifyElementCheckedOrNot(myJDD,"ST_INVDA","O")
 		
-	MYLOG.addSTEPGRP("ONGLET PREVENTIF")
+	TNRResult.addSTEPGRP("ONGLET PREVENTIF")
 		
 		KW.scrollAndClick(myJDD,"tab_Preventif")
 		KW.waitForElementVisible(myJDD,"tab_PreventifSelected")
@@ -89,7 +89,7 @@ for (String cdt in myJDD.CDTList) {
 		KW.verifyValue(myJDD,"ID_CODCAL")
 		KW.verifyValue(myJDD,"ST_DESID_CODCAL")
 		
-	MYLOG.addSTEPGRP("ONGLET ZONE")
+	TNRResult.addSTEPGRP("ONGLET ZONE")
 		
 		KW.scrollAndClick(myJDD,"tab_Zone")
 		KW.waitForElementVisible(myJDD,"tab_ZoneSelected")
@@ -103,6 +103,6 @@ for (String cdt in myJDD.CDTList) {
 			KW.verifyValue(myJDD,'ID_NUMZON', '')
 		}
 
-	MYLOG.addEndTestCase()
+	TNRResult.addEndTestCase()
 }
 

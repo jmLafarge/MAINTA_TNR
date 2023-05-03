@@ -1,5 +1,8 @@
 package my
 
+import groovy.transform.CompileStatic
+
+@CompileStatic
 public class JDDKW {
 
 	private static final Map KEYWORD_ALLOWED			= [

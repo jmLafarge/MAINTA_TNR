@@ -1,26 +1,25 @@
 package checkprerequis
 
-
+import groovy.transform.CompileStatic
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
-
-import my.Log as MYLOG
 import my.InfoBDD
 import my.JDD
-import my.XLS as MYXLS
-import my.PREJDDFiles
 import my.JDDFiles
+import my.Log
+import my.PREJDDFiles
+import my.XLS as MYXLS
 
 
-
+@CompileStatic
 public class CheckPREJDD {
 
 
 	private static my.JDD myJDD
-	private static List datas = []
+	private static List <List> datas = []
 	private static String table =''
-	private static List headersPREJDD=[]
-	private static List PKList=[]
+	private static List <String> headersPREJDD=[]
+	private static List <String> PKList=[]
 
 
 
@@ -36,22 +35,23 @@ public class CheckPREJDD {
 	static run() {
 
 
-		MYLOG.addSubTITLE('Vérification des PREJDD')
+		Log.addSubTITLE('Vérification des PREJDD')
 
 
 		PREJDDFiles.PREJDDfilemap.each { modObj,fullName ->
 
-			MYLOG.addINFO("Lecture du PREJDD : $fullName")
+			Log.addINFO("Lecture du PREJDD : $fullName")
 
-			myJDD = new my.JDD(JDDFiles.JDDfilemap.getAt(modObj),null,null,false)
+			myJDD = new JDD(JDDFiles.JDDfilemap.getAt(modObj),null,null,false)
 
 			XSSFWorkbook book = MYXLS.open(fullName)
 
 			for(Sheet sheet: book) {
 
-				if (!(sheet.getSheetName() in myJDD.SKIP_LIST_SHEETNAME)) {
+				if (myJDD.isSheetAvailable(sheet.getSheetName())) {
+					
 
-					myJDD.loadTCSheet(myJDD.book.getSheet(sheet.getSheetName()))
+					myJDD.loadTCSheet(myJDD.getBook().getSheet(sheet.getSheetName()))
 
 					headersPREJDD = MYXLS.loadRow(sheet.getRow(0))
 
@@ -60,7 +60,7 @@ public class CheckPREJDD {
 					table = myJDD.getDBTableName()
 					PKList = InfoBDD.getPK(table)
 
-					MYLOG.addDEBUG("Onglet : " + sheet.getSheetName(),0)
+					Log.addDEBUG("Onglet : " + sheet.getSheetName(),0)
 
 					if (headersPREJDD.size()>1) {
 
@@ -81,16 +81,16 @@ public class CheckPREJDD {
 
 	private static checkColumn() {
 
-		MYLOG.addDEBUGDETAIL("Contrôle des colonnes",0)
+		Log.addDEBUGDETAIL("Contrôle des colonnes",0)
 
-		//InfoBDD.colnameMap[table].eachWithIndex{col,index ->
 		InfoBDD.map[table].each{col,vlist ->
+
 			if (col == headersPREJDD[(int)vlist[0]]) {
-				MYLOG.addDEBUG("'$col' OK")
+				Log.addDEBUG("'$col' OK")
 			}else if (col in headersPREJDD) {
-				MYLOG.addDETAILFAIL("'$col' est dans le PREJDD mais pas à la bonne place")
+				Log.addDETAILFAIL("'$col' est dans le PREJDD mais pas à la bonne place")
 			}else {
-				MYLOG.addDETAILFAIL("Le champ '$col' n'est pas dans le PREJDD")
+				Log.addDETAILFAIL("Le champ '$col' n'est pas dans le PREJDD")
 			}
 		}
 	}
@@ -102,11 +102,11 @@ public class CheckPREJDD {
 
 	private static checkKWInDATA() {
 
-		MYLOG.addDEBUGDETAIL("Contrôle des mots clés dans les DATA",0)
+		Log.addDEBUGDETAIL("Contrôle des mots clés dans les DATA",0)
 		datas.eachWithIndex { li,numli ->
 			li.eachWithIndex { val,i ->
 				if ((val instanceof String) && val.startsWith('$') && !my.JDDKW.isAllowedKeyword(val)) {
-					MYLOG.addDETAILFAIL("- Le mot clé '$val' n'est pas autorisé. Trouvé en ligne DATA ${numli+1} colonne ${i+1}")
+					Log.addDETAILFAIL("- Le mot clé '$val' n'est pas autorisé. Trouvé en ligne DATA ${numli+1} colonne ${i+1}")
 				}
 			}
 		}
@@ -119,22 +119,21 @@ public class CheckPREJDD {
 
 	private static checkDoublonOnPK() {
 
-		MYLOG.addDEBUGDETAIL("Contrôle absence de doublon sur PRIMARY KEY : " +  PKList.join(' , '),0)
-		Map PKval = [:]
+		Log.addDEBUGDETAIL("Contrôle absence de doublon sur PRIMARY KEY : " +  PKList.join(' , '),0)
+
+		Map <String,Integer> PKval = [:]
+
 		datas.eachWithIndex { li,numli ->
-			List PKnames = []
+			List <String> PKnames = []
 			List PKvalues = []
 			li.eachWithIndex { val,i ->
 				if (headersPREJDD.get(i) in PKList) PKvalues.add(val)
 			}
 			if (PKval.containsKey(PKvalues.join('-'))) {
-				MYLOG.addDETAILFAIL("La valeur '" + PKvalues.join('-') + "' en ligne " + (numli+2) + " existe déjà en ligne " + (PKval.getAt(PKvalues.join('-')) + 2))
+				Log.addDETAILFAIL("La valeur '" + PKvalues.join('-') + "' en ligne " + (numli+2) + " existe déjà en ligne " + (PKval.getAt(PKvalues.join('-')) + 2))
 			}else {
 				PKval.put(PKvalues.join('-'),numli)
 			}
 		}
 	}
-
-
-
 }

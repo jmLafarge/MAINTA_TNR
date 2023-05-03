@@ -6,10 +6,10 @@ import com.kms.katalon.core.context.TestCaseContext
 import com.kms.katalon.core.context.TestSuiteContext
 
 import internal.GlobalVariable
-import my.Log as MYLOG
+import my.Log
 import my.NAV
 import my.Tools
-import my.result.ResultGenerator as MYRES
+import my.result.TNRResult
 import my.InfoBDD
 import my.TCFiles
 import my.JDDFiles
@@ -26,13 +26,13 @@ class TestListener {
 		
 		testSuite=true
 
-		MYLOG.addTITLE('Lancement de ' + testSuiteContext.getTestSuiteId())
+		Log.addTITLE('Lancement de ' + testSuiteContext.getTestSuiteId())
 
 		if (InfoBDD.map.isEmpty()) { InfoBDD.load() }
 		if (TCFiles.TCfileMap.isEmpty()) { TCFiles.load() }
 		if (JDDFiles.JDDfilemap.isEmpty()) { JDDFiles.load() }
 		
-		MYRES.addStartInfo(testSuiteContext.getTestSuiteId())
+		TNRResult.addStartInfo(testSuiteContext.getTestSuiteId())
 
 		Tools.addInfoContext()
 		
@@ -49,11 +49,11 @@ class TestListener {
 	@BeforeTestCase
 	def beforeTestCase(TestCaseContext testCaseContext) {
 		
-		MYLOG.addDEBUG("beforeTestCase : '${testCaseContext.getTestCaseId()}'")
+		Log.addDEBUG("beforeTestCase : '${testCaseContext.getTestCaseId()}'")
 		
 		if (testSuite) {
 			String TCName = testCaseContext.getTestCaseId().split('/')[-1].split(' ')[0]
-			MYLOG.addDEBUG("TCName : '$TCName'")
+			Log.addDEBUG("TCName : '$TCName'")
 			GlobalVariable.CASDETESTENCOURS = TCName
 			GlobalVariable.CASDETESTPATTERN = TCName
 		}
@@ -71,7 +71,7 @@ class TestListener {
 	@AfterTestCase
 	def afterTestCase(TestCaseContext testCaseContext) {
 		
-		MYLOG.addDEBUG('afterTestCase : ' + testCaseContext.getTestCaseId().split('/')[-1] + ' '+testCaseContext.getTestCaseStatus())
+		Log.addDEBUG('afterTestCase : ' + testCaseContext.getTestCaseId().split('/')[-1] + ' '+testCaseContext.getTestCaseStatus())
 		
 	}
 
@@ -87,12 +87,8 @@ class TestListener {
 	@AfterTestSuite
 	def sampleAfterTestSuite(TestSuiteContext testSuiteContext) {
 				
-		MYRES.addEndInfo()
-		
-		MYLOG.addINFO('')
-		MYLOG.addINFO('************  FIN  de : ' + testSuiteContext.getTestSuiteId() +' ************')
-		
-		MYRES.close()
+		TNRResult.close(testSuiteContext.getTestSuiteId())
+
 	}
 
 }

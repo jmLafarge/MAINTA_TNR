@@ -1,6 +1,6 @@
 import my.KW
 import my.NAV
-import my.Log as MYLOG
+import my.result.TNRResult
 import my.JDD
 
 'Lecture du JDD'
@@ -10,7 +10,7 @@ for (String cdt in myJDD.CDTList) {
 	
 	myJDD.setCasDeTest(cdt)
 		
-	MYLOG.addStartTestCase(cdt)
+	TNRResult.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData())
@@ -19,6 +19,6 @@ for (String cdt in myJDD.CDTList) {
 
 	
 	
-	MYLOG.addEndTestCase()
+	TNRResult.addEndTestCase()
 }
 

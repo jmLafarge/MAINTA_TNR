@@ -1,3 +1,3 @@
-import my.Log as MYLOG
+import my.result.TNRResult
 
-MYLOG.addSTEPFAIL("Un exemple de step fail")
+TNRResult.addSTEPFAIL("Un exemple de step fail")

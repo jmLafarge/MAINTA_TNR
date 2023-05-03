@@ -3,7 +3,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
 import my.KW
-import my.Log as MYLOG
+import my.result.TNRResult
 import my.JDD
 
 'Lecture du JDD'
@@ -14,7 +14,7 @@ for (String cdt in myJDD.CDTList) {
 	
 	myJDD.setCasDeTest(cdt)
 		
-	MYLOG.addStartTestCase(cdt)
+	TNRResult.addStartTestCase(cdt)
 	
 	KW.openBrowser(GlobalVariable.BASE_URL)
 
@@ -28,18 +28,18 @@ for (String cdt in myJDD.CDTList) {
 	
 	if (KW.verifyElementPresent(myJDD,'frame_Main', GlobalVariable.TIMEOUT)) {
 			
-		MYLOG.addSTEP("Connexion OK")
+		TNRResult.addSTEP("Connexion OK")
 		
 		'Vérification des valeurs en BD'
 		my.SQL.checkJDDWithBD(myJDD,[:],"SELECT * FROM UTILOG ORDER bY DT_LOG DESC")
 			
 	} else {
 		
-		MYLOG.addSTEP("Connexion KO")
+		TNRResult.addSTEP("Connexion KO")
 		
 	}
 	
-	MYLOG.addEndTestCase()
+	TNRResult.addEndTestCase()
 }
 
 

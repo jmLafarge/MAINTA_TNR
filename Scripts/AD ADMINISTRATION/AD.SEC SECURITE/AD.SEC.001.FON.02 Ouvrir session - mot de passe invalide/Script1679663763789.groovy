@@ -4,7 +4,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 import internal.GlobalVariable
 import my.JDD
 import my.KW
-import my.Log as MYLOG
+import my.result.TNRResult
 import my.JDD
 
 'Lecture du JDD'
@@ -15,7 +15,7 @@ for (String cdt in myJDD.CDTList) {
 	
 	myJDD.setCasDeTest(cdt)
 		
-	MYLOG.addStartTestCase(cdt)
+	TNRResult.addStartTestCase(cdt)
 	
 	KW.openBrowser(GlobalVariable.BASE_URL)
 
@@ -29,7 +29,7 @@ for (String cdt in myJDD.CDTList) {
 
 	if (KW.verifyElementPresent(myJDD,'span_error', GlobalVariable.TIMEOUT)) {
 			
-		MYLOG.addSTEP("Connexion invalide OK")
+		TNRResult.addSTEP("Connexion invalide OK")
 		
 		KW.verifyElementText(myJDD, 'span_error')
 		
@@ -38,12 +38,12 @@ for (String cdt in myJDD.CDTList) {
 			
 	} else {
 		
-		MYLOG.addSTEP("Connexion invalide KO")
+		TNRResult.addSTEP("Connexion invalide KO")
 		
 	}
 	
 	KW.closeBrowser()
-	MYLOG.addEndTestCase()
+	TNRResult.addEndTestCase()
 }
 
 

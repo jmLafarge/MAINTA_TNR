@@ -1,5 +1,5 @@
 import my.KW
-import my.Log as MYLOG
+import my.result.TNRResult
 import my.NAV
 import my.JDD
 
@@ -11,7 +11,7 @@ for (String cdt in myJDD.CDTList) {
 	
 	myJDD.setCasDeTest(cdt)
 		
-	MYLOG.addStartTestCase(cdt)
+	TNRResult.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_Creation_and_checkCartridge()
@@ -47,7 +47,7 @@ for (String cdt in myJDD.CDTList) {
 	
 	
 			
-	MYLOG.addSTEPACTION('VALIDATION')
+	TNRResult.addSTEPACTION('VALIDATION')
 		
 	    KW.scrollAndClick(NAV.myGlobalJDD,'button_Valider')
 	
@@ -56,7 +56,7 @@ for (String cdt in myJDD.CDTList) {
 		my.SQL.checkJDDWithBD(myJDD) // prendre en compte la valeur de ARTNUM car le where du elect se fait sur ID_CODART
 		
 		
-	MYLOG.addEndTestCase()
+	TNRResult.addEndTestCase()
 
 } // fin du if
 

@@ -1,6 +1,6 @@
 
 import my.JDD
-import my.Log as MYLOG
+import my.result.TNRResult
 import my.JDD
 
 
@@ -11,14 +11,14 @@ for (String cdt in myJDD.CDTList) {
 	
 	myJDD.setCasDeTest(cdt)
 	
-	MYLOG.addStartTestCase(cdt)
+	TNRResult.addStartTestCase(cdt)
 	
 	for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
 		
 		myJDD.setCasDeTestNum(i)
 
-		MYLOG.addSTEP(myJDD.getData('ID_XXX')+'\t'+myJDD.getData('ST_XXX'))
+		TNRResult.addSTEP(myJDD.getData('ID_XXX')+'\t'+myJDD.getData('ST_XXX'))
 	}
 	
-	MYLOG.addEndTestCase()
+	TNRResult.addEndTestCase()
 }

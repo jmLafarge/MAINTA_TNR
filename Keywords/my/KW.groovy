@@ -1,15 +1,15 @@
 package my
 
 import com.kms.katalon.core.model.FailureHandling
-import com.kms.katalon.core.testobject.TestObject
 import com.kms.katalon.core.testobject.SelectorMethod
+import com.kms.katalon.core.testobject.TestObject
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
+import groovy.transform.CompileStatic
 import internal.GlobalVariable
-import my.Log as MYLOG
-import my.result.ResultGenerator as MYRES
-import my.JDDKW as JDDKW
-
+import my.result.TNRResult
+import my.JDD
+import my.TO
 
 /**
  * Personaliser et de regrouper certaines actions WebUI
@@ -17,38 +17,39 @@ import my.JDDKW as JDDKW
  * @author X1009638
  *
  */
+
+@CompileStatic
 class KW {
 
 
 
 	static delay(Number second) {
 
-		MYLOG.addSTEP("Attente de $second seconde(s)")
+		TNRResult.addSTEP("Attente de $second seconde(s)")
 		WebUI.delay(second)
 	}
 
 
+
 	static waitForPageLoad(int seconds=GlobalVariable.TIMEOUTForPageLoad) {
 
-		MYLOG.addSTEP("Attendre chargement de la page ...MAX $seconds seconde(s)")
+		TNRResult.addSTEP("Attendre chargement de la page ...MAX $seconds seconde(s)")
 		WebUI.waitForPageLoad(seconds)
 	}
+
 
 
 	static openBrowser(String url){
 		try {
 			WebUI.openBrowser(url, FailureHandling.STOP_ON_FAILURE)
-			def browser = my.Tools.getBrowserAndVersion()
-			MYLOG.addSTEPPASS("Ouverture du navigateur à l'URL :")
-			MYLOG.addDETAIL("URL : $url")
-			MYLOG.addDETAIL("Nom du navigateur : " + browser.NAME)
-			MYLOG.addDETAIL("Version du navigateur : " + browser.VERSION)
+			TNRResult.addSTEPPASS("Ouverture du navigateur à l'URL :")
+			TNRResult.addDETAIL("URL : $url")
+			TNRResult.addBrowserInfo()
 			waitForPageLoad()
-			MYRES.addBrowserInfo(browser.NAME,browser.VERSION)
 		} catch (Exception ex) {
-			MYLOG.addSTEPERROR("Ouverture du navigateur à l'URL :")
-			MYLOG.addDETAIL("URL : $url")
-			MYLOG.addDETAIL(ex.getMessage())
+			TNRResult.addSTEPERROR("Ouverture du navigateur à l'URL :")
+			TNRResult.addDETAIL("URL : $url")
+			TNRResult.addDETAIL(ex.getMessage())
 		}
 	}
 
@@ -60,12 +61,12 @@ class KW {
 		try {
 			WebUI.navigateToUrl(url, FailureHandling.STOP_ON_FAILURE)
 			waitForPageLoad()
-			MYLOG.addSTEPPASS("Navigation vers l'URL '$nomUrl' :")
-			MYLOG.addDETAIL("URL : $url")
+			TNRResult.addSTEPPASS("Navigation vers l'URL '$nomUrl' :")
+			TNRResult.addDETAIL("URL : $url")
 		} catch (Exception ex) {
-			MYLOG.addSTEPERROR("Navigation vers l'URL '$nomUrl' :")
-			MYLOG.addDETAIL("URL : $url")
-			MYLOG.addDETAIL(ex.getMessage())
+			TNRResult.addSTEPERROR("Navigation vers l'URL '$nomUrl' :")
+			TNRResult.addDETAIL("URL : $url")
+			TNRResult.addDETAIL(ex.getMessage())
 		}
 	}
 
@@ -75,10 +76,10 @@ class KW {
 	static closeBrowser(){
 		try {
 			WebUI.closeBrowser()
-			MYLOG.addSTEPPASS("Fermeture du navigateur")
+			TNRResult.addSTEPPASS("Fermeture du navigateur")
 		} catch (Exception ex) {
-			MYLOG.addSTEPERROR("Fermeture du navigateur")
-			MYLOG.addDETAIL(ex.getMessage())
+			TNRResult.addSTEPERROR("Fermeture du navigateur")
+			TNRResult.addDETAIL(ex.getMessage())
 		}
 	}
 
@@ -88,10 +89,10 @@ class KW {
 	static maximizeWindow(){
 		try {
 			WebUI.maximizeWindow(FailureHandling.STOP_ON_FAILURE)
-			MYLOG.addSTEPPASS("Maximise la fenêtre")
+			TNRResult.addSTEPPASS("Maximise la fenêtre")
 		} catch (Exception ex) {
-			MYLOG.addSTEPERROR("Maximise la fenêtre")
-			MYLOG.addDETAIL(ex.getMessage())
+			TNRResult.addSTEPERROR("Maximise la fenêtre")
+			TNRResult.addDETAIL(ex.getMessage())
 		}
 	}
 
@@ -99,18 +100,19 @@ class KW {
 
 
 	static switchToFrame(JDD myJDD, String name) {
-		def (TestObject tObj, String msgTO) = myJDD.makeTO(name)
+		//TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
+		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			try {
-				WebUI.switchToFrame(tObj, GlobalVariable.TIMEOUT)
-				MYLOG.addSTEP("Switch to frame '$name'",null)
+				WebUI.switchToFrame(tObj, (int)GlobalVariable.TIMEOUT)
+				TNRResult.addSTEP("Switch to frame '$name'",null)
 			} catch (Exception ex) {
-				MYLOG.addSTEPERROR("Switch to frame '$name'")
-				MYLOG.addDETAIL(ex.getMessage())
+				TNRResult.addSTEPERROR("Switch to frame '$name'")
+				TNRResult.addDETAIL(ex.getMessage())
 			}
 		}else {
-			MYLOG.addSTEPERROR("Switch to frame '$name' impossible")
-			MYLOG.addDETAIL(msgTO)
+			TNRResult.addSTEPERROR("Switch to frame '$name' impossible")
+			TNRResult.addDETAIL(msgTO)
 		}
 	}
 
@@ -118,20 +120,20 @@ class KW {
 
 
 	static setText(JDD myJDD, String name, String text=null, String status = 'FAIL') {
-		def (TestObject tObj, String msgTO) = myJDD.makeTO(name)
+		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			if (text==null) text = myJDD.getStrData(name)
 			try {
 				WebUI.setText(tObj, text, FailureHandling.STOP_ON_FAILURE)
-				MYLOG.addSTEPPASS("Saisie du texte '$text' sur '" + tObj.getObjectId() + "'")
+				TNRResult.addSTEPPASS("Saisie du texte '$text' sur '" + tObj.getObjectId() + "'")
 			} catch (Exception ex) {
-				MYLOG.addSTEP("Saisie du texte '$text' sur '" + tObj.getObjectId() + "'", status)
-				MYLOG.addDETAIL(ex.getMessage())
-				MYLOG.addDEBUG('')
+				TNRResult.addSTEP("Saisie du texte '$text' sur '" + tObj.getObjectId() + "'", status)
+				TNRResult.addDETAIL(ex.getMessage())
+				Log.addDEBUG('')
 			}
 		}else {
-			MYLOG.addSTEPERROR("Saisie du texte '$text' sur '$name' impossible")
-			MYLOG.addDETAIL(msgTO)
+			TNRResult.addSTEPERROR("Saisie du texte '$text' sur '$name' impossible")
+			TNRResult.addDETAIL(msgTO)
 		}
 	}
 
@@ -139,19 +141,19 @@ class KW {
 
 
 	static setEncryptedText(JDD myJDD, String name, String text=null) {
-		def (TestObject tObj, String msgTO) = myJDD.makeTO(name)
+		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			if (text==null) text = myJDD.getStrData(name)
 			try {
 				WebUI.setEncryptedText(tObj, text, FailureHandling.STOP_ON_FAILURE)
-				MYLOG.addSTEPPASS("Saisie du mot de passe sur '" + tObj.getObjectId() + "'")
+				TNRResult.addSTEPPASS("Saisie du mot de passe sur '" + tObj.getObjectId() + "'")
 			} catch (Exception ex) {
-				MYLOG.addSTEPFAIL("Saisie du mot de passe sur '" + tObj.getObjectId() + "'")
-				MYLOG.addDETAIL(ex.getMessage())
+				TNRResult.addSTEPFAIL("Saisie du mot de passe sur '" + tObj.getObjectId() + "'")
+				TNRResult.addDETAIL(ex.getMessage())
 			}
 		}else {
-			MYLOG.addSTEPERROR("Saisie du mot de passe sur '$name' impossible")
-			MYLOG.addDETAIL(msgTO)
+			TNRResult.addSTEPERROR("Saisie du mot de passe sur '$name' impossible")
+			TNRResult.addDETAIL(msgTO)
 		}
 	}
 
@@ -159,35 +161,35 @@ class KW {
 
 
 	static click(JDD myJDD, String name, String status = 'FAIL') {
-		def (TestObject tObj, String msgTO) = myJDD.makeTO(name)
+		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			try {
 				WebUI.click(tObj, FailureHandling.STOP_ON_FAILURE)
-				MYLOG.addSTEPPASS("Clic sur '" + tObj.getObjectId() + "'")
+				TNRResult.addSTEPPASS("Clic sur '" + tObj.getObjectId() + "'")
 			} catch (Exception ex) {
-				MYLOG.addSTEP("Clic sur '" + tObj.getObjectId() + "'",status)
-				MYLOG.addDETAIL(ex.getMessage())
+				TNRResult.addSTEP("Clic sur '" + tObj.getObjectId() + "'",status)
+				TNRResult.addDETAIL(ex.getMessage())
 			}
 		}else {
-			MYLOG.addSTEPERROR("Clic sur '$name' imposible")
-			MYLOG.addDETAIL(msgTO)
+			TNRResult.addSTEPERROR("Clic sur '$name' imposible")
+			TNRResult.addDETAIL(msgTO)
 		}
 	}
 
 
 	static doubleClick(JDD myJDD, String name, String status = 'FAIL') {
-		def (TestObject tObj, String msgTO) = myJDD.makeTO(name)
+		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			try {
 				WebUI.doubleClick(tObj, FailureHandling.STOP_ON_FAILURE)
-				MYLOG.addSTEPPASS("Double click sur '" + tObj.getObjectId() + "'")
+				TNRResult.addSTEPPASS("Double click sur '" + tObj.getObjectId() + "'")
 			} catch (Exception ex) {
-				MYLOG.addSTEP("Double click sur '" + tObj.getObjectId() + "'",status)
-				MYLOG.addDETAIL(ex.getMessage())
+				TNRResult.addSTEP("Double click sur '" + tObj.getObjectId() + "'",status)
+				TNRResult.addDETAIL(ex.getMessage())
 			}
 		}else {
-			MYLOG.addSTEPERROR("Double click sur '$name' impossible")
-			MYLOG.addDETAIL(msgTO)
+			TNRResult.addSTEPERROR("Double click sur '$name' impossible")
+			TNRResult.addDETAIL(msgTO)
 		}
 	}
 
@@ -195,18 +197,18 @@ class KW {
 
 
 	static scrollToElement(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		def (TestObject tObj, String msgTO) = myJDD.makeTO(name)
+		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			try {
 				WebUI.scrollToElement(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
-				MYLOG.addDEBUG("Scroll to '${tObj.getObjectId()}' OK")
+				Log.addDEBUG("Scroll to '${tObj.getObjectId()}' OK")
 			} catch (Exception ex) {
-				MYLOG.addSTEPERROR("Scroll to '${tObj.getObjectId()}'")
-				MYLOG.addDETAIL(ex.getMessage())
+				TNRResult.addSTEPERROR("Scroll to '${tObj.getObjectId()}'")
+				TNRResult.addDETAIL(ex.getMessage())
 			}
 		}else {
-			MYLOG.addSTEPERROR("Scroll to '$name' impossible")
-			MYLOG.addDETAIL(msgTO)
+			TNRResult.addSTEPERROR("Scroll to '$name' impossible")
+			TNRResult.addDETAIL(msgTO)
 		}
 	}
 
@@ -216,11 +218,11 @@ class KW {
 	static boolean waitForAlert(int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		try {
 			WebUI.waitForAlert(timeOut, FailureHandling.STOP_ON_FAILURE)
-			MYLOG.addSTEPPASS("Attendre la fenetre de confirmation")
+			TNRResult.addSTEPPASS("Attendre la fenetre de confirmation")
 			return true
 		} catch (Exception ex) {
-			MYLOG.addSTEP("Attendre la fenetre de confirmation",status)
-			MYLOG.addDETAIL(ex.getMessage())
+			TNRResult.addSTEP("Attendre la fenetre de confirmation",status)
+			TNRResult.addDETAIL(ex.getMessage())
 			return false
 		}
 	}
@@ -231,11 +233,11 @@ class KW {
 	static boolean acceptAlert(String status = 'FAIL') {
 		try {
 			WebUI.acceptAlert(FailureHandling.STOP_ON_FAILURE)
-			MYLOG.addSTEPPASS("Accepter la demande de confirmation")
+			TNRResult.addSTEPPASS("Accepter la demande de confirmation")
 			return true
 		} catch (Exception ex) {
-			MYLOG.addSTEP("Accepter la demande de confirmation", status)
-			MYLOG.addDETAIL(ex.getMessage())
+			TNRResult.addSTEP("Accepter la demande de confirmation", status)
+			TNRResult.addDETAIL(ex.getMessage())
 			return false
 		}
 	}
@@ -245,26 +247,26 @@ class KW {
 
 
 	static String sendKeys(JDD myJDD, String name, String keys, String msg = '' , String status = 'FAIL') {
-		def (TestObject tObj, String msgTO) = myJDD.makeTO(name)
+		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			try {
 				WebUI.sendKeys(tObj, keys, FailureHandling.STOP_ON_FAILURE)
 				if (msg) {
-					MYLOG.addSTEPPASS(msg)
+					TNRResult.addSTEPPASS(msg)
 				}else {
-					MYLOG.addDEBUG("Envoie touche(s) clavier '$keys' sur '${tObj.getObjectId()}'")
+					Log.addDEBUG("Envoie touche(s) clavier '$keys' sur '${tObj.getObjectId()}'")
 				}
 				return null
 			} catch (Exception ex) {
 				if (msg) {
-					MYLOG.addSTEP(msg,status)
-					MYLOG.addDETAIL(ex.getMessage())
+					TNRResult.addSTEP(msg,status)
+					TNRResult.addDETAIL(ex.getMessage())
 				}
 				return ex.getMessage()
 			}
 		}else {
-			MYLOG.addSTEPERROR("Envoie touche(s) clavier '$keys' sur '$name' impossible")
-			MYLOG.addDETAIL(msgTO)
+			TNRResult.addSTEPERROR("Envoie touche(s) clavier '$keys' sur '$name' impossible")
+			TNRResult.addDETAIL(msgTO)
 		}
 	}
 
@@ -276,20 +278,20 @@ class KW {
 
 
 	static boolean verifyElementNotPresent(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		def (TestObject tObj, String msgTO) = myJDD.makeTO(name)
+		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			try {
 				WebUI.verifyElementNotPresent(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
-				MYLOG.addSTEPPASS("Vérifier que '${tObj.getObjectId()}' ne soit plus présent")
+				TNRResult.addSTEPPASS("Vérifier que '${tObj.getObjectId()}' ne soit plus présent")
 				return true
 			} catch (Exception ex) {
-				MYLOG.addSTEP("Vérifier que '${tObj.getObjectId()}' ne soit plus présent", status)
-				MYLOG.addDETAIL(ex.getMessage())
+				TNRResult.addSTEP("Vérifier que '${tObj.getObjectId()}' ne soit plus présent", status)
+				TNRResult.addDETAIL(ex.getMessage())
 				return false
 			}
 		}else {
-			MYLOG.addSTEPERROR("Vérifier que '$name' ne soit plus présent impossible")
-			MYLOG.addDETAIL(msgTO)
+			TNRResult.addSTEPERROR("Vérifier que '$name' ne soit plus présent impossible")
+			TNRResult.addDETAIL(msgTO)
 		}
 	}
 
@@ -306,21 +308,22 @@ class KW {
 	 * @return
 	 */
 	static boolean verifyElementPresent(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		def (TestObject tObj, String msgTO) = myJDD.makeTO(name)
+
+		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			try {
 				WebUI.verifyElementPresent(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
-				MYLOG.addSTEPPASS("Vérifier que '${tObj.getObjectId()}' soit présent")
+				TNRResult.addSTEPPASS("Vérifier que '${tObj.getObjectId()}' soit présent")
 				return true
 			}catch (Exception ex) {
-				MYLOG.addSTEP("Vérifier que '${tObj.getObjectId()}' soit présent", status)
-				MYLOG.addDETAIL(ex.getMessage())
-				MYLOG.addDETAIL("XPATH = "+tObj.getSelectorCollection().get(SelectorMethod.XPATH))
+				TNRResult.addSTEP("Vérifier que '${tObj.getObjectId()}' soit présent", status)
+				TNRResult.addDETAIL(ex.getMessage())
+				TNRResult.addDETAIL("XPATH = "+tObj.getSelectorCollection().get(SelectorMethod.XPATH))
 				return false
 			}
 		}else {
-			MYLOG.addSTEPERROR("Vérifier que '$name' soit présent impossible")
-			MYLOG.addDETAIL(msgTO)
+			TNRResult.addSTEPERROR("Vérifier que '$name' soit présent impossible")
+			TNRResult.addDETAIL(msgTO)
 			return false
 		}
 	}
@@ -336,24 +339,24 @@ class KW {
 	 * @return
 	 */
 	static boolean isElementPresent(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT) {
-		def (TestObject tObj, String msgTO) = myJDD.makeTO(name)
+		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			try {
 				if (WebUI.verifyElementPresent(tObj, timeOut, FailureHandling.OPTIONAL)) {
-					MYLOG.addSTEP("L'élément '${tObj.getObjectId()}' est présent")
+					TNRResult.addSTEP("L'élément '${tObj.getObjectId()}' est présent")
 					return true
 				}else {
-					MYLOG.addSTEP("L'élément '${tObj.getObjectId()}' n'est pas présent")
+					TNRResult.addSTEP("L'élément '${tObj.getObjectId()}' n'est pas présent")
 					return false
 				}
 			} catch (Exception ex) {
-				MYLOG.addSTEPERROR("Vérifier si l'élément '$name' est présent")
-				MYLOG.addDETAIL(ex.getMessage())
+				TNRResult.addSTEPERROR("Vérifier si l'élément '$name' est présent")
+				TNRResult.addDETAIL(ex.getMessage())
 				return false
 			}
 		}else {
-			MYLOG.addSTEPERROR("Vérifier si l'élément '$name' est présent impossible")
-			MYLOG.addDETAIL(msgTO)
+			TNRResult.addSTEPERROR("Vérifier si l'élément '$name' est présent impossible")
+			TNRResult.addDETAIL(msgTO)
 			return false
 		}
 	}
@@ -363,22 +366,22 @@ class KW {
 
 
 	static boolean verifyElementText(JDD myJDD, String name, String text=null, String status = 'FAIL')  {
-		def (TestObject tObj, String msgTO) = myJDD.makeTO(name)
+		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			if (text==null) text = myJDD.getStrData(name)
 			String gText = WebUI.getText(tObj)
 
 			if (WebUI.verifyElementText(tObj, text,FailureHandling.OPTIONAL)) {
-				MYLOG.addSTEPPASS("Vérification du texte '$text' sur '" + tObj.getObjectId() + "'")
+				TNRResult.addSTEPPASS("Vérification du texte '$text' sur '" + tObj.getObjectId() + "'")
 				return true
 			} else {
-				MYLOG.addSTEP("Vérification du texte '$text' sur '" + tObj.getObjectId() + "'",status)
-				MYLOG.addDETAIL("la valeur est '$gText' !")
+				TNRResult.addSTEP("Vérification du texte '$text' sur '" + tObj.getObjectId() + "'",status)
+				TNRResult.addDETAIL("la valeur est '$gText' !")
 				return false
 			}
 		}else {
-			MYLOG.addSTEPERROR("Vérification du texte '$text' sur '$name' impossible")
-			MYLOG.addDETAIL(msgTO)
+			TNRResult.addSTEPERROR("Vérification du texte '$text' sur '$name' impossible")
+			TNRResult.addDETAIL(msgTO)
 		}
 	} // end of def
 
@@ -396,27 +399,27 @@ class KW {
 	 * @return
 	 */
 	static waitForElementVisible(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		def (TestObject tObj, String msgTO) = myJDD.makeTO(name)
+		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 
 			try {
 				if (WebUI.waitForElementVisible(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)) {
-					MYLOG.addSTEPPASS("Vérifier que l'élément '${tObj.getObjectId()}' soit visible")
+					TNRResult.addSTEPPASS("Vérifier que l'élément '${tObj.getObjectId()}' soit visible")
 					return true
 				}else {
-					MYLOG.addSTEP("Vérifier que l'élément '${tObj.getObjectId()}' soit visible", status)
-					MYLOG.addDETAIL("KO après $timeOut seconde(s)")
+					TNRResult.addSTEP("Vérifier que l'élément '${tObj.getObjectId()}' soit visible", status)
+					TNRResult.addDETAIL("KO après $timeOut seconde(s)")
 					return false
 				}
 				//WebUI.verifyElementInViewport(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
 			} catch (Exception ex) {
-				MYLOG.addSTEP("Vérifier que l'élément '${tObj.getObjectId()}' soit visible", status)
-				MYLOG.addDETAIL(ex.getMessage())
+				TNRResult.addSTEP("Vérifier que l'élément '${tObj.getObjectId()}' soit visible", status)
+				TNRResult.addDETAIL(ex.getMessage())
 				return false
 			}
 		}else {
-			MYLOG.addSTEPERROR("Vérifier que l'élément '$name' soit visible impossible")
-			MYLOG.addDETAIL(msgTO)
+			TNRResult.addSTEPERROR("Vérifier que l'élément '$name' soit visible impossible")
+			TNRResult.addDETAIL(msgTO)
 			return false
 		}
 	} // end of def
@@ -426,29 +429,29 @@ class KW {
 
 
 	static verifyValue(JDD myJDD, String name, String text=null, String status = 'FAIL') {
-		def (TestObject tObj, String msgTO) = myJDD.makeTO(name)
+		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			if (text==null) text = myJDD.getStrData(name)
 			if (JDDKW.isNU(text)) {
-				MYLOG.addSTEP("Pas de vérification pour $name, valeur du JDD = NU")
+				TNRResult.addSTEP("Pas de vérification pour $name, valeur du JDD = NU")
 			}else {
 				def val = WebUI.getAttribute(tObj, 'value')
-				MYLOG.addDEBUG('val.getClass() : ' + val.getClass() + '   ' + val)
+				Log.addDEBUG('val.getClass() : ' + val.getClass() + '   ' + val)
 				if (val==null) {
-					MYLOG.addSTEPERROR("Vérifier que la valeur de '" + name + "', soit '$text'")
-					MYLOG.addDETAIL("L'attribut 'value' n'existe pas !")
+					TNRResult.addSTEPERROR("Vérifier que la valeur de '" + name + "', soit '$text'")
+					TNRResult.addDETAIL("L'attribut 'value' n'existe pas !")
 				}else if (val==text) {
-					MYLOG.addSTEPPASS("Vérifier que la valeur de '" + name + "', soit '$text'")
+					TNRResult.addSTEPPASS("Vérifier que la valeur de '" + name + "', soit '$text'")
 				}else if (text==my.JDDKW.getKW_NULL() && val=='') {
-					MYLOG.addSTEPPASS("Vérifier que la valeur de '" + name + "', soit Null ou Vide")
+					TNRResult.addSTEPPASS("Vérifier que la valeur de '" + name + "', soit Null ou Vide")
 				}else {
-					MYLOG.addSTEP("Vérifier que la valeur de '" + name + "', soit '$text'",status)
-					MYLOG.addDETAIL("La valeur du champ est '" + WebUI.getAttribute(tObj, 'value') + "' !")
+					TNRResult.addSTEP("Vérifier que la valeur de '" + name + "', soit '$text'",status)
+					TNRResult.addDETAIL("La valeur du champ est '" + WebUI.getAttribute(tObj, 'value') + "' !")
 				}
 			}
 		}else {
-			MYLOG.addSTEPERROR("Vérifier que la valeur de '$name' = '$text'  impossible")
-			MYLOG.addDETAIL(msgTO)
+			TNRResult.addSTEPERROR("Vérifier que la valeur de '$name' = '$text'  impossible")
+			TNRResult.addDETAIL(msgTO)
 		}
 	} // end of def
 
@@ -461,17 +464,17 @@ class KW {
 
 
 	static verifyOptionSelectedByValue(JDD myJDD, String name, String text=null, boolean isRegex = false, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		def (TestObject tObj, String msgTO) = myJDD.makeTO(name)
+		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			if (text==null) text = myJDD.getStrData(name)
 			if (WebUI.verifyOptionSelectedByValue(tObj, text, isRegex, timeOut)) {
-				MYLOG.addSTEPPASS("Vérifier que l'option '$text' de '" + tObj.getObjectId() + "' soit sélectionnée")
+				TNRResult.addSTEPPASS("Vérifier que l'option '$text' de '" + tObj.getObjectId() + "' soit sélectionnée")
 			}else{
-				MYLOG.addSTEP("Vérifier que l'option '$text' de '" + tObj.getObjectId() + "' soit sélectionnée KO", status)
+				TNRResult.addSTEP("Vérifier que l'option '$text' de '" + tObj.getObjectId() + "' soit sélectionnée KO", status)
 			}
 		}else {
-			MYLOG.addSTEPERROR("Vérifier que l'option '$text' de '$name' soit sélectionnée")
-			MYLOG.addDETAIL(msgTO)
+			TNRResult.addSTEPERROR("Vérifier que l'option '$text' de '$name' soit sélectionnée")
+			TNRResult.addDETAIL(msgTO)
 		}
 	}
 
@@ -514,22 +517,22 @@ class KW {
 
 
 	static scrollAndSelectOptionByValue(JDD myJDD, String name, String text=null, boolean isRegex = true, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		def (TestObject tObj, String msgTO) = myJDD.makeTO(name)
+		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			if (text==null) text = myJDD.getStrData(name)
 			scrollToElement(myJDD, name, timeOut,status)
 			waitForElementVisible(myJDD, name, timeOut,status)
 			try {
 				WebUI.selectOptionByValue(tObj, text, isRegex,FailureHandling.STOP_ON_FAILURE)
-				MYLOG.addSTEPPASS("Scroll et select option '$text' sur '" + tObj.getObjectId() + "'")
+				TNRResult.addSTEPPASS("Scroll et select option '$text' sur '" + tObj.getObjectId() + "'")
 			} catch (Exception ex) {
-				MYLOG.addSTEP("Scroll et select option '$text' sur '" + tObj.getObjectId() + "'",status)
-				MYLOG.addDETAIL(ex.getMessage())
+				TNRResult.addSTEP("Scroll et select option '$text' sur '" + tObj.getObjectId() + "'",status)
+				TNRResult.addDETAIL(ex.getMessage())
 			}
 
 		}else {
-			MYLOG.addSTEPERROR("Scroll et select option '$text' sur '$name'")
-			MYLOG.addDETAIL(msgTO)
+			TNRResult.addSTEPERROR("Scroll et select option '$text' sur '$name'")
+			TNRResult.addDETAIL(msgTO)
 		}
 	} // end of def
 
@@ -577,8 +580,8 @@ class KW {
 		if ( val instanceof Date) {
 			setText(myJDD, name, val.format(dateFormat), status)
 		}else {
-			MYLOG.addSTEPERROR("Saisie du texte '${val.toString()}' sur '$name'")
-			MYLOG.addDETAIL("Erreur de JDD de '$name', la valeur '${val.toString()}' n'est pas une date ! getClass = " + val.getClass())
+			TNRResult.addSTEPERROR("Saisie du texte '${val.toString()}' sur '$name'")
+			TNRResult.addDETAIL("Erreur de JDD de '$name', la valeur '${val.toString()}' n'est pas une date ! getClass = " + val.getClass())
 		}
 	} // end of def
 
@@ -588,18 +591,18 @@ class KW {
 
 	static verifyDateText(JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT , String status = 'FAIL')  {
 
-		MYLOG.addDEBUG("verifyDateText : name='$name' val='${val.toString()} dateFormat='dateFormat' status='$status'")
+		Log.addDEBUG("verifyDateText : name='$name' val='${val.toString()} dateFormat='dateFormat' status='$status'")
 
 		if (val==null) val = myJDD.getData(name)
 
 		if (val == '$VIDE') {
 			verifyElementText(myJDD, name, '', status)
 		}else if ( val instanceof Date) {
-			MYLOG.addDEBUG('val.format(dateFormat) :' +val.format(dateFormat))
+			Log.addDEBUG('val.format(dateFormat) :' +val.format(dateFormat))
 			verifyElementText(myJDD, name, val.format(dateFormat), status)
 		}else {
-			MYLOG.addSTEPERROR("Vérification du texte '${val.toString()}' sur '$name'")
-			MYLOG.addDETAIL("Erreur de JDD de '$name', la valeur '${val.toString()}' n'est pas une date ! getClass = " + val.getClass())
+			TNRResult.addSTEPERROR("Vérification du texte '${val.toString()}' sur '$name'")
+			TNRResult.addDETAIL("Erreur de JDD de '$name', la valeur '${val.toString()}' n'est pas une date ! getClass = " + val.getClass())
 		}
 	} // end of def
 
@@ -608,7 +611,7 @@ class KW {
 
 	static verifyDateValue(JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT , String status = 'FAIL')  {
 
-		MYLOG.addDEBUG("verifyDateFromValue : name='$name' val='${val.toString()} dateFormat='dateFormat' status='$status'")
+		Log.addDEBUG("verifyDateFromValue : name='$name' val='${val.toString()} dateFormat='dateFormat' status='$status'")
 
 		if (val==null) val = myJDD.getData(name)
 		if (val == '$VIDE') {
@@ -616,8 +619,8 @@ class KW {
 		}else if ( val instanceof Date) {
 			verifyValue(myJDD, name, val.format(dateFormat), status)
 		}else {
-			MYLOG.addSTEPERROR("Vérification du texte '${val.toString()}' sur '$name'")
-			MYLOG.addDETAIL("Erreur de JDD de '$name', la valeur '${val.toString()}' n'est pas une date ! getClass = " + val.getClass())
+			TNRResult.addSTEPERROR("Vérification du texte '${val.toString()}' sur '$name'")
+			TNRResult.addDETAIL("Erreur de JDD de '$name', la valeur '${val.toString()}' n'est pas une date ! getClass = " + val.getClass())
 		}
 	} // end of def
 
@@ -650,9 +653,9 @@ class KW {
 
 
 	static scrollAndCheckIfNeeded(JDD myJDD, String name, String textTrue, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL')  {
-		def (TestObject tObj, String msgTO) = myJDD.makeTO(name)
+		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
-			def (TestObject tObjLbl, String msgLbl) = myJDD.makeTO('Lbl'+name)
+			TO myTOLbl = new TO() ; TestObject tObjLbl  = myTOLbl.make(myJDD,'Lbl'+name) ;String msgLbl = myTOLbl.getMsg()
 			if (tObjLbl) {
 				boolean cond = myJDD.getStrData(name)==textTrue
 
@@ -660,38 +663,38 @@ class KW {
 				waitForElementVisible(myJDD, name, timeOut,status)
 				if (cond) {
 					if (WebUI.verifyElementChecked(tObj,timeOut, FailureHandling.OPTIONAL)) {
-						MYLOG.addSTEPPASS("Cocher la case à cocher '" + name + "'")
-						MYLOG.addDETAIL("déjà cochée")
+						TNRResult.addSTEPPASS("Cocher la case à cocher '" + name + "'")
+						TNRResult.addDETAIL("déjà cochée")
 					}else {
 						try {
 							WebUI.click(tObjLbl, FailureHandling.STOP_ON_FAILURE)
-							MYLOG.addSTEPPASS("Cocher la case à cocher '" + name + "'")
+							TNRResult.addSTEPPASS("Cocher la case à cocher '" + name + "'")
 						} catch (Exception ex) {
-							MYLOG.addSTEP("Cocher la case à cocher '" + name + "'", status)
-							MYLOG.addDETAIL(ex.getMessage())
+							TNRResult.addSTEP("Cocher la case à cocher '" + name + "'", status)
+							TNRResult.addDETAIL(ex.getMessage())
 						}
 					}
 				}else {
 					if (WebUI.verifyElementNotChecked(tObj,timeOut, FailureHandling.OPTIONAL)) {
-						MYLOG.addSTEPPASS("Décocher la case à cocher '" + name + "'")
-						MYLOG.addDETAIL("déjà décochée")
+						TNRResult.addSTEPPASS("Décocher la case à cocher '" + name + "'")
+						TNRResult.addDETAIL("déjà décochée")
 					}else {
 						try {
 							WebUI.click(tObjLbl, FailureHandling.STOP_ON_FAILURE)
-							MYLOG.addSTEPPASS("Décocher la case à cocher '" + name + "'")
+							TNRResult.addSTEPPASS("Décocher la case à cocher '" + name + "'")
 						} catch (Exception ex) {
-							MYLOG.addSTEP("Décocher la case à cocher '" + name + "'", status)
-							MYLOG.addDETAIL(ex.getMessage())
+							TNRResult.addSTEP("Décocher la case à cocher '" + name + "'", status)
+							TNRResult.addDETAIL(ex.getMessage())
 						}
 					}
 				}
 			}else {
-				MYLOG.addSTEPERROR("Label Case à cocher 'Lbl$name'")
-				MYLOG.addDETAIL(msgTO)
+				TNRResult.addSTEPERROR("Label Case à cocher 'Lbl$name'")
+				TNRResult.addDETAIL(msgTO)
 			}
 		}else {
-			MYLOG.addSTEPERROR("Case à cocher '$name'")
-			MYLOG.addDETAIL(msgTO)
+			TNRResult.addSTEPERROR("Case à cocher '$name'")
+			TNRResult.addDETAIL(msgTO)
 		}
 	} // end of def
 
@@ -701,7 +704,7 @@ class KW {
 
 
 	static verifyElementCheckedOrNot(JDD myJDD, String name, String textTrue, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		def (TestObject tObj, String msgTO) = myJDD.makeTO(name)
+		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			boolean cond = myJDD.getStrData(name)==textTrue
 
@@ -709,22 +712,22 @@ class KW {
 			waitForElementVisible(myJDD, name, timeOut,status)
 			if (cond) {
 				if (WebUI.verifyElementChecked(tObj,timeOut, FailureHandling.OPTIONAL)) {
-					MYLOG.addSTEPPASS("Vérifier que '${tObj.getObjectId()}'soit coché")
+					TNRResult.addSTEPPASS("Vérifier que '${tObj.getObjectId()}'soit coché")
 				}else {
-					MYLOG.addSTEPFAIL("Vérifier que '${tObj.getObjectId()}'soit coché")
-					MYLOG.addDETAIL('La case est décochée !')
+					TNRResult.addSTEPFAIL("Vérifier que '${tObj.getObjectId()}'soit coché")
+					TNRResult.addDETAIL('La case est décochée !')
 				}
 			}else {
 				if (WebUI.verifyElementNotChecked(tObj,timeOut, FailureHandling.OPTIONAL)) {
-					MYLOG.addSTEPPASS("Vérifier que '${tObj.getObjectId()}' soit décoché")
+					TNRResult.addSTEPPASS("Vérifier que '${tObj.getObjectId()}' soit décoché")
 				}else {
-					MYLOG.addSTEPFAIL("Vérifier que '${tObj.getObjectId()}' soit décoché")
-					MYLOG.addDETAIL('La case est cochée !')
+					TNRResult.addSTEPFAIL("Vérifier que '${tObj.getObjectId()}' soit décoché")
+					TNRResult.addDETAIL('La case est cochée !')
 				}
 			}
 		}else {
-			MYLOG.addSTEPERROR("Vérifier état case à cocher '$name'")
-			MYLOG.addDETAIL(msgTO)
+			TNRResult.addSTEPERROR("Vérifier état case à cocher '$name'")
+			TNRResult.addDETAIL(msgTO)
 		}
 
 	}
@@ -734,20 +737,20 @@ class KW {
 
 
 	static getCheckBoxImgStatus(JDD myJDD, String name)  {
-		def (TestObject tObj, String msgTO) = myJDD.makeTO(name)
+		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			if (WebUI.getAttribute(tObj, 'src').endsWith('133.gif')) {
 				return true
 			}else if (WebUI.getAttribute(tObj, 'src').endsWith('134.gif')) {
 				return false
 			}else {
-				MYLOG.addSTEPERROR("Vérifier état case à cocher '$name'")
-				MYLOG.addDETAIL("L'attribut src de l'objet " + name + " n'est pas conforme, la valeur est : " + WebUI.getAttribute(tObj, 'src'))
+				TNRResult.addSTEPERROR("Vérifier état case à cocher '$name'")
+				TNRResult.addDETAIL("L'attribut src de l'objet " + name + " n'est pas conforme, la valeur est : " + WebUI.getAttribute(tObj, 'src'))
 				return null
 			}
 		}else {
-			MYLOG.addSTEPERROR("Vérifier état case à cocher '$name'")
-			MYLOG.addDETAIL(msgTO)
+			TNRResult.addSTEPERROR("Vérifier état case à cocher '$name'")
+			TNRResult.addDETAIL(msgTO)
 		}
 	}
 
@@ -760,9 +763,9 @@ class KW {
 		if (etat ==null) {
 			// l'erreur est déjà remontée par getCheckBoxImgStatus
 		}else if (etat) {
-			MYLOG.addSTEPPASS("Vérifier que la case à cocher (img) '" + name + "' soit cochée")
+			TNRResult.addSTEPPASS("Vérifier que la case à cocher (img) '" + name + "' soit cochée")
 		}else {
-			MYLOG.addSTEP("Vérifier que la case à cocher (img) '" + name + "' soit cochée", status)
+			TNRResult.addSTEP("Vérifier que la case à cocher (img) '" + name + "' soit cochée", status)
 		}
 
 	}
@@ -776,9 +779,9 @@ class KW {
 		if (etat ==null) {
 			// l'erreur est déjà remontée par getCheckBoxImgStatus
 		}else if (!etat) {
-			MYLOG.addSTEPPASS("Vérifier que la case à cocher (img) '" + name + "' soit cochée")
+			TNRResult.addSTEPPASS("Vérifier que la case à cocher (img) '" + name + "' soit cochée")
 		}else {
-			MYLOG.addSTEP("Vérifier que la case à cocher (img) '" + name + "' soit cochée", status)
+			TNRResult.addSTEP("Vérifier que la case à cocher (img) '" + name + "' soit cochée", status)
 		}
 	}
 
@@ -815,11 +818,11 @@ class KW {
 
 		if (JDDKW.isNULL(val) || JDDKW.isNU(val)) {
 
-			MYLOG.addSTEP("Pas de recherche pour $name, valeur du JDD = $val")
+			TNRResult.addSTEP("Pas de recherche pour $name, valeur du JDD = $val")
 
 		}else {
 
-			MYLOG.addSUBSTEP("Saisie de $name en utilisant l'assistant de recherche")
+			TNRResult.addSUBSTEP("Saisie de $name en utilisant l'assistant de recherche")
 
 			if (btnXpath=='') {
 				btnXpath = "//a[@id='Btn$name']/i"

@@ -1,17 +1,16 @@
 package my
 
 import groovy.io.FileType
-import my.Log as MYLOG
+import groovy.transform.CompileStatic
+import my.Log
 
 
-/**
- * @author A1008045
- *
- */
+
+@CompileStatic
 public class JDDFiles {
 
 
-	public static Map JDDfilemap = [:]
+	public static Map <String,String> JDDfilemap = [:]
 
 
 	/**
@@ -30,9 +29,9 @@ public class JDDFiles {
 	public static load() {
 
 
-		MYLOG.addSubTITLE("Load JDDfileList",'-',120,1)
+		Log.addSubTITLE("Load JDDfileList",'-',120,1)
 
-		MYLOG.addINFO("\t"+'MODOBJ'.padRight(16) + 'JDDFULLNAME',1)
+		Log.addINFO("\t"+'MODOBJ'.padRight(16) + 'JDDFULLNAME',1)
 
 		new File(my.PropertiesReader.getMyProperty('JDD_PATH')).eachFileRecurse(FileType.FILES) { file ->
 
@@ -43,7 +42,7 @@ public class JDDFiles {
 
 				JDDfilemap.put(modObj,file.getPath())
 
-				MYLOG.addINFO('\t' + modObj.padRight(16) + file.getPath(),1)
+				Log.addINFO('\t' + modObj.padRight(16) + file.getPath(),1)
 			}
 		}
 	}

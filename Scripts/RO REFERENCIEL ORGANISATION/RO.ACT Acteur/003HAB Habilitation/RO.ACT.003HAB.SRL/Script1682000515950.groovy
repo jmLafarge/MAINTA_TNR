@@ -6,7 +6,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 import internal.GlobalVariable
 import my.KW
 import my.NAV
-import my.Log as MYLOG
+import my.result.TNRResult
 import my.JDD
 
 
@@ -17,13 +17,13 @@ for (String cdt in myJDD.CDTList) {
 	
 	myJDD.setCasDeTest(cdt)
 		
-	MYLOG.addStartTestCase(cdt)
+	TNRResult.addStartTestCase(cdt)
 
 
 	'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_CODINT'))
 
-	MYLOG.addSTEPGRP("ONGLET HABILITATION")
+	TNRResult.addSTEPGRP("ONGLET HABILITATION")
 
 		KW.scrollAndClick(myJDD,"tab_Habilitation")
 		KW.waitForElementVisible(myJDD,"tab_HabilitationSelected")
@@ -34,7 +34,7 @@ for (String cdt in myJDD.CDTList) {
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
 			
 			if (myJDD.getNbrLigneCasDeTest()>1) {
-				MYLOG.addSTEPLOOP("Lecture $i / " + myJDD.getNbrLigneCasDeTest())
+				TNRResult.addSTEPLOOP("Lecture $i / " + myJDD.getNbrLigneCasDeTest())
 			}
 			
 			myJDD.setCasDeTestNum(i)
@@ -50,7 +50,7 @@ for (String cdt in myJDD.CDTList) {
 			
 	    }// fin du for
 		
-	MYLOG.addEndTestCase()
+	TNRResult.addEndTestCase()
 } // fin du if
 
 

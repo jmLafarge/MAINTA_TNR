@@ -4,7 +4,7 @@ import com.kms.katalon.core.webui.keyword.internal.WebUIAbstractKeyword
 
 import internal.GlobalVariable
 import my.KW
-import my.Log as MYLOG
+import my.result.TNRResult
 import my.JDD
 
 'Lecture du JDD'
@@ -14,7 +14,7 @@ for (String cdt in myJDD.CDTList) {
 	
 	myJDD.setCasDeTest(cdt)
 		
-	MYLOG.addStartTestCase(cdt)
+	TNRResult.addStartTestCase(cdt)
 	
 	if (KW.isElementPresent(myJDD,'frame_Main', GlobalVariable.TIMEOUT)) {
 		
@@ -39,16 +39,16 @@ for (String cdt in myJDD.CDTList) {
 	
 	if (KW.waitForElementVisible(myJDD,'in_passw', GlobalVariable.TIMEOUT)) {
 		
-		MYLOG.addSTEP("Déconnexion OK",null)
+		TNRResult.addSTEP("Déconnexion OK",null)
 		
 		// il manque le ctrl en BDD car on ne sais pas quoi tester ?
 		
 	}else {
-		MYLOG.addSTEP("Déconnexion KO",null )
+		TNRResult.addSTEP("Déconnexion KO",null )
 	}
 	
 	KW.closeBrowser()
-	MYLOG.addEndTestCase()
+	TNRResult.addEndTestCase()
 
 }
 

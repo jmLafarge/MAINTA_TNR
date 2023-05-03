@@ -1,17 +1,17 @@
 import internal.GlobalVariable
 import my.PREJDDFiles
-import my.Log as MYLOG
+import my.result.TNRResult
 import my.InfoBDD
 import my.JDDFiles
+import my.Log
 
-MYLOG.addTITLE("Lancement de CREATE PREJDD IN DB")
+Log.addTITLE("Lancement de CREATE PREJDD IN DB")
 if (InfoBDD.map.isEmpty()) { InfoBDD.load() }
 if (JDDFiles.JDDfilemap.isEmpty()) { JDDFiles.load() }
 if (PREJDDFiles.PREJDDfilemap.isEmpty()) { PREJDDFiles.load() }
 
 
-MYLOG.addSubTITLE('Création des PREJDD')
-
+Log.addSubTITLE('Création des PREJDD')
 
 
 // pour le proto
@@ -64,4 +64,9 @@ PREJDDFiles.insertPREJDDinDB('RO.FOU','001')
 PREJDDFiles.insertPREJDDinDB('MP.CPT','001')
 
 
+PREJDDFiles.insertPREJDDinDB('RT.ART','001')
+
+PREJDDFiles.insertPREJDDinDB('RT.ART','001A')
+PREJDDFiles.insertPREJDDinDB('RT.ART','001B')
+PREJDDFiles.insertPREJDDinDB('RT.ART','001C')
 

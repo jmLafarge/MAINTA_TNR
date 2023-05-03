@@ -1,4 +1,4 @@
-import my.Log as MYLOG
+import my.result.TNRResult
 
 Random random = new Random()
 
@@ -10,32 +10,32 @@ for (j in 1..maxj) {
 	
 	switch (maxi) {
 		case 1 :
-			MYLOG.addSTEPWARNING("Un warning pour tester")
+			TNRResult.addSTEPWARNING("Un warning pour tester")
 			break
 		case 2 :
-			MYLOG.addSTEPFAIL("On vérifie le step fail")
+			TNRResult.addSTEPFAIL("On vérifie le step fail")
 			
-			MYLOG.addDETAIL('un detail')
-			MYLOG.addDETAIL('un autre detail')
-			MYLOG.addDETAIL('et encore un autre')
+			TNRResult.addDETAIL('un detail')
+			TNRResult.addDETAIL('un autre detail')
+			TNRResult.addDETAIL('et encore un autre')
 		
 			break
 		case 3:
-			MYLOG.addSTEPERROR("Attention c'est une erreur")
+			TNRResult.addSTEPERROR("Attention c'est une erreur")
 		case 4 :
-			for (i in 1..2) MYLOG.addSTEPPASS("C'est un autre exemple de step $i")
+			for (i in 1..2) TNRResult.addSTEPPASS("C'est un autre exemple de step $i")
 			break
 		case 5:
-			MYLOG.addSTEPGRP('ONGLET TRUC MUCHE')
-			for (i in 1..3) MYLOG.addSTEPPASS("Step $i encore un exemple")
+			TNRResult.addSTEPGRP('ONGLET TRUC MUCHE')
+			for (i in 1..3) TNRResult.addSTEPPASS("Step $i encore un exemple")
 			break
 		case 6:
-			MYLOG.addSTEPACTION('VALIDATION')
-			for (i in 1..4) MYLOG.addSTEPPASS("Encore des step  $i pour commentaire")
+			TNRResult.addSTEPACTION('VALIDATION')
+			for (i in 1..4) TNRResult.addSTEPPASS("Encore des step  $i pour commentaire")
 			break
 		default:
-			MYLOG.addSTEPPASS("On ajoute qq step ^pour faiure du texte")
-			MYLOG.addDETAIL('un detail')
+			TNRResult.addSTEPPASS("On ajoute qq step ^pour faiure du texte")
+			TNRResult.addDETAIL('un detail')
 
 	}
 }

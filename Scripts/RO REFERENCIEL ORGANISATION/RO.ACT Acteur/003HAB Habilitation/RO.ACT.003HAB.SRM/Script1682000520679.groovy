@@ -4,25 +4,25 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import my.KW
 import my.NAV
-import my.Log as MYLOG
+import my.result.TNRResult
 import my.JDD
 
 
 'Lecture du JDD'
 def myJDD = new JDD()
 
-MYLOG.addINFO('CDTList: ' +myJDD.CDTList.join(' - '))
+Log.addINFO('CDTList: ' +myJDD.CDTList.join(' - '))
 
 for (String cdt in myJDD.CDTList) {
 	
 	myJDD.setCasDeTest(cdt)
 		
-	MYLOG.addStartTestCase(cdt)
+	TNRResult.addStartTestCase(cdt)
 	
 	'Naviguer vers la bonne url et controle des infos du cartouche'
 	NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_CODINT'))
 	
-	MYLOG.addSTEPGRP('ONGLET HABILITATION')
+	TNRResult.addSTEPGRP('ONGLET HABILITATION')
 	
 		KW.scrollAndClick(myJDD,"tab_Habilitation")
 		KW.waitForElementVisible(myJDD,"tab_HabilitationSelected")
@@ -32,7 +32,7 @@ for (String cdt in myJDD.CDTList) {
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
 			
 			if (myJDD.getNbrLigneCasDeTest()>1) {
-				MYLOG.addSTEPLOOP("Modification $i / " + myJDD.getNbrLigneCasDeTest())
+				TNRResult.addSTEPLOOP("Modification $i / " + myJDD.getNbrLigneCasDeTest())
 			}
 			
 			myJDD.setCasDeTestNum(i)
@@ -52,13 +52,13 @@ for (String cdt in myJDD.CDTList) {
 	    }// fin du for
 		
 		
-	MYLOG.addSTEPACTION('CONTROLE')
+	TNRResult.addSTEPACTION('CONTROLE')
 
 		'Vérification des valeurs en BD'
 		my.SQL.checkJDDWithBD(myJDD)
 		
 		
-	MYLOG.addEndTestCase()
+	TNRResult.addEndTestCase()
 } // fin du if
 
 

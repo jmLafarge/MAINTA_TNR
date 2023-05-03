@@ -5,7 +5,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 import internal.GlobalVariable
 import my.KW
 import my.NAV
-import my.Log as MYLOG
+import my.result.TNRResult
 import my.JDD
 
 
@@ -16,12 +16,12 @@ for (String cdt in myJDD.CDTList) {
 	
 	myJDD.setCasDeTest(cdt)
 		
-	MYLOG.addStartTestCase(cdt)
+	TNRResult.addStartTestCase(cdt)
 	
 	'Naviguer vers la bonne url et controle des infos du cartouche'
 	NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_CODINT'))
 	
-	MYLOG.addSTEPGRP('ONGLET ZONE')
+	TNRResult.addSTEPGRP('ONGLET ZONE')
 	
 		KW.scrollAndClick(myJDD,"tab_Zone")
 		KW.waitForElementVisible(myJDD,"tab_ZoneSelected")
@@ -31,7 +31,7 @@ for (String cdt in myJDD.CDTList) {
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
 			
 			if (myJDD.getNbrLigneCasDeTest()>1) {
-				MYLOG.addSTEPLOOP("Modification $i / " + myJDD.getNbrLigneCasDeTest())
+				TNRResult.addSTEPLOOP("Modification $i / " + myJDD.getNbrLigneCasDeTest())
 			}
 			
 			myJDD.setCasDeTestNum(i)
@@ -44,7 +44,7 @@ for (String cdt in myJDD.CDTList) {
 				if (myJDD.getStrData('ST_DEF')=='O' && !etat_ST_DEF) {
 					'Mettre par défaut'
 					for ( n in 1..3) {
-						MYLOG.addSTEP("Tentative pour cocher la valeur par défaut $n/3" )
+						TNRResult.addSTEP("Tentative pour cocher la valeur par défaut $n/3" )
 						KW.scrollAndClick(myJDD,'ST_DEF')
 						if (KW.waitAndAcceptAlert(GlobalVariable.TIMEOUT,null)) {
 							KW.delay(1)
@@ -52,13 +52,13 @@ for (String cdt in myJDD.CDTList) {
 						}
 					}
 				}else if (myJDD.getStrData('ST_DEF')=='O' && etat_ST_DEF) {
-					MYLOG.addSTEPPASS("La case à cocher (img) 'ST_DEF' est déjà cochée" )
+					TNRResult.addSTEPPASS("La case à cocher (img) 'ST_DEF' est déjà cochée" )
 				}else if (myJDD.getStrData('ST_DEF')=='N' && !etat_ST_DEF) {
-					MYLOG.addSTEPPASS("La case à cocher (img) 'ST_DEF' est déjà décochée" )
+					TNRResult.addSTEPPASS("La case à cocher (img) 'ST_DEF' est déjà décochée" )
 				}else if (myJDD.getStrData('ST_DEF')=='N' && etat_ST_DEF) {
-					MYLOG.addSTEP("La case à cocher (img) 'ST_DEF' est cochée" )
+					TNRResult.addSTEP("La case à cocher (img) 'ST_DEF' est cochée" )
 				}else {
-					MYLOG.addERROR("Erreur inatendu sur la case à cocher (img) 'ST_DEF', vérifier la valeur : " + myJDD.getStrData('ST_DEF') )
+					Log.addERROR("Erreur inatendu sur la case à cocher (img) 'ST_DEF', vérifier la valeur : " + myJDD.getStrData('ST_DEF') )
 				}
 				
 			}
@@ -84,12 +84,12 @@ for (String cdt in myJDD.CDTList) {
 			
 		}// fin du for
 
-	MYLOG.addSTEPACTION('CONTROLE')
+	TNRResult.addSTEPACTION('CONTROLE')
 	
 	'Vérification des valeurs en BD'
 	my.SQL.checkJDDWithBD(myJDD)	
 	
-	MYLOG.addEndTestCase()
+	TNRResult.addEndTestCase()
 } // fin du if
 
 

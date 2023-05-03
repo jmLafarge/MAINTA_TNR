@@ -1,6 +1,6 @@
 import internal.GlobalVariable
 import my.KW
-import my.Log as MYLOG
+import my.result.TNRResult
 import my.NAV
 import my.JDD
 
@@ -14,7 +14,7 @@ for (String cdt in myJDD.CDTList) {
 	
 	myJDD.setCasDeTest(cdt)
 		
-	MYLOG.addStartTestCase(cdt)
+	TNRResult.addStartTestCase(cdt)
 	
 	'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData())
@@ -24,7 +24,7 @@ for (String cdt in myJDD.CDTList) {
 	
 	'Suppression'
 	for ( n in 1..3) {
-		MYLOG.addSUBSTEP("Tentative de suppression $n/3" )
+		TNRResult.addSUBSTEP("Tentative de suppression $n/3" )
 		KW.scrollAndClick(NAV.myGlobalJDD,'button_Supprimer')
 		if (KW.waitAndAcceptAlert(GlobalVariable.TIMEOUT,null)) {
 			KW.delay(1)
@@ -38,7 +38,7 @@ for (String cdt in myJDD.CDTList) {
 	'Vérification en BD que l\'objet n\'existe plus'
 	my.SQL.checkIDNotInBD(myJDD)
 	
-	MYLOG.addEndTestCase()
+	TNRResult.addEndTestCase()
 	
 } // fin du if
 

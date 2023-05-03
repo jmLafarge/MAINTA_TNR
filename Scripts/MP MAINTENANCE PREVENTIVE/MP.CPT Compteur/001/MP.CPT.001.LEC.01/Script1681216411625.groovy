@@ -1,7 +1,7 @@
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import my.KW
-import my.Log as MYLOG
+import my.result.TNRResult
 import my.NAV
 import my.JDD
 
@@ -12,13 +12,13 @@ for (String cdt in myJDD.CDTList) {
 	
 	myJDD.setCasDeTest(cdt)
 		
-	MYLOG.addStartTestCase(cdt)
+	TNRResult.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData())
 
 	
-	MYLOG.addSTEPGRP("ONGLET COMPTEUR")
+	TNRResult.addSTEPGRP("ONGLET COMPTEUR")
 		
 		KW.scrollAndClick(myJDD,"tab_Compteur")
 		KW.waitForElementVisible(myJDD,"tab_CompteurSelected")
@@ -34,7 +34,7 @@ for (String cdt in myJDD.CDTList) {
 		KW.verifyElementCheckedOrNot(myJDD,"ST_MPH","O")
 		KW.verifyElementCheckedOrNot(myJDD,"ST_TELE","O")
 		
-		MYLOG.addSTEPBLOCK("INDICATION ACTUELLE")
+		TNRResult.addSTEPBLOCK("INDICATION ACTUELLE")
 		KW.verifyValue(myJDD,"DT_MAJN")
 		
 		KW.verifyDateValue(myJDD,'DT_DATREF')
@@ -43,7 +43,7 @@ for (String cdt in myJDD.CDTList) {
 		KW.verifyValue(myJDD,"NU_VALN")
 		
 		/* pas de test pour l'instant sur cette partie
-		MYLOG.addSTEPBLOCK("SAISIR UNE NOUVELLE VALEUR")
+		TNRResult.addSTEPBLOCK("SAISIR UNE NOUVELLE VALEUR")
 		KW.verifyElementCheckedOrNot(myJDD,"ST_MAJDEL","O")
 		KW.verifyElementCheckedOrNot(myJDD,"ST_DELTA","O")
 		KW.verifyValue(myJDD,"DATE")
@@ -51,41 +51,41 @@ for (String cdt in myJDD.CDTList) {
 		KW.verifyValue(myJDD,"INDICATION")
 		*/
 		
-		MYLOG.addSTEPBLOCK("COMPTEUR PRINCIPAL")
+		TNRResult.addSTEPBLOCK("COMPTEUR PRINCIPAL")
 		KW.verifyValue(myJDD,"ID_CODCOMPRI")
 		KW.verifyValue(myJDD,"ST_DESID_CODCOMPRI")
-		MYLOG.addSTEPBLOCK("OPTION DE MISE A JOUR DES CODES COMPTEUR")
+		TNRResult.addSTEPBLOCK("OPTION DE MISE A JOUR DES CODES COMPTEUR")
 		KW.verifyElementCheckedOrNot(myJDD,"ST_COMMAJEQU","O")
 		KW.verifyElementCheckedOrNot(myJDD,"ST_COMMAJMAT","O")
 		KW.verifyElementCheckedOrNot(myJDD,"ST_COMNOTMAJ","O")
 		
 		/* pas de test pour l'instant sur cette partie
-	MYLOG.addSTEPGRP("ONGLET EQUIPEMENT")
+	TNRResult.addSTEPGRP("ONGLET EQUIPEMENT")
 	
 		WebUI.scrollToPosition(0, 0)
 		KW.delay(1)
 		KW.scrollAndClick(myJDD,"tab_Equipement")
 		KW.waitForElementVisible(myJDD,"tab_EquipementSelected")
 		
-	MYLOG.addSTEPGRP("ONGLET MATRICULE")
+	TNRResult.addSTEPGRP("ONGLET MATRICULE")
 		
 		KW.scrollAndClick(myJDD,"tab_Matricule")
 		KW.waitForElementVisible(myJDD,"tab_MatriculeSelected")
 		
 		
-	MYLOG.addSTEPGRP("ONGLET HISTORIQUE")
+	TNRResult.addSTEPGRP("ONGLET HISTORIQUE")
 		
 		KW.scrollAndClick(myJDD,"tab_Historique")
 		KW.waitForElementVisible(myJDD,"tab_HistoriqueSelected")
 		
 		
-	MYLOG.addSTEPGRP("ONGLET COMPTEUR AUXILIAIRE")
+	TNRResult.addSTEPGRP("ONGLET COMPTEUR AUXILIAIRE")
 		
 		KW.scrollAndClick(myJDD,"tab_CompteurAux")
 		KW.waitForElementVisible(myJDD,"tab_CompteurAuxSelected")
 		*/
 
 
-	MYLOG.addEndTestCase()
+	TNRResult.addEndTestCase()
 }
 

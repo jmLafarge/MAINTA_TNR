@@ -8,7 +8,7 @@ class PropertiesReader {
 	static Properties properties = null
 	private static String propertiesFilename = 'TNR.Properties'
 
-	//DO NOT INSERT LOG HERE BECAUSE MYLOG.createFile() call this method !!
+	//DO NOT INSERT LOG HERE BECAUSE Log.createFile() call this method !!
 
 	static String getMyProperty(String propertyName) {
 

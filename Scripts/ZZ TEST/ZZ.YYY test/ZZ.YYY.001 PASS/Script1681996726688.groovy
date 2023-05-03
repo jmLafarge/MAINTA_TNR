@@ -1,3 +1,3 @@
-import my.Log as MYLOG
+import my.result.TNRResult
 
-MYLOG.addSTEPPASS("C'est un exemple de step")
+TNRResult.addSTEPPASS("C'est un exemple de step")

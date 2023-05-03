@@ -5,7 +5,7 @@ package my
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
-import my.Log as MYLOG
+import my.Log
 
 
 class NAV {
@@ -23,9 +23,9 @@ class NAV {
 
 	public static loadJDDGLOBAL() {
 
-		MYLOG.addDEBUG('Load JDD GLOBAL')
+		Log.addDEBUG('Load JDD GLOBAL')
 		myGlobalJDD = new my.JDD(my.PropertiesReader.getMyProperty('JDD_PATH') + File.separator + my.PropertiesReader.getMyProperty('JDD_GLOBALFILENAME'),null,null,false)
-		MYLOG.addDEBUG(myGlobalJDD.xpathTO.toString())
+		Log.addDEBUG(myGlobalJDD.xpathTO.toString())
 	}
 
 
@@ -135,7 +135,7 @@ class NAV {
 	 */
 	public static goToURL_RUD_and_checkCartridge(String id, String fct='' , int timeOut = GlobalVariable.TIMEOUT) {
 		if (fct=='') { fct = getFctFromModObj() }
-		MYLOG.addDEBUG("NAV.goToURL_RUD_and_checkCartridge(id='$id', fct='$fct')")
+		Log.addDEBUG("NAV.goToURL_RUD_and_checkCartridge(id='$id', fct='$fct')")
 		goToURL_RUD(fct, id)
 		verifierEcranRUD(id, fct, timeOut)
 	} // end of def
@@ -145,7 +145,7 @@ class NAV {
 	 */
 	public static goToURL_Grille_and_checkCartridge(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
 		if (fct=='') { fct = getFctFromModObj() }
-		MYLOG.addDEBUG("NAV.goToURL_Grille_and_checkCartridge(fct='$fct')")
+		Log.addDEBUG("NAV.goToURL_Grille_and_checkCartridge(fct='$fct')")
 		goToURL_Grille(fct)
 		verifierEcranGrille(fct,timeOut)
 	} // end of def
@@ -155,7 +155,7 @@ class NAV {
 	 */
 	public static goToURL_Creation_and_checkCartridge(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
 		if (fct=='') { fct = getFctFromModObj() }
-		MYLOG.addDEBUG("NAV.goToURL_Creation_and_checkCartridge(fct='$fct')")
+		Log.addDEBUG("NAV.goToURL_Creation_and_checkCartridge(fct='$fct')")
 		goToURL_Creation(fct)
 		verifierEcranCreation(fct,timeOut)
 	} // end of def

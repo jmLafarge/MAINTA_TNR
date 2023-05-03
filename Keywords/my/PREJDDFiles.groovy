@@ -6,28 +6,29 @@ import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.io.FileType
-import my.Log as MYLOG
+import my.Log
 import my.SQL as MYSQL
 import my.InfoBDD
+import my.result.TNRResult
 
 public class PREJDDFiles {
 
 
-	public static Map PREJDDfilemap = [:]
+	public static Map <String,String> PREJDDfilemap = [:]
 
 
 	public static load() {
 
-		MYLOG.addSubTITLE("Load PREJDDfileList",'-',120,1)
-		MYLOG.addINFO("\t"+'MODOBJ'.padRight(11) + 'JDDFULLNAME',1)
-		MYLOG.addINFO('',1)
+		Log.addSubTITLE("Load PREJDDfileList",'-',120,1)
+		Log.addINFO("\t"+'MODOBJ'.padRight(11) + 'JDDFULLNAME',1)
+		Log.addINFO('',1)
 
 		new File(my.PropertiesReader.getMyProperty('PREJDD_PATH')).eachFileRecurse(FileType.FILES) { file ->
 			// keep only TC Name like PREJDD.*.xlsx
 			if (file.getName()==~ /PREJDD\..*\.xlsx/ && file.getPath()==~ /^((?!standby).)*$/) {
 				String modObj = file.getName().replace('PREJDD.','').replace('.xlsx','')
 				PREJDDfilemap.put(modObj,file.getPath())
-				MYLOG.addINFO('\t' + modObj.padRight(11) + file.getPath(),1)
+				Log.addINFO('\t' + modObj.padRight(11) + file.getPath(),1)
 			}
 		}
 	}
@@ -42,10 +43,10 @@ public class PREJDDFiles {
 
 
 	static insertPREJDDinDB(String modObj, String tabName) {
-		MYLOG.addDEBUG("insertPREJDDinDB() modObj = '$modObj' tabName = '$tabName'")
+		Log.addDEBUG("insertPREJDDinDB() modObj = '$modObj' tabName = '$tabName'")
 		def myJDD = new my.JDD(JDDFiles.JDDfilemap.getAt(modObj),tabName)
 
-		MYLOG.addSTEP("Lecture du PREJDD : '" + PREJDDfilemap.getAt(modObj))
+		TNRResult.addSTEP("Lecture du PREJDD : '" + PREJDDfilemap.getAt(modObj)+ " ($tabName)")
 		XSSFWorkbook book = my.XLS.open(PREJDDfilemap.getAt(modObj))
 		// set tab (sheet)
 		Sheet sheet = book.getSheet(tabName)
@@ -76,13 +77,14 @@ public class PREJDDFiles {
 
 
 				def value = my.XLS.getCellValue(c)
-				MYLOG.addDEBUG("\t\tCell value = '$value' getClass()=" + value.getClass(),2)
+				Log.addDEBUG("\t\tCell value = '$value' getClass()=" + value.getClass(),2)
 				if (c.getColumnIndex()>0) {
-					MYLOG.addDEBUG("\t\tAjout fieldName='$fieldName' value='$value' in req SQL",2)
+					Log.addDEBUG("\t\tAjout fieldName='$fieldName' value='$value' in req SQL",2)
 
-					if (!my.JDDKW.isNU(value.toString()) ) {
+					if (!my.JDDKW.isNU(value.toString()) && !myJDD.isOBSOLETE(fieldName)) {
 						fields.add(fieldName)
 					}
+
 
 
 					// cas d'un champ lié à une séquence
@@ -93,7 +95,7 @@ public class PREJDDFiles {
 								sequence.put(seqTable, value)
 							}
 						}else {
-							MYLOG.addDETAIL("Détection d'une sequence sur $fieldName, table $seqTable")
+							TNRResult.addDETAIL("Détection d'une sequence sur $fieldName, table $seqTable")
 							sequence.put(seqTable, value)
 						}
 					}
@@ -109,57 +111,56 @@ public class PREJDDFiles {
 							break
 
 						case my.JDDKW.getKW_NULL() :
-							val = "NULL"
+							val = null
 							break
 
 						case my.JDDKW.getKW_VIDE() :
-							val = "''"
+							val = ''
 							break
 
 						case my.JDDKW.getKW_DATE() :
 							def now = new Date()
-							val =  "'${now.format('yyyy-dd-MM')}'"
+							val =  now.format('yyyy-dd-MM')
 							break
 
 						case my.JDDKW.getKW_DATETIME() :
 							def now = new Date()
-							val = "'${now.format('yyyy-dd-MM HH:mm:ss.SSS')}'"
+							val = now.format('yyyy-dd-MM HH:mm:ss.SSS')
 							break
 						default :
 
 							if (value instanceof java.util.Date) {
-								MYLOG.addDEBUG("\t\t instanceof java.util.Date = TRUE")
-								val = "'${value.format('yyyy-dd-MM HH:mm:ss.SSS')}'"
-							}else if (InfoBDD.isImage(myJDD.getDBTableName(), fieldName)) {
+								Log.addDEBUG("\t\t instanceof java.util.Date = TRUE")
+								val = value.format('yyyy-dd-MM HH:mm:ss.SSS')
 
-								val = "'${getRTFTEXT(value)}'"
 							}else {
-								val = "'$value'"
+								val = value.toString()
 							}
 							break
 					}
 
-					if (!my.JDDKW.isNU(value.toString()) ) {
+					if (InfoBDD.isImage(myJDD.getDBTableName(), fieldName)) {
+						values.add(getRTFTEXT(value).getBytes())
+					}else if (!my.JDDKW.isNU(value.toString()) && !myJDD.isOBSOLETE(fieldName) ) {
 						values.add(val)
 					}
 
 					if (PKlist.contains(fieldName)) {
-						PKwhere.add("$fieldName = $val")
+						PKwhere.add("$fieldName = '$val'")
 
 					}
 
 				}
 			}
 
-
-			insertIfNotExist(myJDD.getDBTableName(), PKwhere.join(' AND '), fields.join(','), values.join(','))
+			insertIfNotExist(myJDD.getDBTableName(), PKwhere.join(' AND '), fields, values)
 
 		}
 
 		if (sequence.size()>0) {
 			sequence.each { table, val ->
 				String req = "DBCC CHECKIDENT ($table, RESEED,$val);"
-				MYLOG.addDETAIL(req)
+				TNRResult.addDETAIL(req)
 				MYSQL.executeSQL(req)
 				//fileSQL.append("$req\n")
 			}
@@ -169,19 +170,31 @@ public class PREJDDFiles {
 
 
 
-	static insertIfNotExist(String table, String PKwhere, String fields, String values) {
+	static insertIfNotExist(String table, String PKwhere, List fields, List values) {
 
-		MYLOG.addDEBUG("SELECT count(*) FROM $table WHERE $PKwhere")
+		Log.addDEBUG("SELECT count(*) FROM $table WHERE $PKwhere")
 		def result = MYSQL.getFirstRow("SELECT count(*) FROM $table WHERE $PKwhere")
 		if(result) {
 			if (result[0] == 0) {
-				MYLOG.addDETAIL("INSERT INTO $table ($fields) VALUES ($values);")
-				MYSQL.executeSQL("INSERT INTO $table ($fields) VALUES ($values);")
+
+				List li = Collections.nCopies(fields.size(), '?')
+
+				String requete = "INSERT INTO $table (" + fields.join(',') +") VALUES (" + li.join(',') + ")"
+
+				TNRResult.addDETAIL(requete)
+				TNRResult.addDETAIL(values.join(','))
+				try {
+					def resultat = MYSQL.sqlInstance.executeInsert(requete,values)
+				} catch(Exception ex) {
+					Log.addERROR("Erreur d'execution de insertIfNotExist : ")
+					TNRResult.addDETAIL(ex.getMessage())
+				}
+
 			}else if (result[0] ==1){
-				MYLOG.addDEBUG("La valeur $PKwhere existe déjà")
+				Log.addDEBUG("La valeur $PKwhere existe déjà")
 			}else {
-				MYLOG.addERROR("Plusieurs valeurs trouvées pour :")
-				MYLOG.addDETAIL("SELECT count(*) FROM $table WHERE $PKwhere")
+				Log.addERROR("Plusieurs valeurs trouvées pour :")
+				TNRResult.addDETAIL("SELECT count(*) FROM $table WHERE $PKwhere")
 			}
 		}
 	}

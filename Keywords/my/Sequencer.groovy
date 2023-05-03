@@ -5,7 +5,7 @@ import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.io.FileType
-import my.Log as MYLOG
+import my.Log
 
 
 public class Sequencer {
@@ -41,14 +41,14 @@ public class Sequencer {
 	 */
 	public static load() {
 
-		MYLOG.addSubTITLE('Load testCasesList from TNR sequencer file','-',120)
-		MYLOG.addINFO("\t" + 'CDTPATTERN'.padRight(24) + 'TCFULLNAME'.padRight(90) + 'REP')
-		MYLOG.addINFO("")
+		Log.addSubTITLE('Load testCasesList from TNR sequencer file','-',120)
+		Log.addINFO("\t" + 'CDTPATTERN'.padRight(24) + 'TCFULLNAME'.padRight(90) + 'REP')
+		Log.addINFO("")
 
 		// read JDD
 		Sheet shTNR = readSequencerFile()
 
-		MYLOG.addDEBUG('shTNR.getLastRowNum() :' + shTNR.getLastRowNum(),2)
+		Log.addDEBUG('shTNR.getLastRowNum() :' + shTNR.getLastRowNum(),2)
 
 		// for each data line
 		for (int numline : (1..shTNR.getLastRowNum())) {
@@ -62,7 +62,7 @@ public class Sequencer {
 
 			String casDeTestPatternFromSequencer = row.getCell(0).getStringCellValue()
 
-			MYLOG.addDEBUG('casDeTestPatternFromSequencer = ' + casDeTestPatternFromSequencer,2)
+			Log.addDEBUG('casDeTestPatternFromSequencer = ' + casDeTestPatternFromSequencer,2)
 
 			if (casDeTestPatternFromSequencer == "") {
 				break
@@ -80,7 +80,7 @@ public class Sequencer {
 				if (key) {
 					addToTestCasesList(casDeTestPatternFromSequencer,TCFiles.TCfileMap[key], rep)
 				}else {
-					MYLOG.addWARNING("\tPas de fichier trouvé pour le pattern $casDeTestPatternFromSequencer")
+					Log.add('WARNING',"\tPas de fichier trouvé pour le pattern $casDeTestPatternFromSequencer")
 				}
 			}else {
 				res.each {
@@ -99,7 +99,7 @@ public class Sequencer {
 
 		Map TCMap = [:]
 
-		MYLOG.addINFO('\t' + TCName.padRight(24) + TCFullName.padRight(90) + rep.toString().padLeft(3))
+		Log.addINFO('\t' + TCName.padRight(24) + TCFullName.padRight(90) + rep.toString().padLeft(3))
 
 		TCMap.put('CDTPATTERN',TCName)
 		TCMap.put('TCFULLNAME',TCFullName)

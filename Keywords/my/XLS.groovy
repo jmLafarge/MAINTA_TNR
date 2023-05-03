@@ -1,7 +1,5 @@
 package my
 
-//import org.apache.poi.ss.usermodel.hy
-
 import org.apache.poi.ss.usermodel.Hyperlink
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.CellStyle
@@ -15,7 +13,7 @@ import org.apache.poi.ss.usermodel.Workbook
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
-import my.Log as MYLOG
+import my.Log
 
 
 /**
@@ -26,8 +24,8 @@ public class XLS {
 
 
 	static XSSFWorkbook open(String fullname) {
-		
-		if (!fullname) MYLOG.addERROR("my.XLS.open() fullname = '$fullname'") 
+
+		if (!fullname) Log.addERROR("my.XLS.open() fullname = '$fullname'")
 
 		File sourceExcel = new File(fullname)
 		def fxls = new FileInputStream(sourceExcel)
@@ -38,17 +36,17 @@ public class XLS {
 
 	static writeCell(Row row, int colIdx,def val,CellStyle cellStyle = null, Hyperlink hyperlink = null) {
 
-		MYLOG.addDEBUG("\twriteCell( RowNum:${row.getRowNum()}, colIdx:$colIdx,$val, cellStyle:${cellStyle.toString()},hyperlink:${hyperlink.toString()}",2)
+		Log.addDEBUG("\twriteCell( RowNum:${row.getRowNum()}, colIdx:$colIdx,$val, cellStyle:${cellStyle.toString()},hyperlink:${hyperlink.toString()}",2)
 		if (row==null) {
-			MYLOG.addERROR("row is NULL")
+			Log.addERROR("row is NULL")
 		}else {
 			Cell cell = row.getCell(colIdx)
 
 			if (!cell) row.createCell(colIdx)
-				
+
 			cell = row.getCell(colIdx)
 			cell.setCellValue(val)
-			
+
 			if (hyperlink) cell.setHyperlink(hyperlink)
 			if (cellStyle) cell.setCellStyle(cellStyle)
 		}
@@ -121,10 +119,10 @@ public class XLS {
 
 			CellData = nullval
 
-			MYLOG.addDEBUG('\tgetCellValue() cell is null !',2)
+			Log.addDEBUG('\tgetCellValue() cell is null !',2)
 		}else {
 			//LOG
-			MYLOG.addDEBUG("\tcell.getAddress() = '" + cell.getAddress().toString() + "' getCellType() = '" + cell.getCellType(),3)
+			Log.addDEBUG("\tcell.getAddress() = '" + cell.getAddress().toString() + "' getCellType() = '" + cell.getCellType(),3)
 
 			switch (cell.getCellType()){
 				case Cell.CELL_TYPE_STRING: // 1
@@ -133,7 +131,7 @@ public class XLS {
 				case Cell.CELL_TYPE_NUMERIC: // 0
 
 					if (DateUtil.isCellDateFormatted(cell)) {
-						MYLOG.addDEBUG('\t\tisCellDateFormatted() = true',3)
+						Log.addDEBUG('\t\tisCellDateFormatted() = true',3)
 						CellData = cell.getDateCellValue()
 					}
 					else {
@@ -158,12 +156,12 @@ public class XLS {
 
 				case Cell.CELL_TYPE_ERROR: // 5
 					CellData = 'ERROR type Cell'
-					MYLOG.addERROR('\tUnknown type Cell !')
+					Log.addERROR('\tUnknown type Cell !')
 					break;
 
 				default :
 					CellData = 'Unknown type Cell : ' + cell.getCellType()
-					MYLOG.addERROR('\tERROR type Cell !')
+					Log.addERROR('\tERROR type Cell !')
 					break;
 
 			}
@@ -224,9 +222,9 @@ public class XLS {
 			num=numLine+1
 		}
 		if (num==-1) {
-			MYLOG.addERROR("getRowNumOfFirstCellFree of "+sheet.getSheetName()+" : $num")
+			Log.addERROR("getRowNumOfFirstCellFree of "+sheet.getSheetName()+" : $num")
 		}else {
-			MYLOG.addDEBUG("getRowNumOfFirstCellFree of "+sheet.getSheetName()+" : $num",2)
+			Log.addDEBUG("getRowNumOfFirstCellFree of "+sheet.getSheetName()+" : $num",2)
 		}
 		return num
 	}

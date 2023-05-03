@@ -1,5 +1,7 @@
 package my
 
+import java.text.SimpleDateFormat
+
 import org.openqa.selenium.Capabilities
 import org.openqa.selenium.WebDriver
 
@@ -9,14 +11,13 @@ import com.kms.katalon.core.webui.driver.SmartWaitWebDriver
 import groovy.time.TimeCategory
 import groovy.time.TimeDuration
 import internal.GlobalVariable
-import my.Log as MYLOG
 
 
 class Tools {
-	
-	
+
+
 	public static String getMobObj(String tc) {
-		
+
 		return tc.find(/^\w+\.\w+/)
 	}
 
@@ -26,19 +27,33 @@ class Tools {
 		Capabilities caps = ((SmartWaitWebDriver) driver).getCapabilities()
 		String browserName = DriverFactory.getExecutedBrowser()
 		String browserVersion = caps.getVersion()
-		return [NAME:browserName , VERSION:browserVersion]
+		return [browserName , browserVersion]
+	}
+
+
+	public static String getBrowserName() {
+		WebDriver driver = DriverFactory.getWebDriver()
+		return DriverFactory.getExecutedBrowser()
+	}
+
+
+	public static String getBrowserVersion() {
+		WebDriver driver = DriverFactory.getWebDriver()
+		Capabilities caps = ((SmartWaitWebDriver) driver).getCapabilities()
+		return caps.getVersion()
 	}
 
 
 
 	public static addInfoContext() {
-		MYLOG.addINFO('INFO CONTEXTE')
-		MYLOG.addINFO("Nom de l'OS".padRight(26) + System.getProperty("os.name"))
-		MYLOG.addINFO("Version de l'OS".padRight(26) + System.getProperty("os.version"))
-		MYLOG.addINFO("Architecture de l'OS".padRight(26) + System.getProperty("os.arch"))
-		MYLOG.addINFO("Version de MAINTA".padRight(26) + my.SQL.getMaintaVersion())
-		MYLOG.addINFO("Base de donnée".padRight(26) + GlobalVariable.BDD_URL)
-		MYLOG.addINFO('')
+		Log.addINFO('INFO CONTEXTE')
+		Log.addINFO("Nom de l'OS".padRight(26) + System.getProperty("os.name"))
+		Log.addINFO("Version de l'OS".padRight(26) + System.getProperty("os.version"))
+		Log.addINFO("Architecture de l'OS".padRight(26) + System.getProperty("os.arch"))
+		Log.addINFO("Version de MAINTA".padRight(26) + my.SQL.getMaintaVersion())
+		Log.addINFO("Base de donnée".padRight(26) + GlobalVariable.BDD_URL)
+		Log.addINFO("GroovySystem.version".padRight(26) + GroovySystem.version)
+		Log.addINFO('')
 	}
 
 
@@ -58,6 +73,21 @@ class Tools {
 
 		return (val>=0 && val<=9)?"0$val":"$val"
 	}
+
+
+	public static int getDurationFromNow(String dateBDD) {
+
+		def dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
+
+		def date = dateFormat.parse(dateBDD)
+
+		TimeDuration timeDuration = TimeCategory.minus( new Date(), date )
+
+		return timeDuration.toMilliseconds() / 1000
+	}
+
+
+
 
 	/**
 	 *
@@ -94,9 +124,9 @@ class Tools {
 		File fdir = new File(dir)
 		if (!fdir.exists()) {
 			fdir.mkdirs()
-			MYLOG.addDEBUG("createFolderIfNotExist() : Création dossier $dir")
+			Log.addDEBUG("createFolderIfNotExist() : Création dossier $dir")
 		}else {
-			MYLOG.addDEBUG("createFolderIfNotExist() : Dossier $dir existe déjà")
+			Log.addDEBUG("createFolderIfNotExist() : Dossier $dir existe déjà")
 		}
 	}
 } // end of class

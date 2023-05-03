@@ -1,3 +1,4 @@
+
 import static com.kms.katalon.core.testcase.TestCaseFactory.findTestCase
 
 import com.kms.katalon.core.exception.KatalonRuntimeException
@@ -7,23 +8,23 @@ import com.kms.katalon.core.model.FailureHandling
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
-import my.Log as MYLOG
-import my.Sequencer
-import my.result.ResultGenerator as MYRES
 import my.InfoBDD
-import my.NAV
-import my.Tools
-import my.TCFiles
 import my.JDDFiles
+import my.Log
+import my.NAV
+import my.Sequencer
+import my.TCFiles
+import my.Tools
+import my.result.TNRResult
 
 if (InfoBDD.map.isEmpty()) { InfoBDD.load() }
 if (TCFiles.TCfileMap.isEmpty()) { TCFiles.load() }
 if (JDDFiles.JDDfilemap.isEmpty()) { JDDFiles.load() }
 if (Sequencer.testCasesList.isEmpty()) { Sequencer.load() }
 
-MYLOG.addTITLE("Lancement de TNR SEQUENCER")
+Log.addTITLE("Lancement de TNR SEQUENCER")
 
-MYRES.addStartInfo('TNR SEQUENCEUR')
+TNRResult.addStartInfo('TNR SEQUENCEUR')
 
 Tools.addInfoContext()
 
@@ -41,27 +42,24 @@ Sequencer.testCasesList.each { TCMap ->
 			WebUI.callTestCase(findTestCase(TCMap.TCFULLNAME), ['MYNAME':'JML'], FailureHandling.STOP_ON_FAILURE)
 
 		} catch (StepErrorException  ex) {
-			MYLOG.addSTEPERROR("Erreur d'exécution du TestCase")
-			MYLOG.addDETAIL(ex.getMessage())
+			TNRResult.addSTEPERROR("Erreur d'exécution du TestCase")
+			TNRResult.addDETAIL(ex.getMessage())
 		} catch (Exception e) {
-			MYLOG.addSTEPERROR("Erreur TestCase")
-			MYLOG.addDETAIL(e.getMessage())
+			TNRResult.addSTEPERROR("Erreur TestCase")
+			TNRResult.addDETAIL(e.getMessage())
 		} catch (StepFailedException exx) {
-			MYLOG.addSTEPERROR("StepFailedException")
-			MYLOG.addDETAIL(exx.getMessage())
+			TNRResult.addSTEPERROR("StepFailedException")
+			TNRResult.addDETAIL(exx.getMessage())
 		} catch (KatalonRuntimeException ke) {
-			MYLOG.addSTEPERROR("KatalonRuntimeException")
-			MYLOG.addDETAIL(ke.getMessage())
+			TNRResult.addSTEPERROR("KatalonRuntimeException")
+			TNRResult.addDETAIL(ke.getMessage())
 		}
 		
 		// pour être sur en cas d'erreur du try/catch
-		MYLOG.addEndTestCase()
+		TNRResult.addEndTestCase()
 
 	}	
 }
 
-MYRES.addEndInfo()
-MYLOG.addINFO('')
-MYLOG.addINFO('************  FIN  du test : TNR SEQUENCER ************')
+TNRResult.close('TNR SEQUENCER')
 
-MYRES.close()

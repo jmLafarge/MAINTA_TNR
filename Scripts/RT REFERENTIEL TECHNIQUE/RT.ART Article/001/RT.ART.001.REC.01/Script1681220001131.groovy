@@ -1,6 +1,6 @@
 import my.KW
 import my.NAV
-import my.Log as MYLOG
+import my.result.TNRResult
 import my.JDD
 
 
@@ -12,7 +12,7 @@ for (String cdt in myJDD.CDTList) {
 	
 	myJDD.setCasDeTest(cdt)
 		
-	MYLOG.addStartTestCase(cdt)
+	TNRResult.addStartTestCase(cdt)
 
 	'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_Grille_and_checkCartridge()
@@ -26,7 +26,7 @@ for (String cdt in myJDD.CDTList) {
 	'Vérifier que la valeur soit dans la grille filtrée'
 	KW.verifyElementText(myJDD,'td_Grille', myJDD.getStrData())
 
-	MYLOG.addEndTestCase()
+	TNRResult.addEndTestCase()
 } // fin du if
 
 

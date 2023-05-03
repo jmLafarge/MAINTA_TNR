@@ -1,25 +1,30 @@
 package my
 
+import groovy.transform.CompileStatic
+
 import com.kms.katalon.core.util.KeywordUtil
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 import groovy.sql.Sql
 import internal.GlobalVariable
-import my.Log as MYLOG
+import my.Log
 import my.InfoBDD
-import my.JDDKW as MYJDDKW
+import my.JDDKW
+import my.result.TNRResult
 
 //Pour la lecture du format RTF
 import javax.swing.text.DefaultStyledDocument
 import javax.swing.text.rtf.RTFEditorKit
 import java.io.StringReader
 
+
+@CompileStatic
 public class SQL {
 	/**
 	 * 
 	 */
 
 
-	private static sqlInstance = Sql.newInstance(GlobalVariable.BDD_URL, GlobalVariable.BDD_USER, GlobalVariable.BDD_MDP)
+	private static Sql sqlInstance = Sql.newInstance(GlobalVariable.BDD_URL.toString(), GlobalVariable.BDD_USER.toString(), GlobalVariable.BDD_MDP.toString())
 
 
 
@@ -28,20 +33,20 @@ public class SQL {
 			sqlInstance.execute(query)
 		}
 		catch(Exception ex) {
-			MYLOG.addERROR("Erreur d'execution de execute($query) : ")
-			MYLOG.addDETAIL("executeSQL()")
-			MYLOG.addDETAIL(ex.getMessage())
+			Log.addERROR("Erreur d'execution de execute($query) : ")
+			TNRResult.addDETAIL("executeSQL()")
+			TNRResult.addDETAIL(ex.getMessage())
 		}
 	}
 
 
-	static getFirstRow(String query) {
+	static Map getFirstRow(String query) {
 		try {
 			return sqlInstance.firstRow(query)
 		} catch(Exception ex) {
-			MYLOG.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
-			MYLOG.addDETAIL("getFirstRow()")
-			MYLOG.addDETAIL(ex.getMessage())
+			Log.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
+			TNRResult.addDETAIL("getFirstRow()")
+			TNRResult.addDETAIL(ex.getMessage())
 			return null
 		}
 	}
@@ -62,7 +67,7 @@ public class SQL {
 
 		String verifStatus = 'PASS'
 
-		MYLOG.addSTEP("Début de la vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
+		TNRResult.addSTEP("Début de la vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
 
 		int nbrLigneCasDeTest =myJDD.getNbrLigneCasDeTest()
 
@@ -70,7 +75,7 @@ public class SQL {
 		for (casDeTestNum in 1..nbrLigneCasDeTest) {
 			myJDD.setCasDeTestNum(casDeTestNum)
 			if (nbrLigneCasDeTest>1) {
-				MYLOG.addSUBSTEP("Contrôle cas de test $casDeTestNum / $nbrLigneCasDeTest")
+				TNRResult.addSUBSTEP("Contrôle cas de test $casDeTestNum / $nbrLigneCasDeTest")
 			}
 
 			def rows
@@ -82,22 +87,22 @@ public class SQL {
 				try {
 					row = sqlInstance.firstRow(query)
 				} catch(Exception ex) {
-					MYLOG.addDETAIL("Erreur d'execution de sqlInstance.firstRow($query) : ")
-					MYLOG.addDETAIL(ex.getMessage())
+					TNRResult.addDETAIL("Erreur d'execution de sqlInstance.firstRow($query) : ")
+					TNRResult.addDETAIL(ex.getMessage())
 					verifStatus = 'ERROR'
 				}
 			}else {
 
 				query = "SELECT * FROM " + myJDD.getDBTableName() + getWhereWithAllPK(myJDD,casDeTestNum)
 
-				MYLOG.addDEBUG("query =  $query")
+				Log.addDEBUG("query =  $query")
 				try {
 					rows = sqlInstance.rows(query)
 					if (rows.size() == 0) {
-						MYLOG.addDETAIL("Pas de résultat pour la requête : $query")
+						TNRResult.addDETAIL("Pas de résultat pour la requête : $query")
 						verifStatus = 'FAIL'
 					}else if (rows.size() > 1){
-						MYLOG.addDETAIL(rows.size() + "résultats pour la requête : $query")
+						TNRResult.addDETAIL(rows.size() + "résultats pour la requête : $query")
 						verifStatus = 'FAIL'
 					}else {
 						row=rows[0]
@@ -105,8 +110,8 @@ public class SQL {
 				}
 				catch(Exception ex) {
 					verifStatus = 'ERROR'
-					MYLOG.addDETAIL("Erreur d'execution de sql.rows($query) : ")
-					MYLOG.addDETAIL(ex.getMessage())
+					TNRResult.addDETAIL("Erreur d'execution de sql.rows($query) : ")
+					TNRResult.addDETAIL(ex.getMessage())
 				}
 			}
 
@@ -116,9 +121,9 @@ public class SQL {
 
 				row.each{fieldName,val ->
 
-					MYLOG.addDEBUG("fieldName = $fieldName , val = $val , JDD value = " + myJDD.getData(fieldName))
+					Log.addDEBUG("fieldName = $fieldName , val = $val , JDD value = " + myJDD.getData(fieldName.toString()))
 
-					verifStatus = checkValue(myJDD,fieldName, val,verifStatus, specificValueMap,casDeTestNum)
+					verifStatus = checkValue(myJDD,fieldName.toString(), val,verifStatus, specificValueMap,casDeTestNum)
 				}//row
 
 			}//pass
@@ -126,17 +131,17 @@ public class SQL {
 
 		switch (verifStatus) {
 			case 'PASS':
-				MYLOG.addSTEPPASS("Fin de la vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
+				TNRResult.addSTEPPASS("Fin de la vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
 				break
 			case 'FAIL':
-				MYLOG.addSTEPFAIL("Fin de la  vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
+				TNRResult.addSTEPFAIL("Fin de la  vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
 				break
 			case 'ERROR':
-				MYLOG.addSTEPERROR("Fin de la  vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
+				TNRResult.addSTEPERROR("Fin de la  vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
 				break
 			default :
-				MYLOG.addDETAIL("verifStatus inconnu '$verifStatus'")
-				MYLOG.addSTEPERROR("Fin de la  vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
+				TNRResult.addDETAIL("verifStatus inconnu '$verifStatus'")
+				TNRResult.addSTEPERROR("Fin de la  vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
 
 				break
 		}
@@ -165,13 +170,13 @@ public class SQL {
 
 			switch (myJDD.getData(fieldName)) {
 
-				case MYJDDKW.getKW_NU() :
+				case JDDKW.getKW_NU() :
 
-					MYLOG.addDEBUG("NU : Pas de contrôle pour '$fieldName' : la valeur en BD est  : '$val'" )
+					Log.addDEBUG("NU : Pas de contrôle pour '$fieldName' : la valeur en BD est  : '$val'" )
 					break
 
-				case MYJDDKW.getKW_VIDE() :
-				case MYJDDKW.getKW_NULL():
+				case JDDKW.getKW_VIDE() :
+				case JDDKW.getKW_NULL():
 					if (val == null || val =='') {
 
 						logAddDEBUG('',fieldName,'VIDE ou NULL',val)
@@ -182,38 +187,37 @@ public class SQL {
 
 					break
 
-				case MYJDDKW.getKW_DATE() :
+				case JDDKW.getKW_DATE() :
 
 					logAddDETAIL('DATE ***** reste à faire *****',fieldName,myJDD.getData(fieldName),val)
 					verifStatus= 'FAIL'
 					break
 
-				case MYJDDKW.getKW_DATETIME() :
+				case JDDKW.getKW_DATETIME() :
 
 					if (val instanceof java.sql.Timestamp) {
 						logAddDEBUG('DATETIME',fieldName,myJDD.getData(fieldName),val)
 					}else {
-						logAddDETAIL('DATETIME ***** reste à faire *****',fieldName,myJDD.getData(fieldName),val)
+						logAddDETAIL('DATETIME',fieldName,myJDD.getData(fieldName),val)
 						verifStatus= 'FAIL'
 					}
 					break
 
-				case MYJDDKW.getKW_SEQUENCEID() :
-
-					logAddDETAIL('IDINTERNE ***** reste à faire *****',fieldName,myJDD.getData(fieldName),val)
-				//il faut peut etre testé si la valeur est num et unique ? ******
-
-					MYLOG.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' dans le JDD : ' + myJDD.getData(fieldName).getClass())
-					if ( val == myJDD.getData(fieldName)) {
-						logAddDEBUG('SEQUENCEID',fieldName,myJDD.getData(fieldName),val)
+				case JDDKW.getKW_SEQUENCEID() :
+					/*
+					String paraSeq =  myJDD.getParamForThisName('SEQUENCE', fieldName)
+					int lastSeq = getLastSequence( paraSeq)
+					if ( val == lastSeq) {
+						logAddDEBUG('SEQUENCEID',fieldName,lastSeq,val)
 					}else {
+					*/
 						logAddDETAIL('SEQUENCEID',fieldName,myJDD.getData(fieldName),val)
 						verifStatus= 'FAIL'
-					}
+					//}
 
 					break
 
-				case MYJDDKW.getKW_ORDRE() :
+				case JDDKW.getKW_ORDRE() :
 
 					logAddDETAIL('ORDRE ***** reste àfaire *****',fieldName,myJDD.getData(fieldName),val)
 				//voir aussi le NU_NIV *******
@@ -223,7 +227,7 @@ public class SQL {
 				default:
 
 					if (specificValue) {
-						MYLOG.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' la valeur spécifique est  : ' + specificValueMap[fieldName].getClass())
+						Log.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' la valeur spécifique est  : ' + specificValueMap[fieldName].getClass())
 						if ( val == InfoBDD.castJDDVal(myJDD.getDBTableName(), fieldName, specificValueMap[fieldName])) {
 							logAddDEBUG('spécifique',fieldName,specificValueMap[fieldName],val)
 						}else {
@@ -235,18 +239,17 @@ public class SQL {
 						if (InfoBDD.isImage(myJDD.getDBTableName(), fieldName)) {
 
 							String query = "SELECT cast(cast($fieldName as varbinary(max)) as varchar(max)) FROM " + myJDD.getDBTableName() + getWhereWithAllPK(myJDD,casDeTestNum)
-							def frow = getFirstRow(query)
+							Map frow = getFirstRow(query)
 							if (frow ) {
 								def texte = new DefaultStyledDocument()
 
 								def editorKit = new RTFEditorKit()
-								editorKit.read(new StringReader(frow.getAt(0).toString()), texte , 0)
+								editorKit.read(new StringReader(frow[0].toString()), texte , 0)
 								val = texte.getText(0, texte.getLength()-2)
 
 							}
 						}
 
-						MYLOG.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' dans le JDD : ' + myJDD.getData(fieldName).getClass())
 						if ( val == InfoBDD.castJDDVal(myJDD.getDBTableName(), fieldName, myJDD.getData(fieldName))) {
 							logAddDEBUG('',fieldName,myJDD.getData(fieldName),val)
 						}else {
@@ -264,13 +267,13 @@ public class SQL {
 
 
 	private static logAddDEBUG(String type,String fieldName, def valJDD, def val) {
-		MYLOG.addDEBUG("Contrôle de la valeur $type de '$fieldName' OK : la valeur attendue est '$valJDD' et la valeur en BD est  : '$val'" )
+		Log.addDEBUG("Contrôle de la valeur $type de '$fieldName' OK : la valeur attendue est '$valJDD' et la valeur en BD est  : '$val'" )
 	}
 
 
 
 	private static logAddDETAIL(String type,String fieldName, def valJDD, def val) {
-		MYLOG.addDETAIL("Contrôle de la valeur $type de '$fieldName' KO : la valeur attendue est '$valJDD' et la valeur en BD est  : '$val'")
+		TNRResult.addDETAIL("Contrôle de la valeur $type de '$fieldName' KO : la valeur attendue est '$valJDD' et la valeur en BD est  : '$val'")
 	}
 
 
@@ -284,13 +287,13 @@ public class SQL {
 			if (frow ) {
 				return frow.getAt(0).toString()
 			}else {
-				MYLOG.addDEBUG("getMaintaVersion() est null")
+				Log.addDEBUG("getMaintaVersion() est null")
 				return null
 			}
 		}catch(Exception ex) {
-			MYLOG.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
-			MYLOG.addDETAIL("getMaintaVersion()")
-			MYLOG.addDETAIL(ex.getMessage())
+			Log.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
+			TNRResult.addDETAIL("getMaintaVersion()")
+			TNRResult.addDETAIL(ex.getMessage())
 		}
 	}
 
@@ -305,17 +308,17 @@ public class SQL {
 		try {
 			def frow = sqlInstance.firstRow(query)
 			if (frow == null) {
-				MYLOG.addDETAIL("Contrôle de la valeur de $fieldName (FK) KO, pas de résultat pour la query : $query")
+				TNRResult.addDETAIL("Contrôle de la valeur de $fieldName (FK) KO, pas de résultat pour la query : $query")
 			}else if (val != frow.getAt(0)) {
-				MYLOG.addDETAIL("Contrôle de la valeur de $fieldName (FK) KO : ** la valeur du JDD attendue est : " + myJDD.getData(fieldName) + ' et la valeur est BD est : ' +  frow.getAt(0))
+				TNRResult.addDETAIL("Contrôle de la valeur de $fieldName (FK) KO : ** la valeur du JDD attendue est : " + myJDD.getData(fieldName) + ' et la valeur est BD est : ' +  frow.getAt(0))
 			}else {
-				MYLOG.addDEBUG("Contrôle de la valeur de $fieldName (FK) OK : la valeur attendue est : " + frow.getAt(0) + " et la valeur en BD est : $val")
+				Log.addDEBUG("Contrôle de la valeur de $fieldName (FK) OK : la valeur attendue est : " + frow.getAt(0) + " et la valeur en BD est : $val")
 				pass = true
 			}
 		}catch(Exception ex) {
-			MYLOG.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
-			MYLOG.addDETAIL("checkForeignKey()")
-			MYLOG.addDETAIL(ex.getMessage())
+			Log.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
+			TNRResult.addDETAIL("checkForeignKey()")
+			TNRResult.addDETAIL(ex.getMessage())
 		}
 		return pass
 	}
@@ -336,15 +339,15 @@ public class SQL {
 		boolean pass = true
 		int nbrLigneCasDeTest =myJDD.getNbrLigneCasDeTest()
 
-		MYLOG.addSTEP("Début de la vérification de la suppression des valeurs en Base de Données")
+		TNRResult.addSTEP("Début de la vérification de la suppression des valeurs en Base de Données")
 		for (casDeTestNum in 1..nbrLigneCasDeTest) {
 			myJDD.setCasDeTestNum(casDeTestNum)
 			if (nbrLigneCasDeTest>1) {
-				MYLOG.addSUBSTEP("Contrôle de la suppression du cas de test $casDeTestNum / $nbrLigneCasDeTest")
+				TNRResult.addSUBSTEP("Contrôle de la suppression du cas de test $casDeTestNum / $nbrLigneCasDeTest")
 			}
 			String query = "SELECT count(*) FROM " + myJDD.getDBTableName() + getWhereWithAllPK(myJDD,casDeTestNum)
 
-			MYLOG.addDEBUG("query =  $query")
+			Log.addDEBUG("query =  $query")
 
 			def row
 
@@ -353,22 +356,22 @@ public class SQL {
 
 			}catch(Exception ex) {
 				pass = false
-				MYLOG.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
-				MYLOG.addDETAIL("checkIDNotInBD()")
-				MYLOG.addDETAIL(ex.getMessage())
+				Log.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
+				TNRResult.addDETAIL("checkIDNotInBD()")
+				TNRResult.addDETAIL(ex.getMessage())
 			}
 
-			if (row[0]>0) {
-				MYLOG.addDETAIL("Supression KO")
+			if ((Integer)row[0]>0) {
+				TNRResult.addDETAIL("Supression KO")
 				pass = false
 			}
 		}
 
 		if (pass) {
-			MYLOG.addSTEPPASS("Fin de la vérification de la suppression des valeurs en Base de Données")
+			TNRResult.addSTEPPASS("Fin de la vérification de la suppression des valeurs en Base de Données")
 			//KeywordUtil.markPassed("Supression OK")
 		}else {
-			MYLOG.addSTEPFAIL("Fin de la  vérification de la suppression des valeurs en Base de Données")
+			TNRResult.addSTEPFAIL("Fin de la  vérification de la suppression des valeurs en Base de Données")
 			//KeywordUtil.markFailed("Supression KO")
 		}
 	}
@@ -382,7 +385,7 @@ public class SQL {
 	 * @return
 	 */
 	private static String getWhereWithAllPK(JDD myJDD,int casDeTestNum) {
-		List PKList = InfoBDD.getPK(myJDD.getDBTableName())
+		List <String> PKList = InfoBDD.getPK(myJDD.getDBTableName())
 		if (PKList) {
 			String query = ' WHERE '
 			PKList.each {
@@ -396,43 +399,41 @@ public class SQL {
 
 
 
-
-	static insertSQL(String req) {
-		try {
-			def nbRowInserted = sqlInstance.executeInsert req
-			if (nbRowInserted >= 0) {
-				MYLOG.addDEBUG("insertSQL($req) OK, nombre de ligne inséré : ${nbRowInserted}")
-			}else {
-				MYLOG.addERROR("Erreur de insertSQL()")
-				MYLOG.addDETAIL(req)
-			}
-			return nbRowInserted
-		}
-		catch(Exception ex) {
-			MYLOG.addERROR("Erreur d'execution de insertSQL() : $req ")
-			MYLOG.addDETAIL(ex.getMessage())
-			return -1
-		}
-
-	}
-
-
+	/*
+	 static insertSQL(String req) {
+	 try {
+	 def nbRowInserted = sqlInstance.executeInsert req
+	 if (nbRowInserted >= 0) {
+	 Log.addDEBUG("insertSQL($req) OK, nombre de ligne inséré : ${nbRowInserted}")
+	 }else {
+	 Log.addERROR("Erreur de insertSQL()")
+	 TNRResult.addDETAIL(req)
+	 }
+	 return nbRowInserted
+	 }
+	 catch(Exception ex) {
+	 Log.addERROR("Erreur d'execution de insertSQL() : $req ")
+	 TNRResult.addDETAIL(ex.getMessage())
+	 return -1
+	 }
+	 }
+	 */
 
 
 	static int getMaxFromTable(String fieldName, String tableName) {
 
-		MYLOG.addDEBUG("getMaxFromTable(String fieldName, String tableName) '$fieldName' , '$tableName'")
+		Log.addDEBUG("getMaxFromTable(String fieldName, String tableName) '$fieldName' , '$tableName'")
 
 		String req = "SELECT MAX($fieldName) as num FROM $tableName"
 
 		try {
-			int num = sqlInstance.firstRow(req).num
-			MYLOG.addDETAIL("get Max '$fieldName From Table '$tableName' = $num")
+			int num = (Integer)sqlInstance.firstRow(req).num
+			TNRResult.addDETAIL("get Max '$fieldName From Table '$tableName' = $num")
 			return num
 		} catch(Exception ex) {
-			MYLOG.addERROR("Erreur d'execution de firstRow($req) : ")
-			MYLOG.addDETAIL("getMaxFromTable()")
-			MYLOG.addDETAIL(ex.getMessage())
+			Log.addERROR("Erreur d'execution de firstRow($req) : ")
+			TNRResult.addDETAIL("getMaxFromTable()")
+			TNRResult.addDETAIL(ex.getMessage())
 		}
 		return null
 	}
@@ -445,19 +446,19 @@ public class SQL {
 		try {
 			def res = sqlInstance.firstRow(query)
 			def ret = (res) ? res.num : null
-			MYLOG.addDETAIL("getNumEcran($table) = $ret")
+			TNRResult.addDETAIL("getNumEcran($table) = $ret")
 			return ret
 		} catch(Exception ex) {
-			MYLOG.addERROR("Erreur d'execution de firstRow($query) : ")
-			MYLOG.addDETAIL("getNumEcran()")
-			MYLOG.addDETAIL(ex.getMessage())
+			Log.addERROR("Erreur d'execution de firstRow($query) : ")
+			TNRResult.addDETAIL("getNumEcran()")
+			TNRResult.addDETAIL(ex.getMessage())
 			return null
 		}
 	}
 
 	static Map getLibelle(String table, numEcran) {
 
-		MYLOG.addDETAIL("Recherche des libellés pour la table $table et numéro écran $numEcran")
+		TNRResult.addDETAIL("Recherche des libellés pour la table $table et numéro écran $numEcran")
 		def query = """SELECT COLUMN_NAME as name, obj_lan.st_lib as lib
 						FROM INFORMATION_SCHEMA.COLUMNS
 						left join obj
@@ -476,7 +477,14 @@ public class SQL {
 		return resultMap
 	}
 
+	static int getLastSequence(String seq) {
 
+		String req = "SELECT IDENT_CURRENT('$seq') as lastSeq"
+		def result = sqlInstance.rows(req)
+		int lastSeq = (int)result[0].lastSeq
+		Log.addDEBUG("getLastSequence of $seq : $lastSeq")
+		return lastSeq
+	}
 
 
 } // end of class
