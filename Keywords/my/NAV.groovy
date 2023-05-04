@@ -4,10 +4,11 @@ package my
 
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
+import groovy.transform.CompileStatic
 import internal.GlobalVariable
-import my.Log
 
 
+@CompileStatic
 class NAV {
 
 	// Naviguer vers les URL et controler les écrans
@@ -105,7 +106,7 @@ class NAV {
 	 * Aller à l'url de la Grille / recherche
 	 */
 	private static goToURL_Grille(String fct) {
-		String url = GlobalVariable.BASE_URL + "E" + fct + "?"
+		String url = GlobalVariable.BASE_URL.toString() + "E" + fct + "?"
 		KW.navigateToUrl(url,'Grille')
 	} // end of def
 
@@ -114,7 +115,7 @@ class NAV {
 	 * Aller à l'url de création
 	 */
 	private static goToURL_Creation(String fct) {
-		String url = GlobalVariable.BASE_URL + "FormE" + fct + "?"
+		String url = GlobalVariable.BASE_URL.toString() + "FormE" + fct + "?"
 		KW.navigateToUrl(url,'Création')
 	} // end of def
 
@@ -122,7 +123,7 @@ class NAV {
 	 * Aller à l'url de Lecture / modification / suppression
 	 */
 	private static goToURL_RUD(String fct, String id) {
-		String url = GlobalVariable.BASE_URL + "FormE" + fct + "?" + "ID1=" + id
+		String url = GlobalVariable.BASE_URL.toString() + "FormE" + fct + "?" + "ID1=" + id
 		KW.navigateToUrl(url,'Consultation ou modification')
 	} // end of def
 
@@ -164,7 +165,7 @@ class NAV {
 
 	private static String getFctFromModObj() {
 
-		return my.PropertiesReader.getMyProperty('CODESCREEN_' + Tools.getMobObj(GlobalVariable.CASDETESTENCOURS))
+		return my.PropertiesReader.getMyProperty('CODESCREEN_' + Tools.getMobObj(GlobalVariable.CASDETESTENCOURS.toString()))
 	}
 
 } // end of class

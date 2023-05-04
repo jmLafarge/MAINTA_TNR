@@ -5,22 +5,23 @@ import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
-import my.Log
-import my.PREJDDFiles
+import groovy.transform.CompileStatic
 
+
+@CompileStatic
 public class PREJDD {
 
 
 	static checkPREJDD(Map map){
 
-		XSSFWorkbook book = my.XLS.open(PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')))
+		XSSFWorkbook book = my.XLS.open(PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()))
 
-		Sheet sheet = book.getSheet(map.getAt('PREJDDTAB'))
+		Sheet sheet = book.getSheet(map.getAt('PREJDDTAB').toString())
 
 		List list = []
-		Log.addDEBUG("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "' (" + map.getAt('TAB') + ") dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')) + "' '"+ map.getAt('PREJDDID') + "'",0)
+		Log.addDEBUG("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "' (" + map.getAt('TAB') + ") dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()) + "' '"+ map.getAt('PREJDDID') + "'",0)
 
-		getListOfCasDeTestAndIDValue(list,sheet, map.getAt('PREJDDID'))
+		getListOfCasDeTestAndIDValue(list,sheet, map.getAt('PREJDDID').toString())
 
 		int nbFound =0
 		map.getAt('LISTCDTVAL').each{ cdtVal ->
@@ -32,13 +33,13 @@ public class PREJDD {
 				}
 			}
 			if (found) {
-				Log.addDEBUG(cdtVal+' trouvé')
+				Log.addDEBUG(cdtVal.toString()+' trouvé')
 			}else {
-				Log.addINFO("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "' (" + map.getAt('TAB') + ") dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')) + "' '"+ map.getAt('PREJDDID') + "'")
-				Log.addDETAILFAIL(cdtVal+' non trouvé')
+				Log.addINFO("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "' (" + map.getAt('TAB') + ") dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()) + "' '"+ map.getAt('PREJDDID') + "'")
+				Log.addDETAILFAIL(cdtVal.toString()+' non trouvé')
 			}
 		}
-		Log.addDEBUGDETAIL(nbFound + "/" +map.getAt('LISTCDTVAL').size() + ' trouvé(s)',0)
+		Log.addDEBUGDETAIL(nbFound + "/" +map.getAt('LISTCDTVAL').toString().size() + ' trouvé(s)',0)
 	}
 
 

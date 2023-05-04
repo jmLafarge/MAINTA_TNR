@@ -147,29 +147,16 @@ public class CheckJDD {
 
 	private static checkKWInDATA() {
 
-		if (myJDD.headers.size()>1) {
-			Log.addDEBUGDETAIL("Contrôle des mots clés dans les DATA",0)
-			myJDD.datas.eachWithIndex { li,numli ->
-				li.eachWithIndex { val,i ->
-					if ((val instanceof String) && val.startsWith('$') && !my.JDDKW.isAllowedKeyword(val)) {
-						Log.addDETAILFAIL("- Le mot clé '$val' n'est pas autorisé. Trouvé en ligne DATA ${numli+1} colonne ${i+1}")
+		Log.addDEBUGDETAIL("Contrôle des mots clés dans les DATA",0)
+		myJDD.datas.eachWithIndex { li,numli ->
+			li.eachWithIndex { val,i ->
+				if ((val instanceof String) && val.startsWith('$') && !my.JDDKW.isAllowedKeyword(val)) {
+					Log.addDETAILFAIL("- Le mot clé '$val' n'est pas autorisé. Trouvé en ligne DATA ${numli+1} colonne ${i+1}")
 
-					}
 				}
 			}
-		}else {
-
 		}
 	}
-
-
-
-
-
-
-
-
-
 
 
 }

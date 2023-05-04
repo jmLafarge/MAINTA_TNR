@@ -4,10 +4,10 @@ import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
-import groovy.io.FileType
-import my.Log
+import groovy.transform.CompileStatic
 
 
+@CompileStatic
 public class Sequencer {
 
 	/*
@@ -69,7 +69,7 @@ public class Sequencer {
 			}
 
 			// Default value if REPETITION cell is null
-			int rep = (row.getCell(1) == null) ? 1 : row.getCell(1).getNumericCellValue()
+			int rep = (row.getCell(1) == null) ? 1 : (int)row.getCell(1).getNumericCellValue()
 
 			Map res= TCFiles.TCfileMap.findAll { it.key.contains(casDeTestPatternFromSequencer) }
 
@@ -95,7 +95,7 @@ public class Sequencer {
 
 
 
-	private static addToTestCasesList (String TCName,TCFullName, int rep) {
+	private static addToTestCasesList (String TCName,String TCFullName, int rep) {
 
 		Map TCMap = [:]
 

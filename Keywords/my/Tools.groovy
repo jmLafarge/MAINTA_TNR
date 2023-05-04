@@ -10,9 +10,11 @@ import com.kms.katalon.core.webui.driver.SmartWaitWebDriver
 
 import groovy.time.TimeCategory
 import groovy.time.TimeDuration
+import groovy.transform.CompileStatic
 import internal.GlobalVariable
 
 
+@CompileStatic
 class Tools {
 
 
@@ -74,7 +76,7 @@ class Tools {
 		return (val>=0 && val<=9)?"0$val":"$val"
 	}
 
-
+/*
 	public static int getDurationFromNow(String dateBDD) {
 
 		def dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
@@ -83,9 +85,9 @@ class Tools {
 
 		TimeDuration timeDuration = TimeCategory.minus( new Date(), date )
 
-		return timeDuration.toMilliseconds() / 1000
+		return timeDuration.toMilliseconds()
 	}
-
+*/
 
 
 
@@ -101,19 +103,16 @@ class Tools {
 	}
 
 
-	static parseMap(mymap) {
+	static parseMap(Map mymap) {
 		for (entry in mymap) {
 			if (entry.value instanceof Map) {
 				// Submap encountered
 				print("$entry.key:[")
-				parseMap(entry.value)
+				parseMap((Map)entry.value)
 				print("]\n")
 
 			} else {
 				print("\n\t$entry.key:$entry.value")
-			}
-			if (entry.after != null) {
-				print(", ")
 			}
 		}
 		println ''

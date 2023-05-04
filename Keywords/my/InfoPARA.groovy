@@ -67,7 +67,6 @@ public class InfoPARA {
 
 		Log.addDEBUG("paraMap.size= " + paraMap.size())
 
-		//my.Tools.parseMap(paraMap)
 	}
 
 

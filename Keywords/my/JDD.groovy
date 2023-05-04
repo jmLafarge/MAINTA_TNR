@@ -293,9 +293,9 @@ public class JDD {
 
 
 
-	
-	
-	
+
+
+
 
 	private addXpath(List <String> locators) {
 		locators.eachWithIndex {loc,i ->
@@ -400,35 +400,35 @@ public class JDD {
 
 
 	/*
-	def readSEQUENCID() {
-		int dataLineNum = getDataLineNum()
-		datas[dataLineNum].eachWithIndex { val,i ->
-			if (JDDKW.isSEQUENCEID(val)) {
-				TNRResult.addSTEP("Récupération de la séquence actuelle de ${headers[i]} ")
-				SQL.getMaxFromTable(headers[i], getDBTableName())
-			}
-		}
-	}
-	*/
+	 def readSEQUENCID() {
+	 int dataLineNum = getDataLineNum()
+	 datas[dataLineNum].eachWithIndex { val,i ->
+	 if (JDDKW.isSEQUENCEID(val)) {
+	 TNRResult.addSTEP("Récupération de la séquence actuelle de ${headers[i]} ")
+	 SQL.getMaxFromTable(headers[i], getDBTableName())
+	 }
+	 }
+	 }
+	 */
 
 
 	def replaceSEQUENCIDInJDD(String fieldName, int delta=0) {
-		
+
 		int dataLineNum = getDataLineNum()
 		int index = headers.indexOf(fieldName)
 		if (JDDKW.isSEQUENCEID(getStrData(fieldName))){
 			String paraSeq =  getParamForThisName('SEQUENCE', fieldName)
-			Log.addDEBUG("replaceSEQUENCIDInJDD fieldName=$fieldName delta=$delta") 
+			Log.addDEBUG("replaceSEQUENCIDInJDD fieldName=$fieldName delta=$delta")
 			datas[dataLineNum][index] = SQL.getLastSequence(paraSeq)+delta
 		}
 		/*
-		datas[dataLineNum].eachWithIndex { val,i ->
-			if (JDDKW.isSEQUENCEID(val)) {
-				TNRResult.addSTEP("Récupération de la séquence ${headers[i]} de l'objet créé")
-				datas[dataLineNum][i] = SQL.getMaxFromTable(headers[i], getDBTableName())
-			}
-		}
-		*/
+		 datas[dataLineNum].eachWithIndex { val,i ->
+		 if (JDDKW.isSEQUENCEID(val)) {
+		 TNRResult.addSTEP("Récupération de la séquence ${headers[i]} de l'objet créé")
+		 datas[dataLineNum][i] = SQL.getMaxFromTable(headers[i], getDBTableName())
+		 }
+		 }
+		 */
 	}
 
 
@@ -444,5 +444,19 @@ public class JDD {
 	def List<List> getDatas() {
 		return datas
 	}
-
+	
+	def String getJDDFullName() {
+		return JDDFullName
+	}
+	
+	def String getHeader(int i) {
+		
+		return headers[i]
+	}
+	
+	def String getXpathTO(String name) {
+		
+		return xpathTO[name]
+	}
+	
 } // end of class

@@ -2,6 +2,10 @@ package my
 
 import com.kms.katalon.core.util.KeywordUtil
 
+import groovy.transform.CompileStatic
+
+
+@CompileStatic
 class PropertiesReader {
 
 

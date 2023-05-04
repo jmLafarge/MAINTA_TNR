@@ -28,6 +28,17 @@ public class SQL {
 
 
 
+	static executeInsert(String query, List values) {
+		try {
+			def resultat = sqlInstance.executeInsert(query,values)
+		} catch(Exception ex) {
+			Log.addERROR("Erreur d'execution de executeInsert : ")
+			TNRResult.addDETAIL(ex.getMessage())
+		}
+	}
+
+
+
 	static executeSQL(String query) {
 		try {
 			sqlInstance.execute(query)
@@ -50,6 +61,7 @@ public class SQL {
 			return null
 		}
 	}
+
 
 
 	/**
@@ -204,16 +216,16 @@ public class SQL {
 					break
 
 				case JDDKW.getKW_SEQUENCEID() :
-					/*
-					String paraSeq =  myJDD.getParamForThisName('SEQUENCE', fieldName)
-					int lastSeq = getLastSequence( paraSeq)
-					if ( val == lastSeq) {
-						logAddDEBUG('SEQUENCEID',fieldName,lastSeq,val)
-					}else {
-					*/
-						logAddDETAIL('SEQUENCEID',fieldName,myJDD.getData(fieldName),val)
-						verifStatus= 'FAIL'
-					//}
+				/*
+				 String paraSeq =  myJDD.getParamForThisName('SEQUENCE', fieldName)
+				 int lastSeq = getLastSequence( paraSeq)
+				 if ( val == lastSeq) {
+				 logAddDEBUG('SEQUENCEID',fieldName,lastSeq,val)
+				 }else {
+				 */
+					logAddDETAIL('SEQUENCEID',fieldName,myJDD.getData(fieldName),val)
+					verifStatus= 'FAIL'
+				//}
 
 					break
 

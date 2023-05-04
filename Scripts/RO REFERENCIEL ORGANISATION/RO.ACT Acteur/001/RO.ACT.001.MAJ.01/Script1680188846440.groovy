@@ -1,7 +1,9 @@
+import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
+
+import my.JDD
 import my.KW
 import my.NAV
 import my.result.TNRResult
-import my.JDD
 
 
 'Lecture du JDD'
@@ -39,6 +41,7 @@ for (String cdt in myJDD.CDTList) {
 		//ST_DESGES --> pas d'action en modification
 		KW.scrollAndCheckIfNeeded(myJDD,"ST_GRP","O")
 		
+		WebUI.scrollToPosition(0, 0)
 		
 	TNRResult.addSTEPGRP("ONGLET AFFECTATION")
 		

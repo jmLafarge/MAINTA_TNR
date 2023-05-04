@@ -6,6 +6,8 @@ import com.kms.katalon.core.testobject.TestObject
 import groovy.text.SimpleTemplateEngine
 import groovy.transform.CompileStatic
 
+import my.NAV
+
 
 @CompileStatic
 public class TO {
@@ -34,17 +36,17 @@ public class TO {
 
 				case "TAB":
 					binding['tabname']=xpath.split('\\$')[2]
-					xpath = NAV.myGlobalJDD.xpathTO['TAB']
+					xpath = NAV.myGlobalJDD.getXpathTO('TAB')
 					break
 
 				case "TABSELECTED":
 					binding['tabname']=xpath.split('\\$')[2]
-					xpath = NAV.myGlobalJDD.xpathTO['TABSELECTED']
+					xpath = NAV.myGlobalJDD.getXpathTO('TABSELECTED')
 					break
 
 				case "FILTREGRILLE":
 					binding['idname']=xpath.split('\\$')[2]
-					xpath = NAV.myGlobalJDD.xpathTO['FILTREGRILLE']
+					xpath = NAV.myGlobalJDD.getXpathTO('FILTREGRILLE')
 					break
 
 				case "TDGRILLE":
@@ -56,7 +58,7 @@ public class TO {
 				//////
 					binding['numTD']=xpath.split('\\$')[2]
 					binding['idnameval']=myJDD.getData(xpath.split('\\$')[3])
-					xpath = NAV.myGlobalJDD.xpathTO['TDGRILLE']
+					xpath = NAV.myGlobalJDD.getXpathTO('TDGRILLE')
 					break
 
 				default:

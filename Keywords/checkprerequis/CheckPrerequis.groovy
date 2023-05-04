@@ -81,16 +81,16 @@ public class CheckPrerequis {
 				String PRInThisSheet =''
 				myJDD.getParam('PREREQUIS').eachWithIndex { value,i ->
 					if (!(value in ['', 'PREREQUIS', 'OBSOLETE'])) {
-						PRInThisSheet = PRInThisSheet + myJDD.headers[i]+','
-						Log.addDEBUG('\theader = ' + myJDD.headers[i])
+						PRInThisSheet = PRInThisSheet + myJDD.getHeader(i)+','
+						Log.addDEBUG('\theader = ' + myJDD.getHeader(i))
 						Log.addDEBUG('\tvalue = ' + value)
 						Map prerequisMap = [:]
 						prerequisMap.putAt('PREJDDMODOBJ',value.split(/\*/)[0])
 						prerequisMap.putAt('PREJDDTAB',value.split(/\*/)[1])
 						prerequisMap.putAt('PREJDDID',value.split(/\*/)[2])
-						prerequisMap.putAt('JDDNAME',myJDD.JDDFullName)
+						prerequisMap.putAt('JDDNAME',myJDD.getJDDFullName())
 						prerequisMap.putAt('TAB',sheet.getSheetName())
-						prerequisMap.putAt('JDDID',myJDD.headers[i])
+						prerequisMap.putAt('JDDID',myJDD.getHeader(i))
 						prerequisMap.putAt('LISTCDTVAL',getListCDTVAL(i))
 						Log.addDEBUG('\tPrerequisMap : ')
 						prerequisMap.each { key,val ->
@@ -122,7 +122,7 @@ public class CheckPrerequis {
 		List list =[]
 		myJDD.datas.each{
 			if (it[index]!=null && it[index]!='' && !JDDKW.isNU(it[index]) && !JDDKW.isNULL(it[index]) ) {
-				if (it[0].toString().contains('.CRE.') && PKlist.contains(myJDD.headers[index])) {
+				if (it[0].toString().contains('.CRE.') && PKlist.contains(myJDD.getHeader(index))) {
 					Log.addDEBUG("skip : " + "'" + it[0] + "' - '" + it[index] + "'")
 				}else {
 					list.add("'" + it[0] + "' - '" + it[index] + "'")

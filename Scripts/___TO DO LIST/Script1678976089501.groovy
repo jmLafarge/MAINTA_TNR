@@ -7,8 +7,8 @@
  * -----------------------------------------------------------------------------------------------------
  * 
  * 
-Création de my.TO et autres
 
+Ajout de @CompileStatic terminé
 
  * 
  * -----------------------------------------------------------------------------------------------------
@@ -64,32 +64,6 @@ Création de my.TO et autres
  
  Ajouter les DES dans ART avec JDD Generator listRubriquesIHM
  
-
- Ajouter
- 	import groovy.transform.CompileStatic
-	 @CompileStatic
-	 FAIT
-		 tout checkprerequis
-		 InfoBDD
-		 InfoPARA
-		 JDD
-		 JDDFiles
-		 JDDGenerator
-		 JDDKW
-		 KW
-		 
-		 
-		 TO
-		 
-		 
-		 
-		 
-	 EN COURS
- 
- 
- 
- Remplacer les GlobalVariable.CASDETESTENCOURS  et GlobalVariable.CASDETESTPATTERN --> voir ou les mettre
- 
  
  
  
@@ -127,6 +101,10 @@ Création de my.TO et autres
  * EVOLUTION
  * -----------------------------------------------------------------------------------------------------
  * 
+	
+	GLOBALE VARIABLES
+		 Remplacer les GlobalVariable.CASDETESTENCOURS  et GlobalVariable.CASDETESTPATTERN --> voir ou les mettre
+		 voir aussi les autres variables ?
 	
 	CONTROLE
 	

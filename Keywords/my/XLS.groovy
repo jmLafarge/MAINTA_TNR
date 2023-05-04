@@ -1,25 +1,24 @@
 package my
 
-import org.apache.poi.ss.usermodel.Hyperlink
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.CellStyle
 import org.apache.poi.ss.usermodel.CreationHelper
 import org.apache.poi.ss.usermodel.DateUtil
 import org.apache.poi.ss.usermodel.FormulaEvaluator
+import org.apache.poi.ss.usermodel.Hyperlink
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.Workbook
-
-
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
-import my.Log
+import groovy.transform.CompileStatic
 
 
 /**
  * @author X1009638
  *
  */
+@CompileStatic
 public class XLS {
 
 
@@ -36,7 +35,8 @@ public class XLS {
 
 	static writeCell(Row row, int colIdx,def val,CellStyle cellStyle = null, Hyperlink hyperlink = null) {
 
-		Log.addDEBUG("\twriteCell( RowNum:${row.getRowNum()}, colIdx:$colIdx,$val, cellStyle:${cellStyle.toString()},hyperlink:${hyperlink.toString()}",2)
+		//Log.addDEBUG("\twriteCell( RowNum:${row.getRowNum()}, colIdx:$colIdx,$val, cellStyle:${cellStyle.toString()},hyperlink:${hyperlink.toString()}",2)
+		
 		if (row==null) {
 			Log.addERROR("row is NULL")
 		}else {
@@ -45,7 +45,13 @@ public class XLS {
 			if (!cell) row.createCell(colIdx)
 
 			cell = row.getCell(colIdx)
-			cell.setCellValue(val)
+			
+			if (val instanceof Number) {
+				cell.setCellValue(val.doubleValue())
+			} else {
+				cell.setCellValue(val.toString())
+			}
+
 
 			if (hyperlink) cell.setHyperlink(hyperlink)
 			if (cellStyle) cell.setCellStyle(cellStyle)

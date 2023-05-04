@@ -6,11 +6,11 @@ import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.io.FileType
-import my.Log
-import my.SQL as MYSQL
-import my.InfoBDD
+import groovy.transform.CompileStatic
+import my.SQL
 import my.result.TNRResult
 
+@CompileStatic
 public class PREJDDFiles {
 
 
@@ -52,8 +52,8 @@ public class PREJDDFiles {
 		Sheet sheet = book.getSheet(tabName)
 		Row row0 = sheet.getRow(0)
 
-		Map sequence = [:]
-		def maxORDRE = null
+		Map <String,Integer> sequence = [:]
+		int maxORDRE = 0
 
 		List PKlist=InfoBDD.getPK(myJDD.getDBTableName())
 
@@ -90,21 +90,22 @@ public class PREJDDFiles {
 					// cas d'un champ lié à une séquence
 					String seqTable = myJDD.getParamForThisName('SEQUENCE',fieldName)
 					if (seqTable){
+						int seq = (int)value
 						if (sequence.containsKey(seqTable)) {
-							if (value > sequence.getAt(seqTable)) {
-								sequence.put(seqTable, value)
+							if (seq > sequence.getAt(seqTable)) {
+								sequence.put(seqTable, seq)
 							}
 						}else {
 							TNRResult.addDETAIL("Détection d'une sequence sur $fieldName, table $seqTable")
-							sequence.put(seqTable, value)
+							sequence.put(seqTable, seq)
 						}
 					}
 
 					switch (value) {
 
 						case my.JDDKW.getKW_ORDRE() :
-							if (maxORDRE == null) {
-								maxORDRE = MYSQL.getMaxFromTable(fieldName, myJDD.getDBTableName())
+							if (maxORDRE == 0) {
+								maxORDRE = SQL.getMaxFromTable(fieldName, myJDD.getDBTableName())
 							}
 							maxORDRE++
 							val = maxORDRE.toString()
@@ -140,7 +141,7 @@ public class PREJDDFiles {
 					}
 
 					if (InfoBDD.isImage(myJDD.getDBTableName(), fieldName)) {
-						values.add(getRTFTEXT(value).getBytes())
+						values.add(getRTFTEXT(value.toString()).getBytes())
 					}else if (!my.JDDKW.isNU(value.toString()) && !myJDD.isOBSOLETE(fieldName) ) {
 						values.add(val)
 					}
@@ -161,7 +162,7 @@ public class PREJDDFiles {
 			sequence.each { table, val ->
 				String req = "DBCC CHECKIDENT ($table, RESEED,$val);"
 				TNRResult.addDETAIL(req)
-				MYSQL.executeSQL(req)
+				SQL.executeSQL(req)
 				//fileSQL.append("$req\n")
 			}
 		}
@@ -173,24 +174,21 @@ public class PREJDDFiles {
 	static insertIfNotExist(String table, String PKwhere, List fields, List values) {
 
 		Log.addDEBUG("SELECT count(*) FROM $table WHERE $PKwhere")
-		def result = MYSQL.getFirstRow("SELECT count(*) FROM $table WHERE $PKwhere")
+		Map result = SQL.getFirstRow("SELECT count(*) as nbr FROM $table WHERE $PKwhere")
+
 		if(result) {
-			if (result[0] == 0) {
+			if (result.nbr == 0) {
 
 				List li = Collections.nCopies(fields.size(), '?')
 
-				String requete = "INSERT INTO $table (" + fields.join(',') +") VALUES (" + li.join(',') + ")"
+				String query = "INSERT INTO $table (" + fields.join(',') +") VALUES (" + li.join(',') + ")"
 
-				TNRResult.addDETAIL(requete)
+				TNRResult.addDETAIL(query)
 				TNRResult.addDETAIL(values.join(','))
-				try {
-					def resultat = MYSQL.sqlInstance.executeInsert(requete,values)
-				} catch(Exception ex) {
-					Log.addERROR("Erreur d'execution de insertIfNotExist : ")
-					TNRResult.addDETAIL(ex.getMessage())
-				}
 
-			}else if (result[0] ==1){
+				SQL.executeInsert(query,values)
+
+			}else if (result.nbr == 1){
 				Log.addDEBUG("La valeur $PKwhere existe déjà")
 			}else {
 				Log.addERROR("Plusieurs valeurs trouvées pour :")

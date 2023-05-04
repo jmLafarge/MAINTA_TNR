@@ -58,30 +58,25 @@ public class XLSResult {
 	private static String maintaVersion =''
 
 
-/*
-	private static groupDetail(String status='') {
-
-		Log.addDEBUG("groupDetail nextLineNumber=$nextLineNumber firstLineDETAIL=$firstLineDETAIL")
-
-		if (status == 'DETAIL') {
-			if (firstLineDETAIL == 0) {
-				//début du DETAIL
-				firstLineDETAIL = nextLineNumber
-				statusDETAIL = previousStatus
-			}
-
-		}else if (firstLineDETAIL != 0){
-
-			Log.addDEBUG("groupDetail setRowGroupCollapsed")
-
-			shRESULT.setRowSumsBelow(false)
-			shRESULT.groupRow(firstLineDETAIL, nextLineNumber-1)
-			shRESULT.setRowGroupCollapsed(firstLineDETAIL, true)
-			firstLineDETAIL=0
-		}
-		previousStatus=status
-	}
-*/
+	/*
+	 private static groupDetail(String status='') {
+	 Log.addDEBUG("groupDetail nextLineNumber=$nextLineNumber firstLineDETAIL=$firstLineDETAIL")
+	 if (status == 'DETAIL') {
+	 if (firstLineDETAIL == 0) {
+	 //début du DETAIL
+	 firstLineDETAIL = nextLineNumber
+	 statusDETAIL = previousStatus
+	 }
+	 }else if (firstLineDETAIL != 0){
+	 Log.addDEBUG("groupDetail setRowGroupCollapsed")
+	 shRESULT.setRowSumsBelow(false)
+	 shRESULT.groupRow(firstLineDETAIL, nextLineNumber-1)
+	 shRESULT.setRowGroupCollapsed(firstLineDETAIL, true)
+	 firstLineDETAIL=0
+	 }
+	 previousStatus=status
+	 }
+	 */
 
 
 
@@ -89,18 +84,18 @@ public class XLSResult {
 
 
 	private static takeScreenshot(Row row,Date date, String msg, String status) {
-		
+
 		if (!msg.contains("Fin de la  vérification des valeurs en Base de Données") || status == 'ERROR') {
 			String filename = date.format("yyyyMMdd_HHmmss.SSS") + '_'+ GlobalVariable.CASDETESTENCOURS + '_' + status + '.png'
 			String path = new File(resulFileName).getParent()+ File.separator + SCREENSHOTSUBFOLDER
 			Tools.createFolderIfNotExist(path)
-			
+
 			def screenshotOptions = [:] as Map<String, Object>
 			screenshotOptions.put("text", status+':'+msg)
 			screenshotOptions.put("fontSize", 24)
 			screenshotOptions.put("fontColor", "#FF0000")
 			WebUI.takeScreenshot(path+ File.separator +filename, screenshotOptions)
-			
+
 			def hyperlink_screenshotFile = CSF.createHelper.createHyperlink(HyperlinkType.FILE)
 			hyperlink_screenshotFile.setAddress('./'+SCREENSHOTSUBFOLDER+ '/' +filename)
 			XLS.writeCell(row,11, filename  ,CSF.cellStyle_hyperlink,hyperlink_screenshotFile)

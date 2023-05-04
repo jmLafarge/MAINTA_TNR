@@ -3,14 +3,15 @@ package my
 import java.util.regex.Pattern
 
 import groovy.io.FileType
+import groovy.transform.CompileStatic
 import internal.GlobalVariable
-import my.Log
 
 
+@CompileStatic
 public class TCFiles {
 
 
-	public static Map TCfileMap = [:]
+	public static Map <String,String> TCfileMap = [:]
 
 
 
@@ -40,31 +41,9 @@ public class TCFiles {
 
 	public static String getTCNameTitle() {
 
-		/*
-		 String TCFullName=''
-		 String cdt=''
-		 if (GlobalVariable.CASDETESTENCOURS) {
-		 cdt = GlobalVariable.CASDETESTENCOURS
-		 }else {
-		 cdt = GlobalVariable.CASDETESTPATTERN
-		 }
-		 if (TCfileMap[cdt]) {
-		 TCFullName = TCfileMap[cdt]
-		 }else{
-		 def key = TCfileMap.keySet().find { cdt.contains(it) }
-		 if (key) {
-		 TCFullName = TCfileMap[key]
-		 }else {
-		 Log.add('WARNING',"\tPas de fichier trouvé pour le cas de test $cdt")
-		 }
-		 }
-		 List liTCFullName= TCfileMap[GlobalVariable.CASDETESTENCOURS].split(Pattern.quote(File.separator))
-		 */
 		Log.addINFO ('GlobalVariable.CASDETESTPATTERN :' + GlobalVariable.CASDETESTPATTERN)
 
-
-
-		List liTCFullName= TCfileMap[GlobalVariable.CASDETESTPATTERN].split(Pattern.quote(File.separator))
+		List liTCFullName= Arrays.asList(TCfileMap[GlobalVariable.CASDETESTPATTERN.toString()].split(Pattern.quote(File.separator)))
 
 		//Détermine objet et sous-ressources à partir des noms des dossier père (SR) et grandpère(OBJ) des TC
 		String obj =''
@@ -77,11 +56,11 @@ public class TCFiles {
 		}
 
 		// si un titre existe au niveau du TC on le prend sinon on le construit
-		List liTCName = liTCFullName[-1].split(' ')
+		List liTCName = Arrays.asList(liTCFullName[-1].split(' '))
 		if (liTCName.size()>1) {
 			return liTCName.drop(1).join(' ')
 		}else {
-			def liTCName2 = GlobalVariable.CASDETESTPATTERN.split('\\.')
+			def liTCName2 = GlobalVariable.CASDETESTPATTERN.toString().split('\\.')
 			if (liTCName2.size()>2) {
 				return getAutoTitle(obj,sr,liTCName2[-2])
 			}
@@ -102,7 +81,7 @@ public class TCFiles {
 
 		if (TCfile) {
 
-			List liTCFullName= TCfile.split(Pattern.quote(File.separator))
+			List liTCFullName= Arrays.asList(TCfile.split(Pattern.quote(File.separator)))
 
 			//Détermine objet et sous-ressources à partir des noms des dossier père (SR) et grandpère(OBJ) des TC
 			String obj =''
@@ -115,7 +94,7 @@ public class TCFiles {
 			}
 
 			// si un titre existe au niveau du TC on le prend sinon on le construit
-			List liTCName = liTCFullName[-1].split(' ')
+			List liTCName = Arrays.asList(liTCFullName[-1].split(' '))
 			if (liTCName.size()>1) {
 				return liTCName.drop(1).join(' ')
 			}else {
