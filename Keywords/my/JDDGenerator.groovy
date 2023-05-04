@@ -13,7 +13,6 @@ import internal.GlobalVariable
 import my.Log
 import my.InfoBDD
 import my.Tools
-import my.result.TNRResult
 import my.InfoPARA
 
 
@@ -94,7 +93,7 @@ class JDDGenerator {
 
 	private static addParaFromInfoPARA(Sheet shFCT,def mes) {
 
-		TNRResult.addDETAIL("Ajout des paramètres dans l'onglet "+shFCT.getSheetName())
+		Log.addINFO("Ajout des paramètres dans l'onglet "+shFCT.getSheetName())
 
 		Row row = shFCT.getRow(0)
 
@@ -160,13 +159,14 @@ class JDDGenerator {
 	private static String addJDDSheet(XSSFWorkbook JDDbook , String table, String modObj, String fct,List listRubriquesIHM) {
 
 		Sheet shFCT = JDDbook.getSheet(fct)
+		Sheet shMODELE = JDDbook.getSheet('MODELE')
 		String msg=''
 
 
 		int numColFct = 1
 
 		if (!shFCT) {
-			TNRResult.addDETAIL("Création de l'onglet $fct pour la table $table")
+			Log.addINFO("Création de l'onglet $fct pour la table $table")
 			msg="Création de l'onglet $fct pour la table $table"
 			JDDbook.cloneSheet(JDDbook.getSheetIndex('MODELE'))
 			JDDbook.setSheetName(JDDbook.getNumberOfSheets()-1, fct)
@@ -182,7 +182,7 @@ class JDDGenerator {
 
 			Map lib = numEcran ? my.SQL.getLibelle(table, numEcran) : [:]
 
-			TNRResult.addDETAIL("Renseigner l'onglet Info")
+			Log.addINFO("Renseigner l'onglet Info")
 			Row rowInfo = my.XLS.getNextRow(shJDDInfo)
 
 			def styleFct = shJDDInfo.getRow(0).getCell(0).getCellStyle()
@@ -197,10 +197,10 @@ class JDDGenerator {
 			//rowNumInfo++
 
 
-			TNRResult.addDETAIL("Renseigner l'onglet $fct")
+			Log.addINFO("Renseigner l'onglet $fct")
 			my.XLS.writeCell(shFCT.getRow(0),0,table)
 
-			setStyle(JDDbook,shFCT)
+			setStyle(JDDbook,shMODELE)
 
 
 
@@ -249,7 +249,7 @@ class JDDGenerator {
 
 		}else {
 
-			setStyle(JDDbook,shFCT)
+			setStyle(JDDbook,shMODELE)
 			msg = ajouterRubriqueIHM(shFCT, listRubriquesIHM)
 
 		}
@@ -258,15 +258,16 @@ class JDDGenerator {
 
 
 
-	private static setStyle(XSSFWorkbook JDDbook,Sheet shFCT) {
+	private static setStyle(XSSFWorkbook JDDbook,Sheet sh) {
 
-		styleChamp = shFCT.getRow(0).getCell(1).getCellStyle()
-		stylePara = shFCT.getRow(1).getCell(1).getCellStyle()
-		styleCdt = shFCT.getRow(5).getCell(1).getCellStyle()
+		styleChamp = sh.getRow(0).getCell(1).getCellStyle()
+		stylePara = sh.getRow(1).getCell(1).getCellStyle()
+		styleCdt = sh.getRow(5).getCell(1).getCellStyle()
 
 		styleChampIHM = JDDbook.createCellStyle()
-		styleChampIHM.cloneStyleFrom(shFCT.getRow(0).getCell(1).getCellStyle())
+		styleChampIHM.cloneStyleFrom(sh.getRow(0).getCell(1).getCellStyle())
 		styleChampIHM.setFillPattern(FillPatternType.SOLID_FOREGROUND)
+		
 		styleChampIHM.setFillForegroundColor(IndexedColors.PALE_BLUE.index)
 
 	}
@@ -275,15 +276,15 @@ class JDDGenerator {
 
 	private static String ajouterRubriqueIHM(Sheet shFCT, List listRubriquesIHM) {
 
-		TNRResult.addDETAIL("Ajouter les rubriques IHM")
+		Log.addINFO("Ajouter les rubriques IHM")
 
 		List headers = my.XLS.loadRow(shFCT.getRow(0))
 		String msg
 		for (rub in listRubriquesIHM) {
 			if (rub in headers) {  // si la rub existe déjà
-				TNRResult.addDETAIL("\t$rub existe déjà")
+				Log.addINFO("\t$rub existe déjà")
 			}else {
-				TNRResult.addDETAIL("\tAjout de $rub")
+				Log.addINFO("\tAjout de $rub")
 				msg="Ajout des rubriques IHM pour l'onglet " + shFCT.getSheetName()
 				int numColFct = my.XLS.getLastColumnIndex(shFCT,0)
 				my.XLS.writeCell(shFCT.getRow(0),numColFct,rub,styleChampIHM)
@@ -306,7 +307,7 @@ class JDDGenerator {
 
 		Path source = Paths.get(trameJDD)
 		String fullName = dir + File.separator + "JDD.${modObj}.xlsx"
-		TNRResult.addDETAIL(fullName)
+		Log.addINFO(fullName)
 		Path target = Paths.get(fullName)
 		Files.copy(source, target)
 		return fullName
@@ -320,7 +321,7 @@ class JDDGenerator {
 
 		Path source = Paths.get(tramePREJDD)
 		String fullName = dir + File.separator + "PREJDD.${modObj}.xlsx"
-		TNRResult.addDETAIL(fullName)
+		Log.addINFO(fullName)
 		Path target = Paths.get(fullName)
 		Files.copy(source, target)
 		return fullName
@@ -333,7 +334,7 @@ class JDDGenerator {
 		Sheet shFCT = JDDbook.getSheet(fct)
 		String msg
 		if (!shFCT) {
-			TNRResult.addDETAIL("Création de l'onglet $fct pour la table $table")
+			Log.addINFO("Création de l'onglet $fct pour la table $table")
 			msg="Création de l'onglet $fct pour la table $table"
 			JDDbook.cloneSheet(JDDbook.getSheetIndex('MODELE'))
 			JDDbook.setSheetName(JDDbook.getNumberOfSheets()-1, fct)
@@ -342,7 +343,7 @@ class JDDGenerator {
 
 			table = table.toUpperCase()
 
-			TNRResult.addDETAIL("Renseigner l'onglet $fct")
+			Log.addINFO("Renseigner l'onglet $fct")
 
 			my.XLS.writeCell(shFCT.getRow(0),0,"CAS DE TEST ($table)")
 
@@ -366,7 +367,7 @@ class JDDGenerator {
 			}
 
 		}else {
-			TNRResult.addDETAIL("L'onglet $fct du PREJDD existe déjà ")
+			Log.addINFO("L'onglet $fct du PREJDD existe déjà ")
 		}
 		return msg
 	}
@@ -392,7 +393,7 @@ class JDDGenerator {
 			cellStyle_date.setDataFormat( createHelper.createDataFormat().getFormat("dd/MM/yyyy"))
 
 			Sheet shVersion = book.getSheet('Version')
-			TNRResult.addDETAIL("Renseigner l'onglet Version")
+			Log.addINFO("Renseigner l'onglet Version")
 
 			Row row = my.XLS.getNextRow(shVersion)
 

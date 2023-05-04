@@ -20,7 +20,7 @@ public class TO {
 			msgTO = "L'ID '$ID' n'existe pas, impossible de créer le TEST OBJET"
 			return null
 		}
-		
+
 		Map  binding = [:]
 
 		Log.addDEBUG("makeTO( '$ID' ) with binding = )" + binding.toString())
@@ -85,7 +85,7 @@ public class TO {
 	}
 
 	public String getMsg() {
-		
+
 		return msgTO
 	}
 

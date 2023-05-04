@@ -36,7 +36,7 @@ public class XLS {
 	static writeCell(Row row, int colIdx,def val,CellStyle cellStyle = null, Hyperlink hyperlink = null) {
 
 		//Log.addDEBUG("\twriteCell( RowNum:${row.getRowNum()}, colIdx:$colIdx,$val, cellStyle:${cellStyle.toString()},hyperlink:${hyperlink.toString()}",2)
-		
+
 		if (row==null) {
 			Log.addERROR("row is NULL")
 		}else {
@@ -45,11 +45,13 @@ public class XLS {
 			if (!cell) row.createCell(colIdx)
 
 			cell = row.getCell(colIdx)
-			
+
 			if (val instanceof Number) {
 				cell.setCellValue(val.doubleValue())
-			} else {
+			} else if (val){
 				cell.setCellValue(val.toString())
+			}else {
+				cell.setCellValue('')
 			}
 
 

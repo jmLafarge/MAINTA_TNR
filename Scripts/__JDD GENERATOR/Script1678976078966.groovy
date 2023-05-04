@@ -4,6 +4,7 @@ import my.result.TNRResult
 import my.InfoBDD
 import my.PREJDDFiles
 import my.JDDFiles
+import my.Log
 
 
 Log.addTITLE("Lancement de JDD GENERATOR")
@@ -13,9 +14,11 @@ if (PREJDDFiles.PREJDDfilemap.isEmpty()) { PREJDDFiles.load() }
 
 List listRubriquesIHM = []
 
+listRubriquesIHM = ['ST_DESID_CODNATART','ST_DESGES','ST_DESID_CODFOU','ST_DESST_CODCOM']
+
+my.JDDGenerator.add('ART','RT.ART','001',listRubriquesIHM)
 
 
-my.JDDGenerator.add('MAG','ST.MAG','001')
 //my.JDDGenerator.add('ZONLIG','RO.ZON','001A')
 
 
