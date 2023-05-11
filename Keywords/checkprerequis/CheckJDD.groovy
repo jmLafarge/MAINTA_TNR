@@ -40,7 +40,7 @@ public class CheckJDD {
 					myJDD.loadTCSheet(sheet)
 					table = myJDD.getDBTableName()
 
-					if (myJDD.headers.size()>1) {
+					if (myJDD.getHeadersSize() >1) {
 
 						checkTable()
 
@@ -116,7 +116,7 @@ public class CheckJDD {
 		Log.addDEBUGDETAIL("Contrôle des LOCATOR",0)
 		myJDD.getParam('LOCATOR').eachWithIndex {loc,i ->
 			if (loc!=null && loc!='' && i!=0) {
-				String name = myJDD.headers[i]
+				String name = myJDD.getHeader(i)
 
 				if (loc in myJDD.TAG_LIST_ALLOWED) {
 					Log.addDEBUG("$name : $loc in myJDD.TAG_LIST_ALLOWED")

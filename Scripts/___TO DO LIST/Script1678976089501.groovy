@@ -67,7 +67,8 @@
  
  Ajouter les DES dans ART avec JDD Generator listRubriquesIHM
  
- 
+ ST_TYPART
+ 	modifier verifyOptionSelectedByValue pour prendre en compte un Map avec les valeurs/valeurs interne OU ajouter dans foreing key
  
  
 
@@ -93,10 +94,6 @@
 
 
 
- 	XLSResult
- 	
- 		groupDetail pose problème, les lignes jusquà 595 sont masquées !? --> mis en commentaire
-	
 
 	
  * 
@@ -124,7 +121,7 @@
 		créer une class pour parametre
 		
 	SQL
-		Traiter les valeurs des $DATESYS et $DATETIME --> voir pour ajouter un ctrl que la valeur soit autour de la datetime du moment voir Tools.getDurationFromNow
+		Traitement les valeurs des $DATESYS et $DATETIME --> voir pour ajouter un ctrl que la valeur soit autour de la datetime du moment voir Tools.getDurationFromNow
 
 
 	XLS
@@ -135,7 +132,7 @@
 		
 	CHECK PREREQUIS 
 	
-		Ajouter un ctrl sur les prérequis des préreuis
+		Ajouter un ctrl sur les prérequis des prérequis
 		
 		J'ai ajouté le Check_CAL --> faire pareil avec les autres chck spécifique , comme par exe les org/ser et inter...
 	  
@@ -147,10 +144,12 @@
 		  
 		Dans les JDD, mettre en vert les cellules des attributs modifiés par rapport aux PREJDD pour les cas de tests MODIF
 		
-		
+		ctrl des prerequis sur les paires de données, par ex int_met
 		  
 		  
 	RESULT
+	
+		groupDetail pose problème, les lignes jusquà 595 sont masquées !? --> mis en commentaire
 	 
 		Sortir la gestion des STEP et du Status de Log
 			- Mettre status dans une class à part

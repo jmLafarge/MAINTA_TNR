@@ -5,6 +5,7 @@ import my.result.TNRResult
 import my.InfoPARA
 import my.JDDFiles
 import my.InfoBDD
+import my.Log
 
 
 Log.addTITLE("Lancement de FILL INFOPARA")

@@ -95,7 +95,7 @@ public class InfoPARA {
 					XLS.writeCell(row,0,col,paraStyle)
 				}
 				
-				List li_JDD = paraMap[col][icol+1]
+				String li_JDD = paraMap[col][icol+1]
 				
 				
 

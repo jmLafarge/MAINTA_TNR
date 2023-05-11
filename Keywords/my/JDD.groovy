@@ -444,19 +444,24 @@ public class JDD {
 	def List<List> getDatas() {
 		return datas
 	}
-	
+
 	def String getJDDFullName() {
 		return JDDFullName
 	}
-	
+
 	def String getHeader(int i) {
-		
+
 		return headers[i]
 	}
-	
+
 	def String getXpathTO(String name) {
-		
+
 		return xpathTO[name]
 	}
-	
+
+	def int getHeadersSize() {
+
+		return headers.size()
+	}
+
 } // end of class

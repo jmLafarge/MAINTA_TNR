@@ -23,6 +23,7 @@ for (String cdt in myJDD.CDTList) {
 		KW.verifyOptionSelectedByValue(myJDD,"ST_ETA")
 		//KW.verifyElementCheckedOrNot(myJDD,"CODARTAUTO","O")
 		KW.verifyValue(myJDD,"ST_DES")
+		
 		KW.verifyOptionSelectedByValue(myJDD,"ST_TYPART")
 		KW.verifyElementCheckedOrNot(myJDD,"ST_INA","O")
 		KW.verifyValue(myJDD,"ID_CODNATART")

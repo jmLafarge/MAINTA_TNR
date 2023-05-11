@@ -11,6 +11,11 @@
    </GlobalVariableEntity>
    <GlobalVariableEntity>
       <description></description>
+      <initValue>'C:\\MAINTA\\SERVER\\IIS\\MAINTA_TEST\\Bin'</initValue>
+      <name>BIN_FOLDER</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
       <initValue>'p1220105/MAINTA_TESTBin/MOS_XML.dll/'</initValue>
       <name>BASE_URL</name>
    </GlobalVariableEntity>
