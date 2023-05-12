@@ -439,7 +439,10 @@ public class SQL {
 		String req = "SELECT MAX($fieldName) as num FROM $tableName"
 
 		try {
-			int num = (Integer)sqlInstance.firstRow(req).num
+			def res = sqlInstance.firstRow(req).num
+			
+			int num = (res) ? (Integer)res : 0
+			
 			TNRResult.addDETAIL("get Max '$fieldName From Table '$tableName' = $num")
 			return num
 		} catch(Exception ex) {

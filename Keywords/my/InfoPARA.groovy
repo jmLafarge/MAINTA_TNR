@@ -107,7 +107,12 @@ public class InfoPARA {
 					Log.addDEBUG('\t' +paraMap[col][icol] +" ajouté dans $col")
 					Log.addDEBUG('\t' + paraMap[col][icol+1] +" ajouté dans $col")
 				}else if (paraMap[col][icol]!=valPara) {
-					Log.addDETAILWARNING("\t$para pour '$col'($icol) : $valPara différent de la valeur enregistrée " + paraMap[col][icol])
+					if (paraMap[col][icol]=='OBSOLETE') {
+						Log.addDETAILWARNING("\t$para pour '$col'($icol) : $valPara remplacement de la valeur OBSOLETE ")
+						updatePara(para,col,icol,valPara,where)
+					}else {
+						Log.addDETAILWARNING("\t$para pour '$col'($icol) : $valPara différent de la valeur enregistrée " + paraMap[col][icol])
+					}
 				}else if(li_JDD.contains(where)) {
 					Log.addDEBUG("\t$para $valPara pour '$col' et $where existe déjà")
 				}else {

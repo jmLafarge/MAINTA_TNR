@@ -421,14 +421,6 @@ public class JDD {
 			Log.addDEBUG("replaceSEQUENCIDInJDD fieldName=$fieldName delta=$delta")
 			datas[dataLineNum][index] = SQL.getLastSequence(paraSeq)+delta
 		}
-		/*
-		 datas[dataLineNum].eachWithIndex { val,i ->
-		 if (JDDKW.isSEQUENCEID(val)) {
-		 TNRResult.addSTEP("Récupération de la séquence ${headers[i]} de l'objet créé")
-		 datas[dataLineNum][i] = SQL.getMaxFromTable(headers[i], getDBTableName())
-		 }
-		 }
-		 */
 	}
 
 
@@ -441,10 +433,6 @@ public class JDD {
 		return book
 	}
 
-	def List<List> getDatas() {
-		return datas
-	}
-
 	def String getJDDFullName() {
 		return JDDFullName
 	}
@@ -453,7 +441,12 @@ public class JDD {
 
 		return headers[i]
 	}
-
+	
+	def List <String> getHeaders() {
+		
+		return headers
+	}
+	
 	def String getXpathTO(String name) {
 
 		return xpathTO[name]
@@ -463,5 +456,11 @@ public class JDD {
 
 		return headers.size()
 	}
+	
+	def List <List> getDatas() {
+		
+		return datas
+	}
+			
 
 } // end of class

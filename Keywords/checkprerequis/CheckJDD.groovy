@@ -75,7 +75,7 @@ public class CheckJDD {
 				Log.addDEBUGDETAIL("Contrôle de la table DB '$table'",0)
 
 				checkColumn()
-				CheckTypeInDATA.run(myJDD.datas, myJDD, table)
+				CheckTypeInDATA.run(myJDD.getDatas(), myJDD, table)
 			}else {
 				Log.addDETAILFAIL("Contrôle de la table DB KO, la table '$table' n'existe pas !")
 			}
@@ -92,12 +92,12 @@ public class CheckJDD {
 		//InfoBDD.colnameMap[table].eachWithIndex{col,index ->
 		InfoBDD.map[table].each{col,vlist ->
 
-			if (col == myJDD.headers[(int)vlist[0]]) {
+			if (col == myJDD.getHeader((int)vlist[0])) {
 				Log.addDEBUG("'$col' OK")
 
 				//InfoBDD.updateParaInfoBDD(myJDD, col,fullName, modObj+'.'+sheet.getSheetName())
 
-			}else if (col in myJDD.headers) {
+			}else if (col in myJDD.getHeaders()) {
 				Log.addDETAILFAIL("'$col' est dans le JDD mais pas à la bonne place")
 			}else {
 				Log.addDETAILFAIL("Le champ '$col' n'est pas dans le JDD")
