@@ -58,9 +58,6 @@ PREJDDFiles.insertPREJDDinDB('RO.LIE','001')
 PREJDDFiles.insertPREJDDinDB('RO.FOU','001A')
 PREJDDFiles.insertPREJDDinDB('RO.FOU','001')
 
-// ------------------------------------------------------    Sauvegarde LOT1A-01
-
-
 PREJDDFiles.insertPREJDDinDB('MP.CPT','001')
 
 

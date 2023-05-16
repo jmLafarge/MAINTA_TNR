@@ -25,7 +25,8 @@ for (String cdt in myJDD.CDTList) {
 	
 	TNRResult.addSTEPGRP('ONGLET METIER')
 	
-		KW.scrollAndClick(myJDD,"Tab_Metier")
+		//KW.scrollAndClick(myJDD,"Tab_Metier")
+		KW.click(myJDD,"Tab_Metier")
 		KW.waitForElementVisible(myJDD,"Tab_MetierSelected")
 	
 		'Boucle sur les lignes d\'un même TC'

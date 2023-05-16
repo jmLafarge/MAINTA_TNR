@@ -23,7 +23,8 @@ for (String cdt in myJDD.CDTList) {
 	'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_CODINT'))
 
-		KW.scrollAndClick(myJDD,"tab_Zone")
+		//KW.scrollAndClick(myJDD,"tab_Zone")
+		KW.click(myJDD,"tab_Zone")
 		KW.waitForElementVisible(myJDD,"tab_ZoneSelected")
 			
 	

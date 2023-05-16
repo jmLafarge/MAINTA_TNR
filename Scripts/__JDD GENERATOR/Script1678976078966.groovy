@@ -17,13 +17,13 @@ List listRubriquesIHM = []
 //listRubriquesIHM = ['ST_DESID_CODNATART','ST_DESGES','ST_DESID_CODFOU','ST_DESST_CODCOM']
 
 
-//my.JDDGenerator.add('FAM','xxxx','001') // ID_CODFAM dans RT.EQU et RT.MAT
+//my.JDDGenerator.add('FAM','RT.MOD','001') // ID_CODFAM dans RT.EQU et RT.MAT 
+
 //my.JDDGenerator.add('xxx','xxxx','001') // ID_CODCONTRA dans RT.EQU et EQU_CONTRA et MAT_CONTRA et TR.BT
 //my.JDDGenerator.add('xxx','xxxx','001')// ID_NUMMOD dans RT.EQU et RT.MAT
 //my.JDDGenerator.add('GRO','xxxx','001') // ID_NUMGRO dans RT.EQU et RT.MAT
 //my.JDDGenerator.add('xxx','xxxx','001') // ID_CODUNI dans RT.EQU et RT.MAT
 //my.JDDGenerator.add('BUDGETLIG','xxxx','001') //ID_NUMBUDGETLIGINV et ID_NUMBUDGETLIGFON dans TR.BT
-
 
 
 

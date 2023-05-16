@@ -118,12 +118,12 @@ public class CheckJDD {
 			if (loc!=null && loc!='' && i!=0) {
 				String name = myJDD.getHeader(i)
 
-				if (loc in myJDD.TAG_LIST_ALLOWED) {
+				if (myJDD.isTagAllowed(loc)) {
 					Log.addDEBUG("$name : $loc in myJDD.TAG_LIST_ALLOWED")
 				}else if ((loc[0] != '/') && (loc.toString().split(/\*/).size()>1)) {
 					//it's a tag with an attribut
 					def lo = loc.toString().split(/\*/)
-					if (lo[0] in myJDD.TAG_LIST_ALLOWED) {
+					if (myJDD.isTagAllowed(lo[0])) {
 						Log.addDEBUG("$name : $name : ${loc[0]} in myJDD.TAG_LIST_ALLOWED dans $loc")
 					}else {
 						Log.addDETAILFAIL("$name : LOCATOR inconnu : ${lo[0]} in '$loc'")

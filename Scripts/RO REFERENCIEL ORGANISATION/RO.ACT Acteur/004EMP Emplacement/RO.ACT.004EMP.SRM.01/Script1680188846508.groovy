@@ -23,7 +23,8 @@ for (String cdt in myJDD.CDTList) {
 	
 	TNRResult.addSTEPGRP('ONGLET ZONE')
 	
-		KW.scrollAndClick(myJDD,"tab_Zone")
+		//KW.scrollAndClick(myJDD,"tab_Zone")
+		KW.click(myJDD,"tab_Zone")
 		KW.waitForElementVisible(myJDD,"tab_ZoneSelected")
 
 		

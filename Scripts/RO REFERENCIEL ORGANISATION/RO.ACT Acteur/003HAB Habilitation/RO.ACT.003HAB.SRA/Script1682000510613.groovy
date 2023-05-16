@@ -24,10 +24,10 @@ for (String cdt in myJDD.CDTList) {
 	
 	TNRResult.addSTEPGRP("ONGLET HABILITATION")
 
-		KW.scrollAndClick(myJDD,"tab_Habilitation")
+		//KW.scrollAndClick(myJDD,"tab_Habilitation")
+		KW.click(myJDD,"tab_Habilitation")
 		KW.waitForElementVisible(myJDD,"tab_HabilitationSelected")
-
-
+		
 	
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -88,7 +88,7 @@ for (String cdt in myJDD.CDTList) {
 	TNRResult.addSTEPACTION('CONTROLE')
 
 		'Vérification des valeurs en BD'
-		my.SQL.checkJDDWithBD(myJDD)
+		my.SQL.checkJDDWithBD(myJDD)		
 		
 	TNRResult.addEndTestCase()
 } // fin du if

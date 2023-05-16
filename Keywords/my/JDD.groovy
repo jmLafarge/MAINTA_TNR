@@ -461,6 +461,12 @@ public class JDD {
 		
 		return datas
 	}
+	
+	def boolean isTagAllowed(String tag) {
+		
+		return !(tag in TAG_LIST_ALLOWED)
+	}
+			
 			
 
 } // end of class
