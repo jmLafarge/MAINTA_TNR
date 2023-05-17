@@ -21,9 +21,8 @@ for (String cdt in myJDD.CDTList) {
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData())
 
 	
-
 	TNRResult.addSTEPGRP("ONGLET FOURNISSEUR")
-		
+	
 		KW.scrollAndClick(myJDD,"tab_Fournisseur")
 		KW.waitForElementVisible(myJDD,"tab_FournisseurSelected")
 		
@@ -79,6 +78,8 @@ for (String cdt in myJDD.CDTList) {
 		
 		KW.scrollAndClick(myJDD,"tab_Notes")
 		KW.waitForElementVisible(myJDD,"tab_NotesSelected")
+	
+	
 		
 		WebUI.scrollToPosition(0, 0)
 		KW.delay(1)

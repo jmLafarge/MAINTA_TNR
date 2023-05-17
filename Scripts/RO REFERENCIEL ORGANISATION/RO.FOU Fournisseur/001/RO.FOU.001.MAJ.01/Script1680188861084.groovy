@@ -21,9 +21,8 @@ for (String cdt in myJDD.CDTList) {
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData())
 
 
-
 	TNRResult.addSTEPGRP("ONGLET FOURNISSEUR")
-
+	
 		KW.scrollAndClick(myJDD,"tab_Fournisseur")
 		KW.waitForElementVisible(myJDD,"tab_FournisseurSelected")
 		
@@ -35,7 +34,7 @@ for (String cdt in myJDD.CDTList) {
 		KW.scrollAndCheckIfNeeded(myJDD,"ST_INA","O")
 		KW.searchWithHelper(myJDD, "ST_CODCOM","","SEARCH_ID_CODCMP") //specific
 		//ST_DESST_CODCOM --> pas d'action en modification
-
+	
 		
 		TNRResult.addSTEPBLOCK("ADRESSE")
 		
@@ -101,14 +100,14 @@ for (String cdt in myJDD.CDTList) {
 		KW.scrollAndSetText(myJDD, "ST_TXTBAS5")
 		KW.scrollAndSetText(myJDD, "ST_TXTBAS6")
 		KW.scrollAndCheckIfNeeded(myJDD,"ST_FIGCDE","O")
-
+	
 	TNRResult.addSTEPGRP("ONGLET NOTES")
 	
-		def JDD_Note = new JDD(JDDFiles.getFullName('RO.FOU'),'001A',GlobalVariable.CASDETESTENCOURS)
-		
 		KW.scrollAndClick(myJDD,"tab_Notes")
 		KW.waitForElementVisible(myJDD,"tab_NotesSelected")
-	
+		
+		def JDD_Note = new JDD(JDDFiles.getFullName('RO.FOU'),'001A',GlobalVariable.CASDETESTENCOURS)
+		
 		WebUI.scrollToPosition(0, 0)
 		KW.delay(1)
 		
@@ -131,7 +130,6 @@ for (String cdt in myJDD.CDTList) {
 		}
 	
 	  		 
-
 		
 	TNRResult.addSTEPACTION('VALIDATION')
 	

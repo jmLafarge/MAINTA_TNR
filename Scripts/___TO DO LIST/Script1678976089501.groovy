@@ -80,7 +80,9 @@
  * 
 				
 	
-
+	Check champs de la base, 
+		vérifier que tous les champs de la BD soient dans le JDD/PREJDD
+		les ajouter automatiquement ?
 
 		  		
 		

@@ -464,7 +464,7 @@ public class JDD {
 	
 	def boolean isTagAllowed(String tag) {
 		
-		return !(tag in TAG_LIST_ALLOWED)
+		return tag in TAG_LIST_ALLOWED
 	}
 			
 			

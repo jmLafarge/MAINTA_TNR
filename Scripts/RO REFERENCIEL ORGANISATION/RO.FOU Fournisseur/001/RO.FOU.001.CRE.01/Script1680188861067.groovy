@@ -17,9 +17,9 @@ for (String cdt in myJDD.CDTList) {
     NAV.goToURL_Creation_and_checkCartridge()
 	
 
-
+	
 	TNRResult.addSTEPGRP("ONGLET FOURNISSEUR")
-		
+	
 		KW.scrollAndClick(myJDD,"tab_Fournisseur")
 		KW.waitForElementVisible(myJDD,"tab_FournisseurSelected")
 		
@@ -75,6 +75,7 @@ for (String cdt in myJDD.CDTList) {
 		
 		KW.scrollAndClick(myJDD,"tab_Notes")
 		KW.waitForElementVisible(myJDD,"tab_NotesSelected")
+
 
 				
 	TNRResult.addSTEPACTION('VALIDATION')

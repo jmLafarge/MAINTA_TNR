@@ -9,6 +9,7 @@ import my.NAV
 import my.result.TNRResult
 import my.JDD
 import my.SQL
+import my.Log
 
 'Lecture du JDD'
 def myJDD = new JDD()
@@ -55,6 +56,8 @@ for (String cdt in myJDD.CDTList) {
 	
 	        if (KW.waitAndVerifyElementText(myJDD,'ID_NUMREF')) {
 				myJDD.replaceSEQUENCIDInJDD('ID_NUMZONLIG')
+			}else {
+				TNRResult.addDETAIL("Impossible de remplacer SEQUENCEID par ID_NUMREF dans JDD")
 			}
 
 			
