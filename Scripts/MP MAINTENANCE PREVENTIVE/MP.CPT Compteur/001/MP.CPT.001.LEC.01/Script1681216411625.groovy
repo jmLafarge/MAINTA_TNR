@@ -54,10 +54,13 @@ for (String cdt in myJDD.CDTList) {
 		TNRResult.addSTEPBLOCK("COMPTEUR PRINCIPAL")
 		KW.verifyValue(myJDD,"ID_CODCOMPRI")
 		KW.verifyValue(myJDD,"ST_DESID_CODCOMPRI")
+		
 		TNRResult.addSTEPBLOCK("OPTION DE MISE A JOUR DES CODES COMPTEUR")
 		KW.verifyElementCheckedOrNot(myJDD,"ST_COMMAJEQU","O")
 		KW.verifyElementCheckedOrNot(myJDD,"ST_COMMAJMAT","O")
 		KW.verifyElementCheckedOrNot(myJDD,"ST_COMNOTMAJ","O")
+		KW.verifyValue(myJDD,"NU_DELPRC")
+		KW.verifyValue(myJDD,"NU_DELVAL")
 		
 		/* pas de test pour l'instant sur cette partie
 	TNRResult.addSTEPGRP("ONGLET EQUIPEMENT")

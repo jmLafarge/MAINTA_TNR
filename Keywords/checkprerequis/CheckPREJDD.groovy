@@ -8,7 +8,7 @@ import my.JDD
 import my.JDDFiles
 import my.Log
 import my.PREJDDFiles
-import my.XLS as MYXLS
+import my.XLS
 
 
 @CompileStatic
@@ -44,7 +44,7 @@ public class CheckPREJDD {
 
 			myJDD = new JDD(JDDFiles.JDDfilemap.getAt(modObj),null,null,false)
 
-			XSSFWorkbook book = MYXLS.open(fullName)
+			XSSFWorkbook book = my.XLS.open(fullName)
 
 			for(Sheet sheet: book) {
 
@@ -53,7 +53,7 @@ public class CheckPREJDD {
 
 					myJDD.loadTCSheet(myJDD.getBook().getSheet(sheet.getSheetName()))
 					
-					headersPREJDD = MYXLS.loadRow(sheet.getRow(0))
+					headersPREJDD = my.XLS.loadRow(sheet.getRow(0))
 
 					datas = my.PREJDD.loadDATA(sheet,headersPREJDD.size())
 

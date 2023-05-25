@@ -70,18 +70,18 @@ public class JDD {
 	 * @param casDeTest
 	 * @param step
 	 */
-	JDD(String JDDFullName = null, String TCTabName = null,String cdt = null,boolean step=true) {
+	JDD(String fullname = null, String tabName = null,String cdt = null,boolean step=true) {
 
-		Log.addDEBUG("JDD Construtor JDDFullName = '$JDDFullName'    TCTabName = '$TCTabName' Cas de test = '$cdt' step = $step")
+		Log.addDEBUG("JDD Construtor fullname = '$fullname'    tabName = '$tabName' Cas de test = '$cdt' step = $step")
 		Log.addDEBUG("GlobalVariable.CASDETESTPATTERN : "+GlobalVariable.CASDETESTPATTERN)
 
-		if(JDDFullName == null) {
+		if(fullname == null) {
 			def modObj = Tools.getMobObj(GlobalVariable.CASDETESTPATTERN.toString())
 			JDDFullName = JDDFiles.getJDDFullName(modObj)
 			TCTabName = GlobalVariable.CASDETESTPATTERN.toString().split('\\.')[2]
 		}else {
-			JDDFullName = JDDFullName
-			TCTabName = TCTabName
+			JDDFullName = fullname
+			TCTabName = tabName
 			casDeTest = cdt
 		}
 
@@ -306,6 +306,8 @@ public class JDD {
 					if (loc=='checkbox') {
 						xpathTO.put(name, "//input[@id='" + name +"']")
 						xpathTO.put('Lbl'+name, "//label[@id='Lbl$name']".toString())
+					}else if (loc=='input') {
+						xpathTO.put(name, "//$loc[@id='$name' and not(@type='hidden')]".toString())
 					}else {
 						// it's a standard xpath
 						xpathTO.put(name, "//$loc[@id='$name']".toString())
@@ -336,6 +338,9 @@ public class JDD {
 
 
 	def List <String> getParam(String param) {
+
+		Log.addDEBUG("getParam $param ",2)
+
 		List  ret = null
 		if (!(param in PARAM_LIST_ALLOWED)) {
 			Log.addERROR("getParam(param=$param) Ce paramètre n'est pas autorisé")
@@ -343,6 +348,7 @@ public class JDD {
 		for (List para : params) {
 			if (para[0] == param) {
 				ret = para
+				Log.addDEBUG("\tparam trouvé "+para.join(","),2)
 				break
 			}
 		}
@@ -352,6 +358,9 @@ public class JDD {
 
 
 	def String getParamForThisName(String param, String name) {
+
+		Log.addDEBUG("getParamForThisName $param $name",2)
+
 		String ret = ''
 		if (getParam(param) != null) {
 			if (headers.contains(name)) { /// verifier si dans headers
@@ -369,6 +378,8 @@ public class JDD {
 
 	def boolean isOBSOLETE(String name) {
 
+		Log.addDEBUG("isOBSOLETE $name",2)
+
 		String ret = getParamForThisName('PREREQUIS',name)
 
 		if (ret) return ret == 'OBSOLETE'
@@ -381,6 +392,8 @@ public class JDD {
 
 	def boolean isFK(String name) {
 
+		Log.addDEBUG("isFK $name",2)
+
 		return getParamForThisName('FOREIGNKEY', name)!=''
 	}
 
@@ -388,11 +401,13 @@ public class JDD {
 
 	def String getSqlForForeignKey(String name) {
 
+		Log.addDEBUG("getSqlForForeignKey $name",2)
+
 		def sql = getParamForThisName('FOREIGNKEY', name).toString().split(/\*/)
 
 		String query = "SELECT ${sql[0]} FROM ${sql[1]} WHERE ${sql[2]} = '" + getData(name) + "'"
 
-		Log.addDEBUG("getSqlForForeignKey = $query")
+		Log.addDEBUG("getSqlForForeignKey = $query" ,2)
 
 		return query
 
@@ -441,12 +456,12 @@ public class JDD {
 
 		return headers[i]
 	}
-	
+
 	def List <String> getHeaders() {
-		
+
 		return headers
 	}
-	
+
 	def String getXpathTO(String name) {
 
 		return xpathTO[name]
@@ -456,17 +471,17 @@ public class JDD {
 
 		return headers.size()
 	}
-	
+
 	def List <List> getDatas() {
-		
+
 		return datas
 	}
-	
+
 	def boolean isTagAllowed(String tag) {
-		
+
 		return tag in TAG_LIST_ALLOWED
 	}
-			
-			
+
+
 
 } // end of class

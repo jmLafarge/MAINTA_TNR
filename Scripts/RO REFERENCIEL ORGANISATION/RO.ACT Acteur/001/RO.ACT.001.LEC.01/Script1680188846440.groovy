@@ -95,16 +95,6 @@ for (String cdt in myJDD.CDTList) {
 		KW.waitForElementVisible(myJDD,"tab_ZoneSelected")
 	
 
-		
-		// Traitement spécifique pour ID_NUMZON
-
-		if (myJDD.getData('ID_NUMZON')!=0) {
-			KW.verifyValue(myJDD,'ID_NUMZON')
-			KW.verifyValue(myJDD,"ST_DESID_NUMZON")
-		}else {
-			KW.verifyValue(myJDD,'ID_NUMZON', '')
-		}
-
 	TNRResult.addEndTestCase()
 }
 

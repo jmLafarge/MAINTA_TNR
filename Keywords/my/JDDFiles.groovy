@@ -63,7 +63,7 @@ public class JDDFiles {
 
 
 
-	static getJDDFullName(String modObj) {
+	static String getJDDFullName(String modObj) {
 
 		return modObj ? JDDfilemap[modObj] : null
 	}

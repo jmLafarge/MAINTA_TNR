@@ -43,7 +43,7 @@ for (String cdt in myJDD.CDTList) {
 	
 	
 	TNRResult.addSTEPGRP("ONGLET AFFECTATION")
-	
+		
 		KW.scrollAndClick(myJDD,"tab_Affectation")
 		KW.waitForElementVisible(myJDD,"tab_AffectationSelected")
 	
@@ -96,15 +96,6 @@ for (String cdt in myJDD.CDTList) {
 		KW.scrollAndClick(myJDD,"tab_Zone")
 		KW.waitForElementVisible(myJDD,"tab_ZoneSelected")
 		
-		// Traitement spécifique pour ID_NUMZON
-		//ST_DESID_NUMZON --> pas d'action en création
-		
-		Map specificValueMap = [:]
-		if (myJDD.getData('ID_NUMZON')!=0) {
-			KW.scrollAndSetText(myJDD,'ID_NUMZON')
-		}else {
-			specificValueMap.put('ID_NUMZON', 0)
-		}
 	
 			
 	TNRResult.addSTEPACTION('VALIDATION')
@@ -113,7 +104,7 @@ for (String cdt in myJDD.CDTList) {
 	
 	    NAV.verifierEcranResultat(myJDD.getStrData())
 		
-		my.SQL.checkJDDWithBD(myJDD,specificValueMap)
+		my.SQL.checkJDDWithBD(myJDD)
 		
 		
 	TNRResult.addEndTestCase()

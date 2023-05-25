@@ -19,7 +19,7 @@ public class PREJDD {
 		Sheet sheet = book.getSheet(map.getAt('PREJDDTAB').toString())
 
 		List list = []
-		Log.addDEBUG("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "' (" + map.getAt('TAB') + ") dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()) + "' '"+ map.getAt('PREJDDID') + "'",0)
+		Log.addDEBUG("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "'  dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'",0)
 
 		getListOfCasDeTestAndIDValue(list,sheet, map.getAt('PREJDDID').toString())
 
@@ -35,7 +35,7 @@ public class PREJDD {
 			if (found) {
 				Log.addDEBUG(cdtVal.toString()+' trouvé')
 			}else {
-				Log.addINFO("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "' (" + map.getAt('TAB') + ") dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()) + "' '"+ map.getAt('PREJDDID') + "'")
+				Log.addINFO("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "'  dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'")
 				Log.addDETAILFAIL(cdtVal.toString()+' non trouvé')
 			}
 		}

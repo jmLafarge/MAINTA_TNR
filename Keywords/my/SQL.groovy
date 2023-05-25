@@ -166,17 +166,20 @@ public class SQL {
 
 	private static String checkValue(my.JDD myJDD, String fieldName, val,String verifStatus, Map specificValueMap, int casDeTestNum) {
 
-
+		Log.addDEBUG("checkValue : fieldName=$fieldName val=$val verifStatus=$verifStatus casDeTestNum=$casDeTestNum" )
+		
 		if (myJDD.isOBSOLETE(fieldName)) return verifStatus
-
 
 		boolean specificValue = !specificValueMap.isEmpty() && specificValueMap.containsKey(fieldName)
 
 
 		if (!specificValue && myJDD.getParamForThisName('FOREIGNKEY', fieldName)) {
-
-			if (!checkForeignKey(myJDD, fieldName, val)) verifStatus= 'FAIL'
-
+			
+			if (!JDDKW.isNU(myJDD.getData(fieldName))) {
+				if (!checkForeignKey(myJDD, fieldName, val)) verifStatus= 'FAIL'
+			}else {
+				Log.addDEBUG("$fieldName est NULL, pas de recherche de FK")
+			}
 
 		}else {
 
@@ -237,9 +240,15 @@ public class SQL {
 					break
 
 				default:
+				
+					Log.addDEBUG("checkValue case default")
 
 					if (specificValue) {
-						Log.addDEBUG("Pour '$fieldName' en BD :" + val.getClass() + ' la valeur spécifique est  : ' + specificValueMap[fieldName].getClass())
+					
+						String valClass = val ? val.getClass() : 'NULL'
+						Log.addDEBUG("Pour '$fieldName' la class de la valeur en BD est:$val,  la class de la valeur spécifique est  : " + specificValueMap[fieldName].getClass())
+						
+						
 						if ( val == InfoBDD.castJDDVal(myJDD.getDBTableName(), fieldName, specificValueMap[fieldName])) {
 							logAddDEBUG('spécifique',fieldName,specificValueMap[fieldName],val)
 						}else {
@@ -247,6 +256,8 @@ public class SQL {
 							verifStatus = 'FAIL'
 						}
 					}else {
+						
+						Log.addDEBUG("checkValue case default else")
 
 						if (InfoBDD.isImage(myJDD.getDBTableName(), fieldName)) {
 
@@ -262,6 +273,9 @@ public class SQL {
 							}
 						}
 
+						Log.addDEBUG("checkValue case default else 2")
+						
+						
 						if ( val == InfoBDD.castJDDVal(myJDD.getDBTableName(), fieldName, myJDD.getData(fieldName))) {
 							logAddDEBUG('',fieldName,myJDD.getData(fieldName),val)
 						}else {

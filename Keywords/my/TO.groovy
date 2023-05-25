@@ -23,7 +23,7 @@ public class TO {
 
 		Map  binding = [:]
 
-		Log.addDEBUG("makeTO( '$ID' ) with binding = )" + binding.toString())
+		Log.addDEBUG("TO.make( '$ID' ) with binding = )" + binding.toString())
 
 		TestObject to = new TestObject(ID)
 		to.setSelectorMethod(SelectorMethod.XPATH)

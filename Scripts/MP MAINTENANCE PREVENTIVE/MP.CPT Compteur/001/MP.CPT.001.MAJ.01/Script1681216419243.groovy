@@ -55,11 +55,14 @@ for (String cdt in myJDD.CDTList) {
 		TNRResult.addSTEPBLOCK("COMPTEUR PRINCIPAL")
 		KW.searchWithHelper(myJDD, "ID_CODCOMPRI","","SEARCH_ID_CODCOM")
 		//ST_DESID_CODCOMPRI --> pas d'action en modification
+		
 		TNRResult.addSTEPBLOCK("OPTION DE MISE A JOUR DES CODES COMPTEUR")
 		KW.scrollAndCheckIfNeeded(myJDD,"ST_COMMAJEQU","O")
 		KW.scrollAndCheckIfNeeded(myJDD,"ST_COMMAJMAT","O")
 		KW.scrollAndCheckIfNeeded(myJDD,"ST_COMNOTMAJ","O")
-	
+		KW.scrollAndSetText(myJDD,"NU_DELPRC")
+		KW.scrollAndSetText(myJDD,"NU_DELVAL")
+		
 		/* pas de test pour l'instant sur cette partie
 	TNRResult.addSTEPGRP("ONGLET EQUIPEMENT")
 	

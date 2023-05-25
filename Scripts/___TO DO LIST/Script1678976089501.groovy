@@ -8,8 +8,7 @@
  * 
  * 
 
-
-
+Rajout de CODARTAUTO dans RT.ART
 
 
 
@@ -64,6 +63,8 @@
  * EN COURS
  * -----------------------------------------------------------------------------------------------------
  *
+
+
  
  Ajouter les DES dans ART avec JDD Generator listRubriquesIHM
  
@@ -78,20 +79,13 @@
  * A FAIRE EN PRIORITE
  * -----------------------------------------------------------------------------------------------------
  * 
-				
-	
-	Check champs de la base, 
-		vérifier que tous les champs de la BD soient dans le JDD/PREJDD
-		les ajouter automatiquement ?
+
 
 		  		
 		
 	
 
 	DOC ORGANISATION DES JDD DE RÉFÉRENCE DANS LE CADRE DES TNR --> Stockage par version ? A préciser par JML
-
-
-
 
 
 

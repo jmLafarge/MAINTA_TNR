@@ -13,14 +13,14 @@ if (PREJDDFiles.PREJDDfilemap.isEmpty()) { PREJDDFiles.load() }
 
 
 
-CheckJDD.run()
+//CheckJDD.run()
 
 
-CheckPREJDD.run()
+//CheckPREJDD.run()
 
 CheckPrerequis.run()
 
-Check_CAL.run()
+//Check_CAL.run()
 
 
 

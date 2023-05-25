@@ -34,7 +34,7 @@ public class CheckJDD {
 			for(Sheet sheet: myJDD.book) {
 				if (myJDD.isSheetAvailable(sheet.getSheetName())) {
 
-					Log.addDEBUG("Onglet : " + sheet.getSheetName(),0)
+					Log.addINFO("Onglet : " + sheet.getSheetName(),0)
 					Log.addDEBUGDETAIL("Contrôle de la liste des paramètres",0)
 
 					myJDD.loadTCSheet(sheet)
