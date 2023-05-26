@@ -24,7 +24,8 @@ public class JDD {
 		'PREREQUIS',
 		'FOREIGNKEY',
 		'LOCATOR',
-		'SEQUENCE'
+		'SEQUENCE',
+		'INTERNALVALUE'
 	]
 	private final List TAG_LIST_ALLOWED			= [
 		'input',
@@ -361,11 +362,13 @@ public class JDD {
 
 		Log.addDEBUG("getParamForThisName $param $name",2)
 
+		List params = getParam(param)
+
 		String ret = ''
-		if (getParam(param) != null) {
+		if (params != null) {
 			if (headers.contains(name)) { /// verifier si dans headers
-				if (getParam(param)[headers.indexOf(name)] !='') {
-					ret = getParam(param)[headers.indexOf(name)]
+				if (params[headers.indexOf(name)] !='') {
+					ret = params[headers.indexOf(name)]
 				}
 			}else {
 				Log.addERROR("getParamForThisName(param=$param, name=$name) '$name' n'est pas une colonne du JDD")

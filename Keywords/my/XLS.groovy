@@ -186,7 +186,8 @@ public class XLS {
 				return cell.getColumnIndex()
 			}
 		}
-		return null
+		Log.addERROR("XLS.getColumnIndexOfColumnName() columnName=$columnName numRow=$numRow columnName non trouvé")
+		return -1
 	}
 
 

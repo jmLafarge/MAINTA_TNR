@@ -14,6 +14,10 @@ if (PREJDDFiles.PREJDDfilemap.isEmpty()) { PREJDDFiles.load() }
 Log.addSubTITLE('Création des PREJDD')
 
 
+//PREJDDFiles.insertPREJDDinDB('RT.EQU','001')
+
+
+
 // pour le proto
 PREJDDFiles.insertPREJDDinDB('RO.CAT','001')
 
@@ -60,10 +64,13 @@ PREJDDFiles.insertPREJDDinDB('RO.FOU','001')
 
 PREJDDFiles.insertPREJDDinDB('MP.CPT','001')
 
+PREJDDFiles.insertPREJDDinDB('RT.NOM','001') //ajout
 
 PREJDDFiles.insertPREJDDinDB('RT.ART','001')
 
 PREJDDFiles.insertPREJDDinDB('RT.ART','001A')
 PREJDDFiles.insertPREJDDinDB('RT.ART','001B')
 PREJDDFiles.insertPREJDDinDB('RT.ART','001C')
+
+
 

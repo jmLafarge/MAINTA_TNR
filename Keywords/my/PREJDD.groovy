@@ -18,10 +18,9 @@ public class PREJDD {
 
 		Sheet sheet = book.getSheet(map.getAt('PREJDDTAB').toString())
 
-		List list = []
 		Log.addDEBUG("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "'  dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'",0)
 
-		getListOfCasDeTestAndIDValue(list,sheet, map.getAt('PREJDDID').toString())
+		List list = getListOfCasDeTestAndIDValue(sheet, map.getAt('PREJDDID').toString())
 
 		int nbFound =0
 		map.getAt('LISTCDTVAL').each{ cdtVal ->
@@ -43,24 +42,30 @@ public class PREJDD {
 	}
 
 
-	private static List getListOfCasDeTestAndIDValue(List list, Sheet sheet, String ID) {
+	private static List getListOfCasDeTestAndIDValue(Sheet sheet, String ID) {
+		
+		List list = []
 
 		int idxID  = my.XLS.getColumnIndexOfColumnName(sheet, ID)
+		
+		if (idxID!=-1) {
 
-		for (int numLine : 1..sheet.getLastRowNum()) {
-
-			Row row = sheet.getRow(numLine)
-
-			// exit if lastRow of param
-			if (!row || my.XLS.getCellValue(row.getCell(0))=='') {
-				break
+			for (int numLine : 1..sheet.getLastRowNum()) {
+	
+				Row row = sheet.getRow(numLine)
+	
+				// exit if lastRow of param
+				if (!row || my.XLS.getCellValue(row.getCell(0))=='') {
+					break
+				}
+	
+				String casDeTest = my.XLS.getCellValue(row.getCell(0))
+				String IDvalue = my.XLS.getCellValue(row.getCell(idxID))
+	
+				list.add("'" + casDeTest + "' - '" + IDvalue + "'")
 			}
-
-			String casDeTest = my.XLS.getCellValue(row.getCell(0))
-			String IDvalue = my.XLS.getCellValue(row.getCell(idxID))
-
-			list.add("'" + casDeTest + "' - '" + IDvalue + "'")
 		}
+		return list
 	}
 
 

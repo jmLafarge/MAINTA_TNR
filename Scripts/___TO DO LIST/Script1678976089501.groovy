@@ -10,6 +10,20 @@
 
 Rajout de CODARTAUTO dans RT.ART
 
+Ajout prise en compte de la FK dans CREATE PREJDD IN DB
+
+Ajout de INTERNALVALUE dans PARAM_LIST_ALLOWED
+	Pour permettre de déterminer un identifiant ineterne à des valeurs, par exemple pour un select ou des PREREQUIS BDD (ex Groupe)
+	La valeur du paramètre est le nom de l'ensemble ( valeur - identifiant)
+	L'ensemble des couple  ( valeur - identifiant) est défini dans TNR.Properties sou la forme IV_NomDeLENSEMBLE_VALEUR = identifiantValeur
+	
+	--> mettre à jour infoPARA
+	--> mettre à jour JDD GENERATOR
+	--> mettre à jour PREJDDFiles  --> fait
+	--> mettre à jour SQL  --> fait
+	
+	--> vérifier que INTERNALVALUE soit pris en compte dans les PREJDD
+	
 
 
  * 
@@ -202,6 +216,20 @@ Rajout de CODARTAUTO dans RT.ART
   			-> manque le nom de la fonction
 	  
 
+
+* 
+ * -----------------------------------------------------------------------------------------------------
+ * IDEE : TESTER les valeurs max des varchar
+ * -----------------------------------------------------------------------------------------------------
+ * 
+
+	Ajouter une colonne dans TNR Seque,cer pour dire de tester tous les varchar au max
+	Ajouter automatiquement des car à tous les champs du JDD
+		Peut etre choisir dans la colonne sequencer les car ou type de car à ajouter (ou  dans proprietes ou dans Profiles...)
+		
+	
+	TEST des CAR SPE ? : Si on veut tester des car spé, quid des chmaps qui sont déjà au max 
+	
 
 	    
  * 

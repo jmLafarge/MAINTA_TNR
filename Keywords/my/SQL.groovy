@@ -171,6 +171,8 @@ public class SQL {
 		if (myJDD.isOBSOLETE(fieldName)) return verifStatus
 
 		boolean specificValue = !specificValueMap.isEmpty() && specificValueMap.containsKey(fieldName)
+		
+		String IV = myJDD.getParamForThisName('INTERNALVALUE', fieldName)
 
 
 		if (!specificValue && myJDD.getParamForThisName('FOREIGNKEY', fieldName)) {
@@ -181,6 +183,17 @@ public class SQL {
 				Log.addDEBUG("$fieldName est NULL, pas de recherche de FK")
 			}
 
+		}else if (!specificValue && IV){
+			
+			String internalVal = my.PropertiesReader.getMyProperty('IV_' + IV + '_' + val.toString())
+			
+			if (internalVal==val) {
+				Log.addDEBUG("Contrôle de la valeur INTERNAL de '$fieldName' pour '$val' OK : la valeur attendue est '" + myJDD.getData(fieldName) + "' et la valeur en BD est  : '$internalVal'" )
+			}else {
+				TNRResult.addDETAIL("Contrôle de la valeur INTERNAL de '$fieldName' pour '$val' KO : la valeur attendue est '" + myJDD.getData(fieldName) + "' et la valeur en BD est  : '$internalVal'")
+				verifStatus = 'FAIL'
+			}
+			
 		}else {
 
 			switch (myJDD.getData(fieldName)) {

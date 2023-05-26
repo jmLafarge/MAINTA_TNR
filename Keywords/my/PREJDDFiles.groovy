@@ -8,7 +8,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import groovy.io.FileType
 import groovy.transform.CompileStatic
 import my.SQL
-import my.result.TNRResult
 
 @CompileStatic
 public class PREJDDFiles {
@@ -46,7 +45,7 @@ public class PREJDDFiles {
 		Log.addDEBUG("insertPREJDDinDB() modObj = '$modObj' tabName = '$tabName'")
 		def myJDD = new my.JDD(JDDFiles.JDDfilemap.getAt(modObj),tabName)
 
-		TNRResult.addSTEP("Lecture du PREJDD : '" + PREJDDfilemap.getAt(modObj)+ " ($tabName)")
+		Log.addINFO("Lecture du PREJDD : '" + PREJDDfilemap.getAt(modObj)+ " ($tabName)")
 		XSSFWorkbook book = my.XLS.open(PREJDDfilemap.getAt(modObj))
 		// set tab (sheet)
 		Sheet sheet = book.getSheet(tabName)
@@ -61,7 +60,8 @@ public class PREJDDFiles {
 		for (int numline : (1..sheet.getLastRowNum())) {
 			Row row = sheet.getRow(numline)
 			// exit if lastRow
-			if (!row || my.XLS.getCellValue(row.getCell(0))=='') {
+			String cdt = my.XLS.getCellValue(row.getCell(0))
+			if (!row || cdt =='') {
 				break
 			}
 			List fields =[]
@@ -96,10 +96,57 @@ public class PREJDDFiles {
 								sequence.put(seqTable, seq)
 							}
 						}else {
-							TNRResult.addDETAIL("Détection d'une sequence sur $fieldName, table $seqTable")
+							Log.addDEBUG("Détection d'une sequence sur $fieldName, table $seqTable")
 							sequence.put(seqTable, seq)
 						}
 					}
+					
+					
+					
+					// cas d'un champ lié à une FOREIGNKEY
+					String FK = myJDD.getParamForThisName('FOREIGNKEY',fieldName)
+					
+					if (FK) {
+						
+						Log.addDEBUG("Détection d'une FK sur $fieldName, FK= $FK")
+						
+						String PR = myJDD.getParamForThisName('PREREQUIS',fieldName)
+						
+						if (PR) {
+							
+							Log.addDEBUG("PR=$PR")
+							
+							value =getValueFromFK(PR,FK,cdt,value.toString())
+
+						}else {
+							Log.addERROR("Pas de PREREQUIS pour '$fieldName' : lecture de la FK=$FK impossible")
+						}
+					}
+					
+					
+					
+					// cas d'un champ lié à une INTERNALVALUE
+					String IV = myJDD.getParamForThisName('INTERNALVALUE',fieldName)
+					
+					if (IV) {
+						
+						if (value) {
+						
+							String internalVal = my.PropertiesReader.getMyProperty('IV_' + IV + '_' + value)
+							
+							Log.addDEBUG("Détection d'une IV sur $fieldName, IV= $IV value=$value internal value =$internalVal")
+							
+							value = internalVal
+						}else {
+							Log.addERROR("Détection d'une INTERNALVALUE sur $fieldName, IV= $IV, la valeur est null ou vide.ARRET DU PROGRAMME")
+							System.exit(0)
+						}
+					}
+					
+					
+					
+					
+
 
 					switch (value) {
 
@@ -161,13 +208,48 @@ public class PREJDDFiles {
 		if (sequence.size()>0) {
 			sequence.each { table, val ->
 				String req = "DBCC CHECKIDENT ($table, RESEED,$val);"
-				TNRResult.addDETAIL(req)
+				Log.addINFO(req)
 				SQL.executeSQL(req)
 				//fileSQL.append("$req\n")
 			}
 		}
 	}
 
+
+	static String getValueFromFK(String PR,String FK, String cdt,String valeur) {
+		
+		def pr = PR.split(/\*/)
+		def fk = FK.split(/\*/)
+		
+		String modObj = pr[0]
+		String tabName = pr[1]
+		String id=fk[0]
+		String field=fk[2]
+		
+		Log.addDEBUG("Lecture du PREJDD pour la FK : '" + PREJDDfilemap.getAt(modObj)+ " ($tabName)")
+		XSSFWorkbook book = my.XLS.open(PREJDDfilemap.getAt(modObj))
+
+		Sheet sheet = book.getSheet(tabName)
+		List <String> headersPREJDD = my.XLS.loadRow(sheet.getRow(0))
+		List <List> datas = my.PREJDD.loadDATA(sheet,headersPREJDD.size())
+		
+		int fieldIndex =XLS.getColumnIndexOfColumnName(sheet, field)
+		int idIndex =XLS.getColumnIndexOfColumnName(sheet, id)
+		
+		Log.addDEBUG("Pour le champ '$field' l'index = '$fieldIndex' la valeur est '$valeur'")
+		Log.addDEBUG("Pour le champ '$id' l'index = '$idIndex' la cdt est '$cdt'")
+		
+		try {  
+			String val = datas.find { it[0] == cdt && it[fieldIndex] == valeur }[idIndex]
+			Log.addDEBUG("La valeur de l'ID trouvé est $val")
+			return val
+		} catch (NullPointerException e) {
+		  Log.addERROR("La valeur recherchée n'a pas été trouvée.ARRET DU PROGRAMME")
+		  System.exit(0)
+		}
+		
+		
+	}
 
 
 
@@ -183,16 +265,16 @@ public class PREJDDFiles {
 
 				String query = "INSERT INTO $table (" + fields.join(',') +") VALUES (" + li.join(',') + ")"
 
-				TNRResult.addDETAIL(query)
-				TNRResult.addDETAIL(values.join(','))
+				Log.addINFO(query)
+				Log.addINFO(values.join(','))
 
-				SQL.executeInsert(query,values)
+				//SQL.executeInsert(query,values)
 
 			}else if (result.nbr == 1){
 				Log.addDEBUG("La valeur $PKwhere existe déjà")
 			}else {
 				Log.addERROR("Plusieurs valeurs trouvées pour :")
-				TNRResult.addDETAIL("SELECT count(*) FROM $table WHERE $PKwhere")
+				Log.addINFO("SELECT count(*) FROM $table WHERE $PKwhere")
 			}
 		}
 	}
