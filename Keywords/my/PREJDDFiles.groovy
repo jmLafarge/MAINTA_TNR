@@ -132,9 +132,11 @@ public class PREJDDFiles {
 						
 						if (value) {
 						
+							Log.addDEBUG("Détection d'une IV sur $fieldName, IV= $IV value=$value :")
+							
 							String internalVal = my.PropertiesReader.getMyProperty('IV_' + IV + '_' + value)
 							
-							Log.addDEBUG("Détection d'une IV sur $fieldName, IV= $IV value=$value internal value =$internalVal")
+							Log.addDEBUG("/t- internal value =$internalVal")
 							
 							value = internalVal
 						}else {
@@ -237,7 +239,7 @@ public class PREJDDFiles {
 		int idIndex =XLS.getColumnIndexOfColumnName(sheet, id)
 		
 		Log.addDEBUG("Pour le champ '$field' l'index = '$fieldIndex' la valeur est '$valeur'")
-		Log.addDEBUG("Pour le champ '$id' l'index = '$idIndex' la cdt est '$cdt'")
+		Log.addDEBUG("Pour le champ '$id' l'index = '$idIndex' le cdt est '$cdt'")
 		
 		try {  
 			String val = datas.find { it[0] == cdt && it[fieldIndex] == valeur }[idIndex]

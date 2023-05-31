@@ -4,6 +4,8 @@ import groovy.transform.CompileStatic
 import my.InfoBDD
 import my.JDD
 import my.Log
+import internal.GlobalVariable
+
 
 @CompileStatic
 public class CheckTypeInDATA {
@@ -23,28 +25,44 @@ public class CheckTypeInDATA {
 
 					String cdtName = li[0]
 
+					// Permet de supprimer le test des DATA
+					if (val.toString().toUpperCase().contains('ATTENTE') && val.toString().toUpperCase().contains('MOE') && !GlobalVariable.CHECKALLDATAS) {
+						ctrlVal = false
+						Log.addDEBUG("Détection de ATTENTE MOE sur $name '$val'")
+					}
+					//--------------------------------------------------------
+
 					if (myJDD.isOBSOLETE(name) || val.toString()=='$NU') ctrlVal = false
 
 					if (isCasDeTestSUPorREC(cdtName) && !PKlist.contains(name)  && val.toString()=='') ctrlVal = false
-					
+
 					if ( ctrlVal) {
 						// cas d'un champ lié à une INTERNALVALUE
 						String IV = myJDD.getParamForThisName('INTERNALVALUE',name)
-						
+
 						if (IV) {
-							
-							if (val) {
-							
+
+							if (val && val !='$NULL') {
+
+								Log.addDEBUG("Détection d'une IV sur $name, IV= $IV value=$val ")
+
 								String internalVal = my.PropertiesReader.getMyProperty('IV_' + IV + '_' + val)
-								
-								Log.addDEBUG("Détection d'une IV sur $name, IV= $IV value=$val internal value =$internalVal")
-								
-								val = internalVal
+
+								Log.addDEBUG("/t- internal value =$internalVal")
+
+								if (internalVal) {
+									val = internalVal
+								}else {
+									Log.addDETAILFAIL(cdtName + "($table.$name) : La valeur '$val' n'est pas autorisé pour une internal value de type '$IV'")
+									ctrlVal=false
+								}
+
+
 							}else {
-								Log.addDETAILFAIL("Détection d'une INTERNALVALUE sur $name, IV= $IV la valeur est vide ou null")
+								Log.addDEBUG("Détection d'une INTERNALVALUE sur $name, IV= $IV la valeur est vide ou null")
 								ctrlVal=false
 							}
-							
+
 						}
 					}
 

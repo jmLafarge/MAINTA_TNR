@@ -25,6 +25,10 @@ Ajout de INTERNALVALUE dans PARAM_LIST_ALLOWED
 	--> vérifier que INTERNALVALUE soit pris en compte dans les PREJDD
 	
 
+PROBLEME:
+
+	PREJDD.RO.DEV on a créé des devises mai son utilise aussi EUR (dans PREJDD.RO.FOU) qui est une devise existantes 
+		du coiup c'est une FK et une IV
 
  * 
  * -----------------------------------------------------------------------------------------------------
@@ -77,6 +81,11 @@ Ajout de INTERNALVALUE dans PARAM_LIST_ALLOWED
  * EN COURS
  * -----------------------------------------------------------------------------------------------------
  *
+
+
+Ajouter un check PREREQUIS spécifique pour RO.ORG en fonction de la valeur de NU_TYP et ST_AFF
+	- car cela conditionne les créations de SOCIETE SER INTER et UTI
+
 
 
  

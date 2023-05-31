@@ -10,6 +10,9 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 public class PREJDD {
+	
+	static String savJDDNAME=''
+	static String savTxt=''
 
 
 	static checkPREJDD(Map map){
@@ -23,21 +26,37 @@ public class PREJDD {
 		List list = getListOfCasDeTestAndIDValue(sheet, map.getAt('PREJDDID').toString())
 
 		int nbFound =0
+		
 		map.getAt('LISTCDTVAL').each{ cdtVal ->
+			
 			boolean found = false
+			
 			list.each{ cdtValPre ->
 				if (cdtVal == cdtValPre) {
 					found =true
 					nbFound++
 				}
 			}
+			
 			if (found) {
 				Log.addDEBUG(cdtVal.toString()+' trouvé')
 			}else {
-				Log.addINFO("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "'  dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'")
+				if (savJDDNAME != map.getAt('JDDNAME').toString()) {
+					Log.addINFO('')
+					Log.addINFO(map.getAt('JDDNAME').toString())
+					savJDDNAME = map.getAt('JDDNAME').toString()
+				}
+				String txt="Controle de '" + map.getAt('JDDID') + "' dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'"
+				if (savTxt != txt) {
+					Log.addINFO('')
+					Log.addINFO("\t\t$txt")
+					savTxt = txt
+				}
+				//Log.addINFO("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "'  dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'")
 				Log.addDETAILFAIL(cdtVal.toString()+' non trouvé')
 			}
 		}
+			
 		Log.addDEBUGDETAIL(nbFound + "/" +map.getAt('LISTCDTVAL').toString().size() + ' trouvé(s)',0)
 	}
 

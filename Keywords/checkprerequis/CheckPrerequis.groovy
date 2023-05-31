@@ -37,7 +37,7 @@ public class CheckPrerequis {
 
 
 
-		Log.addSubTITLE('Contrôle des PREREQUIS dans les PREJDD')
+		Log.addSubTITLE('Contrôle des PREREQUIS des JDD')
 		TNRResult.addSUBSTEP("Détails en cas d'erreur")
 		TNRResult.addDETAIL('    CAS DE TEST      -     VALEUR')
 		Log.addINFO('')
@@ -68,7 +68,7 @@ public class CheckPrerequis {
 		}
 		
 		
-		Log.addSubTITLE('Contrôle des PREREQUIS dans les PREJDD')
+		Log.addSubTITLE('Contrôle des PREREQUIS des PREJDD')
 		TNRResult.addSUBSTEP("Détails en cas d'erreur")
 		TNRResult.addDETAIL('    CAS DE TEST      -     VALEUR')
 		Log.addINFO('')
@@ -173,7 +173,7 @@ public class CheckPrerequis {
 		List PKlist=InfoBDD.getPK(myJDD.getDBTableName())
 		List list =[]
 		datas.each{
-			if (it[index]!=null && it[index]!='' && !JDDKW.isNU(it[index]) && !JDDKW.isNULL(it[index]) ) {
+			if (it[index]!=null && it[index]!='' && !JDDKW.isNU(it[index]) && !JDDKW.isNULL(it[index]) && !JDDKW.isVIDE(it[index]) ) {
 				if (it[0].toString().contains('.CRE.') && PKlist.contains(myJDD.getHeader(index))) {
 					Log.addDEBUG("skip : " + "'" + it[0] + "' - '" + it[index] + "'")
 				}else {
