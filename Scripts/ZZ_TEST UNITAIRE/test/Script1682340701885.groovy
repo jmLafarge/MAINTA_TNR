@@ -1,11 +1,21 @@
 
 
-import my.SQL
+def chaine = "'toto.titi.tata' - 'EUR'"
+def valeurs = chaine.split("'")
+
+println valeurs.size()
+
+println valeurs
+
+println valeurs[3]
 
 
-def requete = "INSERT INTO CMP (ID_CODCMP, ST_DES,ID_CODUTI) VALUES (?,?,?)"
 
-List list = ['JM05', "C'est toto",'NULL']
-def resultat = SQL.sqlInstance.executeInsert(requete, list)
+if (valeurs.size() >= 3) {
+    def deuxiemeValeur = valeurs[1]
+    println deuxiemeValeur
+} else {
+    println "Aucune correspondance trouvée."
+}
 
 

@@ -1,10 +1,12 @@
 package my
 
-
+import my.JDD
+import my.SQL
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
+import groovy.sql.Sql
 import groovy.transform.CompileStatic
 
 
@@ -37,23 +39,42 @@ public class PREJDD {
 					nbFound++
 				}
 			}
-			
+					
 			if (found) {
 				Log.addDEBUG(cdtVal.toString()+' trouvé')
 			}else {
+				
 				if (savJDDNAME != map.getAt('JDDNAME').toString()) {
 					Log.addINFO('')
 					Log.addINFO(map.getAt('JDDNAME').toString())
 					savJDDNAME = map.getAt('JDDNAME').toString()
 				}
-				String txt="Controle de '" + map.getAt('JDDID') + "' dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'"
-				if (savTxt != txt) {
-					Log.addINFO('')
-					Log.addINFO("\t\t$txt")
-					savTxt = txt
+				
+				// vérifier si la valeur n'est  pas déjà en BDD
+				String val = cdtVal.toString().split("'")[3]
+				String JDDFullName= JDDFiles.getJDDFullName(map.getAt('PREJDDMODOBJ').toString())
+				my.JDD myJDD = new JDD(JDDFullName,'001',null,false)
+
+				int cpt = SQL.checkIfExist(myJDD.getDBTableName(), map.getAt('JDDID').toString()+"='$val'")
+				
+				if (cpt==1) {
+					Log.addDEBUG(cdtVal.toString()+' trouvé en BDD')
+				}else {
+				
+					if (savJDDNAME != map.getAt('JDDNAME').toString()) {
+						Log.addINFO('')
+						Log.addINFO(map.getAt('JDDNAME').toString())
+						savJDDNAME = map.getAt('JDDNAME').toString()
+					}
+					String txt="Controle de '" + map.getAt('JDDID') + "' dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'"
+					if (savTxt != txt) {
+						Log.addINFO('')
+						Log.addINFO("\t\t$txt")
+						savTxt = txt
+					}
+					//Log.addINFO("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "'  dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'")
+					Log.addDETAILFAIL(cdtVal.toString()+' non trouvé !')
 				}
-				//Log.addINFO("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "'  dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'")
-				Log.addDETAILFAIL(cdtVal.toString()+' non trouvé')
 			}
 		}
 			
@@ -104,6 +125,10 @@ public class PREJDD {
 		Log.addDEBUG('PREJDD data size = ' + datas.size() )
 		return datas
 	}
+	
+	
+
+			
 
 
 }// en dof class

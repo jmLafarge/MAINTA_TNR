@@ -53,6 +53,7 @@ public class SQL {
 
 	static Map getFirstRow(String query) {
 		try {
+			Log.addDEBUG("getFirstRow($query)")
 			return sqlInstance.firstRow(query)
 		} catch(Exception ex) {
 			Log.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
@@ -61,6 +62,19 @@ public class SQL {
 			return null
 		}
 	}
+
+
+	static int checkIfExist(String table, String where) {
+
+		String sql = "SELECT count(*) as nbr FROM $table WHERE $where"
+		Map result = SQL.getFirstRow("$sql")
+		if(result) {
+			return result.nbr as int
+		}else {
+			return 0
+		}
+	}
+
 
 
 
@@ -167,16 +181,16 @@ public class SQL {
 	private static String checkValue(my.JDD myJDD, String fieldName, val,String verifStatus, Map specificValueMap, int casDeTestNum) {
 
 		Log.addDEBUG("checkValue : fieldName=$fieldName val=$val verifStatus=$verifStatus casDeTestNum=$casDeTestNum" )
-		
+
 		if (myJDD.isOBSOLETE(fieldName)) return verifStatus
 
 		boolean specificValue = !specificValueMap.isEmpty() && specificValueMap.containsKey(fieldName)
-		
+
 		String IV = myJDD.getParamForThisName('INTERNALVALUE', fieldName)
 
 
 		if (!specificValue && myJDD.getParamForThisName('FOREIGNKEY', fieldName)) {
-			
+
 			if (!JDDKW.isNU(myJDD.getData(fieldName))) {
 				if (!checkForeignKey(myJDD, fieldName, val)) verifStatus= 'FAIL'
 			}else {
@@ -184,16 +198,16 @@ public class SQL {
 			}
 
 		}else if (!specificValue && IV){
-			
+
 			String internalVal = my.PropertiesReader.getMyProperty('IV_' + IV + '_' + val.toString())
-			
+
 			if (internalVal==val) {
 				Log.addDEBUG("Contrôle de la valeur INTERNAL de '$fieldName' pour '$val' OK : la valeur attendue est '" + myJDD.getData(fieldName) + "' et la valeur en BD est  : '$internalVal'" )
 			}else {
 				TNRResult.addDETAIL("Contrôle de la valeur INTERNAL de '$fieldName' pour '$val' KO : la valeur attendue est '" + myJDD.getData(fieldName) + "' et la valeur en BD est  : '$internalVal'")
 				verifStatus = 'FAIL'
 			}
-			
+
 		}else {
 
 			switch (myJDD.getData(fieldName)) {
@@ -253,15 +267,15 @@ public class SQL {
 					break
 
 				default:
-				
+
 					Log.addDEBUG("checkValue case default")
 
 					if (specificValue) {
-					
+
 						String valClass = val ? val.getClass() : 'NULL'
 						Log.addDEBUG("Pour '$fieldName' la class de la valeur en BD est:$val,  la class de la valeur spécifique est  : " + specificValueMap[fieldName].getClass())
-						
-						
+
+
 						if ( val == InfoBDD.castJDDVal(myJDD.getDBTableName(), fieldName, specificValueMap[fieldName])) {
 							logAddDEBUG('spécifique',fieldName,specificValueMap[fieldName],val)
 						}else {
@@ -269,7 +283,7 @@ public class SQL {
 							verifStatus = 'FAIL'
 						}
 					}else {
-						
+
 						Log.addDEBUG("checkValue case default else")
 
 						if (InfoBDD.isImage(myJDD.getDBTableName(), fieldName)) {
@@ -287,8 +301,8 @@ public class SQL {
 						}
 
 						Log.addDEBUG("checkValue case default else 2")
-						
-						
+
+
 						if ( val == InfoBDD.castJDDVal(myJDD.getDBTableName(), fieldName, myJDD.getData(fieldName))) {
 							logAddDEBUG('',fieldName,myJDD.getData(fieldName),val)
 						}else {
@@ -335,10 +349,6 @@ public class SQL {
 			TNRResult.addDETAIL(ex.getMessage())
 		}
 	}
-
-
-
-
 
 
 	private static boolean checkForeignKey(JDD myJDD, String fieldName, def val) {
@@ -467,9 +477,9 @@ public class SQL {
 
 		try {
 			def res = sqlInstance.firstRow(req).num
-			
+
 			int num = (res) ? (Integer)res : 0
-			
+
 			TNRResult.addDETAIL("get Max '$fieldName From Table '$tableName' = $num")
 			return num
 		} catch(Exception ex) {

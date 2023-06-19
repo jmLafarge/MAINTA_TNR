@@ -45,7 +45,7 @@ public class PREJDDFiles {
 		Log.addDEBUG("insertPREJDDinDB() modObj = '$modObj' tabName = '$tabName'")
 		def myJDD = new my.JDD(JDDFiles.JDDfilemap.getAt(modObj),tabName)
 
-		Log.addINFO("Lecture du PREJDD : '" + PREJDDfilemap.getAt(modObj)+ " ($tabName)")
+		Log.addSubTITLE("Lecture du PREJDD : '" + PREJDDfilemap.getAt(modObj)+ " ($tabName)")
 		XSSFWorkbook book = my.XLS.open(PREJDDfilemap.getAt(modObj))
 		// set tab (sheet)
 		Sheet sheet = book.getSheet(tabName)
@@ -61,6 +61,8 @@ public class PREJDDFiles {
 			Row row = sheet.getRow(numline)
 			// exit if lastRow
 			String cdt = my.XLS.getCellValue(row.getCell(0))
+			Log.addINFO("")
+			Log.addINFO("Traitement $cdt")
 			if (!row || cdt =='') {
 				break
 			}
@@ -78,6 +80,7 @@ public class PREJDDFiles {
 
 				def value = my.XLS.getCellValue(c)
 				Log.addDEBUG("\t\tCell value = '$value' getClass()=" + value.getClass(),2)
+				
 				if (c.getColumnIndex()>0) {
 					Log.addDEBUG("\t\tAjout fieldName='$fieldName' value='$value' in req SQL",2)
 
@@ -105,21 +108,26 @@ public class PREJDDFiles {
 					
 					// cas d'un champ lié à une FOREIGNKEY
 					String FK = myJDD.getParamForThisName('FOREIGNKEY',fieldName)
-					
 					if (FK) {
 						
 						Log.addDEBUG("Détection d'une FK sur $fieldName, FK= $FK")
 						
-						String PR = myJDD.getParamForThisName('PREREQUIS',fieldName)
-						
-						if (PR) {
-							
-							Log.addDEBUG("PR=$PR")
-							
-							value =getValueFromFK(PR,FK,cdt,value.toString())
+						if (!my.JDDKW.isNULL(value.toString()) && !my.JDDKW.isVIDE(value.toString())){
 
+							String PR = myJDD.getParamForThisName('PREREQUIS',fieldName)
+							
+							if (PR) {
+								
+								Log.addDEBUG("PR=$PR")
+								
+								value =getValueFromFK(PR,FK,cdt,value.toString())
+	
+							}else {
+								Log.addERROR("Pas de PREREQUIS pour '$fieldName' : lecture de la FK=$FK impossible")
+							}
+							
 						}else {
-							Log.addERROR("Pas de PREREQUIS pour '$fieldName' : lecture de la FK=$FK impossible")
+							Log.addDEBUG(" - Pas de lecture de FK, la valeur est : "+value.toString())
 						}
 					}
 					
@@ -188,6 +196,7 @@ public class PREJDDFiles {
 							}
 							break
 					}
+					
 
 					if (InfoBDD.isImage(myJDD.getDBTableName(), fieldName)) {
 						values.add(getRTFTEXT(value.toString()).getBytes())
