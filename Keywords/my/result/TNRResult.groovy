@@ -28,8 +28,10 @@ public class TNRResult {
 
 
 	public static addDETAIL (String msg) {
-		Log.addINFO(PREDETAILTXT+ msg)
-		addStepInResult(msg,'DETAIL')
+		if (testCaseStarted) {
+			Log.addINFO(PREDETAILTXT+ msg)
+			addStepInResult(msg,'DETAIL')
+		}
 	}
 
 

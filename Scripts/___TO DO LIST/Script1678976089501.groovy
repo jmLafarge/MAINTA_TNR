@@ -8,14 +8,8 @@
  * 
  * 
 
- PREJDDFiles.insertPREJDDinDB
- 
- 	Prises en compte de la valeur $NULL et $VIDE pour une valeur de FK --> pas de recherche de la FK
 
 
-PREJDD.checkPREJDD
-
-	Quand une valeur n'est pas trouvé dans les PREJDD, vérifier si elle n'est  pas déjà en BDD
 
 
  * 
@@ -23,6 +17,12 @@ PREJDD.checkPREJDD
  * NOTE
  * -----------------------------------------------------------------------------------------------------
  * 
+	
+	
+	NE PAS OUBLIER DE CHANGER LE BD OWNER APRES UNE RESTAURATION
+	
+	
+	
 	PROJET SETTING 
 	
 		SMART WAIT disabled permet de supprimer le popup chrome, l'ajout de waitForPageLoad() et de delay à solutionner le probléme
@@ -63,6 +63,12 @@ PREJDD.checkPREJDD
 			même si la compilation statique est activée pour la classe parente.
 		
 		
+	ST_TYPART
+ 	
+ 		La valeur stockée en base est le texte (traduit) pas la valeur interne définit dans les paramètres fonctionnels
+ 		--> je laisse comme ça pour générer l'erreur
+		
+		
 		
  *
  * -----------------------------------------------------------------------------------------------------
@@ -70,6 +76,8 @@ PREJDD.checkPREJDD
  * -----------------------------------------------------------------------------------------------------
  *
  *
+ 
+ 
 
 Ajout de INTERNALVALUE dans PARAM_LIST_ALLOWED
 	Pour permettre de déterminer un identifiant ineterne à des valeurs, par exemple pour un select ou des PREREQUIS BDD (ex Groupe)
@@ -83,27 +91,12 @@ Ajout de INTERNALVALUE dans PARAM_LIST_ALLOWED
 	
 	--> vérifier que INTERNALVALUE soit pris en compte dans les PREJDD
 
-	PROBLEME:
 
-	PREJDD.RO.DEV on a créé des devises mai son utilise aussi EUR (dans PREJDD.RO.FOU) qui est une devise existantes 
-		du coiup c'est une FK et une IV
-		
-
-ERROR : Cas de l'utilisation du même objet pour différents cas de tests
-
-	Provoque une erreur dans le check PREREQUIS
-	Provoque une erreur dans CREATE PREREQUIS, dans la recherche de la FK -->  PREJDDFiles.getValueFromFK
-
-
-Ajouter un check PREREQUIS spécifique pour RO.ORG en fonction de la valeur de NU_TYP et ST_AFF
-	- car cela conditionne les créations de SOCIETE SER INTER et UTI
 
 
 Ajouter les DES dans ART avec JDD Generator listRubriquesIHM
- 
-ST_TYPART
- 	modifier verifyOptionSelectedByValue pour prendre en compte un Map avec les valeurs/valeurs interne OU ajouter dans foreing key
- 
+
+
  
 
  
@@ -149,6 +142,7 @@ ST_TYPART
 	JDD
 		créer une class pour parametre
 		
+		
 	SQL
 		Traitement les valeurs des $DATESYS et $DATETIME --> voir pour ajouter un ctrl que la valeur soit autour de la datetime du moment voir Tools.getDurationFromNow
 
@@ -174,6 +168,9 @@ ST_TYPART
 		Dans les JDD, mettre en vert les cellules des attributs modifiés par rapport aux PREJDD pour les cas de tests MODIF
 		
 		ctrl des prerequis sur les paires de données, par ex int_met
+		
+		Ajouter un check PREREQUIS spécifique pour RO.ORG en fonction de la valeur de NU_TYP et ST_AFF
+			- car cela conditionne les créations de SOCIETE SER INTER et UTI
 		  
 		  
 	RESULT

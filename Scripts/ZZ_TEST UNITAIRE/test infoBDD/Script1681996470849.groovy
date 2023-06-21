@@ -1,7 +1,8 @@
-import my.result.TNRResult
+import my.InfoBDD
 
 InfoBDD.load()
 
+/*
 println InfoBDD.map['INTER']['ID_CODINT'][0]
 println InfoBDD.map['INTER']['ID_CODINT'][1]
 println InfoBDD.map['INTER']['ID_CODINT'][2]
@@ -10,6 +11,11 @@ println InfoBDD.map['INTER']['ID_CODINT'][4]
 println InfoBDD.map['INTER']['ID_CODINT'][5]
 
 println InfoBDD.inTable('INTER', 'ID_CODINT')
+*/
+
+List <String> PKList = InfoBDD.getPK('ART_EQU')
+
+println PKList
 
 /*
 InfoBDD.map['INTER'].each {k,v  ->

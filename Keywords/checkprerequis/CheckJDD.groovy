@@ -13,6 +13,9 @@ public class CheckJDD {
 
 	private static my.JDD myJDD
 	private static String table
+	private static String JDDFullName
+	private static String sheetName
+	private static boolean status = true
 
 
 	/**
@@ -26,15 +29,22 @@ public class CheckJDD {
 
 		Log.addSubTITLE('Vérification des JDD')
 
-		JDDFiles.JDDfilemap.each { modObj,fullName ->
+		JDDFiles.JDDfilemap.each {
+			modObj,fullname ->
 
-			Log.addINFO("Lecture du JDD : $fullName")
-			myJDD = new JDD(fullName,null,null,false)
+			JDDFullName = fullname
+			Log.addDEBUG("",0)
+			Log.addDEBUG("Lecture du JDD : $JDDFullName",0)
+			myJDD = new JDD(JDDFullName,null,null,false)
 
 			for(Sheet sheet: myJDD.book) {
-				if (myJDD.isSheetAvailable(sheet.getSheetName())) {
-
-					Log.addINFO("Onglet : " + sheet.getSheetName(),0)
+				
+				sheetName = sheet.getSheetName()
+				
+				if (myJDD.isSheetAvailable(sheetName)) {
+					
+					
+					Log.addDEBUG("Onglet : $sheetName",0)
 					Log.addDEBUGDETAIL("Contrôle de la liste des paramètres",0)
 
 					myJDD.loadTCSheet(sheet)
@@ -47,11 +57,16 @@ public class CheckJDD {
 						checkLOCATOR()
 
 						checkKWInDATA()
+						
+						checkUniquenessPK()
 					}else {
-						Log.addDETAILWARNING("Pas de colonnes dans le JDD ! ")
+						Log.addDETAILWARNING("$JDDFullName ($sheetName) : Pas de colonnes dans le JDD")
 					}
 				}
 			}
+		}
+		if (status) {
+			Log.addINFO('     ***  OK   ***')
 		}
 	}
 
@@ -77,7 +92,8 @@ public class CheckJDD {
 				checkColumn()
 				CheckTypeInDATA.run(myJDD.getDatas(), myJDD, table)
 			}else {
-				Log.addDETAILFAIL("Contrôle de la table DB KO, la table '$table' n'existe pas !")
+				Log.addDETAILFAIL("$JDDFullName ($sheetName) : La table '$table' n'existe pas !")
+				status=false
 			}
 		}
 	}
@@ -89,7 +105,7 @@ public class CheckJDD {
 	private static checkColumn() {
 
 		Log.addDEBUGDETAIL("Contrôle des colonnes (Présence, ordre)",0)
-		//InfoBDD.colnameMap[table].eachWithIndex{col,index ->
+		
 		InfoBDD.map[table].each{col,vlist ->
 
 			if (col == myJDD.getHeader((int)vlist[0])) {
@@ -98,15 +114,16 @@ public class CheckJDD {
 				//InfoBDD.updateParaInfoBDD(myJDD, col,fullName, modObj+'.'+sheet.getSheetName())
 
 			}else if (col in myJDD.getHeaders()) {
-				Log.addDETAILFAIL("'$col' est dans le JDD mais pas à la bonne place")
+				
+				Log.addDETAILFAIL("$JDDFullName ($sheetName) : La colonne '$col' est dans le JDD mais pas à la bonne place")
+				status=false
 			}else {
-				Log.addDETAILFAIL("Le champ '$col' n'est pas dans le JDD")
+				Log.addDETAILFAIL("$JDDFullName ($sheetName) : Le champ '$col' n'est pas dans le JDD")
+				status=false
 			}
 		}
 
 	}
-
-
 
 
 
@@ -126,12 +143,14 @@ public class CheckJDD {
 					if (myJDD.isTagAllowed(lo[0])) {
 						Log.addDEBUG("$name : $name : ${loc[0]} in myJDD.TAG_LIST_ALLOWED dans $loc")
 					}else {
-						Log.addDETAILFAIL("$name : LOCATOR inconnu : ${lo[0]} in '$loc'")
+						Log.addDETAILFAIL("$JDDFullName ($sheetName) : Champ '$name' : LOCATOR inconnu : ${lo[0]} in '$loc'")
+						status=false
 					}
 				}else if (loc[0] == '/') {
 					Log.addDEBUG("$loc OK")
 				}else {
-					Log.addDETAILFAIL("$name : LOCATOR inconnu : '$loc'")
+					Log.addDETAILFAIL("$JDDFullName ($sheetName) : Champ '$name' : LOCATOR inconnu : '$loc'")
+					status=false
 				}
 			}
 		}
@@ -151,12 +170,60 @@ public class CheckJDD {
 		myJDD.datas.eachWithIndex { li,numli ->
 			li.eachWithIndex { val,i ->
 				if ((val instanceof String) && val.startsWith('$') && !my.JDDKW.isAllowedKeyword(val)) {
-					Log.addDETAILFAIL("- Le mot clé '$val' n'est pas autorisé. Trouvé en ligne DATA ${numli+1} colonne ${i+1}")
-
+					Log.addDETAILFAIL("$JDDFullName ($sheetName) : Le mot clé '$val' n'est pas autorisé. Trouvé en ligne DATA ${numli+1} colonne ${i+1}")
+					status=false
 				}
 			}
 		}
 	}
 
 
-}
+
+
+	private static checkUniquenessPK() {
+
+
+		List <String> PKList = InfoBDD.getPK(myJDD.getDBTableName())
+
+		if (PKList) {
+			
+			
+			Log.addDEBUGDETAIL("Contrôle de l'unicité des PKs : " + PKList.join(' - '),0)
+			
+			List listPKi = getIndexListOfPKs(PKList)
+			
+			//List PKdatas = myJDD.datas.collect { ligne -> listPKi.collect { ligne[(int) it] }.join(' - ') }
+			
+			List PKdatas = myJDD.datas.findAll { ligne ->
+				!listPKi.collect { ligne[(int)it] }.any { it.toString().startsWith('$') }
+			}.collect { ligne ->
+				listPKi.collect { ligne[(int)it] }.join('')
+			}
+			
+			Map PKValMap = [:]
+			PKdatas.eachWithIndex { pks,numli ->
+				
+				if (PKValMap.containsKey(pks)) {
+					Log.addDETAILFAIL("$JDDFullName ($sheetName) : La PK $pks existe déjà en ligne " + PKValMap[pks])
+					status=false
+				}else {
+					PKValMap[pks] = numli
+				}
+				
+			}
+		}else {
+			Log.addDETAILWARNING("$JDDFullName ($sheetName) : Pas de PKs pour la table $table" )
+		}
+	}
+	
+	private static List getIndexListOfPKs(List PKList) {
+		
+		List list = []
+		for (pk in PKList) {
+			list.add(myJDD.getHeaderIndexOf(pk.toString()))
+		}
+		return list
+	}
+	
+
+}// end of class

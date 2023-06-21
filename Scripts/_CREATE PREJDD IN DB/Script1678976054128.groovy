@@ -73,4 +73,7 @@ PREJDDFiles.insertPREJDDinDB('RT.ART','001B')
 PREJDDFiles.insertPREJDDinDB('RT.ART','001C')
 
 
+Log.addTITLE("Fin des créations des PRE REQUIS")
+
+
 

@@ -36,6 +36,8 @@ class Log {
 
 
 	private static File createFile(String txt){
+		
+		
 
 		//Create folder if not exist
 		File dir = new File(my.PropertiesReader.getMyProperty('LOG_PATH'))
@@ -110,7 +112,14 @@ class Log {
 	}
 
 
+	public static addDETAIL (String msg,int level=0) {
 
+		if (level==0) {
+			add('','\t'+ msg)
+		}else {
+			addDEBUG(msg,level )
+		}
+	}
 
 	public static addDETAILFAIL (String msg) {
 		add('FAIL',PREDETAILTXT+ msg)

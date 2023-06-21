@@ -17,6 +17,7 @@ public class Check_CAL {
 
 	private static List listCAL =[]
 	private static List listCALDEF=[]
+	private static boolean status = true
 
 	static run() {
 
@@ -35,8 +36,12 @@ public class Check_CAL {
 			for (def i in [1, 2, 3, 4, 5, 6, 7, '$VIDE']){
 				if (!listCALDEF.contains(it.toString() +' - '+ i.toString())) {
 					Log.addDETAILFAIL("Manque $it - $i dans CALDEF")
+					status = false
 				}
 			}
+		}
+		if (status) {
+			Log.addINFO('     ***  OK   ***')
 		}
 	}
 
@@ -46,7 +51,7 @@ public class Check_CAL {
 	private static loadListCAL(Sheet sheet) {
 		Iterator<Row> rowIt = sheet.rowIterator()
 		Row row = rowIt.next()
-		TNRResult.addDETAIL("Chargement de CAL")
+		Log.addDEBUG("Chargement de CAL",0)
 		while(rowIt.hasNext()) {
 			row = rowIt.next()
 			if (XLS.getCellValue(row.getCell(0)) == '') {
@@ -61,7 +66,7 @@ public class Check_CAL {
 	private static loadListCALDEF(Sheet sheet) {
 		Iterator<Row> rowIt = sheet.rowIterator()
 		Row row = rowIt.next()
-		TNRResult.addDETAIL("Chargement de CALDEF")
+		Log.addDEBUG("Chargement de CALDEF",0)
 		while(rowIt.hasNext()) {
 			row = rowIt.next()
 			if (XLS.getCellValue(row.getCell(0)) == '') {

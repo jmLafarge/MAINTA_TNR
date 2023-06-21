@@ -45,7 +45,7 @@ public class PREJDDFiles {
 		Log.addDEBUG("insertPREJDDinDB() modObj = '$modObj' tabName = '$tabName'")
 		def myJDD = new my.JDD(JDDFiles.JDDfilemap.getAt(modObj),tabName)
 
-		Log.addSubTITLE("Lecture du PREJDD : '" + PREJDDfilemap.getAt(modObj)+ " ($tabName)")
+		Log.addINFO("Traitement de : '" + PREJDDfilemap.getAt(modObj)+ " ($tabName)")
 		XSSFWorkbook book = my.XLS.open(PREJDDfilemap.getAt(modObj))
 		// set tab (sheet)
 		Sheet sheet = book.getSheet(tabName)
@@ -61,11 +61,12 @@ public class PREJDDFiles {
 			Row row = sheet.getRow(numline)
 			// exit if lastRow
 			String cdt = my.XLS.getCellValue(row.getCell(0))
-			Log.addINFO("")
-			Log.addINFO("Traitement $cdt")
 			if (!row || cdt =='') {
 				break
 			}
+			Log.addDEBUG("",0)
+			Log.addDEBUG("Traitement $cdt",0)
+			
 			List fields =[]
 			List values =[]
 			String val = ''
@@ -219,9 +220,8 @@ public class PREJDDFiles {
 		if (sequence.size()>0) {
 			sequence.each { table, val ->
 				String req = "DBCC CHECKIDENT ($table, RESEED,$val);"
-				Log.addINFO(req)
+				Log.addDEBUG(req,0)
 				SQL.executeSQL(req)
-				//fileSQL.append("$req\n")
 			}
 		}
 	}
@@ -258,15 +258,14 @@ public class PREJDDFiles {
 		  Log.addERROR("La valeur recherchée n'a pas été trouvée.ARRET DU PROGRAMME")
 		  System.exit(0)
 		}
-		
-		
 	}
 
 
 
 	static insertIfNotExist(String table, String PKwhere, List fields, List values) {
 
-		Log.addDEBUG("SELECT count(*) FROM $table WHERE $PKwhere")
+		Log.addDEBUG("insertIfNotExist($table, $PKwhere)")
+
 		Map result = SQL.getFirstRow("SELECT count(*) as nbr FROM $table WHERE $PKwhere")
 
 		if(result) {
@@ -276,13 +275,15 @@ public class PREJDDFiles {
 
 				String query = "INSERT INTO $table (" + fields.join(',') +") VALUES (" + li.join(',') + ")"
 
-				Log.addINFO(query)
-				Log.addINFO(values.join(','))
+				Log.addDEBUG(query,0)
+				Log.addDEBUG(values.join(','),0)
 
-				//SQL.executeInsert(query,values)
+				SQL.executeInsert(query,values)
+				
+				Log.addDEBUG("insertIfNotExist() --> OK")
 
 			}else if (result.nbr == 1){
-				Log.addDEBUG("La valeur $PKwhere existe déjà")
+				Log.addDEBUG("insertIfNotExist() --> La valeur $PKwhere existe déjà")
 			}else {
 				Log.addERROR("Plusieurs valeurs trouvées pour :")
 				Log.addINFO("SELECT count(*) FROM $table WHERE $PKwhere")

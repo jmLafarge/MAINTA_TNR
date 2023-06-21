@@ -292,7 +292,10 @@ public class JDD {
 		return headers[i]
 	}
 
-
+	
+	def int getHeaderIndexOf(String name) {
+		return headers.indexOf(name)
+	}
 
 
 

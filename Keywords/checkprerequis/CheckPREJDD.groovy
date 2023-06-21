@@ -20,6 +20,7 @@ public class CheckPREJDD {
 	private static String table =''
 	private static List <String> headersPREJDD=[]
 	private static List <String> PKList=[]
+	private static boolean status = true
 
 
 
@@ -40,7 +41,8 @@ public class CheckPREJDD {
 
 		PREJDDFiles.PREJDDfilemap.each { modObj,fullName ->
 
-			Log.addINFO("Lecture du PREJDD : $fullName")
+			Log.addDEBUG("",0)
+			Log.addDEBUG("Lecture du PREJDD : $fullName",0)
 
 			myJDD = new JDD(JDDFiles.JDDfilemap.getAt(modObj),null,null,false)
 
@@ -72,6 +74,9 @@ public class CheckPREJDD {
 				}
 			}
 		}
+		if (status) {
+			Log.addINFO('     ***  OK   ***')
+		}
 	}
 
 
@@ -89,8 +94,10 @@ public class CheckPREJDD {
 				Log.addDEBUG("'$col' OK")
 			}else if (col in headersPREJDD) {
 				Log.addDETAILFAIL("'$col' est dans le PREJDD mais pas à la bonne place")
+				status=false
 			}else {
 				Log.addDETAILFAIL("Le champ '$col' n'est pas dans le PREJDD")
+				status=false
 			}
 		}
 	}
@@ -107,6 +114,7 @@ public class CheckPREJDD {
 			li.eachWithIndex { val,i ->
 				if ((val instanceof String) && val.startsWith('$') && !my.JDDKW.isAllowedKeyword(val)) {
 					Log.addDETAILFAIL("- Le mot clé '$val' n'est pas autorisé. Trouvé en ligne DATA ${numli+1} colonne ${i+1}")
+					status=false
 				}
 			}
 		}
@@ -131,6 +139,7 @@ public class CheckPREJDD {
 			}
 			if (PKval.containsKey(PKvalues.join('-'))) {
 				Log.addDETAILFAIL("La valeur '" + PKvalues.join('-') + "' en ligne " + (numli+2) + " existe déjà en ligne " + (PKval.getAt(PKvalues.join('-')) + 2))
+				status=false
 			}else {
 				PKval.put(PKvalues.join('-'),numli)
 			}

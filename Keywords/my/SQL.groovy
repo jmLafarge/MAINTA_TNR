@@ -29,6 +29,7 @@ public class SQL {
 
 
 	static executeInsert(String query, List values) {
+		Log.addDEBUG("executeInsert()")
 		try {
 			def resultat = sqlInstance.executeInsert(query,values)
 		} catch(Exception ex) {
@@ -40,6 +41,9 @@ public class SQL {
 
 
 	static executeSQL(String query) {
+
+		Log.addDEBUG("executeSQL($query)")
+
 		try {
 			sqlInstance.execute(query)
 		}
@@ -52,8 +56,10 @@ public class SQL {
 
 
 	static Map getFirstRow(String query) {
+
+		Log.addDEBUG("getFirstRow($query)")
+
 		try {
-			Log.addDEBUG("getFirstRow($query)")
 			return sqlInstance.firstRow(query)
 		} catch(Exception ex) {
 			Log.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
@@ -66,11 +72,16 @@ public class SQL {
 
 	static int checkIfExist(String table, String where) {
 
+		Log.addDEBUG("checkIfExist($table , $where)")
+
 		String sql = "SELECT count(*) as nbr FROM $table WHERE $where"
 		Map result = SQL.getFirstRow("$sql")
 		if(result) {
-			return result.nbr as int
+			int ret =  result.nbr as int
+			Log.addDEBUG("checkIfExist --> $ret")
+			return ret
 		}else {
+			Log.addDEBUG("checkIfExist --> Pas de resultat")
 			return 0
 		}
 	}
@@ -333,14 +344,18 @@ public class SQL {
 
 	public static String getMaintaVersion() {
 
+		Log.addDEBUG("getMaintaVersion()")
+
 		String query = "SELECT ST_VAL FROM VER WHERE ID_CODINF = 'CURR_VERS'"
 
 		try {
 			def frow = sqlInstance.firstRow(query)
 			if (frow ) {
-				return frow.getAt(0).toString()
+				String ret = frow.getAt(0).toString()
+				Log.addDEBUG("getMaintaVersion() --> $ret")
+				return ret
 			}else {
-				Log.addDEBUG("getMaintaVersion() est null")
+				Log.addDEBUG("getMaintaVersion() --> null")
 				return null
 			}
 		}catch(Exception ex) {
@@ -352,6 +367,9 @@ public class SQL {
 
 
 	private static boolean checkForeignKey(JDD myJDD, String fieldName, def val) {
+
+		Log.addDEBUG("checkForeignKey($fieldName, $val)")
+
 		boolean pass = false
 		String query = myJDD.getSqlForForeignKey(fieldName)
 		try {
@@ -383,6 +401,8 @@ public class SQL {
 	 */
 
 	static checkIDNotInBD(JDD myJDD){
+
+		Log.addDEBUG("checkIDNotInBD()")
 
 		KW.delay(1)
 		boolean pass = true
@@ -434,13 +454,19 @@ public class SQL {
 	 * @return
 	 */
 	private static String getWhereWithAllPK(JDD myJDD,int casDeTestNum) {
+
+		Log.addDEBUG("getWhereWithAllPK($casDeTestNum)",2)
+
 		List <String> PKList = InfoBDD.getPK(myJDD.getDBTableName())
 		if (PKList) {
 			String query = ' WHERE '
 			PKList.each {
 				query = query + it + "='" + myJDD.getData(it,casDeTestNum) + "' and "
 			}
-			return query.substring(0,query.length()-5)
+			String ret = query.substring(0,query.length()-5)
+
+			Log.addDEBUG("getWhereWithAllPK() --> $ret",2)
+			return ret
 		}
 		return ''
 	}
@@ -471,7 +497,7 @@ public class SQL {
 
 	static int getMaxFromTable(String fieldName, String tableName) {
 
-		Log.addDEBUG("getMaxFromTable(String fieldName, String tableName) '$fieldName' , '$tableName'")
+		Log.addDEBUG("getMaxFromTable($fieldName, $tableName)")
 
 		String req = "SELECT MAX($fieldName) as num FROM $tableName"
 
@@ -479,7 +505,7 @@ public class SQL {
 			def res = sqlInstance.firstRow(req).num
 
 			int num = (res) ? (Integer)res : 0
-
+			//Log.addDEBUG("getMaxFromTable() --> $num")
 			TNRResult.addDETAIL("get Max '$fieldName From Table '$tableName' = $num")
 			return num
 		} catch(Exception ex) {
@@ -493,12 +519,15 @@ public class SQL {
 
 	static getNumEcran(String table) {
 
+		Log.addDEBUG("getNumEcran($table)")
+
 		def query = "SELECT ID_NUMECR as num FROM OBJ where ST_NOMOBJ=$table"
 
 		try {
 			def res = sqlInstance.firstRow(query)
 			def ret = (res) ? res.num : null
 			TNRResult.addDETAIL("getNumEcran($table) = $ret")
+			//Log.addDEBUG("getNumEcran() --> $ret")
 			return ret
 		} catch(Exception ex) {
 			Log.addERROR("Erreur d'execution de firstRow($query) : ")
@@ -509,6 +538,8 @@ public class SQL {
 	}
 
 	static Map getLibelle(String table, numEcran) {
+
+		Log.addDEBUG("getLibelle($table, $numEcran)")
 
 		TNRResult.addDETAIL("Recherche des libellés pour la table $table et numéro écran $numEcran")
 		def query = """SELECT COLUMN_NAME as name, obj_lan.st_lib as lib
@@ -526,15 +557,18 @@ public class SQL {
 		rows.each {
 			resultMap.putAt(it.name, it.lib)
 		}
+		Log.addDEBUG("getLibelle() --> map.size " + resultMap.size())
 		return resultMap
 	}
 
 	static int getLastSequence(String seq) {
 
+		Log.addDEBUG("getLastSequence($seq)")
+
 		String req = "SELECT IDENT_CURRENT('$seq') as lastSeq"
 		def result = sqlInstance.rows(req)
 		int lastSeq = (int)result[0].lastSeq
-		Log.addDEBUG("getLastSequence of $seq : $lastSeq")
+		Log.addDEBUG("getLastSequence --> $lastSeq")
 		return lastSeq
 	}
 

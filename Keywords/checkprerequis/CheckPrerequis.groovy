@@ -19,14 +19,14 @@ public class CheckPrerequis {
 
 
 	private static List <Map> list =[]
-
 	private static JDD myJDD
-	
 	private static XSSFWorkbook PREJDDBook
+	private static boolean status = true
 
 	static run() {
-
-		Log.addSubTITLE('Collecte de tous les PREREQUIS des JDD')
+		Log.addDEBUG('--------------------------------------',0)
+		Log.addDEBUG('Collecte de tous les PREREQUIS des JDD',0)
+		Log.addDEBUG('--------------------------------------',0)
 
 		//Récupére la liste de tous les PREREQUIS de tous les JDD
 		JDDFiles.JDDfilemap.each { modObj,fullName ->
@@ -50,24 +50,33 @@ public class CheckPrerequis {
 				Log.addDEBUG('\t' + key + ' : ' +val)
 			}
 			if (PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString())) {
-				PREJDD.checkPREJDD(map)
+				if (!PREJDD.checkPREJDD(map)) {
+					status=false
+				}
 			}else {
 				Log.addERROR('Pas de fichier PREJDD pour '+map.getAt('PREJDDMODOBJ'))
+				status=false
 			}
 		}
 		
-		
+		if (status) {
+			Log.addINFO('     ***  OK   ***')
+		}
+		status = true
+
+
 		list =[]
-		Log.addSubTITLE('Collecte de tous les PREREQUIS des PREJDD')
-		
+		Log.addDEBUG('--------------------------------------',0)
+		Log.addDEBUG('Collecte de tous les PREREQUIS des PREJDD',0)
+		Log.addDEBUG('--------------------------------------',0)
+
 		PREJDDFiles.PREJDDfilemap.each { modObj,fullName ->
 			Log.addDEBUG("Lecture du JDD pour modObj : " + modObj,0)
 			myJDD = new JDD(JDDFiles.getJDDFullName(modObj),null,null,false)
 			PREJDDBook = my.XLS.open(fullName)
 			getAllPrerequis(fullName,false)
 		}
-		
-		
+
 		Log.addSubTITLE('Contrôle des PREREQUIS des PREJDD')
 		TNRResult.addSUBSTEP("Détails en cas d'erreur")
 		TNRResult.addDETAIL('    CAS DE TEST      -     VALEUR')
@@ -81,12 +90,19 @@ public class CheckPrerequis {
 				Log.addDEBUG('\t' + key + ' : ' +val)
 			}
 			if (PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString())) {
-				PREJDD.checkPREJDD(map)
+				if (!PREJDD.checkPREJDD(map)) {
+					status=false
+				}
 			}else {
 				Log.addERROR('Pas de fichier PREJDD pour '+map.getAt('PREJDDMODOBJ'))
+				status=false
 			}
 		}
 		
+		if (status) {
+			Log.addINFO('     ***  OK   ***')
+		}
+
 	}
 
 
@@ -128,7 +144,7 @@ public class CheckPrerequis {
 						prerequisMap.putAt('PREJDDMODOBJ',value.split(/\*/)[0])
 						prerequisMap.putAt('PREJDDTAB',value.split(/\*/)[1])
 						prerequisMap.putAt('PREJDDID',value.split(/\*/)[2])
-							prerequisMap.putAt('JDDNAME',fullName)
+						prerequisMap.putAt('JDDNAME',fullName)
 						prerequisMap.putAt('JDDID',myJDD.getHeader(i))
 						if (forJDD) {
 							prerequisMap.putAt('LISTCDTVAL',getListCDTVAL(myJDD.getDatas(),i))
@@ -159,9 +175,9 @@ public class CheckPrerequis {
 
 
 
-	
 
-		
+
+
 
 	/**
 	 *
