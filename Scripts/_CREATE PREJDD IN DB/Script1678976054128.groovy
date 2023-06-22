@@ -36,6 +36,7 @@ PREJDDFiles.insertPREJDDinDB('RO.ORG','001')
 PREJDDFiles.insertPREJDDinDB('RO.ORG','001A')
 
 PREJDDFiles.insertPREJDDinDB('RO.ACT','001')
+PREJDDFiles.insertPREJDDinDB('RO.ACT','005')
 
 PREJDDFiles.insertPREJDDinDB('RO.ACT','003HAB')
 

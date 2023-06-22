@@ -77,7 +77,20 @@
  *
  *
  
+ RESULTAT DES TESTS
  
+ 	ACTEUR CRE LEC MAJ 			--> ST_INVPRE est disable
+ 		
+ 	ACTEUR - AJOUT EMPLACEMENT 	--> Click sur le bouton AJOUTER n'affiche pas la fenetre de recherche des emplacements
+ 	
+ 	FOURNISSEUR SUPPRESSION 	--> pas autoriser à supprimmer cet élément
+ 	
+ 	COMPTEUR CREATION 			--> la valeur NU_DEL est à 0 à la place de 100000 (JDD) --> NU_DEL n'est pas en BD ***** revoir le controle *****
+ 	
+ 	COMPTEUR LECTURE			--> NU_VALN edst NULL en BD et 0 à l'écran
+ 
+
+
 
 Ajout de INTERNALVALUE dans PARAM_LIST_ALLOWED
 	Pour permettre de déterminer un identifiant ineterne à des valeurs, par exemple pour un select ou des PREREQUIS BDD (ex Groupe)
@@ -123,6 +136,13 @@ Ajouter les DES dans ART avec JDD Generator listRubriquesIHM
  * EVOLUTION
  * -----------------------------------------------------------------------------------------------------
  * 
+	
+	TEST CASE 
+	
+		voir si on strap certains steps en cas d'erreur (par exemple si une fenetre de recherche ne s'ouvre pas, le reste plante)
+		car ça prend du temps à cause des timeout
+			- soit ne pas faire les steps si FAIL (du coup on n'aura pas le nombre de step habituel)
+			- soit les passer rapidement (agir sur le timeout ?)
 	
 	GLOBALE VARIABLES
 		 Remplacer les GlobalVariable.CASDETESTENCOURS  et GlobalVariable.CASDETESTPATTERN --> voir ou les mettre
