@@ -77,40 +77,55 @@
  *
  *
  
- RESULTAT DES TESTS
- 
- 	ACTEUR CRE LEC MAJ 			--> ST_INVPRE est disable
- 		
- 	ACTEUR - AJOUT EMPLACEMENT 	--> Click sur le bouton AJOUTER n'affiche pas la fenetre de recherche des emplacements
- 	
- 	FOURNISSEUR SUPPRESSION 	--> pas autoriser à supprimmer cet élément
- 	
- 	COMPTEUR CREATION 			--> la valeur NU_DEL est à 0 à la place de 100000 (JDD) --> NU_DEL n'est pas en BD ***** revoir le controle *****
- 	
- 	COMPTEUR LECTURE			--> NU_VALN edst NULL en BD et 0 à l'écran
- 
-
-
-
-Ajout de INTERNALVALUE dans PARAM_LIST_ALLOWED
-	Pour permettre de déterminer un identifiant ineterne à des valeurs, par exemple pour un select ou des PREREQUIS BDD (ex Groupe)
-	La valeur du paramètre est le nom de l'ensemble ( valeur - identifiant)
-	L'ensemble des couple  ( valeur - identifiant) est défini dans TNR.Properties sou la forme IV_NomDeLENSEMBLE_VALEUR = identifiantValeur
+	RESULTAT DES TESTS
+	 
+	 	ACTEUR CRE LEC MAJ 			--> ST_INVPRE est disable
+	 		
+	 	ACTEUR - AJOUT EMPLACEMENT 	--> Click sur le bouton AJOUTER n'affiche pas la fenetre de recherche des emplacements
+	 	
+	 	FOURNISSEUR SUPPRESSION 	--> pas autoriser à supprimmer cet élément
+	 	
+	 	COMPTEUR CREATION 			--> la valeur NU_DEL est à 0 à la place de 100000 (JDD) --> NU_DEL n'est pas en BD ***** revoir le controle *****
+	 	
+	 	COMPTEUR LECTURE			--> NU_VALN edst NULL en BD et 0 à l'écran
+	 	
+	 	ARTICLE SUPPRESSION		--> Ce code ne peut pas supprimé
+	 	
+	 	
+	 
 	
-	--> mettre à jour infoPARA
-	--> mettre à jour JDD GENERATOR
-	--> mettre à jour PREJDDFiles  --> fait
-	--> mettre à jour SQL  --> fait
 	
-	--> vérifier que INTERNALVALUE soit pris en compte dans les PREJDD
+	
+	Ajout de INTERNALVALUE dans PARAM_LIST_ALLOWED
+		Pour permettre de déterminer un identifiant ineterne à des valeurs, par exemple pour un select ou des PREREQUIS BDD (ex Groupe)
+		La valeur du paramètre est le nom de l'ensemble ( valeur - identifiant)
+		L'ensemble des couple  ( valeur - identifiant) est défini dans TNR.Properties sou la forme IV_NomDeLENSEMBLE_VALEUR = identifiantValeur
+		
+		--> mettre à jour infoPARA
+		--> mettre à jour JDD GENERATOR
+		--> mettre à jour PREJDDFiles  --> fait
+		--> mettre à jour SQL  --> fait
+		
+		--> vérifier que INTERNALVALUE soit pris en compte dans les PREJDD
+	
+	
+	
+	
+	Ajouter les DES dans ART avec JDD Generator listRubriquesIHM
+	
+	
+	LOT 1A
+	*******
+		RO.ACT --> FAIT
+		RO.FOU --> FAIT
+		MP.CPT --> FAIT
+		RT.ART --> REC SUP LEC OK --> MAJ en cours
+		RO.ORG
+		RT.MAT
+		TR.BTR
+		RT.EQU
+		AD.DEP
 
-
-
-
-Ajouter les DES dans ART avec JDD Generator listRubriquesIHM
-
-
- 
 
  
  * 

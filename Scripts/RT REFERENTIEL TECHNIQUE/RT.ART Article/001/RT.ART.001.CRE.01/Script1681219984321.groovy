@@ -38,12 +38,13 @@ for (String cdt in myJDD.CDTList) {
 			
 		TNRResult.addSTEPBLOCK("FOURNISSEUR NORMALISE")
 		
-			def JDD_FOU = new my.JDD(JDDFiles.getFullName('RT.ART'),'001B',GlobalVariable.CASDETESTENCOURS)  //********************************
+			// Lire le JDD spécifique
+			def JDD_ARTFOU = new my.JDD(JDDFiles.getFullName('RT.ART'),'001B',GlobalVariable.CASDETESTENCOURS)
 			
-			KW.scrollAndSetText(JDD_FOU,"ID_CODFOU")											//*******************
-			//ST_DESID_CODFOU --> pas d'action en création
-			KW.scrollAndSetText(JDD_FOU,"ST_DES") 												//***********************************************
-			KW.scrollAndSetText(JDD_FOU,"ST_REFFOU")
+				KW.scrollAndSetText(JDD_ARTFOU,"ID_CODFOU")
+				//ST_DESID_CODFOU --> pas d'action en création
+				KW.scrollAndSetText(JDD_ARTFOU,"ST_DES")
+				KW.scrollAndSetText(JDD_ARTFOU,"ST_REFFOU")
 			
 		TNRResult.addSTEPBLOCK("STOCK")
 			

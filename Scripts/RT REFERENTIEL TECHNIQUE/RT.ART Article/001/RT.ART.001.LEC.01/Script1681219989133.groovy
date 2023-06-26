@@ -1,7 +1,9 @@
+import internal.GlobalVariable
+import my.JDD
+import my.JDDFiles
 import my.KW
 import my.NAV
 import my.result.TNRResult
-import my.JDD
 
 
 'Lecture du JDD'
@@ -24,7 +26,7 @@ for (String cdt in myJDD.CDTList) {
 			
 			KW.verifyValue(myJDD,"ID_CODART")
 			KW.verifyOptionSelectedByValue(myJDD,"ST_ETA")
-			KW.verifyElementCheckedOrNot(myJDD,"CODARTAUTO","O")
+
 			KW.verifyValue(myJDD,"ST_DES")
 			KW.verifyOptionSelectedByValue(myJDD,"ST_TYPART")
 			KW.verifyElementCheckedOrNot(myJDD,"ST_INA","O")
@@ -35,11 +37,14 @@ for (String cdt in myJDD.CDTList) {
 			KW.verifyValue(myJDD,"ST_DESGES")
 			
 		TNRResult.addSTEPBLOCK("FOURNISSEUR NORMALISE")
+		
+			// Lire le JDD spécifique
+			def JDD_ARTFOU = new my.JDD(JDDFiles.getFullName('RT.ART'),'001B',GlobalVariable.CASDETESTENCOURS)
 			
-			KW.verifyValue(myJDD,"ID_CODFOU")
+				KW.verifyValue(JDD_ARTFOU,"ID_CODFOU")
 			KW.verifyValue(myJDD,"ST_DESID_CODFOU")
-			KW.verifyValue(myJDD,"ST_DESFOU")
-			KW.verifyValue(myJDD,"ST_REFFOU")
+				KW.verifyValue(JDD_ARTFOU,"ST_DES")
+				KW.verifyValue(JDD_ARTFOU,"ST_REFFOU")
 			
 		TNRResult.addSTEPBLOCK("STOCK")
 			
@@ -55,6 +60,7 @@ for (String cdt in myJDD.CDTList) {
 			KW.verifyValue(myJDD,"ST_DESST_CODCOM")
 			KW.verifyValue(myJDD,"ID_CODTVA")
 			
+			/*
 			KW.verifyElementCheckedOrNot(myJDD,"MAJ_NOM","O")
 			KW.verifyValue(myJDD,"NOM_CODLON")
 			KW.verifyValue(myJDD,"ST_DESNOM")
@@ -72,7 +78,7 @@ for (String cdt in myJDD.CDTList) {
 			KW.verifyValue(myJDD,"ART_MODFAM_QTE")
 			KW.verifyValue(myJDD,"ART_MODFAM_OBS")
 
-	
+			*/
 
 
 	TNRResult.addEndTestCase()

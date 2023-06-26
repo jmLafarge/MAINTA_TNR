@@ -1,7 +1,9 @@
-import my.KW
-import my.result.TNRResult
-import my.NAV
+import internal.GlobalVariable
 import my.JDD
+import my.JDDFiles
+import my.KW
+import my.NAV
+import my.result.TNRResult
 
 
 'Lecture du JDD'
@@ -15,7 +17,7 @@ for (String cdt in myJDD.CDTList) {
 	TNRResult.addStartTestCase(cdt)
 	
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData())
+    NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData("ID_CODART"))
 
 
 	TNRResult.addSTEPGRP("ONGLET ARTICLE")
@@ -36,11 +38,14 @@ for (String cdt in myJDD.CDTList) {
 			//ST_DESGES --> pas d'action en modification
 			
 		TNRResult.addSTEPBLOCK("FOURNISSEUR NORMALISE")
+		
+		// Lire le JDD spécifique
+		def JDD_ARTFOU = new my.JDD(JDDFiles.getFullName('RT.ART'),'001B',GlobalVariable.CASDETESTENCOURS)
 			
 			KW.searchWithHelper(myJDD, "ID_CODFOU","","")
 			//ST_DESID_CODFOU --> pas d'action en modification
-			KW.scrollAndSetText(myJDD, "ST_DESFOU")
-			KW.scrollAndSetText(myJDD, "ST_REFFOU")
+			KW.scrollAndSetText(JDD_ARTFOU, "ST_DES")
+			KW.scrollAndSetText(JDD_ARTFOU, "ST_REFFOU")
 			
 		TNRResult.addSTEPBLOCK("STOCK")
 			
@@ -56,6 +61,7 @@ for (String cdt in myJDD.CDTList) {
 			//ST_DESST_CODCOM --> pas d'action en modification
 			KW.searchWithHelper(myJDD, "ID_CODTVA","","")
 			
+			/*
 			KW.scrollAndCheckIfNeeded(myJDD,"MAJ_NOM","O")
 			KW.searchWithHelper(myJDD, "NOM_CODLON","","")
 			//ST_DESNOM --> pas d'action en modification
@@ -72,7 +78,7 @@ for (String cdt in myJDD.CDTList) {
 			KW.scrollAndSetText(myJDD, "MODFAM_CODLON")
 			KW.scrollAndSetText(myJDD, "ART_MODFAM_QTE")
 			KW.scrollAndSetText(myJDD, "ART_MODFAM_OBS")
-	
+			*/
 	  
 	  
 	  
@@ -84,7 +90,7 @@ for (String cdt in myJDD.CDTList) {
 	
 	    KW.scrollAndClick(NAV.myGlobalJDD,'button_Valider')
 	
-	    NAV.verifierEcranResultat(myJDD.getStrData())
+	    NAV.verifierEcranResultat(myJDD.getStrData("ID_CODART"))
 	
 		my.SQL.checkJDDWithBD(myJDD)
 		

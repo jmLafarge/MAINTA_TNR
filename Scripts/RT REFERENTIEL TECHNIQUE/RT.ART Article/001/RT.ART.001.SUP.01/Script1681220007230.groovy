@@ -17,7 +17,7 @@ for (String cdt in myJDD.CDTList) {
 	TNRResult.addStartTestCase(cdt)
 	
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData())
+    NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_CODART'))
 
 
 
