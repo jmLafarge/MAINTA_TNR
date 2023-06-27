@@ -19,6 +19,7 @@ public class JDD {
 
 
 	private final String TOSHEETNAME = 'IHMTO'
+	private final String INTERNALVALUESHEETNAME = 'INTERNALVALUE'
 
 	private final List PARAM_LIST_ALLOWED		= [
 		'PREREQUIS',
@@ -38,7 +39,8 @@ public class JDD {
 		'Version',
 		'Info',
 		TOSHEETNAME,
-		'MODELE'
+		'MODELE',
+		INTERNALVALUESHEETNAME
 	]
 
 
@@ -57,6 +59,8 @@ public class JDD {
 	private List <List <String>> params  = []
 	private List <List> datas   = []
 	private Map <String,String> xpathTO  = [:]
+	
+	private List <List <String>> internalValues  = []
 
 	//private Map  binding = [:]
 
@@ -131,6 +135,30 @@ public class JDD {
 		}
 		Log.addDEBUG("xpathTO = " + xpathTO.toString(),2)
 
+		
+		// ajout des INTERNALVALUE de l'onglet INTERNALVALUESHEETNAME s il existe
+		if (book.getSheet(INTERNALVALUESHEETNAME) != null) {
+			Iterator<Row> rowIV = book.getSheet(INTERNALVALUESHEETNAME).rowIterator()
+			rowIV.next()
+			while(rowIV.hasNext()) {
+				Row row = rowIV.next()
+				String IV_para = my.XLS.getCellValue(row.getCell(0))
+				String IV_val = my.XLS.getCellValue(row.getCell(1))
+				String IV_code = my.XLS.getCellValue(row.getCell(2))
+				Log.addDEBUG("IV_para : $IV_para IV_val : $IV_val IV_code : $IV_code ",2)
+				if (IV_code == '') {
+					break
+				}else {
+					List newIV = []
+					newIV.addAll([IV_para, IV_val, IV_code])
+					internalValues.add(newIV)
+				}
+
+			}
+		}
+		Log.addDEBUG("internalValues = " + internalValues.toString(),2)
+		
+		
 	}
 
 
@@ -292,7 +320,7 @@ public class JDD {
 		return headers[i]
 	}
 
-	
+
 	def int getHeaderIndexOf(String name) {
 		return headers.indexOf(name)
 	}
@@ -488,6 +516,12 @@ public class JDD {
 		return tag in TAG_LIST_ALLOWED
 	}
 
+	def String getInternalValueOf(String para, String val) {
+		Log.addDEBUG("getInternalValueOf($para, $val)")
+		String res = internalValues.find { it[0] == para && it[1] == val }?.get(2)
+		Log.addDEBUG("getInternalValueOf() --> $res")
+		return res
+	}
 
 
 } // end of class

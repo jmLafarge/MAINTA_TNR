@@ -1,10 +1,11 @@
 package checkprerequis
 
 import groovy.transform.CompileStatic
+import internal.GlobalVariable
 import my.InfoBDD
 import my.JDD
 import my.Log
-import internal.GlobalVariable
+import my.NAV
 
 
 @CompileStatic
@@ -46,7 +47,7 @@ public class CheckTypeInDATA {
 
 								Log.addDEBUG("Détection d'une IV sur $name, IV= $IV value=$val ")
 
-								String internalVal = my.PropertiesReader.getMyProperty('IV_' + IV + '_' + val)
+								String internalVal = NAV.myGlobalJDD.getInternalValueOf(IV,val.toString())
 
 								Log.addDEBUG("/t- internal value =$internalVal")
 

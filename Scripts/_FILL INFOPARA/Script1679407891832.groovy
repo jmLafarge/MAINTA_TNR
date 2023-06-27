@@ -22,7 +22,7 @@ JDDFiles.JDDfilemap.each { modObj,fullName ->
 	Log.addINFO("")
 	def myJDD = new my.JDD(fullName)
 	for(Sheet sheet: myJDD.book) {
-		if (!(sheet.getSheetName() in myJDD.SKIP_LIST_SHEETNAME)) {
+		if (myJDD.isSheetAvailable(sheet.getSheetName())) {
 
 			if (my.XLS.getCellValue(sheet.getRow(0).getCell(0))!='') {
 				

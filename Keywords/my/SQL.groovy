@@ -210,7 +210,8 @@ public class SQL {
 
 		}else if (!specificValue && IV){
 
-			String internalVal = my.PropertiesReader.getMyProperty('IV_' + IV + '_' + val.toString())
+			String internalVal = NAV.myGlobalJDD.getInternalValueOf(IV,val.toString())
+							
 
 			if (internalVal==val) {
 				Log.addDEBUG("Contrôle de la valeur INTERNAL de '$fieldName' pour '$val' OK : la valeur attendue est '" + myJDD.getData(fieldName) + "' et la valeur en BD est  : '$internalVal'" )

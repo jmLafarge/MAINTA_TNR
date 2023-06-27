@@ -1,19 +1,31 @@
 
 import internal.GlobalVariable
 import my.InfoBDD
+import my.JDDFiles
+import my.NAV
+import my.TCFiles
 
 if (InfoBDD.map.isEmpty()) { InfoBDD.load() }
 if (TCFiles.TCfileMap.isEmpty()) { TCFiles.load() }
 if (JDDFiles.JDDfilemap.isEmpty()) { JDDFiles.load() }
 
-//def filename = 'TNR_JDD/JDD.ZZ.XXX.xlsx'
+if (NAV.myGlobalJDD == null) { NAV.loadJDDGLOBAL() }
 
-GlobalVariable.CASDETESTPATTERN = 'ZZ.XXX.001.CRE.11'
+//println NAV.myGlobalJDD.internalValues.join('\t')
 
-my.JDD myJDD = new my.JDD()
+println NAV.myGlobalJDD.getInternalValueOf('TYPENdJEU', 'Sécurité')
+
+println NAV.myGlobalJDD.getInternalValueOf('CRITICITE', 'CRITICITE02')
+
+println NAV.myGlobalJDD.getInternalValueOf('TYPEMAT', 'Suivi en Stock')
 
 
-println myJDD.CDTList.join('\t')
+GlobalVariable.CASDETESTPATTERN = 'RT.EQU.001'
+
+//my.JDD myJDD = new my.JDD()
+
+
+//println myJDD.CDTList.join('\t')
 
 
 

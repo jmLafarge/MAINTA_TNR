@@ -8,6 +8,7 @@
  * 
  * 
 
+	
 
 
 
@@ -100,8 +101,7 @@
 	
 	Ajout de INTERNALVALUE dans PARAM_LIST_ALLOWED
 		Pour permettre de déterminer un identifiant ineterne à des valeurs, par exemple pour un select ou des PREREQUIS BDD (ex Groupe)
-		La valeur du paramètre est le nom de l'ensemble ( valeur - identifiant)
-		L'ensemble des couple  ( valeur - identifiant) est défini dans TNR.Properties sou la forme IV_NomDeLENSEMBLE_VALEUR = identifiantValeur
+		Les valeurs sont saisies dans un onglet INTERNALVALUE de JDD.GLOBAL
 		
 		--> mettre à jour infoPARA
 		--> mettre à jour JDD GENERATOR
@@ -123,7 +123,7 @@
 		MP.CPT --> FAIT
 		RT.ART --> FAIT
 		RO.ORG --> la JDD  n'est pas renseigné
-		RT.MAT
+		RT.MAT --> onglet matricule OK --> faire les autres
 		TR.BTR
 		RT.EQU
 		AD.DEP

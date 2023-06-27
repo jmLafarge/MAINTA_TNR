@@ -73,7 +73,12 @@ PREJDDFiles.insertPREJDDinDB('RT.ART','001A')
 PREJDDFiles.insertPREJDDinDB('RT.ART','001B')
 PREJDDFiles.insertPREJDDinDB('RT.ART','001C')
 
+PREJDDFiles.insertPREJDDinDB('RT.MOY','001')
 
+PREJDDFiles.insertPREJDDinDB('RT.MAT','001')
+//PREJDDFiles.insertPREJDDinDB('RT.MAT','001A') --> PREJDD vide
+//PREJDDFiles.insertPREJDDinDB('RT.MAT','001B') --> PREJDD vide
+PREJDDFiles.insertPREJDDinDB('RT.MAT','001C')
 
 
 Log.addTITLE("Fin des créations des PRE REQUIS")

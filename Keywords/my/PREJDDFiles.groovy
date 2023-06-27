@@ -8,6 +8,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import groovy.io.FileType
 import groovy.transform.CompileStatic
 import my.SQL
+import my.NAV
 
 @CompileStatic
 public class PREJDDFiles {
@@ -143,7 +144,7 @@ public class PREJDDFiles {
 						
 							Log.addDEBUG("Détection d'une IV sur $fieldName, IV= $IV value=$value :")
 							
-							String internalVal = my.PropertiesReader.getMyProperty('IV_' + IV + '_' + value)
+							String internalVal = NAV.myGlobalJDD.getInternalValueOf(IV,value.toString())
 							
 							Log.addDEBUG("/t- internal value =$internalVal")
 							
