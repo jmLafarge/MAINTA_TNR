@@ -89,7 +89,9 @@
 	 	
 	 	COMPTEUR LECTURE			--> NU_VALN edst NULL en BD et 0 à l'écran
 	 	
-	 	ARTICLE SUPPRESSION		--> Ce code ne peut pas supprimé
+	 	ARTICLE SUPPRESSION			--> Ce code ne peut pas supprimé
+	 	
+	 	ARTICLE CREATION			--> Les points ne sont pas acceptés dans ID_CODART
 	 	
 	 	
 	 
@@ -119,8 +121,8 @@
 		RO.ACT --> FAIT
 		RO.FOU --> FAIT
 		MP.CPT --> FAIT
-		RT.ART --> REC SUP LEC OK --> MAJ en cours
-		RO.ORG
+		RT.ART --> FAIT
+		RO.ORG --> la JDD  n'est pas renseigné
 		RT.MAT
 		TR.BTR
 		RT.EQU

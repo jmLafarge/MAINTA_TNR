@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestCaseEntity>
    <description></description>
-   <name>RT.ART.001.CRE.01</name>
+   <name>RT.ART.001.CRE</name>
    <tag></tag>
    <comment></comment>
    <testCaseGuid>406039ed-4304-496e-ab89-90dca4fdcf1a</testCaseGuid>

@@ -25,9 +25,9 @@ for (String cdt in myJDD.CDTList) {
 			KW.scrollAndClick(myJDD,"tab_Article")
 			KW.waitForElementVisible(myJDD,"tab_ArticleSelected")
 			
-			KW.scrollAndSetText(myJDD, "ID_CODART")
+			//KW.scrollAndSetText(myJDD, "ID_CODART")
 			KW.scrollAndSelectOptionByValue(myJDD,"ST_ETA")
-			KW.scrollAndCheckIfNeeded(myJDD,"CODARTAUTO","O")
+			//KW.scrollAndCheckIfNeeded(myJDD,"CODARTAUTO","O")
 			KW.scrollAndSetText(myJDD, "ST_DES")
 			KW.scrollAndSelectOptionByValue(myJDD,"ST_TYPART")
 			KW.scrollAndCheckIfNeeded(myJDD,"ST_INA","O")
@@ -42,7 +42,7 @@ for (String cdt in myJDD.CDTList) {
 		// Lire le JDD spécifique
 		def JDD_ARTFOU = new my.JDD(JDDFiles.getFullName('RT.ART'),'001B',GlobalVariable.CASDETESTENCOURS)
 			
-			KW.searchWithHelper(myJDD, "ID_CODFOU","","")
+			KW.searchWithHelper(JDD_ARTFOU, "ID_CODFOU","","")
 			//ST_DESID_CODFOU --> pas d'action en modification
 			KW.scrollAndSetText(JDD_ARTFOU, "ST_DES")
 			KW.scrollAndSetText(JDD_ARTFOU, "ST_REFFOU")
@@ -57,7 +57,7 @@ for (String cdt in myJDD.CDTList) {
 			
 			KW.scrollAndCheckIfNeeded(myJDD,"ST_CONOBL","O")
 			KW.scrollAndSetText(myJDD, "ST_TXTCDE")
-			KW.searchWithHelper(myJDD, "ST_CODCOM","","")
+			KW.searchWithHelper(myJDD, "ST_CODCOM","","SEARCH_ID_CODCMP")
 			//ST_DESST_CODCOM --> pas d'action en modification
 			KW.searchWithHelper(myJDD, "ID_CODTVA","","")
 			

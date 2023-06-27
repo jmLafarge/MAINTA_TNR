@@ -60,6 +60,7 @@ for (String cdt in myJDD.CDTList) {
 			//ST_DESST_CODCOM --> pas d'action en création
 			KW.scrollAndSetText(myJDD,"ID_CODTVA")
 			
+			/*
 			KW.scrollAndCheckIfNeeded(myJDD,"MAJ_NOM","O")
 			KW.scrollAndSetText(myJDD,"NOM_CODLON")
 			//ST_DESNOM --> pas d'action en création
@@ -76,7 +77,7 @@ for (String cdt in myJDD.CDTList) {
 			KW.scrollAndSetText(myJDD,"MODFAM_CODLON")
 			KW.scrollAndSetText(myJDD,"ART_MODFAM_QTE")
 			KW.scrollAndSetText(myJDD,"ART_MODFAM_OBS")
-		
+			*/
 	
 	
 	
