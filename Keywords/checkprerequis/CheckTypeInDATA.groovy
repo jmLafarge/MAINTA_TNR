@@ -6,6 +6,7 @@ import my.InfoBDD
 import my.JDD
 import my.Log
 import my.NAV
+import my.JDDKW
 
 
 @CompileStatic
@@ -26,10 +27,19 @@ public class CheckTypeInDATA {
 
 					String cdtName = li[0]
 
-					// Permet de supprimer le test des DATA
-					if (val.toString().toUpperCase().contains('ATTENTE') && val.toString().toUpperCase().contains('MOE') && !GlobalVariable.CHECKALLDATAS) {
-						ctrlVal = false
-						Log.addDEBUG("Détection de ATTENTE MOE sur $name '$val'")
+					// Cas des val TBD
+					if (JDDKW.startWithTBD(val)) {
+
+						Log.addDEBUG("Détection d'une valeur TBD sur $name '$val'")
+						
+						def para = JDDKW.getValueOfKW_TBD(val)
+						// si une valeur de test existe, on remplace la valeur du JDD par cette valeur
+						if (para) {
+							val=para 
+						}else {
+							ctrlVal = false
+						}
+						
 					}
 					//--------------------------------------------------------
 
@@ -47,7 +57,7 @@ public class CheckTypeInDATA {
 
 								Log.addDEBUG("Détection d'une IV sur $name, IV= $IV value=$val ")
 
-								String internalVal = NAV.myGlobalJDD.getInternalValueOf(IV,val.toString())
+								String internalVal = NAV.myGlobalJDD.getInternalValueOf(IV, val.toString())
 
 								Log.addDEBUG("/t- internal value =$internalVal")
 

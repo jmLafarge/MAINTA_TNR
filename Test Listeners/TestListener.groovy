@@ -36,7 +36,7 @@ class TestListener {
 
 		Tools.addInfoContext()
 		
-		if (NAV.myGlobalJDD == null) { NAV.loadJDDGLOBAL() }
+		NAV.loadJDDGLOBAL()
 
 
 	}

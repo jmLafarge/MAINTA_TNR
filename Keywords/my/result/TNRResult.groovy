@@ -29,9 +29,9 @@ public class TNRResult {
 
 	public static addDETAIL (String msg) {
 		if (testCaseStarted) {
-			Log.addINFO(PREDETAILTXT+ msg)
 			addStepInResult(msg,'DETAIL')
 		}
+		Log.addINFO(PREDETAILTXT+ msg)
 	}
 
 

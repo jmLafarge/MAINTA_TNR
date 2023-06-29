@@ -59,7 +59,7 @@ public class JDD {
 	private List <List <String>> params  = []
 	private List <List> datas   = []
 	private Map <String,String> xpathTO  = [:]
-	
+
 	private List <List <String>> internalValues  = []
 
 	//private Map  binding = [:]
@@ -135,7 +135,7 @@ public class JDD {
 		}
 		Log.addDEBUG("xpathTO = " + xpathTO.toString(),2)
 
-		
+
 		// ajout des INTERNALVALUE de l'onglet INTERNALVALUESHEETNAME s il existe
 		if (book.getSheet(INTERNALVALUESHEETNAME) != null) {
 			Iterator<Row> rowIV = book.getSheet(INTERNALVALUESHEETNAME).rowIterator()
@@ -157,8 +157,8 @@ public class JDD {
 			}
 		}
 		Log.addDEBUG("internalValues = " + internalValues.toString(),2)
-		
-		
+
+
 	}
 
 

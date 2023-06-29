@@ -6,6 +6,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import groovy.transform.CompileStatic
 import internal.GlobalVariable
+import my.JDD
 
 
 @CompileStatic
@@ -20,15 +21,17 @@ class NAV {
 
 
 
-	static my.JDD myGlobalJDD = null
+	public static JDD myGlobalJDD = null
 
 	public static loadJDDGLOBAL() {
 
-		Log.addDEBUG('Load JDD GLOBAL')
-		myGlobalJDD = new my.JDD(my.PropertiesReader.getMyProperty('JDD_PATH') + File.separator + my.PropertiesReader.getMyProperty('JDD_GLOBALFILENAME'),null,null,false)
+		Log.addDEBUG('loadJDDGLOBAL()')
+		if (!myGlobalJDD) {
+			myGlobalJDD = new JDD(my.PropertiesReader.getMyProperty('JDD_PATH') + File.separator + my.PropertiesReader.getMyProperty('JDD_GLOBALFILENAME'),null,null,false)
+		}
 		Log.addDEBUG(myGlobalJDD.xpathTO.toString())
 	}
-
+	
 
 	/**
 	 * Vérifier écran 

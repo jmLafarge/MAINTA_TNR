@@ -9,11 +9,11 @@ if (InfoBDD.map.isEmpty()) { InfoBDD.load() }
 if (TCFiles.TCfileMap.isEmpty()) { TCFiles.load() }
 if (JDDFiles.JDDfilemap.isEmpty()) { JDDFiles.load() }
 
-if (NAV.myGlobalJDD == null) { NAV.loadJDDGLOBAL() }
+NAV.loadJDDGLOBAL()
 
 //println NAV.myGlobalJDD.internalValues.join('\t')
 
-println NAV.myGlobalJDD.getInternalValueOf('TYPENdJEU', 'Sécurité')
+println NAV.myGlobalJDD.getInternalValueOf('GROUPE', 'GROUPE01')
 
 println NAV.myGlobalJDD.getInternalValueOf('CRITICITE', 'CRITICITE02')
 

@@ -28,7 +28,7 @@ TNRResult.addStartInfo('TNR SEQUENCEUR')
 
 Tools.addInfoContext()
 
-if (NAV.myGlobalJDD == null) { NAV.loadJDDGLOBAL() }
+NAV.loadJDDGLOBAL()
 
 Sequencer.testCasesList.each { TCMap ->
 	

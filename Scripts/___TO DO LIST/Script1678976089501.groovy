@@ -9,7 +9,11 @@
  * 
 
 	
+ 
+	AJOUT du JDDKW 'TBD' en remplacement des valeurs de type 'ATTENTE REPONSE MOE'
+		Le but est de pouvoir ajouter une valeur provisoire  $TBD$0
 
+ 
 
 
 
@@ -77,6 +81,8 @@
  * -----------------------------------------------------------------------------------------------------
  *
  *
+
+ 
  
 	RESULTAT DES TESTS
 	 
@@ -96,6 +102,8 @@
 	 	
 	 	
 	 
+	 
+	Doicumenter INTERNAL VALUE *******************************
 	
 	
 	

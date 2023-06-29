@@ -4,20 +4,21 @@ import my.result.TNRResult
 import my.InfoBDD
 import my.JDDFiles
 import my.Log
+import my.NAV
 
 Log.addTITLE("Lancement de CREATE PREJDD IN DB")
 if (InfoBDD.map.isEmpty()) { InfoBDD.load() }
 if (JDDFiles.JDDfilemap.isEmpty()) { JDDFiles.load() }
 if (PREJDDFiles.PREJDDfilemap.isEmpty()) { PREJDDFiles.load() }
+NAV.loadJDDGLOBAL()
 
 
 Log.addSubTITLE('Création des PREJDD')
 
 
-//PREJDDFiles.insertPREJDDinDB('RT.EQU','001')
+PREJDDFiles.insertPREJDDinDB('RT.MAT','001')
 
-
-
+/*
 // pour le proto
 PREJDDFiles.insertPREJDDinDB('RO.CAT','001')
 
@@ -75,12 +76,18 @@ PREJDDFiles.insertPREJDDinDB('RT.ART','001C')
 
 PREJDDFiles.insertPREJDDinDB('RT.MOY','001')
 
+PREJDDFiles.insertPREJDDinDB('RT.EQU','001')
+//PREJDDFiles.insertPREJDDinDB('RT.EQU','001A') --> PREJDD vide
+PREJDDFiles.insertPREJDDinDB('RT.EQU','001B')
+PREJDDFiles.insertPREJDDinDB('RT.EQU','001C')
+
+
 PREJDDFiles.insertPREJDDinDB('RT.MAT','001')
 //PREJDDFiles.insertPREJDDinDB('RT.MAT','001A') --> PREJDD vide
 //PREJDDFiles.insertPREJDDinDB('RT.MAT','001B') --> PREJDD vide
 PREJDDFiles.insertPREJDDinDB('RT.MAT','001C')
 
-
+*/
 Log.addTITLE("Fin des créations des PRE REQUIS")
 
 

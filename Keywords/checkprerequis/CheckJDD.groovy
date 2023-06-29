@@ -107,6 +107,8 @@ public class CheckJDD {
 		Log.addDEBUGDETAIL("Contrôle des colonnes (Présence, ordre)",0)
 		
 		InfoBDD.map[table].each{col,vlist ->
+			
+			Log.addDEBUG(vlist.join('|'))
 
 			if (col == myJDD.getHeader((int)vlist[0])) {
 				Log.addDEBUG("'$col' OK")

@@ -6,6 +6,7 @@ import my.JDDFiles
 import my.PREJDDFiles
 import my.TCFiles
 import my.Log
+import my.NAV
 
 
 // GlobalVariable.CHECKALLDATAS permet de supprimer le ctrl des datas qui contiennent ATTENTE et MOE
@@ -20,6 +21,7 @@ if (InfoBDD.map.isEmpty()) { InfoBDD.load() }
 if (TCFiles.TCfileMap.isEmpty()) { TCFiles.load() }
 if (JDDFiles.JDDfilemap.isEmpty()) { JDDFiles.load() }
 if (PREJDDFiles.PREJDDfilemap.isEmpty()) { PREJDDFiles.load() }
+NAV.loadJDDGLOBAL()
 
 CheckJDD.run()
 
