@@ -58,7 +58,7 @@ public class CheckPrerequis {
 				status=false
 			}
 		}
-		
+
 		if (status) {
 			Log.addINFO('     ***  OK   ***')
 		}
@@ -98,7 +98,7 @@ public class CheckPrerequis {
 				status=false
 			}
 		}
-		
+
 		if (status) {
 			Log.addINFO('     ***  OK   ***')
 		}

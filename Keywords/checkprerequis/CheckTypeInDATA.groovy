@@ -13,7 +13,7 @@ import my.JDDKW
 public class CheckTypeInDATA {
 
 	public static run(List <List> datas, JDD myJDD, String table, String filename) {
-		
+
 		List PKlist=InfoBDD.getPK(table)
 
 		Log.addDEBUGDETAIL("Contrôle des types dans les DATA",0)
@@ -27,23 +27,23 @@ public class CheckTypeInDATA {
 
 					String cdtName = li[0]
 
-					
+
 					// Cas des val TBD
 					if (JDDKW.startWithTBD(val)) {
 
 						Log.addDEBUG("Détection d'une valeur TBD sur $name '$val'")
-						
+
 						def newValue = JDDKW.getValueOfKW_TBD(val)
 						// si une valeur de test existe, on remplace la valeur du JDD par cette valeur
 						if (newValue) {
-							val = newValue 
+							val = newValue
 						}else {
-							//Log.addToListTBD("$filename\t$cdtName\t$table.$name")
+							Log.addToListTBD("$filename\t$cdtName\t$table.$name")
 							ctrlVal = false
 						}
-						
+
 					}
-					
+
 
 
 					if (myJDD.isOBSOLETE(name) || val.toString()=='$NU') ctrlVal = false

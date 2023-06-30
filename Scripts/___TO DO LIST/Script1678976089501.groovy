@@ -9,9 +9,6 @@
  * 
 
 
-
-Supression de CHECKALLDATAS, ajout du ctrl groupé des TBD dans les log
-
  
 
 
@@ -99,7 +96,8 @@ Supression de CHECKALLDATAS, ajout du ctrl groupé des TBD dans les log
 	 	
 	 	ARTICLE CREATION			--> Les points ne sont pas acceptés dans ID_CODART
 	 	
-	 	
+	 	MATRICULE SUPPRESSION		--> Pas de bouton supprimer !
+	 	MATRICULE RECHERCHE			--> RT.MAT.001.REC.01 est inactif ! (ajouter "Afficher les MAT inactifs"  ?
 	 
 	 
 	
@@ -342,8 +340,16 @@ Supression de CHECKALLDATAS, ajout du ctrl groupé des TBD dans les log
 	  
 	  PREREQUIS On pourrait Ajouter controle BDD exemple pour ID_CODUTI BDD*INTER*ID_CODINT
 	  		
-	  		
-	  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  * 
  * 
 */
