@@ -90,7 +90,7 @@ public class CheckJDD {
 				Log.addDEBUGDETAIL("Contrôle de la table DB '$table'",0)
 
 				checkColumn()
-				CheckTypeInDATA.run(myJDD.getDatas(), myJDD, table)
+				CheckTypeInDATA.run(myJDD.getDatas(), myJDD, table,JDDFullName)
 			}else {
 				Log.addDETAILFAIL("$JDDFullName ($sheetName) : La table '$table' n'existe pas !")
 				status=false

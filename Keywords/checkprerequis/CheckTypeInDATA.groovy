@@ -12,8 +12,8 @@ import my.JDDKW
 @CompileStatic
 public class CheckTypeInDATA {
 
-	public static run(List <List> datas, JDD myJDD, String table) {
-
+	public static run(List <List> datas, JDD myJDD, String table, String filename) {
+		
 		List PKlist=InfoBDD.getPK(table)
 
 		Log.addDEBUGDETAIL("Contrôle des types dans les DATA",0)
@@ -27,21 +27,24 @@ public class CheckTypeInDATA {
 
 					String cdtName = li[0]
 
+					
 					// Cas des val TBD
 					if (JDDKW.startWithTBD(val)) {
 
 						Log.addDEBUG("Détection d'une valeur TBD sur $name '$val'")
 						
-						def para = JDDKW.getValueOfKW_TBD(val)
+						def newValue = JDDKW.getValueOfKW_TBD(val)
 						// si une valeur de test existe, on remplace la valeur du JDD par cette valeur
-						if (para) {
-							val=para 
+						if (newValue) {
+							val = newValue 
 						}else {
+							//Log.addToListTBD("$filename\t$cdtName\t$table.$name")
 							ctrlVal = false
 						}
 						
 					}
-					//--------------------------------------------------------
+					
+
 
 					if (myJDD.isOBSOLETE(name) || val.toString()=='$NU') ctrlVal = false
 
@@ -58,8 +61,6 @@ public class CheckTypeInDATA {
 								Log.addDEBUG("Détection d'une IV sur $name, IV= $IV value=$val ")
 
 								String internalVal = NAV.myGlobalJDD.getInternalValueOf(IV, val.toString())
-
-								Log.addDEBUG("/t- internal value =$internalVal")
 
 								if (internalVal) {
 									val = internalVal

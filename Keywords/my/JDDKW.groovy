@@ -51,14 +51,13 @@ public class JDDKW {
 	static boolean isTBD(def val) {
 		return ((val instanceof String) && val == KEYWORD_ALLOWED.getAt('KW_TBD'))
 	}
-	
+
 	static boolean startWithTBD(def val) {
 		return ((val instanceof String) && val.toString().startsWith(KEYWORD_ALLOWED.getAt('KW_TBD').toString()))
 	}
-	
-	static def extractValueTBD
-	
-	
+
+
+
 
 	static String getKW_NU() {
 		return KEYWORD_ALLOWED.getAt('KW_NU')
@@ -87,17 +86,17 @@ public class JDDKW {
 	static String getKW_SEQUENCEID() {
 		return KEYWORD_ALLOWED.getAt('KW_SEQUENCEID')
 	}
-	
+
 	static String getKW_TBD() {
 		return KEYWORD_ALLOWED.getAt('KW_TBD')
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	static def getValueOfKW_TBD(def val) {
-		
+
 		if (startWithTBD(val)) {
 			def values = val.toString().split('\\$')
 			if (values.size()==3) {
@@ -106,6 +105,4 @@ public class JDDKW {
 		}
 		return null
 	}
-	
-	
 }

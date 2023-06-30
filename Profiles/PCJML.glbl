@@ -35,11 +35,6 @@
       <name>BDD_MDP</name>
    </GlobalVariableEntity>
    <GlobalVariableEntity>
-      <description>Permet de supprimer le ctrl des datas qui contiennent ATTENTE et MOE</description>
-      <initValue>true</initValue>
-      <name>CHECKALLDATAS</name>
-   </GlobalVariableEntity>
-   <GlobalVariableEntity>
       <description></description>
       <initValue>2</initValue>
       <name>TIMEOUT</name>

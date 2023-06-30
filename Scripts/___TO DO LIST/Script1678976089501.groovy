@@ -8,10 +8,9 @@
  * 
  * 
 
-	
- 
-	AJOUT du JDDKW 'TBD' en remplacement des valeurs de type 'ATTENTE REPONSE MOE'
-		Le but est de pouvoir ajouter une valeur provisoire  $TBD$0
+
+
+Supression de CHECKALLDATAS, ajout du ctrl groupé des TBD dans les log
 
  
 
@@ -103,7 +102,6 @@
 	 	
 	 
 	 
-	Doicumenter INTERNAL VALUE *******************************
 	
 	
 	
@@ -135,6 +133,8 @@
 		TR.BTR
 		RT.EQU
 		AD.DEP
+
+
 
 
  
@@ -264,9 +264,8 @@
 
 	LOG
 	
-		Sortir la gestion des STEP et du Status
-		
 		Revoir le DEBUG --> c'est pourri 
+			Ca serait bien d'indenter en fonction des appels de fonctions
 		
 		integrer LOG4J --> non pas avec Katalon
 		

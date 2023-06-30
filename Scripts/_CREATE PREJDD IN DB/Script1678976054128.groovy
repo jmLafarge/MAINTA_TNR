@@ -16,9 +16,7 @@ NAV.loadJDDGLOBAL()
 Log.addSubTITLE('Création des PREJDD')
 
 
-PREJDDFiles.insertPREJDDinDB('RT.MAT','001')
 
-/*
 // pour le proto
 PREJDDFiles.insertPREJDDinDB('RO.CAT','001')
 
@@ -87,7 +85,7 @@ PREJDDFiles.insertPREJDDinDB('RT.MAT','001')
 //PREJDDFiles.insertPREJDDinDB('RT.MAT','001B') --> PREJDD vide
 PREJDDFiles.insertPREJDDinDB('RT.MAT','001C')
 
-*/
+
 Log.addTITLE("Fin des créations des PRE REQUIS")
 
 

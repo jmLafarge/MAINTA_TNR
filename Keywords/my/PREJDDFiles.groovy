@@ -9,6 +9,7 @@ import groovy.io.FileType
 import groovy.transform.CompileStatic
 import my.SQL
 import my.NAV
+import my.JDDKW
 
 @CompileStatic
 public class PREJDDFiles {
@@ -34,6 +35,7 @@ public class PREJDDFiles {
 	}
 
 
+	
 
 	public static String getFullName(String modObj){
 
@@ -41,6 +43,7 @@ public class PREJDDFiles {
 	}
 
 
+	
 
 	static insertPREJDDinDB(String modObj, String tabName) {
 		Log.addDEBUG("insertPREJDDinDB() modObj = '$modObj' tabName = '$tabName'")
@@ -80,13 +83,13 @@ public class PREJDDFiles {
 
 
 
-				def value = my.XLS.getCellValue(c)
-				Log.addDEBUG("\t\tCell value = '$value' getClass()=" + value.getClass(),2)
+				def valueOfJDD = my.XLS.getCellValue(c)
+				Log.addDEBUG("\t\tCell value = '$valueOfJDD' getClass()=" + valueOfJDD.getClass(),2)
 				
 				if (c.getColumnIndex()>0) {
-					Log.addDEBUG("\t\tAjout fieldName='$fieldName' value='$value' in req SQL",2)
+					Log.addDEBUG("\t\tAjout fieldName='$fieldName' value='$valueOfJDD' in req SQL",2)
 
-					if (!my.JDDKW.isNU(value.toString()) && !myJDD.isOBSOLETE(fieldName)) {
+					if (!my.JDDKW.isNU(valueOfJDD.toString()) && !myJDD.isOBSOLETE(fieldName)) {
 						fields.add(fieldName)
 					}
 
@@ -95,7 +98,7 @@ public class PREJDDFiles {
 					// cas d'un champ lié à une séquence
 					String seqTable = myJDD.getParamForThisName('SEQUENCE',fieldName)
 					if (seqTable){
-						int seq = (int)value
+						int seq = (int)valueOfJDD
 						if (sequence.containsKey(seqTable)) {
 							if (seq > sequence.getAt(seqTable)) {
 								sequence.put(seqTable, seq)
@@ -114,7 +117,7 @@ public class PREJDDFiles {
 						
 						Log.addDEBUG("Détection d'une FK sur $fieldName, FK= $FK")
 						
-						if (!my.JDDKW.isNULL(value.toString()) && !my.JDDKW.isVIDE(value.toString())){
+						if (!my.JDDKW.isNULL(valueOfJDD.toString()) && !my.JDDKW.isVIDE(valueOfJDD.toString())){
 
 							String PR = myJDD.getParamForThisName('PREREQUIS',fieldName)
 							
@@ -122,14 +125,14 @@ public class PREJDDFiles {
 								
 								Log.addDEBUG("PR=$PR")
 								
-								value =getValueFromFK(PR,FK,cdt,value.toString())
+								valueOfJDD =getValueFromFK(PR,FK,cdt,valueOfJDD.toString())
 	
 							}else {
 								Log.addERROR("Pas de PREREQUIS pour '$fieldName' : lecture de la FK=$FK impossible")
 							}
 							
 						}else {
-							Log.addDEBUG(" - Pas de lecture de FK, la valeur est : "+value.toString())
+							Log.addDEBUG(" - Pas de lecture de FK, la valeur est : "+valueOfJDD.toString())
 						}
 					}
 					
@@ -140,15 +143,15 @@ public class PREJDDFiles {
 					
 					if (IV) {
 						
-						if (value) {
+						if (valueOfJDD) {
 						
-							Log.addDEBUG("Détection d'une IV sur $fieldName, IV= $IV value=$value :")
+							Log.addDEBUG("Détection d'une IV sur $fieldName, IV= $IV value=$valueOfJDD :")
 							
-							String internalVal = NAV.myGlobalJDD.getInternalValueOf(IV,value.toString())
+							String internalVal = NAV.myGlobalJDD.getInternalValueOf(IV,valueOfJDD.toString())
 							
 							Log.addDEBUG("/t- internal value =$internalVal")
 							
-							value = internalVal
+							valueOfJDD = internalVal
 						}else {
 							Log.addERROR("Détection d'une INTERNALVALUE sur $fieldName, IV= $IV, la valeur est null ou vide.ARRET DU PROGRAMME")
 							System.exit(0)
@@ -157,10 +160,26 @@ public class PREJDDFiles {
 					
 					
 					
+					// Cas des val TBD 
+					if (JDDKW.startWithTBD(valueOfJDD)) {
+
+						Log.addDEBUG("Détection d'une valeur TBD sur $fieldName '$valueOfJDD'")
+						
+						def newValue = JDDKW.getValueOfKW_TBD(valueOfJDD)
+						// si une valeur de test existe, on remplace la valeur du JDD par cette valeur
+						if (newValue) {
+							valueOfJDD = newValue
+						}else {
+							Log.addERROR("Détection d'une valeur TBD sur $fieldName sans valeur de test. ARRET DU PROGRAMME")
+							System.exit(0)
+						}
+						
+					}
+					
 					
 
 
-					switch (value) {
+					switch (valueOfJDD) {
 
 						case my.JDDKW.getKW_ORDRE() :
 							if (maxORDRE == 0) {
@@ -189,20 +208,20 @@ public class PREJDDFiles {
 							break
 						default :
 
-							if (value instanceof java.util.Date) {
+							if (valueOfJDD instanceof java.util.Date) {
 								Log.addDEBUG("\t\t instanceof java.util.Date = TRUE")
-								val = value.format('yyyy-dd-MM HH:mm:ss.SSS')
+								val = valueOfJDD.format('yyyy-dd-MM HH:mm:ss.SSS')
 
 							}else {
-								val = value.toString()
+								val = valueOfJDD.toString()
 							}
 							break
 					}
 					
 
 					if (InfoBDD.isImage(myJDD.getDBTableName(), fieldName)) {
-						values.add(getRTFTEXT(value.toString()).getBytes())
-					}else if (!my.JDDKW.isNU(value.toString()) && !myJDD.isOBSOLETE(fieldName) ) {
+						values.add(getRTFTEXT(valueOfJDD.toString()).getBytes())
+					}else if (!my.JDDKW.isNU(valueOfJDD.toString()) && !myJDD.isOBSOLETE(fieldName) ) {
 						values.add(val)
 					}
 
@@ -227,6 +246,7 @@ public class PREJDDFiles {
 		}
 	}
 
+	
 
 	static String getValueFromFK(String PR,String FK, String cdt,String valeur) {
 		

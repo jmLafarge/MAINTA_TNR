@@ -485,6 +485,7 @@ public class JDD {
 	def String getJDDFullName() {
 		return JDDFullName
 	}
+	
 
 	def String getHeader(int i) {
 

@@ -27,17 +27,17 @@ class Log {
 
 	private static String tab = ''
 
-
 	private static String PREDEBUGTXT	= '\t\t'
 	private static String PREDETAILTXT	= '\t\t- '
 
-
+	private static List <String> listTBD = []
+	
 
 
 
 	private static File createFile(String txt){
-		
-		
+
+
 
 		//Create folder if not exist
 		File dir = new File(my.PropertiesReader.getMyProperty('LOG_PATH'))
@@ -151,4 +151,27 @@ class Log {
 		addINFO(car*nbcar,level)
 		addINFO('',level)
 	}
+	
+	
+	public static addToListTBD(String msg) {
+		
+		listTBD.add(msg)
+		
+	}
+	
+	
+	public static writeListTBD() {
+		
+		Log.addSubTITLE('Contrôle si des valeurs de test existent pour les $TBD')
+		
+		if (listTBD) {
+			listTBD.each { msg ->
+				Log.addDETAILFAIL(msg)
+			}
+		}else {
+			Log.addINFO('     ***  OK   ***')
+		}
+	}
+	
+	
 }// end of class

@@ -68,7 +68,7 @@ public class CheckPREJDD {
 
 						checkColumn()
 						checkKWInDATA()
-						CheckTypeInDATA.run(datas,myJDD, table)
+						CheckTypeInDATA.run(datas,myJDD, table,fullName)
 						checkDoublonOnPK()
 					}
 				}
