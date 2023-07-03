@@ -8,8 +8,8 @@
  * 
  * 
 
+Ajout _AFFICHE TAG et _TEST CASE CODE GENERATOR
 
- 
 
 
 
@@ -97,7 +97,7 @@
 	 	ARTICLE CREATION			--> Les points ne sont pas acceptés dans ID_CODART
 	 	
 	 	MATRICULE SUPPRESSION		--> Pas de bouton supprimer !
-	 	MATRICULE RECHERCHE			--> RT.MAT.001.REC.01 est inactif ! (ajouter "Afficher les MAT inactifs"  ?
+	 	MATRICULE RECHERCHE			--> RT.MAT.001.REC.01 est inactif ! il faut ajouter la gestion du checkbox "Afficher les MAT inactifs"  ?
 	 
 	 
 	

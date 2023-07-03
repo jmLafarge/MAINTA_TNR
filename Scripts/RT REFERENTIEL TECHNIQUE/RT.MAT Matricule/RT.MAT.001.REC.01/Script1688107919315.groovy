@@ -15,10 +15,7 @@ for (String cdt in myJDD.CDTList) {
 
 	'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_Grille_and_checkCartridge()
-	
-	'Ajout Afficher les inactif'
-	KW
-	
+		
 	'Filtrer la valeur dans la grille'
     KW.scrollAndSetText(myJDD,'input_Filtre_Grille', myJDD.getStrData())
 

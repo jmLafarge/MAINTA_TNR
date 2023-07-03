@@ -31,7 +31,7 @@ class Log {
 	private static String PREDETAILTXT	= '\t\t- '
 
 	private static List <String> listTBD = []
-	
+
 
 
 
@@ -75,7 +75,14 @@ class Log {
 		fileDebug.append("[$h][$stat]:" + tab +"$msg\n")
 	}
 
+	
+	public static addB ( String msg) {
 
+		file.append("\t\t$msg\n")
+
+		fileDebug.append("\t\t$msg\n")
+	}
+	
 
 	public static addDEBUG (String msg, int level=1) {
 		String stat= getStatusFormat("  D $level  ")
@@ -151,19 +158,18 @@ class Log {
 		addINFO(car*nbcar,level)
 		addINFO('',level)
 	}
-	
-	
+
+
 	public static addToListTBD(String msg) {
-		
+
 		listTBD.add(msg)
-		
 	}
-	
-	
+
+
 	public static writeListTBD() {
-		
+
 		Log.addSubTITLE('Contrôle si des valeurs de test existent pour les $TBD')
-		
+
 		if (listTBD) {
 			listTBD.each { msg ->
 				Log.addDETAILFAIL(msg)
@@ -172,6 +178,4 @@ class Log {
 			Log.addINFO('     ***  OK   ***')
 		}
 	}
-	
-	
 }// end of class

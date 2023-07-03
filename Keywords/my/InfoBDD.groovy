@@ -88,8 +88,12 @@ public class InfoBDD {
 
 
 	public static boolean isPK(String table, String name) {
-
-		return map[table][name][5]!='NULL'
+		
+		if (isTableExist(table) && inTable(table,name)) {
+			return map[table][name][5] !='NULL'
+		} else {
+			return false
+		}
 	}
 
 

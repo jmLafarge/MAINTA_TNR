@@ -1,5 +1,5 @@
 
-def liste = ['1X', '1X', '3Y', '4Y', '1Y', '1X', '4Y']
+def liste = ['1X', '1X', '3Y', '4Y', '1Y', '1X', '3Y']
 
 def doublons = []
 liste.eachWithIndex { element, index ->

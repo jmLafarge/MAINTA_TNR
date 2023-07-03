@@ -17,6 +17,10 @@ List <String> PKList = InfoBDD.getPK('ART_EQU')
 
 println PKList
 
+println(InfoBDD.isPK('ART_EQU', 'ID_NUMEQU'))
+println(InfoBDD.isPK('ART_EQsU', 'ID_NUMEQU'))
+println(InfoBDD.isPK('ART_EQU', 'ID_NUMEsQU'))
+
 /*
 InfoBDD.map['INTER'].each {k,v  ->
 		println k.getClass()
