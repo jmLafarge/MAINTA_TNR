@@ -1,4 +1,4 @@
-@Grab('org.jsoup:jsoup:1.13.1') // Importer la dépendance Jsoup
+@Grab('org.jsoup:jsoup:1.16.1') // Importer la dépendance Jsoup
 
 import org.jsoup.Jsoup
 
@@ -21,14 +21,16 @@ if (PREJDDFiles.PREJDDfilemap.isEmpty()) { PREJDDFiles.load() }
 
 NAV.loadJDDGLOBAL()
 
+// Enregistrer la page html dans C:\Users\A1008045\Documents\IHM
+// Mettre à jour le nom du JDD et le lien ci-dessous
 
-JDD myJDD = new JDD(JDDFiles.getJDDFullName('RO.ACT'),'001',null,false)
+JDD myJDD = new JDD(JDDFiles.getJDDFullName('RT.MAT'),'001',null,false)
 
-def htmlFile = new File('C://Users//A1008045//Downloads//ACTEUR_Acteur_fichiers//FormE21.htm')
+def htmlFile = new File('C://Users//A1008045//Documents//IHM//Matricule_fichiers//FormE50.htm')
+
+
 
 Log.addINFO("Ouverture  de $htmlFile")
-
-
 
 def htmlContent = htmlFile.text
 
@@ -76,7 +78,8 @@ aTags.each { tag ->
         id: tag.attr('id'),
         tabindex: tag.attr('tabindex') ? tag.attr('tabindex').toInteger() : null,
         mlText3: tag.attr('ml-text3'), 
-		readonly: null
+		readonly: null,
+		text: tag.text()
     ]
     tagsWithAttributes << attributes
 }
@@ -92,7 +95,6 @@ tagsWithAttributes.each { attributes ->
 
 
 
-
 if (myJDD.getHeadersSize() >1) {
 	
 	List headers =myJDD.getHeaders()
@@ -104,17 +106,40 @@ if (myJDD.getHeadersSize() >1) {
 		String tag = tagsWithAttributes.find { it.id == name }?.tag
 		String type = tagsWithAttributes.find { it.id == name }?.type
 		
+		// si radio c'est pas id c'est name ?
+		
+		
+		
+		
+		
+		
 		if (tag == 'select') {
-			if (loc != 'select') {
+			if (loc && loc != 'select') {
 				Log.addDETAILFAIL("Pour $name, tag ihm = $tag et locator JDD = $loc")
+			} else if (!loc) {
+				Log.addDETAIL("Ajout de $tag pour $name")
+				myJDD.setLOCATOR(name, tag)
 			}
 		}else if (tag == 'input' && type == 'checkbox') {
-			if (loc != 'checkbox') {
-				Log.addDETAILFAIL("Pour $name, tag ihm = $tag et locator JDD = $loc")
+			if (loc && loc != 'checkbox') {
+				Log.addDETAILFAIL("Pour $name, tag ihm = $type et locator JDD = $loc")
+			} else if (!loc) {
+				Log.addDETAIL("Ajout de $type pour $name")
+				myJDD.setLOCATOR(name, type)
 			}
 		}else if (tag == 'input' && type == 'text') {
-			if (loc != 'input') {
+			if (loc && loc != 'input') {
 				Log.addDETAILFAIL("Pour $name, tag ihm = $tag et locator JDD = $loc")
+			} else if (!loc) {
+				Log.addDETAIL("Ajout de $tag pour $name")
+				myJDD.setLOCATOR(name, tag)
+			}
+		}else if (tag == 'input' && type == 'radio') {
+			if (loc && loc != 'radio') {
+				Log.addDETAILFAIL("Pour $name, tag ihm = $tag et locator JDD = $loc")
+			} else if (!loc) {
+				Log.addDETAIL("Ajout de $tag pour $name")
+				myJDD.setLOCATOR(name, tag)
 			}
 		}else if (tag) {
 			Log.addERROR("Pour $name, tag ihm = $tag --> pas de traitement trouvé")
@@ -125,6 +150,7 @@ if (myJDD.getHeadersSize() >1) {
 	
 }
 
+/*
 
 def first=true
 
@@ -134,9 +160,8 @@ tagsWithAttributes.each { attributes ->
 		Log.addB('')
 		Log.addSubTITLE(' CODE POUR CRE')
 		Log.addB('')
-		Log.addB('Rappel pour ajouter un block dans le fichier Resultat :')
-		Log.addB('')
-		Log.addB('TNRResult.addSTEPBLOCK("DU TEXTE")')
+		Log.addB('//Rappel pour ajouter un block dans le fichier Resultat :')
+		Log.addB('//TNRResult.addSTEPBLOCK("DU TEXTE")')
 		Log.addB('')
 	}
 	if (attributes.tag == 'input' && attributes.type == 'text') {
@@ -151,6 +176,8 @@ tagsWithAttributes.each { attributes ->
 		Log.addB("KW.scrollAndSelectOptionByValue(myJDD, \"${attributes.id}\")")
 		
 	} else if (attributes.tag == 'a') {
+		Log.addB('')
+		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attributes.text.toUpperCase()}\")")
 		Log.addB('')
 		Log.addB("KW.scrollAndClick(myJDD, \"tab_${attributes.mlText3}\")")
 		Log.addB("KW.waitForElementVisible(myJDD, \"tab_${attributes.mlText3}Selected\")")	
@@ -167,9 +194,8 @@ tagsWithAttributes.each { attributes ->
 		Log.addB('')
 		Log.addSubTITLE(' CODE POUR MAJ')
 		Log.addB('')
-		Log.addB('Rappel pour ajouter un block dans le fichier Resultat :')
-		Log.addB('')
-		Log.addB('TNRResult.addSTEPBLOCK("DU TEXTE")')
+		Log.addB('//Rappel pour ajouter un block dans le fichier Resultat :')
+		Log.addB('//TNRResult.addSTEPBLOCK("DU TEXTE")')
 		Log.addB('')
 	}
 	if (attributes.tag == 'input' && attributes.type == 'text' && !InfoBDD.isPK(myJDD.getDBTableName(),attributes.id)) {
@@ -183,6 +209,8 @@ tagsWithAttributes.each { attributes ->
 	} else if (attributes.tag == 'select') {
 		Log.addB("KW.scrollAndSelectOptionByValue(myJDD, \"${attributes.id}\")")
 	} else if (attributes.tag == 'a') {
+		Log.addB('')
+		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attributes.text.toUpperCase()}\")")
 		Log.addB('')
 		Log.addB("KW.scrollAndClick(myJDD, \"tab_${attributes.mlText3}\")")
 		Log.addB("KW.waitForElementVisible(myJDD, \"tab_${attributes.mlText3}Selected\")")
@@ -200,6 +228,9 @@ tagsWithAttributes.each { attributes ->
 		first=false
 		Log.addSubTITLE(' CODE POUR LEC')
 		Log.addB('')
+		Log.addB('//Rappel pour ajouter un block dans le fichier Resultat :')
+		Log.addB('//TNRResult.addSTEPBLOCK("DU TEXTE")')
+		Log.addB('')
 	}
 	
 	if (attributes.tag == 'input') {
@@ -213,6 +244,8 @@ tagsWithAttributes.each { attributes ->
 		Log.addB("KW.verifyOptionSelectedByValue(myJDD, \"${attributes.id}\")")
 		
 	} else if (attributes.tag == 'a') {
+		Log.addB('')
+		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attributes.text.toUpperCase()}\")")
 		Log.addB('')
 		Log.addB("KW.scrollAndClick(myJDD, \"tab_${attributes.mlText3}\")")
 		Log.addB("KW.waitForElementVisible(myJDD, \"tab_${attributes.mlText3}Selected\")")
@@ -238,3 +271,4 @@ tagsWithAttributes.each { attributes ->
 	}
 }
 
+*/

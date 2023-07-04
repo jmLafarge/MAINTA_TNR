@@ -523,6 +523,29 @@ public class JDD {
 		Log.addDEBUG("getInternalValueOf() --> $res")
 		return res
 	}
+	
+	def int getLineNumberOfParam(String para) {
+		//voir JDDGenerator.getRowOfPara
+		Log.addDEBUG("getLineNumberOfParam($para)")
+		int ret =-1
+		for (List param : params) {
+			if (param[0] == para){
+				ret = params.indexOf(param)+1
+			}	
+		}
+		Log.addDEBUG("getLineNumberOfParam() --> $ret")
+		return ret
+	}
 
+	def setLOCATOR(String name, String val) {
+		Log.addDEBUG("setLOCATOR($name, $val)")
+		CellStyle stylePara = TCSheet.getRow(1).getCell(1).getCellStyle()
+		int locLineNumber = getLineNumberOfParam('LOCATOR')
+		int colNumber = getHeaderIndexOf(name)
+		my.XLS.writeCell(TCSheet.getRow(locLineNumber),colNumber,val,stylePara)
+		OutputStream JDDfileOut = new FileOutputStream(JDDFullName)
+		book.write(JDDfileOut)
+		Log.addDEBUG("setLOCATOR() --> raz")
+	}
 
 } // end of class

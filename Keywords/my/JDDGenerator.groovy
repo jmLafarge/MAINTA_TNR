@@ -267,7 +267,7 @@ class JDDGenerator {
 		styleChampIHM = JDDbook.createCellStyle()
 		styleChampIHM.cloneStyleFrom(sh.getRow(0).getCell(1).getCellStyle())
 		styleChampIHM.setFillPattern(FillPatternType.SOLID_FOREGROUND)
-		
+
 		styleChampIHM.setFillForegroundColor(IndexedColors.PALE_BLUE.index)
 
 	}

@@ -66,7 +66,6 @@ public class InfoPARA {
 		}
 
 		Log.addDEBUG("paraMap.size= " + paraMap.size())
-
 	}
 
 
@@ -94,10 +93,10 @@ public class InfoPARA {
 
 					XLS.writeCell(row,0,col,paraStyle)
 				}
-				
+
 				String li_JDD = paraMap[col][icol+1]
-				
-				
+
+
 
 				if (paraMap[col][icol]==null) {
 

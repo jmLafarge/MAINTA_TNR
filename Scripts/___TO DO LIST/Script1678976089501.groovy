@@ -8,7 +8,8 @@
  * 
  * 
 
-Ajout _AFFICHE TAG et _TEST CASE CODE GENERATOR
+
+
 
 
 
@@ -78,6 +79,28 @@ Ajout _AFFICHE TAG et _TEST CASE CODE GENERATOR
  *
  *
 
+
+
+Nouveau TAG IHM : bouton radio
+
+	AFFICHE TAG --> modifié
+	TEST CASE CODE GENERATOR --> en cours ligne 109
+	JDD
+	KW
+	...
+	
+
+
+
+
+
+
+
+
+
+
+
+
  
  
 	RESULTAT DES TESTS
@@ -97,7 +120,6 @@ Ajout _AFFICHE TAG et _TEST CASE CODE GENERATOR
 	 	ARTICLE CREATION			--> Les points ne sont pas acceptés dans ID_CODART
 	 	
 	 	MATRICULE SUPPRESSION		--> Pas de bouton supprimer !
-	 	MATRICULE RECHERCHE			--> RT.MAT.001.REC.01 est inactif ! il faut ajouter la gestion du checkbox "Afficher les MAT inactifs"  ?
 	 
 	 
 	
@@ -184,6 +206,7 @@ Ajout _AFFICHE TAG et _TEST CASE CODE GENERATOR
 	
 	JDD
 		créer une class pour parametre
+		revoir la gestion du JDD
 		
 		
 	SQL

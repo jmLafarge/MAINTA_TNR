@@ -11,21 +11,15 @@ if (JDDFiles.JDDfilemap.isEmpty()) { JDDFiles.load() }
 
 NAV.loadJDDGLOBAL()
 
-//println NAV.myGlobalJDD.internalValues.join('\t')
-
-println NAV.myGlobalJDD.getInternalValueOf('GROUPE', 'GROUPE01')
-
-println NAV.myGlobalJDD.getInternalValueOf('CRITICITE', 'CRITICITE02')
-
-println NAV.myGlobalJDD.getInternalValueOf('TYPEMAT', 'Suivi en Stock')
-
 
 GlobalVariable.CASDETESTPATTERN = 'RT.EQU.001'
 
-//my.JDD myJDD = new my.JDD()
+my.JDD myJDD = new my.JDD()
 
 
-//println myJDD.CDTList.join('\t')
+println myJDD.CDTList.join('\t')
+
+println myJDD.setLOCATOR('ID_CODIMP', 'toto')
 
 
 
