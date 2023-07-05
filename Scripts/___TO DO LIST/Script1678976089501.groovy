@@ -152,7 +152,7 @@ Nouveau TAG IHM : bouton radio
 		RT.MAT --> onglet matricule OK --> faire les autres
 		TR.BTR
 		RT.EQU
-		AD.DEP
+		AD.DEP --> en cours
 
 
 
@@ -206,7 +206,7 @@ Nouveau TAG IHM : bouton radio
 	
 	JDD
 		créer une class pour parametre
-		revoir la gestion du JDD
+		*** revoir la gestion du JDD ***
 		
 		
 	SQL

@@ -1,6 +1,7 @@
 @Grab('org.jsoup:jsoup:1.16.1') // Importer la dépendance Jsoup
 
 import org.jsoup.Jsoup
+import org.apache.commons.lang3.StringUtils
 
 import my.InfoBDD
 import my.JDD
@@ -12,6 +13,18 @@ import my.TCFiles
 import my.Log
 
 
+// Enregistrer la page html dans C:\Users\A1008045\Documents\IHM
+// Mettre à jour la liste
+
+String testPour ='Matricule'
+
+Map map = [
+	'Acteur'	: ['RO.ACT','001','Acteur_fichiers//FormE21.htm'],
+	'Matricule'	: ['RT.MAT','001','Matricule_fichiers//FormE50.htm']
+]
+
+String folder = 'C://Users//A1008045//Documents//IHM//'
+
 Log.addTITLE("Lancement de _TEST CASE CODE GENERATOR ")
 
 if (InfoBDD.map.isEmpty()) { InfoBDD.load() }
@@ -21,12 +34,10 @@ if (PREJDDFiles.PREJDDfilemap.isEmpty()) { PREJDDFiles.load() }
 
 NAV.loadJDDGLOBAL()
 
-// Enregistrer la page html dans C:\Users\A1008045\Documents\IHM
-// Mettre à jour le nom du JDD et le lien ci-dessous
 
-JDD myJDD = new JDD(JDDFiles.getJDDFullName('RT.MAT'),'001',null,false)
 
-def htmlFile = new File('C://Users//A1008045//Documents//IHM//Matricule_fichiers//FormE50.htm')
+JDD myJDD = new JDD(JDDFiles.getJDDFullName(map[testPour][0]),map[testPour][1],null,false)
+def htmlFile = new File(folder + map[testPour][2])
 
 
 
@@ -79,7 +90,7 @@ aTags.each { tag ->
         tabindex: tag.attr('tabindex') ? tag.attr('tabindex').toInteger() : null,
         mlText3: tag.attr('ml-text3'), 
 		readonly: null,
-		text: tag.text()
+		text: StringUtils.stripAccents(tag.text().split(" ")[0])
     ]
     tagsWithAttributes << attributes
 }
@@ -108,8 +119,7 @@ if (myJDD.getHeadersSize() >1) {
 		
 		// si radio c'est pas id c'est name ?
 		
-		
-		
+
 		
 		
 		
@@ -150,7 +160,7 @@ if (myJDD.getHeadersSize() >1) {
 	
 }
 
-/*
+
 
 def first=true
 
@@ -179,8 +189,8 @@ tagsWithAttributes.each { attributes ->
 		Log.addB('')
 		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attributes.text.toUpperCase()}\")")
 		Log.addB('')
-		Log.addB("KW.scrollAndClick(myJDD, \"tab_${attributes.mlText3}\")")
-		Log.addB("KW.waitForElementVisible(myJDD, \"tab_${attributes.mlText3}Selected\")")	
+		Log.addB("KW.scrollAndClick(myJDD, \"tab_${attributes.text}\")")
+		Log.addB("KW.waitForElementVisible(myJDD, \"tab_${attributes.text}Selected\")")	
 		Log.addB('')
 	}
 }
@@ -212,8 +222,8 @@ tagsWithAttributes.each { attributes ->
 		Log.addB('')
 		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attributes.text.toUpperCase()}\")")
 		Log.addB('')
-		Log.addB("KW.scrollAndClick(myJDD, \"tab_${attributes.mlText3}\")")
-		Log.addB("KW.waitForElementVisible(myJDD, \"tab_${attributes.mlText3}Selected\")")
+		Log.addB("KW.scrollAndClick(myJDD, \"tab_${attributes.text}\")")
+		Log.addB("KW.waitForElementVisible(myJDD, \"tab_${attributes.text}Selected\")")
 		Log.addB('')
 	}
 }
@@ -247,8 +257,8 @@ tagsWithAttributes.each { attributes ->
 		Log.addB('')
 		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attributes.text.toUpperCase()}\")")
 		Log.addB('')
-		Log.addB("KW.scrollAndClick(myJDD, \"tab_${attributes.mlText3}\")")
-		Log.addB("KW.waitForElementVisible(myJDD, \"tab_${attributes.mlText3}Selected\")")
+		Log.addB("KW.scrollAndClick(myJDD, \"tab_${attributes.text}\")")
+		Log.addB("KW.waitForElementVisible(myJDD, \"tab_${attributes.text}Selected\")")
 		Log.addB('')
 	}
 }
@@ -265,10 +275,19 @@ tagsWithAttributes.each { attributes ->
 		Log.addB('')
 	}
 	
-	if (attributes.tag == 'a') {
-		Log.addB('tab_' + attributes.mlText3 + "\t" + '$TAB$' + attributes.mlText3)
-		Log.addB('tab_' + attributes.mlText3 + "Selected\t" + '$TABSELECTED$' + attributes.mlText3)
+	if (attributes.tag == 'a' && attributes.mlText3) {
+		Log.addB('ALL' + '\ttab_' + attributes.text + '\t$TAB$' + attributes.mlText3)
+		Log.addB('ALL' + '\ttab_' + attributes.text + "Selected" + '\t$TABSELECTED$' + attributes.mlText3)
+	}
+	
+	if (attributes.tag == 'a'  && !attributes.mlText3) {
+		Log.addB('ALL' + '\ttab_' + attributes.text + '*** TBD ***')
+		Log.addB('ALL' + '\ttab_' + attributes.text + "Selected" + '*** TBD ***')
+	}
+	
+	if (attributes.type == 'radio') {
+		Log.addB(myJDD.TCTabName + '\tradio_' + attributes.id + "\t" + "//input[@id='" + attributes.id +"']")
 	}
 }
 
-*/
+

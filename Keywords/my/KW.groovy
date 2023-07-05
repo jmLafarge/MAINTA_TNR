@@ -385,7 +385,27 @@ class KW {
 		}
 	} // end of def
 
-	//
+
+	
+	static boolean verifyElementTextContains(JDD myJDD, String name, String text=null, String status = 'FAIL')  {
+		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
+		if (tObj) {
+			if (text==null) text = myJDD.getStrData(name)
+			String gText = WebUI.getText(tObj)
+
+			if (gText.contains(text)) {
+				TNRResult.addSTEPPASS("Vérification du texte '$text' sur '" + tObj.getObjectId() + "'")
+				return true
+			} else {
+				TNRResult.addSTEP("Vérification du texte '$text' sur '" + tObj.getObjectId() + "'",status)
+				TNRResult.addDETAIL("la valeur est '$gText' !")
+				return false
+			}
+		}else {
+			TNRResult.addSTEPERROR("Vérification du texte '$text' sur '$name' impossible")
+			TNRResult.addDETAIL(msgTO)
+		}
+	} // end of def
 
 
 

@@ -12,14 +12,15 @@ if (JDDFiles.JDDfilemap.isEmpty()) { JDDFiles.load() }
 NAV.loadJDDGLOBAL()
 
 
-GlobalVariable.CASDETESTPATTERN = 'RT.EQU.001'
+GlobalVariable.CASDETESTPATTERN = 'RT.MAT.001'
 
 my.JDD myJDD = new my.JDD()
 
+myJDD.addColumn('TITI')
 
-println myJDD.CDTList.join('\t')
+//println myJDD.CDTList.join('\t')
 
-println myJDD.setLOCATOR('ID_CODIMP', 'toto')
+//println myJDD.addLOCATOR('ID_CODIMP', 'toto')
 
 
 

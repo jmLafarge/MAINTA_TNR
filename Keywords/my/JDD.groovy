@@ -33,7 +33,8 @@ public class JDD {
 		'select',
 		'textarea',
 		'td',
-		'checkbox'
+		'checkbox',
+		'radio'
 	]
 	private final List SKIP_LIST_SHEETNAME		= [
 		'Version',
@@ -335,7 +336,7 @@ public class JDD {
 				String name = headers[i]
 				Log.addDEBUG("addXpath i = $i name = '$name' loc='$loc' ",2 )
 				if (loc in TAG_LIST_ALLOWED) {
-					if (loc=='checkbox') {
+					if (loc in ['checkbox','radio']) {
 						xpathTO.put(name, "//input[@id='" + name +"']")
 						xpathTO.put('Lbl'+name, "//label[@id='Lbl$name']".toString())
 					}else if (loc=='input') {
@@ -391,7 +392,7 @@ public class JDD {
 
 	def String getParamForThisName(String param, String name) {
 
-		Log.addDEBUG("getParamForThisName $param $name",2)
+		Log.addDEBUG("getParamForThisName($param $name)",2)
 
 		List params = getParam(param)
 
@@ -405,6 +406,7 @@ public class JDD {
 				Log.addERROR("getParamForThisName(param=$param, name=$name) '$name' n'est pas une colonne du JDD")
 			}
 		}
+		Log.addDEBUG("getParamForThisName() --> $ret",2)
 		return ret
 	}
 
@@ -523,7 +525,7 @@ public class JDD {
 		Log.addDEBUG("getInternalValueOf() --> $res")
 		return res
 	}
-	
+
 	def int getLineNumberOfParam(String para) {
 		//voir JDDGenerator.getRowOfPara
 		Log.addDEBUG("getLineNumberOfParam($para)")
@@ -531,12 +533,13 @@ public class JDD {
 		for (List param : params) {
 			if (param[0] == para){
 				ret = params.indexOf(param)+1
-			}	
+			}
 		}
 		Log.addDEBUG("getLineNumberOfParam() --> $ret")
 		return ret
 	}
 
+	
 	def setLOCATOR(String name, String val) {
 		Log.addDEBUG("setLOCATOR($name, $val)")
 		CellStyle stylePara = TCSheet.getRow(1).getCell(1).getCellStyle()
@@ -547,5 +550,36 @@ public class JDD {
 		book.write(JDDfileOut)
 		Log.addDEBUG("setLOCATOR() --> raz")
 	}
+	
+	/*
+	def addColumn(String name) {
+
+		Log.addDEBUG("addColumn($name)")
+		
+		CellStyle styleChampIHM = book.createCellStyle()
+		styleChampIHM.cloneStyleFrom(TCSheet.getRow(0).getCell(1).getCellStyle())
+		styleChampIHM.setFillPattern(FillPatternType.SOLID_FOREGROUND)
+		styleChampIHM.setFillForegroundColor(IndexedColors.PALE_BLUE.index)
+		CellStyle stylePara = TCSheet.getRow(1).getCell(1).getCellStyle()
+		CellStyle styleCdt = TCSheet.getRow(5).getCell(1).getCellStyle()
+
+		if (name in headers) {  // si la colonne existe déjà
+			Log.addDEBUG("\t- la colonne '$name' existe déjà")
+		}else {
+			Log.addDEBUG("\t- Ajout de la colonne '$name'")
+			int numColFct = my.XLS.getLastColumnIndex(TCSheet,0)
+			my.XLS.writeCell(TCSheet.getRow(0),numColFct,name,styleChampIHM)
+			
+			for (int i in 1..params.size()) {
+				my.XLS.writeCell(TCSheet.getRow(i),numColFct,null,stylePara)
+			}
+			my.XLS.writeCell(TCSheet.getRow(5),numColFct,null,styleCdt)
+		}
+		OutputStream JDDfileOut = new FileOutputStream(JDDFullName)
+		book.write(JDDfileOut)
+		Log.addDEBUG("addColumn() --> raz")
+	}
+
+	*/
 
 } // end of class
