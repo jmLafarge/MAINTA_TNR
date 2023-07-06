@@ -289,7 +289,9 @@ public class JDD {
 			return null
 		}
 		if (headers.contains(name)) {
-			return datas[getDataLineNum(casDeTest, casDeTestNum)][headers.indexOf(name)]
+			def ret = datas[getDataLineNum(casDeTest, casDeTestNum)][headers.indexOf(name)]
+			Log.addDEBUG("getData() --> $ret" , 2)
+			return ret
 		}else {
 			Log.addERROR("getData($name, $casDeTestNum ) '$name' n'est pas une colonne du JDD")
 			return null
