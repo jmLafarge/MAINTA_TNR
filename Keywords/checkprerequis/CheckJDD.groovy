@@ -58,7 +58,11 @@ public class CheckJDD {
 
 						checkKWInDATA()
 						
-						checkUniquenessPK()
+						if (myJDD.getDBTableName()) {
+							checkUniquenessPK()
+						}else {
+							Log.addDETAILWARNING("$JDDFullName ($sheetName) : Pas de table donc pas de contrôle de l'unicité des PKs")
+						}
 					}else {
 						Log.addDETAILWARNING("$JDDFullName ($sheetName) : Pas de colonnes dans le JDD")
 					}
@@ -206,7 +210,7 @@ public class CheckJDD {
 			PKdatas.eachWithIndex { pks,numli ->
 				
 				if (PKValMap.containsKey(pks)) {
-					Log.addDETAILFAIL("$JDDFullName ($sheetName) : La PK $pks existe déjà en ligne " + PKValMap[pks])
+					Log.addDETAILFAIL("$JDDFullName ($sheetName) $numli: La PK '$pks' existe déjà en ligne " + PKValMap[pks])
 					status=false
 				}else {
 					PKValMap[pks] = numli

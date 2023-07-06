@@ -10,10 +10,6 @@
 
 
 
-Ajout  AD.DEP.001.FON.01 Verifier les informations A Propos
-Update AD.SEC.014.FON.01 Fermer session
-
-
 
 
  * 
@@ -71,8 +67,9 @@ Update AD.SEC.014.FON.01 Fermer session
  	
  		La valeur stockée en base est le texte (traduit) pas la valeur interne définit dans les paramètres fonctionnels
  		--> je laisse comme ça pour générer l'erreur
+	
 		
-		
+
 		
  *
  * -----------------------------------------------------------------------------------------------------
@@ -144,17 +141,18 @@ Nouveau TAG IHM : bouton radio
 	Ajouter les DES dans ART avec JDD Generator listRubriquesIHM
 	
 	
-	LOT 1A
-	*******
+	LOT PROTO + 1A
+	***************
+		AD.SEC --> Fait
 		RO.ACT --> FAIT
 		RO.FOU --> FAIT
 		MP.CPT --> FAIT
 		RT.ART --> FAIT
-		RO.ORG --> la JDD  n'est pas renseigné
+		RO.ORG --> 
 		RT.MAT --> onglet matricule OK --> faire les autres
 		TR.BTR
 		RT.EQU
-		AD.DEP --> en cours
+		AD.DEP --> Fait
 
 
 

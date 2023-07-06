@@ -135,33 +135,35 @@ public class CheckPrerequis {
 
 				myJDD.loadTCSheet(sheet)
 				String PRInThisSheet =''
+				if (myJDD.getParam('PREREQUIS')) {
 				myJDD.getParam('PREREQUIS').eachWithIndex { value,i ->
-					if (!(value in ['', 'PREREQUIS', 'OBSOLETE'])) {
-						PRInThisSheet = PRInThisSheet + myJDD.getHeader(i)+','
-						Log.addDEBUG('\theader = ' + myJDD.getHeader(i))
-						Log.addDEBUG('\tvalue = ' + value)
-						Map prerequisMap = [:]
-						prerequisMap.putAt('PREJDDMODOBJ',value.split(/\*/)[0])
-						prerequisMap.putAt('PREJDDTAB',value.split(/\*/)[1])
-						prerequisMap.putAt('PREJDDID',value.split(/\*/)[2])
-						prerequisMap.putAt('JDDNAME',fullName)
-						prerequisMap.putAt('JDDID',myJDD.getHeader(i))
-						if (forJDD) {
-							prerequisMap.putAt('LISTCDTVAL',getListCDTVAL(myJDD.getDatas(),i))
-						}else {
-							Sheet shPREJDD = PREJDDBook.getSheet(sheet.getSheetName())
-							if (shPREJDD) {
-								List <String> headersPREJDD = my.XLS.loadRow(shPREJDD.getRow(0))
-								prerequisMap.putAt('LISTCDTVAL',getListCDTVAL(my.PREJDD.loadDATA(shPREJDD,headersPREJDD.size()),i))
+						if (!(value in ['', 'PREREQUIS', 'OBSOLETE'])) {
+							PRInThisSheet = PRInThisSheet + myJDD.getHeader(i)+','
+							Log.addDEBUG('\theader = ' + myJDD.getHeader(i))
+							Log.addDEBUG('\tvalue = ' + value)
+							Map prerequisMap = [:]
+							prerequisMap.putAt('PREJDDMODOBJ',value.split(/\*/)[0])
+							prerequisMap.putAt('PREJDDTAB',value.split(/\*/)[1])
+							prerequisMap.putAt('PREJDDID',value.split(/\*/)[2])
+							prerequisMap.putAt('JDDNAME',fullName)
+							prerequisMap.putAt('JDDID',myJDD.getHeader(i))
+							if (forJDD) {
+								prerequisMap.putAt('LISTCDTVAL',getListCDTVAL(myJDD.getDatas(),i))
 							}else {
-								Log.addDEBUG('le sheet '+sheet.getSheetName() + " n'existe pas dans ce PREJDD")
+								Sheet shPREJDD = PREJDDBook.getSheet(sheet.getSheetName())
+								if (shPREJDD) {
+									List <String> headersPREJDD = my.XLS.loadRow(shPREJDD.getRow(0))
+									prerequisMap.putAt('LISTCDTVAL',getListCDTVAL(my.PREJDD.loadDATA(shPREJDD,headersPREJDD.size()),i))
+								}else {
+									Log.addDEBUG('le sheet '+sheet.getSheetName() + " n'existe pas dans ce PREJDD")
+								}
 							}
+							Log.addDEBUG('\tPrerequisMap : ')
+							prerequisMap.each { key,val ->
+								Log.addDEBUG('\t\t'+key + ' : ' +val)
+							}
+							list.add(prerequisMap)
 						}
-						Log.addDEBUG('\tPrerequisMap : ')
-						prerequisMap.each { key,val ->
-							Log.addDEBUG('\t\t'+key + ' : ' +val)
-						}
-						list.add(prerequisMap)
 					}
 				}
 				if (PRInThisSheet.size()>0) {
