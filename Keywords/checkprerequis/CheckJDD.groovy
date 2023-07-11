@@ -176,7 +176,7 @@ public class CheckJDD {
 		myJDD.datas.eachWithIndex { li,numli ->
 			li.eachWithIndex { val,i ->
 				if ((val instanceof String) && val.startsWith('$') && !my.JDDKW.isAllowedKeyword(val)) {
-					Log.addDETAILFAIL("$JDDFullName ($sheetName) : Le mot clé '$val' n'est pas autorisé. Trouvé en ligne DATA ${numli+1} colonne ${i+1}")
+					Log.addDETAILFAIL("$JDDFullName ($sheetName) : Le mot clé '$val' est inconnu. Trouvé en ligne DATA ${numli+1} colonne ${i+1}")
 					status=false
 				}
 			}

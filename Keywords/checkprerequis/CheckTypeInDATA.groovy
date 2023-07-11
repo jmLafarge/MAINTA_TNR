@@ -37,14 +37,26 @@ public class CheckTypeInDATA {
 						// si une valeur de test existe, on remplace la valeur du JDD par cette valeur
 						if (newValue) {
 							val = newValue
+							Log.addToList('TBDOK',"$filename\t$cdtName\t$table.$name\t${val.toString()}")
 						}else {
-							Log.addToListTBD("$filename\t$cdtName\t$table.$name")
+							Log.addToList('TBDKO',"$filename\t$cdtName\t$table.$name")
 							ctrlVal = false
 						}
 
 					}
-
-
+					
+					/*
+					if (JDDKW.startWithUPD(val)) { // cas d'un JDD
+						if (JDDKW.isUPD(val)) {
+							Log.addDEBUG("Détection d'un \$UPD, valeur = '${JDDKW.getOldValueOfKW_UPD(val)}', nouvelle valeur = '${JDDKW.getNewValueOfKW_UPD(val)}'")
+							
+						}else {
+							Log.addDETAILFAIL("Format du \$UPD non correct : '$val'")
+							ctrlVal = false
+						}
+						
+					}
+					*/
 
 					if (myJDD.isOBSOLETE(name) || val.toString()=='$NU') ctrlVal = false
 

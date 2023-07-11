@@ -9,6 +9,7 @@ import my.JDDFiles
 import my.Log
 import my.PREJDDFiles
 import my.XLS
+import my.JDDKW
 
 
 @CompileStatic
@@ -17,6 +18,8 @@ public class CheckPREJDD {
 
 	private static my.JDD myJDD
 	private static List <List> datas = []
+	private static String PREJDDFullName =''
+	private static String sheetName =''
 	private static String table =''
 	private static List <String> headersPREJDD=[]
 	private static List <String> PKList=[]
@@ -41,6 +44,7 @@ public class CheckPREJDD {
 
 		PREJDDFiles.PREJDDfilemap.each { modObj,fullName ->
 
+			PREJDDFullName = fullName
 			Log.addDEBUG("",0)
 			Log.addDEBUG("Lecture du PREJDD : $fullName",0)
 
@@ -112,11 +116,15 @@ public class CheckPREJDD {
 		Log.addDEBUGDETAIL("Contrôle des mots clés dans les DATA",0)
 		datas.eachWithIndex { li,numli ->
 			li.eachWithIndex { val,i ->
-				if ((val instanceof String) && val.startsWith('$') && !my.JDDKW.isAllowedKeyword(val)) {
-					Log.addDETAILFAIL("- Le mot clé '$val' n'est pas autorisé. Trouvé en ligne DATA ${numli+1} colonne ${i+1}")
+				if ((val instanceof String) && val.startsWith('$') && !JDDKW.isAllowedKeyword(val)) {
+					Log.addDETAILFAIL("$PREJDDFullName ($sheetName) : Le mot clé '$val' est inconnu. Trouvé en ligne DATA ${numli+1} colonne ${i+1}")
+					status=false
+				}else if ((val instanceof String) && val.startsWith('$') && JDDKW.startWithUPD(val)) {
+					Log.addDETAILFAIL("$PREJDDFullName ($sheetName) : Le mot clé '$val' n'est pas autorisé dans les PREJDD. Trouvé en ligne DATA ${numli+1} colonne ${i+1}")
 					status=false
 				}
 			}
+			
 		}
 	}
 

@@ -411,10 +411,10 @@ public class JDD {
 		Log.addDEBUG("getParamForThisName() --> $ret",2)
 		return ret
 	}
-	
-	
+
+
 	def setParamForThisName(String param, String name, String val) {
-		
+
 		Log.addDEBUG("setParamForThisName($param, $name, $val)",2)
 
 		List params = getParam(param)
@@ -428,14 +428,14 @@ public class JDD {
 				}else {
 					params[headers.indexOf(name)] = val
 				}
-				
+
 			}else {
 				Log.addERROR("setParamForThisName(param=$param, name=$name val=$val) '$name' n'est pas une colonne du JDD")
 			}
 		}
 		Log.addDEBUG("setParamForThisName() --> RAZ",2)
 	}
-		
+
 
 
 	def boolean isOBSOLETE(String name) {
@@ -529,7 +529,7 @@ public class JDD {
 
 		return xpathTO[name]
 	}
-	
+
 
 	def int getHeadersSize() {
 
@@ -586,7 +586,7 @@ public class JDD {
 			Log.addDETAILFAIL("IHMTO '$nom' existe déjà")
 		}else {
 			Row newRow = my.XLS.getNextRow(TOSheet)
-	
+
 			my.XLS.writeCell(newRow,0,tab)
 			my.XLS.writeCell(newRow,1,nom)
 			my.XLS.writeCell(newRow,2,xpath)

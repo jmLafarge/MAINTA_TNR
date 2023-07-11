@@ -176,6 +176,12 @@ public class PREJDDFiles {
 						
 					}
 					
+					// Cas des val $UPD$...$...
+					if (JDDKW.startWithUPD(valueOfJDD)) {
+
+							Log.addERROR("Détection d'une valeur UPD sur $fieldName INTERDIT sur PREJDD. ARRET DU PROGRAMME")
+							System.exit(0)					
+					}
 					
 
 

@@ -13,11 +13,12 @@ public class JDDKW {
 		KW_ORDRE:'$ORDRE',
 		KW_SEQUENCEID:'$SEQUENCEID',
 		KW_NU:'$NU',
-		KW_TBD:'$TBD'
+		KW_TBD:'$TBD',
+		KW_UPD:'$UPD'
 	]
 
 	static boolean isAllowedKeyword(String val) {
-		return (KEYWORD_ALLOWED.containsValue(val) || startWithTBD(val))
+		return (KEYWORD_ALLOWED.containsValue(val) || startWithTBD(val) || isUPD(val))
 	}
 
 	static boolean isNU(def val) {
@@ -56,9 +57,25 @@ public class JDDKW {
 		return ((val instanceof String) && val.toString().startsWith(KEYWORD_ALLOWED.getAt('KW_TBD').toString()))
 	}
 
+	static boolean startWithUPD(def val) {
+		return ((val instanceof String) && val.toString().startsWith(KEYWORD_ALLOWED.getAt('KW_UPD').toString()))
+	}
+
+	
+	
+	static boolean isUPD(def val) {
+		if (startWithUPD(val)) {
+			def li = val.toString().split('\\$')
+			if (li.size() == 4 && li[0] == "" && li[1] == "UPD" && li[2] && li[3] ) {
+				return true
+			}
+		}
+		return false
+	}
 
 
-
+	
+	
 	static String getKW_NU() {
 		return KEYWORD_ALLOWED.getAt('KW_NU')
 	}
@@ -105,4 +122,24 @@ public class JDDKW {
 		}
 		return null
 	}
+	
+	static def getOldValueOfKW_UPD(def val) {
+		
+		if (isUPD(val)) {
+			def li = val.toString().split('\\$')
+			return li[2]
+		}
+		return null
+	}
+	
+	static def getNewValueOfKW_UPD(def val) {
+		
+		if (isUPD(val)) {
+			def li = val.toString().split('\\$')
+			return li[3]
+		}
+		return null
+	}
+			
+			
 }

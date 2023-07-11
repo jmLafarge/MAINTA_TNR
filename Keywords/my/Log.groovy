@@ -30,8 +30,7 @@ class Log {
 	private static String PREDEBUGTXT	= '\t\t'
 	private static String PREDETAILTXT	= '\t\t- '
 
-	private static List <String> listTBD = []
-
+	private static Map<String, ArrayList> lists = [:]
 
 
 
@@ -75,14 +74,14 @@ class Log {
 		fileDebug.append("[$h][$stat]:" + tab +"$msg\n")
 	}
 
-	
+
 	public static addB ( String msg) {
 
 		file.append("\t\t$msg\n")
 
 		fileDebug.append("\t\t$msg\n")
 	}
-	
+
 
 	public static addDEBUG (String msg, int level=1) {
 		String stat= getStatusFormat("  D $level  ")
@@ -135,8 +134,9 @@ class Log {
 	public static addDETAILWARNING (String msg) {
 		add('WARNING',PREDETAILTXT+ msg)
 	}
-
-
+			
+			
+			
 
 	public static addTITLE(String title, String car ='*',int nbcar = 140,int level=0) {
 		if (title.length()+4 >= nbcar) nbcar = title.length()+4
@@ -160,22 +160,28 @@ class Log {
 	}
 
 
-	public static addToListTBD(String msg) {
 
-		listTBD.add(msg)
+	public static  addToList(String nomDeLaListe, String valeurDeLaListe) {
+
+		def liste = lists.get(nomDeLaListe)
+		if (liste == null) {
+			liste = []  // Créer une nouvelle liste si elle n'existe pas
+			lists.put(nomDeLaListe, liste)
+		}
+		liste.add(valeurDeLaListe)
 	}
 
 
-	public static writeListTBD() {
+	public static writeList(String nomDeLaListe, String status ='') {
 
-		Log.addSubTITLE('Contrôle si des valeurs de test existent pour les $TBD')
-
-		if (listTBD) {
-			listTBD.each { msg ->
-				Log.addDETAILFAIL(msg)
+		def liste = lists.get(nomDeLaListe)
+		if (liste != null) {
+			liste.each { val ->
+				add(status,PREDETAILTXT+ val)
 			}
-		}else {
-			Log.addINFO('     ***  OK   ***')
+			
+		} else {
+			addERROR("La liste \"$nomDeLaListe\" n'existe pas.")
 		}
 	}
 }// end of class

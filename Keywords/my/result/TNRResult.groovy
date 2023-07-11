@@ -127,19 +127,19 @@ public class TNRResult {
 		XLSResult.beginBlock()
 	}
 
-	
+
 	public static addEndBlock (String msg,String status) {
 		addSTEP(msg,status)
 		XLSResult.endBlock()
 	}
 
-	
-	
+
+
 	private static addStepInResult(String msg, String status) {
 
 		XLSResult.addStep(Log.logDate,msg,status)
 	}
-	
+
 
 
 	public static addStartTestCase (String cdt) {

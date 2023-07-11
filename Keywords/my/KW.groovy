@@ -386,7 +386,7 @@ class KW {
 	} // end of def
 
 
-	
+
 	static boolean verifyElementTextContains(JDD myJDD, String name, String text=null, String status = 'FAIL')  {
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {

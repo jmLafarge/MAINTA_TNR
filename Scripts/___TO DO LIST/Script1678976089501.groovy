@@ -7,12 +7,13 @@
  * -----------------------------------------------------------------------------------------------------
  * 
  * 
-Ajout de fonction dans my.JDD 
-Update _TEST CASE CODE GENERATOR
 
+Ajout new JDDKW $UPD$val$newval
 
+Ajout dans CheckTypeInDATA
+Ajout dans PREJDDFile
 
-
+MODIFIER la doc
 
  * 
  * -----------------------------------------------------------------------------------------------------
