@@ -7,6 +7,8 @@
  * -----------------------------------------------------------------------------------------------------
  * 
  * 
+Ajout de fonction dans my.JDD 
+Update _TEST CASE CODE GENERATOR
 
 
 
@@ -104,11 +106,11 @@ Nouveau TAG IHM : bouton radio
  
 	RESULTAT DES TESTS
 	 
-	 	ACTEUR CRE LEC MAJ 			--> ST_INVPRE est disable
+	 	ACTEUR CRE LEC MAJ 			--> ST_INVPRE est disable 																--> License
 	 		
-	 	ACTEUR - AJOUT EMPLACEMENT 	--> Click sur le bouton AJOUTER n'affiche pas la fenetre de recherche des emplacements
+	 	ACTEUR - AJOUT EMPLACEMENT 	--> Click sur le bouton AJOUTER n'affiche pas la fenetre de recherche des emplacements 	--> ajouter une Zone
 	 	
-	 	FOURNISSEUR SUPPRESSION 	--> pas autoriser à supprimmer cet élément
+	 	FOURNISSEUR SUPPRESSION 	--> pas autoriser à supprimmer cet élément -											--> voir trace voir si memo correctement créé en BDD
 	 	
 	 	COMPTEUR CREATION 			--> la valeur NU_DEL est à 0 à la place de 100000 (JDD) --> NU_DEL n'est pas en BD ***** revoir le controle *****
 	 	
@@ -116,12 +118,13 @@ Nouveau TAG IHM : bouton radio
 	 	
 	 	ARTICLE SUPPRESSION			--> Ce code ne peut pas supprimé
 	 	
-	 	ARTICLE CREATION			--> Les points ne sont pas acceptés dans ID_CODART
+	 	ARTICLE CREATION			--> Les points ne sont pas acceptés dans ID_CODART 										--> le point est un caractere interdit 
 	 	
-	 	MATRICULE SUPPRESSION		--> Pas de bouton supprimer !
+	 	MATRICULE SUPPRESSION		--> Pas de bouton supprimer !															--> revoir les regles de supression du Matricule
+	 																														--> la fonction teste si 2 mouvements sinon pas de delete
+	 	
+
 	 
-	 
-	
 	
 	
 	Ajout de INTERNALVALUE dans PARAM_LIST_ALLOWED

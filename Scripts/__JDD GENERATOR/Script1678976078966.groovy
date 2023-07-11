@@ -14,11 +14,10 @@ if (PREJDDFiles.PREJDDfilemap.isEmpty()) { PREJDDFiles.load() }
 
 List listRubriquesIHM = []
 
-my.JDDGenerator.add('GRO','RT.GRO','001')
+//my.JDDGenerator.add('GRO','RT.GRO','001')
 
 
-//listRubriquesIHM = ['ST_DESID_CODNATART','ST_DESGES','ST_DESID_CODFOU','ST_DESST_CODCOM']
-
+listRubriquesIHM = ['ST_DESID_CODNATART','ST_DESGES','ST_DESID_CODFOU','ST_DESST_CODCOM']
 
 //my.JDDGenerator.add('FAM','RT.MOD','001') // ID_CODFAM dans RT.EQU et RT.MAT 
 

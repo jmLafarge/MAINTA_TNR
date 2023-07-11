@@ -6,6 +6,7 @@ import internal.GlobalVariable
 import my.KW
 import my.result.TNRResult
 import my.JDD
+import my.Log
 
 'Lecture du JDD'
 def myJDD = new JDD()

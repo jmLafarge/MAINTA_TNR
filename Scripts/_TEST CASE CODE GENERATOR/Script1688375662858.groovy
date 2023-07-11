@@ -20,8 +20,12 @@ String testPour ='Matricule'
 
 Map map = [
 	'Acteur'	: ['RO.ACT','001','Acteur_fichiers//FormE21.htm'],
-	'Matricule'	: ['RT.MAT','001','Matricule_fichiers//FormE50.htm']
+	'Matricule'	: ['RT.MAT','001','Matricule_fichiers//FormE50.htm'],
+	'Equipement'	: ['RT.EQU','001','Equipement_fichiers//FormE7.htm'],
+	'Inventaire'	: ['RT.XXX','001','Inventaire_fichiers//FormE50.htm'],
+	'Organisation'	: ['RO.ORG','001','Organisation_fichiers//FormE233.htm']
 ]
+
 
 String folder = 'C://Users//A1008045//Documents//IHM//'
 
@@ -59,7 +63,7 @@ def tagsWithAttributes = []
 
 // Extraction pour les balises <input>
 inputTags.each { tag ->
-    def attributes = [
+    def attribute = [
         tag: 'input',
         type: tag.attr('type'),
         id: tag.attr('id'),
@@ -67,24 +71,24 @@ inputTags.each { tag ->
         mlText3: null, 
 		readonly: tag.hasAttr('readonly')
     ]
-    tagsWithAttributes << attributes
+    tagsWithAttributes << attribute
 }
 
 // Extraction pour les balises <select>
 selectTags.each { tag ->
-    def attributes = [
+    def attribute = [
         tag: 'select',
         id: tag.attr('id'),
         tabindex: tag.attr('tabindex') ? tag.attr('tabindex').toInteger() : null,
         mlText3: null, 
 		readonly: null
     ]
-    tagsWithAttributes << attributes
+    tagsWithAttributes << attribute
 }
 
 // Extraction pour les balises <a>
 aTags.each { tag ->
-    def attributes = [
+    def attribute = [
         tag: 'a',
         id: tag.attr('id'),
         tabindex: tag.attr('tabindex') ? tag.attr('tabindex').toInteger() : null,
@@ -92,23 +96,24 @@ aTags.each { tag ->
 		readonly: null,
 		text: StringUtils.stripAccents(tag.text().split(" ")[0])
     ]
-    tagsWithAttributes << attributes
+    tagsWithAttributes << attribute
 }
-
-// Tri des balises par ordre croissant de tabindex
-tagsWithAttributes.sort { a, b -> a.tabindex <=> b.tabindex }
 
 // Afficher les résultats
-
-tagsWithAttributes.each { attributes ->
-    println(attributes)
+tagsWithAttributes.each { attribute ->
+    println(attribute)
 }
 
 
+Log.addINFO('')
+Log.addINFO('Mise à jour du JDD :')
+Log.addINFO('')
+
+List headers =myJDD.getHeaders()
 
 if (myJDD.getHeadersSize() >1) {
 	
-	List headers =myJDD.getHeaders()
+	Log.addDETAIL('Completer le paramètre LOCATOR')
 	
 	headers.eachWithIndex {name,i ->
 	
@@ -120,7 +125,6 @@ if (myJDD.getHeadersSize() >1) {
 		// si radio c'est pas id c'est name ?
 		
 
-		
 		
 		
 		if (tag == 'select') {
@@ -161,36 +165,100 @@ if (myJDD.getHeadersSize() >1) {
 }
 
 
+Log.addDETAIL('Completer les rubriques IHM seulement')
+
+tagsWithAttributes.each { attribute ->
+	
+	if (attribute.tag == 'input' && attribute.type == 'text' && attribute.readonly && !headers.contains(attribute.id)) {
+		myJDD.addColumn(attribute.id)
+		Log.addDETAIL("Ajout de la rubrique '${attribute.id}' (IHM seulement)")
+	}
+	if (attribute.tag == 'input' && attribute.type == 'text' && attribute.readonly && headers.contains(attribute.id)) {
+		String loc = myJDD.getParamForThisName('LOCATOR',attribute.id)
+		if (!loc) {
+			Log.addDETAIL("Ajout de '${attribute.tag}' pour '${attribute.id}'")
+			myJDD.setLOCATOR(attribute.id, attribute.tag)
+		}		
+	}
+}
+
+
+
+def addAttributeIHMTO (JDD myJDD,String xpathName, String xpath) {
+	
+	if (myJDD.getXpathTO(xpathName)) {
+		if (myJDD.getXpathTO(xpathName) != xpath){
+			Log.addDETAILFAIL("Pour '$xpathName', xpath ihm = '$xpath' et xpath JDD = '${myJDD.getXpathTO(xpathName)}'")
+		}else {
+			Log.addDEBUG("'$xpathName' existe déjà !")
+		}
+	}else {
+		Log.addDETAIL("Ajout de '$xpathName'")
+		myJDD.addIHMTO('ALL',xpathName,xpath)
+	}
+	
+}
+
+
+
+
+Log.addINFO('')
+Log.addDETAIL("Completer l'onglet 'IHMTO'")
+
+tagsWithAttributes.sort { a, b -> a.tag <=> b.tag }
+
+tagsWithAttributes.each { attribute ->
+	
+		if (attribute.tag == 'a' && attribute.mlText3 ) { 
+			addAttributeIHMTO(myJDD, 'tab_' + attribute.text				,'$TAB$' + attribute.mlText3)
+			addAttributeIHMTO(myJDD, 'tab_' + attribute.text + "Selected"	,'$TABSELECTED$' + attribute.mlText3)
+		}
+		
+		
+		if (attribute.tag == 'a'  && !attribute.mlText3) {
+			addAttributeIHMTO(myJDD, 'tab_' + attribute.text				,'*** TBD ***')
+			addAttributeIHMTO(myJDD, 'tab_' + attribute.text + "Selected",'*** TBD ***')
+		}
+		
+		
+		if (attribute.type == 'radio') {
+			addAttributeIHMTO(myJDD, 'radio_' + attribute.id, "//input[@id='" + attribute.id +"']")
+		}
+}
+
+
+
+// Tri des balises par ordre croissant de tabindex
+tagsWithAttributes.sort { a, b -> a.tabindex <=> b.tabindex }
 
 def first=true
 
-tagsWithAttributes.each { attributes ->
+tagsWithAttributes.each { attribute ->
 	if (first) {
 		first=false
-		Log.addB('')
 		Log.addSubTITLE(' CODE POUR CRE')
 		Log.addB('')
 		Log.addB('//Rappel pour ajouter un block dans le fichier Resultat :')
 		Log.addB('//TNRResult.addSTEPBLOCK("DU TEXTE")')
 		Log.addB('')
 	}
-	if (attributes.tag == 'input' && attributes.type == 'text') {
-		if (!attributes.readonly) {
-			Log.addB("KW.scrollAndSetText(myJDD, \"${attributes.id}\")")
+	if (attribute.tag == 'input' && attribute.type == 'text') {
+		if (!attribute.readonly) {
+			Log.addB("KW.scrollAndSetText(myJDD, \"${attribute.id}\")")
 		}
 		
-	} else if (attributes.tag == 'input' && attributes.type == 'checkbox') {
-		Log.addB("KW.scrollAndCheckIfNeeded(myJDD, \"${attributes.id}\", \"O\")")
+	} else if (attribute.tag == 'input' && attribute.type == 'checkbox') {
+		Log.addB("KW.scrollAndCheckIfNeeded(myJDD, \"${attribute.id}\", \"O\")")
 		
-	} else if (attributes.tag == 'select') {
-		Log.addB("KW.scrollAndSelectOptionByValue(myJDD, \"${attributes.id}\")")
+	} else if (attribute.tag == 'select') {
+		Log.addB("KW.scrollAndSelectOptionByValue(myJDD, \"${attribute.id}\")")
 		
-	} else if (attributes.tag == 'a') {
+	} else if (attribute.tag == 'a') {
 		Log.addB('')
-		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attributes.text.toUpperCase()}\")")
+		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attribute.text.toUpperCase()}\")")
 		Log.addB('')
-		Log.addB("KW.scrollAndClick(myJDD, \"tab_${attributes.text}\")")
-		Log.addB("KW.waitForElementVisible(myJDD, \"tab_${attributes.text}Selected\")")	
+		Log.addB("KW.scrollAndClick(myJDD, \"tab_${attribute.text}\")")
+		Log.addB("KW.waitForElementVisible(myJDD, \"tab_${attribute.text}Selected\")")	
 		Log.addB('')
 	}
 }
@@ -198,32 +266,31 @@ tagsWithAttributes.each { attributes ->
 Log.addB('')
 first=true
 
-tagsWithAttributes.each { attributes ->
+tagsWithAttributes.each { attribute ->
 	if (first) {
 		first=false
-		Log.addB('')
 		Log.addSubTITLE(' CODE POUR MAJ')
 		Log.addB('')
 		Log.addB('//Rappel pour ajouter un block dans le fichier Resultat :')
 		Log.addB('//TNRResult.addSTEPBLOCK("DU TEXTE")')
 		Log.addB('')
 	}
-	if (attributes.tag == 'input' && attributes.type == 'text' && !InfoBDD.isPK(myJDD.getDBTableName(),attributes.id)) {
-		if (attributes.id.startsWith('ID_')) {
-			Log.addB("KW.searchWithHelper(myJDD, \"${attributes.id}\",\"\",\"\")")
-		}else if (!attributes.readonly) {
-			Log.addB("KW.scrollAndSetText(myJDD, \"${attributes.id}\")")
+	if (attribute.tag == 'input' && attribute.type == 'text' && !InfoBDD.isPK(myJDD.getDBTableName(),attribute.id)) {
+		if (attribute.id.startsWith('ID_')) {
+			Log.addB("KW.searchWithHelper(myJDD, \"${attribute.id}\",\"\",\"\")")
+		}else if (!attribute.readonly) {
+			Log.addB("KW.scrollAndSetText(myJDD, \"${attribute.id}\")")
 		}
-	} else if (attributes.tag == 'input' && attributes.type == 'checkbox') {
-		Log.addB("KW.scrollAndCheckIfNeeded(myJDD, \"${attributes.id}\", \"O\")")
-	} else if (attributes.tag == 'select') {
-		Log.addB("KW.scrollAndSelectOptionByValue(myJDD, \"${attributes.id}\")")
-	} else if (attributes.tag == 'a') {
+	} else if (attribute.tag == 'input' && attribute.type == 'checkbox') {
+		Log.addB("KW.scrollAndCheckIfNeeded(myJDD, \"${attribute.id}\", \"O\")")
+	} else if (attribute.tag == 'select') {
+		Log.addB("KW.scrollAndSelectOptionByValue(myJDD, \"${attribute.id}\")")
+	} else if (attribute.tag == 'a') {
 		Log.addB('')
-		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attributes.text.toUpperCase()}\")")
+		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attribute.text.toUpperCase()}\")")
 		Log.addB('')
-		Log.addB("KW.scrollAndClick(myJDD, \"tab_${attributes.text}\")")
-		Log.addB("KW.waitForElementVisible(myJDD, \"tab_${attributes.text}Selected\")")
+		Log.addB("KW.scrollAndClick(myJDD, \"tab_${attribute.text}\")")
+		Log.addB("KW.waitForElementVisible(myJDD, \"tab_${attribute.text}Selected\")")
 		Log.addB('')
 	}
 }
@@ -233,7 +300,7 @@ first=true
 
 
 
-tagsWithAttributes.each { attributes ->
+tagsWithAttributes.each { attribute ->
 	if (first) {
 		first=false
 		Log.addSubTITLE(' CODE POUR LEC')
@@ -243,51 +310,26 @@ tagsWithAttributes.each { attributes ->
 		Log.addB('')
 	}
 	
-	if (attributes.tag == 'input') {
-		if (attributes.type == 'text') {
-			Log.addB("KW.verifyValue(myJDD, \"${attributes.id}\")")
-		} else if (attributes.type == 'checkbox') {
-			Log.addB("KW.verifyElementCheckedOrNot(myJDD, \"${attributes.id}\", \"O\")")
+	if (attribute.tag == 'input') {
+		if (attribute.type == 'text') {
+			Log.addB("KW.verifyValue(myJDD, \"${attribute.id}\")")
+		} else if (attribute.type == 'checkbox') {
+			Log.addB("KW.verifyElementCheckedOrNot(myJDD, \"${attribute.id}\", \"O\")")
 			
 		}
-	} else if (attributes.tag == 'select') {
-		Log.addB("KW.verifyOptionSelectedByValue(myJDD, \"${attributes.id}\")")
+	} else if (attribute.tag == 'select') {
+		Log.addB("KW.verifyOptionSelectedByValue(myJDD, \"${attribute.id}\")")
 		
-	} else if (attributes.tag == 'a') {
+	} else if (attribute.tag == 'a') {
 		Log.addB('')
-		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attributes.text.toUpperCase()}\")")
+		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attribute.text.toUpperCase()}\")")
 		Log.addB('')
-		Log.addB("KW.scrollAndClick(myJDD, \"tab_${attributes.text}\")")
-		Log.addB("KW.waitForElementVisible(myJDD, \"tab_${attributes.text}Selected\")")
+		Log.addB("KW.scrollAndClick(myJDD, \"tab_${attribute.text}\")")
+		Log.addB("KW.waitForElementVisible(myJDD, \"tab_${attribute.text}Selected\")")
 		Log.addB('')
 	}
+
 }
 
-
-Log.addB('')
-first=true
-
-
-tagsWithAttributes.each { attributes ->
-	if (first) {
-		first=false
-		Log.addSubTITLE(' CODE POUR IHM')
-		Log.addB('')
-	}
-	
-	if (attributes.tag == 'a' && attributes.mlText3) {
-		Log.addB('ALL' + '\ttab_' + attributes.text + '\t$TAB$' + attributes.mlText3)
-		Log.addB('ALL' + '\ttab_' + attributes.text + "Selected" + '\t$TABSELECTED$' + attributes.mlText3)
-	}
-	
-	if (attributes.tag == 'a'  && !attributes.mlText3) {
-		Log.addB('ALL' + '\ttab_' + attributes.text + '*** TBD ***')
-		Log.addB('ALL' + '\ttab_' + attributes.text + "Selected" + '*** TBD ***')
-	}
-	
-	if (attributes.type == 'radio') {
-		Log.addB(myJDD.TCTabName + '\tradio_' + attributes.id + "\t" + "//input[@id='" + attributes.id +"']")
-	}
-}
 
 

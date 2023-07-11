@@ -35,10 +35,11 @@ public class TNRResult {
 	}
 
 
-	public static addSTEP (String msg, String status = null) {
+	public static addSTEP (String msg, String status = 'INFO') {
 
 		switch (status) {
 			case null :
+			case 'INFO' :
 				Log.addINFO(PRESTEPTXT+ msg)
 				addStepInResult(msg,'INFO')
 				break
@@ -121,14 +122,24 @@ public class TNRResult {
 
 
 
+	public static addBeginBlock (String msg,String status='INFO') {
+		addSTEP(msg,status)
+		XLSResult.beginBlock()
+	}
 
+	
+	public static addEndBlock (String msg,String status) {
+		addSTEP(msg,status)
+		XLSResult.endBlock()
+	}
 
-
-
+	
+	
 	private static addStepInResult(String msg, String status) {
 
 		XLSResult.addStep(Log.logDate,msg,status)
 	}
+	
 
 
 	public static addStartTestCase (String cdt) {

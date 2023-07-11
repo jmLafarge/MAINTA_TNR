@@ -104,7 +104,8 @@ public class SQL {
 
 		String verifStatus = 'PASS'
 
-		TNRResult.addSTEP("Début de la vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
+		//TNRResult.addSTEP("Début de la vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
+		TNRResult.addBeginBlock("Début de la vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
 
 		int nbrLigneCasDeTest =myJDD.getNbrLigneCasDeTest()
 
@@ -166,22 +167,24 @@ public class SQL {
 			}//pass
 		}//for
 
-		switch (verifStatus) {
-			case 'PASS':
-				TNRResult.addSTEPPASS("Fin de la vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
-				break
-			case 'FAIL':
-				TNRResult.addSTEPFAIL("Fin de la  vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
-				break
-			case 'ERROR':
-				TNRResult.addSTEPERROR("Fin de la  vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
-				break
-			default :
-				TNRResult.addDETAIL("verifStatus inconnu '$verifStatus'")
-				TNRResult.addSTEPERROR("Fin de la  vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
-
-				break
-		}
+		/*
+		 switch (verifStatus) {
+		 case 'PASS':
+		 TNRResult.addSTEPPASS("Fin de la vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
+		 break
+		 case 'FAIL':
+		 TNRResult.addSTEPFAIL("Fin de la  vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
+		 break
+		 case 'ERROR':
+		 TNRResult.addSTEPERROR("Fin de la  vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
+		 break
+		 default :
+		 TNRResult.addDETAIL("verifStatus inconnu '$verifStatus'")
+		 TNRResult.addSTEPERROR("Fin de la  vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
+		 break
+		 }
+		 */
+		TNRResult.addEndBlock("Fin de la vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')',verifStatus)
 
 	}
 
@@ -211,7 +214,7 @@ public class SQL {
 		}else if (!specificValue && IV){
 
 			String internalVal = NAV.myGlobalJDD.getInternalValueOf(IV,val.toString())
-							
+
 
 			if (internalVal==val) {
 				Log.addDEBUG("Contrôle de la valeur INTERNAL de '$fieldName' pour '$val' OK : la valeur attendue est '" + myJDD.getData(fieldName) + "' et la valeur en BD est  : '$internalVal'" )
@@ -280,8 +283,6 @@ public class SQL {
 
 				default:
 
-					Log.addDEBUG("checkValue case default")
-
 					if (specificValue) {
 
 						String valClass = val ? val.getClass() : 'NULL'
@@ -296,8 +297,6 @@ public class SQL {
 						}
 					}else {
 
-						Log.addDEBUG("checkValue case default else")
-
 						if (InfoBDD.isImage(myJDD.getDBTableName(), fieldName)) {
 
 							String query = "SELECT cast(cast($fieldName as varbinary(max)) as varchar(max)) FROM " + myJDD.getDBTableName() + getWhereWithAllPK(myJDD,casDeTestNum)
@@ -311,8 +310,6 @@ public class SQL {
 
 							}
 						}
-
-						Log.addDEBUG("checkValue case default else 2")
 
 
 						if ( val == InfoBDD.castJDDVal(myJDD.getDBTableName(), fieldName, myJDD.getData(fieldName))) {
@@ -406,10 +403,12 @@ public class SQL {
 		Log.addDEBUG("checkIDNotInBD()")
 
 		KW.delay(1)
-		boolean pass = true
+		//boolean pass = true
+		String status = 'PASS'
 		int nbrLigneCasDeTest =myJDD.getNbrLigneCasDeTest()
 
-		TNRResult.addSTEP("Début de la vérification de la suppression des valeurs en Base de Données")
+		TNRResult.addBeginBlock("Début de la vérification de la suppression des valeurs en Base de Données")
+
 		for (casDeTestNum in 1..nbrLigneCasDeTest) {
 			myJDD.setCasDeTestNum(casDeTestNum)
 			if (nbrLigneCasDeTest>1) {
@@ -425,7 +424,8 @@ public class SQL {
 				row = sqlInstance.firstRow(query)
 
 			}catch(Exception ex) {
-				pass = false
+				//pass = false
+				status = 'ERROR'
 				Log.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
 				TNRResult.addDETAIL("checkIDNotInBD()")
 				TNRResult.addDETAIL(ex.getMessage())
@@ -433,17 +433,22 @@ public class SQL {
 
 			if ((Integer)row[0]>0) {
 				TNRResult.addDETAIL("Supression KO")
-				pass = false
+				//pass = false
+				status = 'FAIL'
 			}
 		}
 
-		if (pass) {
-			TNRResult.addSTEPPASS("Fin de la vérification de la suppression des valeurs en Base de Données")
-			//KeywordUtil.markPassed("Supression OK")
-		}else {
-			TNRResult.addSTEPFAIL("Fin de la  vérification de la suppression des valeurs en Base de Données")
-			//KeywordUtil.markFailed("Supression KO")
-		}
+		/*
+		 if (pass) {
+		 TNRResult.addSTEPPASS("Fin de la vérification de la suppression des valeurs en Base de Données")
+		 //KeywordUtil.markPassed("Supression OK")
+		 }else {
+		 TNRResult.addSTEPFAIL("Fin de la  vérification de la suppression des valeurs en Base de Données")
+		 //KeywordUtil.markFailed("Supression KO")
+		 }
+		 */
+
+		TNRResult.addEndBlock("Fin de la  vérification de la suppression des valeurs en Base de Données",status)
 	}
 
 

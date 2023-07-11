@@ -1,16 +1,13 @@
 package my
 
-import groovy.transform.CompileStatic
-
 import org.apache.poi.ss.usermodel.*
+import org.apache.poi.xssf.usermodel.XSSFCellStyle
+import org.apache.poi.xssf.usermodel.XSSFDataFormat
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
-//import com.kms.katalon.core.testobject.SelectorMethod
-//import com.kms.katalon.core.testobject.TestObject
-
-//import groovy.text.SimpleTemplateEngine
+import groovy.transform.CompileStatic
 import internal.GlobalVariable
-import my.result.TNRResult
+import my.Log
 
 
 @CompileStatic
@@ -50,6 +47,7 @@ public class JDD {
 
 	private XSSFWorkbook book
 	private Sheet TCSheet
+	private Sheet TOSheet
 
 	private String JDDFullName = ''
 	private String TCTabName   = ''
@@ -116,8 +114,9 @@ public class JDD {
 		}
 
 		// ajout des xpath de l'onglet Test_Object sil existe
-		if (book.getSheet(TOSHEETNAME) != null) {
-			Iterator<Row> rowIt = book.getSheet(TOSHEETNAME).rowIterator()
+		TOSheet = book.getSheet(TOSHEETNAME)
+		if (TOSheet) {
+			Iterator<Row> rowIt = TOSheet.rowIterator()
 			rowIt.next()
 			while(rowIt.hasNext()) {
 				Row row = rowIt.next()
@@ -133,7 +132,10 @@ public class JDD {
 				}
 
 			}
+		}else {
+			Log.addDEBUG("Pas de d'onglet '$TOSHEETNAME'" )
 		}
+
 		Log.addDEBUG("xpathTO = " + xpathTO.toString(),2)
 
 
@@ -182,6 +184,7 @@ public class JDD {
 		while(rowIt.hasNext()) {
 			row = rowIt.next()
 			if (my.XLS.getCellValue(row.getCell(0))==START_DATA_WORD) {
+
 				break
 			}
 			if (my.XLS.getCellValue(row.getCell(0)) in PARAM_LIST_ALLOWED) {
@@ -338,7 +341,7 @@ public class JDD {
 				String name = headers[i]
 				Log.addDEBUG("addXpath i = $i name = '$name' loc='$loc' ",2 )
 				if (loc in TAG_LIST_ALLOWED) {
-					if (loc in ['checkbox','radio']) {
+					if (loc in ['checkbox', 'radio']) {
 						xpathTO.put(name, "//input[@id='" + name +"']")
 						xpathTO.put('Lbl'+name, "//label[@id='Lbl$name']".toString())
 					}else if (loc=='input') {
@@ -366,9 +369,6 @@ public class JDD {
 			}
 		}
 	}
-
-
-
 
 
 
@@ -411,7 +411,31 @@ public class JDD {
 		Log.addDEBUG("getParamForThisName() --> $ret",2)
 		return ret
 	}
+	
+	
+	def setParamForThisName(String param, String name, String val) {
+		
+		Log.addDEBUG("setParamForThisName($param, $name, $val)",2)
 
+		List params = getParam(param)
+
+		String ret = ''
+		if (params != null) {
+			if (headers.contains(name)) { /// verifier si dans headers
+				String para = params[headers.indexOf(name)]
+				if (para) {
+					Log.addDETAILWARNING("setParamForThisName(param=$param, name=$name val=$val) : la paramètre existe déjà '$para'")
+				}else {
+					params[headers.indexOf(name)] = val
+				}
+				
+			}else {
+				Log.addERROR("setParamForThisName(param=$param, name=$name val=$val) '$name' n'est pas une colonne du JDD")
+			}
+		}
+		Log.addDEBUG("setParamForThisName() --> RAZ",2)
+	}
+		
 
 
 	def boolean isOBSOLETE(String name) {
@@ -505,6 +529,7 @@ public class JDD {
 
 		return xpathTO[name]
 	}
+	
 
 	def int getHeadersSize() {
 
@@ -541,7 +566,7 @@ public class JDD {
 		return ret
 	}
 
-	
+
 	def setLOCATOR(String name, String val) {
 		Log.addDEBUG("setLOCATOR($name, $val)")
 		CellStyle stylePara = TCSheet.getRow(1).getCell(1).getCellStyle()
@@ -550,38 +575,56 @@ public class JDD {
 		my.XLS.writeCell(TCSheet.getRow(locLineNumber),colNumber,val,stylePara)
 		OutputStream JDDfileOut = new FileOutputStream(JDDFullName)
 		book.write(JDDfileOut)
+		setParamForThisName('LOCATOR', name, val)
 		Log.addDEBUG("setLOCATOR() --> raz")
 	}
+
+
+	def addIHMTO(String tab, String nom, String xpath) {
+		Log.addDEBUG("addIHMTO($tab, $nom, $xpath)")
+		if (xpathTO[nom]) {
+			Log.addDETAILFAIL("IHMTO '$nom' existe déjà")
+		}else {
+			Row newRow = my.XLS.getNextRow(TOSheet)
 	
-	/*
+			my.XLS.writeCell(newRow,0,tab)
+			my.XLS.writeCell(newRow,1,nom)
+			my.XLS.writeCell(newRow,2,xpath)
+			OutputStream JDDfileOut = new FileOutputStream(JDDFullName)
+			book.write(JDDfileOut)
+			xpathTO.put(nom, xpath)
+		}
+		Log.addDEBUG("addIHMTO() --> raz")
+	}
+
+
+
 	def addColumn(String name) {
-
 		Log.addDEBUG("addColumn($name)")
-		
-		CellStyle styleChampIHM = book.createCellStyle()
-		styleChampIHM.cloneStyleFrom(TCSheet.getRow(0).getCell(1).getCellStyle())
-		styleChampIHM.setFillPattern(FillPatternType.SOLID_FOREGROUND)
-		styleChampIHM.setFillForegroundColor(IndexedColors.PALE_BLUE.index)
-		CellStyle stylePara = TCSheet.getRow(1).getCell(1).getCellStyle()
-		CellStyle styleCdt = TCSheet.getRow(5).getCell(1).getCellStyle()
-
 		if (name in headers) {  // si la colonne existe déjà
 			Log.addDEBUG("\t- la colonne '$name' existe déjà")
 		}else {
 			Log.addDEBUG("\t- Ajout de la colonne '$name'")
+			CellStyle styleChampIHM = book.createCellStyle()
+			styleChampIHM.cloneStyleFrom(TCSheet.getRow(0).getCell(1).getCellStyle())
+			styleChampIHM.setFillPattern(FillPatternType.SOLID_FOREGROUND)
+			styleChampIHM.setFillForegroundColor(IndexedColors.PALE_BLUE.index)
+			styleChampIHM.setFont(book.createFont())
+			styleChampIHM.getFont().setColor(IndexedColors.BLACK.getIndex())
+			styleChampIHM.getFont().setBold(true)
+			CellStyle stylePara = TCSheet.getRow(1).getCell(1).getCellStyle()
+			CellStyle styleCdt = TCSheet.getRow(params.size()+1).getCell(1).getCellStyle()
 			int numColFct = my.XLS.getLastColumnIndex(TCSheet,0)
 			my.XLS.writeCell(TCSheet.getRow(0),numColFct,name,styleChampIHM)
-			
 			for (int i in 1..params.size()) {
 				my.XLS.writeCell(TCSheet.getRow(i),numColFct,null,stylePara)
 			}
-			my.XLS.writeCell(TCSheet.getRow(5),numColFct,null,styleCdt)
+			my.XLS.writeCell(TCSheet.getRow(params.size()+1),numColFct,null,styleCdt)
+			OutputStream JDDfileOut = new FileOutputStream(JDDFullName)
+			book.write(JDDfileOut)
+			headers.add(name)
 		}
-		OutputStream JDDfileOut = new FileOutputStream(JDDFullName)
-		book.write(JDDfileOut)
 		Log.addDEBUG("addColumn() --> raz")
 	}
-
-	*/
 
 } // end of class

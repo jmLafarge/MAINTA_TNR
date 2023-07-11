@@ -36,9 +36,13 @@ public class XLSResult {
 	private static int lineNumberSTART = 2	// casDeTest first line
 
 	private static int nextLineNumber  = 2 // ligne en cours
-	private static int firstLineDETAIL = 0
-	private static String statusDETAIL = ''
-	private static String previousStatus =''
+	//private static int firstLineDETAIL = 0
+	//private static String statusDETAIL = ''
+	//private static String previousStatus =''
+	
+	private static int firstLineToGroup = 0 		// premiere ligne à grouper
+	private static boolean continueToGroup = true	// pour grouper toutes les  lignes qui ne sont pas WARNING, FAIL ou ERROR
+	private static int lineBeginBlock = 0			// numéro de ligne du début d'un regroupement de ligne (Vérifiaction en BDD,..)
 
 	private static CELLStyleFactory CSF
 
@@ -105,18 +109,26 @@ public class XLSResult {
 
 
 
+	public static beginBlock () {
+		lineBeginBlock = nextLineNumber
+	}
 
 
+	public static endBlock () {
+		lineBeginBlock = 0
+	}
 
 	public static addStep(Date date, String msg, String status) {
 
 		if (!resulFileName) return
 
-			Row row = shRESULT.createRow(nextLineNumber)
+		Row row = shRESULT.createRow(nextLineNumber)
 
 		int rowResult = 2
 
 		//groupDetail(status)
+		
+		boolean previousGroupLineOK = continueToGroup
 
 		switch (status) {
 
@@ -124,68 +136,89 @@ public class XLSResult {
 				XLS.writeCell(row,0,date.format('yyyy-MM-dd HH:mm:ss.SSS'),CSF.cellStyle_RESULT_STEP)
 				XLS.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPPASS)
 				XLS.writeCell(row,2,'PASS',CSF.cellStyle_RESULT_STEPPASS)
-
+				continueToGroup = true
 				break
 			case 'WARNING':
 				takeScreenshot(row,date,msg,status)
 				XLS.writeCell(row,0,date.format('yyyy-MM-dd HH:mm:ss.SSS'),CSF.cellStyle_RESULT_STEP)
 				XLS.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPWARNING)
 				XLS.writeCell(row,2,'WARNING',CSF.cellStyle_RESULT_STEPWARNING)
+				continueToGroup = false
 				break
 			case 'FAIL':
 				takeScreenshot(row,date,msg,status)
 				XLS.writeCell(row,0,date.format('yyyy-MM-dd HH:mm:ss.SSS'),CSF.cellStyle_RESULT_STEP)
 				XLS.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPFAIL)
 				XLS.writeCell(row,2,'FAIL',CSF.cellStyle_RESULT_STEPFAIL)
+				continueToGroup = false
 				break
 			case 'ERROR':
 				takeScreenshot(row,date,msg,status)
 				XLS.writeCell(row,0,date.format('yyyy-MM-dd HH:mm:ss.SSS'),CSF.cellStyle_RESULT_STEP)
 				XLS.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPERROR)
 				XLS.writeCell(row,2,'ERROR',CSF.cellStyle_RESULT_STEPERROR)
+				continueToGroup = false
 				break
 			case 'STEPLOOP':
 				XLS.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPLOOP)
-
+				continueToGroup = true
 				break
 			case 'STEPGRP':
 				XLS.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPGRP)
 				XLS.writeCell(row,2,'',CSF.cellStyle_RESULT_STEPGRP)
-
+				continueToGroup = true
 				break
 
 			case 'STEPACTION':
 				XLS.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPACTION)
 				XLS.writeCell(row,2,'',CSF.cellStyle_RESULT_STEPACTION)
-
+				continueToGroup = true
 				break
 
 			case 'STEPBLOCK':
 				XLS.writeCell(row,1,(' '+msg+' ').center(70, '-'),CSF.cellStyle_RESULT_STEPBLOCK)
 				XLS.writeCell(row,2,'',CSF.cellStyle_RESULT_STEPBLOCK)
-
+				continueToGroup = true
 				break
 
 			case 'SUBSTEP':
 				XLS.writeCell(row,1,msg,CSF.cellStyle_RESULT_SUBSTEP)
-
+				continueToGroup = true
 				break
+				
 			case 'INFO':
 				XLS.writeCell(row,0,date.format('yyyy-MM-dd HH:mm:ss.SSS'),CSF.cellStyle_RESULT_STEPDETAIL)
 				XLS.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPDETAIL)
 				XLS.writeCell(row,2,'INFO',CSF.cellStyle_RESULT_STEPDETAIL)
-
+				continueToGroup = true
 				break
+				
 			case 'DETAIL':
 				XLS.writeCell(row,1,' - '+msg,CSF.cellStyle_RESULT_STEPDETAIL)
-
+				
 				break
 			default :
 				println "*********************** Result.addStep, status inconnu $status"
 		}
+		
+		
+		if (previousGroupLineOK && !continueToGroup) { // true --> false debut d'un KO fin du group
+			
+			int lastGroupLine = row.getRowNum()-1
+			if (lineBeginBlock!=0) {
+				lastGroupLine = lineBeginBlock-2
+			}
+			lineBeginBlock=0
+			shRESULT.setRowSumsBelow(false)
+			shRESULT.groupRow(firstLineToGroup+1, lastGroupLine)
+			shRESULT.setRowGroupCollapsed(firstLineToGroup+1, false)
+		}
 
-		write()
-
+		if (!previousGroupLineOK && continueToGroup) { // false --> true debut d'un OK memorise la ligne
+			firstLineToGroup =  row.getRowNum()-1
+		}
+		
+		write()		
 		nextLineNumber ++
 
 	}
@@ -199,13 +232,19 @@ public class XLSResult {
 
 		if (!resulFileName) return
 
-			Row row = shRESULT.createRow(lineNumberSTART)
+		Row row = shRESULT.createRow(lineNumberSTART)
 
 		XLS.writeCell(row,8,start,CSF.cellStyle_time)
+		
+		row = shRESULT.createRow(lineNumberSTART+1)
+		XLS.writeCell(row,1,"",CSF.cellStyle_RESULT_STEPDETAIL)
 
 		write()
 
-		nextLineNumber=lineNumberSTART+1
+		nextLineNumber=lineNumberSTART+2
+		
+		firstLineToGroup = lineNumberSTART+1
+		continueToGroup = true
 	}
 
 
@@ -215,8 +254,14 @@ public class XLSResult {
 
 		if (!resulFileName) return
 
+		if (continueToGroup) {
+			shRESULT.setRowSumsBelow(false)
+			shRESULT.groupRow(firstLineToGroup+1, nextLineNumber-1)
+			shRESULT.setRowGroupCollapsed(firstLineToGroup+1, false)
+			write()
+		}
 
-			Row row = shRESULT.getRow(lineNumberSTART)
+		Row row = shRESULT.getRow(lineNumberSTART)
 
 		int rowResult = 2
 
@@ -276,10 +321,12 @@ public class XLSResult {
 
 		Log.addDEBUG("addEndCasDeTest nextLineNumber=$nextLineNumber lineNumberSTART=$lineNumberSTART")
 
+		
 		shRESULT.setRowSumsBelow(false)
 		shRESULT.groupRow(lineNumberSTART+1, nextLineNumber-1)
 		shRESULT.setRowGroupCollapsed(lineNumberSTART+1, collapse)
 
+		
 		write()
 
 		lineNumberSTART=nextLineNumber

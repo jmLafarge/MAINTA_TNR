@@ -159,7 +159,13 @@ class JDDGenerator {
 	private static String addJDDSheet(XSSFWorkbook JDDbook , String table, String modObj, String fct,List listRubriquesIHM) {
 
 		Sheet shFCT = JDDbook.getSheet(fct)
+		
 		Sheet shMODELE = JDDbook.getSheet('MODELE')
+		
+		if (!shMODELE) {
+			Log.addERROR("L'onglet 'MODELE' n'existe pas ! ARRET DU PROGRAMME")
+			System.exit(0)
+		}
 		String msg=''
 
 

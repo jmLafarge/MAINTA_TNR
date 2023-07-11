@@ -10,6 +10,7 @@ import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.Workbook
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
+import my.Log
 
 import groovy.transform.CompileStatic
 
@@ -24,11 +25,15 @@ public class XLS {
 
 	static XSSFWorkbook open(String fullname) {
 
+		Log.addDEBUG("my.XLS.open($fullname)")
+
 		if (!fullname) Log.addERROR("my.XLS.open() fullname = '$fullname'")
 
 		File sourceExcel = new File(fullname)
-		def fxls = new FileInputStream(sourceExcel)
-		return new XSSFWorkbook(fxls)
+		FileInputStream fis = new FileInputStream(sourceExcel)
+		XSSFWorkbook workbook = new XSSFWorkbook(fis)
+		Log.addDEBUG("my.XLS.open() --> OK")
+		return workbook
 	}
 
 
