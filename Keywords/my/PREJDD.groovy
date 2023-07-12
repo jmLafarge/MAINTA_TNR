@@ -1,27 +1,25 @@
 package my
 
-import my.JDD
-import my.SQL
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
-import groovy.sql.Sql
 import groovy.transform.CompileStatic
 
 
 @CompileStatic
 public class PREJDD {
 
-	static String savJDDNAME=''
-	static String savTxt=''
+	static String savJDDNAME='' // Pour gérer l'affichage de tous les JDD dans le Log
+	static String savJDDNAME2=''// Pour gérer l'affichage des JDD KO  dans le Log
+	static String savTxt=''		// Pour gérer l'affichage des lignes de controle KO dan sle Log
 	static String savCDTSR=''
 	static String PREJDDFullName =''
 	private static boolean status = true
 
 
 	static boolean checkPREJDD(Map map){
-
+		
 		PREJDDFullName = PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString())
 
 		XSSFWorkbook book = my.XLS.open(PREJDDFullName)
@@ -48,13 +46,13 @@ public class PREJDD {
 			if (found) {
 				Log.addDEBUG(cdtVal.toString()+' trouvé')
 			}else {
-
+				
 				if (savJDDNAME != map.getAt('JDDNAME').toString()) {
 					Log.addDEBUG('',0)
-					Log.addDEBUG(map.getAt('JDDNAME').toString(),0)
+					Log.addDEBUG('\t- '+ map.getAt('JDDNAME').toString(),0)
 					savJDDNAME = map.getAt('JDDNAME').toString()
 				}
-
+				
 				// vérifier si la valeur n'est  pas déjà en BDD
 				String val = cdtVal.toString().split("'")[3]
 				String JDDFullName= JDDFiles.getJDDFullName(map.getAt('PREJDDMODOBJ').toString())
@@ -66,18 +64,28 @@ public class PREJDD {
 					Log.addDEBUG(cdtVal.toString()+' trouvé en BDD',0)
 				}else {
 
-					if (savJDDNAME != map.getAt('JDDNAME').toString()) {
+					if (savJDDNAME2 != map.getAt('JDDNAME').toString()) {
 						Log.addINFO('')
-						Log.addINFO(map.getAt('JDDNAME').toString())
-						savJDDNAME = map.getAt('JDDNAME').toString()
+						Log.addINFO('\t- '+ map.getAt('JDDNAME').toString())
+						savJDDNAME2 = map.getAt('JDDNAME').toString()
+						savTxt=''
 					}
 					String txt="Controle de '" + map.getAt('JDDID') + "' dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'"
 					if (savTxt != txt) {
 						Log.addINFO('')
 						Log.addINFO("\t\t$txt")
 						savTxt = txt
+						
+						/*
+							Log.addINFO('')
+							map.each { cle, valeur ->
+								Log.addINFO("\tClé: $cle, Valeur: $valeur")
+							}
+							Log.addINFO('')
+						*/
+
+						
 					}
-					//Log.addINFO("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "'  dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'")
 					Log.addDETAILFAIL(cdtVal.toString()+' non trouvé !')
 					status = false
 				}

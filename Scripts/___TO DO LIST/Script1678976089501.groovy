@@ -8,10 +8,6 @@
  * 
  * 
 
-Ajout new JDDKW $UPD$val$newval
-
-Ajout dans CheckTypeInDATA
-Ajout dans PREJDDFile
 
 MODIFIER la doc
 
@@ -91,6 +87,7 @@ Nouveau TAG IHM : bouton radio
 	KW
 	...
 	
+
 
 
 

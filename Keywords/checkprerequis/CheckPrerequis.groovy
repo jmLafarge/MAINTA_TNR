@@ -9,7 +9,6 @@ import my.JDDFiles
 import my.Log
 import my.PREJDD
 import my.PREJDDFiles
-import my.result.TNRResult
 import my.JDDKW
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
@@ -38,8 +37,8 @@ public class CheckPrerequis {
 
 
 		Log.addSubTITLE('Contrôle des PREREQUIS des JDD')
-		TNRResult.addSUBSTEP("Détails en cas d'erreur")
-		TNRResult.addDETAIL('    CAS DE TEST      -     VALEUR')
+		Log.addINFO("\t\tDétails en cas d'erreur")
+		Log.addINFO("\t\t    CAS DE TEST      -     VALEUR")
 		Log.addINFO('')
 		/*
 		 * Controle si tous les PREREQUIS des JDD sont bien dans les PREJDD
@@ -78,8 +77,8 @@ public class CheckPrerequis {
 		}
 
 		Log.addSubTITLE('Contrôle des PREREQUIS des PREJDD')
-		TNRResult.addSUBSTEP("Détails en cas d'erreur")
-		TNRResult.addDETAIL('    CAS DE TEST      -     VALEUR')
+		Log.addINFO("\t\tDétails en cas d'erreur")
+		Log.addINFO("\t\t    CAS DE TEST      -     VALEUR")
 		Log.addINFO('')
 		/*
 		 * Controle si tous les PREREQUIS des JDD sont bien dans les PREJDD
@@ -195,7 +194,12 @@ public class CheckPrerequis {
 				if (it[0].toString().contains('.CRE.') && PKlist.contains(myJDD.getHeader(index))) {
 					Log.addDEBUG("skip : " + "'" + it[0] + "' - '" + it[index] + "'")
 				}else {
-					list.add("'" + it[0] + "' - '" + it[index] + "'")
+					if (JDDKW.getOldValueOfKW_UPD(it[index])) {
+						list.add("'" + it[0] + "' - '" + JDDKW.getOldValueOfKW_UPD(it[index]) + "'")
+						Log.addDEBUG('$UPD trouvé en ' + it[0] + 'old value = ' + JDDKW.getOldValueOfKW_UPD(it[index]) )
+					}else {
+						list.add("'" + it[0] + "' - '" + it[index] + "'")
+					}
 				}
 			}
 		}

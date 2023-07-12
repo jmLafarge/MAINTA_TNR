@@ -134,9 +134,9 @@ class Log {
 	public static addDETAILWARNING (String msg) {
 		add('WARNING',PREDETAILTXT+ msg)
 	}
-			
-			
-			
+
+
+
 
 	public static addTITLE(String title, String car ='*',int nbcar = 140,int level=0) {
 		if (title.length()+4 >= nbcar) nbcar = title.length()+4
@@ -179,7 +179,6 @@ class Log {
 			liste.each { val ->
 				add(status,PREDETAILTXT+ val)
 			}
-			
 		} else {
 			addERROR("La liste \"$nomDeLaListe\" n'existe pas.")
 		}
