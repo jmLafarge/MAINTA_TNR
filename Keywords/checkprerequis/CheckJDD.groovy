@@ -25,7 +25,7 @@ public class CheckJDD {
 	 * Contrôle les mots clés dans les DATA
 	 * @return
 	 */
-	static run() {
+	static run(boolean withDetails) {
 
 		Log.addSubTITLE('Vérification des JDD')
 
@@ -56,7 +56,7 @@ public class CheckJDD {
 						status = CheckKWInDATA.run(myJDD.getDatas(),false, JDDFullName,sheetName, status)
 						
 						if (myJDD.getDBTableName()) {
-							status = CheckDoublonOnPK.run(myJDD.getDatas(), myJDD.getHeaders(), table, JDDFullName, sheetName, status)
+							status = CheckDoublonOnPK.run(myJDD.getDatas(), myJDD.getHeaders(), table, JDDFullName, sheetName, status,withDetails)
 						}else {
 							Log.addDETAILWARNING("$JDDFullName ($sheetName) : Pas de table donc pas de contrôle de l'unicité des PKs")
 						}

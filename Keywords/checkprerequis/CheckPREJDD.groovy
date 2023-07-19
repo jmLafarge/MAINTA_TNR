@@ -36,7 +36,7 @@ public class CheckPREJDD {
 	 *
 	 * @return
 	 */
-	static run() {
+	static run(boolean withDetails) {
 
 
 		Log.addSubTITLE('Vérification des PREJDD')
@@ -71,7 +71,7 @@ public class CheckPREJDD {
 						status = CheckKWInDATA.run(datas,true, fullName,sheetName, status)
 						if (table) {
 							status = CheckTypeInDATA.run(datas,myJDD, table,fullName,status)
-							status = CheckDoublonOnPK.run(datas, headersPREJDD, table, fullName, sheetName, status)
+							status = CheckDoublonOnPK.run(datas, headersPREJDD, table, fullName, sheetName, status,withDetails)
 						}
 					}
 				}

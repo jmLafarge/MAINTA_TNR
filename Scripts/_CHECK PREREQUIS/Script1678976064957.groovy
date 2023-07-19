@@ -8,6 +8,10 @@ import my.TCFiles
 import my.Log
 import my.NAV
 
+Log.setDebugLevel(0)
+Log.setDebugDeph(1)
+
+
 Log.addTITLE("Vérification des PRE REQUIS")
 
 if (InfoBDD.map.isEmpty()) { InfoBDD.load() }
@@ -17,9 +21,9 @@ if (PREJDDFiles.PREJDDfilemap.isEmpty()) { PREJDDFiles.load() }
 
 NAV.loadJDDGLOBAL()
 
-CheckJDD.run()
+CheckJDD.run(false)// true pour plus de détails
 
-CheckPREJDD.run()
+CheckPREJDD.run(false) // true pour plus de détails
 
 CheckPrerequis.run()
 

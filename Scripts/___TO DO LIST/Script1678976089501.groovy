@@ -166,12 +166,15 @@ Nouveau JDDKW $UPD
 
 
 
-	Ajout de LOG_DEBUGDEPH 
+
 	Ajout de Log.addTrace, Log.addTraceBEGIN et Log.addTraceBEGIN
 		JDD
 		TO
 		XLS
-
+	ajout de setDebugLevel et setDebugDeph à ajouter où on veut 
+	par exemple dans les script _CHECK PREREQUIS et _CREATE PREJDD IN DB
+	
+	éventuellement prévoir par fonction ou cas de test
 
  
  * 

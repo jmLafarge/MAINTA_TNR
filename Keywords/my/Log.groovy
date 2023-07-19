@@ -99,16 +99,16 @@ class Log {
 		}
 	}
 
-	
+
 	public static addTrace (String msg, int level=1) {
-		
+
 		if (deph <= debugDeph) {
 			addDEBUG('<> '+msg,level)
 			tab = '\t'.multiply(deph)
 		}
 	}
 
-	
+
 	public static addTraceBEGIN (String msg, int level=1) {
 
 		deph++
@@ -118,7 +118,7 @@ class Log {
 		}
 	}
 
-	
+
 	public static addTraceEND (String msg, int level=1) {
 
 		deph = (deph > 0) ? deph - 1 : 0
@@ -218,4 +218,18 @@ class Log {
 			addDEBUG("La liste \"$nomDeLaListe\" n'existe pas.")
 		}
 	}
+	
+	public static setDebugLevel(int newLevel) {
+		debugLevel = newLevel
+		fileDebug.append("New debug level = $debugLevel\n")
+	}
+	
+	
+	public static setDebugDeph(int newDeph) {
+		debugDeph = newDeph
+		fileDebug.append("New debug deph = $debugDeph\n")
+	}
+	
+	
+	
 }// end of class

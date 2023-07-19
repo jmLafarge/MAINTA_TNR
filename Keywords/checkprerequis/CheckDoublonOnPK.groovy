@@ -11,7 +11,7 @@ import my.JDDKW
 public class CheckDoublonOnPK {
 	
 	
-	static boolean run(List <List> datas, List <String> headers, String table, String JDDFullName, String sheetName, boolean status) {
+	static boolean run(List <List> datas, List <String> headers, String table, String JDDFullName, String sheetName, boolean status,boolean withDetails) {
 		
 		List <String> PKList = InfoBDD.getPK(table)
 		
@@ -43,7 +43,9 @@ public class CheckDoublonOnPK {
 						PKvalues.add(val)
 					}
 				}
-				Log.addDEBUGDETAIL("PKvalues =  " +  PKvalues.join(' , '),0)
+				if (withDetails) {
+					Log.addDEBUGDETAIL("PKvalues =  " +  PKvalues.join(' , '),0)
+				}
 				if (PKvalues && PKval.containsKey(PKvalues.join('-'))) {
 					Log.addDETAILFAIL("$JDDFullName ($sheetName) DATA ligne:${numli+1}: La PK '" + PKvalues.join('-') + "' existe déjà en ligne " + (PKval.getAt(PKvalues.join('-')) + 1))
 					status=false

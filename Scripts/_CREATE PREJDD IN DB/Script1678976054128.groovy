@@ -6,6 +6,9 @@ import my.JDDFiles
 import my.Log
 import my.NAV
 
+Log.setDebugLevel(0)
+Log.setDebugDeph(1)
+
 Log.addTITLE("Lancement de CREATE PREJDD IN DB")
 if (InfoBDD.map.isEmpty()) { InfoBDD.load() }
 if (JDDFiles.JDDfilemap.isEmpty()) { JDDFiles.load() }
@@ -18,6 +21,7 @@ Log.addSubTITLE('Création des PREJDD')
 
 
 // pour le proto
+
 PREJDDFiles.insertPREJDDinDB('RO.CAT','001')
 
 PREJDDFiles.insertPREJDDinDB('RO.HAB','001') 

@@ -97,7 +97,7 @@ public class PREJDDFiles {
 
 					// cas d'un champ lié à une séquence
 					String seqTable = myJDD.getParamForThisName('SEQUENCE',fieldName)
-					if (seqTable){
+					if (seqTable && !JDDKW.isNULL(valueOfJDD)){
 						int seq = (int)valueOfJDD
 						if (sequence.containsKey(seqTable)) {
 							if (seq > sequence.getAt(seqTable)) {
@@ -187,7 +187,7 @@ public class PREJDDFiles {
 
 					switch (valueOfJDD) {
 
-						case my.JDDKW.getKW_ORDRE() :
+						case JDDKW.getKW_ORDRE() :
 							if (maxORDRE == 0) {
 								maxORDRE = SQL.getMaxFromTable(fieldName, myJDD.getDBTableName())
 							}
