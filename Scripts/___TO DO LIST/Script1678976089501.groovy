@@ -157,7 +157,7 @@ Nouveau JDDKW $UPD
 		RO.FOU --> FAIT
 		MP.CPT --> FAIT
 		RT.ART --> FAIT
-		RO.ORG --> 
+		RO.ORG --> en cours
 		RT.MAT --> onglet matricule OK --> faire les autres
 		TR.BTR
 		RT.EQU
@@ -171,10 +171,8 @@ Nouveau JDDKW $UPD
 		JDD
 		TO
 		XLS
-	ajout de setDebugLevel et setDebugDeph à ajouter où on veut 
-	par exemple dans les script _CHECK PREREQUIS et _CREATE PREJDD IN DB
+
 	
-	éventuellement prévoir par fonction ou cas de test
 
  
  * 
@@ -304,17 +302,8 @@ Nouveau JDDKW $UPD
 
 	LOG
 	
-		Revoir le DEBUG --> c'est pourri 
-			Ca serait bien d'indenter en fonction des appels de fonctions
-		
-		integrer LOG4J --> non pas avec Katalon
-		
-  		Ajouter def var en para d'un DEBUG pour parser un map , un list,... --> pour une list.toListString() ou join mais c'est en ligne ... voir avec \n
-  		ajouter une fonction addTRACE(def fct, def para=null, String msg=null)
-  			this donne le package
-  			para est un Map de paramètre
-  			-> manque le nom de la fonction
-	  
+		debugLevel  voir comment debuguer certaines parties, certaines fonction, certains pakage ?
+
 
 
 * 
