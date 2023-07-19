@@ -1,11 +1,8 @@
-import com.kms.katalon.core.model.FailureHandling
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-
 import internal.GlobalVariable
-import my.KW
-import my.result.TNRResult
 import my.JDD
-import my.NAV
+import my.KW
+import my.SQL
+import my.result.TNRResult
 
 'Lecture du JDD'
 def myJDD = new JDD()
@@ -44,7 +41,7 @@ for (String cdt in myJDD.CDTList) {
 
 		TNRResult.addSTEPBLOCK("Controle en BDD")
 		
-			String verBDD = my.SQL.getMaintaVersion()
+			String verBDD = SQL.getMaintaVersion()
 			String verJDD = myJDD.getStrData('VER_BDD')
 			
 			if (verBDD == verJDD) {

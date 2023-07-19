@@ -33,8 +33,6 @@ JDDFiles.JDDfilemap.each { modObj,fullName ->
 				for (col in myJDD.headers.drop(1)) {
 					Log.addDEBUG("Traitement $col")
 					InfoPARA.update(myJDD, col,fullName, modObj+'.'+sheet.getSheetName())
-					
-	
 				}
 			}
 		}

@@ -1,7 +1,8 @@
-import my.KW
-import my.result.TNRResult
-import my.NAV
 import my.JDD
+import my.KW
+import my.NAV
+import my.SQL
+import my.result.TNRResult
 
 
 'Lecture du JDD'
@@ -32,7 +33,7 @@ for (String cdt in myJDD.CDTList) {
 	
 	    NAV.verifierEcranResultat(myJDD.getStrData())
 	
-		my.SQL.checkJDDWithBD(myJDD)
+		SQL.checkJDDWithBD(myJDD)
 	
 		
 	TNRResult.addEndTestCase()

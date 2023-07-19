@@ -1,12 +1,11 @@
 import org.openqa.selenium.Keys
 
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-
-import my.KW
-import my.NAV
-import my.result.TNRResult
 import my.JDD
+import my.KW
 import my.Log
+import my.NAV
+import my.SQL
+import my.result.TNRResult
 
 
 'Lecture du JDD'
@@ -56,7 +55,7 @@ for (String cdt in myJDD.CDTList) {
 	TNRResult.addSTEPACTION('CONTROLE')
 
 		'Vérification des valeurs en BD'
-		my.SQL.checkJDDWithBD(myJDD)
+		SQL.checkJDDWithBD(myJDD)
 		
 		
 	TNRResult.addEndTestCase()

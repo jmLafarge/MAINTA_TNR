@@ -61,8 +61,8 @@ public class JDDKW {
 		return ((val instanceof String) && val.toString().startsWith(KEYWORD_ALLOWED.getAt('KW_UPD').toString()))
 	}
 
-	
-	
+
+
 	static boolean isUPD(def val) {
 		if (startWithUPD(val)) {
 			def li = val.toString().split('\\$')
@@ -74,8 +74,8 @@ public class JDDKW {
 	}
 
 
-	
-	
+
+
 	static String getKW_NU() {
 		return KEYWORD_ALLOWED.getAt('KW_NU')
 	}
@@ -122,24 +122,22 @@ public class JDDKW {
 		}
 		return null
 	}
-	
+
 	static def getOldValueOfKW_UPD(def val) {
-		
+
 		if (isUPD(val)) {
 			def li = val.toString().split('\\$')
 			return li[2]
 		}
 		return null
 	}
-	
+
 	static def getNewValueOfKW_UPD(def val) {
-		
+
 		if (isUPD(val)) {
 			def li = val.toString().split('\\$')
 			return li[3]
 		}
 		return null
 	}
-			
-			
 }

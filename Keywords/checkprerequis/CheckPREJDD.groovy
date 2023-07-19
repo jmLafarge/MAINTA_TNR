@@ -22,7 +22,7 @@ public class CheckPREJDD {
 	private static String sheetName =''
 	private static String table =''
 	private static List <String> headersPREJDD=[]
-	private static List <String> PKList=[]
+	//private static List <String> PKList=[]
 	private static boolean status = true
 
 
@@ -54,26 +54,25 @@ public class CheckPREJDD {
 
 			for(Sheet sheet: book) {
 
-				if (myJDD.isSheetAvailable(sheet.getSheetName())) {
+				sheetName = sheet.getSheetName()
 
+				if (myJDD.isSheetAvailable(sheetName)) {
 
-					myJDD.loadTCSheet(myJDD.getBook().getSheet(sheet.getSheetName()))
-
+					myJDD.loadTCSheet(myJDD.getBook().getSheet(sheetName))
 					headersPREJDD = my.XLS.loadRow(sheet.getRow(0))
-
 					datas = my.PREJDD.loadDATA(sheet,headersPREJDD.size())
-
 					table = myJDD.getDBTableName()
-					PKList = InfoBDD.getPK(table)
 
-					Log.addDEBUG("Onglet : " + sheet.getSheetName(),0)
+					Log.addDEBUG("Onglet : " + sheetName,0)
 
 					if (headersPREJDD.size()>1) {
 
 						checkColumn()
-						checkKWInDATA()
-						CheckTypeInDATA.run(datas,myJDD, table,fullName)
-						checkDoublonOnPK()
+						status = CheckKWInDATA.run(datas,true, fullName,sheetName, status)
+						if (table) {
+							status = CheckTypeInDATA.run(datas,myJDD, table,fullName,status)
+							status = CheckDoublonOnPK.run(datas, headersPREJDD, table, fullName, sheetName, status)
+						}
 					}
 				}
 			}
@@ -107,50 +106,4 @@ public class CheckPREJDD {
 	}
 
 
-
-
-
-
-	private static checkKWInDATA() {
-
-		Log.addDEBUGDETAIL("Contrôle des mots clés dans les DATA",0)
-		datas.eachWithIndex { li,numli ->
-			li.eachWithIndex { val,i ->
-				if ((val instanceof String) && val.startsWith('$') && !JDDKW.isAllowedKeyword(val)) {
-					Log.addDETAILFAIL("$PREJDDFullName ($sheetName) : Le mot clé '$val' est inconnu. Trouvé en ligne DATA ${numli+1} colonne ${i+1}")
-					status=false
-				}else if ((val instanceof String) && val.startsWith('$') && JDDKW.startWithUPD(val)) {
-					Log.addDETAILFAIL("$PREJDDFullName ($sheetName) : Le mot clé '$val' n'est pas autorisé dans les PREJDD. Trouvé en ligne DATA ${numli+1} colonne ${i+1}")
-					status=false
-				}
-			}
-			
-		}
-	}
-
-
-
-
-
-
-	private static checkDoublonOnPK() {
-
-		Log.addDEBUGDETAIL("Contrôle absence de doublon sur PRIMARY KEY : " +  PKList.join(' , '),0)
-
-		Map <String,Integer> PKval = [:]
-
-		datas.eachWithIndex { li,numli ->
-			List <String> PKnames = []
-			List PKvalues = []
-			li.eachWithIndex { val,i ->
-				if (headersPREJDD.get(i) in PKList) PKvalues.add(val)
-			}
-			if (PKval.containsKey(PKvalues.join('-'))) {
-				Log.addDETAILFAIL("La valeur '" + PKvalues.join('-') + "' en ligne " + (numli+2) + " existe déjà en ligne " + (PKval.getAt(PKvalues.join('-')) + 2))
-				status=false
-			}else {
-				PKval.put(PKvalues.join('-'),numli)
-			}
-		}
-	}
 }

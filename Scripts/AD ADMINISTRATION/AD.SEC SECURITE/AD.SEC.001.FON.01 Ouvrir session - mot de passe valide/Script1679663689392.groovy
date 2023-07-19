@@ -1,10 +1,8 @@
-import com.kms.katalon.core.model.FailureHandling
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-
 import internal.GlobalVariable
-import my.KW
-import my.result.TNRResult
 import my.JDD
+import my.KW
+import my.SQL
+import my.result.TNRResult
 
 'Lecture du JDD'
 def myJDD = new JDD()
@@ -31,7 +29,7 @@ for (String cdt in myJDD.CDTList) {
 		TNRResult.addSTEP("Connexion OK")
 		
 		'Vérification des valeurs en BD'
-		my.SQL.checkJDDWithBD(myJDD,[:],"SELECT * FROM UTILOG ORDER bY DT_LOG DESC")
+		SQL.checkJDDWithBD(myJDD,[:],"SELECT * FROM UTILOG ORDER bY DT_LOG DESC")
 			
 	} else {
 		

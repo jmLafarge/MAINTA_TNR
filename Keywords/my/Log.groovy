@@ -24,6 +24,8 @@ class Log {
 	private static int nbCarStatus = 7
 
 	private static int debugLevel = 0
+	private static int debugDeph = 0
+	private static int deph = 0
 
 	private static String tab = ''
 
@@ -47,6 +49,11 @@ class Log {
 		File file =new File(my.PropertiesReader.getMyProperty('LOG_PATH') + File.separator +  dateFile + "-log${txt}.txt")
 
 		debugLevel = my.PropertiesReader.getMyProperty('LOG_DEBUGLEVEL').toInteger()
+		debugDeph = my.PropertiesReader.getMyProperty('LOG_DEBUGDEPH').toInteger()
+
+		if (txt=='DEBUG') {
+			file.append("debugLevel = $debugLevel\ndebugDeph = $debugDeph\n")
+		}
 
 		return file
 	}
@@ -92,7 +99,35 @@ class Log {
 		}
 	}
 
+	
+	public static addTrace (String msg, int level=1) {
+		
+		if (deph <= debugDeph) {
+			addDEBUG('<> '+msg,level)
+			tab = '\t'.multiply(deph)
+		}
+	}
 
+	
+	public static addTraceBEGIN (String msg, int level=1) {
+
+		deph++
+		if (deph <= debugDeph) {
+			addDEBUG('> '+msg,level)
+			tab = '\t'.multiply(deph)
+		}
+	}
+
+	
+	public static addTraceEND (String msg, int level=1) {
+
+		deph = (deph > 0) ? deph - 1 : 0
+		if (deph < debugDeph) {
+			tab = '\t'.multiply(deph)
+			addDEBUG('< '+msg,level)
+		}
+
+	}
 
 	public static addDEBUGDETAIL (String msg, int level=1) {
 		addDEBUG('- '+ msg,level)
@@ -180,7 +215,7 @@ class Log {
 				add(status,PREDETAILTXT+ val)
 			}
 		} else {
-			addERROR("La liste \"$nomDeLaListe\" n'existe pas.")
+			addDEBUG("La liste \"$nomDeLaListe\" n'existe pas.")
 		}
 	}
 }// end of class

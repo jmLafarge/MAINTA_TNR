@@ -1,11 +1,8 @@
-import com.kms.katalon.core.model.FailureHandling
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-
 import internal.GlobalVariable
 import my.JDD
 import my.KW
+import my.SQL
 import my.result.TNRResult
-import my.JDD
 
 'Lecture du JDD'
 def myJDD = new JDD()
@@ -34,7 +31,7 @@ for (String cdt in myJDD.CDTList) {
 		KW.verifyElementText(myJDD, 'span_error')
 		
 		'Vérification des valeurs en BD'
-		my.SQL.checkJDDWithBD(myJDD,[:],"SELECT *FROM UTILOG ORDER bY DT_LOG DESC")
+		SQL.checkJDDWithBD(myJDD,[:],"SELECT *FROM UTILOG ORDER bY DT_LOG DESC")
 			
 	} else {
 		

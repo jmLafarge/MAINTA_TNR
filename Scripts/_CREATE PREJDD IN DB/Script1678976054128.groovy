@@ -82,7 +82,7 @@ PREJDDFiles.insertPREJDDinDB('RT.EQU','001C')
 
 PREJDDFiles.insertPREJDDinDB('RT.MAT','001')
 //PREJDDFiles.insertPREJDDinDB('RT.MAT','001A') --> PREJDD vide
-//PREJDDFiles.insertPREJDDinDB('RT.MAT','001B') --> PREJDD vide
+PREJDDFiles.insertPREJDDinDB('RT.MAT','001B')
 PREJDDFiles.insertPREJDDinDB('RT.MAT','001C')
 
 

@@ -1,10 +1,8 @@
+import my.JDD
 import my.KW
 import my.NAV
+import my.SQL
 import my.result.TNRResult
-
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-
-import my.JDD
 
 'Lecture du JDD'
 def myJDD = new JDD()
@@ -104,7 +102,7 @@ for (String cdt in myJDD.CDTList) {
 	
 	    NAV.verifierEcranResultat(myJDD.getStrData())
 		
-		my.SQL.checkJDDWithBD(myJDD)
+		SQL.checkJDDWithBD(myJDD)
 		
 		
 	TNRResult.addEndTestCase()

@@ -1,8 +1,9 @@
 import internal.GlobalVariable
+import my.JDD
 import my.KW
 import my.NAV
+import my.SQL
 import my.result.TNRResult
-import my.JDD
 
 'Lecture du JDD'
 def myJDD = new JDD()
@@ -46,7 +47,7 @@ for (String cdt in myJDD.CDTList) {
 	}
 	
 	'Vérification des valeurs en BD'
-	my.SQL.checkJDDWithBD(myJDD,specificValueMap)
+	SQL.checkJDDWithBD(myJDD,specificValueMap)
 
 	TNRResult.addEndTestCase()
 } // fin du if

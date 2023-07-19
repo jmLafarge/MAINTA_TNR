@@ -87,7 +87,7 @@ println '-----------------------------------------------------------------------
 
 
 //println '******************************************' + fn2
-//println my.SQL.getMaxFromTable(fn2, myJDD.getDBTableName())
+//println SQL.getMaxFromTable(fn2, myJDD.getDBTableName())
 
 
 //println myJDD.getDataLine('RO.ACT.004EMP.SRM.01',2)

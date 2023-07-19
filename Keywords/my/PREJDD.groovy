@@ -93,6 +93,7 @@ public class PREJDD {
 		}
 		List listCDTVAL = map.getAt('LISTCDTVAL')
 		Log.addDEBUGDETAIL(nbFound + "/" + listCDTVAL.size() + ' trouvé(s)',0)
+		
 		return status
 	}
 

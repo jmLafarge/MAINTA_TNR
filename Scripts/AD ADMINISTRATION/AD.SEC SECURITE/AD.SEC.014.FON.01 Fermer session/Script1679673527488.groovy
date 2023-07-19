@@ -1,12 +1,10 @@
-import com.kms.katalon.core.model.FailureHandling
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-import com.kms.katalon.core.webui.keyword.internal.WebUIAbstractKeyword
 
 import internal.GlobalVariable
-import my.KW
-import my.result.TNRResult
 import my.JDD
-import my.Log
+import my.KW
+import my.SQL
+import my.result.TNRResult
 
 'Lecture du JDD'
 def myJDD = new JDD()
@@ -43,7 +41,7 @@ for (String cdt in myJDD.CDTList) {
 		TNRResult.addSTEP("Déconnexion OK",null)
 		
 		'Vérification des valeurs en BD'
-		my.SQL.checkJDDWithBD(myJDD,[:],"SELECT * FROM UTILOG ORDER bY DT_LOG DESC")
+		SQL.checkJDDWithBD(myJDD,[:],"SELECT * FROM UTILOG ORDER bY DT_LOG DESC")
 		TNRResult.addDETAIL("Corrigé sur Aster mais après V13.0.2 DEVOPS 13064")
 		
 	}else {

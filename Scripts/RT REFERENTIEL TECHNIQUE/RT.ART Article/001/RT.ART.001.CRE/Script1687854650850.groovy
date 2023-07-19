@@ -3,6 +3,7 @@ import my.JDD
 import my.JDDFiles
 import my.KW
 import my.NAV
+import my.SQL
 import my.result.TNRResult
 
 'Lecture du JDD'
@@ -108,8 +109,10 @@ for (String cdt in myJDD.CDTList) {
 	    KW.scrollAndClick(NAV.myGlobalJDD,'button_Valider')
 	
 	    NAV.verifierEcranResultat(myJDD.getStrData('ID_CODART')) // prendre en compte la valeur de ARTNUM
+		
+		myJDD.replaceSEQUENCIDInJDD('ID_NUMDOC1')
 	
-		my.SQL.checkJDDWithBD(myJDD) // prendre en compte la valeur de ARTNUM car le where du elect se fait sur ID_CODART
+		SQL.checkJDDWithBD(myJDD) // prendre en compte la valeur de ARTNUM car le where du elect se fait sur ID_CODART
 		
 		
 	TNRResult.addEndTestCase()

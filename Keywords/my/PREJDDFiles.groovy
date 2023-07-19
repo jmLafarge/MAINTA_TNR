@@ -35,7 +35,7 @@ public class PREJDDFiles {
 	}
 
 
-	
+
 
 	public static String getFullName(String modObj){
 
@@ -43,7 +43,7 @@ public class PREJDDFiles {
 	}
 
 
-	
+
 
 	static insertPREJDDinDB(String modObj, String tabName) {
 		Log.addDEBUG("insertPREJDDinDB() modObj = '$modObj' tabName = '$tabName'")
@@ -70,7 +70,7 @@ public class PREJDDFiles {
 			}
 			Log.addDEBUG("",0)
 			Log.addDEBUG("Traitement $cdt",0)
-			
+
 			List fields =[]
 			List values =[]
 			String val = ''
@@ -85,7 +85,7 @@ public class PREJDDFiles {
 
 				def valueOfJDD = my.XLS.getCellValue(c)
 				Log.addDEBUG("\t\tCell value = '$valueOfJDD' getClass()=" + valueOfJDD.getClass(),2)
-				
+
 				if (c.getColumnIndex()>0) {
 					Log.addDEBUG("\t\tAjout fieldName='$fieldName' value='$valueOfJDD' in req SQL",2)
 
@@ -108,63 +108,63 @@ public class PREJDDFiles {
 							sequence.put(seqTable, seq)
 						}
 					}
-					
-					
-					
+
+
+
 					// cas d'un champ lié à une FOREIGNKEY
 					String FK = myJDD.getParamForThisName('FOREIGNKEY',fieldName)
 					if (FK) {
-						
+
 						Log.addDEBUG("Détection d'une FK sur $fieldName, FK= $FK")
-						
+
 						if (!my.JDDKW.isNULL(valueOfJDD.toString()) && !my.JDDKW.isVIDE(valueOfJDD.toString())){
 
 							String PR = myJDD.getParamForThisName('PREREQUIS',fieldName)
-							
+
 							if (PR) {
-								
+
 								Log.addDEBUG("PR=$PR")
-								
+
 								valueOfJDD =getValueFromFK(PR,FK,cdt,valueOfJDD.toString())
-	
+
 							}else {
 								Log.addERROR("Pas de PREREQUIS pour '$fieldName' : lecture de la FK=$FK impossible")
 							}
-							
+
 						}else {
 							Log.addDEBUG(" - Pas de lecture de FK, la valeur est : "+valueOfJDD.toString())
 						}
 					}
-					
-					
-					
+
+
+
 					// cas d'un champ lié à une INTERNALVALUE
 					String IV = myJDD.getParamForThisName('INTERNALVALUE',fieldName)
-					
+
 					if (IV) {
-						
+
 						if (valueOfJDD) {
-						
+
 							Log.addDEBUG("Détection d'une IV sur $fieldName, IV= $IV value=$valueOfJDD :")
-							
+
 							String internalVal = NAV.myGlobalJDD.getInternalValueOf(IV,valueOfJDD.toString())
-							
+
 							Log.addDEBUG("/t- internal value =$internalVal")
-							
+
 							valueOfJDD = internalVal
 						}else {
 							Log.addERROR("Détection d'une INTERNALVALUE sur $fieldName, IV= $IV, la valeur est null ou vide.ARRET DU PROGRAMME")
 							System.exit(0)
 						}
 					}
-					
-					
-					
-					// Cas des val TBD 
+
+
+
+					// Cas des val TBD
 					if (JDDKW.startWithTBD(valueOfJDD)) {
 
 						Log.addDEBUG("Détection d'une valeur TBD sur $fieldName '$valueOfJDD'")
-						
+
 						def newValue = JDDKW.getValueOfKW_TBD(valueOfJDD)
 						// si une valeur de test existe, on remplace la valeur du JDD par cette valeur
 						if (newValue) {
@@ -173,16 +173,16 @@ public class PREJDDFiles {
 							Log.addERROR("Détection d'une valeur TBD sur $fieldName sans valeur de test. ARRET DU PROGRAMME")
 							System.exit(0)
 						}
-						
+
 					}
-					
+
 					// Cas des val $UPD$...$...
 					if (JDDKW.startWithUPD(valueOfJDD)) {
 
-							Log.addERROR("Détection d'une valeur UPD sur $fieldName INTERDIT sur PREJDD. ARRET DU PROGRAMME")
-							System.exit(0)					
+						Log.addERROR("Détection d'une valeur UPD sur $fieldName INTERDIT sur PREJDD. ARRET DU PROGRAMME")
+						System.exit(0)
 					}
-					
+
 
 
 					switch (valueOfJDD) {
@@ -223,7 +223,7 @@ public class PREJDDFiles {
 							}
 							break
 					}
-					
+
 
 					if (InfoBDD.isImage(myJDD.getDBTableName(), fieldName)) {
 						values.add(getRTFTEXT(valueOfJDD.toString()).getBytes())
@@ -252,38 +252,38 @@ public class PREJDDFiles {
 		}
 	}
 
-	
+
 
 	static String getValueFromFK(String PR,String FK, String cdt,String valeur) {
-		
+
 		def pr = PR.split(/\*/)
 		def fk = FK.split(/\*/)
-		
+
 		String modObj = pr[0]
 		String tabName = pr[1]
 		String id=fk[0]
 		String field=fk[2]
-		
+
 		Log.addDEBUG("Lecture du PREJDD pour la FK : '" + PREJDDfilemap.getAt(modObj)+ " ($tabName)")
 		XSSFWorkbook book = my.XLS.open(PREJDDfilemap.getAt(modObj))
 
 		Sheet sheet = book.getSheet(tabName)
 		List <String> headersPREJDD = my.XLS.loadRow(sheet.getRow(0))
 		List <List> datas = my.PREJDD.loadDATA(sheet,headersPREJDD.size())
-		
+
 		int fieldIndex =XLS.getColumnIndexOfColumnName(sheet, field)
 		int idIndex =XLS.getColumnIndexOfColumnName(sheet, id)
-		
+
 		Log.addDEBUG("Pour le champ '$field' l'index = '$fieldIndex' la valeur est '$valeur'")
 		Log.addDEBUG("Pour le champ '$id' l'index = '$idIndex' le cdt est '$cdt'")
-		
-		try {  
+
+		try {
 			String val = datas.find { it[0] == cdt && it[fieldIndex] == valeur }[idIndex]
 			Log.addDEBUG("La valeur de l'ID trouvé est $val")
 			return val
 		} catch (NullPointerException e) {
-		  Log.addERROR("La valeur recherchée n'a pas été trouvée.ARRET DU PROGRAMME")
-		  System.exit(0)
+			Log.addERROR("La valeur recherchée n'a pas été trouvée.ARRET DU PROGRAMME")
+			System.exit(0)
 		}
 	}
 
@@ -306,7 +306,7 @@ public class PREJDDFiles {
 				Log.addDEBUG(values.join(','),0)
 
 				SQL.executeInsert(query,values)
-				
+
 				Log.addDEBUG("insertIfNotExist() --> OK")
 
 			}else if (result.nbr == 1){

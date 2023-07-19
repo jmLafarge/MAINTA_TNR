@@ -9,7 +9,9 @@
  * 
 
 
-MODIFIER la doc
+
+
+
 
  * 
  * -----------------------------------------------------------------------------------------------------
@@ -67,15 +69,24 @@ MODIFIER la doc
  		La valeur stockée en base est le texte (traduit) pas la valeur interne définit dans les paramètres fonctionnels
  		--> je laisse comme ça pour générer l'erreur
 	
-		
-
-		
+	
+	Contrôle des PREREQUIS des JDD
+	
+		Controle de 'ID_CODSER' dans 'TNR_PREJDD\PREJDD.RO.ORG.xlsx' (001A) 'ST_DES'
+		- 'RO.ORG.001.CRE.02' - 'ORG.RO.ORG.001.CRE.02' non trouvé !
+		- 'RO.ORG.001.CRE.04' - 'ORG.RO.ORG.001.CRE.04' non trouvé !
+		--> due au fait que ces valeurs seront créées en même temps que l'organisation
+		--> je ne sais pas comment les différencier des PREJDD
  *
  * -----------------------------------------------------------------------------------------------------
  * EN COURS
  * -----------------------------------------------------------------------------------------------------
  *
  *
+
+VERIFIER les nom des cas de tests des sous-rubriques
+
+Problème avec $SEQUENCID
 
 
 
@@ -88,23 +99,20 @@ Nouveau TAG IHM : bouton radio
 	...
 	
 
+Nouveau JDDKW $UPD
+
+	- CHECK PRREQUIS 					--> fait
+	- CREATE PREJDD in DB 				--> pas d'impact car pas $UPD est interdit dans les PREJDD
+	- Prise en compte dans les JDD
+	- Ctrl en BDD
+	....
 
 
 
-
-
-
-
-
-
-
-
-
- 
  
 	RESULTAT DES TESTS
 	 
-	 	ACTEUR CRE LEC MAJ 			--> ST_INVPRE est disable 																--> License
+	 	ACTEUR CRE LEC MAJ 			--> ST_INVPRE est disable 																--> License,  voir avec Hervé
 	 		
 	 	ACTEUR - AJOUT EMPLACEMENT 	--> Click sur le bouton AJOUTER n'affiche pas la fenetre de recherche des emplacements 	--> ajouter une Zone
 	 	
@@ -156,6 +164,13 @@ Nouveau TAG IHM : bouton radio
 		AD.DEP --> Fait
 
 
+
+
+	Ajout de LOG_DEBUGDEPH 
+	Ajout de Log.addTrace, Log.addTraceBEGIN et Log.addTraceBEGIN
+		JDD
+		TO
+		XLS
 
 
  

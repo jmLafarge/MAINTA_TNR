@@ -1,7 +1,7 @@
+import my.JDD
 import my.KW
 import my.NAV
 import my.result.TNRResult
-import my.JDD
 
 'Lecture du JDD'
 def myJDD = new JDD()

@@ -19,7 +19,11 @@ public class InfoPARA {
 
 	private static CellStyle whereStyle
 	private static CellStyle paraStyle
-
+	
+	private static List headers = [
+								'NOM',
+								'NBBDD'
+								]
 
 	public static load() {
 
@@ -42,17 +46,26 @@ public class InfoPARA {
 			Log.addDEBUG("Créer la premiere ligne ")
 			row =shPara.createRow(0)
 		}
+		
+		def jdd = new my.JDD(JDDFiles.JDDfilemap.values()[0])
+		List paramListAllowed = jdd.getParamListAllowed()
+		
+		for (String para : paramListAllowed) {
+			headers.add(para)
+			headers.add(para + '_JDD')
+		}
 
-		if (XLS.getCellValue(row.getCell(0))=='') XLS.writeCell(row, 0, 'NOM',)
-		if (XLS.getCellValue(row.getCell(1))=='') XLS.writeCell(row, 1, 'NBBDD')
-		if (XLS.getCellValue(row.getCell(2))=='') XLS.writeCell(row, 2, 'PREREQUIS')
-		if (XLS.getCellValue(row.getCell(3))=='') XLS.writeCell(row, 3, 'PREREQUIS_JDD')
-		if (XLS.getCellValue(row.getCell(4))=='') XLS.writeCell(row, 4, 'FOREIGNKEY')
-		if (XLS.getCellValue(row.getCell(5))=='') XLS.writeCell(row, 5, 'FOREIGNKEY_JDD')
-		if (XLS.getCellValue(row.getCell(6))=='') XLS.writeCell(row, 6, 'SEQUENCE')
-		if (XLS.getCellValue(row.getCell(7))=='') XLS.writeCell(row, 7, 'SEQUENCE_JDD')
-		if (XLS.getCellValue(row.getCell(8))=='') XLS.writeCell(row, 8, 'LOCATOR')
-		if (XLS.getCellValue(row.getCell(9))=='') XLS.writeCell(row, 9, 'LOCATOR_JDD')
+		
+		for (i in 0..headers.size()-1) {
+			if (XLS.getCellValue(row.getCell(i))=='') XLS.writeCell(row, i, headers[i])
+		}
+
+			
+			
+			
+			
+			
+			
 
 		Iterator<Row> rowIt = shPara.rowIterator()
 		row = rowIt.next()
@@ -62,7 +75,7 @@ public class InfoPARA {
 				break
 			}
 			String name  = XLS.getCellValue(row.getCell(0))
-			paraMap[name] = XLS.loadRow2(row,0,10,null)
+			paraMap[name] = XLS.loadRow2(row,0,headers.size(),null)
 		}
 
 		Log.addDEBUG("paraMap.size= " + paraMap.size())
@@ -74,7 +87,7 @@ public class InfoPARA {
 	public static update(JDD myJDD,String col,String fullName, String where) {
 
 		int icol = 2
-		for (para in ['PREREQUIS', 'FOREIGNKEY', 'SEQUENCE', 'LOCATOR']) {
+		for (para in ['PREREQUIS', 'FOREIGNKEY', 'SEQUENCE', 'LOCATOR','INTERNALVALUE']) {
 
 			String valPara = myJDD.getParamForThisName(para, col)
 
@@ -84,7 +97,7 @@ public class InfoPARA {
 
 				if (!paraMap.containsKey(col)) {
 
-					paraMap[col]=[null]*10
+					paraMap[col]=[null]*headers.size()
 
 
 					Log.addDEBUG("\tCréation '$col' pour sheetname "+shPara.getSheetName())
@@ -110,7 +123,7 @@ public class InfoPARA {
 						Log.addDETAILWARNING("\t$para pour '$col'($icol) : $valPara remplacement de la valeur OBSOLETE ")
 						updatePara(para,col,icol,valPara,where)
 					}else {
-						Log.addDETAILWARNING("\t$para pour '$col'($icol) : $valPara différent de la valeur enregistrée " + paraMap[col][icol])
+						Log.addDETAILWARNING("$para pour '$col'($icol) : $valPara différent de la valeur enregistrée " + paraMap[col][icol])
 					}
 				}else if(li_JDD.contains(where)) {
 					Log.addDEBUG("\t$para $valPara pour '$col' et $where existe déjà")

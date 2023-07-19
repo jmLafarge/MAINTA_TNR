@@ -12,11 +12,12 @@ import my.JDDKW
 @CompileStatic
 public class CheckTypeInDATA {
 
-	public static run(List <List> datas, JDD myJDD, String table, String filename) {
+	public static boolean run(List <List> datas, JDD myJDD, String table, String filename, boolean status) {
+		
+		Log.addDEBUGDETAIL("Contrôle des types dans les DATA",0)
 
 		List PKlist=InfoBDD.getPK(table)
 
-		Log.addDEBUGDETAIL("Contrôle des types dans les DATA",0)
 		datas.eachWithIndex { li,numli ->
 
 			li.eachWithIndex { val,i ->
@@ -78,6 +79,7 @@ public class CheckTypeInDATA {
 									val = internalVal
 								}else {
 									Log.addDETAILFAIL(cdtName + "($table.$name) : La valeur '$val' n'est pas autorisé pour une internal value de type '$IV'")
+									status = false
 									ctrlVal=false
 								}
 
@@ -101,6 +103,7 @@ public class CheckTypeInDATA {
 									Log.addDEBUG("$table.$name est un numeric autorisé = '$val'")
 								}else {
 									Log.addDETAILFAIL(cdtName + "($table.$name) : La valeur '$val' n'est pas autorisé pour un champ numérique")
+									status = false
 								}
 								break
 							case InfoBDD.getVarchar() :
@@ -108,6 +111,7 @@ public class CheckTypeInDATA {
 								if (!(val in ['$VIDE', '$NULL']) && val.toString().length() > InfoBDD.getDATA_MAXCHAR(table, name)) {
 
 									Log.addDETAILFAIL(cdtName +" ($table.$name) : La valeur $val est trop longue,  "+val.toString().length() + ' > ' + InfoBDD.getDATA_MAXCHAR(table, name) )
+									status = false
 								}else {
 
 									Log.addDEBUG(cdtName +" ($table.$name) : La valeur $val est un varchar autorisé,  "+val.toString().length() + ' / ' + InfoBDD.getDATA_MAXCHAR(table, name) )
@@ -120,6 +124,7 @@ public class CheckTypeInDATA {
 				}
 			}
 		}
+		return status
 	}
 
 

@@ -3,6 +3,7 @@ import my.JDD
 import my.JDDFiles
 import my.KW
 import my.NAV
+import my.SQL
 import my.result.TNRResult
 
 
@@ -92,7 +93,7 @@ for (String cdt in myJDD.CDTList) {
 	
 	    NAV.verifierEcranResultat(myJDD.getStrData("ID_CODART"))
 	
-		my.SQL.checkJDDWithBD(myJDD)
+		SQL.checkJDDWithBD(myJDD)
 		
 	TNRResult.addEndTestCase()
 	

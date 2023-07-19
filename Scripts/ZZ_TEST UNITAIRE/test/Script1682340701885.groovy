@@ -17,3 +17,10 @@ if (parts.size() == 4 && parts[0] == "" && parts[1] == "UPD" && parts[2] && part
 } else {
 	println("La chaîne de caractères n'est pas au format attendu.")
 }
+
+
+def tab = "A"
+
+println tab.multiply(0)
+
+

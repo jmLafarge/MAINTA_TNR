@@ -71,7 +71,7 @@ class TestListener {
 	@AfterTestCase
 	def afterTestCase(TestCaseContext testCaseContext) {
 		
-		Log.addDEBUG('afterTestCase : ' + testCaseContext.getTestCaseId().split('/')[-1] + ' '+testCaseContext.getTestCaseStatus())
+		Log.addDEBUG('afterTestCase : ' + testCaseContext.getTestCaseId().split('/')[-1] + ' : '+testCaseContext.getTestCaseStatus())
 		
 	}
 

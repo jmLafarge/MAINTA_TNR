@@ -1,7 +1,8 @@
-import my.KW
-import my.result.TNRResult
-import my.NAV
 import my.JDD
+import my.KW
+import my.NAV
+import my.SQL
+import my.result.TNRResult
 
 'Lecture du JDD'
 def myJDD = new JDD()
@@ -100,8 +101,10 @@ for (String cdt in myJDD.CDTList) {
 	    KW.scrollAndClick(NAV.myGlobalJDD,'button_Valider')
 	
 	    NAV.verifierEcranResultat(myJDD.getStrData())
-	
-		my.SQL.checkJDDWithBD(myJDD)
+		
+		myJDD.replaceSEQUENCIDInJDD('ID_NUMDOC1')
+		
+		SQL.checkJDDWithBD(myJDD)
 		
 	TNRResult.addEndTestCase()
 

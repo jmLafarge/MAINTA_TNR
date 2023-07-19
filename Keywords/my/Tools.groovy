@@ -76,18 +76,14 @@ class Tools {
 		return (val>=0 && val<=9)?"0$val":"$val"
 	}
 
-/*
-	public static int getDurationFromNow(String dateBDD) {
-
-		def dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
-
-		def date = dateFormat.parse(dateBDD)
-
-		TimeDuration timeDuration = TimeCategory.minus( new Date(), date )
-
-		return timeDuration.toMilliseconds()
-	}
-*/
+	/*
+	 public static int getDurationFromNow(String dateBDD) {
+	 def dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
+	 def date = dateFormat.parse(dateBDD)
+	 TimeDuration timeDuration = TimeCategory.minus( new Date(), date )
+	 return timeDuration.toMilliseconds()
+	 }
+	 */
 
 
 

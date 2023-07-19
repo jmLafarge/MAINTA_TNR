@@ -10,4 +10,4 @@ my.JDD myJDD = new my.JDD(filename,'003MET','RO.ACT.003MET.SRM.01')
 
 InfoBDD.load()
 
-my.SQL.checkJDDWithBD(myJDD)
+SQL.checkJDDWithBD(myJDD)

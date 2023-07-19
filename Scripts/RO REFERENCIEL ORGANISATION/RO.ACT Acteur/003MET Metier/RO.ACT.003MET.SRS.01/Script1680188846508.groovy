@@ -1,10 +1,9 @@
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-
 import internal.GlobalVariable
+import my.JDD
 import my.KW
 import my.NAV
+import my.SQL
 import my.result.TNRResult
-import my.JDD
 
 
 'Lecture du JDD'
@@ -50,7 +49,7 @@ for (String cdt in myJDD.CDTList) {
 	    }
 		
 	'Vérification en BD que l\'objet n\'existe plus'
-	my.SQL.checkIDNotInBD(myJDD)
+	SQL.checkIDNotInBD(myJDD)
 	
 	TNRResult.addEndTestCase()
 	
