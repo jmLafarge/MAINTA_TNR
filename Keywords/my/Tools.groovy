@@ -53,7 +53,7 @@ class Tools {
 		Log.addINFO("Version de l'OS".padRight(26) + System.getProperty("os.version"))
 		Log.addINFO("Architecture de l'OS".padRight(26) + System.getProperty("os.arch"))
 		Log.addINFO("Version de MAINTA".padRight(26) + my.SQL.getMaintaVersion())
-		Log.addINFO("Base de donnée".padRight(26) + GlobalVariable.BDD_URL)
+		Log.addINFO("Base de donnée".padRight(26) + SQL.getURL())
 		Log.addINFO("GroovySystem.version".padRight(26) + GroovySystem.version)
 		Log.addINFO('')
 	}

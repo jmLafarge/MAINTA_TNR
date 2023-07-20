@@ -24,9 +24,12 @@ public class SQL {
 	 */
 
 
-	private static Sql sqlInstance = Sql.newInstance(GlobalVariable.BDD_URL.toString(), GlobalVariable.BDD_USER.toString(), GlobalVariable.BDD_MDP.toString())
+	private static String url = 'jdbc:sqlserver:' +  GlobalVariable.BDD_SERVER.toString() + ';instanceName=' + GlobalVariable.BDD_INSTANCE.toString() + ';databaseName=' + GlobalVariable.BDD_NAME.toString()
+	private static Sql sqlInstance = Sql.newInstance(url, GlobalVariable.BDD_USER.toString(), GlobalVariable.BDD_MDP.toString())
 
-
+	static String getURL() {
+		return url
+	}
 
 	static executeInsert(String query, List values) {
 		Log.addDEBUG("executeInsert()")
@@ -37,6 +40,9 @@ public class SQL {
 			TNRResult.addDETAIL(ex.getMessage())
 		}
 	}
+
+
+
 
 
 

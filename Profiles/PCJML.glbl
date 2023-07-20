@@ -21,8 +21,18 @@
    </GlobalVariableEntity>
    <GlobalVariableEntity>
       <description></description>
-      <initValue>'jdbc:sqlserver://localhost:1433;databaseName=MAINTA_TEST'</initValue>
-      <name>BDD_URL</name>
+      <initValue>'//localhost:1433'</initValue>
+      <name>BDD_SERVER</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>''</initValue>
+      <name>BDD_INSTANCE</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'MAINTA_TEST'</initValue>
+      <name>BDD_NAME</name>
    </GlobalVariableEntity>
    <GlobalVariableEntity>
       <description></description>

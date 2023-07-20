@@ -113,7 +113,7 @@ class Log {
 
 		deph++
 		if (deph <= debugDeph) {
-			addDEBUG('> '+msg,level)
+			addDEBUG('>>> '+msg,level)
 			tab = '\t'.multiply(deph)
 		}
 	}
@@ -124,7 +124,7 @@ class Log {
 		deph = (deph > 0) ? deph - 1 : 0
 		if (deph < debugDeph) {
 			tab = '\t'.multiply(deph)
-			addDEBUG('< '+msg,level)
+			addDEBUG('<<< '+msg,level)
 		}
 
 	}
@@ -218,18 +218,18 @@ class Log {
 			addDEBUG("La liste \"$nomDeLaListe\" n'existe pas.")
 		}
 	}
-	
+
 	public static setDebugLevel(int newLevel) {
 		debugLevel = newLevel
 		fileDebug.append("New debug level = $debugLevel\n")
 	}
-	
-	
+
+
 	public static setDebugDeph(int newDeph) {
 		debugDeph = newDeph
 		fileDebug.append("New debug deph = $debugDeph\n")
 	}
-	
-	
-	
+
+
+
 }// end of class

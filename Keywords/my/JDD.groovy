@@ -377,7 +377,7 @@ public class JDD {
 	 * @return Le nom de la table de la base de données.
 	 */
 	public String getDBTableName() {
-		
+
 		String tableName = headers[0]
 
 		Log.addTrace("JDD.getDBTableName() --> ${tableName}")

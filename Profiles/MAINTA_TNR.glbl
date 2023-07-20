@@ -21,8 +21,18 @@
    </GlobalVariableEntity>
    <GlobalVariableEntity>
       <description></description>
-      <initValue>'jdbc:sqlserver://sms0048d.cld.apave.grp:1433;databaseName=MAINTA_TNR'</initValue>
-      <name>BDD_URL</name>
+      <initValue>'//sms0048d.cld.apave.grp'</initValue>
+      <name>BDD_SERVER</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'MSSQLSERVER19'</initValue>
+      <name>BDD_INSTANCE</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'MAINTA_TNR'</initValue>
+      <name>BDD_NAME</name>
    </GlobalVariableEntity>
    <GlobalVariableEntity>
       <description></description>

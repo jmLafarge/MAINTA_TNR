@@ -32,24 +32,24 @@ public class XLS {
 	 */
 	static XSSFWorkbook open(String fullname) {
 		Log.addTrace("XLS.open($fullname)")
-	    if (!fullname) {
-	        Log.addERROR("my.XLS.open() fullname = '${fullname}'")
-	        return null 
-	    }
-	
-	    try {
-	        File sourceExcel = new File(fullname)
-	        FileInputStream fis = new FileInputStream(sourceExcel)
-	        XSSFWorkbook workbook = new XSSFWorkbook(fis)
-	        return workbook
-	    } catch (FileNotFoundException e) {
-	        Log.addERROR("Fichier non trouvé : ${e.message}")
-	        e.printStackTrace()
-	    } catch (IOException e) {
-	        Log.addERROR("Erreur d'entrée/sortie lors de l'ouverture du fichier : ${e.message}")
-	        e.printStackTrace()
-	    }
-	    return null
+		if (!fullname) {
+			Log.addERROR("my.XLS.open() fullname = '${fullname}'")
+			return null
+		}
+
+		try {
+			File sourceExcel = new File(fullname)
+			FileInputStream fis = new FileInputStream(sourceExcel)
+			XSSFWorkbook workbook = new XSSFWorkbook(fis)
+			return workbook
+		} catch (FileNotFoundException e) {
+			Log.addERROR("Fichier non trouvé : ${e.message}")
+			e.printStackTrace()
+		} catch (IOException e) {
+			Log.addERROR("Erreur d'entrée/sortie lors de l'ouverture du fichier : ${e.message}")
+			e.printStackTrace()
+		}
+		return null
 	}
 
 

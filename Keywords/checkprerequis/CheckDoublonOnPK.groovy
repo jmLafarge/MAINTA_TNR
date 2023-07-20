@@ -32,10 +32,8 @@ public class CheckDoublonOnPK {
 						if (JDDKW.isUPD(valStr)) {
 							PKvalues.add(JDDKW.getOldValueOfKW_UPD(valStr))
 						}else if (JDDKW.isTBD(valStr)) {
-							String TBDval= JDDKW.getValueOfKW_TBD(valStr)
-							if (TBDval) {
-								PKvalues.add(TBDval)
-							}
+							PKvalues.add(JDDKW.getValueOfKW_TBD(valStr))
+
 						}else {
 							return
 						}

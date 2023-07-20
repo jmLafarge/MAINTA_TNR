@@ -49,9 +49,6 @@ public class JDDKW {
 		return ((val instanceof String) && val == KEYWORD_ALLOWED.getAt('KW_SEQUENCEID'))
 	}
 
-	static boolean isTBD(def val) {
-		return ((val instanceof String) && val == KEYWORD_ALLOWED.getAt('KW_TBD'))
-	}
 
 	static boolean startWithTBD(def val) {
 		return ((val instanceof String) && val.toString().startsWith(KEYWORD_ALLOWED.getAt('KW_TBD').toString()))
@@ -62,11 +59,23 @@ public class JDDKW {
 	}
 
 
+	static boolean isTBD(def val) {
+
+		if (startWithTBD(val)) {
+			def li = val.toString().split('\\*')
+			if (li.size() == 2 ) {
+				return true
+			}
+		}
+		return false
+	}
+
+
 
 	static boolean isUPD(def val) {
 		if (startWithUPD(val)) {
-			def li = val.toString().split('\\$')
-			if (li.size() == 4 && li[0] == "" && li[1] == "UPD" && li[2] && li[3] ) {
+			def li = val.toString().split('\\*')
+			if (li.size() == 3 ) {
 				return true
 			}
 		}
@@ -114,10 +123,10 @@ public class JDDKW {
 
 	static def getValueOfKW_TBD(def val) {
 
-		if (startWithTBD(val)) {
-			def values = val.toString().split('\\$')
-			if (values.size()==3) {
-				return values[2]
+		if (isTBD(val)) {
+			def values = val.toString().split('\\*')
+			if (values.size()==2) {
+				return values[1]
 			}
 		}
 		return null
@@ -126,8 +135,8 @@ public class JDDKW {
 	static def getOldValueOfKW_UPD(def val) {
 
 		if (isUPD(val)) {
-			def li = val.toString().split('\\$')
-			return li[2]
+			def values = val.toString().split('\\*')
+			return values[1]
 		}
 		return null
 	}
@@ -135,8 +144,8 @@ public class JDDKW {
 	static def getNewValueOfKW_UPD(def val) {
 
 		if (isUPD(val)) {
-			def li = val.toString().split('\\$')
-			return li[3]
+			def values = val.toString().split('\\*')
+			return values[2]
 		}
 		return null
 	}

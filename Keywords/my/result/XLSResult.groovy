@@ -1,7 +1,5 @@
 package my.result
 
-import groovy.transform.CompileStatic
-
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -12,11 +10,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
-
+import groovy.transform.CompileStatic
 import internal.GlobalVariable
 import my.Log
 import my.Tools
 import my.XLS
+import my.SQL
 
 @CompileStatic
 public class XLSResult {
@@ -370,7 +369,7 @@ public class XLSResult {
 
 		maintaVersion = my.SQL.getMaintaVersion()
 		XLS.writeCell(shRESUM.getRow(13),1,maintaVersion)
-		XLS.writeCell(shRESUM.getRow(14),1,GlobalVariable.BDD_URL)
+		XLS.writeCell(shRESUM.getRow(14),1,SQL.getURL())
 
 		write()
 	}

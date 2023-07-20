@@ -25,7 +25,6 @@ for (String cdt in myJDD.CDTList) {
 	
 	'Vérifier que la valeur soit dans la grille filtrée'
 	KW.verifyElementText(myJDD,'td_Grille', myJDD.getStrData())
-
 	
 	TNRResult.addEndTestCase()
 } // fin du if

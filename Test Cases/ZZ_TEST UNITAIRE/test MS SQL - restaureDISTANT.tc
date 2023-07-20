@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCaseEntity>
+   <description></description>
+   <name>test MS SQL - restaureDISTANT</name>
+   <tag></tag>
+   <comment></comment>
+   <testCaseGuid>a8e18d70-4680-4c62-bb94-4e39a4a2a50b</testCaseGuid>
+</TestCaseEntity>
