@@ -5,9 +5,9 @@ import my.JDDFiles
 import my.NAV
 import my.TCFiles
 
-if (InfoBDD.map.isEmpty()) { InfoBDD.load() }
-if (TCFiles.TCfileMap.isEmpty()) { TCFiles.load() }
-if (JDDFiles.JDDfilemap.isEmpty()) { JDDFiles.load() }
+InfoBDD.load() 
+TCFiles.load()
+JDDFiles.load()
 
 NAV.loadJDDGLOBAL()
 

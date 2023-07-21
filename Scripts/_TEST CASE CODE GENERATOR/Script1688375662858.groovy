@@ -31,9 +31,9 @@ String folder = 'C://Users//A1008045//Documents//IHM//'
 
 Log.addTITLE("Lancement de _TEST CASE CODE GENERATOR ")
 
-if (InfoBDD.map.isEmpty()) { InfoBDD.load() }
-if (TCFiles.TCfileMap.isEmpty()) { TCFiles.load() }
-if (JDDFiles.JDDfilemap.isEmpty()) { JDDFiles.load() }
+InfoBDD.load() 
+TCFiles.load()
+JDDFiles.load()
 if (PREJDDFiles.PREJDDfilemap.isEmpty()) { PREJDDFiles.load() }
 
 NAV.loadJDDGLOBAL()

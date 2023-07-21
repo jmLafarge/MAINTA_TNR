@@ -1,7 +1,7 @@
 
 import my.TCFiles
 
-if (TCFiles.TCfileMap.isEmpty()) { TCFiles.load() }
+TCFiles.load()
 
 //println TCFiles.TCfileMap['ZZ.YYY.001']
 

@@ -369,7 +369,8 @@ public class XLSResult {
 
 		maintaVersion = my.SQL.getMaintaVersion()
 		XLS.writeCell(shRESUM.getRow(13),1,maintaVersion)
-		XLS.writeCell(shRESUM.getRow(14),1,SQL.getURL())
+		XLS.writeCell(shRESUM.getRow(14),1,GlobalVariable.BASE_URL.toString())
+		XLS.writeCell(shRESUM.getRow(15),1,SQL.getPathDB())
 
 		write()
 	}
@@ -429,7 +430,7 @@ public class XLSResult {
 
 		XLS.writeCell(shRESUM.getRow(5),1,my.Tools.getDuration(startDateTNR, endDate),CSF.cellStyle_duration)
 
-		Row row = shRESUM.getRow(17)
+		Row row = shRESUM.getRow(18)
 
 		XLS.writeCell(row,1,totalPASS + totalWARNING + totalFAIL + totalERROR,CSF.cellStyle_TOT)
 		XLS.writeCell(row,2,totalPASS,CSF.cellStyle_PASSTOT)
@@ -437,7 +438,7 @@ public class XLSResult {
 		XLS.writeCell(row,4,totalFAIL,CSF.cellStyle_FAILTOT)
 		XLS.writeCell(row,5,totalERROR,CSF.cellStyle_ERRORTOT)
 
-		row = shRESUM.getRow(18)
+		row = shRESUM.getRow(19)
 
 		XLS.writeCell(row,1,totalStepPASS + totalStepWARNING + totalStepFAIL + totalStepERROR,CSF.cellStyle_STEPTOT)
 		XLS.writeCell(row,2,totalStepPASS,CSF.cellStyle_STEPTOT)

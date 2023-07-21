@@ -14,10 +14,10 @@ import my.result.ResultGenerator as XLSResult
 
 
 
-if (InfoBDD.map.isEmpty()) { InfoBDD.load() }
-if (TCFiles.TCfileMap.isEmpty()) { TCFiles.load() }
-if (JDDFiles.JDDfilemap.isEmpty()) { JDDFiles.load() }
-if (Sequencer.testCasesList.isEmpty()) { Sequencer.load() }
+InfoBDD.load() 
+TCFiles.load()
+JDDFiles.load()
+Sequencer.load()
 
 
 Sequencer.testCasesList.each { TCMap ->

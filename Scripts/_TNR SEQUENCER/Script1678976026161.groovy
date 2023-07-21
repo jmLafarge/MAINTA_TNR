@@ -17,10 +17,10 @@ import my.TCFiles
 import my.Tools
 import my.result.TNRResult
 
-if (InfoBDD.map.isEmpty()) { InfoBDD.load() }
-if (TCFiles.TCfileMap.isEmpty()) { TCFiles.load() }
-if (JDDFiles.JDDfilemap.isEmpty()) { JDDFiles.load() }
-if (Sequencer.testCasesList.isEmpty()) { Sequencer.load() }
+InfoBDD.load() 
+TCFiles.load()
+JDDFiles.load()
+Sequencer.load()
 
 Log.addTITLE("Lancement de TNR SEQUENCER")
 

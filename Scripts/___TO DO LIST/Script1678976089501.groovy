@@ -10,9 +10,6 @@
 
 
 
-
-
-
  * 
  * -----------------------------------------------------------------------------------------------------
  * NOTE
@@ -183,6 +180,13 @@ Nouveau JDDKW $UPD
 
 	lister les mot cles
 	lister les para
+	
+	LOG 
+	
+		dans properties remplacer le level par une liste de mot clé (qui peut aussi être un num)
+		mettre dans une  ['WRITECELL','SQL','1',...] qui peut aussi être un num
+		et ensuite dans log mettre if (listIssuDeProperties.contains(para)) alaors on logue
+	
 
 		  		
 		
@@ -302,9 +306,6 @@ Nouveau JDDKW $UPD
 		Revoir la suppression des emplacements par rapport à ST_DEF pour rendre automatique le truc
 	
 
-	LOG
-	
-		debugLevel  voir comment debuguer certaines parties, certaines fonction, certains pakage ?
 
 
 

@@ -1,11 +1,10 @@
 
-import groovy.sql.Sql
-import internal.GlobalVariable
-import my.SQL
-import my.PREJDDFiles
+RunConfiguration.setExecutionProfile('PCJML')
 
-String table = 'CAT'
-String PKwhere = "ID_CODCAT like 'CAT.RO.ACT.001%'"
+import com.kms.katalon.core.configuration.RunConfiguration
+
+import my.SQL
+
 
 String req = "SELECT st_nom as nbr FROM inter where id_codint='TNR'"
 

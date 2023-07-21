@@ -40,56 +40,58 @@ public class Sequencer {
 	 *
 	 */
 	public static load() {
+		
+		if (testCasesList.isEmpty()){
 
-		Log.addSubTITLE('Load testCasesList from TNR sequencer file','-',120)
-		Log.addINFO("\t" + 'CDTPATTERN'.padRight(24) + 'TCFULLNAME'.padRight(90) + 'REP')
-		Log.addINFO("")
-
-		// read JDD
-		Sheet shTNR = readSequencerFile()
-
-		Log.addDEBUG('shTNR.getLastRowNum() :' + shTNR.getLastRowNum(),2)
-
-		// for each data line
-		for (int numline : (1..shTNR.getLastRowNum())) {
-
-			Row row = shTNR.getRow(numline)
-
-			// exit if lastRow of CAS_DE_TEST
-			if (!row || my.XLS.getCellValue(row.getCell(0))=='') {
-				break
-			}
-
-			String casDeTestPatternFromSequencer = row.getCell(0).getStringCellValue()
-
-			Log.addDEBUG('casDeTestPatternFromSequencer = ' + casDeTestPatternFromSequencer,2)
-
-			if (casDeTestPatternFromSequencer == "") {
-				break
-			}
-
-			// Default value if REPETITION cell is null
-			int rep = (row.getCell(1) == null) ? 1 : (int)row.getCell(1).getNumericCellValue()
-
-			Map res= TCFiles.TCfileMap.findAll { it.key.contains(casDeTestPatternFromSequencer) }
-
-			if (res.size()==0) {
-
-				def key = TCFiles.TCfileMap.keySet().find { casDeTestPatternFromSequencer.contains(it) }
-
-				if (key) {
-					addToTestCasesList(casDeTestPatternFromSequencer,TCFiles.TCfileMap[key], rep)
+			Log.addSubTITLE('Load testCasesList from TNR sequencer file','-',120)
+			Log.addINFO("\t" + 'CDTPATTERN'.padRight(24) + 'TCFULLNAME'.padRight(90) + 'REP')
+			Log.addINFO("")
+	
+			// read JDD
+			Sheet shTNR = readSequencerFile()
+	
+			Log.addDEBUG('shTNR.getLastRowNum() :' + shTNR.getLastRowNum(),2)
+	
+			// for each data line
+			for (int numline : (1..shTNR.getLastRowNum())) {
+	
+				Row row = shTNR.getRow(numline)
+	
+				// exit if lastRow of CAS_DE_TEST
+				if (!row || my.XLS.getCellValue(row.getCell(0))=='') {
+					break
+				}
+	
+				String casDeTestPatternFromSequencer = row.getCell(0).getStringCellValue()
+	
+				Log.addDEBUG('casDeTestPatternFromSequencer = ' + casDeTestPatternFromSequencer,2)
+	
+				if (casDeTestPatternFromSequencer == "") {
+					break
+				}
+	
+				// Default value if REPETITION cell is null
+				int rep = (row.getCell(1) == null) ? 1 : (int)row.getCell(1).getNumericCellValue()
+	
+				Map res= TCFiles.TCfileMap.findAll { it.key.contains(casDeTestPatternFromSequencer) }
+	
+				if (res.size()==0) {
+	
+					def key = TCFiles.TCfileMap.keySet().find { casDeTestPatternFromSequencer.contains(it) }
+	
+					if (key) {
+						addToTestCasesList(casDeTestPatternFromSequencer,TCFiles.TCfileMap[key], rep)
+					}else {
+						Log.add('WARNING',"\tPas de fichier trouvé pour le pattern $casDeTestPatternFromSequencer")
+					}
 				}else {
-					Log.add('WARNING',"\tPas de fichier trouvé pour le pattern $casDeTestPatternFromSequencer")
+					res.each {
+						addToTestCasesList(it.key,it.value, rep)
+					}
 				}
-			}else {
-				res.each {
-					addToTestCasesList(it.key,it.value, rep)
-				}
-			}
-
-		} // end of for each data line
-
+	
+			} // end of for each data line
+		}
 	}//end of constructor
 
 

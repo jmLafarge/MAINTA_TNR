@@ -28,9 +28,9 @@ class TestListener {
 
 		Log.addTITLE('Lancement de ' + testSuiteContext.getTestSuiteId())
 
-		if (InfoBDD.map.isEmpty()) { InfoBDD.load() }
-		if (TCFiles.TCfileMap.isEmpty()) { TCFiles.load() }
-		if (JDDFiles.JDDfilemap.isEmpty()) { JDDFiles.load() }
+		InfoBDD.load() 
+		TCFiles.load()
+		JDDFiles.load()
 		
 		TNRResult.addStartInfo(testSuiteContext.getTestSuiteId())
 

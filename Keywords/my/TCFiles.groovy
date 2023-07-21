@@ -16,21 +16,24 @@ public class TCFiles {
 
 
 	private static load() {
+		
+		if (TCfileMap.isEmpty()) {
 
-		Log.addSubTITLE("Load TC file List",'-',120,1)
-		Log.addDEBUG("\t" + 'TCNAME'.padRight(24) + 'TCFULLNAME')
-		Log.addDEBUG("")
-
-		new File(my.PropertiesReader.getMyProperty('TC_PATH')).eachFileRecurse(FileType.FILES) { file ->
-
-			String TCFullName = file.getPath().replace(my.PropertiesReader.getMyProperty('TC_PATH') + '\\', '').replace('.tc', '')
-			String TCName= file.getName().replace('.tc','').split(' ')[0]
-
-			if (TCFullName.matches("^[A-Z]{2}[ ].*") && !TCName.startsWith('.')) {
-
-				TCfileMap.put(TCName, TCFullName)
-
-				Log.addDEBUG('\t'+ TCName.padRight(24) + TCFullName)
+			Log.addSubTITLE("Load TC file List",'-',120,1)
+			Log.addDEBUG("\t" + 'TCNAME'.padRight(24) + 'TCFULLNAME')
+			Log.addDEBUG("")
+	
+			new File(my.PropertiesReader.getMyProperty('TC_PATH')).eachFileRecurse(FileType.FILES) { file ->
+	
+				String TCFullName = file.getPath().replace(my.PropertiesReader.getMyProperty('TC_PATH') + '\\', '').replace('.tc', '')
+				String TCName= file.getName().replace('.tc','').split(' ')[0]
+	
+				if (TCFullName.matches("^[A-Z]{2}[ ].*") && !TCName.startsWith('.')) {
+	
+					TCfileMap.put(TCName, TCFullName)
+	
+					Log.addDEBUG('\t'+ TCName.padRight(24) + TCFullName)
+				}
 			}
 		}
 	} //end

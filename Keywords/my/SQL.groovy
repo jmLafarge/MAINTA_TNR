@@ -23,12 +23,44 @@ public class SQL {
 	 * 
 	 */
 
+	private static String serverName =  GlobalVariable.BDD_SERVER.toString()
+	private static String instanceName = GlobalVariable.BDD_INSTANCE.toString()
+	private static String databaseName = GlobalVariable.BDD_NAME.toString()
+	private static String username = GlobalVariable.BDD_USER.toString()
+	private static String mdp = GlobalVariable.BDD_MDP.toString()
 
-	private static String url = 'jdbc:sqlserver:' +  GlobalVariable.BDD_SERVER.toString() + ';instanceName=' + GlobalVariable.BDD_INSTANCE.toString() + ';databaseName=' + GlobalVariable.BDD_NAME.toString()
-	private static Sql sqlInstance = Sql.newInstance(url, GlobalVariable.BDD_USER.toString(), GlobalVariable.BDD_MDP.toString())
+
+	private static String url = setURL()
+	//private static Sql sqlInstance = Sql.newInstance(url, GlobalVariable.BDD_USER.toString(), GlobalVariable.BDD_MDP.toString())
+	private static Sql sqlInstance =setNewInstance()
+
+
+
+	static String setURL() {
+		return "jdbc:sqlserver:$serverName;instanceName=$instanceName;databaseName=$databaseName"
+	}
 
 	static String getURL() {
 		return url
+	}
+	
+	static String getPathDB() {
+		return "$serverName/$instanceName/$databaseName"
+	}
+
+
+	static Sql setNewInstance(String serverName=null,String instanceName=null,String databaseName=null,String username=null,String mdp=null) {
+
+		this.serverName = serverName ?: this.serverName
+		this.instanceName = instanceName ?: this.instanceName
+		this.databaseName = databaseName ?: this.databaseName
+		this.username = username ?: this.username
+		this.mdp = mdp ?: this.mdp
+
+		setURL()
+
+		sqlInstance = Sql.newInstance(url, this.username, this.mdp)
+
 	}
 
 	static executeInsert(String query, List values) {
@@ -42,13 +74,31 @@ public class SQL {
 	}
 
 
+	static restore(String backupFilePath) {
+
+		SQL.executeSQL("USE master")
+		//autre solution SQL.executeSQL("ALTER DATABASE ${databaseName} SET SINGLE_USER WITH ROLLBACK IMMEDIATE")
+		SQL.executeSQL("Alter database ${databaseName} set Offline with rollback immediate")
+		SQL.executeSQL("RESTORE DATABASE ${databaseName} FROM DISK = '${backupFilePath}' WITH REPLACE")
+		SQL.executeSQL("Alter database ${databaseName} set online")
+	}
+
+	static String backup() {
+
+		String dateFile = new Date().format("yyyyMMdd_HHmmss")
+		String backupFilePath = "${dateFile}-${databaseName}.bak"
+
+		SQL.executeSQL("BACKUP DATABASE ${databaseName} TO DISK = '${backupFilePath}' WITH INIT, FORMAT")
+		return backupFilePath
+
+	}
 
 
 
 
 	static executeSQL(String query) {
 
-		Log.addDEBUG("executeSQL($query)")
+		Log.addTrace("executeSQL($query)")
 
 		try {
 			sqlInstance.execute(query)
@@ -63,7 +113,7 @@ public class SQL {
 
 	static Map getFirstRow(String query) {
 
-		Log.addDEBUG("getFirstRow($query)")
+		Log.addTrace("getFirstRow($query)")
 
 		try {
 			return sqlInstance.firstRow(query)
@@ -583,6 +633,8 @@ public class SQL {
 		Log.addDEBUG("getLastSequence --> $lastSeq")
 		return lastSeq
 	}
+
+
 
 
 } // end of class

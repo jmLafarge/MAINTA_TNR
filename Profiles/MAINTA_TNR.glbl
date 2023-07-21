@@ -64,4 +64,9 @@
       <initValue>''</initValue>
       <name>CASDETESTPATTERN</name>
    </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'K:\\Program Files\\Microsoft SQL Server\\MSSQL15.MSSQLSERVER19\\MSSQL\\Backup'</initValue>
+      <name>BDD_BACKUPPATH</name>
+   </GlobalVariableEntity>
 </GlobalVariableEntities>

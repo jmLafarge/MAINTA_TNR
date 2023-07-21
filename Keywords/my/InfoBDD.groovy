@@ -38,38 +38,41 @@ public class InfoBDD {
 
 
 	public static load() {
+		
+		if (map.isEmpty()) {
 
-		fileName = my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('INFOBDDFILENAME')
-		Log.addSubTITLE("Chargement de : " + fileName,'-',120,1)
-
-		book = MYXLS.open(fileName)
-
-		Sheet sheet = book.getSheet('INFO')
-
-		Iterator<Row> rowIt = sheet.rowIterator()
-		Row row = rowIt.next()
-		List <String> headers = MYXLS.loadRow(row)
-
-		Log.addINFO('Contrôle entête fichier',1)
-		if (headers!=HEADERS) {
-			Log.addERROR(fileName + ' Entête fichier différente de celle attendue :')
-			TNRResult.addDETAIL('Entête attendue : ' + HEADERS.join(' - '))
-			TNRResult.addDETAIL('Entête lue      : ' + headers.join(' - '))
-			KeywordUtil.markErrorAndStop("Entête fichier ${fileName} différente de celle attendue")
-		}
-
-		while(rowIt.hasNext()) {
-			row = rowIt.next()
-			if (MYXLS.getCellValue(row.getCell(0))=='') {
-				break
+			fileName = my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('INFOBDDFILENAME')
+			Log.addSubTITLE("Chargement de : " + fileName,'-',120,1)
+	
+			book = MYXLS.open(fileName)
+	
+			Sheet sheet = book.getSheet('INFO')
+	
+			Iterator<Row> rowIt = sheet.rowIterator()
+			Row row = rowIt.next()
+			List <String> headers = MYXLS.loadRow(row)
+	
+			Log.addINFO('Contrôle entête fichier',1)
+			if (headers!=HEADERS) {
+				Log.addERROR(fileName + ' Entête fichier différente de celle attendue :')
+				TNRResult.addDETAIL('Entête attendue : ' + HEADERS.join(' - '))
+				TNRResult.addDETAIL('Entête lue      : ' + headers.join(' - '))
+				KeywordUtil.markErrorAndStop("Entête fichier ${fileName} différente de celle attendue")
 			}
-			List listxls = MYXLS.loadRow(row,HEADERS.size())
-			String tableName = listxls[0].toString()
-			String columnName= listxls[1].toString()
-			if (!map[tableName]) {
-				map[tableName] = [:]
+	
+			while(rowIt.hasNext()) {
+				row = rowIt.next()
+				if (MYXLS.getCellValue(row.getCell(0))=='') {
+					break
+				}
+				List listxls = MYXLS.loadRow(row,HEADERS.size())
+				String tableName = listxls[0].toString()
+				String columnName= listxls[1].toString()
+				if (!map[tableName]) {
+					map[tableName] = [:]
+				}
+				map[tableName][columnName] = listxls.subList(2, 8)
 			}
-			map[tableName][columnName] = listxls.subList(2, 8)
 		}
 
 	}

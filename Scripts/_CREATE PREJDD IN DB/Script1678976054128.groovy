@@ -15,8 +15,8 @@ Log.setDebugLevel(0)
 Log.setDebugDeph(1)
 
 Log.addTITLE("Lancement de CREATE PREJDD IN DB")
-if (InfoBDD.map.isEmpty()) { InfoBDD.load() }
-if (JDDFiles.JDDfilemap.isEmpty()) { JDDFiles.load() }
+InfoBDD.load() 
+JDDFiles.load()
 if (PREJDDFiles.PREJDDfilemap.isEmpty()) { PREJDDFiles.load() }
 NAV.loadJDDGLOBAL()
 

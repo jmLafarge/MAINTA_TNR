@@ -9,8 +9,8 @@ import my.Log
 
 
 Log.addTITLE("Lancement de FILL INFOPARA")
-if (InfoBDD.map.isEmpty()) { InfoBDD.load() }
-if (JDDFiles.JDDfilemap.isEmpty()) { JDDFiles.load() }
+InfoBDD.load() 
+JDDFiles.load()
 
 
 Log.addSubTITLE('Renseigner InfoPARA avec le contenu des JDD')

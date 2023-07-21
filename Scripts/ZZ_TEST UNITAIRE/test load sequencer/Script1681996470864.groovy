@@ -6,8 +6,8 @@ import my.Sequencer
 
 
 
-if (InfoBDD.map.isEmpty()) { InfoBDD.load() }
-if (TCFiles.TCfileMap.isEmpty()) { TCFiles.load() }
-if (Sequencer.testCasesList.isEmpty()) { Sequencer.load() }
+InfoBDD.load() 
+TCFiles.load()
+Sequencer.load()
 
 
