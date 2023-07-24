@@ -19,17 +19,18 @@ public class PREJDDFiles {
 
 
 	public static load() {
-
-		Log.addSubTITLE("Load PREJDDfileList",'-',120,1)
-		Log.addINFO("\t"+'MODOBJ'.padRight(11) + 'JDDFULLNAME',1)
-		Log.addINFO('',1)
-
-		new File(my.PropertiesReader.getMyProperty('PREJDD_PATH')).eachFileRecurse(FileType.FILES) { file ->
-			// keep only TC Name like PREJDD.*.xlsx
-			if (file.getName()==~ /PREJDD\..*\.xlsx/ && file.getPath()==~ /^((?!standby).)*$/) {
-				String modObj = file.getName().replace('PREJDD.','').replace('.xlsx','')
-				PREJDDfilemap.put(modObj,file.getPath())
-				Log.addINFO('\t' + modObj.padRight(11) + file.getPath(),1)
+		if (PREJDDfilemap.isEmpty()) {
+			Log.addSubTITLE("Load PREJDDfileList",'-',120,1)
+			Log.addINFO("\t"+'MODOBJ'.padRight(11) + 'JDDFULLNAME',1)
+			Log.addINFO('',1)
+	
+			new File(my.PropertiesReader.getMyProperty('PREJDD_PATH')).eachFileRecurse(FileType.FILES) { file ->
+				// keep only TC Name like PREJDD.*.xlsx
+				if (file.getName()==~ /PREJDD\..*\.xlsx/ && file.getPath()==~ /^((?!standby).)*$/) {
+					String modObj = file.getName().replace('PREJDD.','').replace('.xlsx','')
+					PREJDDfilemap.put(modObj,file.getPath())
+					Log.addINFO('\t' + modObj.padRight(11) + file.getPath(),1)
+				}
 			}
 		}
 	}
@@ -46,7 +47,7 @@ public class PREJDDFiles {
 
 
 	static insertPREJDDinDB(String modObj, String tabName) {
-		Log.addDEBUG("insertPREJDDinDB() modObj = '$modObj' tabName = '$tabName'")
+		Log.addTrace("insertPREJDDinDB() modObj = '$modObj' tabName = '$tabName'")
 		def myJDD = new my.JDD(JDDFiles.JDDfilemap.getAt(modObj),tabName)
 
 		Log.addINFO("Traitement de : '" + PREJDDfilemap.getAt(modObj)+ " ($tabName)")
@@ -68,8 +69,8 @@ public class PREJDDFiles {
 			if (!row || cdt =='') {
 				break
 			}
-			Log.addDEBUG("",0)
-			Log.addDEBUG("Traitement $cdt",0)
+			Log.addTrace("",0)
+			Log.addTrace("Traitement $cdt",0)
 
 			List fields =[]
 			List values =[]
@@ -84,10 +85,10 @@ public class PREJDDFiles {
 
 
 				def valueOfJDD = my.XLS.getCellValue(c)
-				Log.addDEBUG("\t\tCell value = '$valueOfJDD' getClass()=" + valueOfJDD.getClass(),2)
+				Log.addTrace("\t\tCell value = '$valueOfJDD' getClass()=" + valueOfJDD.getClass(),2)
 
 				if (c.getColumnIndex()>0) {
-					Log.addDEBUG("\t\tAjout fieldName='$fieldName' value='$valueOfJDD' in req SQL",2)
+					Log.addTrace("\t\tAjout fieldName='$fieldName' value='$valueOfJDD' in req SQL",2)
 
 					if (!my.JDDKW.isNU(valueOfJDD.toString()) && !myJDD.isOBSOLETE(fieldName)) {
 						fields.add(fieldName)
@@ -104,7 +105,7 @@ public class PREJDDFiles {
 								sequence.put(seqTable, seq)
 							}
 						}else {
-							Log.addDEBUG("Détection d'une sequence sur $fieldName, table $seqTable")
+							Log.addTrace("Détection d'une sequence sur $fieldName, table $seqTable")
 							sequence.put(seqTable, seq)
 						}
 					}
@@ -115,7 +116,7 @@ public class PREJDDFiles {
 					String FK = myJDD.getParamForThisName('FOREIGNKEY',fieldName)
 					if (FK) {
 
-						Log.addDEBUG("Détection d'une FK sur $fieldName, FK= $FK")
+						Log.addTrace("Détection d'une FK sur $fieldName, FK= $FK")
 
 						if (!my.JDDKW.isNULL(valueOfJDD.toString()) && !my.JDDKW.isVIDE(valueOfJDD.toString())){
 
@@ -123,7 +124,7 @@ public class PREJDDFiles {
 
 							if (PR) {
 
-								Log.addDEBUG("PR=$PR")
+								Log.addTrace("PR=$PR")
 
 								valueOfJDD =getValueFromFK(PR,FK,cdt,valueOfJDD.toString())
 
@@ -132,7 +133,7 @@ public class PREJDDFiles {
 							}
 
 						}else {
-							Log.addDEBUG(" - Pas de lecture de FK, la valeur est : "+valueOfJDD.toString())
+							Log.addTrace(" - Pas de lecture de FK, la valeur est : "+valueOfJDD.toString())
 						}
 					}
 
@@ -145,11 +146,11 @@ public class PREJDDFiles {
 
 						if (valueOfJDD) {
 
-							Log.addDEBUG("Détection d'une IV sur $fieldName, IV= $IV value=$valueOfJDD :")
+							Log.addTrace("Détection d'une IV sur $fieldName, IV= $IV value=$valueOfJDD :")
 
 							String internalVal = NAV.myGlobalJDD.getInternalValueOf(IV,valueOfJDD.toString())
 
-							Log.addDEBUG("/t- internal value =$internalVal")
+							Log.addTrace("/t- internal value =$internalVal")
 
 							valueOfJDD = internalVal
 						}else {
@@ -163,7 +164,7 @@ public class PREJDDFiles {
 					// Cas des val TBD
 					if (JDDKW.startWithTBD(valueOfJDD)) {
 
-						Log.addDEBUG("Détection d'une valeur TBD sur $fieldName '$valueOfJDD'")
+						Log.addTrace("Détection d'une valeur TBD sur $fieldName '$valueOfJDD'")
 
 						def newValue = JDDKW.getValueOfKW_TBD(valueOfJDD)
 						// si une valeur de test existe, on remplace la valeur du JDD par cette valeur
@@ -215,7 +216,7 @@ public class PREJDDFiles {
 						default :
 
 							if (valueOfJDD instanceof java.util.Date) {
-								Log.addDEBUG("\t\t instanceof java.util.Date = TRUE")
+								Log.addTrace("\t\t instanceof java.util.Date = TRUE")
 								val = valueOfJDD.format('yyyy-dd-MM HH:mm:ss.SSS')
 
 							}else {
@@ -246,7 +247,7 @@ public class PREJDDFiles {
 		if (sequence.size()>0) {
 			sequence.each { table, val ->
 				String req = "DBCC CHECKIDENT ($table, RESEED,$val);"
-				Log.addDEBUG(req,0)
+				Log.addTrace(req,0)
 				SQL.executeSQL(req)
 			}
 		}
@@ -264,7 +265,7 @@ public class PREJDDFiles {
 		String id=fk[0]
 		String field=fk[2]
 
-		Log.addDEBUG("Lecture du PREJDD pour la FK : '" + PREJDDfilemap.getAt(modObj)+ " ($tabName)")
+		Log.addTrace("Lecture du PREJDD pour la FK : '" + PREJDDfilemap.getAt(modObj)+ " ($tabName)")
 		XSSFWorkbook book = my.XLS.open(PREJDDfilemap.getAt(modObj))
 
 		Sheet sheet = book.getSheet(tabName)
@@ -274,12 +275,12 @@ public class PREJDDFiles {
 		int fieldIndex =XLS.getColumnIndexOfColumnName(sheet, field)
 		int idIndex =XLS.getColumnIndexOfColumnName(sheet, id)
 
-		Log.addDEBUG("Pour le champ '$field' l'index = '$fieldIndex' la valeur est '$valeur'")
-		Log.addDEBUG("Pour le champ '$id' l'index = '$idIndex' le cdt est '$cdt'")
+		Log.addTrace("Pour le champ '$field' l'index = '$fieldIndex' la valeur est '$valeur'")
+		Log.addTrace("Pour le champ '$id' l'index = '$idIndex' le cdt est '$cdt'")
 
 		try {
 			String val = datas.find { it[0] == cdt && it[fieldIndex] == valeur }[idIndex]
-			Log.addDEBUG("La valeur de l'ID trouvé est $val")
+			Log.addTrace("La valeur de l'ID trouvé est $val")
 			return val
 		} catch (NullPointerException e) {
 			Log.addERROR("La valeur recherchée n'a pas été trouvée.ARRET DU PROGRAMME")
@@ -291,7 +292,7 @@ public class PREJDDFiles {
 
 	static insertIfNotExist(String table, String PKwhere, List fields, List values) {
 
-		Log.addDEBUG("insertIfNotExist($table, $PKwhere)")
+		Log.addTrace("insertIfNotExist($table, $PKwhere)")
 
 		Map result = SQL.getFirstRow("SELECT count(*) as nbr FROM $table WHERE $PKwhere")
 
@@ -302,15 +303,15 @@ public class PREJDDFiles {
 
 				String query = "INSERT INTO $table (" + fields.join(',') +") VALUES (" + li.join(',') + ")"
 
-				Log.addDEBUG(query,0)
-				Log.addDEBUG(values.join(','),0)
+				Log.addTrace(query,0)
+				Log.addTrace(values.join(','),0)
 
 				SQL.executeInsert(query,values)
 
-				Log.addDEBUG("insertIfNotExist() --> OK")
+				Log.addTrace("insertIfNotExist() --> OK")
 
 			}else if (result.nbr == 1){
-				Log.addDEBUG("insertIfNotExist() --> La valeur $PKwhere existe déjà")
+				Log.addTrace("insertIfNotExist() --> La valeur $PKwhere existe déjà")
 			}else {
 				Log.addERROR("Plusieurs valeurs trouvées pour :")
 				Log.addINFO("SELECT count(*) FROM $table WHERE $PKwhere")

@@ -129,7 +129,7 @@ class KW {
 			} catch (Exception ex) {
 				TNRResult.addSTEP("Saisie du texte '$text' sur '" + tObj.getObjectId() + "'", status)
 				TNRResult.addDETAIL(ex.getMessage())
-				Log.addDEBUG('')
+				Log.addTrace('')
 			}
 		}else {
 			TNRResult.addSTEPERROR("Saisie du texte '$text' sur '$name' impossible")
@@ -201,7 +201,7 @@ class KW {
 		if (tObj) {
 			try {
 				WebUI.scrollToElement(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
-				Log.addDEBUG("Scroll to '${tObj.getObjectId()}' OK")
+				Log.addTrace("Scroll to '${tObj.getObjectId()}' OK")
 			} catch (Exception ex) {
 				TNRResult.addSTEPERROR("Scroll to '${tObj.getObjectId()}'")
 				TNRResult.addDETAIL(ex.getMessage())
@@ -254,7 +254,7 @@ class KW {
 				if (msg) {
 					TNRResult.addSTEPPASS(msg)
 				}else {
-					Log.addDEBUG("Envoie touche(s) clavier '$keys' sur '${tObj.getObjectId()}'")
+					Log.addTrace("Envoie touche(s) clavier '$keys' sur '${tObj.getObjectId()}'")
 				}
 				return null
 			} catch (Exception ex) {
@@ -456,7 +456,7 @@ class KW {
 				TNRResult.addSTEP("Pas de vérification pour $name, valeur du JDD = NU")
 			}else {
 				def val = WebUI.getAttribute(tObj, 'value')
-				Log.addDEBUG('val.getClass() : ' + val.getClass() + '   ' + val)
+				Log.addTrace('val.getClass() : ' + val.getClass() + '   ' + val)
 				if (val==null) {
 					TNRResult.addSTEPERROR("Vérifier que la valeur de '" + name + "', soit '$text'")
 					TNRResult.addDETAIL("L'attribut 'value' n'existe pas !")
@@ -611,14 +611,14 @@ class KW {
 
 	static verifyDateText(JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT , String status = 'FAIL')  {
 
-		Log.addDEBUG("verifyDateText : name='$name' val='${val.toString()} dateFormat='dateFormat' status='$status'")
+		Log.addTrace("verifyDateText : name='$name' val='${val.toString()} dateFormat='dateFormat' status='$status'")
 
 		if (val==null) val = myJDD.getData(name)
 
 		if (val == '$VIDE') {
 			verifyElementText(myJDD, name, '', status)
 		}else if ( val instanceof Date) {
-			Log.addDEBUG('val.format(dateFormat) :' +val.format(dateFormat))
+			Log.addTrace('val.format(dateFormat) :' +val.format(dateFormat))
 			verifyElementText(myJDD, name, val.format(dateFormat), status)
 		}else {
 			TNRResult.addSTEPERROR("Vérification du texte '${val.toString()}' sur '$name'")
@@ -631,7 +631,7 @@ class KW {
 
 	static verifyDateValue(JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT , String status = 'FAIL')  {
 
-		Log.addDEBUG("verifyDateFromValue : name='$name' val='${val.toString()} dateFormat='dateFormat' status='$status'")
+		Log.addTrace("verifyDateFromValue : name='$name' val='${val.toString()} dateFormat='dateFormat' status='$status'")
 
 		if (val==null) val = myJDD.getData(name)
 		if (val == '$VIDE') {

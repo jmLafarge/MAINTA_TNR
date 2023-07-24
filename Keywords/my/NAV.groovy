@@ -7,6 +7,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 import groovy.transform.CompileStatic
 import internal.GlobalVariable
 import my.JDD
+import my.Log
 
 
 @CompileStatic
@@ -21,15 +22,12 @@ class NAV {
 
 
 
-	public static JDD myGlobalJDD = null
+	public static JDD myGlobalJDD
 
-	public static loadJDDGLOBAL() {
-
-		Log.addDEBUG('loadJDDGLOBAL()')
-		if (!myGlobalJDD) {
-			myGlobalJDD = new JDD(my.PropertiesReader.getMyProperty('JDD_PATH') + File.separator + my.PropertiesReader.getMyProperty('JDD_GLOBALFILENAME'),null,null,false)
-		}
-		Log.addDEBUG(myGlobalJDD.xpathTO.toString())
+	static {
+		Log.addTraceBEGIN("NAV()")
+		myGlobalJDD = new JDD(my.PropertiesReader.getMyProperty('JDD_PATH') + File.separator + my.PropertiesReader.getMyProperty('JDD_GLOBALFILENAME'),null,null,false)
+		Log.addTraceEND("NAV()")
 	}
 	
 
@@ -139,7 +137,7 @@ class NAV {
 	 */
 	public static goToURL_RUD_and_checkCartridge(String id, String fct='' , int timeOut = GlobalVariable.TIMEOUT) {
 		if (fct=='') { fct = getFctFromModObj() }
-		Log.addDEBUG("NAV.goToURL_RUD_and_checkCartridge(id='$id', fct='$fct')")
+		Log.addTrace("NAV.goToURL_RUD_and_checkCartridge(id='$id', fct='$fct')")
 		goToURL_RUD(fct, id)
 		verifierEcranRUD(id, fct, timeOut)
 	} // end of def
@@ -149,7 +147,7 @@ class NAV {
 	 */
 	public static goToURL_Grille_and_checkCartridge(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
 		if (fct=='') { fct = getFctFromModObj() }
-		Log.addDEBUG("NAV.goToURL_Grille_and_checkCartridge(fct='$fct')")
+		Log.addTrace("NAV.goToURL_Grille_and_checkCartridge(fct='$fct')")
 		goToURL_Grille(fct)
 		verifierEcranGrille(fct,timeOut)
 	} // end of def
@@ -159,7 +157,7 @@ class NAV {
 	 */
 	public static goToURL_Creation_and_checkCartridge(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
 		if (fct=='') { fct = getFctFromModObj() }
-		Log.addDEBUG("NAV.goToURL_Creation_and_checkCartridge(fct='$fct')")
+		Log.addTrace("NAV.goToURL_Creation_and_checkCartridge(fct='$fct')")
 		goToURL_Creation(fct)
 		verifierEcranCreation(fct,timeOut)
 	} // end of def

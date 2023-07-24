@@ -32,7 +32,7 @@ public class CheckTypeInDATA {
 					// Cas des val TBD
 					if (JDDKW.startWithTBD(val)) {
 
-						Log.addDEBUG("Détection d'une valeur TBD sur $name '$val'")
+						Log.addTrace("Détection d'une valeur TBD sur $name '$val'")
 
 						def newValue = JDDKW.getValueOfKW_TBD(val)
 						// si une valeur de test existe, on remplace la valeur du JDD par cette valeur
@@ -49,7 +49,7 @@ public class CheckTypeInDATA {
 					/*
 					if (JDDKW.startWithUPD(val)) { // cas d'un JDD
 						if (JDDKW.isUPD(val)) {
-							Log.addDEBUG("Détection d'un \$UPD, valeur = '${JDDKW.getOldValueOfKW_UPD(val)}', nouvelle valeur = '${JDDKW.getNewValueOfKW_UPD(val)}'")
+							Log.addTrace("Détection d'un \$UPD, valeur = '${JDDKW.getOldValueOfKW_UPD(val)}', nouvelle valeur = '${JDDKW.getNewValueOfKW_UPD(val)}'")
 							
 						}else {
 							Log.addDETAILFAIL("Format du \$UPD non correct : '$val'")
@@ -71,7 +71,7 @@ public class CheckTypeInDATA {
 
 							if (val && val !='$NULL') {
 
-								Log.addDEBUG("Détection d'une IV sur $name, IV= $IV value=$val ")
+								Log.addTrace("Détection d'une IV sur $name, IV= $IV value=$val ")
 
 								String internalVal = NAV.myGlobalJDD.getInternalValueOf(IV, val.toString())
 
@@ -85,7 +85,7 @@ public class CheckTypeInDATA {
 
 
 							}else {
-								Log.addDEBUG("Détection d'une INTERNALVALUE sur $name, IV= $IV la valeur est vide ou null")
+								Log.addTrace("Détection d'une INTERNALVALUE sur $name, IV= $IV la valeur est vide ou null")
 								ctrlVal=false
 							}
 
@@ -100,7 +100,7 @@ public class CheckTypeInDATA {
 							case InfoBDD.getNumeric() :
 								if (val.toString().isNumber() || val in ['$NULL', '$SEQUENCEID', '$ORDRE']) {
 									// c'est bon
-									Log.addDEBUG("$table.$name est un numeric autorisé = '$val'")
+									Log.addTrace("$table.$name est un numeric autorisé = '$val'")
 								}else {
 									Log.addDETAILFAIL(cdtName + "($table.$name) : La valeur '$val' n'est pas autorisé pour un champ numérique")
 									status = false
@@ -114,11 +114,11 @@ public class CheckTypeInDATA {
 									status = false
 								}else {
 
-									Log.addDEBUG(cdtName +" ($table.$name) : La valeur $val est un varchar autorisé,  "+val.toString().length() + ' / ' + InfoBDD.getDATA_MAXCHAR(table, name) )
+									Log.addTrace(cdtName +" ($table.$name) : La valeur $val est un varchar autorisé,  "+val.toString().length() + ' / ' + InfoBDD.getDATA_MAXCHAR(table, name) )
 								}
 								break
 							default :
-								Log.addDEBUG("$table.$name est de type "+ InfoBDD.getDATA_TYPE(table, name) + " = '$val' : " )
+								Log.addTrace("$table.$name est de type "+ InfoBDD.getDATA_TYPE(table, name) + " = '$val' : " )
 						}
 					}
 				}

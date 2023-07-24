@@ -79,7 +79,7 @@ public class JDD {
 		Log.addTraceBEGIN("JDD.JDD(fullname = '$fullname'    tabName = '$tabName' Cas de test = '$cdt' step = $step)")
 
 
-		Log.addDEBUG("GlobalVariable.CASDETESTPATTERN : "+GlobalVariable.CASDETESTPATTERN)
+		Log.addTrace("GlobalVariable.CASDETESTPATTERN : "+GlobalVariable.CASDETESTPATTERN)
 
 		if(fullname == null) {
 			def modObj = Tools.getMobObj(GlobalVariable.CASDETESTPATTERN.toString())
@@ -96,10 +96,10 @@ public class JDD {
 		 TNRResult.addSTEP("Lecture du JDD : " + JDDFullName)
 		 TNRResult.addDETAIL("Onglet : " + TCTabName)
 		 }else {
-		 Log.addDEBUG("Lecture du JDD : " + JDDFullName)
+		 Log.addTrace("Lecture du JDD : " + JDDFullName)
 		 }
 		 */
-		Log.addDEBUG("Lecture du JDD : " + JDDFullName)
+		Log.addTrace("Lecture du JDD : " + JDDFullName)
 
 
 		book = my.XLS.open(JDDFullName)
@@ -125,20 +125,20 @@ public class JDD {
 				String tab = my.XLS.getCellValue(row.getCell(0))
 				String name = my.XLS.getCellValue(row.getCell(1))
 				String xpath = my.XLS.getCellValue(row.getCell(2))
-				Log.addDEBUG("tab : $tab name : $name xpath : $xpath TCTabName =${TCTabName}",2)
+				Log.addTrace("tab : $tab name : $name xpath : $xpath TCTabName =${TCTabName}",2)
 				if (tab == '') {
 					break
 				}else if (tab in [TCTabName, 'ALL']) {
-					Log.addDEBUG("xpathTO.put($name, $xpath)",2)
+					Log.addTrace("xpathTO.put($name, $xpath)",2)
 					xpathTO.put(name, xpath)
 				}
 
 			}
 		}else {
-			Log.addDEBUG("Pas de d'onglet '$TOSHEETNAME'" )
+			Log.addTrace("Pas de d'onglet '$TOSHEETNAME'" )
 		}
 
-		Log.addDEBUG("xpathTO = " + xpathTO.toString(),2)
+		Log.addTrace("xpathTO = " + xpathTO.toString(),2)
 
 
 		// ajout des INTERNALVALUE de l'onglet INTERNALVALUESHEETNAME s il existe
@@ -150,7 +150,7 @@ public class JDD {
 				String IV_para = my.XLS.getCellValue(row.getCell(0))
 				String IV_val = my.XLS.getCellValue(row.getCell(1))
 				String IV_code = my.XLS.getCellValue(row.getCell(2))
-				Log.addDEBUG("IV_para : $IV_para IV_val : $IV_val IV_code : $IV_code ",2)
+				Log.addTrace("IV_para : $IV_para IV_val : $IV_val IV_code : $IV_code ",2)
 				if (IV_code == '') {
 					break
 				}else {
@@ -161,9 +161,9 @@ public class JDD {
 
 			}
 		}
-		Log.addDEBUG("internalValues = " + internalValues.toString(),2)
+		Log.addTrace("internalValues = " + internalValues.toString(),2)
 
-		Log.addTraceEND("JDD.JDD() --> RAZ")
+		Log.addTraceEND("JDD.JDD()")
 	}
 
 
@@ -175,13 +175,13 @@ public class JDD {
 		Log.addTraceBEGIN("JDD.loadTCSheet(${sheet.getSheetName()})")
 
 		TCSheet = sheet
-		Log.addDEBUG('Lecture headers')
+		Log.addTrace('Lecture headers')
 		Iterator<Row> rowIt = sheet.rowIterator()
 		Row row = rowIt.next()
 		headers = my.XLS.loadRow(row)
-		Log.addDEBUG('- headers.size = ' + headers.size())
+		Log.addTrace('- headers.size = ' + headers.size())
 
-		Log.addDEBUG('Lecture paramètres')
+		Log.addTrace('Lecture paramètres')
 		params =[]
 		while(rowIt.hasNext()) {
 			row = rowIt.next()
@@ -195,9 +195,9 @@ public class JDD {
 				Log.addERROR("Le paramètre '" +  my.XLS.getCellValue(row.getCell(0)) + "' n'est pas autorisé")
 			}
 		}
-		Log.addDEBUG('- params.size = ' + params.size())
+		Log.addTrace('- params.size = ' + params.size())
 
-		Log.addDEBUG('Lecture data')
+		Log.addTrace('Lecture data')
 		datas =[]
 		while(rowIt.hasNext()) {
 			row = rowIt.next()
@@ -206,7 +206,7 @@ public class JDD {
 			}
 			datas << my.XLS.loadRow(row,headers.size())
 		}
-		Log.addDEBUG('- datas.size = ' + datas.size())
+		Log.addTrace('- datas.size = ' + datas.size())
 
 
 		String cdtPattern = casDeTest ? casDeTest : GlobalVariable.CASDETESTPATTERN
@@ -224,7 +224,7 @@ public class JDD {
 			Log.addINFO('Pas de cas de test défini pour '+cdtPattern)
 		}
 
-		Log.addTraceEND("JDD.loadTCSheet() --> RAZ")
+		Log.addTraceEND("JDD.loadTCSheet()")
 
 	}
 
@@ -244,7 +244,7 @@ public class JDD {
 		// Compte le nombre de lignes pour ce le cas de test.
 		int ret = (int)datas.count { it[0] == cdt }
 
-		Log.addTraceEND("JDD.getNbrLigneCasDeTest() --> ${ret}")
+		Log.addTraceEND("JDD.getNbrLigneCasDeTest()",ret)
 		return ret
 	}
 
@@ -256,9 +256,9 @@ public class JDD {
 	 * @param i Le numéro du cas de test.
 	 */
 	def void setCasDeTestNum(int i) {
-		Log.addTrace("JDD.setCasDeTestNum(${i})")
-
+		Log.addTraceBEGIN("JDD.setCasDeTestNum(${i})")
 		casDeTestNum = i
+		Log.addTraceEND("JDD.setCasDeTestNum()")
 	}
 
 
@@ -269,9 +269,9 @@ public class JDD {
 	 * @param cdt Le nom du cas de test.
 	 */
 	def void setCasDeTest(String cdt) {
-		Log.addTrace("JDD.setCasDeTest(${cdt})")
-
+		Log.addTraceBEGIN("JDD.setCasDeTest(${cdt})")
 		casDeTest = cdt
+		Log.addTraceEND("JDD.setCasDeTest()")
 	}
 
 
@@ -289,7 +289,7 @@ public class JDD {
 
 		if (casDeTestNum > getNbrLigneCasDeTest(cdt) || casDeTestNum < 1) {
 			Log.addERROR("Le cas de test N° : $casDeTestNum n'existe pas (max = "+ getNbrLigneCasDeTest(cdt) + ')')
-			Log.addTraceEND("JDD.getDataLineNum() --> null")
+			Log.addTraceEND("JDD.getDataLineNum()")
 			return null
 		}
 
@@ -301,13 +301,13 @@ public class JDD {
 				cdtnum++
 				if (cdtnum==casDeTestNum) {
 					dataLineNum = i
-					Log.addDEBUG("Numéro de la ligne trouvée : $i")
+					Log.addTrace("Numéro de la ligne trouvée : $i")
 					break
 				}
 			}
 		}
 
-		Log.addTraceEND("JDD.getDataLineNum() --> ${dataLineNum}")
+		Log.addTraceEND("JDD.getDataLineNum()",dataLineNum)
 		return dataLineNum
 	}
 
@@ -328,7 +328,7 @@ public class JDD {
 		// Vérifie que le numéro de cas de test est valide.
 		if (casDeTestNum > getNbrLigneCasDeTest() || casDeTestNum < 1) {
 			Log.addERROR("Le cas de test N° : $casDeTestNum n'existe pas (max = "+ getNbrLigneCasDeTest() + ')')
-			Log.addTraceEND("JDD.getData() --> null")
+			Log.addTraceEND("JDD.getData()")
 			return null
 		}
 
@@ -336,11 +336,11 @@ public class JDD {
 		if (headers.contains(name)) {
 			// Récupère la donnée correspondante.
 			def ret = datas[getDataLineNum(casDeTest, casDeTestNum)][headers.indexOf(name)]
-			Log.addTraceEND("JDD.getData() --> ${ret}")
+			Log.addTraceEND("JDD.getData()",ret)
 			return ret
 		} else {
 			Log.addERROR("getData($name, $casDeTestNum ) '$name' n'est pas une colonne du JDD")
-			Log.addTraceEND("JDD.getData() --> null")
+			Log.addTraceEND("JDD.getData()")
 			return null
 		}
 	}
@@ -365,7 +365,7 @@ public class JDD {
 			ret = getData(name, casDeTestNum).toString()
 		}
 
-		Log.addTraceEND("JDD.getStrData() --> ${ret}")
+		Log.addTraceEND("JDD.getStrData()",ret)
 		return ret
 	}
 
@@ -377,10 +377,9 @@ public class JDD {
 	 * @return Le nom de la table de la base de données.
 	 */
 	public String getDBTableName() {
-
+		Log.addTraceBEGIN("JDD.getDBTableName()")
 		String tableName = headers[0]
-
-		Log.addTrace("JDD.getDBTableName() --> ${tableName}")
+		Log.addTraceEND("JDD.getDBTableName()",tableName)
 		return tableName
 	}
 
@@ -393,10 +392,9 @@ public class JDD {
 	 * @return Le nom de l'en-tête à l'indice donné.
 	 */
 	def String getHeaderNameOfIndex(int i) {
-
+		Log.addTraceBEGIN("JDD.getHeaderNameOfIndex(${i})")
 		String headerName = headers[i]
-
-		Log.addTrace("JDD.getHeaderNameOfIndex(${i}) --> ${headerName}")
+		Log.addTraceEND("JDD.getHeaderNameOfIndex()",headerName)
 		return headerName
 	}
 
@@ -408,10 +406,9 @@ public class JDD {
 	 * @return L'indice de l'en-tête correspondant au nom donné, ou -1 si le nom n'est pas trouvé.
 	 */
 	def int getHeaderIndexOf(String name) {
-
+		Log.addTraceBEGIN("JDD.getHeaderIndexOf(${name})")
 		int headerIndex = headers.indexOf(name)
-
-		Log.addTrace("JDD.getHeaderIndexOf(${name}) --> ${headerIndex}")
+		Log.addTraceEND("JDD.getHeaderIndexOf()",headerIndex)
 		return headerIndex
 	}
 
@@ -464,7 +461,7 @@ public class JDD {
 			}
 		}
 
-		Log.addTraceEND("JDD.addXpath() --> ")
+		Log.addTraceEND("JDD.addXpath()")
 	}
 
 
@@ -491,7 +488,7 @@ public class JDD {
 			}
 		}
 
-		Log.addTraceEND("JDD.getParam() --> ${ret}")
+		Log.addTraceEND("JDD.getParam()",ret)
 		return ret
 	}
 
@@ -521,7 +518,7 @@ public class JDD {
 			}
 		}
 
-		Log.addTraceEND("JDD.getParamForThisName() --> ${ret}")
+		Log.addTraceEND("JDD.getParamForThisName()",ret)
 		return ret
 	}
 
@@ -553,7 +550,7 @@ public class JDD {
 			}
 		}
 
-		Log.addTraceEND("JDD.setParamForThisName() --> ")
+		Log.addTraceEND("JDD.setParamForThisName()")
 	}
 
 
@@ -572,7 +569,7 @@ public class JDD {
 
 		boolean result = ret ? ret == 'OBSOLETE' : false
 
-		Log.addTraceEND("JDD.isOBSOLETE() --> ${result}")
+		Log.addTraceEND("JDD.isOBSOLETE()",result)
 		return result
 	}
 
@@ -590,7 +587,7 @@ public class JDD {
 
 		boolean result = getParamForThisName('FOREIGNKEY', name)!=''
 
-		Log.addTraceEND("JDD.isFK() --> ${result}")
+		Log.addTraceEND("JDD.isFK()",result)
 		return result
 	}
 
@@ -608,7 +605,7 @@ public class JDD {
 		def sql = getParamForThisName('FOREIGNKEY', name).toString().split(/\*/)
 		String query = "SELECT ${sql[0]} FROM ${sql[1]} WHERE ${sql[2]} = '" + getData(name) + "'"
 
-		Log.addTraceEND("JDD.getSqlForForeignKey() --> ${query}")
+		Log.addTraceEND("JDD.getSqlForForeignKey()",query)
 		return query
 	}
 
@@ -633,7 +630,7 @@ public class JDD {
 			datas[dataLineNum][index] = SQL.getLastSequence(paraSeq)+delta
 		}
 
-		Log.addTraceEND("JDD.replaceSEQUENCIDInJDD() --> ")
+		Log.addTraceEND("JDD.replaceSEQUENCIDInJDD()")
 	}
 
 
@@ -702,7 +699,7 @@ public class JDD {
 
 		String res = internalValues.find { it[0] == para && it[1] == val }?.get(2)
 
-		Log.addTraceEND("JDD.getInternalValueOf() --> ${res}")
+		Log.addTraceEND("JDD.getInternalValueOf()",res)
 		return res
 	}
 
@@ -722,7 +719,7 @@ public class JDD {
 			}
 		}
 
-		Log.addTraceEND("JDD.getLineNumberOfParam() --> ${ret}")
+		Log.addTraceEND("JDD.getLineNumberOfParam()",ret)
 		return ret
 	}
 
@@ -745,7 +742,7 @@ public class JDD {
 		book.write(JDDfileOut)
 		setParamForThisName('LOCATOR', name, val)
 
-		Log.addTraceEND("JDD.setLOCATOR() --> ")
+		Log.addTraceEND("JDD.setLOCATOR()")
 	}
 
 
@@ -773,7 +770,7 @@ public class JDD {
 			xpathTO.put(nom, xpath)
 		}
 
-		Log.addTraceEND("JDD.addIHMTO() --> ")
+		Log.addTraceEND("JDD.addIHMTO()")
 	}
 
 
@@ -786,9 +783,9 @@ public class JDD {
 		Log.addTraceBEGIN("JDD.addColumn(${name})")
 
 		if (name in headers) {  // Si la colonne existe déjà
-			Log.addDEBUG("\t- La colonne '${name}' existe déjà")
+			Log.addTrace("\t- La colonne '${name}' existe déjà")
 		} else {
-			Log.addDEBUG("\t- Ajout de la colonne '${name}'")
+			Log.addTrace("\t- Ajout de la colonne '${name}'")
 			CellStyle styleChampIHM = book.createCellStyle()
 			styleChampIHM.cloneStyleFrom(TCSheet.getRow(0).getCell(1).getCellStyle())
 			styleChampIHM.setFillPattern(FillPatternType.SOLID_FOREGROUND)
@@ -809,7 +806,7 @@ public class JDD {
 			headers.add(name)
 		}
 
-		Log.addTraceEND("JDD.addColumn() --> ")
+		Log.addTraceEND("JDD.addColumn()")
 	}
 
 

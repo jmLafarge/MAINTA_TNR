@@ -16,9 +16,10 @@ class PropertiesReader {
 		if (properties == null ) { loadProperties() }
 
 		String prop = properties.getProperty(propertyName)
+		
+		//Log.addTrace(prop)
 
 		if (prop==null) {
-			//KeywordUtil.markErrorAndStop("La propriété $propertyName n'existe pas dans " + propertiesFilename)
 			Log.addERROR("La propriété $propertyName n'existe pas dans " + propertiesFilename)
 		}
 

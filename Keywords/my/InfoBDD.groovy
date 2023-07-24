@@ -82,12 +82,12 @@ public class InfoBDD {
 
 
 	public static List getPK(String table) {
-		Log.addDEBUG("getPK($table)")
+		Log.addTrace("getPK($table)")
 		List list=[]
 		map[table].each { k, li ->
 			if (li[5]!='NULL') list.add(k)
 		}
-		Log.addDEBUG("getPK() --> ${list.join('|')}")
+		Log.addTrace("getPK() --> ${list.join('|')}")
 		return list
 	}
 

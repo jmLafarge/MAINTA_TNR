@@ -31,7 +31,7 @@ JDDFiles.JDDfilemap.each { modObj,fullName ->
 				myJDD.loadTCSheet(sheet)
 	
 				for (col in myJDD.headers.drop(1)) {
-					Log.addDEBUG("Traitement $col")
+					Log.addTrace("Traitement $col")
 					InfoPARA.update(myJDD, col,fullName, modObj+'.'+sheet.getSheetName())
 				}
 			}

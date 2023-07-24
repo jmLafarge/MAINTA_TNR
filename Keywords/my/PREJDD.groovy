@@ -26,7 +26,7 @@ public class PREJDD {
 
 		Sheet sheet = book.getSheet(map.getAt('PREJDDTAB').toString())
 
-		Log.addDEBUG("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "'  dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'",0)
+		Log.addTrace("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "'  dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'",0)
 
 		List list = getListOfCasDeTestAndIDValue(sheet, map.getAt('PREJDDID').toString())
 
@@ -44,12 +44,12 @@ public class PREJDD {
 			}
 
 			if (found) {
-				Log.addDEBUG(cdtVal.toString()+' trouvé')
+				Log.addTrace(cdtVal.toString()+' trouvé')
 			}else {
 				
 				if (savJDDNAME != map.getAt('JDDNAME').toString()) {
-					Log.addDEBUG('',0)
-					Log.addDEBUG('\t- '+ map.getAt('JDDNAME').toString(),0)
+					Log.addTrace('',0)
+					Log.addTrace('\t- '+ map.getAt('JDDNAME').toString(),0)
 					savJDDNAME = map.getAt('JDDNAME').toString()
 				}
 				
@@ -61,7 +61,7 @@ public class PREJDD {
 				int cpt = SQL.checkIfExist(myJDD.getDBTableName(), map.getAt('JDDID').toString()+"='$val'")
 
 				if (cpt==1) {
-					Log.addDEBUG(cdtVal.toString()+' trouvé en BDD',0)
+					Log.addTrace(cdtVal.toString()+' trouvé en BDD',0)
 				}else {
 
 					if (savJDDNAME2 != map.getAt('JDDNAME').toString()) {
@@ -136,7 +136,7 @@ public class PREJDD {
 						list.add(casDeTest_IDvalue)
 					}
 				}else {
-					Log.addDEBUG("La valeur de $ID est un mot clé : $IDvalue",0)
+					Log.addTrace("La valeur de $ID est un mot clé : $IDvalue",0)
 				}
 			}
 		}
@@ -146,7 +146,7 @@ public class PREJDD {
 
 
 	static List loadDATA(Sheet sheet,int size) {
-		Log.addDEBUG('Lecture PREJDD data')
+		Log.addTrace('Lecture PREJDD data')
 		Iterator<Row> rowIt = sheet.rowIterator()
 		Row row = rowIt.next()
 		List datas =[]
@@ -157,7 +157,7 @@ public class PREJDD {
 			}
 			datas << my.XLS.loadRow(row,size)
 		}
-		Log.addDEBUG('PREJDD data size = ' + datas.size() )
+		Log.addTrace('PREJDD data size = ' + datas.size() )
 		return datas
 	}
 

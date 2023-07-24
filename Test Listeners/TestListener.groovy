@@ -36,7 +36,7 @@ class TestListener {
 
 		Tools.addInfoContext()
 		
-		NAV.loadJDDGLOBAL()
+		//NAV.loadJDDGLOBAL()
 
 
 	}
@@ -49,11 +49,11 @@ class TestListener {
 	@BeforeTestCase
 	def beforeTestCase(TestCaseContext testCaseContext) {
 		
-		Log.addDEBUG("beforeTestCase : '${testCaseContext.getTestCaseId()}'")
+		Log.addTrace("beforeTestCase : '${testCaseContext.getTestCaseId()}'")
 		
 		if (testSuite) {
 			String TCName = testCaseContext.getTestCaseId().split('/')[-1].split(' ')[0]
-			Log.addDEBUG("TCName : '$TCName'")
+			Log.addTrace("TCName : '$TCName'")
 			GlobalVariable.CASDETESTENCOURS = TCName
 			GlobalVariable.CASDETESTPATTERN = TCName
 		}
@@ -71,7 +71,7 @@ class TestListener {
 	@AfterTestCase
 	def afterTestCase(TestCaseContext testCaseContext) {
 		
-		Log.addDEBUG('afterTestCase : ' + testCaseContext.getTestCaseId().split('/')[-1] + ' : '+testCaseContext.getTestCaseStatus())
+		Log.addTrace('afterTestCase : ' + testCaseContext.getTestCaseId().split('/')[-1] + ' : '+testCaseContext.getTestCaseStatus())
 		
 	}
 

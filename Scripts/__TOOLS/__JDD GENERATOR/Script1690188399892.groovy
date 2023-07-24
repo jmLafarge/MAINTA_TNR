@@ -10,7 +10,7 @@ import my.Log
 Log.addTITLE("Lancement de JDD GENERATOR")
 InfoBDD.load() 
 JDDFiles.load()
-if (PREJDDFiles.PREJDDfilemap.isEmpty()) { PREJDDFiles.load() }
+PREJDDFiles.load()
 
 List listRubriquesIHM = []
 

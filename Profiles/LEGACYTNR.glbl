@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalVariableEntities>
+   <description></description>
+   <name>LEGACYTNR</name>
+   <tag></tag>
+   <defaultProfile>false</defaultProfile>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'C:\\MAINTA\\SERVER\\IIS\\MAINTA_TEST\\Bin'</initValue>
+      <name>BIN_FOLDER</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'https://mainta.apavetest.com/MAINTA_TNRBin/MOS_XML.dll/'</initValue>
+      <name>BASE_URL</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>2</initValue>
+      <name>TIMEOUT</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>5</initValue>
+      <name>TIMEOUTForPageLoad</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description>INTERNAL DATA</description>
+      <initValue>''</initValue>
+      <name>CASDETESTENCOURS</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description>INTERNAL DATA</description>
+      <initValue>''</initValue>
+      <name>CASDETESTPATTERN</name>
+   </GlobalVariableEntity>
+</GlobalVariableEntities>

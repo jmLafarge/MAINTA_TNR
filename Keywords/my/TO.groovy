@@ -28,7 +28,7 @@ public class TO {
 		TestObject to = new TestObject(ID)
 		to.setSelectorMethod(SelectorMethod.XPATH)
 		String xpath = myJDD.xpathTO.getAt(ID)
-		Log.addDEBUG("xpath : $xpath")
+		Log.addTrace("xpath : $xpath")
 
 		if (xpath.startsWith('$')) {
 
@@ -53,7 +53,7 @@ public class TO {
 				// faire la m^me chose sur les autrees
 					if (xpath.split('\\$').size()!=4){
 						msgTO = "makeTO $ID, xpath avec "+'$'+" non conforme : $xpath"
-						Log.addTraceEND("TO.make() --> null")
+						Log.addTraceEND("TO.make()")
 						return null
 					}
 				//////
@@ -64,25 +64,25 @@ public class TO {
 
 				default:
 					msgTO = "makeTO $ID, xpath avec "+'$'+" mot clé inconnu : $xpath"
-					Log.addTraceEND("TO.make() --> null")
+					Log.addTraceEND("TO.make()")
 					return null
 			}
-			Log.addDEBUG("GLOBAL xpath : $xpath")
-			Log.addDEBUG("binding  : " + binding.toString())
+			Log.addTrace("GLOBAL xpath : $xpath")
+			Log.addTrace("binding  : " + binding.toString())
 		}
 
-		Log.addDEBUG("xpath : $xpath")
+		Log.addTrace("xpath : $xpath")
 
 		xpath = resolveXpath( myJDD, xpath, binding)
 
 		to.setSelectorValue(SelectorMethod.XPATH, xpath)
 
-		Log.addDEBUG('getObjectId : ' + to.getObjectId())
-		Log.addDEBUG('get(SelectorMethod.XPATH) : ' + to.getSelectorCollection().get(SelectorMethod.XPATH))
+		Log.addTrace('getObjectId : ' + to.getObjectId())
+		Log.addTrace('get(SelectorMethod.XPATH) : ' + to.getSelectorCollection().get(SelectorMethod.XPATH))
 
 		binding=[:]
 
-		Log.addTraceEND("TO.make() --> ${to}")
+		Log.addTraceEND("TO.make()",to)
 
 		return to
 
@@ -108,34 +108,34 @@ public class TO {
 		// Vérifie si c'est un xpath dynamique
 		def matcher = xpath =~ /\$\{(.+?)\}/
 
-		Log.addDEBUG('matcher.size() = ' + matcher.size())
+		Log.addTrace('matcher.size() = ' + matcher.size())
 
 		if (matcher.size() > 0) {
-			Log.addDEBUG('dynamic xpath')
+			Log.addTrace('dynamic xpath')
 			def engine = new SimpleTemplateEngine()
 
 			matcher.each { k, value ->
-				Log.addDEBUG('matcher k --> v : ' + k + ' --> ' + value)
+				Log.addTrace('matcher k --> v : ' + k + ' --> ' + value)
 
 				if (binding.containsKey(value)) {
-					Log.addDEBUG('External binding')
+					Log.addTrace('External binding')
 				} else if (value in myJDD.headers) {
 					binding.put(value, myJDD.getData(value.toString()))
-					Log.addDEBUG('JDD binding k --> v : ' + value + ' --> ' + myJDD.getData(value.toString()))
+					Log.addTrace('JDD binding k --> v : ' + value + ' --> ' + myJDD.getData(value.toString()))
 				} else {
 					Log.addERROR('binding not possible because xpath parameter not in JDD : ' + k)
 				}
 			}
 
 			xpath = engine.createTemplate(xpath).make(binding).toString()
-			Log.addDEBUG("dynamic xpath = ${xpath}")
+			Log.addTrace("dynamic xpath = ${xpath}")
 
-			Log.addTraceEND("resolveXpath() --> ${xpath}")
+			Log.addTraceEND("TO.resolveXpath()",xpath)
 			return xpath
 		} else {
-			Log.addDEBUG('normal xpath')
+			Log.addTrace('normal xpath')
 
-			Log.addTraceEND("TO.resolveXpath() --> ${xpath}")
+			Log.addTraceEND("TO.resolveXpath()",xpath)
 			return xpath
 		}
 	}

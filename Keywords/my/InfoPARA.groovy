@@ -43,7 +43,7 @@ public class InfoPARA {
 
 		Row row = shPara.getRow(0)
 		if (row==null) {
-			Log.addDEBUG("Créer la premiere ligne ")
+			Log.addTrace("Créer la premiere ligne ")
 			row =shPara.createRow(0)
 		}
 		
@@ -78,7 +78,7 @@ public class InfoPARA {
 			paraMap[name] = XLS.loadRow2(row,0,headers.size(),null)
 		}
 
-		Log.addDEBUG("paraMap.size= " + paraMap.size())
+		Log.addTrace("paraMap.size= " + paraMap.size())
 	}
 
 
@@ -93,14 +93,14 @@ public class InfoPARA {
 
 			if (valPara) {
 
-				Log.addDEBUG("\t$para = $valPara")
+				Log.addTrace("\t$para = $valPara")
 
 				if (!paraMap.containsKey(col)) {
 
 					paraMap[col]=[null]*headers.size()
 
 
-					Log.addDEBUG("\tCréation '$col' pour sheetname "+shPara.getSheetName())
+					Log.addTrace("\tCréation '$col' pour sheetname "+shPara.getSheetName())
 
 					Row row = XLS.getNextRow(shPara)
 
@@ -115,9 +115,9 @@ public class InfoPARA {
 
 					updatePara(para,col,icol,valPara,where)
 
-					Log.addDEBUG("\tTrouvé dans $where --> $fullName table : " + myJDD.getDBTableName())
-					Log.addDEBUG('\t' +paraMap[col][icol] +" ajouté dans $col")
-					Log.addDEBUG('\t' + paraMap[col][icol+1] +" ajouté dans $col")
+					Log.addTrace("\tTrouvé dans $where --> $fullName table : " + myJDD.getDBTableName())
+					Log.addTrace('\t' +paraMap[col][icol] +" ajouté dans $col")
+					Log.addTrace('\t' + paraMap[col][icol+1] +" ajouté dans $col")
 				}else if (paraMap[col][icol]!=valPara) {
 					if (paraMap[col][icol]=='OBSOLETE') {
 						Log.addDETAILWARNING("\t$para pour '$col'($icol) : $valPara remplacement de la valeur OBSOLETE ")
@@ -126,11 +126,11 @@ public class InfoPARA {
 						Log.addDETAILWARNING("$para pour '$col'($icol) : $valPara différent de la valeur enregistrée " + paraMap[col][icol])
 					}
 				}else if(li_JDD.contains(where)) {
-					Log.addDEBUG("\t$para $valPara pour '$col' et $where existe déjà")
+					Log.addTrace("\t$para $valPara pour '$col' et $where existe déjà")
 				}else {
 					updatePara(para,col,icol,valPara,where)
 
-					Log.addDEBUG("\t$para $valPara pour '$col' existe déjà mais rajout de $where dans " + paraMap[col][icol+1])
+					Log.addTrace("\t$para $valPara pour '$col' existe déjà mais rajout de $where dans " + paraMap[col][icol+1])
 				}
 			}
 			icol+=2
@@ -186,7 +186,7 @@ public class InfoPARA {
 
 
 	public static write(){
-		Log.addDEBUG('update PARA dans InfoPARA')
+		Log.addTrace('update PARA dans InfoPARA')
 		OutputStream fileOut = new FileOutputStream(fileName)
 		book.write(fileOut);
 	}

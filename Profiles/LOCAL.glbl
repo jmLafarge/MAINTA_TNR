@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GlobalVariableEntities>
    <description></description>
-   <name>PCJML</name>
+   <name>LOCAL</name>
    <tag></tag>
    <defaultProfile>true</defaultProfile>
-   <GlobalVariableEntity>
-      <description>Used in JDD Generator</description>
-      <initValue>'JM Lafarge'</initValue>
-      <name>AUTEUR</name>
-   </GlobalVariableEntity>
    <GlobalVariableEntity>
       <description></description>
       <initValue>'C:\\MAINTA\\SERVER\\IIS\\MAINTA_TEST\\Bin'</initValue>
@@ -18,31 +13,6 @@
       <description></description>
       <initValue>'p1220105/MAINTA_TESTBin/MOS_XML.dll/'</initValue>
       <name>BASE_URL</name>
-   </GlobalVariableEntity>
-   <GlobalVariableEntity>
-      <description></description>
-      <initValue>'//localhost:1433'</initValue>
-      <name>BDD_SERVER</name>
-   </GlobalVariableEntity>
-   <GlobalVariableEntity>
-      <description></description>
-      <initValue>''</initValue>
-      <name>BDD_INSTANCE</name>
-   </GlobalVariableEntity>
-   <GlobalVariableEntity>
-      <description></description>
-      <initValue>'MAINTA_TEST'</initValue>
-      <name>BDD_NAME</name>
-   </GlobalVariableEntity>
-   <GlobalVariableEntity>
-      <description></description>
-      <initValue>'MAINTAOS'</initValue>
-      <name>BDD_USER</name>
-   </GlobalVariableEntity>
-   <GlobalVariableEntity>
-      <description></description>
-      <initValue>'MAINTAOS'</initValue>
-      <name>BDD_MDP</name>
    </GlobalVariableEntity>
    <GlobalVariableEntity>
       <description></description>

@@ -34,7 +34,7 @@ Log.addTITLE("Lancement de _TEST CASE CODE GENERATOR ")
 InfoBDD.load() 
 TCFiles.load()
 JDDFiles.load()
-if (PREJDDFiles.PREJDDfilemap.isEmpty()) { PREJDDFiles.load() }
+PREJDDFiles.load()
 
 NAV.loadJDDGLOBAL()
 
@@ -190,7 +190,7 @@ def addAttributeIHMTO (JDD myJDD,String xpathName, String xpath) {
 		if (myJDD.getXpathTO(xpathName) != xpath){
 			Log.addDETAILFAIL("Pour '$xpathName', xpath ihm = '$xpath' et xpath JDD = '${myJDD.getXpathTO(xpathName)}'")
 		}else {
-			Log.addDEBUG("'$xpathName' existe déjà !")
+			Log.addTrace("'$xpathName' existe déjà !")
 		}
 	}else {
 		Log.addDETAIL("Ajout de '$xpathName'")

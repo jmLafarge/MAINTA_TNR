@@ -13,6 +13,14 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class Log {
 
+	// not used for the moment
+	private static enum AllowedStatus {
+		PASS,
+		WARNING,
+		FAIL,
+		ERROR
+	}
+
 
 	public static Date logDate = null
 
@@ -103,7 +111,7 @@ class Log {
 	public static addTrace (String msg, int level=1) {
 
 		if (deph <= debugDeph) {
-			addDEBUG('<> '+msg,level)
+			addDEBUG(msg,level)
 			tab = '\t'.multiply(deph)
 		}
 	}
@@ -113,24 +121,25 @@ class Log {
 
 		deph++
 		if (deph <= debugDeph) {
-			addDEBUG('>>> '+msg,level)
+			addDEBUG('->> '+msg,level)
 			tab = '\t'.multiply(deph)
 		}
 	}
 
 
-	public static addTraceEND (String msg, int level=1) {
+	public static addTraceEND (String msg, def ret = null, int level=1) {
 
 		deph = (deph > 0) ? deph - 1 : 0
 		if (deph < debugDeph) {
 			tab = '\t'.multiply(deph)
-			addDEBUG('<<< '+msg,level)
+			String r = ret?" --> '$ret'":' ---'
+			addDEBUG('<<- '+msg+r,level)
 		}
 
 	}
 
 	public static addDEBUGDETAIL (String msg, int level=1) {
-		addDEBUG('- '+ msg,level)
+		addTrace('- '+ msg,level)
 	}
 
 
@@ -140,7 +149,7 @@ class Log {
 		if (level==0) {
 			add('',msg)
 		}else {
-			addDEBUG(msg,level )
+			addTrace(msg,level )
 		}
 	}
 
@@ -158,7 +167,7 @@ class Log {
 		if (level==0) {
 			add('','\t'+ msg)
 		}else {
-			addDEBUG(msg,level )
+			addTrace(msg,level )
 		}
 	}
 
@@ -196,11 +205,12 @@ class Log {
 
 
 
+
 	public static  addToList(String nomDeLaListe, String valeurDeLaListe) {
 
 		def liste = lists.get(nomDeLaListe)
 		if (liste == null) {
-			liste = []  // Créer une nouvelle liste si elle n'existe pas
+			liste = []  //
 			lists.put(nomDeLaListe, liste)
 		}
 		liste.add(valeurDeLaListe)
@@ -215,7 +225,7 @@ class Log {
 				add(status,PREDETAILTXT+ val)
 			}
 		} else {
-			addDEBUG("La liste \"$nomDeLaListe\" n'existe pas.")
+			addTrace("La liste \"$nomDeLaListe\" n'existe pas.")
 		}
 	}
 

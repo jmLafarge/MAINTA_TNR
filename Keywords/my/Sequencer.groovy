@@ -50,7 +50,7 @@ public class Sequencer {
 			// read JDD
 			Sheet shTNR = readSequencerFile()
 	
-			Log.addDEBUG('shTNR.getLastRowNum() :' + shTNR.getLastRowNum(),2)
+			Log.addTrace('shTNR.getLastRowNum() :' + shTNR.getLastRowNum(),2)
 	
 			// for each data line
 			for (int numline : (1..shTNR.getLastRowNum())) {
@@ -64,7 +64,7 @@ public class Sequencer {
 	
 				String casDeTestPatternFromSequencer = row.getCell(0).getStringCellValue()
 	
-				Log.addDEBUG('casDeTestPatternFromSequencer = ' + casDeTestPatternFromSequencer,2)
+				Log.addTrace('casDeTestPatternFromSequencer = ' + casDeTestPatternFromSequencer,2)
 	
 				if (casDeTestPatternFromSequencer == "") {
 					break

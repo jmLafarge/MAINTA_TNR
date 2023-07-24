@@ -27,22 +27,22 @@ public class JDDFiles {
 	 * @return
 	 */
 	public static load() {
-		
+
 		if (JDDfilemap.isEmpty()) {
-	
+
 			Log.addSubTITLE("Load JDDfileList",'-',120,1)
-	
+
 			Log.addINFO("\t"+'MODOBJ'.padRight(16) + 'JDDFULLNAME',1)
-	
+
 			new File(my.PropertiesReader.getMyProperty('JDD_PATH')).eachFileRecurse(FileType.FILES) { file ->
-	
+
 				// keep only TC Name like JDD.*.xlsx
 				if (file.getName()==~ /JDD\..*\.xlsx/ && file.getPath()==~ /^((?!standby).)*$/) {
-	
+
 					String modObj = file.getName().replace('JDD.','').replace('.xlsx','')
-	
+
 					JDDfilemap.put(modObj,file.getPath())
-	
+
 					Log.addINFO('\t' + modObj.padRight(16) + file.getPath(),1)
 				}
 			}

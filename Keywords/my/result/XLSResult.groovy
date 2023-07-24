@@ -63,7 +63,7 @@ public class XLSResult {
 
 	/*
 	 private static groupDetail(String status='') {
-	 Log.addDEBUG("groupDetail nextLineNumber=$nextLineNumber firstLineDETAIL=$firstLineDETAIL")
+	 Log.addTrace("groupDetail nextLineNumber=$nextLineNumber firstLineDETAIL=$firstLineDETAIL")
 	 if (status == 'DETAIL') {
 	 if (firstLineDETAIL == 0) {
 	 //début du DETAIL
@@ -71,7 +71,7 @@ public class XLSResult {
 	 statusDETAIL = previousStatus
 	 }
 	 }else if (firstLineDETAIL != 0){
-	 Log.addDEBUG("groupDetail setRowGroupCollapsed")
+	 Log.addTrace("groupDetail setRowGroupCollapsed")
 	 shRESULT.setRowSumsBelow(false)
 	 shRESULT.groupRow(firstLineDETAIL, nextLineNumber-1)
 	 shRESULT.setRowGroupCollapsed(firstLineDETAIL, true)
@@ -318,7 +318,7 @@ public class XLSResult {
 		XLS.writeCell(row,9,stop,CSF.cellStyle_time)
 		XLS.writeCell(row,10,my.Tools.getDuration(start, stop),CSF.cellStyle_duration)
 
-		Log.addDEBUG("addEndCasDeTest nextLineNumber=$nextLineNumber lineNumberSTART=$lineNumberSTART")
+		Log.addTrace("addEndCasDeTest nextLineNumber=$nextLineNumber lineNumberSTART=$lineNumberSTART")
 
 		
 		shRESULT.setRowSumsBelow(false)

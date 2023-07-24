@@ -19,10 +19,10 @@ JDDFiles.JDDfilemap.each { modObj,fullName ->
 
 list.eachWithIndex { map,idx ->
 	
-	Log.addDEBUG(idx + ' : ' + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')))
+	Log.addTrace(idx + ' : ' + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')))
 	
 	map.each { key,val ->
-		Log.addDEBUG('\t' + key + ' : ' +val)
+		Log.addTrace('\t' + key + ' : ' +val)
 	}
 	
 	my.PREJDD.checkPREJDD(map)

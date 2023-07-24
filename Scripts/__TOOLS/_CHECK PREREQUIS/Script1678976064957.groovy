@@ -17,9 +17,9 @@ Log.addTITLE("Vérification des PRE REQUIS")
 InfoBDD.load() 
 TCFiles.load()
 JDDFiles.load()
-if (PREJDDFiles.PREJDDfilemap.isEmpty()) { PREJDDFiles.load() }
+PREJDDFiles.load()
 
-NAV.loadJDDGLOBAL()
+//NAV.loadJDDGLOBAL()
 
 CheckJDD.run(false)// true pour plus de détails
 

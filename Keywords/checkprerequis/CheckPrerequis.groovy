@@ -23,13 +23,13 @@ public class CheckPrerequis {
 	private static boolean status = true
 
 	static run() {
-		Log.addDEBUG('--------------------------------------',0)
-		Log.addDEBUG('Collecte de tous les PREREQUIS des JDD',0)
-		Log.addDEBUG('--------------------------------------',0)
+		Log.addTrace('--------------------------------------',0)
+		Log.addTrace('Collecte de tous les PREREQUIS des JDD',0)
+		Log.addTrace('--------------------------------------',0)
 
 		//Récupére la liste de tous les PREREQUIS de tous les JDD
 		JDDFiles.JDDfilemap.each { modObj,fullName ->
-			Log.addDEBUG("Lecture du JDD : " + fullName,0)
+			Log.addTrace("Lecture du JDD : " + fullName,0)
 			myJDD = new JDD(fullName,null,null,false)
 			getAllPrerequis(fullName,true)
 		}
@@ -44,9 +44,9 @@ public class CheckPrerequis {
 		 * Controle si tous les PREREQUIS des JDD sont bien dans les PREJDD
 		 */
 		list.eachWithIndex { map,idx ->
-			Log.addDEBUG(idx + ' : ' + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()))
+			Log.addTrace(idx + ' : ' + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()))
 			map.each { key,val ->
-				Log.addDEBUG('\t' + key + ' : ' +val)
+				Log.addTrace('\t' + key + ' : ' +val)
 			}
 			if (PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString())) {
 				if (!PREJDD.checkPREJDD(map)) {
@@ -65,12 +65,12 @@ public class CheckPrerequis {
 
 
 		list =[]
-		Log.addDEBUG('--------------------------------------',0)
-		Log.addDEBUG('Collecte de tous les PREREQUIS des PREJDD',0)
-		Log.addDEBUG('--------------------------------------',0)
+		Log.addTrace('--------------------------------------',0)
+		Log.addTrace('Collecte de tous les PREREQUIS des PREJDD',0)
+		Log.addTrace('--------------------------------------',0)
 
 		PREJDDFiles.PREJDDfilemap.each { modObj,fullName ->
-			Log.addDEBUG("Lecture du JDD pour modObj : " + modObj,0)
+			Log.addTrace("Lecture du JDD pour modObj : " + modObj,0)
 			myJDD = new JDD(JDDFiles.getJDDFullName(modObj),null,null,false)
 			PREJDDBook = my.XLS.open(fullName)
 			getAllPrerequis(fullName,false)
@@ -84,9 +84,9 @@ public class CheckPrerequis {
 		 * Controle si tous les PREREQUIS des JDD sont bien dans les PREJDD
 		 */
 		list.eachWithIndex { map,idx ->
-			Log.addDEBUG(idx + ' : ' + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()))
+			Log.addTrace(idx + ' : ' + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()))
 			map.each { key,val ->
-				Log.addDEBUG('\t' + key + ' : ' +val)
+				Log.addTrace('\t' + key + ' : ' +val)
 			}
 			if (PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString())) {
 				if (!PREJDD.checkPREJDD(map)) {
@@ -138,8 +138,8 @@ public class CheckPrerequis {
 				myJDD.getParam('PREREQUIS').eachWithIndex { value,i ->
 						if (!(value in ['', 'PREREQUIS', 'OBSOLETE'])) {
 							PRInThisSheet = PRInThisSheet + myJDD.getHeader(i)+','
-							Log.addDEBUG('\theader = ' + myJDD.getHeader(i))
-							Log.addDEBUG('\tvalue = ' + value)
+							Log.addTrace('\theader = ' + myJDD.getHeader(i))
+							Log.addTrace('\tvalue = ' + value)
 							Map prerequisMap = [:]
 							prerequisMap.putAt('PREJDDMODOBJ',value.split(/\*/)[0])
 							prerequisMap.putAt('PREJDDTAB',value.split(/\*/)[1])
@@ -154,12 +154,12 @@ public class CheckPrerequis {
 									List <String> headersPREJDD = my.XLS.loadRow(shPREJDD.getRow(0))
 									prerequisMap.putAt('LISTCDTVAL',getListCDTVAL(my.PREJDD.loadDATA(shPREJDD,headersPREJDD.size()),i))
 								}else {
-									Log.addDEBUG('le sheet '+sheet.getSheetName() + " n'existe pas dans ce PREJDD")
+									Log.addTrace('le sheet '+sheet.getSheetName() + " n'existe pas dans ce PREJDD")
 								}
 							}
-							Log.addDEBUG('\tPrerequisMap : ')
+							Log.addTrace('\tPrerequisMap : ')
 							prerequisMap.each { key,val ->
-								Log.addDEBUG('\t\t'+key + ' : ' +val)
+								Log.addTrace('\t\t'+key + ' : ' +val)
 							}
 							list.add(prerequisMap)
 						}
@@ -192,11 +192,11 @@ public class CheckPrerequis {
 		datas.each{
 			if (it[index]!=null && it[index]!='' && !JDDKW.isNU(it[index]) && !JDDKW.isNULL(it[index]) && !JDDKW.isVIDE(it[index]) ) {
 				if (it[0].toString().contains('.CRE.') && PKlist.contains(myJDD.getHeader(index))) {
-					Log.addDEBUG("skip : " + "'" + it[0] + "' - '" + it[index] + "'")
+					Log.addTrace("skip : " + "'" + it[0] + "' - '" + it[index] + "'")
 				}else {
 					if (JDDKW.getOldValueOfKW_UPD(it[index])) {
 						list.add("'" + it[0] + "' - '" + JDDKW.getOldValueOfKW_UPD(it[index]) + "'")
-						Log.addDEBUG('$UPD trouvé en ' + it[0] + 'old value = ' + JDDKW.getOldValueOfKW_UPD(it[index]) )
+						Log.addTrace('$UPD trouvé en ' + it[0] + 'old value = ' + JDDKW.getOldValueOfKW_UPD(it[index]) )
 					}else {
 						list.add("'" + it[0] + "' - '" + it[index] + "'")
 					}

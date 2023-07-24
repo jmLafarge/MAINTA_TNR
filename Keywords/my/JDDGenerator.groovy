@@ -14,15 +14,16 @@ import my.Log
 import my.InfoBDD
 import my.Tools
 import my.InfoPARA
+import my.PropertiesReader
 
 
 @CompileStatic
 class JDDGenerator {
 
 
-	static String trameJDD = my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('TRAMEJDDFILENAME')
-	static String tramePREJDD = my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('TRAMEPREJDDFILENAME')
-
+	static String trameJDD = PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('TRAMEJDDFILENAME')
+	static String tramePREJDD = PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('TRAMEPREJDDFILENAME')
+	static String auteur = PropertiesReader.getMyProperty('AUTEUR')
 
 	private static CellStyle styleChamp
 	private static CellStyle styleChampIHM
@@ -119,7 +120,7 @@ class JDDGenerator {
 
 						if(my.XLS.getCellValue(rowPara.getCell(i))==''){
 
-							Log.addDEBUG("$cval : $para = " + InfoPARA.paraMap[cval][icol])
+							Log.addTrace("$cval : $para = " + InfoPARA.paraMap[cval][icol])
 							my.XLS.writeCell(rowPara,i, InfoPARA.paraMap[cval][icol])
 
 							if (!mes) "Mise à jour paramètre"
@@ -404,7 +405,7 @@ class JDDGenerator {
 			Row row = my.XLS.getNextRow(shVersion)
 
 			my.XLS.writeCell(row,0,new Date().format('dd/MM/yyyy'),cellStyle_date)
-			my.XLS.writeCell(row,1,GlobalVariable.AUTEUR,thinBlackBorderStyle)
+			my.XLS.writeCell(row,1,auteur,thinBlackBorderStyle)
 			my.XLS.writeCell(row,2,msg,thinBlackBorderStyle)
 			my.XLS.writeCell(row,3,edition,thinBlackBorderStyle)
 			my.XLS.writeCell(row,4,version,thinBlackBorderStyle)

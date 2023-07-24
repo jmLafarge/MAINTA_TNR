@@ -20,8 +20,8 @@ public class TCFiles {
 		if (TCfileMap.isEmpty()) {
 
 			Log.addSubTITLE("Load TC file List",'-',120,1)
-			Log.addDEBUG("\t" + 'TCNAME'.padRight(24) + 'TCFULLNAME')
-			Log.addDEBUG("")
+			Log.addTrace("\t" + 'TCNAME'.padRight(24) + 'TCFULLNAME')
+			Log.addTrace("")
 	
 			new File(my.PropertiesReader.getMyProperty('TC_PATH')).eachFileRecurse(FileType.FILES) { file ->
 	
@@ -32,7 +32,7 @@ public class TCFiles {
 	
 					TCfileMap.put(TCName, TCFullName)
 	
-					Log.addDEBUG('\t'+ TCName.padRight(24) + TCFullName)
+					Log.addTrace('\t'+ TCName.padRight(24) + TCFullName)
 				}
 			}
 		}

@@ -1,5 +1,4 @@
 
-import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
@@ -17,8 +16,10 @@ Log.setDebugDeph(1)
 Log.addTITLE("Lancement de CREATE PREJDD IN DB")
 InfoBDD.load() 
 JDDFiles.load()
-if (PREJDDFiles.PREJDDfilemap.isEmpty()) { PREJDDFiles.load() }
-NAV.loadJDDGLOBAL()
+PREJDDFiles.load()
+
+//NAV.loadJDDGLOBAL()
+
 
 
 

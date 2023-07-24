@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCaseEntity>
+   <description></description>
+   <name>_DATABASE - BACKUP MASTER TNR and RESTORE LOCAL</name>
+   <tag></tag>
+   <comment></comment>
+   <testCaseGuid>31d1482d-cdd2-4fc6-ae7e-706f95ca1935</testCaseGuid>
+</TestCaseEntity>

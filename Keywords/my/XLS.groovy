@@ -31,17 +31,13 @@ public class XLS {
 	 * @return Le classeur Excel (XSSFWorkbook) ou null en cas d'erreur.
 	 */
 	static XSSFWorkbook open(String fullname) {
-		Log.addTrace("XLS.open($fullname)")
-		if (!fullname) {
-			Log.addERROR("my.XLS.open() fullname = '${fullname}'")
-			return null
-		}
-
+		Log.addTraceBEGIN("XLS.open($fullname)")
+		XSSFWorkbook ret
 		try {
 			File sourceExcel = new File(fullname)
 			FileInputStream fis = new FileInputStream(sourceExcel)
 			XSSFWorkbook workbook = new XSSFWorkbook(fis)
-			return workbook
+			ret = workbook
 		} catch (FileNotFoundException e) {
 			Log.addERROR("Fichier non trouvé : ${e.message}")
 			e.printStackTrace()
@@ -49,7 +45,8 @@ public class XLS {
 			Log.addERROR("Erreur d'entrée/sortie lors de l'ouverture du fichier : ${e.message}")
 			e.printStackTrace()
 		}
-		return null
+		Log.addTraceEND("XLS.open()",ret.getAllNames())
+		return ret
 	}
 
 
@@ -89,7 +86,7 @@ public class XLS {
 			if (cellStyle) cell.setCellStyle(cellStyle)
 		}
 
-		Log.addTraceEND("writeCell()",8)
+		Log.addTraceEND("XLS.writeCell()",null,8)
 	}
 
 
@@ -116,7 +113,7 @@ public class XLS {
 			data[i - ideb] = value
 		}
 
-		Log.addTraceEND("XLS.loadRow2() --> ${data}",7)
+		Log.addTraceEND("XLS.loadRow2()",data,7)
 
 		return data
 	}
@@ -145,7 +142,7 @@ public class XLS {
 			data[cell.getColumnIndex()] = value
 		}
 
-		Log.addTraceEND("XLS.loadRow() --> ${data}",7)
+		Log.addTraceEND("XLS.loadRow()",data,7)
 		return data
 	}
 
@@ -168,9 +165,9 @@ public class XLS {
 
 		if (cell == null) {
 			CellData = nullval
-			Log.addDEBUG("getCellValue() cell is null!",9)
+			Log.addTrace("getCellValue() cell is null!",9)
 		} else {
-			Log.addDEBUG("cell.getAddress() = '${cell.getAddress().toString()}' getCellType() = '${cell.getCellType()}'",9)
+			Log.addTrace("cell.getAddress() = '${cell.getAddress().toString()}' getCellType() = '${cell.getCellType()}'",9)
 
 			switch (cell.getCellType()) {
 				case Cell.CELL_TYPE_STRING: // 1
@@ -178,7 +175,7 @@ public class XLS {
 					break
 				case Cell.CELL_TYPE_NUMERIC: // 0
 					if (DateUtil.isCellDateFormatted(cell)) {
-						Log.addDEBUG("isCellDateFormatted() = true",9)
+						Log.addTrace("isCellDateFormatted() = true",9)
 						CellData = cell.getDateCellValue()
 					} else {
 						CellData = (long) cell.getNumericCellValue()
@@ -207,7 +204,7 @@ public class XLS {
 			}
 		}
 
-		Log.addTraceEND("XLS.getCellValue() --> ${CellData}",9)
+		Log.addTraceEND("XLS.getCellValue()",CellData,9)
 		return CellData
 	}
 
@@ -233,13 +230,13 @@ public class XLS {
 		for (Cell cell : sheet.getRow(numRow)) {
 			if (getCellValue(cell) == columnName) {
 				int columnIndex = cell.getColumnIndex()
-				Log.addTraceEND("XLS.getColumnIndexOfColumnName() --> ${columnIndex}")
+				Log.addTraceEND("XLS.getColumnIndexOfColumnName()",columnIndex)
 				return columnIndex
 			}
 		}
 
 		Log.addERROR("XLS.getColumnIndexOfColumnName() columnName=${columnName} numRow=${numRow} Nom de colonne non trouvé")
-		Log.addTraceEND("XLS.getColumnIndexOfColumnName() --> -1")
+		Log.addTraceEND("XLS.getColumnIndexOfColumnName()",-1)
 		return -1
 	}
 
@@ -264,12 +261,12 @@ public class XLS {
 		for (int i : (0..lastCellNum)) {
 			Cell cell = sheet.getRow(numRow).getCell(i)
 			if (!getCellValue(cell)) {
-				Log.addTraceEND("XLS.getLastColumnIndex() --> ${i}")
+				Log.addTraceEND("XLS.getLastColumnIndex()",i)
 				return i
 			}
 		}
 
-		Log.addTraceEND("XLS.getLastColumnIndex() --> ${lastCellNum}")
+		Log.addTraceEND("XLS.getLastColumnIndex()",lastCellNum)
 		return lastCellNum
 	}
 
@@ -308,7 +305,7 @@ public class XLS {
 		if (num == -1) {
 			Log.addERROR("XLS.getRowNumOfFirstCellFree of ${sheet.getSheetName()}: ${num}")
 		}
-		Log.addTraceEND("XLS.getRowNumOfFirstCellFree() --> ${num}")
+		Log.addTraceEND("XLS.getRowNumOfFirstCellFree()",num)
 		return num
 	}
 
@@ -333,7 +330,7 @@ public class XLS {
 			row = sheet.getRow(numRow)
 		}
 
-		Log.addTraceEND("XLS.getNewRow() --> ${row}")
+		Log.addTraceEND("XLS.getNewRow()",row)
 		return row
 	}
 
@@ -351,7 +348,7 @@ public class XLS {
 		int rowNum = getRowNumOfFirstCellFree(sheet, col)
 		Row row = getNewRow(sheet, rowNum)
 
-		Log.addTraceEND("XLS.getNextRow() --> ${row}")
+		Log.addTraceEND("XLS.getNextRow()",row)
 		return row
 	}
 

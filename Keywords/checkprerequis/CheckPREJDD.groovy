@@ -45,8 +45,8 @@ public class CheckPREJDD {
 		PREJDDFiles.PREJDDfilemap.each { modObj,fullName ->
 
 			PREJDDFullName = fullName
-			Log.addDEBUG("",0)
-			Log.addDEBUG("Lecture du PREJDD : $fullName",0)
+			Log.addTrace("",0)
+			Log.addTrace("Lecture du PREJDD : $fullName",0)
 
 			myJDD = new JDD(JDDFiles.JDDfilemap.getAt(modObj),null,null,false)
 
@@ -63,7 +63,7 @@ public class CheckPREJDD {
 					datas = my.PREJDD.loadDATA(sheet,headersPREJDD.size())
 					table = myJDD.getDBTableName()
 
-					Log.addDEBUG("Onglet : " + sheetName,0)
+					Log.addTrace("Onglet : " + sheetName,0)
 
 					if (headersPREJDD.size()>1) {
 
@@ -94,7 +94,7 @@ public class CheckPREJDD {
 		InfoBDD.map[table].each{col,vlist ->
 
 			if (col == headersPREJDD[(int)vlist[0]]) {
-				Log.addDEBUG("'$col' OK")
+				Log.addTrace("'$col' OK")
 			}else if (col in headersPREJDD) {
 				Log.addDETAILFAIL("'$col' est dans le PREJDD mais pas à la bonne place")
 				status=false

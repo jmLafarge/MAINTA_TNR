@@ -32,8 +32,8 @@ public class CheckJDD {
 		JDDFiles.JDDfilemap.each { modObj,fullname ->
 
 			JDDFullName = fullname
-			Log.addDEBUG("",0)
-			Log.addDEBUG("Lecture du JDD : $JDDFullName",0)
+			Log.addTrace("",0)
+			Log.addTrace("Lecture du JDD : $JDDFullName",0)
 			myJDD = new JDD(JDDFullName,null,null,false)
 
 			for(Sheet sheet: myJDD.book) {
@@ -43,7 +43,7 @@ public class CheckJDD {
 				if (myJDD.isSheetAvailable(sheetName)) {
 
 
-					Log.addDEBUG("Onglet : $sheetName",0)
+					Log.addTrace("Onglet : $sheetName",0)
 					Log.addDEBUGDETAIL("Contrôle de la liste des paramètres",0)
 
 					myJDD.loadTCSheet(sheet)
@@ -102,10 +102,10 @@ public class CheckJDD {
 
 		InfoBDD.map[table].each{col,vlist ->
 
-			Log.addDEBUG(vlist.join('|'))
+			Log.addTrace(vlist.join('|'))
 
 			if (col == myJDD.getHeader((int)vlist[0])) {
-				Log.addDEBUG("'$col' OK")
+				Log.addTrace("'$col' OK")
 
 				//InfoBDD.updateParaInfoBDD(myJDD, col,fullName, modObj+'.'+sheet.getSheetName())
 
@@ -131,18 +131,18 @@ public class CheckJDD {
 				String name = myJDD.getHeader(i)
 
 				if (myJDD.isTagAllowed(loc)) {
-					Log.addDEBUG("$name : $loc in myJDD.TAG_LIST_ALLOWED")
+					Log.addTrace("$name : $loc in myJDD.TAG_LIST_ALLOWED")
 				}else if ((loc[0] != '/') && (loc.toString().split(/\*/).size()>1)) {
 					//it's a tag with an attribut
 					def lo = loc.toString().split(/\*/)
 					if (myJDD.isTagAllowed(lo[0])) {
-						Log.addDEBUG("$name : $name : ${loc[0]} in myJDD.TAG_LIST_ALLOWED dans $loc")
+						Log.addTrace("$name : $name : ${loc[0]} in myJDD.TAG_LIST_ALLOWED dans $loc")
 					}else {
 						Log.addDETAILFAIL("$JDDFullName ($sheetName) : Champ '$name' : LOCATOR inconnu : ${lo[0]} in '$loc'")
 						status=false
 					}
 				}else if (loc[0] == '/') {
-					Log.addDEBUG("$loc OK")
+					Log.addTrace("$loc OK")
 				}else {
 					Log.addDETAILFAIL("$JDDFullName ($sheetName) : Champ '$name' : LOCATOR inconnu : '$loc'")
 					status=false
