@@ -18,22 +18,20 @@ public class PREJDDFiles {
 	public static Map <String,String> PREJDDfilemap = [:]
 
 
-	public static load() {
-		if (PREJDDfilemap.isEmpty()) {
-			Log.addSubTITLE("Load PREJDDfileList",'-',120,1)
-			Log.addINFO("\t"+'MODOBJ'.padRight(11) + 'JDDFULLNAME',1)
-			Log.addINFO('',1)
-	
-			new File(my.PropertiesReader.getMyProperty('PREJDD_PATH')).eachFileRecurse(FileType.FILES) { file ->
-				// keep only TC Name like PREJDD.*.xlsx
-				if (file.getName()==~ /PREJDD\..*\.xlsx/ && file.getPath()==~ /^((?!standby).)*$/) {
-					String modObj = file.getName().replace('PREJDD.','').replace('.xlsx','')
-					PREJDDfilemap.put(modObj,file.getPath())
-					Log.addINFO('\t' + modObj.padRight(11) + file.getPath(),1)
-				}
+	static {
+		Log.addSubTITLE("Load PREJDDfileList",'-',120,1)
+		Log.addINFO("\t"+'MODOBJ'.padRight(11) + 'JDDFULLNAME',1)
+		Log.addINFO('',1)
+
+		new File(my.PropertiesReader.getMyProperty('PREJDD_PATH')).eachFileRecurse(FileType.FILES) { file ->
+			// keep only TC Name like PREJDD.*.xlsx
+			if (file.getName()==~ /PREJDD\..*\.xlsx/ && file.getPath()==~ /^((?!standby).)*$/) {
+				String modObj = file.getName().replace('PREJDD.','').replace('.xlsx','')
+				PREJDDfilemap.put(modObj,file.getPath())
+				Log.addINFO('\t' + modObj.padRight(11) + file.getPath(),1)
 			}
 		}
-	}
+}
 
 
 

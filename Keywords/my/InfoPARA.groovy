@@ -4,7 +4,6 @@ import groovy.transform.CompileStatic
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import my.Log
-import my.result.TNRResult
 import my.JDD
 import my.XLS
 
@@ -25,7 +24,7 @@ public class InfoPARA {
 								'NBBDD'
 								]
 
-	public static load() {
+	static {
 
 		fileName = my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('INFOPARAFILENAME')
 		Log.addSubTITLE("Chargement de : " + fileName,'-',120,1)
@@ -60,12 +59,6 @@ public class InfoPARA {
 			if (XLS.getCellValue(row.getCell(i))=='') XLS.writeCell(row, i, headers[i])
 		}
 
-			
-			
-			
-			
-			
-			
 
 		Iterator<Row> rowIt = shPara.rowIterator()
 		row = rowIt.next()
@@ -166,13 +159,11 @@ public class InfoPARA {
 
 			if (XLS.getCellValue(row.getCell(0))==col) {
 				if (XLS.getCellValue(row.getCell(icol))==valPara) {
-					//TNRResult.addDETAIL("$para, ajout du JDD '$where' pour $col")
-					TNRResult.addDETAIL("$col : ajout du JDD '$where'")
+					Log.addTrace("$col : ajout du JDD '$where'")
 					XLS.writeCell(row, icol+1,paraMap[col][icol+1])
 					break
 				}else {
-					//TNRResult.addDETAIL("Ajout du $para '$valPara' et JDD '$where' pour $col")
-					TNRResult.addDETAIL("$col : ajout du $para '$valPara' et du JDD '$where'")
+					Log.addTrace("$col : ajout du $para '$valPara' et du JDD '$where'")
 					XLS.writeCell(row, icol,valPara,paraStyle)
 					XLS.writeCell(row, icol+1,paraMap[col][icol+1],whereStyle)
 					break

@@ -1,7 +1,6 @@
 
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
-import my.result.TNRResult
 import my.InfoPARA
 import my.JDDFiles
 import my.InfoBDD
@@ -9,13 +8,8 @@ import my.Log
 
 
 Log.addTITLE("Lancement de FILL INFOPARA")
-//JML InfoBDD.load() 
-//JML JDDFiles.load()
-
 
 Log.addSubTITLE('Renseigner InfoPARA avec le contenu des JDD')
-
-InfoPARA.load()
 
 JDDFiles.JDDfilemap.each { modObj,fullName ->
 
@@ -26,7 +20,7 @@ JDDFiles.JDDfilemap.each { modObj,fullName ->
 
 			if (my.XLS.getCellValue(sheet.getRow(0).getCell(0))!='') {
 				
-				TNRResult.addSUBSTEP("Onglet : " + sheet.getSheetName())
+				Log.addTrace("Onglet : " + sheet.getSheetName())
 	
 				myJDD.loadTCSheet(sheet)
 	

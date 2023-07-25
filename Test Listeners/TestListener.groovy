@@ -28,15 +28,15 @@ class TestListener {
 
 		Log.addTITLE('Lancement de ' + testSuiteContext.getTestSuiteId())
 
-		//JML InfoBDD.load() 
-		//JML TCFiles.load()
-		//JML JDDFiles.load()
+		 
+		
+		
 		
 		TNRResult.addStartInfo(testSuiteContext.getTestSuiteId())
 
 		Tools.addInfoContext()
 		
-		//NAV.loadJDDGLOBAL()
+		
 
 
 	}

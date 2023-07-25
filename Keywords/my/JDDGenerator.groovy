@@ -37,10 +37,6 @@ class JDDGenerator {
 
 	static add(String table, String modObj, String fct='001',List listRubriquesIHM = []) {
 
-		if (InfoPARA.paraMap.isEmpty()) {
-			InfoPARA.load()
-		}
-
 		XSSFWorkbook JDDbook
 		XSSFWorkbook PREJDDbook
 		Log.addINFO('')

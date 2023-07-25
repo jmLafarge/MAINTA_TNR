@@ -14,12 +14,6 @@ Log.setDebugDeph(1)
 
 Log.addTITLE("Vérification des PRE REQUIS")
 
-//JML InfoBDD.load() 
-//JML TCFiles.load()
-//JML JDDFiles.load()
-PRE//JML JDDFiles.load()
-
-//NAV.loadJDDGLOBAL()
 
 CheckJDD.run(false)// true pour plus de détails
 

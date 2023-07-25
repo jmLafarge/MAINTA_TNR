@@ -17,10 +17,7 @@ import my.TCFiles
 import my.Tools
 import my.result.TNRResult
 
-//JML InfoBDD.load() 
-//JML TCFiles.load()
-//JML JDDFiles.load()
-//JML Sequencer.load()
+ 
 
 Log.addTITLE("Lancement de TNR SEQUENCER")
 

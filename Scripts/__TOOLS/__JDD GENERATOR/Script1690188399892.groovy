@@ -1,6 +1,5 @@
 
 import my.JDDGenerator
-import my.result.TNRResult
 import my.InfoBDD
 import my.PREJDDFiles
 import my.JDDFiles
@@ -8,9 +7,9 @@ import my.Log
 
 
 Log.addTITLE("Lancement de JDD GENERATOR")
-//JML InfoBDD.load() 
-//JML JDDFiles.load()
-PRE//JML JDDFiles.load()
+ 
+
+
 
 List listRubriquesIHM = []
 

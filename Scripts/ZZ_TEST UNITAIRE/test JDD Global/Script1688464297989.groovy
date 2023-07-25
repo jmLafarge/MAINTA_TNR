@@ -5,11 +5,9 @@ import my.JDDFiles
 import my.NAV
 import my.TCFiles
 
-//JML InfoBDD.load() 
-//JML TCFiles.load()
-//JML JDDFiles.load()
+ 
 
-NAV.loadJDDGLOBAL()
+
 
 //println NAV.myGlobalJDD.internalValues.join('\t')
 

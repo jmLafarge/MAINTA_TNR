@@ -31,14 +31,6 @@ String folder = 'C://Users//A1008045//Documents//IHM//'
 
 Log.addTITLE("Lancement de _TEST CASE CODE GENERATOR ")
 
-//JML InfoBDD.load() 
-//JML TCFiles.load()
-//JML JDDFiles.load()
-PRE//JML JDDFiles.load()
-
-NAV.loadJDDGLOBAL()
-
-
 
 JDD myJDD = new JDD(JDDFiles.getJDDFullName(map[testPour][0]),map[testPour][1],null,false)
 def htmlFile = new File(folder + map[testPour][2])
@@ -63,45 +55,45 @@ def tagsWithAttributes = []
 
 // Extraction pour les balises <input>
 inputTags.each { tag ->
-    def attribute = [
-        tag: 'input',
-        type: tag.attr('type'),
-        id: tag.attr('id'),
-        tabindex: tag.attr('tabindex') ? tag.attr('tabindex').toInteger() : null,
-        mlText3: null, 
+	def attribute = [
+		tag: 'input',
+		type: tag.attr('type'),
+		id: tag.attr('id'),
+		tabindex: tag.attr('tabindex') ? tag.attr('tabindex').toInteger() : null,
+		mlText3: null,
 		readonly: tag.hasAttr('readonly')
-    ]
-    tagsWithAttributes << attribute
+	]
+	tagsWithAttributes << attribute
 }
 
 // Extraction pour les balises <select>
 selectTags.each { tag ->
-    def attribute = [
-        tag: 'select',
-        id: tag.attr('id'),
-        tabindex: tag.attr('tabindex') ? tag.attr('tabindex').toInteger() : null,
-        mlText3: null, 
+	def attribute = [
+		tag: 'select',
+		id: tag.attr('id'),
+		tabindex: tag.attr('tabindex') ? tag.attr('tabindex').toInteger() : null,
+		mlText3: null,
 		readonly: null
-    ]
-    tagsWithAttributes << attribute
+	]
+	tagsWithAttributes << attribute
 }
 
 // Extraction pour les balises <a>
 aTags.each { tag ->
-    def attribute = [
-        tag: 'a',
-        id: tag.attr('id'),
-        tabindex: tag.attr('tabindex') ? tag.attr('tabindex').toInteger() : null,
-        mlText3: tag.attr('ml-text3'), 
+	def attribute = [
+		tag: 'a',
+		id: tag.attr('id'),
+		tabindex: tag.attr('tabindex') ? tag.attr('tabindex').toInteger() : null,
+		mlText3: tag.attr('ml-text3'),
 		readonly: null,
 		text: StringUtils.stripAccents(tag.text().split(" ")[0])
-    ]
-    tagsWithAttributes << attribute
+	]
+	tagsWithAttributes << attribute
 }
 
 // Afficher les résultats
 tagsWithAttributes.each { attribute ->
-    println(attribute)
+	println(attribute)
 }
 
 
@@ -178,7 +170,7 @@ tagsWithAttributes.each { attribute ->
 		if (!loc) {
 			Log.addDETAIL("Ajout de '${attribute.tag}' pour '${attribute.id}'")
 			myJDD.setLOCATOR(attribute.id, attribute.tag)
-		}		
+		}
 	}
 }
 
@@ -209,7 +201,7 @@ tagsWithAttributes.sort { a, b -> a.tag <=> b.tag }
 
 tagsWithAttributes.each { attribute ->
 	
-		if (attribute.tag == 'a' && attribute.mlText3 ) { 
+		if (attribute.tag == 'a' && attribute.mlText3 ) {
 			addAttributeIHMTO(myJDD, 'tab_' + attribute.text				,'$TAB$' + attribute.mlText3)
 			addAttributeIHMTO(myJDD, 'tab_' + attribute.text + "Selected"	,'$TABSELECTED$' + attribute.mlText3)
 		}
@@ -258,7 +250,7 @@ tagsWithAttributes.each { attribute ->
 		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attribute.text.toUpperCase()}\")")
 		Log.addB('')
 		Log.addB("KW.scrollAndClick(myJDD, \"tab_${attribute.text}\")")
-		Log.addB("KW.waitForElementVisible(myJDD, \"tab_${attribute.text}Selected\")")	
+		Log.addB("KW.waitForElementVisible(myJDD, \"tab_${attribute.text}Selected\")")
 		Log.addB('')
 	}
 }

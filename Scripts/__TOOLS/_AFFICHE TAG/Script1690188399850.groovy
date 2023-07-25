@@ -3,18 +3,20 @@ import my.Log
 // Enregistrer la page html dans C:\Users\A1008045\Documents\IHM
 // Mettre à jour la liste et renseigner l
 
-String testPour ='Organisation'
+String testPour ='BonTravail'
 
 Map map = [
 	'Acteur'	: ['RO.ACT','001','Acteur_fichiers//FormE21.htm'],
 	'Matricule'	: ['RT.MAT','001','Matricule_fichiers//FormE50.htm'],
 	'Equipement'	: ['RT.EQU','001','Equipement_fichiers//FormE7.htm'],
 	'Inventaire'	: ['RT.XXX','001','Inventaire_fichiers//FormE50.htm'],
-	'Organisation'	: ['RO.ORG','001','Organisation_fichiers//FormE233.htm']
+	'Organisation'	: ['RO.ORG','001','Organisation_fichiers//FormE233.htm'],
+	'BonTravail'	: ['TR.BT','001','BonTravail_fichiers//E39.htm']
 ]
 
 
 String folder = 'C://Users//A1008045//Documents//IHM//'
+
 
 def htmlFilePath = folder + map[testPour][2]
 

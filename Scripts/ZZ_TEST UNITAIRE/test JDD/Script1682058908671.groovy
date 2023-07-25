@@ -5,11 +5,13 @@ import my.JDDFiles
 import my.NAV
 import my.TCFiles
 
-//JML InfoBDD.load() 
-//JML TCFiles.load()
-//JML JDDFiles.load()
+ 
 
-NAV.loadJDDGLOBAL()
+
+
+
+
+
 
 
 GlobalVariable.CASDETESTPATTERN = 'RT.MAT.001'
@@ -92,7 +94,7 @@ println '-----------------------------------------------------------------------
 
 //println myJDD.getDataLine('RO.ACT.004EMP.SRM.01',2)
 
-////JML InfoBDD.load()
+//
 /*
 println myJDD.getParamForThisName('FOREIGNKE', 'TOTO')
 println myJDD.getParamForThisName('FOREIGNKEY', 'TOTO')

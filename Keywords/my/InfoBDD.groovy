@@ -2,7 +2,6 @@ package my
 
 import groovy.transform.CompileStatic
 import my.Log
-import my.result.TNRResult
 
 //Pour la lecture du format RTF
 import javax.swing.text.DefaultStyledDocument

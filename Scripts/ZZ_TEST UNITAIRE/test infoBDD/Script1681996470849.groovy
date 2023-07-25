@@ -1,6 +1,6 @@
 import my.InfoBDD
 
-//JML InfoBDD.load()
+
 
 /*
 println InfoBDD.map['INTER']['ID_CODINT'][0]

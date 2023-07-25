@@ -9,7 +9,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import my.PREJDDFiles
 import my.Log
 import my.XLS
-import my.result.TNRResult
 
 @CompileStatic
 public class Check_CAL {
