@@ -6,8 +6,8 @@ import my.Sequencer
 
 
 
-InfoBDD.load() 
-TCFiles.load()
-Sequencer.load()
+//JML InfoBDD.load() 
+//JML TCFiles.load()
+//JML Sequencer.load()
 
 

@@ -8,7 +8,7 @@
  * 
  * 
 
-
+JMB
 
  * 
  * -----------------------------------------------------------------------------------------------------
@@ -81,28 +81,33 @@
  *
  *
 
-VERIFIER les nom des cas de tests des sous-rubriques
+	LOG
+		Ajout de Log.addTrace, Log.addTraceBEGIN et Log.addTraceEND
+		Ajouter des '' autour des para dans tous les addTraceBEGIN
 
-Problème avec $SEQUENCID
+
+	VERIFIER les nom des cas de tests des sous-rubriques
+
+	Problème avec $SEQUENCID
 
 
 
-Nouveau TAG IHM : bouton radio
-
-	AFFICHE TAG --> modifié
-	TEST CASE CODE GENERATOR --> en cours ligne 109
-	JDD
-	KW
-	...
+	Nouveau TAG IHM : bouton radio
+	
+		AFFICHE TAG --> modifié
+		TEST CASE CODE GENERATOR --> en cours ligne 109
+		JDD
+		KW
+		...
 	
 
-Nouveau JDDKW $UPD
-
-	- CHECK PRREQUIS 					--> fait
-	- CREATE PREJDD in DB 				--> pas d'impact car pas $UPD est interdit dans les PREJDD
-	- Prise en compte dans les JDD
-	- Ctrl en BDD
-	....
+	Nouveau JDDKW $UPD
+	
+		- CHECK PRREQUIS 					--> fait
+		- CREATE PREJDD in DB 				--> pas d'impact car pas $UPD est interdit dans les PREJDD
+		- Prise en compte dans les JDD
+		- Ctrl en BDD
+		....
 
 
 
@@ -162,15 +167,6 @@ Nouveau JDDKW $UPD
 
 
 
-
-
-	Ajout de Log.addTrace, Log.addTraceBEGIN et Log.addTraceBEGIN
-		JDD
-		TO
-		XLS
-
-	
-
  
  * 
  * -----------------------------------------------------------------------------------------------------
@@ -178,24 +174,15 @@ Nouveau JDDKW $UPD
  * -----------------------------------------------------------------------------------------------------
  * 
 
-	lister les mot cles
-	lister les para
+	SCRIPT
 	
-	LOG 
-	
-		dans properties remplacer le level par une liste de mot clé (qui peut aussi être un num)
-		mettre dans une  ['WRITECELL','SQL','1',...] qui peut aussi être un num
-		et ensuite dans log mettre if (listIssuDeProperties.contains(para)) alaors on logue
+		Faire un nouveau ou l'inclure dans le CHECK JDD pour :
+			lister les mot cles
+			lister les para
 	
 
-		  		
-		
-	
 
 	DOC ORGANISATION DES JDD DE RÉFÉRENCE DANS LE CADRE DES TNR --> Stockage par version ? A préciser par JML
-
-
-
 
 
 	
@@ -306,7 +293,11 @@ Nouveau JDDKW $UPD
 		Revoir la suppression des emplacements par rapport à ST_DEF pour rendre automatique le truc
 	
 
-
+	LOG 
+	
+		dans properties remplacer le level par une liste de mot clé (qui peut aussi être un num)
+		mettre dans une  ['WRITECELL','SQL','1',...] qui peut aussi être un num
+		et ensuite dans log mettre if (listIssuDeProperties.contains(para)) alaors on logue
 
 
 * 

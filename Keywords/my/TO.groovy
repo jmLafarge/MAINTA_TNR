@@ -16,72 +16,72 @@ public class TO {
 
 	public TestObject make(JDD myJDD,String ID) {
 
-		Log.addTraceBEGIN("TO.make(myJDD, ${ID})")
+		Log.addTraceBEGIN("TO.make('${myJDD}' , '${ID}')")
 
+		TestObject to = null
+		
 		if (!myJDD.xpathTO.containsKey(ID)) {
 			msgTO = "L'ID '$ID' n'existe pas, impossible de créer le TEST OBJET"
-			return null
-		}
+		}else {
 
-		Map  binding = [:]
+			Map  binding = [:]
+	
+			to = new TestObject(ID)
+			to.setSelectorMethod(SelectorMethod.XPATH)
+			String xpath = myJDD.xpathTO.getAt(ID)
+			Log.addTrace("xpath : $xpath")
 
-		TestObject to = new TestObject(ID)
-		to.setSelectorMethod(SelectorMethod.XPATH)
-		String xpath = myJDD.xpathTO.getAt(ID)
-		Log.addTrace("xpath : $xpath")
-
-		if (xpath.startsWith('$')) {
-
-			switch(xpath.split('\\$')[1]) {
-
-				case "TAB":
-					binding['tabname']=xpath.split('\\$')[2]
-					xpath = NAV.myGlobalJDD.getXpathTO('TAB')
-					break
-
-				case "TABSELECTED":
-					binding['tabname']=xpath.split('\\$')[2]
-					xpath = NAV.myGlobalJDD.getXpathTO('TABSELECTED')
-					break
-
-				case "FILTREGRILLE":
-					binding['idname']=xpath.split('\\$')[2]
-					xpath = NAV.myGlobalJDD.getXpathTO('FILTREGRILLE')
-					break
-
-				case "TDGRILLE":
-				// faire la m^me chose sur les autrees
-					if (xpath.split('\\$').size()!=4){
-						msgTO = "makeTO $ID, xpath avec "+'$'+" non conforme : $xpath"
-						Log.addTraceEND("TO.make()")
-						return null
-					}
-				//////
-					binding['numTD']=xpath.split('\\$')[2]
-					binding['idnameval']=myJDD.getData(xpath.split('\\$')[3])
-					xpath = NAV.myGlobalJDD.getXpathTO('TDGRILLE')
-					break
-
-				default:
-					msgTO = "makeTO $ID, xpath avec "+'$'+" mot clé inconnu : $xpath"
-					Log.addTraceEND("TO.make()")
-					return null
+			if (xpath.startsWith('$')) {
+	
+				switch(xpath.split('\\$')[1]) {
+	
+					case "TAB":
+						binding['tabname']=xpath.split('\\$')[2]
+						xpath = NAV.myGlobalJDD.getXpathTO('TAB')
+						break
+	
+					case "TABSELECTED":
+						binding['tabname']=xpath.split('\\$')[2]
+						xpath = NAV.myGlobalJDD.getXpathTO('TABSELECTED')
+						break
+	
+					case "FILTREGRILLE":
+						binding['idname']=xpath.split('\\$')[2]
+						xpath = NAV.myGlobalJDD.getXpathTO('FILTREGRILLE')
+						break
+	
+					case "TDGRILLE":
+					// faire la m^me chose sur les autrees
+						if (xpath.split('\\$').size()!=4){
+							msgTO = "makeTO $ID, xpath avec "+'$'+" non conforme : $xpath"
+							to = null
+						}
+					//////
+						binding['numTD']=xpath.split('\\$')[2]
+						binding['idnameval']=myJDD.getData(xpath.split('\\$')[3])
+						xpath = NAV.myGlobalJDD.getXpathTO('TDGRILLE')
+						break
+	
+					default:
+						msgTO = "makeTO $ID, xpath avec "+'$'+" mot clé inconnu : $xpath"
+						to = null
+				}
+				Log.addTrace("GLOBAL xpath : $xpath")
+				Log.addTrace("binding  : " + binding.toString())
 			}
-			Log.addTrace("GLOBAL xpath : $xpath")
-			Log.addTrace("binding  : " + binding.toString())
+	
+			Log.addTrace("xpath : $xpath")
+	
+			xpath = resolveXpath( myJDD, xpath, binding)
+	
+			to.setSelectorValue(SelectorMethod.XPATH, xpath)
+	
+			Log.addTrace('getObjectId : ' + to.getObjectId())
+			Log.addTrace('get(SelectorMethod.XPATH) : ' + to.getSelectorCollection().get(SelectorMethod.XPATH))
+	
+			binding=[:]
+
 		}
-
-		Log.addTrace("xpath : $xpath")
-
-		xpath = resolveXpath( myJDD, xpath, binding)
-
-		to.setSelectorValue(SelectorMethod.XPATH, xpath)
-
-		Log.addTrace('getObjectId : ' + to.getObjectId())
-		Log.addTrace('get(SelectorMethod.XPATH) : ' + to.getSelectorCollection().get(SelectorMethod.XPATH))
-
-		binding=[:]
-
 		Log.addTraceEND("TO.make()",to)
 
 		return to
@@ -103,11 +103,12 @@ public class TO {
 	 * @return L'xpath résolu.
 	 */
 	private String resolveXpath(JDD myJDD, String xpath, Map binding) {
-		Log.addTraceBEGIN("TO.resolveXpath(myJDD, ${xpath}, ${binding})")
+		Log.addTraceBEGIN("TO.resolveXpath('$myJDD' , '${xpath}' , '${binding}')")
 
 		// Vérifie si c'est un xpath dynamique
 		def matcher = xpath =~ /\$\{(.+?)\}/
 
+		String xpathResolved = xpath
 		Log.addTrace('matcher.size() = ' + matcher.size())
 
 		if (matcher.size() > 0) {
@@ -128,16 +129,11 @@ public class TO {
 			}
 
 			xpath = engine.createTemplate(xpath).make(binding).toString()
-			Log.addTrace("dynamic xpath = ${xpath}")
-
-			Log.addTraceEND("TO.resolveXpath()",xpath)
-			return xpath
 		} else {
 			Log.addTrace('normal xpath')
-
-			Log.addTraceEND("TO.resolveXpath()",xpath)
-			return xpath
 		}
+		Log.addTraceEND("TO.resolveXpath()",xpathResolved)
+		return xpathResolved
 	}
 
 

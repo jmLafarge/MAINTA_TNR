@@ -9,8 +9,8 @@ import my.Log
 
 
 Log.addTITLE("Lancement de FILL INFOPARA")
-InfoBDD.load() 
-JDDFiles.load()
+//JML InfoBDD.load() 
+//JML JDDFiles.load()
 
 
 Log.addSubTITLE('Renseigner InfoPARA avec le contenu des JDD')

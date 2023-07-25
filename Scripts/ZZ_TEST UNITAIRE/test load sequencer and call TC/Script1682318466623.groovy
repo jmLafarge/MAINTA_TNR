@@ -14,10 +14,10 @@ import my.result.ResultGenerator as XLSResult
 
 
 
-InfoBDD.load() 
-TCFiles.load()
-JDDFiles.load()
-Sequencer.load()
+//JML InfoBDD.load() 
+//JML TCFiles.load()
+//JML JDDFiles.load()
+//JML Sequencer.load()
 
 
 Sequencer.testCasesList.each { TCMap ->

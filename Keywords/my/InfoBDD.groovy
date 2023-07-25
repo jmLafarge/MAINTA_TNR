@@ -10,7 +10,7 @@ import javax.swing.text.rtf.RTFEditorKit
 import java.io.StringReader
 
 
-import my.XLS as MYXLS
+import my.XLS
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
@@ -36,44 +36,45 @@ public class InfoBDD {
 		'CONSTRAINT_NAME'
 	]
 
+	/*
+	 public static load() {
+	 if (map.isEmpty()) {
+	 */			
+	static {
+		Log.addTraceBEGIN("InfoBDD()")
+		fileName = my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('INFOBDDFILENAME')
 
-	public static load() {
-		
-		if (map.isEmpty()) {
+		book = XLS.open(fileName)
 
-			fileName = my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('INFOBDDFILENAME')
-			Log.addSubTITLE("Chargement de : " + fileName,'-',120,1)
-	
-			book = MYXLS.open(fileName)
-	
-			Sheet sheet = book.getSheet('INFO')
-	
-			Iterator<Row> rowIt = sheet.rowIterator()
-			Row row = rowIt.next()
-			List <String> headers = MYXLS.loadRow(row)
-	
-			Log.addINFO('Contrôle entête fichier',1)
-			if (headers!=HEADERS) {
-				Log.addERROR(fileName + ' Entête fichier différente de celle attendue :')
-				TNRResult.addDETAIL('Entête attendue : ' + HEADERS.join(' - '))
-				TNRResult.addDETAIL('Entête lue      : ' + headers.join(' - '))
-				KeywordUtil.markErrorAndStop("Entête fichier ${fileName} différente de celle attendue")
-			}
-	
-			while(rowIt.hasNext()) {
-				row = rowIt.next()
-				if (MYXLS.getCellValue(row.getCell(0))=='') {
-					break
-				}
-				List listxls = MYXLS.loadRow(row,HEADERS.size())
-				String tableName = listxls[0].toString()
-				String columnName= listxls[1].toString()
-				if (!map[tableName]) {
-					map[tableName] = [:]
-				}
-				map[tableName][columnName] = listxls.subList(2, 8)
-			}
+		Sheet sheet = book.getSheet('INFO')
+
+		Iterator<Row> rowIt = sheet.rowIterator()
+		Row row = rowIt.next()
+		List <String> headers = XLS.loadRow(row)
+
+		Log.addTrace('Contrôle entête fichier',1)
+		if (headers!=HEADERS) {
+			Log.addERROR(fileName + ' Entête fichier différente de celle attendue :')
+			Log.addDETAIL('Entête attendue : ' + HEADERS.join(' - '))
+			Log.addDETAIL('Entête lue      : ' + headers.join(' - '))
+			KeywordUtil.markErrorAndStop("Entête fichier ${fileName} différente de celle attendue")
 		}
+
+		while(rowIt.hasNext()) {
+			row = rowIt.next()
+			if (XLS.getCellValue(row.getCell(0))=='') {
+				break
+			}
+			List listxls = XLS.loadRow(row,HEADERS.size())
+			String tableName = listxls[0].toString()
+			String columnName= listxls[1].toString()
+			if (!map[tableName]) {
+				map[tableName] = [:]
+			}
+			map[tableName][columnName] = listxls.subList(2, 8)
+		}
+		// }
+		Log.addTraceEND("InfoBDD()")
 
 	}
 
@@ -82,52 +83,70 @@ public class InfoBDD {
 
 
 	public static List getPK(String table) {
-		Log.addTrace("getPK($table)")
+		Log.addTraceBEGIN("InfoBDD.getPK($table)")
 		List list=[]
 		map[table].each { k, li ->
 			if (li[5]!='NULL') list.add(k)
 		}
-		Log.addTrace("getPK() --> ${list.join('|')}")
+		Log.addTraceEND("InfoBDD.getPK()",list)
 		return list
 	}
 
 
 	public static boolean isPK(String table, String name) {
-		
+		Log.addTraceBEGIN("InfoBDD.isPK('$table' , '$name')")
+		boolean ret = false
 		if (isTableExist(table) && inTable(table,name)) {
-			return map[table][name][5] !='NULL'
-		} else {
-			return false
+			ret= map[table][name][5] !='NULL'
 		}
+		Log.addTraceEND("InfoBDD.isPK()",ret)
+		return ret
 	}
 
 
 	public static boolean isTableExist(String table) {
-		return map.containsKey(table)
+		Log.addTraceBEGIN("InfoBDD.isTableExist('$table')")
+		boolean ret = map.containsKey(table)
+		Log.addTraceEND("InfoBDD.isTableExist()",ret)
+		return ret
 	}
 
 
 
 
 	public static String getDATA_TYPE(String table, String name) {
-		return map[table][name][2]
+		Log.addTraceBEGIN("InfoBDD.getDATA_TYPE('$table' , '$name')")
+		String ret = map[table][name][2]
+		Log.addTraceEND("InfoBDD.getDATA_TYPE()",ret)
+		return ret
 	}
 
 
 
 	public static int getDATA_MAXCHAR(String table, String name) {
-		return (int)map[table][name][3]
+		Log.addTraceBEGIN("InfoBDD.getDATA_MAXCHAR('$table' , '$name')")
+		int ret = (int)map[table][name][3]
+		Log.addTraceEND("InfoBDD.getDATA_MAXCHAR()",ret)
+		return ret
 	}
 
 
 
 	public static boolean isNumeric(String table, String name) {
-		return map[table][name][2]==getNumeric()
+		Log.addTraceBEGIN("InfoBDD.isNumeric('$table' , '$name')")
+		boolean ret = map[table][name][2]==getNumeric()
+		Log.addTraceEND("InfoBDD.isNumeric()",ret)
+		return ret
 	}
 
 	public static boolean isImage(String table, String name) {
-		return map[table][name][2]==getImage()
+		Log.addTraceBEGIN("InfoBDD.isImage('$table' , '$name')")
+		boolean ret = map[table][name][2]==getImage()
+		Log.addTraceEND("InfoBDD.isImage()",ret)
+		return ret
 	}
+
+
 
 	public static String getNumeric() {
 		return 'numeric'
@@ -145,9 +164,11 @@ public class InfoBDD {
 	}
 
 	public static castJDDVal(String table, String name, def val) {
+		Log.addTraceBEGIN("InfoBDD.castJDDVal('$table' , '$name' , '$val')")
+		def ret
 		switch (getDATA_TYPE( table, name)) {
 			case getVarchar():
-				return val.toString()
+				ret = val.toString()
 				break
 			/*
 			 case getImage():
@@ -158,13 +179,18 @@ public class InfoBDD {
 			 break
 			 */
 			default :
-				return val
+				ret = val
 		}
+		Log.addTraceEND("InfoBDD.castJDDVal()",ret)
+		return ret
 	}
 
 
-	public static inTable(String table, String name) {
-		return map[table].containsKey(name)
+	public static boolean inTable(String table, String name) {
+		Log.addTraceBEGIN("InfoBDD.inTable('$table' , '$name')")
+		boolean ret = map[table].containsKey(name)
+		Log.addTraceEND("InfoBDD.inTable()",ret)
+		return ret
 	}
 
 

@@ -286,23 +286,18 @@ public class JDD {
 	 */
 	def int getDataLineNum(String cdt = casDeTest, int casDeTestNum = casDeTestNum) {
 		Log.addTraceBEGIN("JDD.getDataLineNum(${cdt}, ${casDeTestNum})")
-
+		int dataLineNum = -1
+		int cdtnum = 0
 		if (casDeTestNum > getNbrLigneCasDeTest(cdt) || casDeTestNum < 1) {
 			Log.addERROR("Le cas de test N° : $casDeTestNum n'existe pas (max = "+ getNbrLigneCasDeTest(cdt) + ')')
-			Log.addTraceEND("JDD.getDataLineNum()")
-			return null
-		}
-
-		int dataLineNum = 0
-		int cdtnum = 0
-
-		for (int i=0; i< datas.size();i++) {
-			if (datas[i][0]==cdt) {
-				cdtnum++
-				if (cdtnum==casDeTestNum) {
-					dataLineNum = i
-					Log.addTrace("Numéro de la ligne trouvée : $i")
-					break
+		}else {	
+			for (int i=0; i< datas.size();i++) {
+				if (datas[i][0]==cdt) {
+					cdtnum++
+					if (cdtnum==casDeTestNum) {
+						dataLineNum = i
+						break
+					}
 				}
 			}
 		}
@@ -324,25 +319,21 @@ public class JDD {
 	 */
 	def getData(String name, int casDeTestNum = casDeTestNum) {
 		Log.addTraceBEGIN("JDD.getData(${name}, ${casDeTestNum})")
-
+		def ret
 		// Vérifie que le numéro de cas de test est valide.
 		if (casDeTestNum > getNbrLigneCasDeTest() || casDeTestNum < 1) {
 			Log.addERROR("Le cas de test N° : $casDeTestNum n'existe pas (max = "+ getNbrLigneCasDeTest() + ')')
-			Log.addTraceEND("JDD.getData()")
-			return null
+		}else {
+			// Vérifie que le nom fait partie des en-têtes.
+			if (headers.contains(name)) {
+				// Récupère la donnée correspondante.
+				ret = datas[getDataLineNum(casDeTest, casDeTestNum)][headers.indexOf(name)]
+			} else {
+				Log.addERROR("getData($name, $casDeTestNum ) '$name' n'est pas une colonne du JDD")
+			}
 		}
-
-		// Vérifie que le nom fait partie des en-têtes.
-		if (headers.contains(name)) {
-			// Récupère la donnée correspondante.
-			def ret = datas[getDataLineNum(casDeTest, casDeTestNum)][headers.indexOf(name)]
-			Log.addTraceEND("JDD.getData()",ret)
-			return ret
-		} else {
-			Log.addERROR("getData($name, $casDeTestNum ) '$name' n'est pas une colonne du JDD")
-			Log.addTraceEND("JDD.getData()")
-			return null
-		}
+		Log.addTraceEND("JDD.getData()",ret)
+		return ret
 	}
 
 

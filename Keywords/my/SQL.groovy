@@ -3,13 +3,11 @@ package my
 import groovy.transform.CompileStatic
 
 import com.kms.katalon.core.configuration.RunConfiguration
-import com.kms.katalon.core.util.KeywordUtil
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 import groovy.sql.Sql
-import internal.GlobalVariable
 import my.Log
 import my.InfoBDD
 import my.JDDKW
+import my.JDD
 import my.result.TNRResult
 import my.PropertiesReader
 
@@ -26,28 +24,28 @@ public class SQL {
 	 */
 
 	static enum AllowedDBProfilNames {
-		LOCAL,
+		LOCALTNR,
 		MASTERTNR,
 		LEGACYTNR
 	}
 
 
 	private static String databaseName = ''
-	private static Sql sqlInstance 
+	private static Sql sqlInstance
 	private static String pathDB = ''
 
 
 
 	static {
-		
+
 		Log.addTraceBEGIN("SQL()")
-		
+
 		String profileName = RunConfiguration.getExecutionProfile()
-		
+
 		switch (profileName) {
-			
-			case 'LOCAL':
-				setNewInstance(AllowedDBProfilNames.LOCAL)
+
+			case 'LOCALTNR':
+				setNewInstance(AllowedDBProfilNames.LOCALTNR)
 				break
 			case 'LEGACYTNR':
 				setNewInstance(AllowedDBProfilNames.LEGACYTNR)
@@ -59,8 +57,8 @@ public class SQL {
 		}
 		Log.addTraceEND("SQL()")
 	}
-	
-	
+
+
 	static setNewInstance(AllowedDBProfilNames  name) {
 
 		Log.addTraceBEGIN("SQL.setNewInstance(${name.toString()})")
@@ -84,7 +82,7 @@ public class SQL {
 	}
 
 
-	
+
 	static executeInsert(String query, List values) {
 		Log.addTrace("executeInsert()")
 		try {
@@ -166,14 +164,12 @@ public class SQL {
 
 		String sql = "SELECT count(*) as nbr FROM $table WHERE $where"
 		Map result = SQL.getFirstRow("$sql")
+		int ret = 0
 		if(result) {
-			int ret =  result.nbr as int
-			Log.addTraceEND("SQL.checkIfExist",ret)
-			return ret
-		}else {
-			Log.addTraceEND("SQL.checkIfExist",0)
-			return 0
+			ret =  result.nbr as int
 		}
+		Log.addTraceEND("SQL.checkIfExist",ret)
+		return ret
 	}
 
 
@@ -289,7 +285,7 @@ public class SQL {
 
 
 
-		Log.addTraceBEGIN("SQL.checkValue($fieldName,$val,$verifStatus,$casDeTestNum)" )
+		Log.addTraceBEGIN("SQL.checkValue($myJDD,$fieldName,$val,$verifStatus,$casDeTestNum)" )
 
 		if (myJDD.isOBSOLETE(fieldName)) return verifStatus
 
@@ -442,23 +438,18 @@ public class SQL {
 		Log.addTraceBEGIN("SQL.getMaintaVersion()")
 
 		String query = "SELECT ST_VAL FROM VER WHERE ID_CODINF = 'CURR_VERS'"
-
+		String ret
 		try {
 			def frow = sqlInstance.firstRow(query)
 			if (frow ) {
-				String ret = frow.getAt(0).toString()
-				Log.addTraceEND("SQL.getMaintaVersion()",ret)
-				return ret
-			}else {
-				Log.addTraceEND("SQL.getMaintaVersion()")
-				return null
+				ret = frow.getAt(0).toString()
 			}
 		}catch(Exception ex) {
 			Log.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
 			TNRResult.addDETAIL("getMaintaVersion()")
 			TNRResult.addDETAIL(ex.getMessage())
 		}
-		Log.addTraceEND("SQL.getMaintaVersion()")
+		Log.addTraceEND("SQL.getMaintaVersion()",ret)
 	}
 
 
@@ -658,7 +649,7 @@ public class SQL {
 	}
 
 
-	
+
 	static String getPathDB() {
 		return pathDB
 	}

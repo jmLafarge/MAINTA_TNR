@@ -1,7 +1,7 @@
 
 import my.TCFiles
 
-TCFiles.load()
+//JML TCFiles.load()
 
 //println TCFiles.TCfileMap['ZZ.YYY.001']
 

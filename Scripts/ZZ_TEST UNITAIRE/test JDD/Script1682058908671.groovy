@@ -5,9 +5,9 @@ import my.JDDFiles
 import my.NAV
 import my.TCFiles
 
-InfoBDD.load() 
-TCFiles.load()
-JDDFiles.load()
+//JML InfoBDD.load() 
+//JML TCFiles.load()
+//JML JDDFiles.load()
 
 NAV.loadJDDGLOBAL()
 
@@ -92,7 +92,7 @@ println '-----------------------------------------------------------------------
 
 //println myJDD.getDataLine('RO.ACT.004EMP.SRM.01',2)
 
-//InfoBDD.load()
+////JML InfoBDD.load()
 /*
 println myJDD.getParamForThisName('FOREIGNKE', 'TOTO')
 println myJDD.getParamForThisName('FOREIGNKEY', 'TOTO')

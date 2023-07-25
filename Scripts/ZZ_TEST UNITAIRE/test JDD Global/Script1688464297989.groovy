@@ -5,9 +5,9 @@ import my.JDDFiles
 import my.NAV
 import my.TCFiles
 
-InfoBDD.load() 
-TCFiles.load()
-JDDFiles.load()
+//JML InfoBDD.load() 
+//JML TCFiles.load()
+//JML JDDFiles.load()
 
 NAV.loadJDDGLOBAL()
 

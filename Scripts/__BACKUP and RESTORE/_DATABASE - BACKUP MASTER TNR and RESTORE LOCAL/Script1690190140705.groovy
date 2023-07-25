@@ -15,13 +15,13 @@ String backupFile = SQL.backup()
 SQL.sqlInstance.close()
 
 String sourceBackupFileFullname = PropertiesReader.getMyProperty('MASTERTNR_BDDBACKUPPATH') + File.separator + backupFile
-String targetBackupFileFullname = PropertiesReader.getMyProperty('LOCAL_BDDBACKUPPATH') + File.separator + backupFile
+String targetBackupFileFullname = PropertiesReader.getMyProperty('LOCALTNR_BDDBACKUPPATH') + File.separator + backupFile
 
 
 Files.copy(Paths.get(sourceBackupFileFullname), Paths.get(targetBackupFileFullname))
 
 
-SQL.setNewInstance(SQL.AllowedDBProfilNames.LOCAL)
+SQL.setNewInstance(SQL.AllowedDBProfilNames.LOCALTNR)
 
 SQL.restore(targetBackupFileFullname)
 

@@ -31,10 +31,10 @@ String folder = 'C://Users//A1008045//Documents//IHM//'
 
 Log.addTITLE("Lancement de _TEST CASE CODE GENERATOR ")
 
-InfoBDD.load() 
-TCFiles.load()
-JDDFiles.load()
-PREJDDFiles.load()
+//JML InfoBDD.load() 
+//JML TCFiles.load()
+//JML JDDFiles.load()
+PRE//JML JDDFiles.load()
 
 NAV.loadJDDGLOBAL()
 

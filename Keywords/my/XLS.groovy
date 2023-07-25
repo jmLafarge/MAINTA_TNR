@@ -226,18 +226,18 @@ public class XLS {
 	 */
 	static int getColumnIndexOfColumnName(Sheet sheet, String columnName, int numRow = 0) {
 		Log.addTraceBEGIN("XLS.getColumnIndexOfColumnName(${sheet}, ${columnName}, ${numRow})")
-
+		int ret = -1
 		for (Cell cell : sheet.getRow(numRow)) {
 			if (getCellValue(cell) == columnName) {
-				int columnIndex = cell.getColumnIndex()
-				Log.addTraceEND("XLS.getColumnIndexOfColumnName()",columnIndex)
-				return columnIndex
+				ret = cell.getColumnIndex()
+				break
 			}
 		}
-
-		Log.addERROR("XLS.getColumnIndexOfColumnName() columnName=${columnName} numRow=${numRow} Nom de colonne non trouvé")
-		Log.addTraceEND("XLS.getColumnIndexOfColumnName()",-1)
-		return -1
+		if (ret==-1) {
+			Log.addERROR("XLS.getColumnIndexOfColumnName() columnName='${columnName}' numRow='${numRow}' Nom de colonne non trouvé")
+		}
+		Log.addTraceEND("XLS.getColumnIndexOfColumnName()",ret)
+		return ret
 	}
 
 
@@ -247,27 +247,21 @@ public class XLS {
 
 
 
-	/**
-	 * Retourne l'index de la dernière colonne non vide dans la ligne spécifiée de la feuille de calcul.
-	 *
-	 * @param sheet  Feuille de calcul dans laquelle rechercher la dernière colonne.
-	 * @param numRow Numéro de la ligne à partir de laquelle rechercher la dernière colonne.
-	 * @return Index de la dernière colonne non vide, ou -1 si aucune colonne n'est trouvée.
-	 */
 	static int getLastColumnIndex(Sheet sheet, int numRow) {
 		Log.addTraceBEGIN("XLS.getLastColumnIndex(${sheet}, ${numRow})")
 
 		int lastCellNum = sheet.getRow(numRow).getLastCellNum()
+		int ret = -1
 		for (int i : (0..lastCellNum)) {
 			Cell cell = sheet.getRow(numRow).getCell(i)
 			if (!getCellValue(cell)) {
-				Log.addTraceEND("XLS.getLastColumnIndex()",i)
-				return i
+				ret = 1
+				break
 			}
 		}
 
-		Log.addTraceEND("XLS.getLastColumnIndex()",lastCellNum)
-		return lastCellNum
+		Log.addTraceEND("XLS.getLastColumnIndex()",ret)
+		return ret
 	}
 
 

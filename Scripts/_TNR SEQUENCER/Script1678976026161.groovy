@@ -17,18 +17,16 @@ import my.TCFiles
 import my.Tools
 import my.result.TNRResult
 
-InfoBDD.load() 
-TCFiles.load()
-JDDFiles.load()
-Sequencer.load()
+//JML InfoBDD.load() 
+//JML TCFiles.load()
+//JML JDDFiles.load()
+//JML Sequencer.load()
 
 Log.addTITLE("Lancement de TNR SEQUENCER")
 
 TNRResult.addStartInfo('TNR SEQUENCEUR')
 
 Tools.addInfoContext()
-
-//NAV.loadJDDGLOBAL()
 
 Sequencer.testCasesList.each { TCMap ->
 	

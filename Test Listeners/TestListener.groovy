@@ -28,9 +28,9 @@ class TestListener {
 
 		Log.addTITLE('Lancement de ' + testSuiteContext.getTestSuiteId())
 
-		InfoBDD.load() 
-		TCFiles.load()
-		JDDFiles.load()
+		//JML InfoBDD.load() 
+		//JML TCFiles.load()
+		//JML JDDFiles.load()
 		
 		TNRResult.addStartInfo(testSuiteContext.getTestSuiteId())
 

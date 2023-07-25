@@ -26,10 +26,12 @@ public class JDDFiles {
 	 * 
 	 * @return
 	 */
+/*
 	public static load() {
 
 		if (JDDfilemap.isEmpty()) {
-
+*/
+	static {
 			Log.addSubTITLE("Load JDDfileList",'-',120,1)
 
 			Log.addINFO("\t"+'MODOBJ'.padRight(16) + 'JDDFULLNAME',1)
@@ -46,7 +48,7 @@ public class JDDFiles {
 					Log.addINFO('\t' + modObj.padRight(16) + file.getPath(),1)
 				}
 			}
-		}
+		//}
 	}
 
 

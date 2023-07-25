@@ -14,9 +14,9 @@ Log.setDebugLevel(0)
 Log.setDebugDeph(1)
 
 Log.addTITLE("Lancement de CREATE PREJDD IN DB")
-InfoBDD.load() 
-JDDFiles.load()
-PREJDDFiles.load()
+//JML InfoBDD.load() 
+//JML JDDFiles.load()
+PRE//JML JDDFiles.load()
 
 //NAV.loadJDDGLOBAL()
 

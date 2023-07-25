@@ -9,7 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 //PREJDDFiles.insertPREJDDinDB('RO.MET','001')
 
 
-InfoBDD.load()
+//JML InfoBDD.load()
 
 XSSFWorkbook book = my.XLS.open('TNR_PREJDD/PREJDD.RO.CAL.xlsx')
 

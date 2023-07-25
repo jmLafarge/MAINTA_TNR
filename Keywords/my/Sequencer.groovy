@@ -35,14 +35,12 @@ public class Sequencer {
 
 
 
-	/*
-	 * 
-	 *
-	 */
+/*
 	public static load() {
 		
 		if (testCasesList.isEmpty()){
-
+*/
+	static {
 			Log.addSubTITLE('Load testCasesList from TNR sequencer file','-',120)
 			Log.addINFO("\t" + 'CDTPATTERN'.padRight(24) + 'TCFULLNAME'.padRight(90) + 'REP')
 			Log.addINFO("")
@@ -91,7 +89,7 @@ public class Sequencer {
 				}
 	
 			} // end of for each data line
-		}
+		//}
 	}//end of constructor
 
 
