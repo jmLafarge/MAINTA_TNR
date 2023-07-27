@@ -40,7 +40,7 @@ public class InfoBDD {
 	 if (map.isEmpty()) {
 	 */			
 	static {
-		Log.addTraceBEGIN("InfoBDD()")
+		Log.addTraceBEGIN("InfoBDD.")
 		fileName = my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('INFOBDDFILENAME')
 
 		book = XLS.open(fileName)

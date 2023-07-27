@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestCaseEntity>
    <description></description>
-   <name>_DATABASE - BACKUP MASTER TNR and RESTORE TNR</name>
+   <name>test JsonFile</name>
    <tag></tag>
    <comment></comment>
-   <testCaseGuid>2d91e366-144d-4dc4-9b02-b16848e50fbf</testCaseGuid>
+   <testCaseGuid>d768e0ee-1109-422f-88e0-2203b5452f92</testCaseGuid>
 </TestCaseEntity>

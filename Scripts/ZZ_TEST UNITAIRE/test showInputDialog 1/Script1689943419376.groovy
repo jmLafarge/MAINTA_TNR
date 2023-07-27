@@ -1,15 +1,14 @@
-
 import javax.swing.JOptionPane
 
-// Poser une question à l'utilisateur et récupérer sa réponse
-String userInput = JOptionPane.showInputDialog("Quel est votre nom ?")
+// Ouvrir une boîte de dialogue pour saisir un nom
+String nom = JOptionPane.showInputDialog(null, "Veuillez saisir votre nom:", "Saisie du nom", JOptionPane.QUESTION_MESSAGE)
 
-// Vérifier si l'utilisateur a cliqué sur "OK" ou "Annuler"
-if (userInput == null) {
-    // L'utilisateur a cliqué sur "Annuler"
-    println("Vous avez annulé la saisie.")
+// Vérifier si l'utilisateur a cliqué sur le bouton "OK" ou "Annuler"
+if (nom != null) {
+    // Si l'utilisateur a saisi un nom et a cliqué sur "OK"
+    println("Nom saisi : " + nom)
 } else {
-    // L'utilisateur a saisi une réponse
-    println("Bonjour, ${userInput} !")
+    // Si l'utilisateur a cliqué sur "Annuler" ou a fermé la boîte de dialogue
+    println("Aucun nom saisi.")
 }
 

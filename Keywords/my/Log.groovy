@@ -26,16 +26,22 @@ class Log {
 
 	private static String dateTimeFormat = 'yyyy-MM-dd HH:mm:ss.SSS'
 
-	private static File file = createFile('')
-	private static File fileDebug = createFile('DEBUG')
+	//private static File file = createFile('')
+	//private static File fileDebug = createFile('DEBUG')
+	private static File file
+	private static File fileDebug
 
 	private static int nbCarStatus = 7
 
 	private static int debugLevel = 0
 	private static int debugDeph = 0
 	private static int deph = 0
+	private static String[] debugClasses
 
 	private static String tab = ''
+	final static String STRTABSEP = ' |\t'
+	final static String STRBEGIN = '=> '
+	final static String STREND = '<= '
 
 	private static String PREDEBUGTXT	= '\t\t'
 	private static String PREDETAILTXT	= '\t\t- '
@@ -44,9 +50,7 @@ class Log {
 
 
 
-	private static File createFile(String txt){
-
-
+	static {
 
 		//Create folder if not exist
 		File dir = new File(my.PropertiesReader.getMyProperty('LOG_PATH'))
@@ -54,16 +58,16 @@ class Log {
 
 		String dateFile = new Date().format("yyyyMMdd_HHmmss")
 
-		File file =new File(my.PropertiesReader.getMyProperty('LOG_PATH') + File.separator +  dateFile + "-log${txt}.txt")
+		file 		=new File(my.PropertiesReader.getMyProperty('LOG_PATH') + File.separator +  dateFile + "-log.txt")
+		fileDebug 	=new File(my.PropertiesReader.getMyProperty('LOG_PATH') + File.separator +  dateFile + "-logDEBUG.txt")
 
 		debugLevel = my.PropertiesReader.getMyProperty('LOG_DEBUGLEVEL').toInteger()
 		debugDeph = my.PropertiesReader.getMyProperty('LOG_DEBUGDEPH').toInteger()
+		debugClasses = my.PropertiesReader.getMyProperty('LOG_DEBUGCLASSES').split(',')
 
-		if (txt=='DEBUG') {
-			file.append("debugLevel = $debugLevel\ndebugDeph = $debugDeph\n")
-		}
+		fileDebug.append("debug Level \t= $debugLevel\ndebug Deph \t= $debugDeph\ndebug Classes \t= $debugClasses\n")
 
-		return file
+
 	}
 
 
@@ -93,7 +97,6 @@ class Log {
 	public static addB ( String msg) {
 
 		file.append("\t\t$msg\n")
-
 		fileDebug.append("\t\t$msg\n")
 	}
 
@@ -103,16 +106,16 @@ class Log {
 		String h = new Date().format(dateTimeFormat)
 		if (level <= debugLevel) {
 			fileDebug.append("[$h][$stat]:" + PREDEBUGTXT + tab +"$msg\n")
-			//println "[my Log][$stat]:" + tab +"$msg"
+			println "[my Log][$stat]:" + tab +"$msg"
 		}
 	}
 
 
 	public static addTrace (String msg, int level=1) {
 
-		if (deph <= debugDeph) {
-			addDEBUG(msg,level)
-			tab = '\t'.multiply(deph)
+		if (deph <= debugDeph || isDebugClass(msg) ) {
+			addDEBUG("$msg",level)
+			tab = STRTABSEP.multiply(deph)
 		}
 	}
 
@@ -120,9 +123,9 @@ class Log {
 	public static addTraceBEGIN (String msg, int level=1) {
 
 		deph++
-		if (deph <= debugDeph) {
-			addDEBUG('->> '+msg,level)
-			tab = '\t'.multiply(deph)
+		if (deph <= debugDeph || isDebugClass(msg) ) {
+			addDEBUG(STRBEGIN + msg,level)
+			tab = STRTABSEP.multiply(deph)
 		}
 	}
 
@@ -130,12 +133,16 @@ class Log {
 	public static addTraceEND (String msg, def ret = null, int level=1) {
 
 		deph = (deph > 0) ? deph - 1 : 0
-		if (deph < debugDeph) {
-			tab = '\t'.multiply(deph)
+		if (deph < debugDeph || isDebugClass(msg) ) {
+			tab = STRTABSEP.multiply(deph)
 			String r = ret?" --> '$ret'":' ---'
-			addDEBUG('<<- '+msg+r,level)
+			addDEBUG(STREND + msg + r,level)
 		}
 
+	}
+
+	private static boolean isDebugClass(String msg) {
+		return debugClasses.any{clas -> msg.startsWith(clas.toString() + '.')}
 	}
 
 	public static addDEBUGDETAIL (String msg, int level=1) {
@@ -240,6 +247,10 @@ class Log {
 		fileDebug.append("New debug deph = $debugDeph\n")
 	}
 
+	public static setDebugClasses(String[] newClasses) {
+		debugClasses = newClasses
+		fileDebug.append("New debug Classes = $newClasses\n")
+	}
 
 
 }// end of class

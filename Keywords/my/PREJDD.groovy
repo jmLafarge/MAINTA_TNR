@@ -4,6 +4,8 @@ import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
+import my.PREJDDFiles
+
 import groovy.transform.CompileStatic
 
 
@@ -19,7 +21,7 @@ public class PREJDD {
 
 
 	static boolean checkPREJDD(Map map){
-		
+
 		PREJDDFullName = PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString())
 
 		XSSFWorkbook book = my.XLS.open(PREJDDFullName)
@@ -46,13 +48,13 @@ public class PREJDD {
 			if (found) {
 				Log.addTrace(cdtVal.toString()+' trouvé')
 			}else {
-				
+
 				if (savJDDNAME != map.getAt('JDDNAME').toString()) {
 					Log.addTrace('',0)
 					Log.addTrace('\t- '+ map.getAt('JDDNAME').toString(),0)
 					savJDDNAME = map.getAt('JDDNAME').toString()
 				}
-				
+
 				// vérifier si la valeur n'est  pas déjà en BDD
 				String val = cdtVal.toString().split("'")[3]
 				String JDDFullName= JDDFiles.getJDDFullName(map.getAt('PREJDDMODOBJ').toString())
@@ -75,16 +77,16 @@ public class PREJDD {
 						Log.addINFO('')
 						Log.addINFO("\t\t$txt")
 						savTxt = txt
-						
-						/*
-							Log.addINFO('')
-							map.each { cle, valeur ->
-								Log.addINFO("\tClé: $cle, Valeur: $valeur")
-							}
-							Log.addINFO('')
-						*/
 
-						
+						/*
+						 Log.addINFO('')
+						 map.each { cle, valeur ->
+						 Log.addINFO("\tClé: $cle, Valeur: $valeur")
+						 }
+						 Log.addINFO('')
+						 */
+
+
 					}
 					Log.addDETAILFAIL(cdtVal.toString()+' non trouvé !')
 					status = false
@@ -93,7 +95,7 @@ public class PREJDD {
 		}
 		List listCDTVAL = map.getAt('LISTCDTVAL')
 		Log.addDEBUGDETAIL(nbFound + "/" + listCDTVAL.size() + ' trouvé(s)',0)
-		
+
 		return status
 	}
 
@@ -117,11 +119,11 @@ public class PREJDD {
 
 				String casDeTest = my.XLS.getCellValue(row.getCell(0))
 				String IDvalue = my.XLS.getCellValue(row.getCell(idxID))
-				
+
 				if (!JDDKW.isAllowedKeyword(IDvalue)) {
 
 					String casDeTest_IDvalue = "'" + casDeTest + "' - '" + IDvalue + "'"
-	
+
 					if (list.contains(casDeTest_IDvalue)) {
 						String CDTSR = "$PREJDDFullName (${sheet.getSheetName()})"
 						if (CDTSR!=savCDTSR) {
@@ -129,7 +131,7 @@ public class PREJDD {
 							Log.addINFO("\t\tControle unicité du couple CasDeTest - Sous-ressources dans $CDTSR")
 							savCDTSR = CDTSR
 						}
-	
+
 						Log.addDETAILFAIL("$casDeTest_IDvalue existe déjà ")
 						status = false
 					}else {
@@ -160,10 +162,6 @@ public class PREJDD {
 		Log.addTrace('PREJDD data size = ' + datas.size() )
 		return datas
 	}
-
-
-
-
 
 
 }// en dof class

@@ -33,41 +33,43 @@ public class SQL {
 	private static String databaseName = ''
 	private static Sql sqlInstance
 	private static String pathDB = ''
-
+	private static String profileName = ''
 
 
 	static {
-
-		Log.addTraceBEGIN("SQL()")
-
-		String profileName = RunConfiguration.getExecutionProfile()
-
-		switch (profileName) {
-
-			case 'LOCALTNR':
-				setNewInstance(AllowedDBProfilNames.LOCALTNR)
-				break
-			case 'LEGACYTNR':
-				setNewInstance(AllowedDBProfilNames.LEGACYTNR)
-				break
-			default:
-				Log.addERROR("Le profil '$profileName' n'est pas connu ! ARRET DU PROGRAMME")
-				System.exit(0)
-				break
-		}
-		Log.addTraceEND("SQL()")
+		Log.addTraceBEGIN("SQL.")
+		setNewInstance()
+		Log.addTraceEND("SQL.")
 	}
 
-
-	static setNewInstance(AllowedDBProfilNames  name) {
-
+	
+	private static AllowedDBProfilNames getDBProfilBasedOnExecProfile() {
+		Log.addTraceBEGIN("SQL.getDBProfilBasedOnExecProfile()")
+		String execProfileName = RunConfiguration.getExecutionProfile()
+		Log.addTrace("execProfileName '$execProfileName'")
+		AllowedDBProfilNames allowedDBProfilNames
+		try {
+			allowedDBProfilNames = AllowedDBProfilNames.valueOf(execProfileName)
+		} catch (IllegalArgumentException e) {
+			Log.addERROR( "$execProfileName n'est pas une valeur valide d'AllowedDBProfilNames.")
+			System.exit(0)
+		}
+		Log.addTraceEND("SQL.getDBProfilBasedOnExecProfile()",allowedDBProfilNames)
+		return allowedDBProfilNames
+	}
+	
+	
+	static setNewInstance(AllowedDBProfilNames  name = getDBProfilBasedOnExecProfile()) {
+		
 		Log.addTraceBEGIN("SQL.setNewInstance(${name.toString()})")
+		
+		profileName = name.toString()
 
-		String serverName 	= PropertiesReader.getMyProperty(name.toString() + '_' +'BDDSERVER')
-		String instanceName = PropertiesReader.getMyProperty(name.toString() + '_' +'BDDINSTANCE')
-		databaseName 		= PropertiesReader.getMyProperty(name.toString() + '_' +'BDDNAME')
-		String username 	= PropertiesReader.getMyProperty(name.toString() + '_' +'BDDUSER')
-		String pw 			= PropertiesReader.getMyProperty(name.toString() + '_' +'BDDPW')
+		String serverName 	= PropertiesReader.getMyProperty("${profileName}_BDDSERVER")
+		String instanceName = PropertiesReader.getMyProperty("${profileName}_BDDINSTANCE")
+		databaseName 		= PropertiesReader.getMyProperty("${profileName}_BDDNAME")
+		String username 	= PropertiesReader.getMyProperty("${profileName}_BDDUSER")
+		String pw 			= PropertiesReader.getMyProperty("${profileName}_BDDPW")
 
 		String url = "jdbc:sqlserver:$serverName;instanceName=$instanceName;databaseName=$databaseName"
 		Log.addTrace("url='$url'")
@@ -94,25 +96,25 @@ public class SQL {
 	}
 
 
-	static restore(String backupFilePath) {
+	static restore(String backupFilename) {
 
-		Log.addTraceBEGIN("SQL.restore(${backupFilePath})")
-
+		Log.addTraceBEGIN("SQL.restore(${backupFilename})")
+		String backupFilePath = PropertiesReader.getMyProperty("LEGACY_BACKUPPATH") + File.separator + backupFilename
+		Log.addTrace("backupFilePath = '$backupFilePath'")
 		SQL.executeSQL("USE master")
 		SQL.executeSQL("ALTER DATABASE ${databaseName} SET SINGLE_USER WITH ROLLBACK IMMEDIATE")
 		SQL.executeSQL("RESTORE DATABASE ${databaseName} FROM DISK = '${backupFilePath}' WITH REPLACE")
-
 		Log.addTraceEND("SQL.restore()")
 	}
 
 
 
-	static String backup() {
+	static String backup(String suffix='') {
 
 		Log.addTraceBEGIN("SQL.backup()")
 
 		String dateFile = new Date().format("yyyyMMdd_HHmmss")
-		String backupFile = "${dateFile}-${databaseName}.bak"
+		String backupFile = "${dateFile}-${profileName}_${databaseName}_${getMaintaVersion()}${suffix}.bak"
 
 		SQL.executeSQL("BACKUP DATABASE ${databaseName} TO DISK = '${backupFile}' WITH INIT, FORMAT")
 
@@ -450,6 +452,7 @@ public class SQL {
 			TNRResult.addDETAIL(ex.getMessage())
 		}
 		Log.addTraceEND("SQL.getMaintaVersion()",ret)
+		return ret
 	}
 
 

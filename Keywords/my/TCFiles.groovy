@@ -14,11 +14,6 @@ public class TCFiles {
 	public static Map <String,String> TCfileMap = [:]
 
 
-/*
-	private static load() {
-		
-		if (TCfileMap.isEmpty()) {
-*/
 	static {
 			Log.addSubTITLE("Load TC file List",'-',120,1)
 			Log.addTrace("\t" + 'TCNAME'.padRight(24) + 'TCFULLNAME')
@@ -36,7 +31,6 @@ public class TCFiles {
 					Log.addTrace('\t'+ TCName.padRight(24) + TCFullName)
 				}
 			}
-		// }
 	} //end
 
 

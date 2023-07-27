@@ -11,29 +11,20 @@ class PropertiesReader {
 	static Properties properties = null
 	private static String propertiesFilename = 'TNR.Properties'
 
-	static String getMyProperty(String propertyName) {
-
-		if (properties == null ) { loadProperties() }
-
-		String prop = properties.getProperty(propertyName)
-		
-		//Log.addTrace(prop)
-
-		if (prop==null) {
-			Log.addERROR("La propriété $propertyName n'existe pas dans " + propertiesFilename)
-		}
-
-		return prop
-	}
-
-
-	private static loadProperties() {
-
+	static {
 		FileInputStream file = new FileInputStream (propertiesFilename)
 		properties = new Properties()
 		properties.load(file)
 		file.close()
 	}
 
+	static String getMyProperty(String propertyName) {
+
+		String prop = properties.getProperty(propertyName)
+		if (prop==null) {
+			Log.addERROR("La propriété $propertyName n'existe pas dans " + propertiesFilename)
+		}
+		return prop
+	}
 
 } // end of class

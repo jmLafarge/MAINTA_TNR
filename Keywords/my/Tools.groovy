@@ -114,7 +114,7 @@ class Tools {
 		}
 		Log.addTraceEND("Tools.createFolderIfNotExist()",msg)
 	}
-	
+
 	static deleteFile(String filePath ) {
 		Log.addTraceBEGIN("Tools.deleteFile($filePath)")
 		def file = new File(filePath)
@@ -130,4 +130,5 @@ class Tools {
 		}
 		Log.addTraceEND("Tools.deleteFile()",msg)
 	}
+	
 } // end of class

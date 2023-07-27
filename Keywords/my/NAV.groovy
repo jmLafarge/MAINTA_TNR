@@ -25,11 +25,11 @@ class NAV {
 	public static JDD myGlobalJDD
 
 	static {
-		Log.addTraceBEGIN("NAV()")
+		Log.addTraceBEGIN("NAV.")
 		myGlobalJDD = new JDD(my.PropertiesReader.getMyProperty('JDD_PATH') + File.separator + my.PropertiesReader.getMyProperty('JDD_GLOBALFILENAME'),null,null,false)
 		Log.addTraceEND("NAV()")
 	}
-	
+
 
 	/**
 	 * Vérifier écran 

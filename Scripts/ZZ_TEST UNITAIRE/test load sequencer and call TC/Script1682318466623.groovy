@@ -26,7 +26,7 @@ Sequencer.testCasesList.each { TCMap ->
 	
 	
 	
-	WebUI.callTestCase(findTestCase(TCMap.TCFULLNAME), [:], FailureHandling.STOP_ON_FAILURE)
+	WebUI.callTestCase(findTestCase(TCMap.TCFULLNAME), ['UNEVAR':'SAVALEUR'], FailureHandling.STOP_ON_FAILURE)
 	
 	
 	

@@ -1,4 +1,5 @@
 
+// Version 0.0.0 Initial encore en DRAFT
 
 /*
  * 
@@ -8,7 +9,11 @@
  * 
  * 
 
-JMB
+
+
+
+
+
 
  * 
  * -----------------------------------------------------------------------------------------------------
@@ -80,6 +85,8 @@ JMB
  * -----------------------------------------------------------------------------------------------------
  *
  *
+
+	INITIALISE TNR DATABASE
 
 	LOG
 		Ajout de Log.addTrace, Log.addTraceBEGIN et Log.addTraceEND
@@ -296,8 +303,10 @@ JMB
 	LOG 
 	
 		dans properties remplacer le level par une liste de mot clé (qui peut aussi être un num)
-		mettre dans une  ['WRITECELL','SQL','1',...] qui peut aussi être un num
+		mettre dans une  list ['WRITECELL','SQL','1',...] qui peut aussi être un num
 		et ensuite dans log mettre if (listIssuDeProperties.contains(para)) alaors on logue
+		OU/ET
+		tester le msg qui commence par le nom de la class 'SQL.
 
 
 * 
