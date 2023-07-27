@@ -1,7 +1,7 @@
 
 import checkprerequis.* 
 import internal.GlobalVariable
-import my.InfoBDD
+import my.InfoDB
 import my.JDDFiles
 import my.PREJDDFiles
 import my.TCFiles

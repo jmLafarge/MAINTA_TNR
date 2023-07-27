@@ -10,7 +10,7 @@ import my.Log
 import my.NAV
 import my.Tools
 import my.result.TNRResult
-import my.InfoBDD
+import my.InfoDB
 import my.TCFiles
 import my.JDDFiles
 

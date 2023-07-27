@@ -3,7 +3,7 @@ package checkprerequis
 import org.apache.poi.ss.usermodel.Sheet
 
 import groovy.transform.CompileStatic
-import my.InfoBDD
+import my.InfoDB
 import my.JDD
 import my.JDDFiles
 import my.Log
@@ -187,7 +187,7 @@ public class CheckPrerequis {
 	 * @return
 	 */
 	private static List getListCDTVAL(List <List> datas,int index) {
-		List PKlist=InfoBDD.getPK(myJDD.getDBTableName())
+		List PKlist=InfoDB.getPK(myJDD.getDBTableName())
 		List list =[]
 		datas.each{
 			if (it[index]!=null && it[index]!='' && !JDDKW.isNU(it[index]) && !JDDKW.isNULL(it[index]) && !JDDKW.isVIDE(it[index]) ) {

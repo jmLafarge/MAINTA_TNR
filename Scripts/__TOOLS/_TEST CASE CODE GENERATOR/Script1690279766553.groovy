@@ -3,7 +3,7 @@
 import org.jsoup.Jsoup
 import org.apache.commons.lang3.StringUtils
 
-import my.InfoBDD
+import my.InfoDB
 import my.JDD
 import my.JDDFiles
 import my.NAV
@@ -267,7 +267,7 @@ tagsWithAttributes.each { attribute ->
 		Log.addB('//TNRResult.addSTEPBLOCK("DU TEXTE")')
 		Log.addB('')
 	}
-	if (attribute.tag == 'input' && attribute.type == 'text' && !InfoBDD.isPK(myJDD.getDBTableName(),attribute.id)) {
+	if (attribute.tag == 'input' && attribute.type == 'text' && !InfoDB.isPK(myJDD.getDBTableName(),attribute.id)) {
 		if (attribute.id.startsWith('ID_')) {
 			Log.addB("KW.searchWithHelper(myJDD, \"${attribute.id}\",\"\",\"\")")
 		}else if (!attribute.readonly) {

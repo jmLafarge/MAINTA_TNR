@@ -1,6 +1,6 @@
 
 import my.JDDGenerator
-import my.InfoBDD
+import my.InfoDB
 import my.PREJDDFiles
 import my.JDDFiles
 import my.Log

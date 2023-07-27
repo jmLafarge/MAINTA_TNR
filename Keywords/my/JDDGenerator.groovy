@@ -11,7 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import groovy.transform.CompileStatic
 import internal.GlobalVariable
 import my.Log
-import my.InfoBDD
+import my.InfoDB
 import my.Tools
 import my.InfoPARA
 import my.PropertiesReader
@@ -207,7 +207,7 @@ class JDDGenerator {
 
 
 
-			InfoBDD.map[table].each{col,vlist ->
+			InfoDB.map[table].each{col,vlist ->
 				// Sheet FCT
 				CellStyle stylePK = JDDbook.createCellStyle()
 				def fontPK = JDDbook.createFont()
@@ -215,7 +215,7 @@ class JDDGenerator {
 				fontPK.setBold(true)
 				stylePK.setFont(fontPK)
 
-				if (InfoBDD.isPK(table,col)) {
+				if (InfoDB.isPK(table,col)) {
 					my.XLS.writeCell(shFCT.getRow(0),numColFct,col,stylePK)
 				}else {
 					my.XLS.writeCell(shFCT.getRow(0),numColFct,col,styleChamp)
@@ -231,16 +231,16 @@ class JDDGenerator {
 				rowInfo = my.XLS.getNextRow(shJDDInfo)
 				my.XLS.writeCell(rowInfo,0,col)
 				my.XLS.writeCell(rowInfo,1,lib.getAt(col))
-				String type = InfoBDD.map[table][col][2].toString()+'('+InfoBDD.map[table][col][3]+')'
-				if (InfoBDD.map[table][col][2]=='numeric') {
+				String type = InfoDB.map[table][col][2].toString()+'('+InfoDB.map[table][col][3]+')'
+				if (InfoDB.map[table][col][2]=='numeric') {
 					type = 'numeric'
-				}else if (InfoBDD.map[table][col][2]=='datetime') {
+				}else if (InfoDB.map[table][col][2]=='datetime') {
 					type = 'datetime'
-				}else if (InfoBDD.map[table][col][4]=='T_BOOLEEN') {
+				}else if (InfoDB.map[table][col][4]=='T_BOOLEEN') {
 					type = 'boolean'
 				}
 
-				if (InfoBDD.isPK(table,col)) {
+				if (InfoDB.isPK(table,col)) {
 					my.XLS.writeCell(rowInfo,2,type,stylePK)
 				}else {
 					my.XLS.writeCell(rowInfo,2,type)
@@ -354,9 +354,9 @@ class JDDGenerator {
 
 			def stylePREJDDChamp = shFCT.getRow(0).getCell(1).getCellStyle()
 
-			InfoBDD.map[table].each{col,vlist ->
+			InfoDB.map[table].each{col,vlist ->
 
-				if (InfoBDD.isPK(table,col)) {
+				if (InfoDB.isPK(table,col)) {
 					CellStyle stylePK = JDDbook.createCellStyle()
 					def fontPK = JDDbook.createFont()
 					fontPK.setColor(IndexedColors.RED.index)

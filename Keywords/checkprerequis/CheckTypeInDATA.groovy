@@ -2,7 +2,7 @@ package checkprerequis
 
 import groovy.transform.CompileStatic
 import internal.GlobalVariable
-import my.InfoBDD
+import my.InfoDB
 import my.JDD
 import my.Log
 import my.NAV
@@ -16,13 +16,13 @@ public class CheckTypeInDATA {
 		
 		Log.addDEBUGDETAIL("Contrôle des types dans les DATA",0)
 
-		List PKlist=InfoBDD.getPK(table)
+		List PKlist=InfoDB.getPK(table)
 
 		datas.eachWithIndex { li,numli ->
 
 			li.eachWithIndex { val,i ->
 				String name = myJDD.getHeaderNameOfIndex((int)i)
-				if (i!=0 && InfoBDD.inTable(table, name) && !myJDD.isFK(name)) {
+				if (i!=0 && InfoDB.inTable(table, name) && !myJDD.isFK(name)) {
 
 					boolean ctrlVal = true
 
@@ -95,9 +95,9 @@ public class CheckTypeInDATA {
 
 					if ( ctrlVal) {
 
-						switch (InfoBDD.getDATA_TYPE(table, name)){
+						switch (InfoDB.getDATA_TYPE(table, name)){
 
-							case InfoBDD.getNumeric() :
+							case InfoDB.getNumeric() :
 								if (val.toString().isNumber() || val in ['$NULL', '$SEQUENCEID', '$ORDRE']) {
 									// c'est bon
 									Log.addTrace("$table.$name est un numeric autorisé = '$val'")
@@ -106,19 +106,19 @@ public class CheckTypeInDATA {
 									status = false
 								}
 								break
-							case InfoBDD.getVarchar() :
+							case InfoDB.getVarchar() :
 
-								if (!(val in ['$VIDE', '$NULL']) && val.toString().length() > InfoBDD.getDATA_MAXCHAR(table, name)) {
+								if (!(val in ['$VIDE', '$NULL']) && val.toString().length() > InfoDB.getDATA_MAXCHAR(table, name)) {
 
-									Log.addDETAILFAIL(cdtName +" ($table.$name) : La valeur $val est trop longue,  "+val.toString().length() + ' > ' + InfoBDD.getDATA_MAXCHAR(table, name) )
+									Log.addDETAILFAIL(cdtName +" ($table.$name) : La valeur $val est trop longue,  "+val.toString().length() + ' > ' + InfoDB.getDATA_MAXCHAR(table, name) )
 									status = false
 								}else {
 
-									Log.addTrace(cdtName +" ($table.$name) : La valeur $val est un varchar autorisé,  "+val.toString().length() + ' / ' + InfoBDD.getDATA_MAXCHAR(table, name) )
+									Log.addTrace(cdtName +" ($table.$name) : La valeur $val est un varchar autorisé,  "+val.toString().length() + ' / ' + InfoDB.getDATA_MAXCHAR(table, name) )
 								}
 								break
 							default :
-								Log.addTrace("$table.$name est de type "+ InfoBDD.getDATA_TYPE(table, name) + " = '$val' : " )
+								Log.addTrace("$table.$name est de type "+ InfoDB.getDATA_TYPE(table, name) + " = '$val' : " )
 						}
 					}
 				}

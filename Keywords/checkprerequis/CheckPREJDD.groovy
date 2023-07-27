@@ -3,7 +3,7 @@ package checkprerequis
 import groovy.transform.CompileStatic
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
-import my.InfoBDD
+import my.InfoDB
 import my.JDD
 import my.JDDFiles
 import my.Log
@@ -91,7 +91,7 @@ public class CheckPREJDD {
 
 		Log.addDEBUGDETAIL("Contrôle des colonnes",0)
 
-		InfoBDD.map[table].each{col,vlist ->
+		InfoDB.map[table].each{col,vlist ->
 
 			if (col == headersPREJDD[(int)vlist[0]]) {
 				Log.addTrace("'$col' OK")

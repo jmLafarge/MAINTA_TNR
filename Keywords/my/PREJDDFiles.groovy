@@ -57,7 +57,7 @@ public class PREJDDFiles {
 		Map <String,Integer> sequence = [:]
 		int maxORDRE = 0
 
-		List PKlist=InfoBDD.getPK(myJDD.getDBTableName())
+		List PKlist=InfoDB.getPK(myJDD.getDBTableName())
 
 		// for each data line
 		for (int numline : (1..sheet.getLastRowNum())) {
@@ -224,7 +224,7 @@ public class PREJDDFiles {
 					}
 
 
-					if (InfoBDD.isImage(myJDD.getDBTableName(), fieldName)) {
+					if (InfoDB.isImage(myJDD.getDBTableName(), fieldName)) {
 						values.add(getRTFTEXT(valueOfJDD.toString()).getBytes())
 					}else if (!my.JDDKW.isNU(valueOfJDD.toString()) && !myJDD.isOBSOLETE(fieldName) ) {
 						values.add(val)

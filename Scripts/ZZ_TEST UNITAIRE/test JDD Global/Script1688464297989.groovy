@@ -1,6 +1,6 @@
 
 import internal.GlobalVariable
-import my.InfoBDD
+import my.InfoDB
 import my.JDDFiles
 import my.NAV
 import my.TCFiles

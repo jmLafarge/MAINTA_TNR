@@ -17,7 +17,7 @@ for(Sheet sheet: book) {
 
 	List headersPREJDD = my.XLS.loadRow(sheet.getRow(0))
 	List datas = my.PREJDD.loadDATA(sheet,headersPREJDD.size())
-	List PKList = InfoBDD.getPK('CALDEF')
+	List PKList = InfoDB.getPK('CALDEF')
 	
 	
 	println '----------------------------------------------'

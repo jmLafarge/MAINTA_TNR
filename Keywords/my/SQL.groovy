@@ -5,7 +5,7 @@ import groovy.transform.CompileStatic
 import com.kms.katalon.core.configuration.RunConfiguration
 import groovy.sql.Sql
 import my.Log
-import my.InfoBDD
+import my.InfoDB
 import my.JDDKW
 import my.JDD
 import my.result.TNRResult
@@ -65,11 +65,11 @@ public class SQL {
 		
 		profileName = name.toString()
 
-		String serverName 	= PropertiesReader.getMyProperty("${profileName}_BDDSERVER")
-		String instanceName = PropertiesReader.getMyProperty("${profileName}_BDDINSTANCE")
-		databaseName 		= PropertiesReader.getMyProperty("${profileName}_BDDNAME")
-		String username 	= PropertiesReader.getMyProperty("${profileName}_BDDUSER")
-		String pw 			= PropertiesReader.getMyProperty("${profileName}_BDDPW")
+		String serverName 	= PropertiesReader.getMyProperty("${profileName}_DBSERVER")
+		String instanceName = PropertiesReader.getMyProperty("${profileName}_DBINSTANCE")
+		databaseName 		= PropertiesReader.getMyProperty("${profileName}_DBNAME")
+		String username 	= PropertiesReader.getMyProperty("${profileName}_DBUSER")
+		String pw 			= PropertiesReader.getMyProperty("${profileName}_DBPW")
 
 		String url = "jdbc:sqlserver:$serverName;instanceName=$instanceName;databaseName=$databaseName"
 		Log.addTrace("url='$url'")
@@ -96,31 +96,29 @@ public class SQL {
 	}
 
 
-	static restore(String backupFilename) {
+	static restore(String backupFilePath) {
 
-		Log.addTraceBEGIN("SQL.restore(${backupFilename})")
-		String backupFilePath = PropertiesReader.getMyProperty("LEGACY_BACKUPPATH") + File.separator + backupFilename
-		Log.addTrace("backupFilePath = '$backupFilePath'")
-		SQL.executeSQL("USE master")
-		SQL.executeSQL("ALTER DATABASE ${databaseName} SET SINGLE_USER WITH ROLLBACK IMMEDIATE")
-		SQL.executeSQL("RESTORE DATABASE ${databaseName} FROM DISK = '${backupFilePath}' WITH REPLACE")
+		Log.addTraceBEGIN("SQL.restore(${backupFilePath})")
+		executeSQL("USE master")
+		executeSQL("ALTER DATABASE ${databaseName} SET SINGLE_USER WITH ROLLBACK IMMEDIATE")
+		executeSQL("RESTORE DATABASE ${databaseName} FROM DISK = '${backupFilePath}' WITH REPLACE")
+		executeSQL("ALTER DATABASE ${databaseName} SET MULTI_USER")
 		Log.addTraceEND("SQL.restore()")
 	}
 
 
 
-	static String backup(String suffix='') {
+	static backup(String backupFile) {
 
 		Log.addTraceBEGIN("SQL.backup()")
 
-		String dateFile = new Date().format("yyyyMMdd_HHmmss")
-		String backupFile = "${dateFile}-${profileName}_${databaseName}_${getMaintaVersion()}${suffix}.bak"
-
-		SQL.executeSQL("BACKUP DATABASE ${databaseName} TO DISK = '${backupFile}' WITH INIT, FORMAT")
+		//String dateFile = new Date().format("yyyyMMdd_HHmmss")
+		//String backupFile = "${dateFile}-${profileName}_${databaseName}_${getMaintaVersion()}${suffix}.bak"
+		
+		
+		executeSQL("BACKUP DATABASE ${databaseName} TO DISK = '${backupFile}' WITH INIT, FORMAT")
 
 		Log.addTraceEND("SQL.backup()",backupFile)
-
-		return backupFile
 
 	}
 
@@ -382,7 +380,7 @@ public class SQL {
 						Log.addTrace("Pour '$fieldName' la class de la valeur en BD est:$val,  la class de la valeur spécifique est  : " + specificValueMap[fieldName].getClass())
 
 
-						if ( val == InfoBDD.castJDDVal(myJDD.getDBTableName(), fieldName, specificValueMap[fieldName])) {
+						if ( val == InfoDB.castJDDVal(myJDD.getDBTableName(), fieldName, specificValueMap[fieldName])) {
 							logaddTrace('spécifique',fieldName,specificValueMap[fieldName],val)
 						}else {
 							logAddDETAIL('spécifique',fieldName,specificValueMap[fieldName],val)
@@ -390,7 +388,7 @@ public class SQL {
 						}
 					}else {
 
-						if (InfoBDD.isImage(myJDD.getDBTableName(), fieldName)) {
+						if (InfoDB.isImage(myJDD.getDBTableName(), fieldName)) {
 
 							String query = "SELECT cast(cast($fieldName as varbinary(max)) as varchar(max)) FROM " + myJDD.getDBTableName() + getWhereWithAllPK(myJDD,casDeTestNum)
 							Map frow = getFirstRow(query)
@@ -405,7 +403,7 @@ public class SQL {
 						}
 
 
-						if ( val == InfoBDD.castJDDVal(myJDD.getDBTableName(), fieldName, myJDD.getData(fieldName))) {
+						if ( val == InfoDB.castJDDVal(myJDD.getDBTableName(), fieldName, myJDD.getData(fieldName))) {
 							logaddTrace('',fieldName,myJDD.getData(fieldName),val)
 						}else {
 							logAddDETAIL('',fieldName,myJDD.getData(fieldName),val)
@@ -557,7 +555,7 @@ public class SQL {
 
 		Log.addTraceBEGIN("SQL.getWhereWithAllPK(${myJDD},$casDeTestNum)")
 
-		List <String> PKList = InfoBDD.getPK(myJDD.getDBTableName())
+		List <String> PKList = InfoDB.getPK(myJDD.getDBTableName())
 		String ret =''
 		if (PKList) {
 			String query = ' WHERE '
@@ -657,4 +655,8 @@ public class SQL {
 		return pathDB
 	}
 
+	static String getDatabaseName() {
+		return databaseName
+	}
+	
 } // end of class

@@ -1,7 +1,7 @@
 package checkprerequis
 
 import groovy.transform.CompileStatic
-import my.InfoBDD
+import my.InfoDB
 import my.JDD
 import my.Log
 import my.JDDKW
@@ -13,7 +13,7 @@ public class CheckDoublonOnPK {
 	
 	static boolean run(List <List> datas, List <String> headers, String table, String JDDFullName, String sheetName, boolean status,boolean withDetails) {
 		
-		List <String> PKList = InfoBDD.getPK(table)
+		List <String> PKList = InfoDB.getPK(table)
 		
 		if (PKList) {
 		

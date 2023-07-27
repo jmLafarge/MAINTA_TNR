@@ -130,5 +130,4 @@ class Tools {
 		}
 		Log.addTraceEND("Tools.deleteFile()",msg)
 	}
-	
 } // end of class

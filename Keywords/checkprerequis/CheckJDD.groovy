@@ -3,7 +3,7 @@ package checkprerequis
 import org.apache.poi.ss.usermodel.*
 
 import groovy.transform.CompileStatic
-import my.InfoBDD
+import my.InfoDB
 import my.JDD
 import my.JDDFiles
 import my.Log
@@ -80,7 +80,7 @@ public class CheckJDD {
 		if (table=='') {
 			Log.addDEBUGDETAIL("Pas de table DB dans le JDD ",0)
 		}else {
-			if (InfoBDD.isTableExist(table)) {
+			if (InfoDB.isTableExist(table)) {
 				Log.addDEBUGDETAIL("Contrôle de la table DB '$table'",0)
 
 				checkColumn()
@@ -100,14 +100,14 @@ public class CheckJDD {
 
 		Log.addDEBUGDETAIL("Contrôle des colonnes (Présence, ordre)",0)
 
-		InfoBDD.map[table].each{col,vlist ->
+		InfoDB.map[table].each{col,vlist ->
 
 			Log.addTrace(vlist.join('|'))
 
 			if (col == myJDD.getHeader((int)vlist[0])) {
 				Log.addTrace("'$col' OK")
 
-				//InfoBDD.updateParaInfoBDD(myJDD, col,fullName, modObj+'.'+sheet.getSheetName())
+				//InfoDB.updateParaInfoDB(myJDD, col,fullName, modObj+'.'+sheet.getSheetName())
 
 			}else if (col in myJDD.getHeaders()) {
 

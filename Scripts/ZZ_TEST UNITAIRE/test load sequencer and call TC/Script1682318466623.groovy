@@ -4,7 +4,7 @@ import com.kms.katalon.core.model.FailureHandling
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
-import my.InfoBDD
+import my.InfoDB
 import my.result.TNRResult
 import my.Sequencer
 import my.Tools

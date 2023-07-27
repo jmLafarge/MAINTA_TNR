@@ -3,7 +3,7 @@ import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import my.InfoPARA
 import my.JDDFiles
-import my.InfoBDD
+import my.InfoDB
 import my.Log
 
 

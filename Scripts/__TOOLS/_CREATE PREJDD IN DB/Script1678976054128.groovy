@@ -3,7 +3,7 @@ import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
-import my.InfoBDD
+import my.InfoDB
 import my.JDDFiles
 import my.Log
 import my.NAV
