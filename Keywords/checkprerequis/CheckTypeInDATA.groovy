@@ -14,7 +14,7 @@ public class CheckTypeInDATA {
 
 	public static boolean run(List <List> datas, JDD myJDD, String table, String filename, boolean status) {
 		
-		Log.addDEBUGDETAIL("Contrôle des types dans les DATA",0)
+		Log.addDEBUGDETAIL("Contrôle des types dans les DATA")
 
 		List PKlist=InfoDB.getPK(table)
 

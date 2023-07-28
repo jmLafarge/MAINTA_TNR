@@ -27,7 +27,7 @@ public class InfoPARA {
 	static {
 
 		fileName = my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('INFOPARAFILENAME')
-		Log.addSubTITLE("Chargement de : " + fileName,'-',120,1)
+		Log.addSubTITLE("Chargement de : " + fileName,'-',120)
 		book = XLS.open(fileName)
 
 		shPara = book.getSheet('PARA')

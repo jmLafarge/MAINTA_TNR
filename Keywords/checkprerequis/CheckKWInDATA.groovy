@@ -12,7 +12,7 @@ public class CheckKWInDATA {
 	
 	static boolean run(List <List> datas, boolean PREJDD, String JDDFullName, String sheetName, boolean status) {
 		
-		Log.addDEBUGDETAIL("Contrôle des mots clés dans les DATA",0)
+		Log.addDEBUGDETAIL("Contrôle des mots clés dans les DATA")
 		datas.eachWithIndex { li,numli ->
 			li.eachWithIndex { val,i ->
 				if ((val instanceof String) && val.startsWith('$') && !JDDKW.isAllowedKeyword(val)) {

@@ -63,7 +63,7 @@ public class XLS {
 	 * @param hyperlink Hyperlien de la cellule (facultatif, valeur par défaut = null).
 	 */
 	static writeCell(Row row, int colIdx, def val, CellStyle cellStyle = null, Hyperlink hyperlink = null) {
-		Log.addTraceBEGIN("writeCell(${row.getRowNum()}, ${colIdx}, ${val}, ${cellStyle}, ${hyperlink})",8)
+		Log.addTraceBEGIN("XLS.writeCell(${row.getRowNum()}, ${colIdx}, ${val}, ${cellStyle}, ${hyperlink})")
 
 		if (row == null) {
 			Log.addERROR("row is NULL")
@@ -86,7 +86,7 @@ public class XLS {
 			if (cellStyle) cell.setCellStyle(cellStyle)
 		}
 
-		Log.addTraceEND("XLS.writeCell()",null,8)
+		Log.addTraceEND("XLS.writeCell()")
 	}
 
 
@@ -101,7 +101,7 @@ public class XLS {
 	 * @return Liste contenant les valeurs de la ligne.
 	 */
 	static List loadRow2(Row row, int ideb = 0, int size = 0, String nullval = '') {
-		Log.addTraceBEGIN("XLS.loadRow2(${row.getRowNum()}, ${ideb}, ${size}, ${nullval})",7)
+		Log.addTraceBEGIN("XLS.loadRow2(${row.getRowNum()}, ${ideb}, ${size}, ${nullval})")
 
 		List data = []
 		if (size == 0) size = row.getLastCellNum()
@@ -113,7 +113,7 @@ public class XLS {
 			data[i - ideb] = value
 		}
 
-		Log.addTraceEND("XLS.loadRow2()",data,7)
+		Log.addTraceEND("XLS.loadRow2()",data)
 
 		return data
 	}
@@ -131,7 +131,7 @@ public class XLS {
 	 * @return Liste des données de la ligne.
 	 */
 	static List loadRow(Row row, int size = 0) {
-		Log.addTraceBEGIN("XLS.loadRow(${row.getRowNum()}, ${size})",7)
+		Log.addTraceBEGIN("XLS.loadRow(${row.getRowNum()}, ${size})")
 
 		List data = []
 		for (Cell cell : row) {
@@ -142,7 +142,7 @@ public class XLS {
 			data[cell.getColumnIndex()] = value
 		}
 
-		Log.addTraceEND("XLS.loadRow()",data,7)
+		Log.addTraceEND("XLS.loadRow()",data)
 		return data
 	}
 
@@ -159,15 +159,15 @@ public class XLS {
 	 * @return Valeur de la cellule formatée en tant que chaîne de caractères.
 	 */
 	public static def getCellValue(Cell cell, String nullval = '') {
-		Log.addTraceBEGIN("XLS.getCellValue(${cell}, ${nullval})",9)
+		Log.addTraceBEGIN("XLS.getCellValue(${cell}, ${nullval})")
 
 		def CellData = null
 
 		if (cell == null) {
 			CellData = nullval
-			Log.addTrace("getCellValue() cell is null!",9)
+			Log.addTrace("getCellValue() cell is null!")
 		} else {
-			Log.addTrace("cell.getAddress() = '${cell.getAddress().toString()}' getCellType() = '${cell.getCellType()}'",9)
+			Log.addTrace("cell.getAddress() = '${cell.getAddress().toString()}' getCellType() = '${cell.getCellType()}'")
 
 			switch (cell.getCellType()) {
 				case Cell.CELL_TYPE_STRING: // 1
@@ -175,7 +175,7 @@ public class XLS {
 					break
 				case Cell.CELL_TYPE_NUMERIC: // 0
 					if (DateUtil.isCellDateFormatted(cell)) {
-						Log.addTrace("isCellDateFormatted() = true",9)
+						Log.addTrace("isCellDateFormatted() = true")
 						CellData = cell.getDateCellValue()
 					} else {
 						CellData = (long) cell.getNumericCellValue()
@@ -204,7 +204,7 @@ public class XLS {
 			}
 		}
 
-		Log.addTraceEND("XLS.getCellValue()",CellData,9)
+		Log.addTraceEND("XLS.getCellValue()",CellData)
 		return CellData
 	}
 

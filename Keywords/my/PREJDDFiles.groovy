@@ -19,16 +19,16 @@ public class PREJDDFiles {
 
 
 	static {
-		Log.addSubTITLE("Load PREJDDfileList",'-',120,1)
-		Log.addINFO("\t"+'MODOBJ'.padRight(11) + 'JDDFULLNAME',1)
-		Log.addINFO('',1)
+		Log.addSubTITLE("Load PREJDDfileList",'-',120)
+		Log.addINFO("\t"+'MODOBJ'.padRight(11) + 'JDDFULLNAME')
+		Log.addINFO('')
 
 		new File(my.PropertiesReader.getMyProperty('PREJDD_PATH')).eachFileRecurse(FileType.FILES) { file ->
 			// keep only TC Name like PREJDD.*.xlsx
 			if (file.getName()==~ /PREJDD\..*\.xlsx/ && file.getPath()==~ /^((?!standby).)*$/) {
 				String modObj = file.getName().replace('PREJDD.','').replace('.xlsx','')
 				PREJDDfilemap.put(modObj,file.getPath())
-				Log.addINFO('\t' + modObj.padRight(11) + file.getPath(),1)
+				Log.addINFO('\t' + modObj.padRight(11) + file.getPath())
 			}
 		}
 }
@@ -67,8 +67,8 @@ public class PREJDDFiles {
 			if (!row || cdt =='') {
 				break
 			}
-			Log.addTrace("",0)
-			Log.addTrace("Traitement $cdt",0)
+			Log.addTrace("")
+			Log.addTrace("Traitement $cdt")
 
 			List fields =[]
 			List values =[]
@@ -83,10 +83,10 @@ public class PREJDDFiles {
 
 
 				def valueOfJDD = my.XLS.getCellValue(c)
-				Log.addTrace("\t\tCell value = '$valueOfJDD' getClass()=" + valueOfJDD.getClass(),2)
+				Log.addTrace("\t\tCell value = '$valueOfJDD' getClass()=" + valueOfJDD.getClass())
 
 				if (c.getColumnIndex()>0) {
-					Log.addTrace("\t\tAjout fieldName='$fieldName' value='$valueOfJDD' in req SQL",2)
+					Log.addTrace("\t\tAjout fieldName='$fieldName' value='$valueOfJDD' in req SQL")
 
 					if (!my.JDDKW.isNU(valueOfJDD.toString()) && !myJDD.isOBSOLETE(fieldName)) {
 						fields.add(fieldName)
@@ -245,7 +245,7 @@ public class PREJDDFiles {
 		if (sequence.size()>0) {
 			sequence.each { table, val ->
 				String req = "DBCC CHECKIDENT ($table, RESEED,$val);"
-				Log.addTrace(req,0)
+				Log.addTrace(req)
 				SQL.executeSQL(req)
 			}
 		}
@@ -301,8 +301,8 @@ public class PREJDDFiles {
 
 				String query = "INSERT INTO $table (" + fields.join(',') +") VALUES (" + li.join(',') + ")"
 
-				Log.addTrace(query,0)
-				Log.addTrace(values.join(','),0)
+				Log.addTrace(query)
+				Log.addTrace(values.join(','))
 
 				SQL.executeInsert(query,values)
 
@@ -332,7 +332,6 @@ public class PREJDDFiles {
 	
 	static createInDB() {
 		
-		Log.setDebugLevel(1)
 		Log.setDebugDeph(4)
 		
 		Log.addTITLE("Lancement de CREATE PREJDD IN DB")

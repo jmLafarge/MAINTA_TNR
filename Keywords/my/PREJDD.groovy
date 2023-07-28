@@ -28,7 +28,7 @@ public class PREJDD {
 
 		Sheet sheet = book.getSheet(map.getAt('PREJDDTAB').toString())
 
-		Log.addTrace("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "'  dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'",0)
+		Log.addTrace("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "'  dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'")
 
 		List list = getListOfCasDeTestAndIDValue(sheet, map.getAt('PREJDDID').toString())
 
@@ -50,8 +50,8 @@ public class PREJDD {
 			}else {
 
 				if (savJDDNAME != map.getAt('JDDNAME').toString()) {
-					Log.addTrace('',0)
-					Log.addTrace('\t- '+ map.getAt('JDDNAME').toString(),0)
+					Log.addTrace('')
+					Log.addTrace('\t- '+ map.getAt('JDDNAME').toString())
 					savJDDNAME = map.getAt('JDDNAME').toString()
 				}
 
@@ -63,7 +63,7 @@ public class PREJDD {
 				int cpt = SQL.checkIfExist(myJDD.getDBTableName(), map.getAt('JDDID').toString()+"='$val'")
 
 				if (cpt==1) {
-					Log.addTrace(cdtVal.toString()+' trouvé en BDD',0)
+					Log.addTrace(cdtVal.toString()+' trouvé en BDD')
 				}else {
 
 					if (savJDDNAME2 != map.getAt('JDDNAME').toString()) {
@@ -94,7 +94,7 @@ public class PREJDD {
 			}
 		}
 		List listCDTVAL = map.getAt('LISTCDTVAL')
-		Log.addDEBUGDETAIL(nbFound + "/" + listCDTVAL.size() + ' trouvé(s)',0)
+		Log.addDEBUGDETAIL(nbFound + "/" + listCDTVAL.size() + ' trouvé(s)')
 
 		return status
 	}
@@ -138,7 +138,7 @@ public class PREJDD {
 						list.add(casDeTest_IDvalue)
 					}
 				}else {
-					Log.addTrace("La valeur de $ID est un mot clé : $IDvalue",0)
+					Log.addTrace("La valeur de $ID est un mot clé : $IDvalue")
 				}
 			}
 		}

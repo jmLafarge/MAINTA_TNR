@@ -51,7 +51,7 @@ public class InfoDB {
 		Row row = rowIt.next()
 		List <String> headers = XLS.loadRow(row)
 
-		Log.addTrace('Contrôle entête fichier',1)
+		Log.addTrace('Contrôle entête fichier')
 		if (headers!=HEADERS) {
 			Log.addERROR(fileName + ' Entête fichier différente de celle attendue :')
 			Log.addDETAIL('Entête attendue : ' + HEADERS.join(' - '))

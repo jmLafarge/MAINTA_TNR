@@ -32,8 +32,8 @@ public class CheckJDD {
 		JDDFiles.JDDfilemap.each { modObj,fullname ->
 
 			JDDFullName = fullname
-			Log.addTrace("",0)
-			Log.addTrace("Lecture du JDD : $JDDFullName",0)
+			Log.addTrace("")
+			Log.addTrace("Lecture du JDD : $JDDFullName")
 			myJDD = new JDD(JDDFullName,null,null,false)
 
 			for(Sheet sheet: myJDD.book) {
@@ -43,8 +43,8 @@ public class CheckJDD {
 				if (myJDD.isSheetAvailable(sheetName)) {
 
 
-					Log.addTrace("Onglet : $sheetName",0)
-					Log.addDEBUGDETAIL("Contrôle de la liste des paramètres",0)
+					Log.addTrace("Onglet : $sheetName")
+					Log.addDEBUGDETAIL("Contrôle de la liste des paramètres")
 
 					myJDD.loadTCSheet(sheet)
 					table = myJDD.getDBTableName()
@@ -78,10 +78,10 @@ public class CheckJDD {
 	private static checkTable() {
 
 		if (table=='') {
-			Log.addDEBUGDETAIL("Pas de table DB dans le JDD ",0)
+			Log.addDEBUGDETAIL("Pas de table DB dans le JDD ")
 		}else {
 			if (InfoDB.isTableExist(table)) {
-				Log.addDEBUGDETAIL("Contrôle de la table DB '$table'",0)
+				Log.addDEBUGDETAIL("Contrôle de la table DB '$table'")
 
 				checkColumn()
 				status = CheckTypeInDATA.run(myJDD.getDatas(),myJDD, table,JDDFullName,status)
@@ -98,7 +98,7 @@ public class CheckJDD {
 
 	private static checkColumn() {
 
-		Log.addDEBUGDETAIL("Contrôle des colonnes (Présence, ordre)",0)
+		Log.addDEBUGDETAIL("Contrôle des colonnes (Présence, ordre)")
 
 		InfoDB.map[table].each{col,vlist ->
 
@@ -125,7 +125,7 @@ public class CheckJDD {
 
 	private static checkLOCATOR() {
 
-		Log.addDEBUGDETAIL("Contrôle des LOCATOR",0)
+		Log.addDEBUGDETAIL("Contrôle des LOCATOR")
 		myJDD.getParam('LOCATOR').eachWithIndex {loc,i ->
 			if (loc!=null && loc!='' && i!=0) {
 				String name = myJDD.getHeader(i)

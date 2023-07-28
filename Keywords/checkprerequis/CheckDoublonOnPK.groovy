@@ -17,7 +17,7 @@ public class CheckDoublonOnPK {
 		
 		if (PKList) {
 		
-			Log.addDEBUGDETAIL("Contrôle absence de doublon sur PRIMARY KEY : " +  PKList.join(' , '),0)
+			Log.addDEBUGDETAIL("Contrôle absence de doublon sur PRIMARY KEY : " +  PKList.join(' , '))
 	
 			Map <String,Integer> PKval = [:]
 	
@@ -42,7 +42,7 @@ public class CheckDoublonOnPK {
 					}
 				}
 				if (withDetails) {
-					Log.addDEBUGDETAIL("PKvalues =  " +  PKvalues.join(' , '),0)
+					Log.addDEBUGDETAIL("PKvalues =  " +  PKvalues.join(' , '))
 				}
 				if (PKvalues && PKval.containsKey(PKvalues.join('-'))) {
 					Log.addDETAILFAIL("$JDDFullName ($sheetName) DATA ligne:${numli+1}: La PK '" + PKvalues.join('-') + "' existe déjà en ligne " + (PKval.getAt(PKvalues.join('-')) + 1))

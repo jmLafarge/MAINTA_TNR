@@ -50,7 +50,7 @@ public class Check_CAL {
 	private static loadListCAL(Sheet sheet) {
 		Iterator<Row> rowIt = sheet.rowIterator()
 		Row row = rowIt.next()
-		Log.addTrace("Chargement de CAL",0)
+		Log.addTrace("Chargement de CAL")
 		while(rowIt.hasNext()) {
 			row = rowIt.next()
 			if (XLS.getCellValue(row.getCell(0)) == '') {
@@ -65,7 +65,7 @@ public class Check_CAL {
 	private static loadListCALDEF(Sheet sheet) {
 		Iterator<Row> rowIt = sheet.rowIterator()
 		Row row = rowIt.next()
-		Log.addTrace("Chargement de CALDEF",0)
+		Log.addTrace("Chargement de CALDEF")
 		while(rowIt.hasNext()) {
 			row = rowIt.next()
 			if (XLS.getCellValue(row.getCell(0)) == '') {

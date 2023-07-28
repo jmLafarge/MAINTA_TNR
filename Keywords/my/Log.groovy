@@ -33,18 +33,19 @@ class Log {
 
 	private static int nbCarStatus = 7
 
-	private static int debugLevel = 0
 	private static int debugDeph = 0
 	private static int deph = 0
-	private static String[] debugClasses
+
+	private static List <String> debugClassesExcluded = []
+	private static List <String> debugClassesAdded = []
 
 	private static String tab = ''
-	final static String STRTABSEP = ' |\t'
-	final static String STRBEGIN = '=> '
-	final static String STREND = '<= '
+	private static final String STRTABSEP = ' |\t'
+	private static final String STRBEGIN = '=> '
+	private static final String STREND = '<= '
 
-	private static String PREDEBUGTXT	= '\t\t'
-	private static String PREDETAILTXT	= '\t\t- '
+	private static String PREDEBUGTXT	= '\t'
+	private static String PREDETAILTXT	= '\t- '
 
 	private static Map<String, ArrayList> lists = [:]
 
@@ -61,14 +62,24 @@ class Log {
 		file 		=new File(my.PropertiesReader.getMyProperty('LOG_PATH') + File.separator +  dateFile + "-log.txt")
 		fileDebug 	=new File(my.PropertiesReader.getMyProperty('LOG_PATH') + File.separator +  dateFile + "-logDEBUG.txt")
 
-		debugLevel = my.PropertiesReader.getMyProperty('LOG_DEBUGLEVEL').toInteger()
 		debugDeph = my.PropertiesReader.getMyProperty('LOG_DEBUGDEPH').toInteger()
-		debugClasses = my.PropertiesReader.getMyProperty('LOG_DEBUGCLASSES').split(',')
 
-		fileDebug.append("debug Level \t= $debugLevel\ndebug Deph \t= $debugDeph\ndebug Classes \t= $debugClasses\n")
+		String ccc = my.PropertiesReader.getMyProperty('LOG_DEBUGCLASSES')
 
+		if (ccc) {
+			List <String> classList = ccc.split(',') as List
+			debugClassesExcluded = classList.findAll { it[0] == '-' }.collect { it.substring(1) }
+			debugClassesAdded = classList.findAll { it[0] == '+' }.collect { it.substring(1) }
+		}
+
+
+		add('','Fichier log de Katalon TNR')
+
+		addDEBUG('Debug class excluded = ' + debugClassesExcluded + '\tThese classes will never be traced' )
+		addDEBUG('Debug class added    = ' + debugClassesAdded + '\tThese classes will always be traced')
 
 	}
+
 
 
 
@@ -88,9 +99,10 @@ class Log {
 		stat= getStatusFormat(stat)
 		logDate = new Date()
 		String h = logDate.format(dateTimeFormat)
-		file.append("[$h][$stat]:" + tab +"$msg\n")
-		//println "[my Log][$stat]:" + tab +"$msg"
-		fileDebug.append("[$h][$stat]:" + tab +"$msg\n")
+		file.append("[$h][$stat]:" +"$msg\n")
+		//println "[my Log][$stat]:" +"$msg"
+		//fileDebug.append("[$h][$stat]:" +"$msg\n")
+		fileDebug.append("[$h][$stat]:" + PREDEBUGTXT + tab +"$msg\n")
 	}
 
 
@@ -101,62 +113,70 @@ class Log {
 	}
 
 
-	public static addDEBUG (String msg, int level=1) {
-		String stat= getStatusFormat("  D $level  ")
+	public static addDEBUG (String msg) {
+		String stat= getStatusFormat("  D  ")
 		String h = new Date().format(dateTimeFormat)
-		if (level <= debugLevel) {
-			fileDebug.append("[$h][$stat]:" + PREDEBUGTXT + tab +"$msg\n")
-			println "[my Log][$stat]:" + tab +"$msg"
+		fileDebug.append("[$h][$stat]:" + PREDEBUGTXT + tab +"$msg\n")
+		//println "[my Log][$stat]:" + tab +"$msg"
+	}
+
+
+	public static addTrace (String msg) {
+		if (isTraceAuthorized(msg,deph) ) {
+			addDEBUG("$msg")
+			//tab = STRTABSEP.multiply(deph)
 		}
 	}
 
 
-	public static addTrace (String msg, int level=1) {
-
-		if (deph <= debugDeph || isDebugClass(msg) ) {
-			addDEBUG("$msg",level)
-			tab = STRTABSEP.multiply(deph)
-		}
-	}
-
-
-	public static addTraceBEGIN (String msg, int level=1) {
-
+	public static addTraceBEGIN (String msg) {
 		deph++
-		if (deph <= debugDeph || isDebugClass(msg) ) {
-			addDEBUG(STRBEGIN + msg,level)
-			tab = STRTABSEP.multiply(deph)
+		if (isTraceAuthorized(msg,deph) ) {
+			addDEBUG(STRBEGIN + msg)
+			//tab = STRTABSEP.multiply(deph)
 		}
+		tab = STRTABSEP.multiply(deph) //
 	}
 
 
-	public static addTraceEND (String msg, def ret = null, int level=1) {
-
+	public static addTraceEND (String msg, def ret = null) {
 		deph = (deph > 0) ? deph - 1 : 0
-		if (deph < debugDeph || isDebugClass(msg) ) {
-			tab = STRTABSEP.multiply(deph)
+		tab = STRTABSEP.multiply(deph) //
+		if (isTraceAuthorized(msg,deph+1) ) {
+			//tab = STRTABSEP.multiply(deph)
 			String r = ret?" --> '$ret'":' ---'
-			addDEBUG(STREND + msg + r,level)
+			addDEBUG(STREND + msg + r)
 		}
-
+		
 	}
 
-	private static boolean isDebugClass(String msg) {
-		return debugClasses.any{clas -> msg.startsWith(clas.toString() + '.')}
+	
+	private static boolean isTraceAuthorized(String msg, int deph) {
+
+		boolean ret =  (deph <= debugDeph)
+		boolean startsWithExcluded = debugClassesExcluded.any { msg.startsWith(it) }
+		boolean startsWithAdded = debugClassesAdded.any { msg.startsWith(it) }
+		if (startsWithExcluded) {
+			ret = false
+		}else if (startsWithAdded) {
+			ret= true
+		}
+		return ret
 	}
 
-	public static addDEBUGDETAIL (String msg, int level=1) {
-		addTrace('- '+ msg,level)
+	
+	public static addDEBUGDETAIL (String msg) {
+		addTrace('- '+ msg)
 	}
 
 
 
-	public static addINFO (String msg,int level=0) {
-
-		if (level==0) {
-			add('',msg)
+	public static addINFO (String msg, boolean traceMode = false) {
+		
+		if (traceMode) {
+			addTrace(msg)
 		}else {
-			addTrace(msg,level )
+			add('',msg)
 		}
 	}
 
@@ -169,13 +189,8 @@ class Log {
 	}
 
 
-	public static addDETAIL (String msg,int level=0) {
-
-		if (level==0) {
-			add('','\t'+ msg)
-		}else {
-			addTrace(msg,level )
-		}
+	public static addDETAIL (String msg) {
+		add('','\t'+ msg)
 	}
 
 	public static addDETAILFAIL (String msg) {
@@ -189,25 +204,25 @@ class Log {
 
 
 
-	public static addTITLE(String title, String car ='*',int nbcar = 140,int level=0) {
+	public static addTITLE(String title, String car ='*',int nbcar = 140, boolean traceMode = false) {
 		if (title.length()+4 >= nbcar) nbcar = title.length()+4
 
-		addINFO('',level)
-		addINFO(car*nbcar,level)
-		addINFO(car + ' ' * (nbcar-2) + car,level)
-		addINFO(car + title.center(nbcar-2) + car,level)
-		addINFO(car + ' ' * (nbcar-2) + car,level)
-		addINFO(car*nbcar,level)
-		addINFO('',level)
+		addINFO('',traceMode)
+		addINFO(car*nbcar,traceMode)
+		addINFO(car + ' ' * (nbcar-2) + car,traceMode)
+		addINFO(car + title.center(nbcar-2) + car,traceMode)
+		addINFO(car + ' ' * (nbcar-2) + car,traceMode)
+		addINFO(car*nbcar,traceMode)
+		addINFO('',traceMode)
 	}
 
 
-	public static addSubTITLE(String subtitle, String car ='-', int nbcar = 120 ,int level=0) {
-		addINFO('',level)
-		addINFO(car*nbcar,level)
-		addINFO(subtitle,level)
-		addINFO(car*nbcar,level)
-		addINFO('',level)
+	public static addSubTITLE(String subtitle, String car ='-', int nbcar = 120, boolean traceMode = false)  {
+		addINFO('',traceMode)
+		addINFO(car*nbcar,traceMode)
+		addINFO(subtitle,traceMode)
+		addINFO(car*nbcar,traceMode)
+		addINFO('',traceMode)
 	}
 
 
@@ -236,10 +251,6 @@ class Log {
 		}
 	}
 
-	public static setDebugLevel(int newLevel) {
-		debugLevel = newLevel
-		fileDebug.append("New debug level = $debugLevel\n")
-	}
 
 
 	public static setDebugDeph(int newDeph) {

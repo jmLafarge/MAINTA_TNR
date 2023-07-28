@@ -31,9 +31,9 @@ public class JDDFiles {
 	 if (JDDfilemap.isEmpty()) {
 	 */
 	static {
-		Log.addSubTITLE("Load JDDfileList",'-',120,1)
+		Log.addSubTITLE("Load JDDfileList",'-',120)
 
-		Log.addINFO("\t"+'MODOBJ'.padRight(16) + 'JDDFULLNAME',1)
+		Log.addINFO("\t"+'MODOBJ'.padRight(16) + 'JDDFULLNAME')
 
 		new File(my.PropertiesReader.getMyProperty('JDD_PATH')).eachFileRecurse(FileType.FILES) { file ->
 
@@ -44,7 +44,7 @@ public class JDDFiles {
 
 				JDDfilemap.put(modObj,file.getPath())
 
-				Log.addINFO('\t' + modObj.padRight(16) + file.getPath(),1)
+				Log.addINFO('\t' + modObj.padRight(16) + file.getPath())
 			}
 		}
 		//}

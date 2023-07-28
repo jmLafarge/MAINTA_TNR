@@ -23,13 +23,13 @@ public class CheckPrerequis {
 	private static boolean status = true
 
 	static run() {
-		Log.addTrace('--------------------------------------',0)
-		Log.addTrace('Collecte de tous les PREREQUIS des JDD',0)
-		Log.addTrace('--------------------------------------',0)
+		Log.addTrace('--------------------------------------')
+		Log.addTrace('Collecte de tous les PREREQUIS des JDD')
+		Log.addTrace('--------------------------------------')
 
 		//Récupére la liste de tous les PREREQUIS de tous les JDD
 		JDDFiles.JDDfilemap.each { modObj,fullName ->
-			Log.addTrace("Lecture du JDD : " + fullName,0)
+			Log.addTrace("Lecture du JDD : " + fullName)
 			myJDD = new JDD(fullName,null,null,false)
 			getAllPrerequis(fullName,true)
 		}
@@ -65,12 +65,12 @@ public class CheckPrerequis {
 
 
 		list =[]
-		Log.addTrace('--------------------------------------',0)
-		Log.addTrace('Collecte de tous les PREREQUIS des PREJDD',0)
-		Log.addTrace('--------------------------------------',0)
+		Log.addTrace('--------------------------------------')
+		Log.addTrace('Collecte de tous les PREREQUIS des PREJDD')
+		Log.addTrace('--------------------------------------')
 
 		PREJDDFiles.PREJDDfilemap.each { modObj,fullName ->
-			Log.addTrace("Lecture du JDD pour modObj : " + modObj,0)
+			Log.addTrace("Lecture du JDD pour modObj : " + modObj)
 			myJDD = new JDD(JDDFiles.getJDDFullName(modObj),null,null,false)
 			PREJDDBook = my.XLS.open(fullName)
 			getAllPrerequis(fullName,false)
@@ -166,9 +166,9 @@ public class CheckPrerequis {
 					}
 				}
 				if (PRInThisSheet.size()>0) {
-					Log.addDEBUGDETAIL("Lecture onglet '" + sheet.getSheetName() + "' --> PREREQUIS : " + PRInThisSheet.substring(0,PRInThisSheet.length()-1),0 )
+					Log.addDEBUGDETAIL("Lecture onglet '" + sheet.getSheetName() + "' --> PREREQUIS : " + PRInThisSheet.substring(0,PRInThisSheet.length()-1))
 				}else {
-					Log.addDEBUGDETAIL("Lecture onglet '" + sheet.getSheetName() + "'",0 )
+					Log.addDEBUGDETAIL("Lecture onglet '" + sheet.getSheetName() + "'")
 				}
 			}
 		}

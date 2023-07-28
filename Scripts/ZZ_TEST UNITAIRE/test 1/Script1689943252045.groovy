@@ -1,30 +1,31 @@
-import javax.swing.JOptionPane
 
-def filePath = "fichier.txt"
 
-int option = JOptionPane.showConfirmDialog(
-	null,
-	"Voulez-vous vraiment supprimer le fichier ?",
-	"Confirmation de suppression",
-	JOptionPane.YES_NO_OPTION
-)
 
-if (option == JOptionPane.YES_OPTION) {
-	def file = new File(filePath)
-	if (file.exists()) {
-		file.delete()
-		println "Le fichier a été supprimé avec succès."
-	} else {
-		println "Le fichier n'existe pas."
+def boolean isTraceAuthorized(String msg, int deph) {
+	
+	def classList = ['-XLS', '+SQL', '+Ajout', '-Int']
+	
+	def debugClassesExcluded = classList.findAll { it[0] == '-' }.collect { it.substring(1) }
+	def debugClassesAdded = classList.findAll { it[0] == '+' }.collect { it.substring(1) }
+	
+	
+		boolean ret =  (deph <= 10)
+		def startsWithExcluded = debugClassesExcluded.any { msg.startsWith(it) }
+		def startsWithAdded = debugClassesAdded.any { msg.startsWith(it) }
+		
+		println startsWithExcluded
+		println startsWithAdded
+		
+		if (startsWithExcluded) {
+			ret = false
+		}else if (startsWithAdded) {
+			ret= true
+		}
+		return ret
 	}
-} else {
-	println "La suppression a été annulée."
-}
+		
+println isTraceAuthorized('SQLkjlkjl',1)		
+println isTraceAuthorized('SQcLkjlkjl',1)
 
-
-def chaine = "20230727_145503-MASTERTNR_MAINTA_TNR_MASTER_V13.0.2.bak"
-def nouvelleChaine = chaine.substring(16)
-println nouvelleChaine
-
-
-
+println isTraceAuthorized('XLSkjlkjl',1)
+println isTraceAuthorized('SXLSQcLkjlkjl',1)

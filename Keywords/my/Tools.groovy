@@ -1,6 +1,6 @@
 package my
 
-import java.text.SimpleDateFormat
+import java.util.regex.Pattern
 
 import org.openqa.selenium.Capabilities
 import org.openqa.selenium.WebDriver
@@ -8,11 +8,11 @@ import org.openqa.selenium.WebDriver
 import com.kms.katalon.core.webui.driver.DriverFactory
 import com.kms.katalon.core.webui.driver.SmartWaitWebDriver
 
+import groovy.io.FileType
 import groovy.time.TimeCategory
 import groovy.time.TimeDuration
 import groovy.transform.CompileStatic
 import internal.GlobalVariable
-import my.Log
 
 @CompileStatic
 class Tools {
@@ -59,14 +59,14 @@ class Tools {
 
 	public static addInfoContext() {
 		Log.addTraceBEGIN("Tools.addInfoContext()")
-		Log.addINFO('INFO CONTEXTE')
-		Log.addINFO("Nom de l'OS".padRight(26) + System.getProperty("os.name"))
-		Log.addINFO("Version de l'OS".padRight(26) + System.getProperty("os.version"))
-		Log.addINFO("Architecture de l'OS".padRight(26) + System.getProperty("os.arch"))
-		Log.addINFO("Version de MAINTA".padRight(26) + my.SQL.getMaintaVersion())
-		Log.addINFO("URL".padRight(26) + GlobalVariable.BASE_URL.toString())
-		Log.addINFO("Base de donnée".padRight(26) + SQL.getPathDB())
-		Log.addINFO("GroovySystem.version".padRight(26) + GroovySystem.version)
+		Log.addSubTITLE('INFO CONTEXTE')
+		Log.addINFO("\tNom de l'OS".padRight(26) + System.getProperty("os.name"))
+		Log.addINFO("\tVersion de l'OS".padRight(26) + System.getProperty("os.version"))
+		Log.addINFO("\tArchitecture de l'OS".padRight(26) + System.getProperty("os.arch"))
+		Log.addINFO("\tVersion de MAINTA".padRight(26) + my.SQL.getMaintaVersion())
+		Log.addINFO("\tURL".padRight(26) + GlobalVariable.BASE_URL.toString())
+		Log.addINFO("\tBase de donnée".padRight(26) + SQL.getPathDB())
+		Log.addINFO("\tGroovySystem.version".padRight(26) + GroovySystem.version)
 		Log.addINFO('')
 		Log.addTraceEND("Tools.addInfoContext()")
 	}
@@ -105,29 +105,86 @@ class Tools {
 	static createFolderIfNotExist(String dir) {
 		Log.addTraceBEGIN("Tools.createFolderIfNotExist($dir)")
 		File fdir = new File(dir)
-		String msg
 		if (!fdir.exists()) {
 			fdir.mkdirs()
-			msg = "Création dossier"
+			Log.addTrace("Création dossier")
 		}else {
-			msg = "Dossier existe déjà"
+			Log.addTrace("Dossier existe déjà")
 		}
-		Log.addTraceEND("Tools.createFolderIfNotExist()",msg)
+		Log.addTraceEND("Tools.createFolderIfNotExist()")
 	}
 
-	static deleteFile(String filePath ) {
-		Log.addTraceBEGIN("Tools.deleteFile($filePath)")
+	static deleteFilesFromFolder(String filePath ) {
+		Log.addTraceBEGIN("Tools.deleteFilesFromFolder('$filePath')")
 		def file = new File(filePath)
-		String msg
 		if (file.exists()) {
 			if (file.delete()) {
-				msg = "Le fichier a été supprimé avec succès."
+				Log.addTrace("Le fichier a été supprimé avec succès.")
 			} else {
-				msg = "Impossible de supprimer le fichier."
+				Log.addTrace("Impossible de supprimer le fichier.")
 			}
 		} else {
-			msg = "Le fichier n'existe pas."
+			Log.addTrace( "Le fichier n'existe pas.")
 		}
-		Log.addTraceEND("Tools.deleteFile()",msg)
+		Log.addTraceEND("Tools.deleteFilesFromFolder()")
 	}
+
+
+	/**
+	 * Supprime les fichiers correspondant à une expression régulière dans un dossier spécifié.
+	 *
+	 * @param fileRegex  L'expression régulière pour filtrer les noms de fichiers à supprimer.
+	 *                  Exemples d'expressions régulières :
+	 *                  - Supprimer tous les fichiers qui commencent par "backup_", suivis de 8 chiffres, et se terminent par ".bak" :
+	 *                    "backup_\\d{8}\\.bak"
+	 *                  - Supprimer tous les fichiers qui commencent par "image" ou "photo", suivis de n'importe quel caractère, et se terminent par ".jpg" ou ".png" :
+	 *                    "(image|photo).*\\.(jpg|png)"
+	 *                  - Supprimer tous les fichiers dont le nom est exactement "logfile.log" (correspondance exacte) :
+	 *                    "logfile\\.log"
+	 *                  - Supprimer tous les fichiers qui contiennent "-old" ou "-backup" dans leur nom :
+	 *                    ".*(-old|-backup).*"
+	 *                  - Supprimer tous les fichiers dont le nom commence par une lettre majuscule, suivie de lettres minuscules et de chiffres, et se termine par ".txt" :
+	 *                    "[A-Z][a-z0-9]*\\.txt"
+	 *
+	 * @param folderPath Le chemin du dossier où supprimer les fichiers.
+	 * 
+	 * @return Un message de statut indiquant le résultat de l'opération de suppression.
+	 */
+	static def deleteFilesFromFolder(String fileRegex , String folderPath) {
+		Log.addTraceBEGIN("Tools.deleteFilesFromFolder('$fileRegex' , '$folderPath')")
+		def folder = new File(folderPath)
+		//def regexPattern = Pattern.compile(fileRegex)
+		if (folder.exists() && folder.isDirectory()) {
+			folder.eachFileMatch (FileType.FILES,~/${fileRegex}/) { File file ->
+					if (file.delete()) {
+						Log.addTrace("Fichier '${file.name}' supprimé")
+					}else {
+						Log.addTrace("Impossible de supprimer le fichier '${file.name}'")
+					}
+			}
+		} else {
+			Log.addTrace("Le dossier spécifié n'existe pas ou n'est pas un dossier valide.")
+		}
+		Log.addTraceEND("Tools.deleteFilesFromFolder()")
+	}
+	
+	
+	static List <String> getFilesFromFolder( String fileRegex , String folderPath) {
+		Log.addTraceBEGIN("Tools.getFilesFromFolder('$fileRegex' , '$folderPath')")
+		List <String> ret = []
+		def folder = new File(folderPath)
+		if (folder.exists() && folder.isDirectory()) {
+			folder.eachFileMatch (FileType.FILES,~/${fileRegex}/) { File file ->
+				ret.add(file.name)
+				Log.addTrace("Ajout du fichier '${file.name}'")
+			}
+		} else {
+			Log.addTrace("Le dossier spécifié n'existe pas ou n'est pas un dossier valide.")
+		}
+		Log.addTraceEND("Tools.getFilesFromFolder()",ret)
+		return ret
+	}
+	
+	
+	
 } // end of class

@@ -34,6 +34,8 @@ public class SQL {
 	private static Sql sqlInstance
 	private static String pathDB = ''
 	private static String profileName = ''
+	private static String DBBackupPath = ''
+
 
 
 	static {
@@ -42,7 +44,7 @@ public class SQL {
 		Log.addTraceEND("SQL.")
 	}
 
-	
+
 	private static AllowedDBProfilNames getDBProfilBasedOnExecProfile() {
 		Log.addTraceBEGIN("SQL.getDBProfilBasedOnExecProfile()")
 		String execProfileName = RunConfiguration.getExecutionProfile()
@@ -57,12 +59,12 @@ public class SQL {
 		Log.addTraceEND("SQL.getDBProfilBasedOnExecProfile()",allowedDBProfilNames)
 		return allowedDBProfilNames
 	}
-	
-	
+
+
 	static setNewInstance(AllowedDBProfilNames  name = getDBProfilBasedOnExecProfile()) {
-		
+
 		Log.addTraceBEGIN("SQL.setNewInstance(${name.toString()})")
-		
+
 		profileName = name.toString()
 
 		String serverName 	= PropertiesReader.getMyProperty("${profileName}_DBSERVER")
@@ -70,6 +72,7 @@ public class SQL {
 		databaseName 		= PropertiesReader.getMyProperty("${profileName}_DBNAME")
 		String username 	= PropertiesReader.getMyProperty("${profileName}_DBUSER")
 		String pw 			= PropertiesReader.getMyProperty("${profileName}_DBPW")
+		DBBackupPath	= PropertiesReader.getMyProperty("${profileName}_DBBACKUPPATH")
 
 		String url = "jdbc:sqlserver:$serverName;instanceName=$instanceName;databaseName=$databaseName"
 		Log.addTrace("url='$url'")
@@ -108,17 +111,17 @@ public class SQL {
 
 
 
-	static backup(String backupFile) {
+	static String backup() {
 
 		Log.addTraceBEGIN("SQL.backup()")
 
-		//String dateFile = new Date().format("yyyyMMdd_HHmmss")
-		//String backupFile = "${dateFile}-${profileName}_${databaseName}_${getMaintaVersion()}${suffix}.bak"
-		
-		
+		String dateFile = new Date().format("yyyyMMdd_HHmmss")
+		String backupFile = "${dateFile}-${profileName}_${databaseName}_${getMaintaVersion()}.bak"
+
 		executeSQL("BACKUP DATABASE ${databaseName} TO DISK = '${backupFile}' WITH INIT, FORMAT")
 
 		Log.addTraceEND("SQL.backup()",backupFile)
+		return backupFile
 
 	}
 
@@ -658,5 +661,19 @@ public class SQL {
 	static String getDatabaseName() {
 		return databaseName
 	}
-	
+
+	static String getDBBackupPath() {
+		return DBBackupPath
+	}
+
+
+	static String getProfileName() {
+		return profileName
+	}
+
+	static String close() {
+		return sqlInstance.close()
+	}
+
+
 } // end of class

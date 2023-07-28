@@ -7,38 +7,27 @@ import com.kms.katalon.core.context.TestSuiteContext
 
 import internal.GlobalVariable
 import my.Log
-import my.NAV
+import my.RestoreDB
 import my.Tools
 import my.result.TNRResult
-import my.InfoDB
-import my.TCFiles
-import my.JDDFiles
 
 class TestListener {
+
+	private boolean testSuite=false
 	
-	boolean testSuite=false
 	/**
 	 * Executes before every test suite starts.
 	 * @param testSuiteContext: related information of the executed test suite.
 	 */
 	@BeforeTestSuite
 	def beforeTestSuite(TestSuiteContext testSuiteContext) {
-		
-		testSuite=true
-
-		Log.addTITLE('Lancement de ' + testSuiteContext.getTestSuiteId())
-
-		 
-		
-		
-		
-		TNRResult.addStartInfo(testSuiteContext.getTestSuiteId())
-
-		Tools.addInfoContext()
-		
-		
-
-
+//		Log.addTraceBEGIN("TestListener.beforeTestSuite('${testSuiteContext.getTestSuiteId()}')")
+//		testSuite=true
+//		Log.addTITLE('Lancement de ' + testSuiteContext.getTestSuiteId())
+//		RestoreDB.run()
+//		TNRResult.addStartInfo(testSuiteContext.getTestSuiteId())
+//		Tools.addInfoContext()
+//		Log.addTraceEND("TestListener.beforeTestSuite()")
 	}
 	
 	
@@ -48,21 +37,17 @@ class TestListener {
 	 */
 	@BeforeTestCase
 	def beforeTestCase(TestCaseContext testCaseContext) {
-		
-		Log.addTrace("beforeTestCase : '${testCaseContext.getTestCaseId()}'")
-		
-		if (testSuite) {
-			String TCName = testCaseContext.getTestCaseId().split('/')[-1].split(' ')[0]
-			Log.addTrace("TCName : '$TCName'")
-			GlobalVariable.CASDETESTENCOURS = TCName
-			GlobalVariable.CASDETESTPATTERN = TCName
-		}
+//		Log.addTraceBEGIN("TestListener.beforeTestCase('${testCaseContext.getTestCaseId()}')")
+//		if (testSuite) {
+//			String TCName = testCaseContext.getTestCaseId().split('/')[-1].split(' ')[0]
+//			Log.addTrace("TCName : '$TCName'")
+//			GlobalVariable.CASDETESTENCOURS = TCName
+//			GlobalVariable.CASDETESTPATTERN = TCName
+//		}
+//		Log.addTraceEND("TestListener.beforeTestCase()")
 	}
 
-	
-	
-	
-	
+
 	
 	/**
 	 * Executes after every test case ends.
@@ -70,9 +55,9 @@ class TestListener {
 	 */
 	@AfterTestCase
 	def afterTestCase(TestCaseContext testCaseContext) {
-		
-		Log.addTrace('afterTestCase : ' + testCaseContext.getTestCaseId().split('/')[-1] + ' : '+testCaseContext.getTestCaseStatus())
-		
+//		Log.addTraceBEGIN("TestListener.afterTestCase('${testCaseContext.getTestCaseId()}')")
+//		Log.addTrace('afterTestCase : ' + testCaseContext.getTestCaseId().split('/')[-1] + ' : '+testCaseContext.getTestCaseStatus())
+//		Log.addTraceEND("TestListener.afterTestCase()")
 	}
 
 	
@@ -85,10 +70,10 @@ class TestListener {
 	 * @param testSuiteContext: related information of the executed test suite.
 	 */
 	@AfterTestSuite
-	def sampleAfterTestSuite(TestSuiteContext testSuiteContext) {
-				
-		TNRResult.close(testSuiteContext.getTestSuiteId())
-
+	def afterTestSuite(TestSuiteContext testSuiteContext) {
+//		Log.addTraceBEGIN("TestListener.afterTestSuite('${testSuiteContext.getTestSuiteId()}')")
+//		TNRResult.close(testSuiteContext.getTestSuiteId())
+//		Log.addTraceEND("TestListener.afterTestSuite()")
 	}
 
 }

@@ -125,11 +125,11 @@ public class JDD {
 				String tab = my.XLS.getCellValue(row.getCell(0))
 				String name = my.XLS.getCellValue(row.getCell(1))
 				String xpath = my.XLS.getCellValue(row.getCell(2))
-				Log.addTrace("tab : $tab name : $name xpath : $xpath TCTabName =${TCTabName}",2)
+				Log.addTrace("tab : $tab name : $name xpath : $xpath TCTabName =${TCTabName}")
 				if (tab == '') {
 					break
 				}else if (tab in [TCTabName, 'ALL']) {
-					Log.addTrace("xpathTO.put($name, $xpath)",2)
+					Log.addTrace("xpathTO.put($name, $xpath)")
 					xpathTO.put(name, xpath)
 				}
 
@@ -138,7 +138,7 @@ public class JDD {
 			Log.addTrace("Pas de d'onglet '$TOSHEETNAME'" )
 		}
 
-		Log.addTrace("xpathTO = " + xpathTO.toString(),2)
+		Log.addTrace("xpathTO = " + xpathTO.toString())
 
 
 		// ajout des INTERNALVALUE de l'onglet INTERNALVALUESHEETNAME s il existe
@@ -150,7 +150,7 @@ public class JDD {
 				String IV_para = my.XLS.getCellValue(row.getCell(0))
 				String IV_val = my.XLS.getCellValue(row.getCell(1))
 				String IV_code = my.XLS.getCellValue(row.getCell(2))
-				Log.addTrace("IV_para : $IV_para IV_val : $IV_val IV_code : $IV_code ",2)
+				Log.addTrace("IV_para : $IV_para IV_val : $IV_val IV_code : $IV_code ")
 				if (IV_code == '') {
 					break
 				}else {
@@ -161,7 +161,7 @@ public class JDD {
 
 			}
 		}
-		Log.addTrace("internalValues = " + internalValues.toString(),2)
+		Log.addTrace("internalValues = " + internalValues.toString())
 
 		Log.addTraceEND("JDD.JDD()")
 	}

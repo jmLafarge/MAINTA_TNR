@@ -15,7 +15,7 @@ public class TCFiles {
 
 
 	static {
-			Log.addSubTITLE("Load TC file List",'-',120,1)
+			Log.addSubTITLE("Load TC file List",'-',120,true)
 			Log.addTrace("\t" + 'TCNAME'.padRight(24) + 'TCFULLNAME')
 			Log.addTrace("")
 	
