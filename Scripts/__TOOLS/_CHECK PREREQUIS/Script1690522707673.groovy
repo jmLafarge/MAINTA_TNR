@@ -9,7 +9,7 @@ import my.Log
 import my.NAV
 
 
-Log.setDebugDeph(1)
+Log.setDebugLevel(1)
 
 
 Log.addTITLE("Vérification des PRE REQUIS")

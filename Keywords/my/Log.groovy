@@ -26,18 +26,22 @@ class Log {
 
 	private static String dateTimeFormat = 'yyyy-MM-dd HH:mm:ss.SSS'
 
-	//private static File file = createFile('')
-	//private static File fileDebug = createFile('DEBUG')
 	private static File file
 	private static File fileDebug
 
 	private static int nbCarStatus = 7
 
-	private static int debugDeph = 0
-	private static int deph = 0
+	private static int debugLevel = 0
+	private static int level = 0
 
 	private static List <String> debugClassesExcluded = []
 	private static List <String> debugClassesAdded = []
+	private static List <String> debugFunctionsExcluded = []
+	private static List <String> debugFunctionsAdded = []
+
+	private static List<Map<String, Boolean>> traceList = []
+
+	private static boolean traceAllowed = true
 
 	private static String tab = ''
 	private static final String STRTABSEP = ' |\t'
@@ -62,22 +66,34 @@ class Log {
 		file 		=new File(my.PropertiesReader.getMyProperty('LOG_PATH') + File.separator +  dateFile + "-log.txt")
 		fileDebug 	=new File(my.PropertiesReader.getMyProperty('LOG_PATH') + File.separator +  dateFile + "-logDEBUG.txt")
 
-		debugDeph = my.PropertiesReader.getMyProperty('LOG_DEBUGDEPH').toInteger()
+		debugLevel = my.PropertiesReader.getMyProperty('LOG_DEBUGLEVEL').toInteger()
 
-		String ccc = my.PropertiesReader.getMyProperty('LOG_DEBUGCLASSES')
+		String debugClassList = my.PropertiesReader.getMyProperty('LOG_DEBUGCLASSES')
 
-		if (ccc) {
-			List <String> classList = ccc.split(',') as List
+
+		if (debugClassList) {
+			debugClassList = debugClassList.replaceAll("[\\s\\t]+", "") // Supprime les espaces et les tabulations
+			List <String> classList = debugClassList.split(',') as List
 			debugClassesExcluded = classList.findAll { it[0] == '-' }.collect { it.substring(1) }
 			debugClassesAdded = classList.findAll { it[0] == '+' }.collect { it.substring(1) }
 		}
 
+		String debugFunctionList = my.PropertiesReader.getMyProperty('LOG_DEBUGFUNCTION')
+
+		if (debugFunctionList) {
+			debugFunctionList = debugFunctionList.replaceAll("[\\s\\t]+", "") // Supprime les espaces et les tabulations
+			List <String> functionList = debugFunctionList.split(',') as List
+			debugFunctionsExcluded = functionList.findAll { it[0] == '-' }.collect { it.substring(1) }
+			debugFunctionsAdded = functionList.findAll { it[0] == '+' }.collect { it.substring(1) }
+		}
+
 
 		add('','Fichier log de Katalon TNR')
-
-		addDEBUG('Debug class excluded = ' + debugClassesExcluded + '\tThese classes will never be traced' )
-		addDEBUG('Debug class added    = ' + debugClassesAdded + '\tThese classes will always be traced')
-
+		addDEBUG("Debug level : $debugLevel")
+		addDEBUG('Debug classes excluded   = ' + debugClassesExcluded + '\tThese classes will never be traced' )
+		addDEBUG('Debug classes added      = ' + debugClassesAdded + '\tThese classes will always be traced')
+		addDEBUG('Debug functions excluded = ' + debugFunctionsExcluded + '\tThese functions will never be traced' )
+		addDEBUG('Debug functions added    = ' + debugFunctionsAdded + '\tThese functions will always be traced')
 	}
 
 
@@ -117,54 +133,120 @@ class Log {
 		String stat= getStatusFormat("  D  ")
 		String h = new Date().format(dateTimeFormat)
 		fileDebug.append("[$h][$stat]:" + PREDEBUGTXT + tab +"$msg\n")
-		//println "[my Log][$stat]:" + tab +"$msg"
+		println "[my Log][$stat]:" + tab +"$msg"
 	}
+
+
+
+
+
+	private static String getClassFunction(String name) {
+		name = name.replaceAll(' ', '') // Supprime les espaces
+		boolean msgFunctionOK = (name ==~ /^[a-zA-Z0-9-_]+\.[a-zA-Z0-9-_]+\(.*/)
+		boolean msgStaticOK = (name ==~ /^[a-zA-Z0-9-_]+\.static$/)
+
+		if (msgFunctionOK) {
+			return name.substring(0, name.indexOf('('))
+		}
+		if (msgStaticOK) {
+			return name
+		}
+		addDEBUG("*** ERREUR TRACE *** getClassFunction() Le nom Class.Function '$name' n'est pas conforme - ARRET DU PROGRAMME")
+		System.exit(0)
+	}
+
+
+
+
+	private static addToTraceList(String name) {
+
+		traceList.add([NAME:name,TRACE:traceAllowed] as LinkedHashMap<String, Boolean>)
+
+	}
+
+	private static delToTraceList(String name) {
+
+		int lastIdx = traceList.size() - 1
+
+		if (traceList[lastIdx]['NAME']== name){
+			traceList.remove(lastIdx)
+		}else {
+			addDEBUG("*** ERREUR TRACE *** delToTraceList(). Le nom Class.Function '$name' n'a pas été trouvé - ARRET DU PROGRAMME")
+			System.exit(0)
+		}
+
+		if (lastIdx==0) {
+			traceAllowed = true
+		}else {
+			traceAllowed = traceList[lastIdx-1]['TRACE']
+		}
+
+	}
+
+
 
 
 	public static addTrace (String msg) {
-		if (isTraceAuthorized(msg,deph) ) {
+		if (traceAllowed) {
 			addDEBUG("$msg")
-			//tab = STRTABSEP.multiply(deph)
 		}
 	}
+
+
 
 
 	public static addTraceBEGIN (String msg) {
-		deph++
-		if (isTraceAuthorized(msg,deph) ) {
+		level++
+		setTraceAllowed(msg,level)
+		addToTraceList(getClassFunction(msg))
+
+		if (traceAllowed) {
 			addDEBUG(STRBEGIN + msg)
-			//tab = STRTABSEP.multiply(deph)
 		}
-		tab = STRTABSEP.multiply(deph) //
+		tab = STRTABSEP.multiply(level) //
 	}
+
+
 
 
 	public static addTraceEND (String msg, def ret = null) {
-		deph = (deph > 0) ? deph - 1 : 0
-		tab = STRTABSEP.multiply(deph) //
-		if (isTraceAuthorized(msg,deph+1) ) {
-			//tab = STRTABSEP.multiply(deph)
+		level = (level > 0) ? level - 1 : 0
+		tab = STRTABSEP.multiply(level) //
+
+		if (traceAllowed ) {
 			String r = ret?" --> '$ret'":' ---'
 			addDEBUG(STREND + msg + r)
 		}
-		
+		delToTraceList(getClassFunction(msg))
 	}
 
-	
-	private static boolean isTraceAuthorized(String msg, int deph) {
 
-		boolean ret =  (deph <= debugDeph)
-		boolean startsWithExcluded = debugClassesExcluded.any { msg.startsWith(it) }
-		boolean startsWithAdded = debugClassesAdded.any { msg.startsWith(it) }
-		if (startsWithExcluded) {
-			ret = false
-		}else if (startsWithAdded) {
-			ret= true
+
+
+	private static setTraceAllowed(String msg, int level) {
+
+		traceAllowed =  (level <= debugLevel)
+
+		boolean classExcludedStartsWith = debugClassesExcluded.any { msg.startsWith(it+'.') }
+		boolean classAddedStartsWith = debugClassesAdded.any { msg.startsWith(it+'.') }
+		boolean functionExcludedStartsWith = debugFunctionsExcluded.any { msg.startsWith(it) }
+		boolean functionAddedStartsWith = debugFunctionsAdded.any { msg.startsWith(it) }
+
+		if (classExcludedStartsWith) {
+			traceAllowed = false
+		}else if (classAddedStartsWith) {
+			traceAllowed= true
 		}
-		return ret
+		if (functionExcludedStartsWith) {
+			traceAllowed = false
+		}else if (functionAddedStartsWith) {
+			traceAllowed= true
+		}
+
 	}
 
-	
+
+
 	public static addDEBUGDETAIL (String msg) {
 		addTrace('- '+ msg)
 	}
@@ -172,7 +254,7 @@ class Log {
 
 
 	public static addINFO (String msg, boolean traceMode = false) {
-		
+
 		if (traceMode) {
 			addTrace(msg)
 		}else {
@@ -253,9 +335,9 @@ class Log {
 
 
 
-	public static setDebugDeph(int newDeph) {
-		debugDeph = newDeph
-		fileDebug.append("New debug deph = $debugDeph\n")
+	public static setDebugLevel(int newLevel) {
+		debugLevel = newLevel
+		fileDebug.append("New debug level = $debugLevel\n")
 	}
 
 	public static setDebugClasses(String[] newClasses) {

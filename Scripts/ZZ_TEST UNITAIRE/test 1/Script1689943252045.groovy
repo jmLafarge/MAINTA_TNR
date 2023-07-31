@@ -1,7 +1,7 @@
 
 
 
-def boolean isTraceAuthorized(String msg, int deph) {
+def boolean isTraceAuthorized(String msg, int level) {
 	
 	def classList = ['-XLS', '+SQL', '+Ajout', '-Int']
 	
@@ -9,7 +9,7 @@ def boolean isTraceAuthorized(String msg, int deph) {
 	def debugClassesAdded = classList.findAll { it[0] == '+' }.collect { it.substring(1) }
 	
 	
-		boolean ret =  (deph <= 10)
+		boolean ret =  (level <= 10)
 		def startsWithExcluded = debugClassesExcluded.any { msg.startsWith(it) }
 		def startsWithAdded = debugClassesAdded.any { msg.startsWith(it) }
 		

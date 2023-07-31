@@ -11,7 +11,7 @@ import my.PREJDDFiles
 import my.XLS
 
 
-Log.setDebugDeph(4)
+Log.setDebugLevel(4)
 
 Log.addTITLE("Lancement de CREATE PREJDD IN DB")
  
