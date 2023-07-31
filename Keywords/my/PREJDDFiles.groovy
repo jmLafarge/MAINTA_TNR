@@ -7,18 +7,19 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.io.FileType
 import groovy.transform.CompileStatic
-import my.SQL
-import my.NAV
-import my.JDDKW
 
 @CompileStatic
 public class PREJDDFiles {
 
 
+	private static final String CLASS_FORLOG = 'PREJDDFiles'
+	
+	
 	public static Map <String,String> PREJDDfilemap = [:]
 
 
 	static {
+		Log.addTraceBEGIN(CLASS_FORLOG,"static",[:])
 		Log.addSubTITLE("Load PREJDDfileList",'-',120)
 		Log.addINFO("\t"+'MODOBJ'.padRight(11) + 'JDDFULLNAME')
 		Log.addINFO('')
@@ -31,6 +32,7 @@ public class PREJDDFiles {
 				Log.addINFO('\t' + modObj.padRight(11) + file.getPath())
 			}
 		}
+		Log.addTraceEND(CLASS_FORLOG,"static")
 }
 
 
@@ -45,7 +47,8 @@ public class PREJDDFiles {
 
 
 	static insertPREJDDinDB(String modObj, String tabName) {
-		Log.addTrace("insertPREJDDinDB() modObj = '$modObj' tabName = '$tabName'")
+		Log.addTraceBEGIN(CLASS_FORLOG,"insertPREJDDinDB",[modObj:modObj,tabName:tabName])
+
 		def myJDD = new my.JDD(JDDFiles.JDDfilemap.getAt(modObj),tabName)
 
 		Log.addINFO("Traitement de : '" + PREJDDfilemap.getAt(modObj)+ " ($tabName)")
@@ -83,10 +86,10 @@ public class PREJDDFiles {
 
 
 				def valueOfJDD = my.XLS.getCellValue(c)
-				Log.addTrace("\t\tCell value = '$valueOfJDD' getClass()=" + valueOfJDD.getClass())
+				Log.addTrace("\tCell value = '$valueOfJDD' getClass()=" + valueOfJDD.getClass())
 
 				if (c.getColumnIndex()>0) {
-					Log.addTrace("\t\tAjout fieldName='$fieldName' value='$valueOfJDD' in req SQL")
+					Log.addTrace("\tAjout fieldName='$fieldName' value='$valueOfJDD' in req SQL")
 
 					if (!my.JDDKW.isNU(valueOfJDD.toString()) && !myJDD.isOBSOLETE(fieldName)) {
 						fields.add(fieldName)
@@ -148,12 +151,11 @@ public class PREJDDFiles {
 
 							String internalVal = NAV.myGlobalJDD.getInternalValueOf(IV,valueOfJDD.toString())
 
-							Log.addTrace("/t- internal value =$internalVal")
+							Log.addTrace("- internal value =$internalVal")
 
 							valueOfJDD = internalVal
 						}else {
-							Log.addERROR("Détection d'une INTERNALVALUE sur $fieldName, IV= $IV, la valeur est null ou vide.ARRET DU PROGRAMME")
-							System.exit(0)
+							Log.addErrorAndStop("Détection d'une INTERNALVALUE sur $fieldName, IV= $IV, la valeur est null ou vide.")
 						}
 					}
 
@@ -169,8 +171,7 @@ public class PREJDDFiles {
 						if (newValue) {
 							valueOfJDD = newValue
 						}else {
-							Log.addERROR("Détection d'une valeur TBD sur $fieldName sans valeur de test. ARRET DU PROGRAMME")
-							System.exit(0)
+							Log.addErrorAndStop("Détection d'une valeur TBD sur $fieldName sans valeur de test.")
 						}
 
 					}
@@ -178,8 +179,7 @@ public class PREJDDFiles {
 					// Cas des val $UPD$...$...
 					if (JDDKW.startWithUPD(valueOfJDD)) {
 
-						Log.addERROR("Détection d'une valeur UPD sur $fieldName INTERDIT sur PREJDD. ARRET DU PROGRAMME")
-						System.exit(0)
+						Log.addErrorAndStop("Détection d'une valeur UPD sur $fieldName INTERDIT sur PREJDD.")
 					}
 
 
@@ -214,7 +214,7 @@ public class PREJDDFiles {
 						default :
 
 							if (valueOfJDD instanceof java.util.Date) {
-								Log.addTrace("\t\t instanceof java.util.Date = TRUE")
+								Log.addTrace("\tinstanceof java.util.Date = TRUE")
 								val = valueOfJDD.format('yyyy-dd-MM HH:mm:ss.SSS')
 
 							}else {
@@ -249,11 +249,14 @@ public class PREJDDFiles {
 				SQL.executeSQL(req)
 			}
 		}
+		Log.addTraceEND(CLASS_FORLOG,"insertPREJDDinDB")
 	}
 
 
 
 	static String getValueFromFK(String PR,String FK, String cdt,String valeur) {
+		
+		Log.addTraceBEGIN(CLASS_FORLOG,"getValueFromFK",[PR:PR,FK:FK,cdt:cdt,valeur:valeur])
 
 		def pr = PR.split(/\*/)
 		def fk = FK.split(/\*/)
@@ -278,11 +281,10 @@ public class PREJDDFiles {
 
 		try {
 			String val = datas.find { it[0] == cdt && it[fieldIndex] == valeur }[idIndex]
-			Log.addTrace("La valeur de l'ID trouvé est $val")
+			Log.addTraceEND(CLASS_FORLOG,"getValueFromFK",val)
 			return val
 		} catch (NullPointerException e) {
-			Log.addERROR("La valeur recherchée n'a pas été trouvée.ARRET DU PROGRAMME")
-			System.exit(0)
+			Log.addErrorAndStop("La valeur recherchée n'a pas été trouvée.ARRET DU PROGRAMME")
 		}
 	}
 
@@ -290,7 +292,7 @@ public class PREJDDFiles {
 
 	static insertIfNotExist(String table, String PKwhere, List fields, List values) {
 
-		Log.addTrace("insertIfNotExist($table, $PKwhere)")
+		Log.addTraceBEGIN(CLASS_FORLOG,"insertIfNotExist",[table:table,PKwhere:PKwhere,fields:fields,values:values])
 
 		Map result = SQL.getFirstRow("SELECT count(*) as nbr FROM $table WHERE $PKwhere")
 
@@ -315,6 +317,7 @@ public class PREJDDFiles {
 				Log.addINFO("SELECT count(*) FROM $table WHERE $PKwhere")
 			}
 		}
+		Log.addTraceEND(CLASS_FORLOG,"insertIfNotExist",result.size())
 	}
 
 
@@ -325,14 +328,17 @@ public class PREJDDFiles {
 
 
 	private static String getRTFTEXT(String val) {
+		Log.addTraceBEGIN(CLASS_FORLOG,"getRTFTEXT",[val:val])
 		String strBegin ="{\\rtf1\\fbidis\\ansi\\ansicpg0\\uc1\\deff0\\deflang0\\deflangfe0{\\fonttbl{\\f0\\fnil Arial;}}{\\colortbl;}{\\stylesheet{\\s0\\fi0\\li0\\ql\\ri0\\sb0\\sa0 Paragraph Style;}{\\*\\cs1\\f0\\fs24 Font Style;}}\\pard\\s0\\fi0\\li0\\ql\\ri0\\sb0\\sa0\\itap0 \\plain \\cs1\\f0\\fs24 "
 		String strEnd	="\\par}"
-		return strBegin+val+strEnd
+		String RTFText = strBegin+val+strEnd
+		Log.addTraceEND(CLASS_FORLOG,"getRTFTEXT")
+		return RTFText
 	}
 	
 	static createInDB() {
 		
-		Log.setDebugLevel(4)
+		Log.addTraceBEGIN(CLASS_FORLOG,"createInDB",[:])
 		
 		Log.addTITLE("Lancement de CREATE PREJDD IN DB")
 		 
@@ -438,7 +444,7 @@ public class PREJDDFiles {
 		Log.addTITLE("Fin des créations des PRE REQUIS")
 		
 		
-		
+		Log.addTraceEND(CLASS_FORLOG,"createInDB")
 	}
 
 } // end of class

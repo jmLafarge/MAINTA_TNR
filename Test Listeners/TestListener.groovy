@@ -21,13 +21,13 @@ class TestListener {
 	 */
 	@BeforeTestSuite
 	def beforeTestSuite(TestSuiteContext testSuiteContext) {
-//		Log.addTraceBEGIN("TestListener.beforeTestSuite('${testSuiteContext.getTestSuiteId()}')")
+//		Log.addTraceBEGIN(CLASS_FORLOG,"TestListener.beforeTestSuite('${testSuiteContext.getTestSuiteId()}')")
 //		testSuite=true
 //		Log.addTITLE('Lancement de ' + testSuiteContext.getTestSuiteId())
 //		RestoreDB.run()
 //		TNRResult.addStartInfo(testSuiteContext.getTestSuiteId())
 //		Tools.addInfoContext()
-//		Log.addTraceEND("TestListener.beforeTestSuite()")
+//		Log.addTraceEND(CLASS_FORLOG,"TestListener.beforeTestSuite()")
 	}
 	
 	
@@ -37,14 +37,14 @@ class TestListener {
 	 */
 	@BeforeTestCase
 	def beforeTestCase(TestCaseContext testCaseContext) {
-//		Log.addTraceBEGIN("TestListener.beforeTestCase('${testCaseContext.getTestCaseId()}')")
+//		Log.addTraceBEGIN(CLASS_FORLOG,"TestListener.beforeTestCase('${testCaseContext.getTestCaseId()}')")
 //		if (testSuite) {
 //			String TCName = testCaseContext.getTestCaseId().split('/')[-1].split(' ')[0]
 //			Log.addTrace("TCName : '$TCName'")
 //			GlobalVariable.CASDETESTENCOURS = TCName
 //			GlobalVariable.CASDETESTPATTERN = TCName
 //		}
-//		Log.addTraceEND("TestListener.beforeTestCase()")
+//		Log.addTraceEND(CLASS_FORLOG,"TestListener.beforeTestCase()")
 	}
 
 
@@ -55,9 +55,9 @@ class TestListener {
 	 */
 	@AfterTestCase
 	def afterTestCase(TestCaseContext testCaseContext) {
-//		Log.addTraceBEGIN("TestListener.afterTestCase('${testCaseContext.getTestCaseId()}')")
+//		Log.addTraceBEGIN(CLASS_FORLOG,"TestListener.afterTestCase('${testCaseContext.getTestCaseId()}')")
 //		Log.addTrace('afterTestCase : ' + testCaseContext.getTestCaseId().split('/')[-1] + ' : '+testCaseContext.getTestCaseStatus())
-//		Log.addTraceEND("TestListener.afterTestCase()")
+//		Log.addTraceEND(CLASS_FORLOG,"TestListener.afterTestCase()")
 	}
 
 	
@@ -71,9 +71,9 @@ class TestListener {
 	 */
 	@AfterTestSuite
 	def afterTestSuite(TestSuiteContext testSuiteContext) {
-//		Log.addTraceBEGIN("TestListener.afterTestSuite('${testSuiteContext.getTestSuiteId()}')")
+//		Log.addTraceBEGIN(CLASS_FORLOG,"TestListener.afterTestSuite('${testSuiteContext.getTestSuiteId()}')")
 //		TNRResult.close(testSuiteContext.getTestSuiteId())
-//		Log.addTraceEND("TestListener.afterTestSuite()")
+//		Log.addTraceEND(CLASS_FORLOG,"TestListener.afterTestSuite()")
 	}
 
 }

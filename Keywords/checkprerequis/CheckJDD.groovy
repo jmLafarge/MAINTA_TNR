@@ -10,6 +10,9 @@ import my.Log
 
 @CompileStatic
 public class CheckJDD {
+	
+	private static final String CLASS_FORLOG = 'CheckJDD'
+	
 
 	private static my.JDD myJDD
 	private static String table
@@ -26,14 +29,15 @@ public class CheckJDD {
 	 * @return
 	 */
 	static run(boolean withDetails) {
+		
+		Log.addTraceBEGIN(CLASS_FORLOG,"run",[withDetails:withDetails])
 
 		Log.addSubTITLE('Vérification des JDD')
 
 		JDDFiles.JDDfilemap.each { modObj,fullname ->
 
 			JDDFullName = fullname
-			Log.addTrace("")
-			Log.addTrace("Lecture du JDD : $JDDFullName")
+
 			myJDD = new JDD(JDDFullName,null,null,false)
 
 			for(Sheet sheet: myJDD.book) {
@@ -69,6 +73,7 @@ public class CheckJDD {
 		if (status) {
 			Log.addINFO('     ***  OK   ***')
 		}
+		Log.addTraceEND(CLASS_FORLOG,"run")
 	}
 
 
@@ -76,6 +81,8 @@ public class CheckJDD {
 
 
 	private static checkTable() {
+		
+		Log.addTraceBEGIN(CLASS_FORLOG,"checkTable",[:])
 
 		if (table=='') {
 			Log.addDEBUGDETAIL("Pas de table DB dans le JDD ")
@@ -90,6 +97,7 @@ public class CheckJDD {
 				status=false
 			}
 		}
+		Log.addTraceEND(CLASS_FORLOG,"checkTable")
 	}
 
 
@@ -97,6 +105,8 @@ public class CheckJDD {
 
 
 	private static checkColumn() {
+		
+		Log.addTraceBEGIN(CLASS_FORLOG,"checkColumn",[:])
 
 		Log.addDEBUGDETAIL("Contrôle des colonnes (Présence, ordre)")
 
@@ -118,12 +128,15 @@ public class CheckJDD {
 				status=false
 			}
 		}
+		Log.addTraceEND(CLASS_FORLOG,"checkColumn")
 	}
 
 
 
 
 	private static checkLOCATOR() {
+		
+		Log.addTraceBEGIN(CLASS_FORLOG,"checkLOCATOR",[:])
 
 		Log.addDEBUGDETAIL("Contrôle des LOCATOR")
 		myJDD.getParam('LOCATOR').eachWithIndex {loc,i ->
@@ -149,6 +162,7 @@ public class CheckJDD {
 				}
 			}
 		}
+		Log.addTraceEND(CLASS_FORLOG,"checkLOCATOR")
 	}
 
 	

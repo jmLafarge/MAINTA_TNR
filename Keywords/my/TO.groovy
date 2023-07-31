@@ -12,11 +12,13 @@ import my.NAV
 @CompileStatic
 public class TO {
 
+	private static final String CLASS_FORLOG = 'TO'
+
 	private String msgTO
 
 	public TestObject make(JDD myJDD,String ID) {
 
-		Log.addTraceBEGIN("TO.make('${myJDD}' , '${ID}')")
+		Log.addTraceBEGIN(CLASS_FORLOG,"make",[myJDD:myJDD.toString(),ID:ID])
 
 		TestObject to = null
 
@@ -70,8 +72,6 @@ public class TO {
 				Log.addTrace("binding  : " + binding.toString())
 			}
 
-			Log.addTrace("xpath : $xpath")
-
 			xpath = resolveXpath( myJDD, xpath, binding)
 
 			to.setSelectorValue(SelectorMethod.XPATH, xpath)
@@ -82,7 +82,7 @@ public class TO {
 			binding=[:]
 
 		}
-		Log.addTraceEND("TO.make()",to)
+		Log.addTraceEND(CLASS_FORLOG,"make",to)
 
 		return to
 
@@ -103,7 +103,7 @@ public class TO {
 	 * @return L'xpath résolu.
 	 */
 	private String resolveXpath(JDD myJDD, String xpath, Map binding) {
-		Log.addTraceBEGIN("TO.resolveXpath('$myJDD' , '${xpath}' , '${binding}')")
+		Log.addTraceBEGIN(CLASS_FORLOG,"resolveXpath",[myJDD:myJDD.toString(),xpath:xpath,binding:binding])
 
 		// Vérifie si c'est un xpath dynamique
 		def matcher = xpath =~ /\$\{(.+?)\}/
@@ -132,7 +132,7 @@ public class TO {
 		} else {
 			Log.addTrace('normal xpath')
 		}
-		Log.addTraceEND("TO.resolveXpath()",xpathResolved)
+		Log.addTraceEND(CLASS_FORLOG,"resolveXpath",xpathResolved)
 		return xpathResolved
 	}
 

@@ -18,11 +18,8 @@ public class InfoPARA {
 
 	private static CellStyle whereStyle
 	private static CellStyle paraStyle
-	
-	private static List headers = [
-								'NOM',
-								'NBBDD'
-								]
+
+	private static List headers = ['NOM', 'NBBDD']
 
 	static {
 
@@ -45,16 +42,16 @@ public class InfoPARA {
 			Log.addTrace("Créer la premiere ligne ")
 			row =shPara.createRow(0)
 		}
-		
+
 		def jdd = new my.JDD(JDDFiles.JDDfilemap.values()[0])
 		List paramListAllowed = jdd.getParamListAllowed()
-		
+
 		for (String para : paramListAllowed) {
 			headers.add(para)
 			headers.add(para + '_JDD')
 		}
 
-		
+
 		for (i in 0..headers.size()-1) {
 			if (XLS.getCellValue(row.getCell(i))=='') XLS.writeCell(row, i, headers[i])
 		}
@@ -80,7 +77,10 @@ public class InfoPARA {
 	public static update(JDD myJDD,String col,String fullName, String where) {
 
 		int icol = 2
-		for (para in ['PREREQUIS', 'FOREIGNKEY', 'SEQUENCE', 'LOCATOR','INTERNALVALUE']) {
+		
+		List paramListAllowed = myJDD.getParamListAllowed()
+		
+		for (String para in paramListAllowed) {
 
 			String valPara = myJDD.getParamForThisName(para, col)
 

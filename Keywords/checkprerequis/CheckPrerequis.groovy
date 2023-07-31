@@ -15,7 +15,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 @CompileStatic
 public class CheckPrerequis {
-
+	
+	
+	private static final String CLASS_FORLOG = 'CheckPrerequis'
 
 	private static List <Map> list =[]
 	private static JDD myJDD
@@ -23,6 +25,9 @@ public class CheckPrerequis {
 	private static boolean status = true
 
 	static run() {
+		
+		Log.addTraceBEGIN(CLASS_FORLOG,"run",[:])
+		
 		Log.addTrace('--------------------------------------')
 		Log.addTrace('Collecte de tous les PREREQUIS des JDD')
 		Log.addTrace('--------------------------------------')
@@ -101,7 +106,7 @@ public class CheckPrerequis {
 		if (status) {
 			Log.addINFO('     ***  OK   ***')
 		}
-
+		Log.addTraceEND(CLASS_FORLOG,"run")
 	}
 
 
@@ -129,6 +134,8 @@ public class CheckPrerequis {
 	 */
 	private static getAllPrerequis(String fullName,boolean forJDD) {
 
+		Log.addTraceBEGIN(CLASS_FORLOG,"getAllPrerequis",[fullName:fullName,forJDD:forJDD])
+		
 		for(Sheet sheet: myJDD.book) {
 			if (myJDD.isSheetAvailable(sheet.getSheetName())) {
 
@@ -172,6 +179,7 @@ public class CheckPrerequis {
 				}
 			}
 		}
+		Log.addTraceEND(CLASS_FORLOG,"getAllPrerequis")
 	}
 
 
@@ -187,6 +195,7 @@ public class CheckPrerequis {
 	 * @return
 	 */
 	private static List getListCDTVAL(List <List> datas,int index) {
+		Log.addTraceBEGIN(CLASS_FORLOG,"getListCDTVAL",[datas:datas,index:index])
 		List PKlist=InfoDB.getPK(myJDD.getDBTableName())
 		List list =[]
 		datas.each{
@@ -199,10 +208,12 @@ public class CheckPrerequis {
 						Log.addTrace('$UPD trouvé en ' + it[0] + 'old value = ' + JDDKW.getOldValueOfKW_UPD(it[index]) )
 					}else {
 						list.add("'" + it[0] + "' - '" + it[index] + "'")
+						Log.addTrace("add '" + it[0] + "' - '" + it[index] + "'")
 					}
 				}
 			}
 		}
+		Log.addTraceEND(CLASS_FORLOG,"getListCDTVAL",list)
 		return list
 	}
 

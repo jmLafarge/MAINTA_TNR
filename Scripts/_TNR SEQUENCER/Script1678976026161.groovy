@@ -25,7 +25,6 @@ Tools.addInfoContext()
 
 Sequencer.testCasesList.each { TCMap ->
 	
-	/*
 	GlobalVariable.CASDETESTPATTERN = TCMap.CDTPATTERN
 			
 	for(int i = 1 ; i <= TCMap.REP ;i++) {
@@ -52,7 +51,6 @@ Sequencer.testCasesList.each { TCMap ->
 		TNRResult.addEndTestCase()
 
 	}	
-	*/
 }
 
 TNRResult.close('TNR SEQUENCER')

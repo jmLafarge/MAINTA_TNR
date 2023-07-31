@@ -1,6 +1,8 @@
 package my
 
 
+import com.kms.katalon.core.util.KeywordUtil
+
 import groovy.transform.CompileStatic
 
 
@@ -138,41 +140,30 @@ class Log {
 
 
 
+	private static String getClassFunction(String myClass, String myFunction) {
 
-
-	private static String getClassFunction(String name) {
-		name = name.replaceAll(' ', '') // Supprime les espaces
-		boolean msgFunctionOK = (name ==~ /^[a-zA-Z0-9-_]+\.[a-zA-Z0-9-_]+\(.*/)
-		boolean msgStaticOK = (name ==~ /^[a-zA-Z0-9-_]+\.static$/)
-
-		if (msgFunctionOK) {
-			return name.substring(0, name.indexOf('('))
-		}
-		if (msgStaticOK) {
-			return name
-		}
-		addDEBUG("*** ERREUR TRACE *** getClassFunction() Le nom Class.Function '$name' n'est pas conforme - ARRET DU PROGRAMME")
-		System.exit(0)
-	}
-
-
-
-
-	private static addToTraceList(String name) {
-
-		traceList.add([NAME:name,TRACE:traceAllowed] as LinkedHashMap<String, Boolean>)
+		return myClass +'.' + myFunction
 
 	}
 
-	private static delToTraceList(String name) {
+
+	private static addToTraceList(String myClass, String myFunction) {
+
+		//String classFunction = myClass +'.' + myFunction
+		traceList.add([CLASSFUNCTION:getClassFunction(myClass,myFunction),TRACE:traceAllowed] as LinkedHashMap<String, Boolean>)
+	}
+
+
+	private static delToTraceList(String myClass, String myFunction) {
 
 		int lastIdx = traceList.size() - 1
 
-		if (traceList[lastIdx]['NAME']== name){
+		//String classFunction = myClass +'.' + myFunction
+
+		if (traceList[lastIdx]['CLASSFUNCTION']== getClassFunction(myClass,myFunction) ){
 			traceList.remove(lastIdx)
 		}else {
-			addDEBUG("*** ERREUR TRACE *** delToTraceList(). Le nom Class.Function '$name' n'a pas été trouvé - ARRET DU PROGRAMME")
-			System.exit(0)
+			addErrorAndStop("*** ERREUR TRACE *** delToTraceList(). La Class.Function '${getClassFunction(myClass,myFunction)}' n'a pas été trouvée.")
 		}
 
 		if (lastIdx==0) {
@@ -195,13 +186,18 @@ class Log {
 
 
 
-	public static addTraceBEGIN (String msg) {
+	public static addTraceBEGIN (String myClass, String myFunction, Map paras) {
 		level++
-		setTraceAllowed(msg,level)
-		addToTraceList(getClassFunction(msg))
+		setTraceAllowed(myClass,myFunction,level)
+		addToTraceList(myClass, myFunction)
 
 		if (traceAllowed) {
-			addDEBUG(STRBEGIN + msg)
+
+			String para = ''
+			if (paras) {
+				para = paras.collect { cle, valeur -> "$cle: '$valeur'" }.join(', ')
+			}
+			addDEBUG(STRBEGIN + getClassFunction(myClass,myFunction) + '(' + para + ')')
 		}
 		tab = STRTABSEP.multiply(level) //
 	}
@@ -209,37 +205,32 @@ class Log {
 
 
 
-	public static addTraceEND (String msg, def ret = null) {
+	public static addTraceEND (String myClass, String myFunction, def ret = null) {
 		level = (level > 0) ? level - 1 : 0
 		tab = STRTABSEP.multiply(level) //
 
 		if (traceAllowed ) {
 			String r = ret?" --> '$ret'":' ---'
-			addDEBUG(STREND + msg + r)
+			addDEBUG(STREND + getClassFunction(myClass,myFunction) + '()' + r)
 		}
-		delToTraceList(getClassFunction(msg))
+		delToTraceList(myClass, myFunction)
 	}
 
 
 
 
-	private static setTraceAllowed(String msg, int level) {
+	private static setTraceAllowed(String myClass, String myFunction, int level) {
 
 		traceAllowed =  (level <= debugLevel)
 
-		boolean classExcludedStartsWith = debugClassesExcluded.any { msg.startsWith(it+'.') }
-		boolean classAddedStartsWith = debugClassesAdded.any { msg.startsWith(it+'.') }
-		boolean functionExcludedStartsWith = debugFunctionsExcluded.any { msg.startsWith(it) }
-		boolean functionAddedStartsWith = debugFunctionsAdded.any { msg.startsWith(it) }
-
-		if (classExcludedStartsWith) {
+		if (debugClassesExcluded.contains(myClass)) {
 			traceAllowed = false
-		}else if (classAddedStartsWith) {
+		}else if (debugClassesAdded.contains(myClass)) {
 			traceAllowed= true
 		}
-		if (functionExcludedStartsWith) {
+		if (debugFunctionsExcluded.contains(getClassFunction(myClass,myFunction))) {
 			traceAllowed = false
-		}else if (functionAddedStartsWith) {
+		}else if (debugFunctionsAdded.contains(getClassFunction(myClass,myFunction))) {
 			traceAllowed= true
 		}
 
@@ -266,9 +257,16 @@ class Log {
 
 
 
+	public static addErrorAndStop (String msg) {
+		add('ERROR',msg )
+		KeywordUtil.markErrorAndStop(msg + 'ARRET DU PROGRAMME')
+	}
+	
+	
 	public static addERROR (String msg) {
 		add('ERROR',msg )
 	}
+	
 
 
 	public static addDETAIL (String msg) {

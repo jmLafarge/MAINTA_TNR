@@ -13,12 +13,15 @@ import my.XLS
 @CompileStatic
 public class Check_CAL {
 
-
+	private static final String CLASS_FORLOG = 'Check_CAL'
+	
 	private static List listCAL =[]
 	private static List listCALDEF=[]
 	private static boolean status = true
 
 	static run() {
+		
+		Log.addTraceBEGIN(CLASS_FORLOG,"run",[:])
 
 		Log.addSubTITLE('Vérification spécifique de CAL/CALDEF')
 
@@ -42,12 +45,14 @@ public class Check_CAL {
 		if (status) {
 			Log.addINFO('     ***  OK   ***')
 		}
+		Log.addTraceEND(CLASS_FORLOG,"run")
 	}
 
 
 
 
 	private static loadListCAL(Sheet sheet) {
+		Log.addTraceBEGIN(CLASS_FORLOG,"loadListCAL",[sheet:sheet.getSheetName()])
 		Iterator<Row> rowIt = sheet.rowIterator()
 		Row row = rowIt.next()
 		Log.addTrace("Chargement de CAL")
@@ -58,11 +63,13 @@ public class Check_CAL {
 			}
 			listCAL.add(XLS.getCellValue(row.getCell(0)).toString()+ ' - ' + XLS.getCellValue(row.getCell(1)))
 		}
+		Log.addTraceEND(CLASS_FORLOG,"loadListCAL")
 	}
 
 
 
 	private static loadListCALDEF(Sheet sheet) {
+		Log.addTraceBEGIN(CLASS_FORLOG,"loadListCALDEF",[sheet:sheet.getSheetName()])
 		Iterator<Row> rowIt = sheet.rowIterator()
 		Row row = rowIt.next()
 		Log.addTrace("Chargement de CALDEF")
@@ -73,5 +80,7 @@ public class Check_CAL {
 			}
 			listCALDEF.add(XLS.getCellValue(row.getCell(0)).toString() + ' - ' + XLS.getCellValue(row.getCell(1))+ ' - ' + XLS.getCellValue(row.getCell(5)))
 		}
+		Log.addTraceEND(CLASS_FORLOG,"loadListCALDEF")
 	}
+	
 }

@@ -79,6 +79,12 @@
 		- 'RO.ORG.001.CRE.04' - 'ORG.RO.ORG.001.CRE.04' non trouvé !
 		--> due au fait que ces valeurs seront créées en même temps que l'organisation
 		--> je ne sais pas comment les différencier des PREJDD
+		
+		
+	ATTETION, il y a 2 return dans la class SQL.checkValue
+	
+	
+	
  *
  * -----------------------------------------------------------------------------------------------------
  * EN COURS
@@ -88,9 +94,7 @@
 
 	INITIALISE TNR DATABASE
 
-	LOG
-		Ajout de Log.addTrace, Log.addTraceBEGIN et Log.addTraceEND
-		Ajouter des '' autour des para dans tous les addTraceBEGIN
+
 
 
 	VERIFIER les nom des cas de tests des sous-rubriques
@@ -137,6 +141,10 @@
 	 	
 	 	MATRICULE SUPPRESSION		--> Pas de bouton supprimer !															--> revoir les regles de supression du Matricule
 	 																														--> la fonction teste si 2 mouvements sinon pas de delete
+	 	ORGANISATION CREATION		--> NU_EFF n'est pas dans la vue
+	 	
+	 																														
+	 	
 	 	
 
 	 

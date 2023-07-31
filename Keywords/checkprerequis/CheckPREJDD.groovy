@@ -15,7 +15,9 @@ import my.JDDKW
 @CompileStatic
 public class CheckPREJDD {
 
-
+	
+	private static final String CLASS_FORLOG = 'CheckPREJDD'
+	
 	private static my.JDD myJDD
 	private static List <List> datas = []
 	private static String PREJDDFullName =''
@@ -38,7 +40,8 @@ public class CheckPREJDD {
 	 */
 	static run(boolean withDetails) {
 
-
+		Log.addTraceBEGIN(CLASS_FORLOG,"run",[withDetails:withDetails])
+		
 		Log.addSubTITLE('Vérification des PREJDD')
 
 
@@ -80,6 +83,7 @@ public class CheckPREJDD {
 		if (status) {
 			Log.addINFO('     ***  OK   ***')
 		}
+		Log.addTraceEND(CLASS_FORLOG,"run")
 	}
 
 
@@ -88,6 +92,8 @@ public class CheckPREJDD {
 
 
 	private static checkColumn() {
+		
+		Log.addTraceBEGIN(CLASS_FORLOG,"checkColumn",[:])
 
 		Log.addDEBUGDETAIL("Contrôle des colonnes")
 
@@ -103,6 +109,7 @@ public class CheckPREJDD {
 				status=false
 			}
 		}
+		Log.addTraceEND(CLASS_FORLOG,"checkColumn")
 	}
 
 

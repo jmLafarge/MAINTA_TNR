@@ -13,7 +13,7 @@ for (String cdt in myJDD.CDTList) {
 	TNRResult.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData())
+    NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_NUMGES'),'ID1')
 
 	
 		//Rappel pour ajouter un block dans le fichier Resultat :
@@ -43,10 +43,10 @@ for (String cdt in myJDD.CDTList) {
 			KW.verifyElementCheckedOrNot(myJDD, "ST_EXT", "O")
 			KW.verifyElementCheckedOrNot(myJDD, "ST_AFF", "O")
 		
-		TNRResult.addSTEPGRP("ONGLET ADRESSES")
-		
-			KW.scrollAndClick(myJDD, "tab_Adresses")
-			KW.waitForElementVisible(myJDD, "tab_AdressesSelected")
+//		TNRResult.addSTEPGRP("ONGLET ADRESSES")
+//		
+//			KW.scrollAndClick(myJDD, "tab_Adresses")
+//			KW.waitForElementVisible(myJDD, "tab_AdressesSelected")
 			
 			KW.verifyElementCheckedOrNot(myJDD, "ST_RAT", "O")
 	

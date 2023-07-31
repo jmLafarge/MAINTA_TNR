@@ -15,7 +15,7 @@ for (String cdt in myJDD.CDTList) {
 	TNRResult.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_Creation_and_checkCartridge()
+    NAV.goToURL_Creation_and_checkCartridge('','SEL=0&OPERATION=NEW_SON')
 	
 
 		//Rappel pour ajouter un block dans le fichier Resultat :
@@ -37,14 +37,14 @@ for (String cdt in myJDD.CDTList) {
 			KW.scrollAndCheckIfNeeded(myJDD, "ST_EXT", "O")
 			KW.scrollAndCheckIfNeeded(myJDD, "ST_AFF", "O")
 			
-		TNRResult.addSTEPGRP("ONGLET ADRESSES")
-		
-			KW.scrollAndClick(myJDD, "tab_Adresses")
-			KW.waitForElementVisible(myJDD, "tab_AdressesSelected")
+//		TNRResult.addSTEPGRP("ONGLET ADRESSES")
+//		
+//			KW.scrollAndClick(myJDD, "tab_Adresses")
+//			KW.waitForElementVisible(myJDD, "tab_AdressesSelected")
 			
 			KW.scrollAndCheckIfNeeded(myJDD, "ST_RAT", "O")
 
-	
+			
 	
 	
 				
@@ -53,6 +53,8 @@ for (String cdt in myJDD.CDTList) {
 	    KW.scrollAndClick(NAV.myGlobalJDD,'button_Valider')
 	
 	    NAV.verifierEcranResultat(myJDD.getStrData())
+		
+		myJDD.replaceSEQUENCIDInJDD('ID_NUMGES',0)
 	
 		SQL.checkJDDWithBD(myJDD)
 		

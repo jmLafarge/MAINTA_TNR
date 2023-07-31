@@ -8,26 +8,27 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 public class RestoreDB {
-
+	
+	private static final String CLASS_FORLOG = 'RestoreDB'
 
 	private static final String DBBACKUP_PATH 			= PropertiesReader.getMyProperty('DBBACKUP_PATH')
 	private static final String MASTERTNR_DBBACKUPPATH 	= PropertiesReader.getMyProperty('MASTERTNR_DBBACKUPPATH')
 
 	static run() {
-		Log.addTraceBEGIN("RestoreDB.run()")
+		Log.addTraceBEGIN(CLASS_FORLOG,"run",[:])
 		List <String > backupFileList = Tools.getFilesFromFolder('^\\d{8}_\\d{6}-' + SQL.getProfileName() +'_' + SQL.getDatabaseName() + '.*\\.bak$',DBBACKUP_PATH)
 		if (backupFileList.size() == 1) {
 			restoreTNR(backupFileList[0])
 		}else {
 			initTNR()
 		}
-		Log.addTraceEND("RestoreDB.run()")
+		Log.addTraceEND(CLASS_FORLOG,"run")
 	}
 
 
 
 	private static restoreTNR(String backupFilename) {
-		Log.addTraceBEGIN("RestoreDB.restoreTNR('$backupFilename')")
+		Log.addTraceBEGIN(CLASS_FORLOG,"restoreTNR",[backupFilename:backupFilename])
 		String origin = ''
 		String dest = ''
 		Log.addSubTITLE("Restauration de la BDD de test")
@@ -49,13 +50,13 @@ public class RestoreDB {
 
 		Tools.deleteFilesFromFolder(dest)
 		
-		Log.addTraceEND("RestoreDB.restoreTNR()")
+		Log.addTraceEND(CLASS_FORLOG,"restoreTNR")
 	}
 
 
 
 	private static initTNR() {
-		Log.addTraceBEGIN("RestoreDB.initTNR()")
+		Log.addTraceBEGIN(CLASS_FORLOG,"initTNR",[:])
 		String origin = ''
 		String dest = ''
 		String backupFilename = ''
@@ -103,7 +104,7 @@ public class RestoreDB {
 
 		Log.addDETAIL("Création des PREJDD")
 
-		//PREJDDFiles.createInDB()
+		PREJDDFiles.createInDB()
 
 
 		Log.addDETAIL("Sauvegarde de la BDD TNR avec les PREJDD")
@@ -117,7 +118,7 @@ public class RestoreDB {
 		dest = DBBACKUP_PATH + File.separator + backupFilename
 		Files.move(Paths.get(origin), Paths.get(dest), StandardCopyOption.REPLACE_EXISTING)
 
-		Log.addTraceEND("RestoreDB.initTNR()")
+		Log.addTraceEND(CLASS_FORLOG,"initTNR")
 	}
 
 }

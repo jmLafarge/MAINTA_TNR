@@ -16,7 +16,7 @@ import my.Log
 // Enregistrer la page html dans C:\Users\A1008045\Documents\IHM
 // Mettre à jour la liste
 
-String testPour ='Matricule'
+String testPour ='Organisation'
 
 Map map = [
 	'Acteur'	: ['RO.ACT','001','Acteur_fichiers//FormE21.htm'],

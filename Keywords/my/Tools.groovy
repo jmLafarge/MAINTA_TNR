@@ -17,48 +17,49 @@ import internal.GlobalVariable
 @CompileStatic
 class Tools {
 
+	private static final String CLASS_FORLOG = 'Tools'
 
 	public static String getMobObj(String tc) {
-		Log.addTraceBEGIN("Tools.getModObj($tc)")
+		Log.addTraceBEGIN(CLASS_FORLOG,"getModObj",[tc:tc])
 		String ret = tc.find(/^\w+\.\w+/)
-		Log.addTraceEND("Tools.getModObj()",ret)
+		Log.addTraceEND(CLASS_FORLOG,"getModObj",ret)
 		return ret
 	}
 
 
 	public static getBrowserAndVersion() {
-		Log.addTraceBEGIN("Tools.getBrowserAndVersion()")
+		Log.addTraceBEGIN(CLASS_FORLOG,"getBrowserAndVersion",[:])
 		WebDriver driver = DriverFactory.getWebDriver()
 		Capabilities caps = ((SmartWaitWebDriver) driver).getCapabilities()
 		String browserName = DriverFactory.getExecutedBrowser()
 		String browserVersion = caps.getVersion()
-		Log.addTraceEND("Tools.getBrowserAndVersion()",browserName + '/'+ browserVersion)
+		Log.addTraceEND(CLASS_FORLOG,"getBrowserAndVersion",browserName + '/'+ browserVersion)
 		return [browserName , browserVersion]
 	}
 
 
 	public static String getBrowserName() {
-		Log.addTraceBEGIN("Tools.getBrowserName()")
+		Log.addTraceBEGIN(CLASS_FORLOG,"getBrowserName",[:])
 		WebDriver driver = DriverFactory.getWebDriver()
 		String browserName = DriverFactory.getExecutedBrowser()
-		Log.addTraceEND("Tools.getBrowserName()",browserName)
+		Log.addTraceEND(CLASS_FORLOG,"getBrowserName",browserName)
 		return browserName
 	}
 
 
 	public static String getBrowserVersion() {
-		Log.addTraceBEGIN("Tools.getBrowserVersion()")
+		Log.addTraceBEGIN(CLASS_FORLOG,"getBrowserVersion",[:])
 		WebDriver driver = DriverFactory.getWebDriver()
 		Capabilities caps = ((SmartWaitWebDriver) driver).getCapabilities()
 		String browserVersion =  caps.getVersion()
-		Log.addTraceEND("Tools.getBrowserVersion()",browserVersion)
+		Log.addTraceEND(CLASS_FORLOG,"getBrowserVersion",browserVersion)
 		return browserVersion
 	}
 
 
 
 	public static addInfoContext() {
-		Log.addTraceBEGIN("Tools.addInfoContext()")
+		Log.addTraceBEGIN(CLASS_FORLOG,"addInfoContext",[:])
 		Log.addSubTITLE('INFO CONTEXTE')
 		Log.addINFO("\tNom de l'OS".padRight(26) + System.getProperty("os.name"))
 		Log.addINFO("\tVersion de l'OS".padRight(26) + System.getProperty("os.version"))
@@ -68,42 +69,42 @@ class Tools {
 		Log.addINFO("\tBase de donnée".padRight(26) + SQL.getPathDB())
 		Log.addINFO("\tGroovySystem.version".padRight(26) + GroovySystem.version)
 		Log.addINFO('')
-		Log.addTraceEND("Tools.addInfoContext()")
+		Log.addTraceEND(CLASS_FORLOG,"addInfoContext")
 	}
 
 
 	public static String getDuration(Date start,Date stop) {
-		Log.addTraceBEGIN("Tools.getDuration(${start.toString()},${stop.toString()})")
+		Log.addTraceBEGIN(CLASS_FORLOG,"getDuration",[startStr:start.toString(),stopStr:stop.toString()])
 		TimeDuration timeDuration = TimeCategory.minus( stop, start )
 		String SS = addZero(timeDuration.getSeconds())
 		String MM = addZero(timeDuration.getMinutes())
 		String HH = addZero(timeDuration.getHours() + (timeDuration.getDays()*24))
 		String duration = "$HH:$MM:$SS"
-		Log.addTraceEND("Tools.getDuration()",duration)
+		Log.addTraceEND(CLASS_FORLOG,"getDuration",duration)
 		return duration
 	}
 
 
 	public static String addZero(int val) {
-		Log.addTraceBEGIN("Tools.addZero($val)")
+		Log.addTraceBEGIN(CLASS_FORLOG,"addZero",[val:val])
 		String val0 = (val>=0 && val<=9)?"0$val":"$val"
-		Log.addTraceEND("Tools.addZero()",val0)
+		Log.addTraceEND(CLASS_FORLOG,"addZero",val0)
 		return val0
 	}
 
 
 
 	static String cleanStr(String str) {
-		Log.addTraceBEGIN("Tools.cleanStr($str)")
+		Log.addTraceBEGIN(CLASS_FORLOG,"cleanStr",[str:str])
 		String strCleaned = str.replaceAll("[^a-zA-Z0-9-_]", "")
-		Log.addTraceEND("Tools.cleanStr()",strCleaned)
+		Log.addTraceEND(CLASS_FORLOG,"cleanStr",strCleaned)
 		return strCleaned
 	}
 
 
 
 	static createFolderIfNotExist(String dir) {
-		Log.addTraceBEGIN("Tools.createFolderIfNotExist($dir)")
+		Log.addTraceBEGIN(CLASS_FORLOG,"createFolderIfNotExist",[dir:dir])
 		File fdir = new File(dir)
 		if (!fdir.exists()) {
 			fdir.mkdirs()
@@ -111,11 +112,11 @@ class Tools {
 		}else {
 			Log.addTrace("Dossier existe déjà")
 		}
-		Log.addTraceEND("Tools.createFolderIfNotExist()")
+		Log.addTraceEND(CLASS_FORLOG,"createFolderIfNotExist")
 	}
 
 	static deleteFilesFromFolder(String filePath ) {
-		Log.addTraceBEGIN("Tools.deleteFilesFromFolder('$filePath')")
+		Log.addTraceBEGIN(CLASS_FORLOG,"deleteFilesFromFolder",[filePath:filePath])
 		def file = new File(filePath)
 		if (file.exists()) {
 			if (file.delete()) {
@@ -126,7 +127,7 @@ class Tools {
 		} else {
 			Log.addTrace( "Le fichier n'existe pas.")
 		}
-		Log.addTraceEND("Tools.deleteFilesFromFolder()")
+		Log.addTraceEND(CLASS_FORLOG,"deleteFilesFromFolder")
 	}
 
 
@@ -151,7 +152,7 @@ class Tools {
 	 * @return Un message de statut indiquant le résultat de l'opération de suppression.
 	 */
 	static def deleteFilesFromFolder(String fileRegex , String folderPath) {
-		Log.addTraceBEGIN("Tools.deleteFilesFromFolder('$fileRegex' , '$folderPath')")
+		Log.addTraceBEGIN(CLASS_FORLOG,"deleteFilesFromFolder",[fileRegex:fileRegex,folderPath:folderPath])
 		def folder = new File(folderPath)
 		//def regexPattern = Pattern.compile(fileRegex)
 		if (folder.exists() && folder.isDirectory()) {
@@ -165,12 +166,12 @@ class Tools {
 		} else {
 			Log.addTrace("Le dossier spécifié n'existe pas ou n'est pas un dossier valide.")
 		}
-		Log.addTraceEND("Tools.deleteFilesFromFolder()")
+		Log.addTraceEND(CLASS_FORLOG,"deleteFilesFromFolder")
 	}
 	
 	
 	static List <String> getFilesFromFolder( String fileRegex , String folderPath) {
-		Log.addTraceBEGIN("Tools.getFilesFromFolder('$fileRegex' , '$folderPath')")
+		Log.addTraceBEGIN(CLASS_FORLOG,"getFilesFromFolder",[fileRegex:fileRegex,folderPath:folderPath])
 		List <String> ret = []
 		def folder = new File(folderPath)
 		if (folder.exists() && folder.isDirectory()) {
@@ -181,7 +182,7 @@ class Tools {
 		} else {
 			Log.addTrace("Le dossier spécifié n'existe pas ou n'est pas un dossier valide.")
 		}
-		Log.addTraceEND("Tools.getFilesFromFolder()",ret)
+		Log.addTraceEND(CLASS_FORLOG,"getFilesFromFolder",ret)
 		return ret
 	}
 	

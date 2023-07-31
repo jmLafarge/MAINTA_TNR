@@ -14,20 +14,16 @@ import my.Log
 class NAV {
 
 	// Naviguer vers les URL et controler les écrans
-
-	/**
-	 * Permet de calculer l'url pour acceder directement au SCRUD des objets
-	 * et de vérifier l'écran correspondant
-	 */
-
+	
+	private static final String CLASS_FORLOG = 'NAV'
 
 
 	public static JDD myGlobalJDD
 
 	static {
-		Log.addTraceBEGIN("NAV.")
+		Log.addTraceBEGIN(CLASS_FORLOG,"static",[:])
 		myGlobalJDD = new JDD(my.PropertiesReader.getMyProperty('JDD_PATH') + File.separator + my.PropertiesReader.getMyProperty('JDD_GLOBALFILENAME'),null,null,false)
-		Log.addTraceEND("NAV()")
+		Log.addTraceEND(CLASS_FORLOG,"static")
 	}
 
 
@@ -115,8 +111,8 @@ class NAV {
 	/**
 	 * Aller à l'url de création
 	 */
-	private static goToURL_Creation(String fct) {
-		String url = GlobalVariable.BASE_URL.toString() + "FormE" + fct + "?"
+	private static goToURL_Creation(String fct,String attr='') {
+		String url = GlobalVariable.BASE_URL.toString() + "FormE" + fct + "?" + attr
 		KW.navigateToUrl(url,'Création')
 	} // end of def
 
@@ -135,7 +131,7 @@ class NAV {
 	/**
 	 * Aller à l'url de Lecture / modification / suppression et vérifier le cartouche
 	 */
-	public static goToURL_RUD_and_checkCartridge(String id, String fct='' , int timeOut = GlobalVariable.TIMEOUT) {
+	public static goToURL_RUD_and_checkCartridge(String id, String ID = 'ID', String fct='' , int timeOut = GlobalVariable.TIMEOUT) {
 		if (fct=='') { fct = getFctFromModObj() }
 		Log.addTrace("NAV.goToURL_RUD_and_checkCartridge(id='$id', fct='$fct')")
 		goToURL_RUD(fct, id)
@@ -155,10 +151,10 @@ class NAV {
 	/**
 	 * Aller à l'url de création et vérifier le cartouche
 	 */
-	public static goToURL_Creation_and_checkCartridge(String fct='', int timeOut = GlobalVariable.TIMEOUT) {
+	public static goToURL_Creation_and_checkCartridge(String fct='', String attr='',int timeOut = GlobalVariable.TIMEOUT) {
 		if (fct=='') { fct = getFctFromModObj() }
 		Log.addTrace("NAV.goToURL_Creation_and_checkCartridge(fct='$fct')")
-		goToURL_Creation(fct)
+		goToURL_Creation(fct,attr)
 		verifierEcranCreation(fct,timeOut)
 	} // end of def
 
