@@ -260,13 +260,14 @@ class Log {
 	public static addErrorAndStop (String msg) {
 		add('ERROR',msg )
 		KeywordUtil.markErrorAndStop(msg + 'ARRET DU PROGRAMME')
+		System.exit(0)
 	}
-	
-	
+
+
 	public static addERROR (String msg) {
 		add('ERROR',msg )
 	}
-	
+
 
 
 	public static addDETAIL (String msg) {

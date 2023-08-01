@@ -22,25 +22,28 @@
  * 
 	
 	
-	NE PAS OUBLIER DE CHANGER LE BD OWNER APRES UNE RESTAURATION
+	NE PAS OUBLIER DE CHANGER LE BD OWNER APRES UNE RESTAURATION 
 	
+		20230801 --> pas sur que ce soit utile avec la restauration scriptée, cela semble fonctionner sans !?
 	
 	
 	PROJET SETTING 
 	
 		SMART WAIT disabled permet de supprimer le popup chrome, l'ajout de waitForPageLoad() et de delay à solutionner le probléme
+		
 	 
 	PROFIL
 	
 		TIMEOUT à 1 ça passe, je mets 2
 		
 		
-	UTILISATION de 
+	UTILISATION de varaible dans une closure de Map
 	
 		L'utilisation de variable dans une boucle d'un map semble poser problème 
 		Par exemple dans checkJDD.run() mettre myJDD = new my.JDD(fullName,null,null,false) --> provoque une erreur
 		--> je ne sais pas pourquoi
 		--> peut être parce que .each est une closure
+		
 		
 	FOU
 	
@@ -92,14 +95,12 @@
  *
  *
 
-	INITIALISE TNR DATABASE
+
 
 
 
 
 	VERIFIER les nom des cas de tests des sous-rubriques
-
-	Problème avec $SEQUENCID
 
 
 
@@ -142,6 +143,9 @@
 	 	MATRICULE SUPPRESSION		--> Pas de bouton supprimer !															--> revoir les regles de supression du Matricule
 	 																														--> la fonction teste si 2 mouvements sinon pas de delete
 	 	ORGANISATION CREATION		--> NU_EFF n'est pas dans la vue
+	 	
+	 								--> ST_RAT n'est pas dans la vue
+	 								
 	 	
 	 																														
 	 	
@@ -188,6 +192,12 @@
  * A FAIRE EN PRIORITE
  * -----------------------------------------------------------------------------------------------------
  * 
+
+
+	TEST SUITE
+	
+		Ajouter RestoreDB.run()
+
 
 	SCRIPT
 	
@@ -308,13 +318,6 @@
 		Revoir la suppression des emplacements par rapport à ST_DEF pour rendre automatique le truc
 	
 
-	LOG 
-	
-		dans properties remplacer le level par une liste de mot clé (qui peut aussi être un num)
-		mettre dans une  list ['WRITECELL','SQL','1',...] qui peut aussi être un num
-		et ensuite dans log mettre if (listIssuDeProperties.contains(para)) alaors on logue
-		OU/ET
-		tester le msg qui commence par le nom de la class 'SQL.
 
 
 * 
@@ -338,17 +341,16 @@
  * -----------------------------------------------------------------------------------------------------
  * 
 	
-		Faire une liste de step à dérouler on pourrait se passer des script de cas de test, du style
+		Faire une liste de step à dérouler dans le JDD (inventer un vocabulaire) on pourrait se passer des script de cas de test, du style
 				  click on Creer
 				  set ID_CIDINT
 				  delay(1)
 				  set prenom
-		voir m^me donner un ordre dans le JDD --> ajout d'un mot clé STEPNUM
 		prévoir rajouter des step spécifique
 		  		dans le JDD, comme des delay 
 		  		dans du code s'il existe ....
 		  		...
-  	
+  		--> Ca me parait compliquer de traiter les tous cas spécifique
   		
  * 
  * -----------------------------------------------------------------------------------------------------

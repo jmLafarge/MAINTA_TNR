@@ -1,7 +1,5 @@
 
-def myMap = [nom: "John", age: 30, ville: "New York"]
+String xpath = "//input[@id='" + 'NAME' +"\${OPTIONRADIO}' and @type='radio')]"
+def matcher = xpath =~ /\$\{(.+?)\}/
 
-String resultat = myMap.collect { cle, valeur -> "$cle: '$valeur'" }.join(', ')
-println(resultat)
-
-
+println matcher[0]

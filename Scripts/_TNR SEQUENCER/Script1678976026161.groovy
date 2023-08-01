@@ -17,7 +17,7 @@ import my.RestoreDB
  
 Log.addTITLE("Lancement de TNR SEQUENCER")
 
-RestoreDB.run()
+//RestoreDB.run()
 
 TNRResult.addStartInfo('TNR SEQUENCEUR')
 

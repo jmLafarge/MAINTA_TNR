@@ -300,10 +300,10 @@ public class SQL {
 
 		if (!specificValue && myJDD.getParamForThisName('FOREIGNKEY', fieldName)) {
 
-			if (!JDDKW.isNU(myJDD.getData(fieldName))) {
+			if (!JDDKW.isNU(myJDD.getData(fieldName)) && !JDDKW.isNULL(myJDD.getData(fieldName))) {
 				if (!checkForeignKey(myJDD, fieldName, val)) verifStatus= 'FAIL'
 			}else {
-				Log.addTrace("$fieldName est NULL, pas de recherche de FK")
+				Log.addTrace("$fieldName est NU ou NULL, pas de recherche de FK")
 			}
 
 		}else if (!specificValue && IV){
@@ -674,6 +674,7 @@ public class SQL {
 
 
 	static String getProfileName() {
+		Log.addTrace("SQL.getProfileName : $profileName")
 		return profileName
 	}
 

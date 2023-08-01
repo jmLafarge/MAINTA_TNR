@@ -13,7 +13,8 @@ for (String cdt in myJDD.CDTList) {
 	TNRResult.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_NUMGES'),'ID1')
+    NAV.goToURL_RUD(myJDD.getStrData('ID_NUMGES'),'')
+	NAV.verifierEcranRUD(myJDD.getStrData())
 
 	
 		//Rappel pour ajouter un block dans le fichier Resultat :

@@ -418,15 +418,15 @@ public class JDD {
 
 				// Ajoute le XPath approprié.
 				if (loc in TAG_LIST_ALLOWED) {
-					// cas spécifiques de checkbox et radio.
-					if (loc in ['checkbox', 'radio']) {
-						xpathTO.put(name, "//input[@id='" + name +"']")
+					if (loc == 'checkbox') {
+						xpathTO.put(name, "//input[@id='" + name +"' and @type='checkbox']")
 						xpathTO.put('Lbl'+name, "//label[@id='Lbl$name']".toString())
+					}else if (loc == 'radio') {
+						//xpathTO.put(name, "//input[@id='" + name +"' and @type='radio']")
+						xpathTO.put(name, "//label[@id='L${name}']".toString())
 					}else if (loc=='input') {
-						// cas spécifique de input.
 						xpathTO.put(name, "//$loc[@id='$name' and not(@type='hidden')]".toString())
 					}else {
-						// XPath standard
 						xpathTO.put(name, "//$loc[@id='$name']".toString())
 					}
 				}else if ((loc[0] != '/') && (loc.toString().split(/\*/).size()>1)) {
@@ -445,7 +445,7 @@ public class JDD {
 				}
 			}
 		}
-
+		Log.addTrace("xpathTO $xpathTO")
 		Log.addTraceEND(CLASS_FORLOG,"addXpath")
 	}
 

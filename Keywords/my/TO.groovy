@@ -35,7 +35,8 @@ public class TO {
 
 			if (xpath.startsWith('$')) {
 
-				switch(xpath.split('\\$')[1]) {
+				switch(xpath.split('\\$')[1]) {			
+				
 
 					case "TAB":
 						binding['tabname']=xpath.split('\\$')[2]
@@ -72,7 +73,7 @@ public class TO {
 				Log.addTrace("binding  : " + binding.toString())
 			}
 
-			xpath = resolveXpath( myJDD, xpath, binding)
+			xpath = resolveXpath( myJDD, ID,xpath, binding)
 
 			to.setSelectorValue(SelectorMethod.XPATH, xpath)
 
@@ -88,11 +89,16 @@ public class TO {
 
 	}
 
+	
+	
+	
 	public String getMsg() {
 
 		return msgTO
 	}
 
+	
+	
 
 	/**
 	 * Résout un xpath en remplaçant les variables dynamiques par leurs valeurs correspondantes.
@@ -102,8 +108,8 @@ public class TO {
 	 * @param binding Map des variables de liaison.
 	 * @return L'xpath résolu.
 	 */
-	private String resolveXpath(JDD myJDD, String xpath, Map binding) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"resolveXpath",[myJDD:myJDD.toString(),xpath:xpath,binding:binding])
+	private String resolveXpath(JDD myJDD, String name, String xpath, Map binding) {
+		Log.addTraceBEGIN(CLASS_FORLOG,"resolveXpath",[myJDD:myJDD.toString(), name:name,xpath:xpath,binding:binding])
 
 		// Vérifie si c'est un xpath dynamique
 		def matcher = xpath =~ /\$\{(.+?)\}/
@@ -129,7 +135,12 @@ public class TO {
 			}
 
 			xpathResolved = engine.createTemplate(xpath).make(binding).toString()
-		} else {
+
+		} else if (myJDD.getParamForThisName('LOCATOR', name) == 'radio') {
+			Log.addTrace('radio xpath')
+			xpathResolved = xpath.replaceAll(name, name + myJDD.getStrData(name))
+
+		}else {
 			Log.addTrace('normal xpath')
 		}
 		Log.addTraceEND(CLASS_FORLOG,"resolveXpath",xpathResolved)

@@ -100,7 +100,6 @@ class KW {
 
 
 	static switchToFrame(JDD myJDD, String name) {
-		//TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			try {
@@ -558,7 +557,16 @@ class KW {
 
 
 
-
+	static scrollAndSetRadio(JDD myJDD, String name, String text=null, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		if (text==null) text = myJDD.getStrData(name)
+		if (text != my.JDDKW.getKW_NULL()) {
+			if (text == my.JDDKW.getKW_VIDE()) text=''
+			scrollToElement(myJDD, name, timeOut, status)
+			waitForElementVisible(myJDD, name, timeOut, status)
+			click(myJDD, name,status)
+		}
+	} // end of def
+	
 
 
 	static scrollAndSetText(JDD myJDD, String name, String text=null, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
