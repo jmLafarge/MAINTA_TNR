@@ -117,6 +117,7 @@
 	
 		- CHECK PRREQUIS 					--> fait
 		- CREATE PREJDD in DB 				--> pas d'impact car pas $UPD est interdit dans les PREJDD
+		- CheckTypeInDATA.run()				--> à terminer
 		- Prise en compte dans les JDD
 		- Ctrl en BDD
 		....
@@ -144,7 +145,7 @@
 	 																														--> la fonction teste si 2 mouvements sinon pas de delete
 	 	ORGANISATION CREATION		--> NU_EFF n'est pas dans la vue
 	 	
-	 								--> ST_RAT n'est pas dans la vue
+	 	ORGANISATION				--> ST_RAT n'est pas dans la vue
 	 								
 	 	
 	 																														
@@ -193,6 +194,12 @@
  * -----------------------------------------------------------------------------------------------------
  * 
 
+	PAS VISIBLE vs  lecture seul <input disabled="disabled" > --> faire la différence dans Resultat
+
+	CHECK PREREQUIS
+	
+		Vérifier ques les valeurs des PREJDD...LEC... soient égales aux valeurs des JDD...LEC...
+		
 
 	TEST SUITE
 	
@@ -218,6 +225,12 @@
  * 
 	
 	TEST CASE 
+	
+		déterminer le traitement en fonction du type de locator (input, radio, ...)
+			si input --> KW.scrollAndSetText(myJDD, "ST_DES")
+			si radio --> KW.scrollAndSetRadio(myJDD, "NU_TYP")
+			...
+			
 	
 		voir si on strap certains steps en cas d'erreur (par exemple si une fenetre de recherche ne s'ouvre pas, le reste plante)
 		car ça prend du temps à cause des timeout

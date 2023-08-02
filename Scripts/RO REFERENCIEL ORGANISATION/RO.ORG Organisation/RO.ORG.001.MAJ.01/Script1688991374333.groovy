@@ -16,7 +16,8 @@ for (String cdt in myJDD.CDTList) {
 	TNRResult.addStartTestCase(cdt)
 	
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData())
+    NAV.goToURL_RUD(myJDD.getStrData('ID_NUMGES'))
+	NAV.verifierEcranRUD(myJDD.getStrData())
 
 
 
@@ -29,7 +30,9 @@ for (String cdt in myJDD.CDTList) {
 			KW.scrollAndClick(myJDD, "tab_Organisation")
 			KW.waitForElementVisible(myJDD, "tab_OrganisationSelected")
 			
-			KW.scrollAndSetText(myJDD, "ST_CODCOU")
+			KW.scrollAndSetRadio(myJDD, "NU_TYP")
+			
+			KW.scrollAndSetText(myJDD, "ST_CODCOU",myJDD.getStrData("ST_CODCOU", null,true))
 			KW.scrollAndSetText(myJDD, "ST_CODPERSGES")
 			KW.scrollAndCheckIfNeeded(myJDD, "ST_INA", "O")
 			KW.scrollAndSetText(myJDD, "ST_DES")
@@ -39,23 +42,22 @@ for (String cdt in myJDD.CDTList) {
 			KW.scrollAndCheckIfNeeded(myJDD, "ST_EXT", "O")
 			KW.scrollAndCheckIfNeeded(myJDD, "ST_AFF", "O")
 			
-		TNRResult.addSTEPGRP("ONGLET ADRESSES")
-			
-			KW.scrollAndClick(myJDD, "tab_Adresses")
-			KW.waitForElementVisible(myJDD, "tab_AdressesSelected")
+			KW.scrollAndSetText(myJDD, "NU_EFF")
 			
 			KW.scrollAndCheckIfNeeded(myJDD, "ST_RAT", "O")
-	  
-	  
-	  
-	  
+			
+//		TNRResult.addSTEPGRP("ONGLET ADRESSES")
+//			
+//			KW.scrollAndClick(myJDD, "tab_Adresses")
+//			KW.waitForElementVisible(myJDD, "tab_AdressesSelected")
+			
 	  
 
 	TNRResult.addSTEPACTION('VALIDATION')
+
+		KW.scrollAndClick(NAV.myGlobalJDD,'button_Valider')
 	
-	    KW.scrollAndClick(NAV.myGlobalJDD,'button_Valider')
-	
-	    NAV.verifierEcranResultat(myJDD.getStrData())
+	    NAV.verifierEcranResultat(myJDD.getStrData("ST_CODCOU", null , true),'','Resultat_ID')
 	
 		SQL.checkJDDWithBD(myJDD)
 	

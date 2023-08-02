@@ -12,11 +12,11 @@ import my.result.TNRResult
 
 @CompileStatic
 public class SQL {
-	
-	
+
+
 	private static final String CLASS_FORLOG = 'SQL'
-	
-	
+
+
 	/**
 	 * 
 	 */
@@ -52,7 +52,6 @@ public class SQL {
 			allowedDBProfilNames = AllowedDBProfilNames.valueOf(execProfileName)
 		} catch (IllegalArgumentException e) {
 			Log.addErrorAndStop( "$execProfileName n'est pas une valeur valide d'AllowedDBProfilNames.")
-
 		}
 		Log.addTraceEND(CLASS_FORLOG,"getDBProfilBasedOnExecProfile",allowedDBProfilNames)
 		return allowedDBProfilNames
@@ -120,7 +119,6 @@ public class SQL {
 
 		Log.addTraceEND(CLASS_FORLOG,"backup",backupFile)
 		return backupFile
-
 	}
 
 
@@ -187,7 +185,6 @@ public class SQL {
 	 */
 	static checkJDDWithBD(JDD myJDD,Map specificValueMap=[:],String sql =''){
 
-		//Log.addTraceBEGIN(CLASS_FORLOG,"checkJDDWithBD",[myJDD:myJDD.toString(),specificValueMap:'specificValueMap',sql:sql])
 		Log.addTraceBEGIN(CLASS_FORLOG,"checkJDDWithBD",[:])
 		KW.delay(1)
 
@@ -256,23 +253,6 @@ public class SQL {
 			}//pass
 		}//for
 
-		/*
-		 switch (verifStatus) {
-		 case 'PASS':
-		 TNRResult.addSTEPPASS("Fin de la vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
-		 break
-		 case 'FAIL':
-		 TNRResult.addSTEPFAIL("Fin de la  vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
-		 break
-		 case 'ERROR':
-		 TNRResult.addSTEPERROR("Fin de la  vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
-		 break
-		 default :
-		 TNRResult.addDETAIL("verifStatus inconnu '$verifStatus'")
-		 TNRResult.addSTEPERROR("Fin de la  vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
-		 break
-		 }
-		 */
 		TNRResult.addEndBlock("Fin de la vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')',verifStatus)
 		Log.addTraceEND(CLASS_FORLOG,"checkJDDWithBD")
 
@@ -564,7 +544,7 @@ public class SQL {
 		if (PKList) {
 			String query = ' WHERE '
 			PKList.each {
-				query = query + it + "='" + myJDD.getData(it,casDeTestNum) + "' and "
+				query = query + it + "='" + myJDD.getData(it,casDeTestNum,true) + "' and "
 			}
 			ret = query.substring(0,query.length()-5)
 		}
@@ -572,7 +552,7 @@ public class SQL {
 		return ret
 	}
 
-
+	
 
 
 	static int getMaxFromTable(String fieldName, String tableName) {
@@ -596,8 +576,8 @@ public class SQL {
 		return num
 	}
 
-	
-	
+
+
 
 	static getNumEcran(String table) {
 
@@ -619,9 +599,9 @@ public class SQL {
 		return ret
 	}
 
-	
-	
-	
+
+
+
 	static Map getLibelle(String table, numEcran) {
 
 		Log.addTraceBEGIN(CLASS_FORLOG,"getLibelle",[table:table, numEcran:numEcran])

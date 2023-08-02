@@ -5,9 +5,15 @@ import my.SQL
 
 println SQL.databaseName
 
+String query = "SELECT * FROM utilog"
 
+def rows = SQL.sqlInstance.rows(query)
 
-
+		// Créer une liste de maps à partir des résultats
+		def resultMap = [:]
+		rows.each {
+			println it
+		}
 
 String req = "SELECT st_nom as nbr FROM inter where id_codint='TNR'"
 

@@ -8,7 +8,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import groovy.transform.CompileStatic
 import internal.GlobalVariable
 import my.Log
-
+import my.JDDKW
 
 @CompileStatic
 public class JDD {
@@ -311,24 +311,36 @@ public class JDD {
 	 * @param casDeTestNum Le numéro du cas de test (valeur par défaut : numéro de cas de test courant).
 	 * @return La donnée correspondant au nom et au numéro de cas de test donnés, ou null si le numéro de cas de test ou le nom est invalide.
 	 */
-	def getData(String name, int casDeTestNum = casDeTestNum) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"getData",[name:name,casDeTestNum:casDeTestNum])
+	def getData(String name, def cdtnum=null, boolean UPD = false) {
+		Log.addTraceBEGIN(CLASS_FORLOG,"getData",[name:name , cdtnum:cdtnum , UPD:UPD])
+		cdtnum = (cdtnum?:casDeTestNum) as int
 		def ret
 		// Vérifie que le numéro de cas de test est valide.
-		if (casDeTestNum > getNbrLigneCasDeTest() || casDeTestNum < 1) {
-			Log.addERROR("Le cas de test N° : $casDeTestNum n'existe pas (max = "+ getNbrLigneCasDeTest() + ')')
+		if (cdtnum > getNbrLigneCasDeTest() || cdtnum < 1) {
+			Log.addERROR("Le cas de test N° : $cdtnum n'existe pas (max = "+ getNbrLigneCasDeTest() + ')')
 		}else {
 			// Vérifie que le nom fait partie des en-têtes.
 			if (headers.contains(name)) {
 				// Récupère la donnée correspondante.
-				ret = datas[getDataLineNum(casDeTest, casDeTestNum)][headers.indexOf(name)]
+				ret = datas[getDataLineNum(casDeTest, cdtnum)][headers.indexOf(name)]
+				if (JDDKW.isUPD(ret)) {
+					if (UPD) {
+						ret = JDDKW.getNewValueOfKW_UPD(ret)
+					}else {
+						ret = JDDKW.getOldValueOfKW_UPD(ret)
+					}
+				}
 			} else {
-				Log.addERROR("getData($name, $casDeTestNum ) '$name' n'est pas une colonne du JDD")
+				Log.addERROR("getData($name, $cdtnum ) '$name' n'est pas une colonne du JDD")
 			}
 		}
 		Log.addTraceEND(CLASS_FORLOG,"getData",ret)
 		return ret
 	}
+	
+	
+	
+	
 
 
 
@@ -339,20 +351,17 @@ public class JDD {
 	 * @param casDeTestNum Le numéro du cas de test (valeur par défaut : numéro de cas de test courant).
 	 * @return La donnée correspondant au nom et au numéro de cas de test donnés, convertie en chaîne de caractères.
 	 */
-	def String getStrData(String name='', int casDeTestNum = casDeTestNum) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"getStrData",[name:name,casDeTestNum:casDeTestNum])
-
-		String ret
-		if (name=='') {
-			int dataLineNum = getDataLineNum()
-			ret = datas[dataLineNum][1]
-		} else {
-			ret = getData(name, casDeTestNum).toString()
-		}
-
+	def String getStrData(String name = null, def cdtnum =null , boolean UPD = false) {
+		Log.addTraceBEGIN(CLASS_FORLOG,"getStrData",[name:name,cdtnum:cdtnum , UPD:UPD])
+		cdtnum = (cdtnum?:casDeTestNum) as int
+		name = name?:getHeaderNameOfIndex(1)
+		String ret = getData(name, casDeTestNum,UPD).toString()
 		Log.addTraceEND(CLASS_FORLOG,"getStrData",ret)
 		return ret
 	}
+	
+	
+	
 
 
 

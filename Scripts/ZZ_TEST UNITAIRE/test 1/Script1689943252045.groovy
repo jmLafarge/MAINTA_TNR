@@ -1,31 +1,13 @@
+import groovy.transform.CompileStatic
 
+@CompileStatic
 
+def maFonction(String param1 = null, def param2, boolean param3 = false) {
+    println "Paramètre 1 : ${param1}"
+    println "Paramètre 2 : ${param2}"
+    println "Paramètre 3 : ${param3}"
+}
 
-def boolean isTraceAuthorized(String msg, int level) {
-	
-	def classList = ['-XLS', '+SQL', '+Ajout', '-Int']
-	
-	def debugClassesExcluded = classList.findAll { it[0] == '-' }.collect { it.substring(1) }
-	def debugClassesAdded = classList.findAll { it[0] == '+' }.collect { it.substring(1) }
-	
-	
-		boolean ret =  (level <= 10)
-		def startsWithExcluded = debugClassesExcluded.any { msg.startsWith(it) }
-		def startsWithAdded = debugClassesAdded.any { msg.startsWith(it) }
-		
-		println startsWithExcluded
-		println startsWithAdded
-		
-		if (startsWithExcluded) {
-			ret = false
-		}else if (startsWithAdded) {
-			ret= true
-		}
-		return ret
-	}
-		
-println isTraceAuthorized('SQLkjlkjl',1)		
-println isTraceAuthorized('SQcLkjlkjl',1)
+// Appel de la fonction avec les paramètres 1 et 3 (le deuxième paramètre est omis en passant null)
+maFonction("valeur1", null, true)
 
-println isTraceAuthorized('XLSkjlkjl',1)
-println isTraceAuthorized('SXLSQcLkjlkjl',1)

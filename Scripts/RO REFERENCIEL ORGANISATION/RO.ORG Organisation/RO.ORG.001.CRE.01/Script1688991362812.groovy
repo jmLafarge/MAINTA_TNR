@@ -27,10 +27,7 @@ for (String cdt in myJDD.CDTList) {
 			KW.scrollAndClick(myJDD, "tab_Organisation")
 			KW.waitForElementVisible(myJDD, "tab_OrganisationSelected")
 			
-			//KW.scrollAndCheckIfNeeded(myJDD, "ST_RAT", "O") pas dans la vue
-			
 			KW.scrollAndSetRadio(myJDD, "NU_TYP")
-			
 
 			KW.scrollAndSetText(myJDD, "ST_CODCOU")
 			KW.scrollAndSetText(myJDD, "ST_CODPERSGES")
@@ -40,7 +37,14 @@ for (String cdt in myJDD.CDTList) {
 			KW.scrollAndSetText(myJDD, "ID_CODCAL")
 			KW.scrollAndSetText(myJDD, "ID_GESNIV")
 			KW.scrollAndCheckIfNeeded(myJDD, "ST_EXT", "O")
+			KW.scrollAndSetText(myJDD, "NU_EFF")
+			
 			KW.scrollAndCheckIfNeeded(myJDD, "ST_AFF", "O")
+			
+			
+			KW.scrollAndCheckIfNeeded(myJDD, "ST_RAT", "O")
+			
+			
 			
 //		TNRResult.addSTEPGRP("ONGLET ADRESSES")
 //		
@@ -57,12 +61,11 @@ for (String cdt in myJDD.CDTList) {
 		
 	    KW.scrollAndClick(NAV.myGlobalJDD,'button_Valider')
 	
-	    NAV.verifierEcranResultat(myJDD.getStrData(),'Resultat_ID')
+	    NAV.verifierEcranResultat(myJDD.getStrData(),'','Resultat_ID')
 		
 		myJDD.replaceSEQUENCIDInJDD('ID_NUMGES',0)
 	
 		SQL.checkJDDWithBD(myJDD)
-
 		
 	TNRResult.addEndTestCase()
 

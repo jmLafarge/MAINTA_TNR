@@ -563,7 +563,19 @@ class KW {
 			if (text == my.JDDKW.getKW_VIDE()) text=''
 			scrollToElement(myJDD, name, timeOut, status)
 			waitForElementVisible(myJDD, name, timeOut, status)
-			click(myJDD, name,status)
+			TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
+			if (tObj) {
+				try {
+					WebUI.click(tObj, FailureHandling.STOP_ON_FAILURE)
+					TNRResult.addSTEPPASS("Clic sur bouton radio '" + tObj.getObjectId() + "' (" + myJDD.getStrData(name) + ')')
+				} catch (Exception ex) {
+					TNRResult.addSTEP("Clic sur bouton radio '" + tObj.getObjectId() +  "' (" + myJDD.getStrData(name) + ')',status)
+					TNRResult.addDETAIL(ex.getMessage())
+				}
+			}else {
+				TNRResult.addSTEPERROR("Clic sur '$name' imposible")
+				TNRResult.addDETAIL(msgTO)
+			}
 		}
 	} // end of def
 	
