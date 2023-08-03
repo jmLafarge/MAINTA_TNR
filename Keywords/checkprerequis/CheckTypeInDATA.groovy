@@ -1,12 +1,11 @@
 package checkprerequis
 
 import groovy.transform.CompileStatic
-import internal.GlobalVariable
 import my.InfoDB
 import my.JDD
-import my.Log
-import my.NAV
 import my.JDDKW
+import my.Log
+import my.IV
 
 
 @CompileStatic
@@ -65,27 +64,27 @@ public class CheckTypeInDATA {
 
 					if ( ctrlVal) {
 						// cas d'un champ lié à une INTERNALVALUE
-						String IV = myJDD.getParamForThisName('INTERNALVALUE',name)
+						String paraIV = myJDD.getParamForThisName('INTERNALVALUE',name)
 
-						if (IV) {
+						if (paraIV) {
 
 							if (val && val !='$NULL') {
 
-								Log.addTrace("Détection d'une IV sur $name, IV= $IV value=$val ")
+								Log.addTrace("Détection d'une IV sur $name, IV= $paraIV value=$val ")
 
-								String internalVal = NAV.myGlobalJDD.getInternalValueOf(IV, val.toString())
+								String internalVal = IV.getInternalValueOf(paraIV, val.toString())
 
 								if (internalVal) {
 									val = internalVal
 								}else {
-									Log.addDETAILFAIL(cdtName + "($table.$name) : La valeur '$val' n'est pas autorisé pour une internal value de type '$IV'")
+									Log.addDETAILFAIL(cdtName + "($table.$name) : La valeur '$val' n'est pas autorisé pour une internal value de type '$paraIV'")
 									status = false
 									ctrlVal=false
 								}
 
 
 							}else {
-								Log.addTrace("Détection d'une INTERNALVALUE sur $name, IV= $IV la valeur est vide ou null")
+								Log.addTrace("Détection d'une INTERNALVALUE sur $name, IV= $paraIV la valeur est vide ou null")
 								ctrlVal=false
 							}
 

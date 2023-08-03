@@ -42,7 +42,6 @@ for (String cdt in myJDD.CDTList) {
 		
 		'Vérification des valeurs en BD'
 		SQL.checkJDDWithBD(myJDD,[:],"SELECT * FROM UTILOG ORDER bY DT_LOG DESC")
-		TNRResult.addDETAIL("Corrigé sur Aster mais après V13.0.2 DEVOPS 13064")
 		
 	}else {
 		TNRResult.addSTEP("Déconnexion KO",null )

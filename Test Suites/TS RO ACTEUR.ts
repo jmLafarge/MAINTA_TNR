@@ -22,35 +22,35 @@
       <guid>6ae2c14b-ea90-4220-a6d6-442a4ee5ce43</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/001/RO.ACT.001.CRE.01</testCaseId>
+      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/001/RO.ACT.001.CRE</testCaseId>
       <usingDataBindingAtTestSuiteLevel>true</usingDataBindingAtTestSuiteLevel>
    </testCaseLink>
    <testCaseLink>
       <guid>814834db-891e-4296-b1f3-0f99c1d8983a</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/001/RO.ACT.001.LEC.01</testCaseId>
+      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/001/RO.ACT.001.LEC</testCaseId>
       <usingDataBindingAtTestSuiteLevel>true</usingDataBindingAtTestSuiteLevel>
    </testCaseLink>
    <testCaseLink>
       <guid>1bae9e5f-518e-445d-931e-d7a44a364e08</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/001/RO.ACT.001.MAJ.01</testCaseId>
+      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/001/RO.ACT.001.MAJ</testCaseId>
       <usingDataBindingAtTestSuiteLevel>true</usingDataBindingAtTestSuiteLevel>
    </testCaseLink>
    <testCaseLink>
       <guid>8cad9c8d-e269-4730-a15c-9eb222fa216c</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/001/RO.ACT.001.REC.01</testCaseId>
+      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/001/RO.ACT.001.REC</testCaseId>
       <usingDataBindingAtTestSuiteLevel>true</usingDataBindingAtTestSuiteLevel>
    </testCaseLink>
    <testCaseLink>
       <guid>c99ec3af-1554-4fb7-aea6-87ed5af69bd0</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/001/RO.ACT.001.SUP.01</testCaseId>
+      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/001/RO.ACT.001.SUP</testCaseId>
       <usingDataBindingAtTestSuiteLevel>true</usingDataBindingAtTestSuiteLevel>
    </testCaseLink>
    <testCaseLink>
@@ -85,28 +85,28 @@
       <guid>0689fb6e-7edd-4cd9-970f-353dfb6e02da</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/003MET Metier/RO.ACT.003MET.SRA.01</testCaseId>
+      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/003MET Metier/RO.ACT.003MET.SRA</testCaseId>
       <usingDataBindingAtTestSuiteLevel>true</usingDataBindingAtTestSuiteLevel>
    </testCaseLink>
    <testCaseLink>
       <guid>8443b64a-5270-46eb-90b9-d20574eef2fd</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/003MET Metier/RO.ACT.003MET.SRL.01</testCaseId>
+      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/003MET Metier/RO.ACT.003MET.SRL</testCaseId>
       <usingDataBindingAtTestSuiteLevel>true</usingDataBindingAtTestSuiteLevel>
    </testCaseLink>
    <testCaseLink>
       <guid>6f192091-4edb-41b0-a16f-8503ff97262b</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/003MET Metier/RO.ACT.003MET.SRM.01</testCaseId>
+      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/003MET Metier/RO.ACT.003MET.SRM</testCaseId>
       <usingDataBindingAtTestSuiteLevel>true</usingDataBindingAtTestSuiteLevel>
    </testCaseLink>
    <testCaseLink>
       <guid>8cc46d4e-b8ee-4525-a1b9-890137255490</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/003MET Metier/RO.ACT.003MET.SRS.01</testCaseId>
+      <testCaseId>Test Cases/RO REFERENCIEL ORGANISATION/RO.ACT Acteur/003MET Metier/RO.ACT.003MET.SRS</testCaseId>
       <usingDataBindingAtTestSuiteLevel>true</usingDataBindingAtTestSuiteLevel>
    </testCaseLink>
    <testCaseLink>

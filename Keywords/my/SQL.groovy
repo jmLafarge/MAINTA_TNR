@@ -275,7 +275,7 @@ public class SQL {
 
 		boolean specificValue = !specificValueMap.isEmpty() && specificValueMap.containsKey(fieldName)
 
-		String IV = myJDD.getParamForThisName('INTERNALVALUE', fieldName)
+		String paraIV = myJDD.getParamForThisName('INTERNALVALUE', fieldName)
 
 
 		if (!specificValue && myJDD.getParamForThisName('FOREIGNKEY', fieldName)) {
@@ -286,9 +286,9 @@ public class SQL {
 				Log.addTrace("$fieldName est NU ou NULL, pas de recherche de FK")
 			}
 
-		}else if (!specificValue && IV){
+		}else if (!specificValue && paraIV){
 
-			String internalVal = NAV.myGlobalJDD.getInternalValueOf(IV,val.toString())
+			String internalVal = IV.getInternalValueOf(paraIV,val.toString())
 
 
 			if (internalVal==val) {

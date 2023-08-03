@@ -179,7 +179,7 @@
 		RO.FOU --> FAIT
 		MP.CPT --> FAIT
 		RT.ART --> FAIT
-		RO.ORG --> en cours
+		RO.ORG --> FAIT
 		RT.MAT --> onglet matricule OK --> faire les autres
 		TR.BTR
 		RT.EQU

@@ -104,7 +104,7 @@ public class RestoreDB {
 
 		Log.addDETAIL("Création des PREJDD")
 
-		//PREJDDFiles.createInDB()
+		PREJDDFiles.createInDB()
 
 
 		Log.addDETAIL("Sauvegarde de la BDD TNR avec les PREJDD")

@@ -104,9 +104,10 @@ public class PREJDDFiles {
 						if (sequence.containsKey(seqTable)) {
 							if (seq > sequence.getAt(seqTable)) {
 								sequence.put(seqTable, seq)
+								Log.addTrace("Ajout d'une sequence sur '$fieldName', table '$seqTable', seq '$seq'")
 							}
 						}else {
-							Log.addTrace("Détection d'une sequence sur $fieldName, table $seqTable")
+							Log.addTrace("Détection d'une sequence sur '$fieldName', table '$seqTable', seq '$seq'")
 							sequence.put(seqTable, seq)
 						}
 					}
@@ -130,32 +131,32 @@ public class PREJDDFiles {
 								valueOfJDD =getValueFromFK(PR,FK,cdt,valueOfJDD.toString())
 
 							}else {
-								Log.addERROR("Pas de PREREQUIS pour '$fieldName' : lecture de la FK=$FK impossible")
+								Log.addERROR("Pas de PREREQUIS pour '$fieldName' : lecture de la FK '$FK' impossible")
 							}
 
 						}else {
-							Log.addTrace(" - Pas de lecture de FK, la valeur est : "+valueOfJDD.toString())
+							Log.addTrace(" - Pas de lecture de FK, la valeur est '${valueOfJDD.toString()}'")
 						}
 					}
 
 
 
 					// cas d'un champ lié à une INTERNALVALUE
-					String IV = myJDD.getParamForThisName('INTERNALVALUE',fieldName)
+					String paraIV = myJDD.getParamForThisName('INTERNALVALUE',fieldName)
 
-					if (IV) {
+					if (paraIV) {
 
 						if (valueOfJDD) {
 
-							Log.addTrace("Détection d'une IV sur $fieldName, IV= $IV value=$valueOfJDD :")
+							Log.addTrace("Détection d'une IV sur $fieldName, IV= $paraIV value=$valueOfJDD :")
 
-							String internalVal = NAV.myGlobalJDD.getInternalValueOf(IV,valueOfJDD.toString())
+							String internalVal = IV.getInternalValueOf(paraIV,valueOfJDD.toString())
 
 							Log.addTrace("- internal value =$internalVal")
 
 							valueOfJDD = internalVal
 						}else {
-							Log.addErrorAndStop("Détection d'une INTERNALVALUE sur $fieldName, IV= $IV, la valeur est null ou vide.")
+							Log.addErrorAndStop("Détection d'une INTERNALVALUE sur $fieldName, IV= $paraIV, la valeur est null ou vide.")
 						}
 					}
 
@@ -244,8 +245,7 @@ public class PREJDDFiles {
 
 		if (sequence.size()>0) {
 			sequence.each { table, val ->
-				String req = "DBCC CHECKIDENT ($table, RESEED,$val);"
-				Log.addTrace(req)
+				String req = "DBCC CHECKIDENT ($table, RESEED,${val+1});"
 				SQL.executeSQL(req)
 			}
 		}

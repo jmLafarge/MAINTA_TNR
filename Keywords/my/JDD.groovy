@@ -150,12 +150,12 @@ public class JDD {
 				}else {
 					List newIV = []
 					newIV.addAll([IV_para, IV_val, IV_code])
-					internalValues.add(newIV)
+					IV.add(newIV)
 				}
 
 			}
 		}
-		Log.addTrace("internalValues = " + internalValues.toString())
+		Log.addTrace("internalValues = " + IV.getList().toString())
 
 		Log.addTraceEND(CLASS_FORLOG,"JDD")
 	}
@@ -330,6 +330,13 @@ public class JDD {
 						ret = JDDKW.getOldValueOfKW_UPD(ret)
 					}
 				}
+				String paraIV = getParamForThisName('INTERNALVALUE',name)
+				
+				if (paraIV) {
+					ret = IV.getInternalValueOf(paraIV,ret.toString())
+				}
+
+				//
 			} else {
 				Log.addERROR("getData($name, $cdtnum ) '$name' n'est pas une colonne du JDD")
 			}
@@ -337,10 +344,10 @@ public class JDD {
 		Log.addTraceEND(CLASS_FORLOG,"getData",ret)
 		return ret
 	}
-	
-	
-	
-	
+
+
+
+
 
 
 
@@ -359,9 +366,9 @@ public class JDD {
 		Log.addTraceEND(CLASS_FORLOG,"getStrData",ret)
 		return ret
 	}
-	
-	
-	
+
+
+
 
 
 
@@ -570,6 +577,7 @@ public class JDD {
 
 
 
+
 	/**
 	 * Vérifie si une valeur est une clé étrangère.
 	 *
@@ -680,22 +688,6 @@ public class JDD {
 
 
 
-
-	/**
-	 * Récupère la valeur interne d'un paramètre.
-	 *
-	 * @param para Nom du paramètre.
-	 * @param val Valeur du paramètre.
-	 * @return La valeur interne du paramètre.
-	 */
-	def String getInternalValueOf(String para, String val) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"getInternalValueOf",[para:para,val:val])
-
-		String res = internalValues.find { it[0] == para && it[1] == val }?.get(2)
-
-		Log.addTraceEND(CLASS_FORLOG,"getInternalValueOf",res)
-		return res
-	}
 
 	/**
 	 * Récupère le numéro de ligne d'un paramètre.

@@ -17,7 +17,7 @@ import my.RestoreDB
  
 Log.addTITLE("Lancement de TNR SEQUENCER")
 
-RestoreDB.run()
+//RestoreDB.run()
 
 TNRResult.addStartInfo('TNR SEQUENCEUR')
 
@@ -31,7 +31,7 @@ Sequencer.testCasesList.each { TCMap ->
 
 
 		try {
-			//WebUI.callTestCase(findTestCase(TCMap.TCFULLNAME), ['MYNAME':'JML'], FailureHandling.STOP_ON_FAILURE)
+			WebUI.callTestCase(findTestCase(TCMap.TCFULLNAME), ['MYNAME':'JML'], FailureHandling.STOP_ON_FAILURE)
 
 		} catch (StepErrorException  ex) {
 			TNRResult.addSTEPERROR("Erreur d'exécution du TestCase")
@@ -47,9 +47,7 @@ Sequencer.testCasesList.each { TCMap ->
 			TNRResult.addDETAIL(ke.getMessage())
 		}
 		
-		// pour être sur en cas d'erreur du try/catch
 		TNRResult.addEndTestCase()
-
 	}	
 }
 

@@ -14,7 +14,9 @@ public class CELLStyleFactory {
 
 	public CellStyle cellStyle_time
 	public CellStyle cellStyle_duration
+	public CellStyle cellStyle_durationResultat
 	public CellStyle cellStyle_date
+	public CellStyle cellStyle_dateResultat
 	public CellStyle cellStyle_hyperlink
 
 	public CellStyle cellStyle_PASS
@@ -65,7 +67,9 @@ public class CELLStyleFactory {
 
 		createCellStyle_time()
 		createCellStyle_duration()
+		createCellStyle_durationResultat()
 		createCellStyle_date()
+		createCellStyle_dateResultat()
 		createCellStyle_hyperlink()
 		createCellStyle_PASS()
 		createCellStyle_WARNING()
@@ -101,6 +105,8 @@ public class CELLStyleFactory {
 
 		cellStyle_time = book.createCellStyle()
 		cellStyle_time.setDataFormat( createHelper.createDataFormat().getFormat("HH:mm:ss"))
+		cellStyle_time.setAlignment(HorizontalAlignment.RIGHT)
+		cellStyle_time.setVerticalAlignment(VerticalAlignment.CENTER)
 	}
 
 
@@ -110,8 +116,16 @@ public class CELLStyleFactory {
 
 		cellStyle_duration = book.createCellStyle()
 		cellStyle_duration.setAlignment(HorizontalAlignment.RIGHT)
+		cellStyle_duration.setVerticalAlignment(VerticalAlignment.CENTER)
 	}
 
+	
+	private createCellStyle_durationResultat() {
+
+		cellStyle_durationResultat = book.createCellStyle()
+		cellStyle_durationResultat.setAlignment(HorizontalAlignment.LEFT)
+		cellStyle_durationResultat.setVerticalAlignment(VerticalAlignment.CENTER)
+	}
 
 
 
@@ -119,20 +133,33 @@ public class CELLStyleFactory {
 
 		cellStyle_date = book.createCellStyle()
 		cellStyle_date.setDataFormat( createHelper.createDataFormat().getFormat("dd/MM/yyyy"))
+		cellStyle_date.setAlignment(HorizontalAlignment.LEFT)
+		cellStyle_date.setVerticalAlignment(VerticalAlignment.CENTER)
 	}
 
+	private createCellStyle_dateResultat() {
+		def font = book.createFont()
+		font.setFontName('Arial')
+		font.setFontHeightInPoints(14 as short)
 
+		cellStyle_dateResultat = book.createCellStyle()
+		cellStyle_dateResultat.setDataFormat( createHelper.createDataFormat().getFormat("dd/MM/yyyy"))
+		cellStyle_dateResultat.setVerticalAlignment(VerticalAlignment.CENTER)
+		cellStyle_dateResultat.setAlignment(HorizontalAlignment.LEFT)
+		cellStyle_dateResultat.setFont(font)
+	}
 
 
 	private createCellStyle_hyperlink() {
 
-		cellStyle_hyperlink = book.createCellStyle()
 		def fontHyperLink = book.createFont()
 		fontHyperLink.setFontName('Arial')
 		fontHyperLink.setFontHeightInPoints(10 as short)
 		fontHyperLink.setUnderline(FontUnderline.SINGLE.getByteValue())
 		fontHyperLink.setColor(IndexedColors.BLUE.getIndex())
 
+		cellStyle_hyperlink = book.createCellStyle()
+		cellStyle_hyperlink.setVerticalAlignment(VerticalAlignment.CENTER)
 		cellStyle_hyperlink.setFont(fontHyperLink)
 	}
 
@@ -154,6 +181,7 @@ public class CELLStyleFactory {
 		cellStyle_PASS = book.createCellStyle()
 		cellStyle_PASS.setFillForegroundColor(IndexedColors.BRIGHT_GREEN.index)
 		cellStyle_PASS.setFillPattern(FillPatternType.SOLID_FOREGROUND)
+		cellStyle_PASS.setVerticalAlignment(VerticalAlignment.CENTER)
 
 		cellStyle_PASS.setFont(fontCDT)
 	}
@@ -166,6 +194,7 @@ public class CELLStyleFactory {
 		cellStyle_WARNING = book.createCellStyle()
 		cellStyle_WARNING.setFillForegroundColor(IndexedColors.YELLOW.index)
 		cellStyle_WARNING.setFillPattern(FillPatternType.SOLID_FOREGROUND)
+		cellStyle_WARNING.setVerticalAlignment(VerticalAlignment.CENTER)
 
 		cellStyle_WARNING.setFont(fontCDT)
 	}
@@ -178,6 +207,7 @@ public class CELLStyleFactory {
 		cellStyle_FAIL = book.createCellStyle()
 		cellStyle_FAIL.setFillForegroundColor(IndexedColors.LIGHT_ORANGE.index)
 		cellStyle_FAIL.setFillPattern(FillPatternType.SOLID_FOREGROUND)
+		cellStyle_FAIL.setVerticalAlignment(VerticalAlignment.CENTER)
 
 		cellStyle_FAIL.setFont(fontCDT)
 	}
@@ -190,6 +220,7 @@ public class CELLStyleFactory {
 		cellStyle_ERROR = book.createCellStyle()
 		cellStyle_ERROR.setFillForegroundColor(IndexedColors.ORANGE.index)
 		cellStyle_ERROR.setFillPattern(FillPatternType.SOLID_FOREGROUND)
+		cellStyle_ERROR.setVerticalAlignment(VerticalAlignment.CENTER)
 
 		cellStyle_ERROR.setFont(fontCDT)
 	}
@@ -210,6 +241,7 @@ public class CELLStyleFactory {
 		cellStyle_TOT.setFillPattern(FillPatternType.NO_FILL)
 		cellStyle_TOT.setVerticalAlignment(VerticalAlignment.CENTER)
 		cellStyle_TOT.setAlignment(HorizontalAlignment.RIGHT)
+		cellStyle_TOT.setVerticalAlignment(VerticalAlignment.CENTER)
 		cellStyle_TOT.setFont(fontTOT)
 	}
 
@@ -270,6 +302,7 @@ public class CELLStyleFactory {
 		cellStyle_STEPTOT.setFillPattern(FillPatternType.NO_FILL)
 		cellStyle_STEPTOT.setVerticalAlignment(VerticalAlignment.CENTER)
 		cellStyle_STEPTOT.setAlignment(HorizontalAlignment.RIGHT)
+		cellStyle_STEPTOT.setVerticalAlignment(VerticalAlignment.CENTER)
 	}
 
 
@@ -280,6 +313,7 @@ public class CELLStyleFactory {
 		cellStyle_RESULT_STEPNBR = book.createCellStyle()
 		cellStyle_RESULT_STEPNBR.setFillPattern(FillPatternType.NO_FILL)
 		cellStyle_RESULT_STEPNBR.setAlignment(HorizontalAlignment.RIGHT)
+		cellStyle_RESULT_STEPNBR.setVerticalAlignment(VerticalAlignment.CENTER)
 	}
 
 
@@ -306,6 +340,7 @@ public class CELLStyleFactory {
 
 		cellStyle_RESULT_STEP = book.createCellStyle()
 		cellStyle_RESULT_STEP.setFont(fontStep)
+		cellStyle_RESULT_STEP.setVerticalAlignment(VerticalAlignment.CENTER)
 	}
 
 
@@ -374,7 +409,7 @@ public class CELLStyleFactory {
 		cellStyle_RESULT_STEPGRP = book.createCellStyle()
 		cellStyle_RESULT_STEPGRP.setFillPattern(FillPatternType.SOLID_FOREGROUND)
 		cellStyle_RESULT_STEPGRP.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.index)
-
+		cellStyle_RESULT_STEPGRP.setVerticalAlignment(VerticalAlignment.CENTER)
 		cellStyle_RESULT_STEPGRP.setFont(fontStepGRP)
 	}
 
@@ -386,7 +421,7 @@ public class CELLStyleFactory {
 		cellStyle_RESULT_STEPACTION = book.createCellStyle()
 		cellStyle_RESULT_STEPACTION.setFillPattern(FillPatternType.SOLID_FOREGROUND)
 		cellStyle_RESULT_STEPACTION.setFillForegroundColor(IndexedColors.LIGHT_CORNFLOWER_BLUE.index)
-
+		cellStyle_RESULT_STEPACTION.setVerticalAlignment(VerticalAlignment.CENTER)
 		cellStyle_RESULT_STEPACTION.setFont(fontStepGRP)
 	}
 
@@ -396,7 +431,7 @@ public class CELLStyleFactory {
 	private createCellStyle_RESULT_STEPBLOCK() {
 
 		cellStyle_RESULT_STEPBLOCK = book.createCellStyle()
-
+		cellStyle_RESULT_STEPBLOCK.setVerticalAlignment(VerticalAlignment.CENTER)
 		cellStyle_RESULT_STEPBLOCK.setFont(fontStep)
 	}
 
@@ -412,6 +447,7 @@ public class CELLStyleFactory {
 		fontStepLOOP.setColor(IndexedColors.BLUE.getIndex())
 
 		cellStyle_RESULT_STEPLOOP = book.createCellStyle()
+		cellStyle_RESULT_STEPLOOP.setVerticalAlignment(VerticalAlignment.CENTER)
 		cellStyle_RESULT_STEPLOOP.setFont(fontStepLOOP)
 	}
 
@@ -428,6 +464,7 @@ public class CELLStyleFactory {
 		fontStepSUB.setColor(IndexedColors.DARK_BLUE.getIndex())
 
 		cellStyle_RESULT_SUBSTEP = book.createCellStyle()
+		cellStyle_RESULT_SUBSTEP.setVerticalAlignment(VerticalAlignment.CENTER)
 		cellStyle_RESULT_SUBSTEP.setFont(fontStepSUB)
 	}
 
@@ -444,6 +481,7 @@ public class CELLStyleFactory {
 		fontStepDetail.setColor(IndexedColors.GREY_80_PERCENT.getIndex())
 
 		cellStyle_RESULT_STEPDETAIL = book.createCellStyle()
+		cellStyle_RESULT_STEPDETAIL.setVerticalAlignment(VerticalAlignment.CENTER)
 		cellStyle_RESULT_STEPDETAIL.setFont(fontStepDetail)
 	}
 

@@ -71,8 +71,8 @@ class NAV {
 		Log.addTraceEND(CLASS_FORLOG,"verifierEcranResultat")
 
 	} // end of def
-	
-	
+
+
 
 	/**
 	 * Vérifier écran Création

@@ -425,12 +425,15 @@ class KW {
 				if (WebUI.waitForElementVisible(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)) {
 					TNRResult.addSTEPPASS("Vérifier que l'élément '${tObj.getObjectId()}' soit visible")
 					return true
+				}else if (WebUI.getAttribute(tObj, 'disabled', FailureHandling.STOP_ON_FAILURE)) {
+					TNRResult.addSTEPPASS("Vérifier que l'élément '${tObj.getObjectId()}' soit visible")
+					TNRResult.addDETAIL("Elément 'disabled'")
+					return true
 				}else {
-					TNRResult.addSTEP("Vérifier que l'élément '${tObj.getObjectId()}' soit visible", status)
+					TNRResult.addSTEP("Vérifier que l'élément '${tObj.getObjectId()}' soit visible",status)
 					TNRResult.addDETAIL("KO après $timeOut seconde(s)")
 					return false
 				}
-				//WebUI.verifyElementInViewport(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
 			} catch (Exception ex) {
 				TNRResult.addSTEP("Vérifier que l'élément '${tObj.getObjectId()}' soit visible", status)
 				TNRResult.addDETAIL(ex.getMessage())
@@ -578,7 +581,7 @@ class KW {
 			}
 		}
 	} // end of def
-	
+
 
 
 	static scrollAndSetText(JDD myJDD, String name, String text=null, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
