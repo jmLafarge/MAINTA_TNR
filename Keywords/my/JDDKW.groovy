@@ -16,6 +16,14 @@ public class JDDKW {
 		KW_TBD:'$TBD',
 		KW_UPD:'$UPD'
 	]
+	
+	
+	
+	static List getKWAllowedList() {
+		return KEYWORD_ALLOWED.values() as List
+	} 
+	
+	
 
 	static boolean isAllowedKeyword(String val) {
 		return (KEYWORD_ALLOWED.containsValue(val) || startWithTBD(val) || isUPD(val))

@@ -47,8 +47,8 @@ class Log {
 
 	private static String tab = ''
 	private static final String STRTABSEP = ' |\t'
-	private static final String STRBEGIN = '=> '
-	private static final String STREND = '<= '
+	private static final String STRBEGIN = '>> '
+	private static final String STREND = '<< '
 
 	private static String PREDEBUGTXT	= '\t'
 	private static String PREDETAILTXT	= '\t- '
@@ -210,7 +210,7 @@ class Log {
 		tab = STRTABSEP.multiply(level) //
 
 		if (traceAllowed ) {
-			String r = ret?" --> '$ret'":' ---'
+			String r = ret?" <-- '$ret'":' ---'
 			addDEBUG(STREND + getClassFunction(myClass,myFunction) + '()' + r)
 		}
 		delToTraceList(myClass, myFunction)

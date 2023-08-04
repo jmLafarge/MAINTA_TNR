@@ -5,6 +5,7 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 
 import groovy.transform.CompileStatic
+import internal.GlobalVariable
 
 @CompileStatic
 public class RestoreDB {
@@ -21,7 +22,24 @@ public class RestoreDB {
 			restoreTNR(backupFileList[0])
 		}else {
 			initTNR()
+		}	
+		
+		
+		// Attendre le recyclage
+		/*
+		KW.openBrowser(GlobalVariable.BASE_URL.toString())
+		KW.maximizeWindow()
+		KW.click(NAV.myGlobalJDD,'button_Jeminscrit')
+		
+		if (KW.waitForElementVisible(NAV.myGlobalJDD, 'div_logininscription', 80)) {
+			Log.addTrace("La fenetre d'inscription est apparue")
+			KW.closeBrowser()
+		}else {
+			KW.closeBrowser()
+			Log.addErrorAndStop("La fenetre d'inscription n'est pas apparue ! ")
 		}
+		*/
+		
 		Log.addTraceEND(CLASS_FORLOG,"run")
 	}
 

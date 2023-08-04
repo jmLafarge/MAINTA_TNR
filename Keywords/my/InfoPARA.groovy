@@ -1,11 +1,9 @@
 package my
 
-import groovy.transform.CompileStatic
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
-import my.Log
-import my.JDD
-import my.XLS
+
+import groovy.transform.CompileStatic
 
 @CompileStatic
 public class InfoPARA {
@@ -15,11 +13,15 @@ public class InfoPARA {
 	private static String fileName = ''
 	private static XSSFWorkbook book
 	private static Sheet shPara
+	private static Sheet shKW
 
 	private static CellStyle whereStyle
 	private static CellStyle paraStyle
 
-	private static List headers = ['NOM', 'NBBDD']
+	private static List headersPara = ['NOM', 'NBBDD']
+	private static List headersKW = ['JDD', 'CDT','NAME','KW']
+	
+	private static int numRowKW=0
 
 	static {
 
@@ -27,7 +29,14 @@ public class InfoPARA {
 		Log.addSubTITLE("Chargement de : " + fileName,'-',120)
 		book = XLS.open(fileName)
 
+		// Init shPARA
 		shPara = book.getSheet('PARA')
+		
+		if (shPara) {
+			book.removeSheetAt(book.getSheetIndex(shPara))
+		}
+		shPara = book.createSheet('PARA')
+		Row row =shPara.createRow(0)
 
 		whereStyle = book.createCellStyle()
 		whereStyle.setWrapText(true)
@@ -37,23 +46,19 @@ public class InfoPARA {
 		paraStyle.setVerticalAlignment(VerticalAlignment.TOP)
 
 
-		Row row = shPara.getRow(0)
-		if (row==null) {
-			Log.addTrace("Créer la premiere ligne ")
-			row =shPara.createRow(0)
-		}
-
 		def jdd = new my.JDD(JDDFiles.JDDfilemap.values()[0])
 		List paramListAllowed = jdd.getParamListAllowed()
 
 		for (String para : paramListAllowed) {
-			headers.add(para)
-			headers.add(para + '_JDD')
+			headersPara.add(para)
+			headersPara.add(para + '_JDD')
 		}
 
 
-		for (i in 0..headers.size()-1) {
-			if (XLS.getCellValue(row.getCell(i))=='') XLS.writeCell(row, i, headers[i])
+		for (i in 0..headersPara.size()-1) {
+			if (XLS.getCellValue(row.getCell(i))=='') {
+				XLS.writeCell(row, i, headersPara[i])
+			}
 		}
 
 
@@ -65,16 +70,36 @@ public class InfoPARA {
 				break
 			}
 			String name  = XLS.getCellValue(row.getCell(0))
-			paraMap[name] = XLS.loadRow2(row,0,headers.size(),null)
+			paraMap[name] = XLS.loadRow2(row,0,headersPara.size(),null)
 		}
 
 		Log.addTrace("paraMap.size= " + paraMap.size())
+		
+		// Init shKW
+		shKW = book.getSheet('KW')
+		
+		if (shKW) {
+			book.removeSheetAt(book.getSheetIndex(shKW))
+		}
+		shKW = book.createSheet('KW')
+		row =shKW.createRow(0)
+		
+		headersKW.eachWithIndex { name,idx ->  XLS.writeCell(row, idx, name)}
+
+	}
+	
+	public static writeLineKW(String fullName,String cdt, String name, String kw) {
+		Row row = shKW.createRow(++numRowKW)
+		XLS.writeCell(row,0,fullName,paraStyle)
+		XLS.writeCell(row,1,cdt,paraStyle)
+		XLS.writeCell(row,2,name,paraStyle)
+		XLS.writeCell(row,3,kw,paraStyle)
 	}
 
 
 
 
-	public static update(JDD myJDD,String col,String fullName, String where) {
+	public static updateShPara(JDD myJDD,String col,String fullName, String where) {
 
 		int icol = 2
 		
@@ -90,7 +115,7 @@ public class InfoPARA {
 
 				if (!paraMap.containsKey(col)) {
 
-					paraMap[col]=[null]*headers.size()
+					paraMap[col]=[null]*headersPara.size()
 
 
 					Log.addTrace("\tCréation '$col' pour sheetname "+shPara.getSheetName())
@@ -177,6 +202,7 @@ public class InfoPARA {
 
 
 	public static write(){
+		println paraMap
 		Log.addTrace('update PARA dans InfoPARA')
 		OutputStream fileOut = new FileOutputStream(fileName)
 		book.write(fileOut);

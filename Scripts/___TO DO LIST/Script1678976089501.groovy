@@ -103,27 +103,6 @@
 	VERIFIER les nom des cas de tests des sous-rubriques
 
 
-
-	Nouveau TAG IHM : bouton radio
-	
-		AFFICHE TAG --> modifié
-		TEST CASE CODE GENERATOR --> en cours ligne 109
-		JDD
-		KW
-		...
-	
-
-	Nouveau JDDKW $UPD
-	
-		- CHECK PRREQUIS 					--> fait
-		- CREATE PREJDD in DB 				--> pas d'impact car pas $UPD est interdit dans les PREJDD
-		- CheckTypeInDATA.run()				--> à terminer
-		- Prise en compte dans les JDD
-		- Ctrl en BDD
-		....
-
-
-
  
 	RESULTAT DES TESTS
 	 
@@ -139,8 +118,6 @@
 	 	
 	 	ARTICLE SUPPRESSION			--> Ce code ne peut pas supprimé
 	 	
-	 	ARTICLE CREATION			--> Les points ne sont pas acceptés dans ID_CODART 										--> le point est un caractere interdit 
-	 	
 	 	MATRICULE SUPPRESSION		--> Pas de bouton supprimer !															--> revoir les regles de supression du Matricule
 	 																														--> la fonction teste si 2 mouvements sinon pas de delete
 	 	ORGANISATION CREATION		--> NU_EFF n'est pas dans la vue
@@ -150,26 +127,9 @@
 	 	
 	 																														
 	 	
-	 	
 
-	 
 	
 	
-	Ajout de INTERNALVALUE dans PARAM_LIST_ALLOWED
-		Pour permettre de déterminer un identifiant ineterne à des valeurs, par exemple pour un select ou des PREREQUIS BDD (ex Groupe)
-		Les valeurs sont saisies dans un onglet INTERNALVALUE de JDD.GLOBAL
-		
-		--> mettre à jour infoPARA
-		--> mettre à jour JDD GENERATOR
-		--> mettre à jour PREJDDFiles  --> fait
-		--> mettre à jour SQL  --> fait
-		
-		--> vérifier que INTERNALVALUE soit pris en compte dans les PREJDD
-	
-	
-	
-	
-	Ajouter les DES dans ART avec JDD Generator listRubriquesIHM
 	
 	
 	LOT PROTO + 1A
@@ -180,7 +140,7 @@
 		MP.CPT --> FAIT
 		RT.ART --> FAIT
 		RO.ORG --> FAIT
-		RT.MAT --> onglet matricule OK --> faire les autres
+		RT.MAT --> Creation, faire la 2eme validation, vérifier si les attributs sont dans le JDD (NUC doit faire le para de master pour "Code Référence comptable" (REFCOM) 
 		TR.BTR
 		RT.EQU
 		AD.DEP --> Fait
@@ -194,7 +154,6 @@
  * -----------------------------------------------------------------------------------------------------
  * 
 
-	PAS VISIBLE vs  lecture seul <input disabled="disabled" > --> faire la différence dans Resultat
 
 	CHECK PREREQUIS
 	
@@ -206,11 +165,6 @@
 		Ajouter RestoreDB.run()
 
 
-	SCRIPT
-	
-		Faire un nouveau ou l'inclure dans le CHECK JDD pour :
-			lister les mot cles
-			lister les para
 	
 
 

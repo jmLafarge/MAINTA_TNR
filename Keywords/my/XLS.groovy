@@ -177,7 +177,7 @@ public class XLS {
 					break
 				case Cell.CELL_TYPE_NUMERIC: // 0
 					if (DateUtil.isCellDateFormatted(cell)) {
-						Log.addTrace("isCellDateFormatted() = true")
+						Log.addTrace("isCellDateFormatted() = true" + cell.getDateCellValue().getClass())
 						CellData = cell.getDateCellValue()
 					} else {
 						CellData = (long) cell.getNumericCellValue()
@@ -344,7 +344,7 @@ public class XLS {
 		int rowNum = getRowNumOfFirstCellFree(sheet, col)
 		Row row = getNewRow(sheet, rowNum)
 
-		Log.addTraceEND(CLASS_FORLOG,"getNextRow",row)
+		Log.addTraceEND(CLASS_FORLOG,"getNextRow",row.getRowNum())
 		return row
 	}
 

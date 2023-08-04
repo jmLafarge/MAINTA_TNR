@@ -1,5 +1,7 @@
-import my.RestoreDB
+import internal.GlobalVariable
 
-RestoreDB.run()
+GlobalVariable.CASDETESTPATTERN = 'RT.MAT.001'
 
-String ret = getParamForThisName('INTERNALVALUE',name)
+my.JDD myJDD = new my.JDD()
+
+

@@ -63,7 +63,7 @@ public class JDD {
 
 	private List <List <String>> internalValues  = []
 
-	//private Map  binding = [:]
+
 
 	////////////////////
 	private List CDTList = []
@@ -331,7 +331,7 @@ public class JDD {
 					}
 				}
 				String paraIV = getParamForThisName('INTERNALVALUE',name)
-				
+
 				if (paraIV) {
 					ret = IV.getInternalValueOf(paraIV,ret.toString())
 				}
