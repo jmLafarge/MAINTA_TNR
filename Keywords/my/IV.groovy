@@ -32,6 +32,10 @@ public class IV {
 		Log.addTraceBEGIN(CLASS_FORLOG,"getInternalValueOf",[para:para,val:val])
 
 		String res = list.find { it[0] == para && it[1] == val }?.get(2)
+		
+		if (!res) {
+			Log.addERROR('Pas de valeur trouvée')
+		}
 
 		Log.addTraceEND(CLASS_FORLOG,"getInternalValueOf",res)
 		return res

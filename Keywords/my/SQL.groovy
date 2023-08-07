@@ -157,16 +157,32 @@ public class SQL {
 	}
 
 
+
+
+	static getFirstVal(String query) {
+
+		Log.addTraceBEGIN(CLASS_FORLOG,"getFirstVal",[query:query])
+
+		Map frow = getFirstRow(query)
+		def ret = (frow) ? frow.values().first() : null
+
+		Log.addTraceEND(CLASS_FORLOG,"getFirstVal",ret)
+		return ret
+	}
+
+
+
+
+
+
+
 	static int checkIfExist(String table, String where) {
 
 		Log.addTraceBEGIN(CLASS_FORLOG,"checkIfExist",[table:table,where:where])
 
-		String sql = "SELECT count(*) as nbr FROM $table WHERE $where"
-		Map result = SQL.getFirstRow("$sql")
-		int ret = 0
-		if(result) {
-			ret =  result.nbr as int
-		}
+		def fval = getFirstVal("SELECT count(*) FROM $table WHERE $where")
+		int ret = (fval) ? fval as int: 0
+
 		Log.addTraceEND(CLASS_FORLOG,"checkIfExist",ret)
 		return ret
 	}
@@ -244,9 +260,6 @@ public class SQL {
 			if (verifStatus =='PASS') {
 
 				row.each{fieldName,val ->
-
-					Log.addTrace("fieldName = $fieldName , val = $val , JDD value = " + myJDD.getData(fieldName.toString()))
-
 					verifStatus = checkValue(myJDD,fieldName.toString(), val,verifStatus, specificValueMap,casDeTestNum)
 				}//row
 
@@ -262,11 +275,11 @@ public class SQL {
 
 
 
-	private static String checkValue(my.JDD myJDD, String fieldName, val,String verifStatus, Map specificValueMap, int casDeTestNum) {
+	private static String checkValue(my.JDD myJDD, String fieldName, def valDB,String verifStatus, Map specificValueMap, int casDeTestNum) {
 
 
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"checkValue",[myJDD:myJDD.toString(),fieldName:fieldName,verifStatus:verifStatus,specificValueMap:specificValueMap,casDeTestNum:casDeTestNum])
+		Log.addTraceBEGIN(CLASS_FORLOG,"checkValue",[myJDD:myJDD.toString() , fieldName:fieldName , val:valDB , verifStatus:verifStatus,specificValueMap:specificValueMap,casDeTestNum:casDeTestNum])
 
 		if (myJDD.isOBSOLETE(fieldName)) {
 			Log.addTraceEND(CLASS_FORLOG,"checkValue",verifStatus)
@@ -281,20 +294,33 @@ public class SQL {
 		if (!specificValue && myJDD.getParamForThisName('FOREIGNKEY', fieldName)) {
 
 			if (!JDDKW.isNU(myJDD.getData(fieldName)) && !JDDKW.isNULL(myJDD.getData(fieldName))) {
-				if (!checkForeignKey(myJDD, fieldName, val)) verifStatus= 'FAIL'
+				if (!checkForeignKey(myJDD, fieldName, valDB)) {
+					verifStatus= 'FAIL'
+				}
 			}else {
 				Log.addTrace("$fieldName est NU ou NULL, pas de recherche de FK")
 			}
 
 		}else if (!specificValue && paraIV){
 
-			String internalVal = IV.getInternalValueOf(paraIV,val.toString())
+			String internalVal = IV.getInternalValueOf(paraIV,myJDD.getStrData(fieldName))
 
 
-			if (internalVal==val) {
-				Log.addTrace("Contrôle de la valeur INTERNAL de '$fieldName' pour '$val' OK : la valeur attendue est '" + myJDD.getData(fieldName) + "' et la valeur en BD est  : '$internalVal'" )
+			if (internalVal==valDB) {
+				Log.addTrace("Contrôle de la valeur INTERNAL de '$fieldName' pour '$valDB' OK : la valeur attendue est '" + myJDD.getData(fieldName) + "' et la valeur en BD est  : '$internalVal'" )
 			}else {
-				TNRResult.addDETAIL("Contrôle de la valeur INTERNAL de '$fieldName' pour '$val' KO : la valeur attendue est '" + myJDD.getData(fieldName) + "' et la valeur en BD est  : '$internalVal'")
+				TNRResult.addDETAIL("Contrôle de la valeur INTERNAL de '$fieldName' pour '$valDB' KO : la valeur attendue est '" + myJDD.getData(fieldName) + "' et la valeur en BD est  : '$internalVal'")
+				verifStatus = 'FAIL'
+			}
+			
+		}else if (JDDKW.isUPD(myJDD.getStrData(fieldName))) {
+			
+			String newVal = JDDKW.getNewValueOfKW_UPD(myJDD.getStrData(fieldName))
+			
+			if (newVal==valDB.toString()) {
+				logaddTrace('JML1',fieldName,newVal,valDB)
+			}else {
+				logAddDETAIL('JML2',fieldName,newVal,valDB)
 				verifStatus = 'FAIL'
 			}
 
@@ -304,16 +330,16 @@ public class SQL {
 
 				case JDDKW.getKW_NU() :
 
-					Log.addTrace("NU : Pas de contrôle pour '$fieldName' : la valeur en BD est  : '$val'" )
+					Log.addTrace("NU : Pas de contrôle pour '$fieldName' : la valeur en BD est  : '$valDB'" )
 					break
 
 				case JDDKW.getKW_VIDE() :
 				case JDDKW.getKW_NULL():
-					if (val == null || val =='') {
+					if (valDB == null || valDB =='') {
 
-						logaddTrace('',fieldName,'VIDE ou NULL',val)
+						logaddTrace('',fieldName,'VIDE ou NULL',valDB)
 					}else {
-						logAddDETAIL('',fieldName,'VIDE ou NULL',val)
+						logAddDETAIL('',fieldName,'VIDE ou NULL',valDB)
 						verifStatus= 'FAIL'
 					}
 
@@ -321,16 +347,16 @@ public class SQL {
 
 				case JDDKW.getKW_DATE() :
 
-					logAddDETAIL('DATE ***** reste à faire *****',fieldName,myJDD.getData(fieldName),val)
+					logAddDETAIL('DATE ***** reste à faire *****',fieldName,myJDD.getData(fieldName),valDB)
 					verifStatus= 'FAIL'
 					break
 
 				case JDDKW.getKW_DATETIME() :
 
-					if (val instanceof java.sql.Timestamp) {
-						logaddTrace('DATETIME',fieldName,myJDD.getData(fieldName),val)
+					if (valDB instanceof java.sql.Timestamp) {
+						logaddTrace('DATETIME',fieldName,myJDD.getData(fieldName),valDB)
 					}else {
-						logAddDETAIL('DATETIME',fieldName,myJDD.getData(fieldName),val)
+						logAddDETAIL('DATETIME',fieldName,myJDD.getData(fieldName),valDB)
 						verifStatus= 'FAIL'
 					}
 					break
@@ -343,7 +369,7 @@ public class SQL {
 				 logaddTrace('SEQUENCEID',fieldName,lastSeq,val)
 				 }else {
 				 */
-					logAddDETAIL('SEQUENCEID',fieldName,myJDD.getData(fieldName),val)
+					logAddDETAIL('SEQUENCEID',fieldName,myJDD.getData(fieldName),valDB)
 					verifStatus= 'FAIL'
 				//}
 
@@ -351,7 +377,7 @@ public class SQL {
 
 				case JDDKW.getKW_ORDRE() :
 
-					logAddDETAIL('ORDRE ***** reste àfaire *****',fieldName,myJDD.getData(fieldName),val)
+					logAddDETAIL('ORDRE ***** reste àfaire *****',fieldName,myJDD.getData(fieldName),valDB)
 				//voir aussi le NU_NIV *******
 					verifStatus= 'FAIL'
 					break
@@ -360,14 +386,14 @@ public class SQL {
 
 					if (specificValue) {
 
-						String valClass = val ? val.getClass() : 'NULL'
-						Log.addTrace("Pour '$fieldName' la class de la valeur en BD est:$val,  la class de la valeur spécifique est  : " + specificValueMap[fieldName].getClass())
+						String valClass = valDB ? valDB.getClass() : 'NULL'
+						Log.addTrace("Pour '$fieldName' la class de la valeur en BD est:$valDB,  la class de la valeur spécifique est  : " + specificValueMap[fieldName].getClass())
 
 
-						if ( val == InfoDB.castJDDVal(myJDD.getDBTableName(), fieldName, specificValueMap[fieldName])) {
-							logaddTrace('spécifique',fieldName,specificValueMap[fieldName],val)
+						if ( valDB == InfoDB.castJDDVal(myJDD.getDBTableName(), fieldName, specificValueMap[fieldName])) {
+							logaddTrace('spécifique',fieldName,specificValueMap[fieldName],valDB)
 						}else {
-							logAddDETAIL('spécifique',fieldName,specificValueMap[fieldName],val)
+							logAddDETAIL('spécifique',fieldName,specificValueMap[fieldName],valDB)
 							verifStatus = 'FAIL'
 						}
 					}else {
@@ -381,16 +407,16 @@ public class SQL {
 
 								def editorKit = new RTFEditorKit()
 								editorKit.read(new StringReader(frow[0].toString()), texte , 0)
-								val = texte.getText(0, texte.getLength()-2)
+								valDB = texte.getText(0, texte.getLength()-2)
 
 							}
 						}
 
 
-						if ( val == InfoDB.castJDDVal(myJDD.getDBTableName(), fieldName, myJDD.getData(fieldName))) {
-							logaddTrace('',fieldName,myJDD.getData(fieldName),val)
+						if ( valDB == InfoDB.castJDDVal(myJDD.getDBTableName(), fieldName, myJDD.getData(fieldName))) {
+							logaddTrace('',fieldName,myJDD.getData(fieldName),valDB)
 						}else {
-							logAddDETAIL('',fieldName,myJDD.getData(fieldName),val)
+							logAddDETAIL('',fieldName,myJDD.getData(fieldName),valDB)
 							verifStatus = 'FAIL'
 						}
 					}
@@ -421,43 +447,28 @@ public class SQL {
 
 		Log.addTraceBEGIN(CLASS_FORLOG,"getMaintaVersion",[:])
 
-		String query = "SELECT ST_VAL FROM VER WHERE ID_CODINF = 'CURR_VERS'"
-		String ret
-		try {
-			def frow = sqlInstance.firstRow(query)
-			if (frow ) {
-				ret = frow.getAt(0).toString()
-			}
-		}catch(Exception ex) {
-			Log.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
-			TNRResult.addDETAIL("getMaintaVersion()")
-			TNRResult.addDETAIL(ex.getMessage())
-		}
+		def fval =this.getFirstVal("SELECT ST_VAL FROM VER WHERE ID_CODINF = 'CURR_VERS'")
+		String ret = (fval) ? fval.toString() : null
+
 		Log.addTraceEND(CLASS_FORLOG,"getMaintaVersion",ret)
 		return ret
 	}
 
 
-	private static boolean checkForeignKey(JDD myJDD, String fieldName, def val) {
+	private static boolean checkForeignKey(JDD myJDD, String fieldName, def valDB) {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"checkForeignKey",[myJDD:myJDD.toString(),fieldName:fieldName,val:val])
+		Log.addTraceBEGIN(CLASS_FORLOG,"checkForeignKey",[myJDD:myJDD.toString(),fieldName:fieldName,val:valDB])
 
 		boolean pass = false
 		String query = myJDD.getSqlForForeignKey(fieldName)
-		try {
-			def frow = sqlInstance.firstRow(query)
-			if (frow == null) {
-				TNRResult.addDETAIL("Contrôle de la valeur de $fieldName (FK) KO, pas de résultat pour la query : $query")
-			}else if (val != frow.getAt(0)) {
-				TNRResult.addDETAIL("Contrôle de la valeur de $fieldName (FK) KO : ** la valeur du JDD attendue est : " + myJDD.getData(fieldName) + ' et la valeur est BD est : ' +  frow.getAt(0))
-			}else {
-				Log.addTrace("Contrôle de la valeur de $fieldName (FK) OK : la valeur attendue est : " + frow.getAt(0) + " et la valeur en BD est : $val")
-				pass = true
-			}
-		}catch(Exception ex) {
-			Log.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
-			TNRResult.addDETAIL("checkForeignKey()")
-			TNRResult.addDETAIL(ex.getMessage())
+		def fval = getFirstVal(query)
+		if (fval == null) {
+			TNRResult.addDETAIL("Contrôle de la valeur de $fieldName (FK) KO, pas de résultat pour la query : $query")
+		}else if (valDB != fval) {
+			TNRResult.addDETAIL("Contrôle de la valeur de $fieldName (FK) KO : ** la valeur du JDD attendue est : " + myJDD.getData(fieldName) + " ($fval) et la valeur est BD est : " +  valDB)
+		}else {
+			Log.addTrace("Contrôle de la valeur de $fieldName (FK) OK : la valeur du JDD attendue est : " + myJDD.getData(fieldName) + " ($fval) et la valeur est BD est : " +  valDB)
+			pass = true
 		}
 		Log.addTraceEND(CLASS_FORLOG,"checkForeignKey",pass)
 		return pass
@@ -489,39 +500,16 @@ public class SQL {
 			if (nbrLigneCasDeTest>1) {
 				TNRResult.addSUBSTEP("Contrôle de la suppression du cas de test $casDeTestNum / $nbrLigneCasDeTest")
 			}
-			String query = "SELECT count(*) FROM " + myJDD.getDBTableName() + getWhereWithAllPK(myJDD,casDeTestNum)
 
-			Log.addTrace("query =  $query")
-
-			def row
-
-			try {
-				row = sqlInstance.firstRow(query)
-
-			}catch(Exception ex) {
-				//pass = false
-				status = 'ERROR'
-				Log.addERROR("Erreur d'execution de sqlInstance.firstRow($query) : ")
-				TNRResult.addDETAIL("checkIDNotInBD()")
-				TNRResult.addDETAIL(ex.getMessage())
-			}
-
-			if ((Integer)row[0]>0) {
+			def fval =this.getFirstVal("SELECT count(*) FROM " + myJDD.getDBTableName() + getWhereWithAllPK(myJDD,casDeTestNum))
+			int ret = (fval) ? fval as int: 0
+			if (ret>0) {
 				TNRResult.addDETAIL("Supression KO")
 				//pass = false
 				status = 'FAIL'
 			}
-		}
 
-		/*
-		 if (pass) {
-		 TNRResult.addSTEPPASS("Fin de la vérification de la suppression des valeurs en Base de Données")
-		 //KeywordUtil.markPassed("Supression OK")
-		 }else {
-		 TNRResult.addSTEPFAIL("Fin de la  vérification de la suppression des valeurs en Base de Données")
-		 //KeywordUtil.markFailed("Supression KO")
-		 }
-		 */
+		}
 
 		TNRResult.addEndBlock("Fin de la  vérification de la suppression des valeurs en Base de Données",status)
 		Log.addTraceEND(CLASS_FORLOG,"checkIDNotInBD")
@@ -552,49 +540,28 @@ public class SQL {
 		return ret
 	}
 
-	
+
 
 
 	static int getMaxFromTable(String fieldName, String tableName) {
 
 		Log.addTraceBEGIN(CLASS_FORLOG,"getMaxFromTable",[fieldName:fieldName, table:tableName])
 
-		String req = "SELECT MAX($fieldName) as num FROM $tableName"
-		int num = 0
-		try {
-			def res = sqlInstance.firstRow(req).num
+		def fval = getFirstVal("SELECT MAX($fieldName) as num FROM $tableName")
+		int ret = (fval) ? fval as int: 0
 
-			num = (res) ? (Integer)res : 0
-			TNRResult.addDETAIL("get Max '$fieldName From Table '$tableName' = $num")
-		} catch(Exception ex) {
-			Log.addERROR("Erreur d'execution de firstRow($req) : ")
-			TNRResult.addDETAIL("getMaxFromTable()")
-			TNRResult.addDETAIL(ex.getMessage())
-
-		}
-		Log.addTraceEND(CLASS_FORLOG,"getMaxFromTable",num)
-		return num
+		Log.addTraceEND(CLASS_FORLOG,"getMaxFromTable",ret)
+		return ret
 	}
 
 
 
 
-	static getNumEcran(String table) {
+	static String getNumEcran(String table) {
 
 		Log.addTraceBEGIN(CLASS_FORLOG,"getNumEcran",[table:table])
-
-		def query = "SELECT ID_NUMECR as num FROM OBJ where ST_NOMOBJ=$table"
-		def ret
-
-		try {
-			def res = sqlInstance.firstRow(query)
-			ret = (res) ? res.num : null
-			TNRResult.addDETAIL("getNumEcran($table) = $ret")
-		} catch(Exception ex) {
-			Log.addERROR("Erreur d'execution de firstRow($query) : ")
-			TNRResult.addDETAIL("getNumEcran()")
-			TNRResult.addDETAIL(ex.getMessage())
-		}
+		def fval = getFirstVal("SELECT ID_NUMECR as num FROM OBJ where ST_NOMOBJ=$table")
+		String ret = (fval) ? fval.toString(): null
 		Log.addTraceEND(CLASS_FORLOG,"getNumEcran",ret)
 		return ret
 	}
@@ -602,7 +569,7 @@ public class SQL {
 
 
 
-	static Map getLibelle(String table, numEcran) {
+	static Map getLibelle(String table, String numEcran) {
 
 		Log.addTraceBEGIN(CLASS_FORLOG,"getLibelle",[table:table, numEcran:numEcran])
 
@@ -630,12 +597,16 @@ public class SQL {
 	static int getLastSequence(String seq) {
 
 		Log.addTraceBEGIN(CLASS_FORLOG,"getLastSequence",[seq:seq])
+		/*
+		 String req = "SELECT IDENT_CURRENT('$seq') as lastSeq"
+		 def result = sqlInstance.rows(req)
+		 int lastSeq = (int)result[0].lastSeq
+		 */
+		def fval = getFirstVal("SELECT IDENT_CURRENT('$seq') as lastSeq")
+		int ret = (fval) ? fval as int: 0
 
-		String req = "SELECT IDENT_CURRENT('$seq') as lastSeq"
-		def result = sqlInstance.rows(req)
-		int lastSeq = (int)result[0].lastSeq
-		Log.addTraceEND(CLASS_FORLOG,"getLastSequence",lastSeq)
-		return lastSeq
+		Log.addTraceEND(CLASS_FORLOG,"getLastSequence",ret)
+		return ret
 	}
 
 

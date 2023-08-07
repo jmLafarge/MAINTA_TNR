@@ -173,7 +173,7 @@ class JDDGenerator {
 			Sheet shJDDInfo = JDDbook.getSheet('Info')
 
 			// sheet Info
-			def numEcran = my.SQL.getNumEcran(table)
+			String numEcran = my.SQL.getNumEcran(table)
 
 			Map lib = numEcran ? my.SQL.getLibelle(table, numEcran) : [:]
 

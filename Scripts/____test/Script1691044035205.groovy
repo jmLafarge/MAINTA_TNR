@@ -1,7 +1,16 @@
-import internal.GlobalVariable
 
-GlobalVariable.CASDETESTPATTERN = 'RT.MAT.001'
+import my.SQL
 
-my.JDD myJDD = new my.JDD()
+println SQL.getMaintaVersion()
 
+
+def myMap = [
+	key1: 'valeur1',
+	key2: 'valeur2',
+	key3: 'valeur3'
+]
+
+def premiereValeur = myMap.values().first()
+
+println "Première valeur de la Map : ${premiereValeur}"
 

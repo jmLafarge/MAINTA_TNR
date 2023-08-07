@@ -17,6 +17,9 @@ public class RestoreDB {
 
 	static run() {
 		Log.addTraceBEGIN(CLASS_FORLOG,"run",[:])
+		
+		NAV.myGlobalJDD
+		
 		List <String > backupFileList = Tools.getFilesFromFolder('^\\d{8}_\\d{6}-' + SQL.getProfileName() +'_' + SQL.getDatabaseName() + '.*\\.bak$',DBBACKUP_PATH)
 		if (backupFileList.size() == 1) {
 			restoreTNR(backupFileList[0])
@@ -124,7 +127,6 @@ public class RestoreDB {
 
 		PREJDDFiles.createInDB()
 
-
 		Log.addDETAIL("Sauvegarde de la BDD TNR avec les PREJDD")
 
 		backupFilename = SQL.backup()
@@ -135,8 +137,8 @@ public class RestoreDB {
 		origin = SQL.getDBBackupPath() + File.separator + backupFilename
 		dest = DBBACKUP_PATH + File.separator + backupFilename
 		Files.move(Paths.get(origin), Paths.get(dest), StandardCopyOption.REPLACE_EXISTING)
-
 		Log.addTraceEND(CLASS_FORLOG,"initTNR")
+
 	}
 
 }

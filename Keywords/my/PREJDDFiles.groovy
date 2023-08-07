@@ -122,17 +122,7 @@ public class PREJDDFiles {
 
 						if (!my.JDDKW.isNULL(valueOfJDD.toString()) && !my.JDDKW.isVIDE(valueOfJDD.toString())){
 
-							String PR = myJDD.getParamForThisName('PREREQUIS',fieldName)
-
-							if (PR) {
-
-								Log.addTrace("PR=$PR")
-
-								valueOfJDD =getValueFromFK(PR,FK,cdt,valueOfJDD.toString())
-
-							}else {
-								Log.addERROR("Pas de PREREQUIS pour '$fieldName' : lecture de la FK '$FK' impossible")
-							}
+								valueOfJDD =getValueFromFK(FK,cdt,valueOfJDD.toString())
 
 						}else {
 							Log.addTrace(" - Pas de lecture de FK, la valeur est '${valueOfJDD.toString()}'")
@@ -254,7 +244,7 @@ public class PREJDDFiles {
 
 
 
-	static String getValueFromFK(String PR,String FK, String cdt,String valeur) {
+	static String getValueFromFK______OLD__________(String PR,String FK, String cdt,String valeur) {
 		
 		Log.addTraceBEGIN(CLASS_FORLOG,"getValueFromFK",[PR:PR,FK:FK,cdt:cdt,valeur:valeur])
 
@@ -288,6 +278,26 @@ public class PREJDDFiles {
 		}
 	}
 
+	
+	static String getValueFromFK(String FK, String cdt,String valeur) {
+		
+		Log.addTraceBEGIN(CLASS_FORLOG,"getValueFromFK",[FK:FK,cdt:cdt,valeur:valeur])
+
+		def fk = FK.split(/\*/)
+
+		String id=fk[0]
+		String table = fk[1]
+		String field=fk[2]
+		
+		String val = SQL.getFirstVal("SELECT $id FROM $table WHERE $field = '$valeur'").toString()
+		
+		if (val) {
+			Log.addTraceEND(CLASS_FORLOG,"getValueFromFK",val)
+			return val
+		}else {
+			Log.addErrorAndStop("La valeur recherchée n'a pas été trouvée.ARRET DU PROGRAMME")
+		}
+	}
 
 
 	static insertIfNotExist(String table, String PKwhere, List fields, List values) {
@@ -401,7 +411,7 @@ public class PREJDDFiles {
 		}
 		
 		
-		Log.addSubTITLE('Liste des PREJDD manquant :')
+		Log.addSubTITLE('Liste des PREJDD non créés (avec détails des cas de test impactés) :')
 		
 		PREJDDFiles.PREJDDfilemap.each { modObj,fullName ->
 			

@@ -10,7 +10,7 @@
  * 
 
 
-
+Analyser le dernier resultat RO.ORG.001.MAJ --> j'ai ajouté plus de etraces
 
 
 
@@ -96,7 +96,8 @@
  *
 
 
-
+	Revoir la définition de INTERNAL VALUES
+	
 
 
 
@@ -118,11 +119,10 @@
 	 	
 	 	ARTICLE SUPPRESSION			--> Ce code ne peut pas supprimé
 	 	
-	 	MATRICULE SUPPRESSION		--> Pas de bouton supprimer !															--> revoir les regles de supression du Matricule
-	 																														--> la fonction teste si 2 mouvements sinon pas de delete
-	 	ORGANISATION CREATION		--> NU_EFF n'est pas dans la vue
+	 	MATRICULE SUPPRESSION		--> Pas de bouton supprimer !															--> revoir les regles de supression du Matricule, la fonction teste si 2 mouvements sinon pas de delete
 	 	
-	 	ORGANISATION				--> ST_RAT n'est pas dans la vue
+	 	MATRICULE					--> manque ID_TYPENJ et ID_NUMCRIINV dans les écrans
+
 	 								
 	 	
 	 																														

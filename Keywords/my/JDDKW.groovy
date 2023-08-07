@@ -4,6 +4,9 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 public class JDDKW {
+	
+	
+	private static final String CLASS_FORLOG = 'JDDKW'
 
 	private static final Map KEYWORD_ALLOWED			= [
 		KW_VIDE:'$VIDE',
@@ -68,26 +71,27 @@ public class JDDKW {
 
 
 	static boolean isTBD(def val) {
-
+		Log.addTraceBEGIN(CLASS_FORLOG, 'isTBD', [val:val])
+		boolean ret = false
 		if (startWithTBD(val)) {
 			def li = val.toString().split('\\*')
-			if (li.size() == 2 ) {
-				return true
-			}
+			ret = li.size() == 2 
 		}
-		return false
+		Log.addTraceEND(CLASS_FORLOG, 'isTBD', ret)
+		return ret
 	}
 
 
 
 	static boolean isUPD(def val) {
+		Log.addTraceBEGIN(CLASS_FORLOG, 'isUPD', [val:val])
+		boolean ret = false
 		if (startWithUPD(val)) {
 			def li = val.toString().split('\\*')
-			if (li.size() == 3 ) {
-				return true
-			}
+			ret = li.size() == 3
 		}
-		return false
+		Log.addTraceEND(CLASS_FORLOG, 'isUPD', ret)
+		return ret
 	}
 
 
@@ -130,31 +134,37 @@ public class JDDKW {
 
 
 	static def getValueOfKW_TBD(def val) {
-
+		Log.addTraceBEGIN(CLASS_FORLOG, 'getValueOfKW_TBD', [val:val])
+		def ret
 		if (isTBD(val)) {
 			def values = val.toString().split('\\*')
 			if (values.size()==2) {
-				return values[1]
+				ret = values[1]
 			}
 		}
-		return null
+		Log.addTraceEND(CLASS_FORLOG, 'getValueOfKW_TBD', ret)
+		return ret
 	}
 
 	static def getOldValueOfKW_UPD(def val) {
-
+		Log.addTraceBEGIN(CLASS_FORLOG, 'getOldValueOfKW_UPD', [val:val])
+		def ret
 		if (isUPD(val)) {
 			def values = val.toString().split('\\*')
-			return values[1]
+			ret = values[1]
 		}
-		return null
+		Log.addTraceEND(CLASS_FORLOG, 'getOldValueOfKW_UPD', ret)
+		return ret
 	}
 
 	static def getNewValueOfKW_UPD(def val) {
-
+		Log.addTraceBEGIN(CLASS_FORLOG, 'getNewValueOfKW_UPD', [val:val])
+		def ret
 		if (isUPD(val)) {
 			def values = val.toString().split('\\*')
-			return values[2]
+			ret = values[2]
 		}
-		return null
+		Log.addTraceEND(CLASS_FORLOG, 'getNewValueOfKW_UPD', ret)
+		return ret
 	}
 }
