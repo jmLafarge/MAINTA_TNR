@@ -32,7 +32,7 @@ class NAV {
 	 */
 	public static verifierCartridge(String txt, int timeOut = GlobalVariable.TIMEOUT) {
 		Log.addTraceBEGIN(CLASS_FORLOG,"verifierCartridge",[txt:txt , timeOut:timeOut])
-		WebUI.scrollToPosition(0, 0)
+		KW.scrollToPosition(0, 0)
 		KW.delay(1)
 		KW.click(myGlobalJDD,'a_Toggle','WARNING')
 		KW.delay(1)
@@ -48,7 +48,7 @@ class NAV {
 		Log.addTraceBEGIN(CLASS_FORLOG,"verifierEcranGrille",[fct:fct , timeOut:timeOut])
 		if (fct=='') { fct = getFctFromModObj() }
 		String code = "E" + fct
-		WebUI.scrollToPosition(0, 0)
+		KW.scrollToPosition(0, 0)
 		KW.delay(1)
 		KW.click(myGlobalJDD, 'a_Toggle','WARNING')
 		KW.delay(1)
@@ -62,7 +62,7 @@ class NAV {
 	public static verifierEcranResultat(String val,String fct='', String name='Resultat_ID_a', int timeOut = GlobalVariable.TIMEOUT) {
 		Log.addTraceBEGIN(CLASS_FORLOG,"verifierEcranResultat",[val:val , fct:fct , name:name , timeOut:timeOut])
 		if (!fct) fct = getFctFromModObj()
-		WebUI.scrollToPosition(0, 0)
+		KW.scrollToPosition(0, 0)
 		KW.delay(1)
 		KW.click(myGlobalJDD, 'a_Toggle','WARNING')
 		KW.delay(1)
@@ -81,7 +81,7 @@ class NAV {
 		Log.addTraceBEGIN(CLASS_FORLOG,"verifierEcranCreation",[fct:fct , timeOut:timeOut])
 		if (fct=='') { fct = getFctFromModObj() }
 		String code = fct + " - Création"
-		WebUI.scrollToPosition(0, 0)
+		KW.scrollToPosition(0, 0)
 		KW.delay(1)
 		KW.click(myGlobalJDD, 'a_Toggle','WARNING')
 		KW.delay(1)
@@ -96,7 +96,7 @@ class NAV {
 		Log.addTraceBEGIN(CLASS_FORLOG,"verifierEcranRUD",[ idval:text , fct:fct ,  timeOut:timeOut])
 		if (fct=='') { fct = getFctFromModObj() }
 		String code = fct + " - Consultation ou modification"
-		WebUI.scrollToPosition(0, 0)
+		KW.scrollToPosition(0, 0)
 		KW.delay(1)
 		KW.waitAndVerifyElementText(myGlobalJDD, 'Selection_ID', text,timeOut,'WARNING')
 		KW.click(myGlobalJDD, 'a_Toggle','WARNING')

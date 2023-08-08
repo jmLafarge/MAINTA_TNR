@@ -145,14 +145,11 @@ public class JDD {
 				String IV_val = my.XLS.getCellValue(row.getCell(1))
 				String IV_code = my.XLS.getCellValue(row.getCell(2))
 				Log.addTrace("IV_para : $IV_para IV_val : $IV_val IV_code : $IV_code ")
-				if (IV_code == '') {
+				if (IV_para == '') {
 					break
 				}else {
-					List newIV = []
-					newIV.addAll([IV_para, IV_val, IV_code])
-					IV.add(newIV)
+					IV.add(IV_para,IV_val,IV_code)
 				}
-
 			}
 		}
 		Log.addTrace("internalValues = " + IV.getList().toString())
@@ -301,6 +298,29 @@ public class JDD {
 	}
 
 
+	
+	
+	boolean isDataUPD(String name, def cdtnum=null) {
+		Log.addTraceBEGIN(CLASS_FORLOG,"isDataUPD",[name:name , cdtnum:cdtnum])
+		cdtnum = (cdtnum?:casDeTestNum) as int
+		boolean ret = false
+		// Vérifie que le numéro de cas de test est valide.
+		if (cdtnum > getNbrLigneCasDeTest() || cdtnum < 1) {
+			Log.addERROR("Le cas de test N° : $cdtnum n'existe pas (max = "+ getNbrLigneCasDeTest() + ')')
+		}else {
+			// Vérifie que le nom fait partie des en-têtes.
+			if (headers.contains(name)) {
+				// Récupère la donnée correspondante et vérifie si c'est de type UPD
+				ret = JDDKW.isUPD(datas[getDataLineNum(casDeTest, cdtnum)][headers.indexOf(name)])
+			} else {
+				Log.addERROR("'$name' n'est pas une colonne du JDD")
+			}
+		}
+		Log.addTraceEND(CLASS_FORLOG,"isDataUPD",ret)
+		return ret
+	}
+	
+	
 
 
 
@@ -338,7 +358,7 @@ public class JDD {
 
 				//
 			} else {
-				Log.addERROR("getData($name, $cdtnum ) '$name' n'est pas une colonne du JDD")
+				Log.addERROR("'$name' n'est pas une colonne du JDD")
 			}
 		}
 		Log.addTraceEND(CLASS_FORLOG,"getData",ret)

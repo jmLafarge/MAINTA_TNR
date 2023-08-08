@@ -1,45 +1,53 @@
 package my
 
-
+/**
+ * Gere les INTERNALVALUE (certains select qui ne sont pas associé à une table).
+ * Chaque élément dans la liste excel est représenté par une map  'param', 'value', 'internalValue'.
+ */
 public class IV {
-	
-	private static final String CLASS_FORLOG = 'IV'
-	
-	private static List <List <String>> list  = []
-	
-	
 
-	
-	public static String add(List li) {
-	
-		list.add(li)
+	private static final String CLASS_FORLOG = 'IV'
+
+	private static List<Map<String, String>> list = []
+
+	/**
+	 * Ajoute une nouvelle entrée à la liste
+	 *
+	 * @param param Le parametre
+	 * @param value La valeur
+	 * @param internalValue La valeur interne 
+	 */
+	public static void add(String param, String value, String internalValue) {
+		Map<String, String> newItem = [param: param, value: value, internalValue: internalValue]
+		list.add(newItem)
 	}
 
-	
-	public static List getList() {
-		
+	/**
+	 * Récupère la liste de toutes les valeurs
+	 *
+	 * @return La liste des  map.
+	 */
+	public static List<Map<String, String>> getList() {
 		return list
 	}
-	
+
 	/**
-	 * Récupère la valeur interne d'un paramètre.
+	 * Récupère la valeur interne associée à un paramètre et une valeur donnés.
 	 *
-	 * @param para Nom du paramètre.
-	 * @param val Valeur du paramètre.
-	 * @return La valeur interne du paramètre.
+	 * @param para Le paramètre à rechercher.
+	 * @param val La valeur à rechercher.
+	 * @return La valeur interne correspondante, ou null si aucune valeur n'est trouvée.
 	 */
 	public static String getInternalValueOf(String para, String val) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"getInternalValueOf",[para:para,val:val])
+		Log.addTraceBEGIN(CLASS_FORLOG, "getInternalValueOf", [para: para, val: val])
 
-		String res = list.find { it[0] == para && it[1] == val }?.get(2)
-		
+		String res = list.find { it['param'] == para && it['value'] == val }?.get('internalValue')
+
 		if (!res) {
 			Log.addERROR('Pas de valeur trouvée')
 		}
 
-		Log.addTraceEND(CLASS_FORLOG,"getInternalValueOf",res)
+		Log.addTraceEND(CLASS_FORLOG, "getInternalValueOf", res)
 		return res
 	}
-	
-	
 }

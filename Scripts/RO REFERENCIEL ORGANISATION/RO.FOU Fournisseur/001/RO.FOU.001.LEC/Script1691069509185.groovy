@@ -81,7 +81,7 @@ for (String cdt in myJDD.CDTList) {
 	
 	
 		
-		WebUI.scrollToPosition(0, 0)
+		KW.scrollToPosition(0, 0)
 		KW.delay(1)
 		
 		KW.verifyElementText(new JDD(JDDFiles.getFullName('RO.FOU'),'001A',GlobalVariable.CASDETESTENCOURS),"OL_DOC")

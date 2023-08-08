@@ -44,7 +44,7 @@ CustomKeywords.'KW.scrollAndClick'(findTestObject('null'))
 
 KW.delay(1)
 
-WebUI.scrollToPosition(0, 0)
+KW.scrollToPosition(0, 0)
 
 KW.delay(1)
 

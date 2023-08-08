@@ -109,7 +109,7 @@ for (String cdt in myJDD.CDTList) {
 		
 		def JDD_Note = new JDD(JDDFiles.getFullName('RO.FOU'),'001A',GlobalVariable.CASDETESTENCOURS)
 		
-		WebUI.scrollToPosition(0, 0)
+		KW.scrollToPosition(0, 0)
 		KW.delay(1)
 		
 		KW.scrollAndClick(myJDD,"ModifierNote")

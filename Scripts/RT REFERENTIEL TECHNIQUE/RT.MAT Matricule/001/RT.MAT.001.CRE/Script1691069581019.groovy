@@ -1,4 +1,7 @@
+import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
+
 import my.JDD
+import my.JDDKW
 import my.KW
 import my.NAV
 import my.SQL
@@ -27,7 +30,7 @@ for (String cdt in myJDD.CDTList) {
 			
 			KW.scrollAndClick(myJDD, "tab_Matricule")
 			KW.waitForElementVisible(myJDD, "tab_MatriculeSelected")
-			
+
 			KW.scrollAndSetText(myJDD, "ID_NUMMAT")
 			KW.scrollAndSetText(myJDD, "ST_NUMINV")
 			KW.scrollAndCheckIfNeeded(myJDD, "ST_INA", "O")
@@ -36,6 +39,9 @@ for (String cdt in myJDD.CDTList) {
 			KW.scrollAndSelectOptionByValue(myJDD, "NU_TYP")
 			KW.scrollAndSetText(myJDD, "NU_PRISTO")
 			KW.scrollAndSetText(myJDD, "ID_CODART")
+			if(!JDDKW.isNULL(myJDD.getStrData('ID_CODMOY'))) {
+				KW.scrollAndSetText(myJDD, "ID_CODMOY")
+			}
 			KW.scrollAndSetText(myJDD, "ID_CODGES")
 			KW.scrollAndSetText(myJDD, "ID_NUMCRI")
 			KW.scrollAndSetText(myJDD, "ID_CODIMP")
@@ -55,17 +61,17 @@ for (String cdt in myJDD.CDTList) {
 			KW.scrollAndSetText(myJDD, "ST_REFFOU")
 			KW.scrollAndSetText(myJDD, "ID_CODCONSTR")
 			KW.scrollAndSetText(myJDD, "ST_REFCON")
-			KW.setDate(myJDD, "DT_ACH")
-			KW.setDate(myJDD, "DT_FAC")
+			KW.scrollAndSetDate(myJDD, "DT_ACH")
+			KW.scrollAndSetDate(myJDD, "DT_FAC")
 			KW.scrollAndSetText(myJDD, "NU_PRIACH")
-			KW.setDate(myJDD, "DT_FINGAR")
-			KW.setDate(myJDD, "DT_FINVIE")
+			KW.scrollAndSetDate(myJDD, "DT_FINGAR")
+			KW.scrollAndSetDate(myJDD, "DT_FINVIE")
 			KW.scrollAndSetText(myJDD, "NU_PRIACT")
 			KW.scrollAndSetText(myJDD, "NU_USAGAR")
 			KW.scrollAndSetText(myJDD, "NU_FINUSA")
 			KW.scrollAndSetText(myJDD, "ID_CODCAL")
 			KW.scrollAndSetText(myJDD, "ID_CODGAR")
-			//KW.scrollAndSetText(myJDD, "ID_REFCOM") ***********************************************
+			KW.scrollAndSetText(myJDD, "ID_REFCOM") 
 			KW.scrollAndSetText(myJDD, "ST_AFFCOM")
 			KW.scrollAndSetText(myJDD, "ID_CODINTPRO")
 			KW.scrollAndSetText(myJDD, "ID_CODINTGES")
@@ -76,10 +82,14 @@ for (String cdt in myJDD.CDTList) {
 			KW.scrollAndCheckIfNeeded(myJDD, "ST_PRE", "O")
 			KW.scrollAndCheckIfNeeded(myJDD, "ST_INS", "O")
 			
+
+			
 		TNRResult.addSTEPGRP("ONGLET NOTES")
 			
 			KW.scrollAndClick(myJDD, "tab_Notes")
 			KW.waitForElementVisible(myJDD, "tab_NotesSelected")
+			
+			
 			
 			
 		TNRResult.addSTEPGRP("ONGLET ETAT")
@@ -87,12 +97,26 @@ for (String cdt in myJDD.CDTList) {
 			KW.scrollAndClick(myJDD, "tab_Etat")
 			KW.waitForElementVisible(myJDD, "tab_EtatSelected")
 			
+			KW.scrollToPosition(0, 0)
+			KW.delay(2)
+			KW.scrollAndSetRadio(myJDD, "ST_POS")
+
 			KW.scrollAndSetText(myJDD, "ID_NUMEMP")
 			KW.scrollAndSetText(myJDD, "ID_CODMAG")
-			KW.scrollAndSetText(myJDD, "DT_DEP")
-			KW.scrollAndSetText(myJDD, "DT_RET")
+			
+			KW.scrollAndSetText(myJDD, "ID_CODFOU")
+			
+			KW.scrollAndSetText(myJDD, "ST_AUT")
+			
+			
+			KW.scrollAndSetDate(myJDD, "DT_DEP")
+			KW.scrollAndSetDate(myJDD, "DT_RET")
+			
 			//KW.scrollAndCheckIfNeeded(myJDD, "NUMMAT2NUMAUTO", "O")
 			//KW.scrollAndCheckIfNeeded(myJDD, "DISABLE_RECTIFSTO", "O")
+			
+			
+		
 
 	
 	
@@ -100,12 +124,14 @@ for (String cdt in myJDD.CDTList) {
 	TNRResult.addSTEPACTION('VALIDATION')
 		
 	    KW.scrollAndClick(NAV.myGlobalJDD,'button_Valider')
+		
+		KW.scrollAndClick(myJDD,'button_Valider2')
 	
-	    //NAV.verifierEcranResultat(myJDD.getStrData())
+	    NAV.verifierEcranResultat(myJDD.getStrData())
 		
-		//myJDD.replaceSEQUENCIDInJDD('ID_NUMDOC1')
+		myJDD.replaceSEQUENCIDInJDD('ID_NUMDOC1')
 		
-		//SQL.checkJDDWithBD(myJDD)
+		SQL.checkJDDWithBD(myJDD)
 		
 	TNRResult.addEndTestCase()
 

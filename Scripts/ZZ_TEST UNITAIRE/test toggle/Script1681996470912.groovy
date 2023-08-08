@@ -48,7 +48,7 @@ println anElement.getProperties()
 WebUI.verifyElementClickable(findTestObject('null'))
 
 
-WebUI.scrollToPosition(9999, 99999)
+KW.scrollToPosition(9999, 99999)
 KW.delay(2)
 
 WebUI.scrollToElement(findTestObject('null'), 1)

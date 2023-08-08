@@ -65,7 +65,7 @@ for (String cdt in myJDD.CDTList) {
 		/* pas de test pour l'instant sur cette partie
 	TNRResult.addSTEPGRP("ONGLET EQUIPEMENT")
 	
-		WebUI.scrollToPosition(0, 0)
+		KW.scrollToPosition(0, 0)
 		KW.delay(1)
 		KW.scrollAndClick(myJDD,"tab_Equipement")
 		KW.waitForElementVisible(myJDD,"tab_EquipementSelected")

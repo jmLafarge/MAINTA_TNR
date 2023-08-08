@@ -10,7 +10,6 @@
  * 
 
 
-Analyser le dernier resultat RO.ORG.001.MAJ --> j'ai ajouté plus de etraces
 
 
 
@@ -140,7 +139,7 @@ Analyser le dernier resultat RO.ORG.001.MAJ --> j'ai ajouté plus de etraces
 		MP.CPT --> FAIT
 		RT.ART --> FAIT
 		RO.ORG --> FAIT
-		RT.MAT --> Creation, faire la 2eme validation, vérifier si les attributs sont dans le JDD (NUC doit faire le para de master pour "Code Référence comptable" (REFCOM) 
+		RT.MAT --> Creation, faire la 2eme validation, vérifier si les attributs sont dans le JDD
 		TR.BTR
 		RT.EQU
 		AD.DEP --> Fait

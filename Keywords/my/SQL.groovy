@@ -281,6 +281,8 @@ public class SQL {
 
 		Log.addTraceBEGIN(CLASS_FORLOG,"checkValue",[myJDD:myJDD.toString() , fieldName:fieldName , val:valDB , verifStatus:verifStatus,specificValueMap:specificValueMap,casDeTestNum:casDeTestNum])
 
+		def valJDD = myJDD.getData(fieldName,casDeTestNum)
+
 		if (myJDD.isOBSOLETE(fieldName)) {
 			Log.addTraceEND(CLASS_FORLOG,"checkValue",verifStatus)
 			return verifStatus
@@ -291,9 +293,19 @@ public class SQL {
 		String paraIV = myJDD.getParamForThisName('INTERNALVALUE', fieldName)
 
 
-		if (!specificValue && myJDD.getParamForThisName('FOREIGNKEY', fieldName)) {
+		if (myJDD.isDataUPD(fieldName,casDeTestNum)) {
 
-			if (!JDDKW.isNU(myJDD.getData(fieldName)) && !JDDKW.isNULL(myJDD.getData(fieldName))) {
+			String newVal = myJDD.getData(fieldName,casDeTestNum,true).toString()
+
+			if (newVal==valDB.toString()) {
+				logaddTrace('',fieldName,newVal,valDB)
+			}else {
+				logAddDETAIL('',fieldName,newVal,valDB)
+				verifStatus = 'FAIL'
+			}
+		}else if (!specificValue && myJDD.getParamForThisName('FOREIGNKEY', fieldName)) {
+
+			if (!JDDKW.isNU(valJDD) && !JDDKW.isNULL(valJDD)) {
 				if (!checkForeignKey(myJDD, fieldName, valDB)) {
 					verifStatus= 'FAIL'
 				}
@@ -303,30 +315,19 @@ public class SQL {
 
 		}else if (!specificValue && paraIV){
 
-			String internalVal = IV.getInternalValueOf(paraIV,myJDD.getStrData(fieldName))
+			String internalVal = IV.getInternalValueOf(paraIV,valJDD.toString())
 
 
 			if (internalVal==valDB) {
-				Log.addTrace("Contrôle de la valeur INTERNAL de '$fieldName' pour '$valDB' OK : la valeur attendue est '" + myJDD.getData(fieldName) + "' et la valeur en BD est  : '$internalVal'" )
+				Log.addTrace("Contrôle de la valeur INTERNAL de '$fieldName' pour '$valDB' OK : la valeur attendue est '$valJDD' et la valeur en BD est  : '$internalVal'" )
 			}else {
-				TNRResult.addDETAIL("Contrôle de la valeur INTERNAL de '$fieldName' pour '$valDB' KO : la valeur attendue est '" + myJDD.getData(fieldName) + "' et la valeur en BD est  : '$internalVal'")
-				verifStatus = 'FAIL'
-			}
-			
-		}else if (JDDKW.isUPD(myJDD.getStrData(fieldName))) {
-			
-			String newVal = JDDKW.getNewValueOfKW_UPD(myJDD.getStrData(fieldName))
-			
-			if (newVal==valDB.toString()) {
-				logaddTrace('JML1',fieldName,newVal,valDB)
-			}else {
-				logAddDETAIL('JML2',fieldName,newVal,valDB)
+				TNRResult.addDETAIL("Contrôle de la valeur INTERNAL de '$fieldName' pour '$valDB' KO : la valeur attendue est '$valJDD' et la valeur en BD est  : '$internalVal'")
 				verifStatus = 'FAIL'
 			}
 
 		}else {
 
-			switch (myJDD.getData(fieldName)) {
+			switch (valJDD) {
 
 				case JDDKW.getKW_NU() :
 
@@ -347,16 +348,20 @@ public class SQL {
 
 				case JDDKW.getKW_DATE() :
 
-					logAddDETAIL('DATE ***** reste à faire *****',fieldName,myJDD.getData(fieldName),valDB)
-					verifStatus= 'FAIL'
+					if (valDB instanceof java.sql.Timestamp) {
+						logaddTrace('DATE',fieldName,valJDD,valDB)
+					}else {
+						logAddDETAIL('DATE',fieldName,valJDD,valDB)
+						verifStatus= 'FAIL'
+					}
 					break
 
 				case JDDKW.getKW_DATETIME() :
 
 					if (valDB instanceof java.sql.Timestamp) {
-						logaddTrace('DATETIME',fieldName,myJDD.getData(fieldName),valDB)
+						logaddTrace('DATETIME',fieldName,valJDD,valDB)
 					}else {
-						logAddDETAIL('DATETIME',fieldName,myJDD.getData(fieldName),valDB)
+						logAddDETAIL('DATETIME',fieldName,valJDD,valDB)
 						verifStatus= 'FAIL'
 					}
 					break
@@ -369,7 +374,7 @@ public class SQL {
 				 logaddTrace('SEQUENCEID',fieldName,lastSeq,val)
 				 }else {
 				 */
-					logAddDETAIL('SEQUENCEID',fieldName,myJDD.getData(fieldName),valDB)
+					logAddDETAIL('SEQUENCEID',fieldName,valJDD,valDB)
 					verifStatus= 'FAIL'
 				//}
 
@@ -377,7 +382,7 @@ public class SQL {
 
 				case JDDKW.getKW_ORDRE() :
 
-					logAddDETAIL('ORDRE ***** reste àfaire *****',fieldName,myJDD.getData(fieldName),valDB)
+					logAddDETAIL('ORDRE ***** reste àfaire *****',fieldName,valJDD,valDB)
 				//voir aussi le NU_NIV *******
 					verifStatus= 'FAIL'
 					break
@@ -413,10 +418,10 @@ public class SQL {
 						}
 
 
-						if ( valDB == InfoDB.castJDDVal(myJDD.getDBTableName(), fieldName, myJDD.getData(fieldName))) {
-							logaddTrace('',fieldName,myJDD.getData(fieldName),valDB)
+						if ( valDB == InfoDB.castJDDVal(myJDD.getDBTableName(), fieldName, valJDD)) {
+							logaddTrace('',fieldName,valJDD,valDB)
 						}else {
-							logAddDETAIL('',fieldName,myJDD.getData(fieldName),valDB)
+							logAddDETAIL('',fieldName,valJDD,valDB)
 							verifStatus = 'FAIL'
 						}
 					}

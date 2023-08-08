@@ -8,8 +8,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 import groovy.transform.CompileStatic
 import internal.GlobalVariable
 import my.result.TNRResult
-import my.JDD
-import my.TO
+import my.Log
 
 /**
  * Personaliser et de regrouper certaines actions WebUI
@@ -22,24 +21,30 @@ import my.TO
 class KW {
 
 
+	private static final String CLASS_FORLOG = 'KW'
+	
 
-	static delay(Number second) {
-
+	static void delay(Number second) {
 		TNRResult.addSTEP("Attente de $second seconde(s)")
 		WebUI.delay(second)
 	}
 
 
 
-	static waitForPageLoad(int seconds=GlobalVariable.TIMEOUTForPageLoad) {
-
+	static void waitForPageLoad(int seconds=GlobalVariable.TIMEOUTForPageLoad) {
 		TNRResult.addSTEP("Attendre chargement de la page ...MAX $seconds seconde(s)")
 		WebUI.waitForPageLoad(seconds)
 	}
 
 
+	
+	static void scrollToPosition(int x, int y) {
+		TNRResult.addSTEP("Scroll à la position $x , $y")
+		WebUI.scrollToPosition(x, y)
+	}
 
-	static openBrowser(String url){
+
+	static void openBrowser(String url){
 		try {
 			WebUI.openBrowser(url, FailureHandling.STOP_ON_FAILURE)
 			TNRResult.addSTEPPASS("Ouverture du navigateur à l'URL :")
@@ -57,7 +62,7 @@ class KW {
 
 
 
-	static navigateToUrl(String url,String nomUrl){
+	static void navigateToUrl(String url,String nomUrl){
 		try {
 			WebUI.navigateToUrl(url, FailureHandling.STOP_ON_FAILURE)
 			waitForPageLoad()
@@ -73,7 +78,7 @@ class KW {
 
 
 
-	static closeBrowser(){
+	static void closeBrowser(){
 		try {
 			WebUI.closeBrowser()
 			TNRResult.addSTEPPASS("Fermeture du navigateur")
@@ -86,7 +91,7 @@ class KW {
 
 
 
-	static maximizeWindow(){
+	static void maximizeWindow(){
 		try {
 			WebUI.maximizeWindow(FailureHandling.STOP_ON_FAILURE)
 			TNRResult.addSTEPPASS("Maximise la fenêtre")
@@ -99,7 +104,7 @@ class KW {
 
 
 
-	static switchToFrame(JDD myJDD, String name) {
+	static void switchToFrame(JDD myJDD, String name) {
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			try {
@@ -118,7 +123,7 @@ class KW {
 
 
 
-	static setText(JDD myJDD, String name, String text=null, String status = 'FAIL') {
+	static void setText(JDD myJDD, String name, String text=null, String status = 'FAIL') {
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			if (text==null) text = myJDD.getStrData(name)
@@ -139,7 +144,7 @@ class KW {
 
 
 
-	static setEncryptedText(JDD myJDD, String name, String text=null) {
+	static void setEncryptedText(JDD myJDD, String name, String text=null) {
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			if (text==null) text = myJDD.getStrData(name)
@@ -159,7 +164,7 @@ class KW {
 
 
 
-	static click(JDD myJDD, String name, String status = 'FAIL') {
+	static void click(JDD myJDD, String name, String status = 'FAIL') {
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			try {
@@ -176,7 +181,7 @@ class KW {
 	}
 
 
-	static doubleClick(JDD myJDD, String name, String status = 'FAIL') {
+	static void doubleClick(JDD myJDD, String name, String status = 'FAIL') {
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			try {
@@ -195,7 +200,8 @@ class KW {
 
 
 
-	static scrollToElement(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+	static void scrollToElement(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_FORLOG, "scrollToElement", [myJDD: myJDD.toString(), name: name , timeOut:timeOut , status:status])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			try {
@@ -209,6 +215,7 @@ class KW {
 			TNRResult.addSTEPERROR("Scroll to '$name' impossible")
 			TNRResult.addDETAIL(msgTO)
 		}
+		Log.addTraceEND(CLASS_FORLOG, "scrollToElement")
 	}
 
 
@@ -417,40 +424,39 @@ class KW {
 	 * @param status
 	 * @return
 	 */
-	static waitForElementVisible(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+	static boolean waitForElementVisible(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_FORLOG, "waitForElementVisible", [myJDD: myJDD.toString(), name: name , timeOut:timeOut , status:status])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
+		boolean ret = false
 		if (tObj) {
-
 			try {
 				if (WebUI.waitForElementVisible(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)) {
 					TNRResult.addSTEPPASS("Vérifier que l'élément '${tObj.getObjectId()}' soit visible")
-					return true
+					ret = true
 				}else if (WebUI.getAttribute(tObj, 'disabled', FailureHandling.STOP_ON_FAILURE)) {
 					TNRResult.addSTEPPASS("Vérifier que l'élément '${tObj.getObjectId()}' soit visible")
 					TNRResult.addDETAIL("Elément 'disabled'")
-					return true
+					 ret = true
 				}else {
 					TNRResult.addSTEP("Vérifier que l'élément '${tObj.getObjectId()}' soit visible",status)
 					TNRResult.addDETAIL("KO après $timeOut seconde(s)")
-					return false
 				}
 			} catch (Exception ex) {
 				TNRResult.addSTEP("Vérifier que l'élément '${tObj.getObjectId()}' soit visible", status)
 				TNRResult.addDETAIL(ex.getMessage())
-				return false
 			}
 		}else {
 			TNRResult.addSTEPERROR("Vérifier que l'élément '$name' soit visible impossible")
 			TNRResult.addDETAIL(msgTO)
-			return false
 		}
+		Log.addTraceEND(CLASS_FORLOG, "waitForElementVisible",ret)
 	} // end of def
 
 
 
 
 
-	static verifyValue(JDD myJDD, String name, String text=null, String status = 'FAIL') {
+	static void verifyValue(JDD myJDD, String name, String text=null, String status = 'FAIL') {
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			if (text==null) text = myJDD.getStrData(name)
@@ -485,7 +491,7 @@ class KW {
 
 
 
-	static verifyOptionSelectedByValue(JDD myJDD, String name, String text=null, boolean isRegex = false, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+	static void verifyOptionSelectedByValue(JDD myJDD, String name, String text=null, boolean isRegex = false, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			if (text==null) text = myJDD.getStrData(name)
@@ -514,7 +520,7 @@ class KW {
 
 
 
-	static scrollAndClick(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+	static void scrollAndClick(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		scrollToElement(myJDD, name, timeOut,status)
 		delay(1)
 		waitForElementVisible(myJDD, name, timeOut,status)
@@ -526,7 +532,7 @@ class KW {
 
 
 
-	static scrollAndDoubleClick(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+	static void scrollAndDoubleClick(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		scrollToElement(myJDD, name, timeOut,status)
 		delay(1)
 		waitForElementVisible(myJDD, name, timeOut,status)
@@ -538,7 +544,7 @@ class KW {
 
 
 
-	static scrollAndSelectOptionByValue(JDD myJDD, String name, String text=null, boolean isRegex = true, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+	static void scrollAndSelectOptionByValue(JDD myJDD, String name, String text=null, boolean isRegex = true, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			if (text==null) text = myJDD.getStrData(name)
@@ -560,7 +566,8 @@ class KW {
 
 
 
-	static scrollAndSetRadio(JDD myJDD, String name, String text=null, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+	static void scrollAndSetRadio(JDD myJDD, String name, String text=null, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_FORLOG, "scrollAndSetRadio", [myJDD: myJDD.toString(), name: name , text:text , timeOut:timeOut , status:status])
 		if (text==null) text = myJDD.getStrData(name)
 		if (text != my.JDDKW.getKW_NULL()) {
 			if (text == my.JDDKW.getKW_VIDE()) text=''
@@ -580,11 +587,12 @@ class KW {
 				TNRResult.addDETAIL(msgTO)
 			}
 		}
+		Log.addTraceEND(CLASS_FORLOG, "scrollAndSetRadio")
 	} // end of def
 
 
 
-	static scrollAndSetText(JDD myJDD, String name, String text=null, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+	static void scrollAndSetText(JDD myJDD, String name, String text=null, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		if (text==null) text = myJDD.getStrData(name)
 		if (text != my.JDDKW.getKW_NULL()) {
 			if (text == my.JDDKW.getKW_VIDE()) text=''
@@ -596,7 +604,7 @@ class KW {
 
 
 
-	static scrollAndSetDate(JDD myJDD, String name, def val=null,  String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+	static void scrollAndSetDate(JDD myJDD, String name, def val=null,  String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		if (val==null) val = myJDD.getData(name)
 		if (val != my.JDDKW.getKW_NULL()) {
 			scrollToElement(myJDD, name, timeOut, status)
@@ -618,7 +626,7 @@ class KW {
 
 
 
-	static setDate(JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+	static void setDate(JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		if (val==null) val = myJDD.getData(name)
 		if ( val instanceof Date) {
 			setText(myJDD, name, val.format(dateFormat), status)
@@ -632,7 +640,7 @@ class KW {
 
 
 
-	static verifyDateText(JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT , String status = 'FAIL')  {
+	static void verifyDateText(JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT , String status = 'FAIL')  {
 
 		Log.addTrace("verifyDateText : name='$name' val='${val.toString()} dateFormat='dateFormat' status='$status'")
 
@@ -652,7 +660,7 @@ class KW {
 
 
 
-	static verifyDateValue(JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT , String status = 'FAIL')  {
+	static void verifyDateValue(JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT , String status = 'FAIL')  {
 
 		Log.addTrace("verifyDateFromValue : name='$name' val='${val.toString()} dateFormat='dateFormat' status='$status'")
 
@@ -668,7 +676,7 @@ class KW {
 	} // end of def
 
 
-	static scrollWaitAndVerifyElementText(JDD myJDD, String name, String text=null, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+	static void scrollWaitAndVerifyElementText(JDD myJDD, String name, String text=null, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 
 		if (text==null) text = myJDD.getStrData(name)
 		scrollToElement(myJDD, name, timeOut, status)
@@ -695,7 +703,7 @@ class KW {
 
 
 
-	static scrollAndCheckIfNeeded(JDD myJDD, String name, String textTrue, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL')  {
+	static void scrollAndCheckIfNeeded(JDD myJDD, String name, String textTrue, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL')  {
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			TO myTOLbl = new TO() ; TestObject tObjLbl  = myTOLbl.make(myJDD,'Lbl'+name) ;String msgLbl = myTOLbl.getMsg()
@@ -746,7 +754,7 @@ class KW {
 
 
 
-	static verifyElementCheckedOrNot(JDD myJDD, String name, String textTrue, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+	static void verifyElementCheckedOrNot(JDD myJDD, String name, String textTrue, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			boolean cond = myJDD.getStrData(name)==textTrue
@@ -779,7 +787,7 @@ class KW {
 
 
 
-	static getCheckBoxImgStatus(JDD myJDD, String name)  {
+	static boolean getCheckBoxImgStatus(JDD myJDD, String name)  {
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			if (WebUI.getAttribute(tObj, 'src').endsWith('133.gif')) {
@@ -801,7 +809,7 @@ class KW {
 
 
 
-	static verifyCheckBoxImgChecked(JDD myJDD, String name, String status = 'FAIL')  {
+	static void verifyCheckBoxImgChecked(JDD myJDD, String name, String status = 'FAIL')  {
 		def etat = getCheckBoxImgStatus(myJDD, name)
 		if (etat ==null) {
 			// l'erreur est déjà remontée par getCheckBoxImgStatus
@@ -817,7 +825,7 @@ class KW {
 
 
 
-	static verifyCheckBoxImgNotChecked(JDD myJDD, String name, String status = 'FAIL')  {
+	static void verifyCheckBoxImgNotChecked(JDD myJDD, String name, String status = 'FAIL')  {
 		def etat = getCheckBoxImgStatus(myJDD, name)
 		if (etat ==null) {
 			// l'erreur est déjà remontée par getCheckBoxImgStatus
@@ -832,7 +840,7 @@ class KW {
 
 
 
-	static verifyImgCheckedOrNot(JDD myJDD, String name, String textTrue, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+	static void verifyImgCheckedOrNot(JDD myJDD, String name, String textTrue, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		boolean cond = myJDD.getStrData(name)==textTrue
 		if (cond) {
 			verifyCheckBoxImgChecked(myJDD, name, status)
@@ -845,7 +853,7 @@ class KW {
 
 
 
-	static verifyImg(JDD myJDD, String name, boolean cond, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+	static void verifyImg(JDD myJDD, String name, boolean cond, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		if (cond) {
 			verifyElementPresent(myJDD, name, timeOut, status)
 		}
@@ -855,7 +863,7 @@ class KW {
 
 
 
-	static searchWithHelper(JDD myJDD, String name , String btnXpath = '' , String inputSearchName = '' ){
+	static void searchWithHelper(JDD myJDD, String name , String btnXpath = '' , String inputSearchName = '' ){
 
 		String val = myJDD.getStrData(name)
 

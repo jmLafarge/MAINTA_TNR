@@ -4,8 +4,8 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 public class JDDKW {
-	
-	
+
+
 	private static final String CLASS_FORLOG = 'JDDKW'
 
 	private static final Map KEYWORD_ALLOWED			= [
@@ -19,14 +19,14 @@ public class JDDKW {
 		KW_TBD:'$TBD',
 		KW_UPD:'$UPD'
 	]
-	
-	
-	
+
+
+
 	static List getKWAllowedList() {
 		return KEYWORD_ALLOWED.values() as List
-	} 
-	
-	
+	}
+
+
 
 	static boolean isAllowedKeyword(String val) {
 		return (KEYWORD_ALLOWED.containsValue(val) || startWithTBD(val) || isUPD(val))
@@ -75,7 +75,7 @@ public class JDDKW {
 		boolean ret = false
 		if (startWithTBD(val)) {
 			def li = val.toString().split('\\*')
-			ret = li.size() == 2 
+			ret = li.size() == 2
 		}
 		Log.addTraceEND(CLASS_FORLOG, 'isTBD', ret)
 		return ret
