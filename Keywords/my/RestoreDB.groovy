@@ -74,6 +74,8 @@ public class RestoreDB {
 		Log.addTraceEND(CLASS_FORLOG,"restoreTNR")
 	}
 
+	
+	
 
 
 	private static initTNR() {
@@ -81,7 +83,7 @@ public class RestoreDB {
 		String origin = ''
 		String dest = ''
 		String backupFilename = ''
-
+/*
 		Log.addSubTITLE("Initialisation complète de la BDD de test")
 
 		Log.addDETAIL("Supprimer les anciens fichiers de backup du dossier projet")
@@ -121,11 +123,11 @@ public class RestoreDB {
 		Log.addDETAIL("Supprime le le fichier de backup")
 
 		Tools.deleteFilesFromFolder(dest)
-
+*/
 
 		Log.addDETAIL("Création des PREJDD")
 
-		PREJDDFiles.createInDB()
+		//PREJDDFiles.createInDB()
 
 		Log.addDETAIL("Sauvegarde de la BDD TNR avec les PREJDD")
 

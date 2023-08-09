@@ -13,7 +13,7 @@ import my.Log
 /**
  * Personaliser et de regrouper certaines actions WebUI
  * 
- * @author X1009638
+ * @author JM LAFARGE
  *
  */
 
@@ -22,7 +22,7 @@ class KW {
 
 
 	private static final String CLASS_FORLOG = 'KW'
-	
+
 
 	static void delay(Number second) {
 		TNRResult.addSTEP("Attente de $second seconde(s)")
@@ -37,7 +37,7 @@ class KW {
 	}
 
 
-	
+
 	static void scrollToPosition(int x, int y) {
 		TNRResult.addSTEP("Scroll à la position $x , $y")
 		WebUI.scrollToPosition(x, y)
@@ -436,7 +436,11 @@ class KW {
 				}else if (WebUI.getAttribute(tObj, 'disabled', FailureHandling.STOP_ON_FAILURE)) {
 					TNRResult.addSTEPPASS("Vérifier que l'élément '${tObj.getObjectId()}' soit visible")
 					TNRResult.addDETAIL("Elément 'disabled'")
-					 ret = true
+					ret = true
+				}else if (WebUI.getAttribute(tObj, 'readonly', FailureHandling.STOP_ON_FAILURE)) {
+					TNRResult.addSTEPPASS("Vérifier que l'élément '${tObj.getObjectId()}' soit visible")
+					TNRResult.addDETAIL("Elément 'readonly'")
+					ret = true
 				}else {
 					TNRResult.addSTEP("Vérifier que l'élément '${tObj.getObjectId()}' soit visible",status)
 					TNRResult.addDETAIL("KO après $timeOut seconde(s)")
@@ -711,13 +715,13 @@ class KW {
 				boolean cond = myJDD.getStrData(name)==textTrue
 
 				scrollToElement(myJDD, name,timeOut,status)
-				waitForElementVisible(myJDD, name, timeOut,status)
 				if (cond) {
 					if (WebUI.verifyElementChecked(tObj,timeOut, FailureHandling.OPTIONAL)) {
 						TNRResult.addSTEPPASS("Cocher la case à cocher '" + name + "'")
 						TNRResult.addDETAIL("déjà cochée")
 					}else {
 						try {
+							waitForElementVisible(myJDD, name, timeOut,status)
 							WebUI.click(tObjLbl, FailureHandling.STOP_ON_FAILURE)
 							TNRResult.addSTEPPASS("Cocher la case à cocher '" + name + "'")
 						} catch (Exception ex) {
@@ -731,6 +735,7 @@ class KW {
 						TNRResult.addDETAIL("déjà décochée")
 					}else {
 						try {
+							waitForElementVisible(myJDD, name, timeOut,status)
 							WebUI.click(tObjLbl, FailureHandling.STOP_ON_FAILURE)
 							TNRResult.addSTEPPASS("Décocher la case à cocher '" + name + "'")
 						} catch (Exception ex) {

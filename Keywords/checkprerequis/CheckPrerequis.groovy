@@ -49,11 +49,11 @@ public class CheckPrerequis {
 		 * Controle si tous les PREREQUIS des JDD sont bien dans les PREJDD
 		 */
 		list.eachWithIndex { map,idx ->
-			Log.addTrace(idx + ' : ' + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()))
+			Log.addTrace(idx + ' : ' + PREJDDFiles.getFullname(map.getAt('PREJDDMODOBJ').toString()))
 			map.each { key,val ->
 				Log.addTrace('\t' + key + ' : ' +val)
 			}
-			if (PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString())) {
+			if (PREJDDFiles.getFullname(map.getAt('PREJDDMODOBJ').toString())) {
 				if (!PREJDD.checkPREJDD(map)) {
 					status=false
 				}
@@ -89,11 +89,11 @@ public class CheckPrerequis {
 		 * Controle si tous les PREREQUIS des JDD sont bien dans les PREJDD
 		 */
 		list.eachWithIndex { map,idx ->
-			Log.addTrace(idx + ' : ' + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()))
+			Log.addTrace(idx + ' : ' + PREJDDFiles.getFullname(map.getAt('PREJDDMODOBJ').toString()))
 			map.each { key,val ->
 				Log.addTrace('\t' + key + ' : ' +val)
 			}
-			if (PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString())) {
+			if (PREJDDFiles.getFullname(map.getAt('PREJDDMODOBJ').toString())) {
 				if (!PREJDD.checkPREJDD(map)) {
 					status=false
 				}

@@ -157,19 +157,19 @@ class Tools {
 		//def regexPattern = Pattern.compile(fileRegex)
 		if (folder.exists() && folder.isDirectory()) {
 			folder.eachFileMatch (FileType.FILES,~/${fileRegex}/) { File file ->
-					if (file.delete()) {
-						Log.addTrace("Fichier '${file.name}' supprimé")
-					}else {
-						Log.addTrace("Impossible de supprimer le fichier '${file.name}'")
-					}
+				if (file.delete()) {
+					Log.addTrace("Fichier '${file.name}' supprimé")
+				}else {
+					Log.addTrace("Impossible de supprimer le fichier '${file.name}'")
+				}
 			}
 		} else {
 			Log.addTrace("Le dossier spécifié n'existe pas ou n'est pas un dossier valide.")
 		}
 		Log.addTraceEND(CLASS_FORLOG,"deleteFilesFromFolder")
 	}
-	
-	
+
+
 	static List <String> getFilesFromFolder( String fileRegex , String folderPath) {
 		Log.addTraceBEGIN(CLASS_FORLOG,"getFilesFromFolder",[fileRegex:fileRegex,folderPath:folderPath])
 		List <String> ret = []
@@ -185,7 +185,7 @@ class Tools {
 		Log.addTraceEND(CLASS_FORLOG,"getFilesFromFolder",ret)
 		return ret
 	}
-	
-	
-	
+
+
+
 } // end of class

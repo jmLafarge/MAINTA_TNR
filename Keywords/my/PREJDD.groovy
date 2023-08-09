@@ -22,13 +22,13 @@ public class PREJDD {
 
 	static boolean checkPREJDD(Map map){
 
-		PREJDDFullName = PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString())
+		PREJDDFullName = PREJDDFiles.getFullname(map.getAt('PREJDDMODOBJ').toString())
 
 		XSSFWorkbook book = my.XLS.open(PREJDDFullName)
 
 		Sheet sheet = book.getSheet(map.getAt('PREJDDTAB').toString())
 
-		Log.addTrace("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "'  dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'")
+		Log.addTrace("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "'  dans '" + PREJDDFiles.getFullname(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'")
 
 		List list = getListOfCasDeTestAndIDValue(sheet, map.getAt('PREJDDID').toString())
 
@@ -72,7 +72,7 @@ public class PREJDD {
 						savJDDNAME2 = map.getAt('JDDNAME').toString()
 						savTxt=''
 					}
-					String txt="Controle de '" + map.getAt('JDDID') + "' dans '" + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'"
+					String txt="Controle de '" + map.getAt('JDDID') + "' dans '" + PREJDDFiles.getFullname(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'"
 					if (savTxt != txt) {
 						Log.addINFO('')
 						Log.addINFO("\t\t$txt")

@@ -7,11 +7,10 @@ import com.kms.katalon.core.context.TestSuiteContext
 
 import internal.GlobalVariable
 import my.Log
-import my.RestoreDB
-import my.Tools
-import my.result.TNRResult
 
 class TestListener {
+	
+	private static final String CLASS_FORLOG = 'TestListener'
 
 	private boolean testSuite=false
 	
@@ -37,14 +36,14 @@ class TestListener {
 	 */
 	@BeforeTestCase
 	def beforeTestCase(TestCaseContext testCaseContext) {
-//		Log.addTraceBEGIN(CLASS_FORLOG,"TestListener.beforeTestCase('${testCaseContext.getTestCaseId()}')")
-//		if (testSuite) {
-//			String TCName = testCaseContext.getTestCaseId().split('/')[-1].split(' ')[0]
-//			Log.addTrace("TCName : '$TCName'")
-//			GlobalVariable.CASDETESTENCOURS = TCName
-//			GlobalVariable.CASDETESTPATTERN = TCName
-//		}
-//		Log.addTraceEND(CLASS_FORLOG,"TestListener.beforeTestCase()")
+		Log.addTraceBEGIN(CLASS_FORLOG,"beforeTestCase",[getTestCaseId:testCaseContext.getTestCaseId()])
+		if (testSuite) {
+			String TCName = testCaseContext.getTestCaseId().split('/')[-1].split(' ')[0]
+			Log.addTrace("TCName : '$TCName'")
+			GlobalVariable.CASDETESTENCOURS = TCName
+			GlobalVariable.CASDETESTPATTERN = TCName
+		}
+		Log.addTraceEND(CLASS_FORLOG,"beforeTestCase")
 	}
 
 
@@ -55,9 +54,12 @@ class TestListener {
 	 */
 	@AfterTestCase
 	def afterTestCase(TestCaseContext testCaseContext) {
-//		Log.addTraceBEGIN(CLASS_FORLOG,"TestListener.afterTestCase('${testCaseContext.getTestCaseId()}')")
-//		Log.addTrace('afterTestCase : ' + testCaseContext.getTestCaseId().split('/')[-1] + ' : '+testCaseContext.getTestCaseStatus())
-//		Log.addTraceEND(CLASS_FORLOG,"TestListener.afterTestCase()")
+		Log.addTraceBEGIN(CLASS_FORLOG,"afterTestCase",[getTestCaseId:testCaseContext.getTestCaseId()])
+		Log.addTrace('afterTestCase : ' + testCaseContext.getTestCaseId().split('/')[-1] + ' : '+testCaseContext.getTestCaseStatus())
+		Log.addTraceEND(CLASS_FORLOG,"afterTestCase")
+		if (!testSuite) {
+			Log.addEndLog()
+		}
 	}
 
 	

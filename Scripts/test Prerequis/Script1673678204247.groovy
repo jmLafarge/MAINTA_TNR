@@ -19,7 +19,7 @@ JDDFiles.JDDfilemap.each { modObj,fullName ->
 
 list.eachWithIndex { map,idx ->
 	
-	Log.addTrace(idx + ' : ' + PREJDDFiles.getFullName(map.getAt('PREJDDMODOBJ')))
+	Log.addTrace(idx + ' : ' + PREJDDFiles.getFullname(map.getAt('PREJDDMODOBJ')))
 	
 	map.each { key,val ->
 		Log.addTrace('\t' + key + ' : ' +val)

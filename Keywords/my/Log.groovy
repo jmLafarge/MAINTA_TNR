@@ -33,8 +33,10 @@ class Log {
 
 	private static int nbCarStatus = 7
 
+	private static Date startLog = null
 	private static int debugLevel = 0
 	private static int level = 0
+	private static int maxLevel = 0
 
 	private static List <String> debugClassesExcluded = []
 	private static List <String> debugClassesAdded = []
@@ -43,6 +45,7 @@ class Log {
 
 	private static List<Map<String, Boolean>> traceList = []
 
+	private static boolean traceEnd 	= false
 	private static boolean traceAllowed = true
 
 	private static String tab = ''
@@ -64,6 +67,7 @@ class Log {
 		if (!dir.exists()) dir.mkdirs()
 
 		String dateFile = new Date().format("yyyyMMdd_HHmmss")
+		startLog = new Date()
 
 		file 		=new File(my.PropertiesReader.getMyProperty('LOG_PATH') + File.separator +  dateFile + "-log.txt")
 		fileDebug 	=new File(my.PropertiesReader.getMyProperty('LOG_PATH') + File.separator +  dateFile + "-logDEBUG.txt")
@@ -114,28 +118,34 @@ class Log {
 
 
 	public static add (String stat, String msg) {
-		stat= getStatusFormat(stat)
-		logDate = new Date()
-		String h = logDate.format(dateTimeFormat)
-		file.append("[$h][$stat]:" +"$msg\n")
-		//println "[my Log][$stat]:" +"$msg"
-		//fileDebug.append("[$h][$stat]:" +"$msg\n")
-		fileDebug.append("[$h][$stat]:" + PREDEBUGTXT + tab +"$msg\n")
+		if (!traceEnd) {
+			stat= getStatusFormat(stat)
+			logDate = new Date()
+			String h = logDate.format(dateTimeFormat)
+			file.append("[$h][$stat]:" +"$msg\n")
+			//println "[my Log][$stat]:" +"$msg"
+			//fileDebug.append("[$h][$stat]:" +"$msg\n")
+			fileDebug.append("[$h][$stat]:" + PREDEBUGTXT + tab +"$msg\n")
+		}
 	}
 
 
 	public static addB ( String msg) {
-
-		file.append("\t\t$msg\n")
-		fileDebug.append("\t\t$msg\n")
+		if (!traceEnd) {
+			file.append("\t\t$msg\n")
+			fileDebug.append("\t\t$msg\n")
+		}
 	}
 
 
 	public static addDEBUG (String msg) {
-		String stat= getStatusFormat("  D  ")
-		String h = new Date().format(dateTimeFormat)
-		fileDebug.append("[$h][$stat]:" + PREDEBUGTXT + tab +"$msg\n")
-		println "[my Log][$stat]:" + tab +"$msg"
+		if (!traceEnd) {
+			String lev = (level>=0 && level<=9)?"0$level":"$level"
+			String stat= getStatusFormat(" D$lev ")
+			String h = new Date().format(dateTimeFormat)
+			fileDebug.append("[$h][$stat]:" + PREDEBUGTXT + tab +"$msg\n")
+			println "[my Log][$stat]:" + tab +"$msg"
+		}
 	}
 
 
@@ -188,6 +198,7 @@ class Log {
 
 	public static addTraceBEGIN (String myClass, String myFunction, Map paras) {
 		level++
+		maxLevel = (level>maxLevel) ? level : maxLevel
 		setTraceAllowed(myClass,myFunction,level)
 		addToTraceList(myClass, myFunction)
 
@@ -209,7 +220,7 @@ class Log {
 		level = (level > 0) ? level - 1 : 0
 		tab = STRTABSEP.multiply(level) //
 
-		if (traceAllowed ) {
+		if (traceAllowed) {
 			String r = ret?" <-- '$ret'":' ---'
 			addDEBUG(STREND + getClassFunction(myClass,myFunction) + '()' + r)
 		}
@@ -328,7 +339,7 @@ class Log {
 				add(status,PREDETAILTXT+ val)
 			}
 		} else {
-			addTrace("La liste \"$nomDeLaListe\" n'existe pas.")
+			addTrace("La liste '$nomDeLaListe' n'existe pas.")
 		}
 	}
 
@@ -343,6 +354,16 @@ class Log {
 		debugClasses = newClasses
 		fileDebug.append("New debug Classes = $newClasses\n")
 	}
+	
 
+	public static addEndLog(String msg='') {
+		addTrace(msg)
+		traceEnd=true
+		Date stop = new Date()
+		fileDebug.append("Max Level = $maxLevel\n")
+		fileDebug.append('Time Duration : ' + Tools.getDuration(startLog,stop))
+	}
+	
+	
 
 }// end of class

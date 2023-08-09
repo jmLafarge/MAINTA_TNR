@@ -33,14 +33,14 @@ class JDDGenerator {
 		XSSFWorkbook JDDbook
 		XSSFWorkbook PREJDDbook
 		Log.addINFO('')
-		if (!JDDFiles.getFullName(modObj)) {
+		if (!JDDFiles.getFullname(modObj)) {
 			Log.addINFO("Création du fichier JDD pour $modObj")
 			String fullName = createJDDFileByCopy(table,modObj)
 			JDDbook = my.XLS.open(fullName)
 			JDDFiles.add(modObj, fullName)
 		}else {
-			Log.addINFO("Le fichier JDD pour $modObj existe déjà : " + JDDFiles.getFullName(modObj))
-			JDDbook = my.XLS.open(JDDFiles.getFullName(modObj))
+			Log.addINFO("Le fichier JDD pour $modObj existe déjà : " + JDDFiles.getFullname(modObj))
+			JDDbook = my.XLS.open(JDDFiles.getFullname(modObj))
 		}
 
 		String msg=addJDDSheet(JDDbook, table, modObj,fct,listRubriquesIHM)
@@ -51,20 +51,20 @@ class JDDGenerator {
 
 			addInfoVersion(JDDbook,msg)
 
-			OutputStream JDDfileOut = new FileOutputStream(JDDFiles.getFullName(modObj))
+			OutputStream JDDfileOut = new FileOutputStream(JDDFiles.getFullname(modObj))
 			JDDbook.write(JDDfileOut)
 		}
 
 
 		Log.addINFO('')
-		if (!PREJDDFiles.getFullName(modObj)) {
+		if (!PREJDDFiles.getFullname(modObj)) {
 			Log.addINFO("Création du fichier PREJDD pour $modObj")
 			String fullName = createPREJDDFileByCopy(table,modObj)
 			PREJDDbook = my.XLS.open(fullName)
 			PREJDDFiles.add(modObj, fullName)
 		}else {
-			Log.addINFO("Le fichier PREJDD pour $modObj existe déjà : " + PREJDDFiles.getFullName(modObj))
-			PREJDDbook = my.XLS.open(PREJDDFiles.getFullName(modObj))
+			Log.addINFO("Le fichier PREJDD pour $modObj existe déjà : " + PREJDDFiles.getFullname(modObj))
+			PREJDDbook = my.XLS.open(PREJDDFiles.getFullname(modObj))
 		}
 
 		msg=addPREJDDSheet(PREJDDbook, table, modObj,fct)
@@ -72,7 +72,7 @@ class JDDGenerator {
 		if (msg) {
 			addInfoVersion(PREJDDbook,msg)
 
-			OutputStream PREJDDfileOut = new FileOutputStream(PREJDDFiles.getFullName(modObj))
+			OutputStream PREJDDfileOut = new FileOutputStream(PREJDDFiles.getFullname(modObj))
 			PREJDDbook.write(PREJDDfileOut)
 		}
 	}

@@ -14,6 +14,7 @@
 
 
 
+
  * 
  * -----------------------------------------------------------------------------------------------------
  * NOTE
@@ -97,8 +98,12 @@
 
 	Revoir la définition de INTERNAL VALUES
 	
-
-
+		Définition : Les INTERNAL VALUES ne sont pas en BD mais codé en dur dans Mainta
+		Ajout dans JDD.GLOBAL dans le but de controler si les valeurs dans les PREJDD et JDD sont corrects --> A FAIRE
+		Pour les SELECT, on utilise la valeur visible à l'écran.
+		Pour les RADIO, on utilise la valeur interne
+	
+	
 
 	VERIFIER les nom des cas de tests des sous-rubriques
 
@@ -106,9 +111,9 @@
  
 	RESULTAT DES TESTS
 	 
-	 	ACTEUR CRE LEC MAJ 			--> ST_INVPRE est disable 																--> License,  voir avec Hervé
+	 	ACTEUR CRE LEC MAJ 			--> ST_INVPRE est disable 	--> Que pour les invités qui s'inscrivent, pas pour les acteurs standard
 	 		
-	 	ACTEUR - AJOUT EMPLACEMENT 	--> Click sur le bouton AJOUTER n'affiche pas la fenetre de recherche des emplacements 	--> ajouter une Zone
+	 	ACTEUR - AJOUT EMPLACEMENT 	--> Click sur le bouton AJOUTER n'affiche pas la fenetre de recherche des emplacements 	--> ajouter une Zone --> marche pas
 	 	
 	 	FOURNISSEUR SUPPRESSION 	--> pas autoriser à supprimmer cet élément -											--> voir trace voir si memo correctement créé en BDD
 	 	
@@ -118,9 +123,9 @@
 	 	
 	 	ARTICLE SUPPRESSION			--> Ce code ne peut pas supprimé
 	 	
-	 	MATRICULE SUPPRESSION		--> Pas de bouton supprimer !															--> revoir les regles de supression du Matricule, la fonction teste si 2 mouvements sinon pas de delete
+	 	MATRICULE SUPPRESSION		--> Pas de bouton supprimer !--> revoir les regles de supression du Matricule, la fonction teste si 2 mouvements sinon pas de delete
 	 	
-	 	MATRICULE					--> manque ID_TYPENJ et ID_NUMCRIINV dans les écrans
+	 	MATRICULE					--> manque ID_TYPENJ et ID_NUMCRIINV dans les écrans --> Ces deux rubriques sont disponibles dans la sous-fonction INVENTAIRE
 
 	 								
 	 	

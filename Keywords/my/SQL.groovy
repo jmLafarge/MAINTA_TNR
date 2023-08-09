@@ -349,9 +349,9 @@ public class SQL {
 				case JDDKW.getKW_DATE() :
 
 					if (valDB instanceof java.sql.Timestamp) {
-						logaddTrace('DATE',fieldName,valJDD,valDB)
+						logaddTrace('DATEJML',fieldName,valJDD,valDB)
 					}else {
-						logAddDETAIL('DATE',fieldName,valJDD,valDB)
+						logAddDETAIL('DATEJML',fieldName,valJDD,valDB)
 						verifStatus= 'FAIL'
 					}
 					break

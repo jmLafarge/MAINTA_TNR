@@ -77,7 +77,7 @@ public class JDDFiles {
 	 * @param modObj
 	 * @return
 	 */
-	static String getFullName(String modObj) {
+	static String getFullname(String modObj) {
 		return JDDfilemap[modObj]
 	}
 

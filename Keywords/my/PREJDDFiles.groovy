@@ -38,9 +38,11 @@ public class PREJDDFiles {
 
 
 
-	public static String getFullName(String modObj){
-
-		return PREJDDfilemap.getAt(modObj)
+	public static String getFullname(String modObj){
+		Log.addTraceBEGIN(CLASS_FORLOG,"getFullname",[modObj:modObj])
+		String fullname = PREJDDfilemap.getAt(modObj)
+		Log.addTraceEND(CLASS_FORLOG,"getFullname",fullname)
+		return fullname
 	}
 
 
@@ -360,8 +362,8 @@ public class PREJDDFiles {
 				 ['RO.CAL','001'],
 				 ['RO.CAL','001A'],
 				 ['RT.EMP','001'],
-				 ['RO.ORG','001'],
 				 ['RO.ORG','001A'],
+				 ['RO.ORG','001'],
 				 ['RO.ACT','001'],
 				 ['RO.ACT','005'],
 				 ['RO.ACT','003HAB'],
