@@ -298,8 +298,8 @@ public class JDD {
 	}
 
 
-	
-	
+
+
 	boolean isDataUPD(String name, def cdtnum=null) {
 		Log.addTraceBEGIN(CLASS_FORLOG,"isDataUPD",[name:name , cdtnum:cdtnum])
 		cdtnum = (cdtnum?:casDeTestNum) as int
@@ -319,8 +319,8 @@ public class JDD {
 		Log.addTraceEND(CLASS_FORLOG,"isDataUPD",ret)
 		return ret
 	}
-	
-	
+
+
 
 
 
@@ -459,6 +459,8 @@ public class JDD {
 						xpathTO.put('Lbl'+name, "//label[@id='Lbl$name']".toString())
 					}else if (loc == 'radio') {
 						//xpathTO.put(name, "//input[@id='" + name +"' and @type='radio']")
+						//String radioXpath = "//label[@id='L${name}" + '${RADIO}' + "']"
+						
 						xpathTO.put(name, "//label[@id='L${name}']".toString())
 					}else if (loc=='input') {
 						xpathTO.put(name, "//$loc[@id='$name' and not(@type='hidden')]".toString())

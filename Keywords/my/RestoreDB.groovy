@@ -27,21 +27,7 @@ public class RestoreDB {
 			initTNR()
 		}	
 		
-		
-		// Attendre le recyclage
-		/*
-		KW.openBrowser(GlobalVariable.BASE_URL.toString())
-		KW.maximizeWindow()
-		KW.click(NAV.myGlobalJDD,'button_Jeminscrit')
-		
-		if (KW.waitForElementVisible(NAV.myGlobalJDD, 'div_logininscription', 80)) {
-			Log.addTrace("La fenetre d'inscription est apparue")
-			KW.closeBrowser()
-		}else {
-			KW.closeBrowser()
-			Log.addErrorAndStop("La fenetre d'inscription n'est pas apparue ! ")
-		}
-		*/
+		// Ajouter le recyclage
 		
 		Log.addTraceEND(CLASS_FORLOG,"run")
 	}
@@ -105,6 +91,8 @@ public class RestoreDB {
 		dest = DBBACKUP_PATH + File.separator + backupFilename
 		Files.move(Paths.get(origin), Paths.get(dest), StandardCopyOption.REPLACE_EXISTING)
 
+*/
+backupFilename = '20230807_134216-MASTERTNR_MAINTA_TNR_MASTER_V13.0.2.bak'
 
 		Log.addDETAIL("Copie du fichier de backup du projet sur le server de TNR")
 
@@ -113,6 +101,9 @@ public class RestoreDB {
 		Files.copy(Paths.get(origin), Paths.get(dest))
 
 
+
+		
+		
 		Log.addDETAIL("Restaure la BDD TNR")
 
 		SQL.restore(backupFilename)
@@ -123,11 +114,11 @@ public class RestoreDB {
 		Log.addDETAIL("Supprime le le fichier de backup")
 
 		Tools.deleteFilesFromFolder(dest)
-*/
+
 
 		Log.addDETAIL("Création des PREJDD")
 
-		//PREJDDFiles.createInDB()
+		PREJDDFiles.createInDB()
 
 		Log.addDETAIL("Sauvegarde de la BDD TNR avec les PREJDD")
 

@@ -35,8 +35,8 @@ public class TO {
 
 			if (xpath.startsWith('$')) {
 
-				switch(xpath.split('\\$')[1]) {			
-				
+				switch(xpath.split('\\$')[1]) {
+
 
 					case "TAB":
 						binding['tabname']=xpath.split('\\$')[2]
@@ -89,16 +89,16 @@ public class TO {
 
 	}
 
-	
-	
-	
+
+
+
 	public String getMsg() {
 
 		return msgTO
 	}
 
-	
-	
+
+
 
 	/**
 	 * Résout un xpath en remplaçant les variables dynamiques par leurs valeurs correspondantes.

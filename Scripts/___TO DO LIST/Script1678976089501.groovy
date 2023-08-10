@@ -10,8 +10,24 @@
  * 
 
 
+****************************************************************************          A TESTER
 
+	Gere les boutons RADIO :
+	
+	Soit avec le libellé + INTERNALVALUES, exemple avec MAT CHOIX2
+	
+		En Stock		S --> xpath id=CHOIX2S
+		En réparation	R --> xpath id=CHOIX2R
+		Autre			A --> xpath id=CHOIX2A
+	
+	Soit avec la valeur interne directement
 
+		--> c'est plus simple, pas de problème de langue, de texte
+
+		VOIR
+		JDD.addXpath
+		TO.resolveXpath
+****************************************************************************          A TESTER
 
 
 
@@ -110,24 +126,25 @@
 
  
 	RESULTAT DES TESTS
-	 
-	 	ACTEUR CRE LEC MAJ 			--> ST_INVPRE est disable 	--> Que pour les invités qui s'inscrivent, pas pour les acteurs standard
+	
 	 		
 	 	ACTEUR - AJOUT EMPLACEMENT 	--> Click sur le bouton AJOUTER n'affiche pas la fenetre de recherche des emplacements 	--> ajouter une Zone --> marche pas
 	 	
 	 	FOURNISSEUR SUPPRESSION 	--> pas autoriser à supprimmer cet élément -											--> voir trace voir si memo correctement créé en BDD
 	 	
-	 	COMPTEUR CREATION 			--> la valeur NU_DEL est à 0 à la place de 100000 (JDD) --> NU_DEL n'est pas en BD ***** revoir le controle *****
+	 	COMPTEUR CREATION 			--> la valeur NU_DEL est à 0 à la place de 100000 (JDD)
 	 	
-	 	COMPTEUR LECTURE			--> NU_VALN edst NULL en BD et 0 à l'écran
+	 	COMPTEUR LECTURE			--> NU_DEL et NU_VALN sont NULL en BD et 0 à l'écran
 	 	
-	 	ARTICLE SUPPRESSION			--> Ce code ne peut pas supprimé
+	 	
+	 	ARTICLE SUPPRESSION			--> Ce code ne peut pas être supprimé
+	 	ARTICLE						--> NU_PRIPMP est NULL en BD et 0 à l'écran
 	 	
 	 	MATRICULE SUPPRESSION		--> Pas de bouton supprimer !--> revoir les regles de supression du Matricule, la fonction teste si 2 mouvements sinon pas de delete
 	 	
 	 	MATRICULE					--> manque ID_TYPENJ et ID_NUMCRIINV dans les écrans --> Ces deux rubriques sont disponibles dans la sous-fonction INVENTAIRE
 
-	 								
+	 	ORGANISTION MODIF			--> Contrôle de la valeur  de 'ST_DESORI' KO : la valeur attendue est 'UPD.RO.ORG.001.MAJ.01' et la valeur en BD est  : 'RO.ORG.001.MAJ.01'			--> normal non ?	
 	 	
 	 																														
 	 	

@@ -30,6 +30,8 @@ for (String cdt in myJDD.CDTList) {
 			
 			KW.scrollAndClick(myJDD, "tab_Matricule")
 			KW.waitForElementVisible(myJDD, "tab_MatriculeSelected")
+			
+			
 
 			KW.scrollAndSetText(myJDD, "ID_NUMMAT")
 			KW.scrollAndSetText(myJDD, "ST_NUMINV")
@@ -39,9 +41,11 @@ for (String cdt in myJDD.CDTList) {
 			KW.scrollAndSelectOptionByValue(myJDD, "NU_TYP")
 			KW.scrollAndSetText(myJDD, "NU_PRISTO")
 			KW.scrollAndSetText(myJDD, "ID_CODART")
+			
 			if(!JDDKW.isNULL(myJDD.getStrData('ID_CODMOY'))) {
 				KW.scrollAndSetText(myJDD, "ID_CODMOY")
 			}
+			
 			KW.scrollAndSetText(myJDD, "ID_CODGES")
 			KW.scrollAndSetText(myJDD, "ID_NUMCRI")
 			KW.scrollAndSetText(myJDD, "ID_CODIMP")
@@ -89,41 +93,51 @@ for (String cdt in myJDD.CDTList) {
 			KW.scrollAndClick(myJDD, "tab_Notes")
 			KW.waitForElementVisible(myJDD, "tab_NotesSelected")
 			
+			// A completer
 			
 			
+			// Pas de test avec ONGLET ETAT
 			
-		TNRResult.addSTEPGRP("ONGLET ETAT")
-			
-			KW.scrollAndClick(myJDD, "tab_Etat")
-			KW.waitForElementVisible(myJDD, "tab_EtatSelected")
-			
-			KW.scrollToPosition(0, 0)
-			KW.delay(2)
-			KW.scrollAndSetRadio(myJDD, "ST_POS")
-
-			KW.scrollAndSetText(myJDD, "ID_NUMEMP")
-			KW.scrollAndSetText(myJDD, "ID_CODMAG")
-			
-			KW.scrollAndSetText(myJDD, "ID_CODFOU")
-			
-			KW.scrollAndSetText(myJDD, "ST_AUT")
-			
-			
-			KW.scrollAndSetDate(myJDD, "DT_DEP")
-			KW.scrollAndSetDate(myJDD, "DT_RET")
-			
-			//KW.scrollAndCheckIfNeeded(myJDD, "NUMMAT2NUMAUTO", "O")
-			//KW.scrollAndCheckIfNeeded(myJDD, "DISABLE_RECTIFSTO", "O")
-			
-			
-		
-
-	
-	
 				
 	TNRResult.addSTEPACTION('VALIDATION')
 		
 	    KW.scrollAndClick(NAV.myGlobalJDD,'button_Valider')
+		
+		//Vérifier que l’écran de mouvement technique est affiché et saisir:
+		
+		NAV.verifierEcranResultat(myJDD.getStrData(),'343')
+		
+		
+			
+		switch (myJDD.getStrData('SCENARIO')) {
+	
+			case 'C2.1':
+				KW.scrollAndSetRadio(myJDD, "CHOIX")
+				KW.scrollAndSetText(myJDD, "EQU_CODLON",myJDD.getStrData('ID_NUMEQU'))
+				break;
+	
+			case 'C2.2':
+				KW.scrollAndSetRadio(myJDD, "CHOIX")
+				KW.scrollAndSetRadio(myJDD, "CHOIX2")
+				KW.scrollAndSetText(myJDD, "MATID_CODMAG",myJDD.getStrData('ID_CODMAG'))
+				break;
+	
+			case 'C2.3':
+				KW.scrollAndSetRadio(myJDD, "CHOIX")
+				KW.scrollAndSetRadio(myJDD, "CHOIX2")
+				KW.scrollAndSetText(myJDD, "MATID_CODFOU",myJDD.getStrData('ID_CODFOU'))
+				break;
+			case 'C2.3':
+				KW.scrollAndSetRadio(myJDD, "CHOIX")
+				KW.scrollAndSetRadio(myJDD, "CHOIX2")
+				KW.scrollAndSetText(myJDD, "MATST_AUT",myJDD.getStrData('ST_AUT'))
+				break;
+	
+		}
+			
+
+		
+		//2eme validation
 		
 		KW.scrollAndClick(myJDD,'button_Valider2')
 	
