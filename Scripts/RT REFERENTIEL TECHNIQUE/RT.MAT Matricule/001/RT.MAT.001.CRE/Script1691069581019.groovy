@@ -105,7 +105,7 @@ for (String cdt in myJDD.CDTList) {
 		
 		//Vérifier que l’écran de mouvement technique est affiché et saisir:
 		
-		NAV.verifierEcranResultat(myJDD.getStrData(),'343')
+		NAV.verifierEcranRUD(myJDD.getStrData(),'343')
 		
 		
 			
@@ -127,12 +127,16 @@ for (String cdt in myJDD.CDTList) {
 				KW.scrollAndSetRadio(myJDD, "CHOIX2")
 				KW.scrollAndSetText(myJDD, "MATID_CODFOU",myJDD.getStrData('ID_CODFOU'))
 				break;
-			case 'C2.3':
+			case 'C2.4':
 				KW.scrollAndSetRadio(myJDD, "CHOIX")
 				KW.scrollAndSetRadio(myJDD, "CHOIX2")
 				KW.scrollAndSetText(myJDD, "MATST_AUT",myJDD.getStrData('ST_AUT'))
 				break;
-	
+			case 'C3.2':
+				KW.scrollAndSetRadio(myJDD, "CHOIX")
+				KW.scrollAndSetRadio(myJDD, "CHOIX2")
+				KW.scrollAndSetText(myJDD, "MATST_AUT",myJDD.getStrData('ST_AUT'))
+				break;
 		}
 			
 
@@ -143,7 +147,7 @@ for (String cdt in myJDD.CDTList) {
 	
 	    NAV.verifierEcranResultat(myJDD.getStrData())
 		
-		myJDD.replaceSEQUENCIDInJDD('ID_NUMDOC1')
+		myJDD.replaceSEQUENCIDInJDD('ID_NUMDOC',1)
 		
 		SQL.checkJDDWithBD(myJDD)
 		

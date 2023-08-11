@@ -1,0 +1,79 @@
+<!-- edited with XMLSpy v2016 rel. 2 (x64) (http://www.altova.com) by MAINTA (SA APAVE) -->
+<activepage>
+	<param>
+		<config>
+			<skin>mainta</skin>
+			<css>User/E50.css<!--emplacement publié relatif à /MOS_XML/-->
+			</css>
+		</config>
+		<validation>
+			<update relative="yes">UpdateE50</update>
+			<insert relative="yes">InsertE50</insert>
+			<delete relative="yes">DeleteE50</delete>
+		</validation>
+		<wysiwyg editable="yes" bootstrap="yes"/>
+	</param>
+	<formulaire name="MainForm" role="newDesign">
+		<headerzone/>
+		<togglepanel visible="yes">
+			<visiblingtext>
+				<span><ml-text value="ass"></ml-text></span>
+			</visiblingtext>
+			<hiddingtext>
+				<span><ml-text value="hide"/></span>
+			</hiddingtext>
+			<div class="row">
+				<div class="col-xl-12">
+					<zone type="checkbox" width="100%" name="ST_SOUASS" data="varchar" form="MainForm" mode="enabled" value="$from_context" radiovalue="O">
+						<ml-text value="ST_SOUASS"></ml-text>
+					</zone>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xl-6">
+					<label><ml-text value="NU_VALASS"></ml-text>:</label>
+					<zone mode="enabled" type="text" name="NU_VALASS" data="float" form="MainForm" width="100%" unit="ID_CODDEV"/>
+				</div>
+				<div class="col-xl-6">
+					<label><ml-text value="ID_CODUTIASS"/>:</label>
+					<field width="100%" type="FIELD" name="ID_CODUTIASS"/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xl-6">
+				</div>
+				<div class="col-xl-6">
+					<label><ml-text value="DT_ASS"></ml-text>:</label>
+					<zone mode="enabled" type="date" name="DT_ASS" data="date" form="MainForm" width="100%"/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xl-6">
+					<label><ml-text value="NU_FREASS"></ml-text>:</label>
+					<zone mode="enabled" type="text" name="NU_FREASS" data="integer" form="MainForm" width="100%" localesunit="unit_mois"/>
+				</div>
+				<div class="col-xl-6">
+					<label><ml-text value="DT_ASSPRO"></ml-text>:</label>
+					<zone mode="enabled" type="date" name="DT_ASSPRO" data="date" form="MainForm" width="100%"/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xl-12">
+					<title micon="">
+						<ml-text value="ass"></ml-text>
+					</title>
+					<div class="row">
+						<div class="col-xl-12">
+							<preservecontent>
+								<contratszone mode="enabled" type="1">
+									<!--0: contrats de maintenance, 1 assurances-->
+								</contratszone>
+							</preservecontent>
+						</div>
+					</div>
+				</div>
+			</div>
+		</togglepanel>
+		<buttonpanel form="MainForm"/>
+	</formulaire>
+</activepage>

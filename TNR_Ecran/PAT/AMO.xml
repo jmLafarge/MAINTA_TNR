@@ -1,0 +1,42 @@
+<!-- edited with XMLSpy v2016 rel. 2 (x64) (http://www.altova.com) by MAINTA (SA APAVE) -->
+<activepage>
+	<param>
+		<config>
+			<skin>mainta</skin>
+			<css>User/E50.css<!--emplacement publié relatif à /MOS_XML/-->
+			</css>
+		</config>
+		<validation>
+			<update relative="yes">UpdateE50</update>
+			<insert relative="yes">InsertE50</insert>
+			<delete relative="yes">DeleteE50</delete>
+		</validation>
+		<wysiwyg editable="yes" bootstrap="yes"/>
+	</param>
+	<formulaire name="MainForm" role="newDesign">
+		<headerzone/>
+		<togglepanel visible="yes">
+			<visiblingtext>
+				<span><ml-text value="amortissement"></ml-text></span>
+			</visiblingtext>
+			<hiddingtext>
+				<span><ml-text value="hide"/></span>
+			</hiddingtext>
+			<div class="row">
+				<div class="col-xl-12">
+					<title micon="">
+						<ml-text value="amortissement"></ml-text>
+					</title>
+					<div class="row">
+						<div class="col-xl-12">
+							<preservecontent>
+								<amozone></amozone>
+							</preservecontent>
+						</div>
+					</div>
+				</div>
+			</div>
+		</togglepanel>
+		<buttonpanel form="MainForm"/>
+	</formulaire>
+</activepage>

@@ -10,24 +10,10 @@
  * 
 
 
-****************************************************************************          A TESTER
 
-	Gere les boutons RADIO :
-	
-	Soit avec le libellé + INTERNALVALUES, exemple avec MAT CHOIX2
-	
-		En Stock		S --> xpath id=CHOIX2S
-		En réparation	R --> xpath id=CHOIX2R
-		Autre			A --> xpath id=CHOIX2A
-	
-	Soit avec la valeur interne directement
 
-		--> c'est plus simple, pas de problème de langue, de texte
 
-		VOIR
-		JDD.addXpath
-		TO.resolveXpath
-****************************************************************************          A TESTER
+
 
 
 
@@ -143,6 +129,13 @@
 	 	MATRICULE SUPPRESSION		--> Pas de bouton supprimer !--> revoir les regles de supression du Matricule, la fonction teste si 2 mouvements sinon pas de delete
 	 	
 	 	MATRICULE					--> manque ID_TYPENJ et ID_NUMCRIINV dans les écrans --> Ces deux rubriques sont disponibles dans la sous-fonction INVENTAIRE
+	 	
+	 	MATRICULE CREATION 			--> manque dans les écrans : ST_DESREP, DT_POS, DT_SER, ST_EMPMAG, ST_PAT, ST_SOUINV, ST_SOUASS, DT_INV, DT_INVPRO, 	DT_ASS, 	DT_ASSPRO, 	NU_FREINV, 	NU_FREASS, 	NU_VALINI, 	NU_VALINV, 	NU_VALASS, 	ST_UTIUPD, 	DT_ENT, 	ID_CODMETINV, 	ID_CODETAVIS, 	ST_REMETAVIS, 	ID_CODGESPRO, 	ID_CODGESGES, 	ID_CODGESEXP, 	ID_CODGESMAI, 	ID_TYPENJ, 	ID_NUMCRIINV
+	 	
+	 								ID_NUMEMP manque l'emplacement dans PREJDD.EQU EQU.RT.MAT.001.CRE.01.........
+	 								
+	 	
+	 	
 
 	 	ORGANISTION MODIF			--> Contrôle de la valeur  de 'ST_DESORI' KO : la valeur attendue est 'UPD.RO.ORG.001.MAJ.01' et la valeur en BD est  : 'RO.ORG.001.MAJ.01'			--> normal non ?	
 	 	

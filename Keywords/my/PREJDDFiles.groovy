@@ -80,152 +80,154 @@ public class PREJDDFiles {
 			String val = ''
 			List PKwhere = []
 			for (Cell c in row) {
+				
+				
 				String fieldName = my.XLS.getCellValue(row0.getCell(c.getColumnIndex()))
 				if (fieldName=="") {
 					break
 				}
 
 
-
 				def valueOfJDD = my.XLS.getCellValue(c)
 				Log.addTrace("\tCell value = '$valueOfJDD' getClass()=" + valueOfJDD.getClass())
 
 				if (c.getColumnIndex()>0) {
-					Log.addTrace("\tAjout fieldName='$fieldName' value='$valueOfJDD' in req SQL")
+					
+					
 
 					if (!my.JDDKW.isNU(valueOfJDD.toString()) && !myJDD.isOBSOLETE(fieldName)) {
 						fields.add(fieldName)
-					}
+						Log.addTrace("\tAjout fieldName='$fieldName' in req SQL")
 
-
-
-					// cas d'un champ lié à une séquence
-					String seqTable = myJDD.getParamForThisName('SEQUENCE',fieldName)
-					if (seqTable && !JDDKW.isNULL(valueOfJDD)){
-						int seq = (int)valueOfJDD
-						if (sequence.containsKey(seqTable)) {
-							if (seq > sequence.getAt(seqTable)) {
-								sequence.put(seqTable, seq)
-								Log.addTrace("Ajout d'une sequence sur '$fieldName', table '$seqTable', seq '$seq'")
-							}
-						}else {
-							Log.addTrace("Détection d'une sequence sur '$fieldName', table '$seqTable', seq '$seq'")
-							sequence.put(seqTable, seq)
-						}
-					}
-
-
-
-					// cas d'un champ lié à une FOREIGNKEY
-					String FK = myJDD.getParamForThisName('FOREIGNKEY',fieldName)
-					if (FK) {
-
-						Log.addTrace("Détection d'une FK sur $fieldName, FK= $FK")
-
-						if (!my.JDDKW.isNULL(valueOfJDD.toString()) && !my.JDDKW.isVIDE(valueOfJDD.toString())){
-
-							valueOfJDD =getValueFromFK(FK,cdt,valueOfJDD.toString())
-
-						}else {
-							Log.addTrace(" - Pas de lecture de FK, la valeur est '${valueOfJDD.toString()}'")
-						}
-					}
-
-
-
-					// cas d'un champ lié à une INTERNALVALUE
-					String paraIV = myJDD.getParamForThisName('INTERNALVALUE',fieldName)
-
-					if (paraIV) {
-
-						if (valueOfJDD) {
-
-							Log.addTrace("Détection d'une IV sur $fieldName, IV= $paraIV value=$valueOfJDD :")
-
-							String internalVal = IV.getInternalValueOf(paraIV,valueOfJDD.toString())
-
-							Log.addTrace("- internal value =$internalVal")
-
-							valueOfJDD = internalVal
-						}else {
-							Log.addErrorAndStop("Détection d'une INTERNALVALUE sur $fieldName, IV= $paraIV, la valeur est null ou vide.")
-						}
-					}
-
-
-
-					// Cas des val TBD
-					if (JDDKW.startWithTBD(valueOfJDD)) {
-
-						Log.addTrace("Détection d'une valeur TBD sur $fieldName '$valueOfJDD'")
-
-						def newValue = JDDKW.getValueOfKW_TBD(valueOfJDD)
-						// si une valeur de test existe, on remplace la valeur du JDD par cette valeur
-						if (newValue) {
-							valueOfJDD = newValue
-						}else {
-							Log.addErrorAndStop("Détection d'une valeur TBD sur $fieldName sans valeur de test.")
-						}
-
-					}
-
-					// Cas des val $UPD$...$...
-					if (JDDKW.startWithUPD(valueOfJDD)) {
-
-						Log.addErrorAndStop("Détection d'une valeur UPD sur $fieldName INTERDIT sur PREJDD.")
-					}
-
-
-
-					switch (valueOfJDD) {
-
-						case JDDKW.getKW_ORDRE() :
-							if (maxORDRE == 0) {
-								maxORDRE = SQL.getMaxFromTable(fieldName, myJDD.getDBTableName())
-							}
-							maxORDRE++
-							val = maxORDRE.toString()
-							break
-
-						case my.JDDKW.getKW_NULL() :
-							val = null
-							break
-
-						case my.JDDKW.getKW_VIDE() :
-							val = ''
-							break
-
-						case my.JDDKW.getKW_DATE() :
-							def now = new Date()
-							val =  now.format('yyyy-dd-MM')
-							break
-
-						case my.JDDKW.getKW_DATETIME() :
-							def now = new Date()
-							val = now.format('yyyy-dd-MM HH:mm:ss.SSS')
-							break
-						default :
-
-							if (valueOfJDD instanceof java.util.Date) {
-								Log.addTrace("\tinstanceof java.util.Date = TRUE")
-								val = valueOfJDD.format('yyyy-dd-MM HH:mm:ss.SSS')
-
+						// cas d'un champ lié à une séquence
+						String seqTable = myJDD.getParamForThisName('SEQUENCE',fieldName)
+						if (seqTable && !JDDKW.isNULL(valueOfJDD)){
+							int seq = (int)valueOfJDD
+							if (sequence.containsKey(seqTable)) {
+								if (seq > sequence.getAt(seqTable)) {
+									sequence.put(seqTable, seq)
+									Log.addTrace("Ajout d'une sequence sur '$fieldName', table '$seqTable', seq '$seq'")
+								}
 							}else {
-								val = valueOfJDD.toString()
+								Log.addTrace("Détection d'une sequence sur '$fieldName', table '$seqTable', seq '$seq'")
+								sequence.put(seqTable, seq)
 							}
-							break
-					}
-
-
-					if (InfoDB.isImage(myJDD.getDBTableName(), fieldName)) {
-						values.add(getRTFTEXT(valueOfJDD.toString()).getBytes())
-					}else if (!my.JDDKW.isNU(valueOfJDD.toString()) && !myJDD.isOBSOLETE(fieldName) ) {
-						values.add(val)
-					}
-
-					if (PKlist.contains(fieldName)) {
-						PKwhere.add("$fieldName = '$val'")
-
+						}
+	
+	
+	
+						// cas d'un champ lié à une FOREIGNKEY
+						String FK = myJDD.getParamForThisName('FOREIGNKEY',fieldName)
+						if (FK) {
+	
+							Log.addTrace("Détection d'une FK sur $fieldName, FK= $FK")
+	
+							if (!my.JDDKW.isNULL(valueOfJDD.toString()) && !my.JDDKW.isVIDE(valueOfJDD.toString())){
+	
+								valueOfJDD =getValueFromFK(FK,cdt,valueOfJDD.toString())
+	
+							}else {
+								Log.addTrace(" - Pas de lecture de FK, la valeur est '${valueOfJDD.toString()}'")
+							}
+						}
+	
+	
+	
+						// cas d'un champ lié à une INTERNALVALUE
+						String paraIV = myJDD.getParamForThisName('INTERNALVALUE',fieldName)
+	
+						if (paraIV) {
+	
+							if (valueOfJDD) {
+	
+								Log.addTrace("Détection d'une IV sur $fieldName, IV= $paraIV valueOfJDD$valueOfJDD :")
+	
+								String internalVal = IV.getInternalValueOf(paraIV,valueOfJDD.toString())
+	
+								Log.addTrace("- internal value =$internalVal")
+	
+								valueOfJDD = internalVal
+							}else {
+								Log.addErrorAndStop("Détection d'une INTERNALVALUE sur $fieldName, IV= $paraIV, la valeur est null ou vide.")
+							}
+						}
+	
+	
+	
+						// Cas des val TBD
+						if (JDDKW.startWithTBD(valueOfJDD)) {
+	
+							Log.addTrace("Détection d'une valeur TBD sur $fieldName '$valueOfJDD'")
+	
+							def newValue = JDDKW.getValueOfKW_TBD(valueOfJDD)
+							// si une valeur de test existe, on remplace la valeur du JDD par cette valeur
+							if (newValue) {
+								valueOfJDD = newValue
+							}else {
+								Log.addErrorAndStop("Détection d'une valeur TBD sur $fieldName sans valeur de test.")
+							}
+	
+						}
+	
+						// Cas des val $UPD$...$...
+						if (JDDKW.startWithUPD(valueOfJDD)) {
+	
+							Log.addErrorAndStop("Détection d'une valeur UPD sur $fieldName INTERDIT sur PREJDD.")
+						}
+	
+	
+	
+						switch (valueOfJDD) {
+	
+							case JDDKW.getKW_ORDRE() :
+								if (maxORDRE == 0) {
+									maxORDRE = SQL.getMaxFromTable(fieldName, myJDD.getDBTableName())
+								}
+								maxORDRE++
+								val = maxORDRE.toString()
+								break
+	
+							case my.JDDKW.getKW_NULL() :
+								val = null
+								break
+	
+							case my.JDDKW.getKW_VIDE() :
+								val = ''
+								break
+	
+							case my.JDDKW.getKW_DATE() :
+								def now = new Date()
+								val =  now.format('yyyy-dd-MM')
+								break
+	
+							case my.JDDKW.getKW_DATETIME() :
+								def now = new Date()
+								val = now.format('yyyy-dd-MM HH:mm:ss.SSS')
+								break
+							default :
+	
+								if (valueOfJDD instanceof java.util.Date) {
+									Log.addTrace("\tinstanceof java.util.Date = TRUE")
+									val = valueOfJDD.format('yyyy-dd-MM HH:mm:ss.SSS')
+	
+								}else {
+									val = valueOfJDD.toString()
+								}
+								break
+						}
+	
+	
+						if (InfoDB.isImage(myJDD.getDBTableName(), fieldName)) {
+							values.add(getRTFTEXT(valueOfJDD.toString()).getBytes())
+						}else if (!my.JDDKW.isNU(valueOfJDD.toString()) && !myJDD.isOBSOLETE(fieldName) ) {
+							values.add(val)
+						}
+	
+						if (PKlist.contains(fieldName)) {
+							PKwhere.add("$fieldName = '$val'")
+	
+						}
+					
 					}
 
 				}

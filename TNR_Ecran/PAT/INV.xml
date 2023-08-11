@@ -1,0 +1,138 @@
+<!-- édité avec XMLSpy v2017 sp2 (x64) (http://www.altova.com) par MAINTA (Apave SA) -->
+<!-- edited with XMLSpy v2016 rel. 2 (x64) (http://www.altova.com) by MAINTA (SA APAVE) -->
+<activepage>
+	<param>
+		<config>
+			<skin>mainta</skin>
+			<css>User/E50.css<!--emplacement publié relatif à /MOS_XML/-->
+			</css>
+		</config>
+		<validation>
+			<update relative="yes">UpdateE50</update>
+			<insert relative="yes">InsertE50</insert>
+			<delete relative="yes">DeleteE50</delete>
+		</validation>
+		<wysiwyg editable="yes" bootstrap="yes"/>
+	</param>
+	<formulaire name="MainForm" role="newDesign">
+		<headerzone/>
+		<togglepanel visible="yes">
+			<visiblingtext>
+				<span><ml-text value="inv"></ml-text></span>
+			</visiblingtext>
+			<hiddingtext>
+				<span><ml-text value="hide"/></span>
+			</hiddingtext>
+			<div class="row">
+				<div class="col-xl-12">
+					<title micon="">
+						<ml-text value="typebien"></ml-text>
+					</title>
+					<div class="row">
+						<div class="col-xl-6">
+							<fieldset class="listboxesV">
+								<zone type="radio" width="100%" name="NU_TYPPRO" data="integer" form="MainForm" mode="enabled" value="$from_context" radiovalue="0">
+									<ml-text value="NU_TYPPRO0"></ml-text>
+								</zone>
+								<zone type="radio" width="100%" name="NU_TYPPRO" data="integer" form="MainForm" mode="enabled" value="$from_context" radiovalue="1">
+									<ml-text value="NU_TYPPRO1"></ml-text>
+								</zone>
+							</fieldset>
+						</div>
+						<div class="col-xl-6"></div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xl-6">
+					<label><ml-text value="NU_TYPPRO0"></ml-text>:</label>
+					<zone mode="enabled" type="lookup" name="ID_CODMATPRI" data="varchar" form="MainForm" width="100%" lookupaction="F2?VR=MAT&amp;FVDCTX=MAT&amp;TABLE=MAT&amp;&amp;FORM=MainForm&amp;RETURNFIELD=ID_NUMMAT&amp;RETURNDISPLAYFIELD=ID_NUMMAT&amp;DATAFIELD=ID_CODMATPRI&amp;DISPLAYFIELD=ID_CODMATPRI&amp;FILTER=NU_TYPPRO=0" autocompletion="yes" domain="T_NUMMAT">
+						<control reftable="MAT" column="ID_NUMMAT">
+							<!--control permet de faire de la saisie controlé-->
+						</control>
+					</zone>
+				</div>
+				<div class="col-xl-6"></div>
+			</div>
+			<div class="row">
+				<div class="col-xl-12">
+					<title micon="">
+						<ml-text value="invbien"></ml-text>
+					</title>
+					<div class="row">
+						<div class="col-xl-6">
+							<label><ml-text value="numinv"></ml-text>:</label>
+							<zone type="text" width="100%" name="ST_NUMINV" data="varchar" form="MainForm" mode="enabled"/>
+						</div>
+						<div class="col-xl-6">
+							<label><ml-text value="ID_CODMETINV"></ml-text>:</label>
+							<zone mode="enabled" type="lookup" name="ID_CODMETINV" data="varchar" form="MainForm" width="100%" lookupaction="F2?VR=METINV&amp;FVDCTX=NONE&amp;TABLE=METINV&amp;COLUMN=ID_CODMETINV&amp;FORM=MainForm&amp;RETURNFIELD=ID_CODMETINV&amp;RETURNDISPLAYFIELD=ID_CODMETINV&amp;DATAFIELD=ID_CODMETINV&amp;DISPLAYFIELD=ID_CODMETINV" autocompletion="yes" domain="T_CODMETINV">
+								<control reftable="METINV" column="ID_CODMETINV">
+									<!--control permet de faire de la saisie controlé-->
+								</control>
+							</zone>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xl-6">
+							<zone type="checkbox" width="100%" name="ST_SOUINV" form="MainForm" mode="enabled" value="$from_context" radiovalue="O">
+								<ml-text value="ST_SOUINV"></ml-text>
+							</zone>
+						</div>
+						<div class="col-xl-6">
+							<label><ml-text value="DT_INV"></ml-text>:</label>
+							<zone mode="enabled" type="date" name="DT_INV" data="date" form="MainForm" width="100%"/>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xl-6">
+						</div>
+						<div class="col-xl-6">
+							<label><ml-text value="ID_CODETAVIS"></ml-text>:</label>
+							<zone mode="enabled" type="lookup" name="ID_CODETAVIS" data="varchar" form="MainForm" width="100%" lookupaction="F2?VR=ETAVIS&amp;FVDCTX=NONE&amp;TABLE=ETAVIS&amp;COLUMN=ID_CODETAVIS&amp;FORM=MainForm&amp;RETURNFIELD=ID_CODETAVIS&amp;RETURNDISPLAYFIELD=ID_CODETAVIS&amp;DATAFIELD=ID_CODETAVIS&amp;DISPLAYFIELD=ID_CODETAVIS" autocompletion="yes" domain="T_CODETAVIS">
+								<control reftable="ETAVIS" column="ID_CODETAVIS">
+									<!--control permet de faire de la saisie controlé-->
+								</control>
+							</zone>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xl-6">
+							<label><ml-text value="NU_FREINV"></ml-text>:</label>
+							<zone mode="enabled" type="text" name="NU_FREINV" data="integer" form="MainForm" width="100%" localesunit="unit_mois"/>
+						</div>
+						<div class="col-xl-6">
+							<label><ml-text value="DT_INVPRO"></ml-text>:</label>
+							<zone mode="enabled" type="date" name="DT_INVPRO" data="date" form="MainForm" width="100%"/>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xl-12">
+							<label><ml-text value="ST_REMETAVIS"></ml-text>:</label>
+							<zone mode="enabled" type="text" name="ST_REMETAVIS" data="varchar" form="MainForm" width="100%" domain="50"/>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xl-6">
+							<label><ml-text value="ID_TYPENJ"></ml-text>:</label>
+							<zone mode="enabled" type="lookup" name="ID_TYPENJ" data="integer" form="MainForm" width="100%" lookupaction="F2?VR=TYPENJ&amp;FVDCTX=NONE&amp;TABLE=TYPENJ&amp;COLUMN=ID_TYPENJ&amp;FORM=MainForm&amp;RETURNFIELD=ID_TYPENJ&amp;RETURNDISPLAYFIELD=ID_TYPENJ&amp;DATAFIELD=ID_TYPENJ&amp;DISPLAYFIELD=ID_TYPENJ" autocompletion="yes" domain="T_NUMINT">
+								<control reftable="TYPENJ" column="ID_TYPENJ">
+									<!--control permet de faire de la saisie controlé-->
+								</control>
+							</zone>
+						</div>
+						<div class="col-xl-6">
+							<label><ml-text value="ID_NUMCRIINV"></ml-text>:</label>
+							<zone type="lookup" name="ID_NUMCRIINV" form="MainForm" mode="enabled" width="100%" inheritance="ID_NUMEQU" lookupaction="F2?VR=CRI&amp;FVDCTX=NONE&amp;COLUMN=ID_NUMCRI&amp;TABLE=CRI&amp;DATAFIELD=ID_NUMCRIINV&amp;DISPLAYFIELD=ID_NUMCRIINV&amp;RETURNFIELD=ID_NUMCRI&amp;FORM=MainForm&amp;FF=">
+								<control reftable="CRI" column="ID_NUMCRI">
+									<!--control permet de faire de la saisie controlé-->
+								</control>
+							</zone>
+						</div>
+					</div>
+				</div>
+			</div>
+		</togglepanel>
+		<buttonpanel form="MainForm"/>
+	</formulaire>
+</activepage>

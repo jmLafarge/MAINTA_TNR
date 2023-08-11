@@ -459,8 +459,6 @@ public class JDD {
 						xpathTO.put('Lbl'+name, "//label[@id='Lbl$name']".toString())
 					}else if (loc == 'radio') {
 						//xpathTO.put(name, "//input[@id='" + name +"' and @type='radio']")
-						//String radioXpath = "//label[@id='L${name}" + '${RADIO}' + "']"
-						
 						xpathTO.put(name, "//label[@id='L${name}']".toString())
 					}else if (loc=='input') {
 						xpathTO.put(name, "//$loc[@id='$name' and not(@type='hidden')]".toString())

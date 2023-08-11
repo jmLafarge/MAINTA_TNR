@@ -290,7 +290,7 @@ public class SQL {
 
 		boolean specificValue = !specificValueMap.isEmpty() && specificValueMap.containsKey(fieldName)
 
-		String paraIV = myJDD.getParamForThisName('INTERNALVALUE', fieldName)
+		//String paraIV = myJDD.getParamForThisName('INTERNALVALUE', fieldName)
 
 
 		if (myJDD.isDataUPD(fieldName,casDeTestNum)) {
@@ -312,7 +312,7 @@ public class SQL {
 			}else {
 				Log.addTrace("$fieldName est NU ou NULL, pas de recherche de FK")
 			}
-
+/*
 		}else if (!specificValue && paraIV){
 
 			String internalVal = IV.getInternalValueOf(paraIV,valJDD.toString())
@@ -324,7 +324,7 @@ public class SQL {
 				TNRResult.addDETAIL("Contrôle de la valeur INTERNAL de '$fieldName' pour '$valDB' KO : la valeur attendue est '$valJDD' et la valeur en BD est  : '$internalVal'")
 				verifStatus = 'FAIL'
 			}
-
+*/
 		}else {
 
 			switch (valJDD) {
