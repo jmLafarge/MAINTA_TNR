@@ -354,7 +354,7 @@ class Log {
 		debugClasses = newClasses
 		fileDebug.append("New debug Classes = $newClasses\n")
 	}
-	
+
 
 	public static addEndLog(String msg='') {
 		addTrace(msg)
@@ -365,5 +365,23 @@ class Log {
 	}
 	
 	
+	public static addAssert(String msg,def val,def fct){
+		
+		
+		addINFO("Test $msg " )
+		try{
+			assert (val==fct)
+			addDETAIL("- OK : '$val'")
+		}catch(AssertionError  e){
+			String err = e.getMessage().replaceAll('\n','\n'+'\t'*5+'  ')
+			addDETAILFAIL("$err")
+		}finally {
+			addINFO('')
+		}
+		
+	}
+	
+
+
 
 }// end of class

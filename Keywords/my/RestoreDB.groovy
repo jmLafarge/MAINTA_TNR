@@ -6,6 +6,7 @@ import java.nio.file.StandardCopyOption
 
 import groovy.transform.CompileStatic
 import internal.GlobalVariable
+import myJDDManager.PREJDDFiles
 
 @CompileStatic
 public class RestoreDB {
@@ -69,7 +70,7 @@ public class RestoreDB {
 		String origin = ''
 		String dest = ''
 		String backupFilename = ''
-/*
+
 		Log.addSubTITLE("Initialisation complète de la BDD de test")
 
 		Log.addDETAIL("Supprimer les anciens fichiers de backup du dossier projet")
@@ -91,8 +92,7 @@ public class RestoreDB {
 		dest = DBBACKUP_PATH + File.separator + backupFilename
 		Files.move(Paths.get(origin), Paths.get(dest), StandardCopyOption.REPLACE_EXISTING)
 
-*/
-backupFilename = '20230807_134216-MASTERTNR_MAINTA_TNR_MASTER_V13.0.2.bak'
+		//
 
 		Log.addDETAIL("Copie du fichier de backup du projet sur le server de TNR")
 

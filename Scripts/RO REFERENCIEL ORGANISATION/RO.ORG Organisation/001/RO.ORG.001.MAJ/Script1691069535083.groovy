@@ -1,8 +1,8 @@
-import my.JDD
+import myJDDManager.JDD
 import my.KW
 import my.NAV
 import my.SQL
-import my.result.TNRResult
+import myResult.TNRResult
 
 
 'Lecture du JDD'

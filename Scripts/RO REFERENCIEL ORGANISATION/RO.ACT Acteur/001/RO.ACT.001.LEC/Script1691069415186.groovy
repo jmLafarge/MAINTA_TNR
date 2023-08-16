@@ -2,9 +2,9 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
 import my.KW
-import my.result.TNRResult
+import myResult.TNRResult
 import my.NAV
-import my.JDD
+import myJDDManager.JDD
 
 'Lecture du JDD'
 def myJDD = new JDD()

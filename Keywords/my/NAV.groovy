@@ -6,8 +6,8 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import groovy.transform.CompileStatic
 import internal.GlobalVariable
-import my.JDD
 import my.Log
+import myJDDManager.JDD
 
 
 @CompileStatic

@@ -1,7 +1,7 @@
 
 import internal.GlobalVariable
 import my.InfoDB
-import my.JDDFiles
+import myJDDManager.JDDFiles
 import my.NAV
 import my.TCFiles
 

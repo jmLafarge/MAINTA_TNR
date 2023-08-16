@@ -1,9 +1,9 @@
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import my.KW
-import my.result.TNRResult
+import myResult.TNRResult
 import my.NAV
-import my.JDD
+import myJDDManager.JDD
 import my.Log
 
 'Lecture du JDD'

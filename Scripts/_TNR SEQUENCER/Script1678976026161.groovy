@@ -9,10 +9,9 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
 import my.Log
-import my.RestoreDB
 import my.Sequencer
 import my.Tools
-import my.result.TNRResult
+import myResult.TNRResult
 
  
 Log.addTITLE("Lancement de TNR SEQUENCER")

@@ -1,9 +1,9 @@
 import internal.GlobalVariable
-import my.JDD
-import my.JDDFiles
+import myJDDManager.JDD
+import myJDDManager.JDDFiles
 import my.KW
 import my.NAV
-import my.result.TNRResult
+import myResult.TNRResult
 
 
 'Lecture du JDD'

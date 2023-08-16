@@ -7,7 +7,9 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import groovy.transform.CompileStatic
 import internal.GlobalVariable
-import my.result.TNRResult
+import myResult.TNRResult
+import myJDDManager.JDD
+import myJDDManager.JDDKW
 import my.Log
 
 /**
@@ -474,7 +476,7 @@ class KW {
 					TNRResult.addDETAIL("L'attribut 'value' n'existe pas !")
 				}else if (val==text) {
 					TNRResult.addSTEPPASS("Vérifier que la valeur de '" + name + "', soit '$text'")
-				}else if (text==my.JDDKW.getKW_NULL() && val=='') {
+				}else if (text==myJDDManager.JDDKW.getKW_NULL() && val=='') {
 					TNRResult.addSTEPPASS("Vérifier que la valeur de '" + name + "', soit Null ou Vide")
 				}else {
 					TNRResult.addSTEP("Vérifier que la valeur de '" + name + "', soit '$text'",status)
@@ -573,8 +575,8 @@ class KW {
 	static void scrollAndSetRadio(JDD myJDD, String name, String text=null, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		Log.addTraceBEGIN(CLASS_FORLOG, "scrollAndSetRadio", [myJDD: myJDD.toString(), name: name , text:text , timeOut:timeOut , status:status])
 		if (text==null) text = myJDD.getStrData(name)
-		if (text != my.JDDKW.getKW_NULL()) {
-			if (text == my.JDDKW.getKW_VIDE()) text=''
+		if (text != myJDDManager.JDDKW.getKW_NULL()) {
+			if (text == myJDDManager.JDDKW.getKW_VIDE()) text=''
 			scrollToElement(myJDD, name, timeOut, status)
 			waitForElementVisible(myJDD, name, timeOut, status)
 			TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
@@ -598,8 +600,8 @@ class KW {
 
 	static void scrollAndSetText(JDD myJDD, String name, String text=null, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		if (text==null) text = myJDD.getStrData(name)
-		if (text != my.JDDKW.getKW_NULL()) {
-			if (text == my.JDDKW.getKW_VIDE()) text=''
+		if (text != myJDDManager.JDDKW.getKW_NULL()) {
+			if (text == myJDDManager.JDDKW.getKW_VIDE()) text=''
 			scrollToElement(myJDD, name, timeOut, status)
 			waitForElementVisible(myJDD, name, timeOut, status)
 			setText(myJDD, name, text, status)
@@ -610,7 +612,7 @@ class KW {
 
 	static void scrollAndSetDate(JDD myJDD, String name, def val=null,  String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		if (val==null) val = myJDD.getData(name)
-		if (val != my.JDDKW.getKW_NULL()) {
+		if (val != myJDDManager.JDDKW.getKW_NULL()) {
 			scrollToElement(myJDD, name, timeOut, status)
 			waitForElementVisible(myJDD, name, timeOut, status)
 			setDate(myJDD, name, val, dateFormat, timeOut,status)

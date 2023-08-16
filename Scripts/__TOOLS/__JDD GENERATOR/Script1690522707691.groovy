@@ -1,8 +1,8 @@
 
-import my.JDDGenerator
+import myJDDManager.JDDGenerator
 import my.InfoDB
 import my.PREJDDFiles
-import my.JDDFiles
+import myJDDManager.JDDFiles
 import my.Log
 
 

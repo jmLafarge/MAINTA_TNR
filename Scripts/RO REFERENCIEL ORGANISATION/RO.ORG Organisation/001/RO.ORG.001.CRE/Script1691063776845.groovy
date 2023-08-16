@@ -1,11 +1,11 @@
 import internal.GlobalVariable
-import my.JDD
-import my.JDDFiles
-import my.JDDKW
+import myJDDManager.JDD
+import myJDDManager.JDDFiles
+import myJDDManager.JDDKW
 import my.KW
 import my.NAV
 import my.SQL
-import my.result.TNRResult
+import myResult.TNRResult
 
 'Lecture du JDD'
 def myJDD = new JDD()

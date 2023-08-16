@@ -1,5 +1,5 @@
-import my.JDD
-import my.result.TNRResult
+import myJDDManager.JDD
+import myResult.TNRResult
 import my.Log
 
 

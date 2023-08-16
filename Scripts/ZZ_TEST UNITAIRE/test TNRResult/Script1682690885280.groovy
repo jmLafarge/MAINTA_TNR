@@ -1,6 +1,6 @@
 
 
-import my.result.TNRResult
+import myResult.TNRResult
 
 
 Map <String,Integer> status = ['WARNING':0,'FAIL':0,'PASS':10,'ERROR':0]

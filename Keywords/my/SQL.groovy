@@ -7,7 +7,9 @@ import com.kms.katalon.core.configuration.RunConfiguration
 
 import groovy.sql.Sql
 import groovy.transform.CompileStatic
-import my.result.TNRResult
+import myResult.TNRResult
+import myJDDManager.JDD
+import myJDDManager.JDDKW
 
 
 @CompileStatic
@@ -275,7 +277,7 @@ public class SQL {
 
 
 
-	private static String checkValue(my.JDD myJDD, String fieldName, def valDB,String verifStatus, Map specificValueMap, int casDeTestNum) {
+	private static String checkValue(myJDDManager.JDD myJDD, String fieldName, def valDB,String verifStatus, Map specificValueMap, int casDeTestNum) {
 
 
 
@@ -303,7 +305,7 @@ public class SQL {
 				logAddDETAIL('',fieldName,newVal,valDB)
 				verifStatus = 'FAIL'
 			}
-		}else if (!specificValue && myJDD.getParamForThisName('FOREIGNKEY', fieldName)) {
+		}else if (!specificValue && myJDD.JDDParam.getFOREIGNKEYFor(fieldName)) {
 
 			if (!JDDKW.isNU(valJDD) && !JDDKW.isNULL(valJDD)) {
 				if (!checkForeignKey(myJDD, fieldName, valDB)) {

@@ -5,10 +5,10 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
 import my.InfoDB
-import my.result.TNRResult
+import myResult.TNRResult
 import my.Sequencer
 import my.Tools
-import my.result.ResultGenerator as XLSResult
+import myResult.ResultGenerator as XLSResult
 
 
 

@@ -1,7 +1,7 @@
 import my.KW
 import my.NAV
-import my.result.TNRResult
-import my.JDD
+import myResult.TNRResult
+import myJDDManager.JDD
 
 
 'Lecture du JDD'

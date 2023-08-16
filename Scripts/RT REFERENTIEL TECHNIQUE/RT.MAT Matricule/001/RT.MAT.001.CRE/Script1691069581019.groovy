@@ -1,11 +1,11 @@
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
-import my.JDD
-import my.JDDKW
+import myJDDManager.JDD
+import myJDDManager.JDDKW
 import my.KW
 import my.NAV
 import my.SQL
-import my.result.TNRResult
+import myResult.TNRResult
 
 'Lecture du JDD'
 def myJDD = new JDD()

@@ -7,6 +7,7 @@ import groovy.text.SimpleTemplateEngine
 import groovy.transform.CompileStatic
 
 import my.NAV
+import myJDDManager.JDD
 
 
 @CompileStatic

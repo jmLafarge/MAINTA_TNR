@@ -1,12 +1,9 @@
 
-import checkprerequis.* 
-import internal.GlobalVariable
-import my.InfoDB
-import my.JDDFiles
-import my.PREJDDFiles
-import my.TCFiles
 import my.Log
-import my.NAV
+import myCheck.CheckJDD
+import myCheck.CheckPREJDD
+import myCheck.CheckPrerequis
+import myCheck.Check_CAL
 
 
 Log.setDebugLevel(1)

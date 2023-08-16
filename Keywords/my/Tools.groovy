@@ -115,7 +115,7 @@ class Tools {
 		Log.addTraceEND(CLASS_FORLOG,"createFolderIfNotExist")
 	}
 
-	static deleteFilesFromFolder(String filePath ) {
+	static void deleteFilesFromFolder(String filePath ) {
 		Log.addTraceBEGIN(CLASS_FORLOG,"deleteFilesFromFolder",[filePath:filePath])
 		def file = new File(filePath)
 		if (file.exists()) {
@@ -151,7 +151,7 @@ class Tools {
 	 * 
 	 * @return Un message de statut indiquant le résultat de l'opération de suppression.
 	 */
-	static def deleteFilesFromFolder(String fileRegex , String folderPath) {
+	static void deleteFilesFromFolder(String fileRegex , String folderPath) {
 		Log.addTraceBEGIN(CLASS_FORLOG,"deleteFilesFromFolder",[fileRegex:fileRegex,folderPath:folderPath])
 		def folder = new File(folderPath)
 		//def regexPattern = Pattern.compile(fileRegex)
@@ -186,6 +186,26 @@ class Tools {
 		return ret
 	}
 
+	
+
+	static def displayWithQuotes(input) {
+		if (input instanceof List) {
+			// Gère le cas où la liste peut contenir d'autres listes, des maps ou des valeurs simples.
+			return "[" + input.collect { item -> displayWithQuotes(item) }.join(', ') + "]"
+		} else if (input instanceof Map) {
+			def result = input.entrySet().collect { entry ->
+				def key = entry.key
+				def value = entry.value
+				"'$key':${displayWithQuotes(value)}"
+			}.join(', ')
+			return "[${result}]"
+		} else {
+			return input == null ? 'null' : "'${input}'"
+		}
+	}
+
+	
+	
 
 
 } // end of class

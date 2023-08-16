@@ -3,9 +3,9 @@ import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import my.InfoPARA
-import my.JDD
-import my.JDDFiles
-import my.JDDKW
+import myJDDManager.JDD
+import myJDDManager.JDDFiles
+import myJDDManager.JDDKW
 import my.Log
 import my.PREJDDFiles
 import my.XLS

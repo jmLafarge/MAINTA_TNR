@@ -1,12 +1,12 @@
 import org.openqa.selenium.Keys
 
 import internal.GlobalVariable
-import my.JDD
+import myJDDManager.JDD
 import my.KW
 import my.Log
 import my.NAV
 import my.SQL
-import my.result.TNRResult
+import myResult.TNRResult
 
 
 'Lecture du JDD'

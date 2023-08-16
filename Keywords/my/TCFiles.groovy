@@ -9,7 +9,7 @@ import internal.GlobalVariable
 
 @CompileStatic
 public class TCFiles {
-	
+
 	private static final String CLASS_FORLOG = 'TCFiles'
 
 
@@ -23,6 +23,8 @@ public class TCFiles {
 		Log.addTrace("")
 
 		new File(my.PropertiesReader.getMyProperty('TC_PATH')).eachFileRecurse(FileType.FILES) { file ->
+
+			Log.addTrace('file.getPath() : '+file.getPath())
 
 			String TCFullName = file.getPath().replace(my.PropertiesReader.getMyProperty('TC_PATH') + '\\', '').replace('.tc', '')
 			String TCName= file.getName().replace('.tc','').split(' ')[0]
@@ -42,7 +44,7 @@ public class TCFiles {
 
 
 	public static String getTCNameTitle() {
-		
+
 		Log.addTraceBEGIN(CLASS_FORLOG,"getTCNameTitle",[:])
 		Log.addINFO ('GlobalVariable.CASDETESTPATTERN :' + GlobalVariable.CASDETESTPATTERN)
 
@@ -58,7 +60,7 @@ public class TCFiles {
 				sr = liTCFullName[liTCFullName.size()-2].split(' ').drop(1).join(' ')
 			}
 		}
-		
+
 		// si un titre existe au niveau du TC on le prend sinon on le construit
 		List liTCName = Arrays.asList(liTCFullName[-1].split(' '))
 		if (liTCName.size()>1) {
@@ -99,7 +101,7 @@ public class TCFiles {
 					sr = liTCFullName[liTCFullName.size()-2].split(' ').drop(1).join(' ')
 				}
 			}
-			
+
 			// si un titre existe au niveau du TC on le prend sinon on le construit
 			List liTCName = Arrays.asList(liTCFullName[-1].split(' '))
 			if (liTCName.size()>1) {

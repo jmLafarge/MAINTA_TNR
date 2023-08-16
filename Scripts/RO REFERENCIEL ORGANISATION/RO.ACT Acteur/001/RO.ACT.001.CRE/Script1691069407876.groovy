@@ -1,8 +1,9 @@
-import my.JDD
+
 import my.KW
 import my.NAV
 import my.SQL
-import my.result.TNRResult
+import myJDDManager.JDD
+import myResult.TNRResult
 
 'Lecture du JDD'
 def myJDD = new JDD()

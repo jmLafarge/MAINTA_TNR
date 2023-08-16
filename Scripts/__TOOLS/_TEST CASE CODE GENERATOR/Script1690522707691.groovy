@@ -4,8 +4,8 @@ import org.jsoup.Jsoup
 import org.apache.commons.lang3.StringUtils
 
 import my.InfoDB
-import my.JDD
-import my.JDDFiles
+import myJDDManager.JDD
+import myJDDManager.JDDFiles
 import my.NAV
 import my.PREJDDFiles
 import my.TCFiles

@@ -4,6 +4,8 @@ import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.transform.CompileStatic
+import myJDDManager.JDD
+import myJDDManager.JDDFiles
 
 @CompileStatic
 public class InfoPARA {
@@ -19,8 +21,8 @@ public class InfoPARA {
 	private static CellStyle paraStyle
 
 	private static List headersPara = ['NOM', 'NBBDD']
-	private static List headersKW = ['JDD', 'CDT','NAME','KW']
-	
+	private static List headersKW = ['JDD', 'CDT', 'NAME', 'KW']
+
 	private static int numRowKW=0
 
 	static {
@@ -31,7 +33,7 @@ public class InfoPARA {
 
 		// Init shPARA
 		shPara = book.getSheet('PARA')
-		
+
 		if (shPara) {
 			book.removeSheetAt(book.getSheetIndex(shPara))
 		}
@@ -46,7 +48,7 @@ public class InfoPARA {
 		paraStyle.setVerticalAlignment(VerticalAlignment.TOP)
 
 
-		def jdd = new my.JDD(JDDFiles.JDDfilemap.values()[0])
+		def jdd = new myJDDManager.JDD(JDDFiles.JDDfilemap.values()[0])
 		List paramListAllowed = jdd.getParamListAllowed()
 
 		for (String para : paramListAllowed) {
@@ -74,20 +76,20 @@ public class InfoPARA {
 		}
 
 		Log.addTrace("paraMap.size= " + paraMap.size())
-		
+
 		// Init shKW
 		shKW = book.getSheet('KW')
-		
+
 		if (shKW) {
 			book.removeSheetAt(book.getSheetIndex(shKW))
 		}
 		shKW = book.createSheet('KW')
 		row =shKW.createRow(0)
-		
+
 		headersKW.eachWithIndex { name,idx ->  XLS.writeCell(row, idx, name)}
 
 	}
-	
+
 	public static writeLineKW(String fullName,String cdt, String name, String kw) {
 		Row row = shKW.createRow(++numRowKW)
 		XLS.writeCell(row,0,fullName,paraStyle)
@@ -102,9 +104,9 @@ public class InfoPARA {
 	public static updateShPara(JDD myJDD,String col,String fullName, String where) {
 
 		int icol = 2
-		
+
 		List paramListAllowed = myJDD.getParamListAllowed()
-		
+
 		for (String para in paramListAllowed) {
 
 			String valPara = myJDD.getParamForThisName(para, col)
