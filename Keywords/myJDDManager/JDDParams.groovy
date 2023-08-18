@@ -39,10 +39,15 @@ public class JDDParams {
 				break
 			}
 			if (isParamAllowed(param)) {
-				List paramLine = my.XLS.loadRow(row,JDDHeader.getHeaderSize()+1)
+				List paramLine = my.XLS.loadRow(row,JDDHeader.getSize()+1)
 				def innerMap = [:]
-				JDDHeader.headersList.eachWithIndex { header, index ->
-					innerMap[header] = paramLine[index + 1]
+				JDDHeader.list.eachWithIndex { header, index ->
+					if (isLOCATOR(param)) {
+						
+						
+					}else {
+						innerMap[header] = paramLine[index + 1]
+					}
 				}
 				paramsMap[param] = innerMap
 			}else {
@@ -50,7 +55,7 @@ public class JDDParams {
 			}
 		}
 		Log.addTrace('- params : ' + paramsMap)
-		
+
 		Log.addTraceEND(CLASS_FORLOG, "JDDParams")
 	}
 
@@ -70,7 +75,9 @@ public class JDDParams {
 	 }
 	 */
 
-
+	def Map<String ,String> getAllLOCATOR() {
+		return paramsMap[PARAM_LIST_ALLOWED.LOCATOR.name()]
+	}
 
 	def String getPREREQUISFor(String name) {
 		return paramsMap[PARAM_LIST_ALLOWED.PREREQUIS.name()][name]
@@ -91,4 +98,41 @@ public class JDDParams {
 	def String getINTERNALVALUEFor(String name) {
 		return paramsMap[PARAM_LIST_ALLOWED.INTERNALVALUE.name()][name]
 	}
+	
+	def boolean isLOCATOR(String param) {
+		return PARAM_LIST_ALLOWED.LOCATOR.name()==param
+	}
+	
+	
+	def checkLOCATOR() {
+		
+		if (loc in TAG_LIST_ALLOWED) {
+			if (loc == 'checkbox') {
+				xpathTO.put(name, "//input[@id='" + name +"' and @type='checkbox']")
+				xpathTO.put('Lbl'+name, "//label[@id='Lbl$name']".toString())
+			}else if (loc == 'radio') {
+				//xpathTO.put(name, "//input[@id='" + name +"' and @type='radio']")
+				xpathTO.put(name, "//label[@id='L${name}']".toString())
+			}else if (loc=='input') {
+				xpathTO.put(name, "//$loc[@id='$name' and not(@type='hidden')]".toString())
+			}else {
+				xpathTO.put(name, "//$loc[@id='$name']".toString())
+			}
+		}else if ((loc[0] != '/') && (loc.toString().split(/\*/).size()>1)) {
+			// balises avec attributs.
+			def lo = loc.toString().split(/\*/)
+			if (lo[0] in TAG_LIST_ALLOWED) {
+				xpathTO.put(name, "//${lo[0]}[@${lo[1]}='$name']".toString())
+			}else {
+				Log.addERROR("LOCATOR inconnu : ${lo[0]} in '$loc'")
+			}
+		}else if (loc[0] == '/') {
+			// XPath avec des valeurs potentiellement dynamiques.
+			xpathTO.put(name,loc)
+		}else {
+			Log.addERROR("LOCATOR inconnu : '$loc'")
+		}
+	}
+	
+	
 } //end of class

@@ -11,6 +11,9 @@ import my.Tools
 public class JDDFiles {
 
 
+	private static final String CLASS_FORLOG = 'JDDFiles'
+
+
 	public static Map <String,String> JDDfilemap = [:]
 
 
@@ -27,11 +30,10 @@ public class JDDFiles {
 	 * 
 	 * @return
 	 */
-	/*
-	 public static load() {
-	 if (JDDfilemap.isEmpty()) {
-	 */
+
+
 	static {
+		Log.addTraceBEGIN(CLASS_FORLOG,"static",[:])
 		Log.addSubTITLE("Load JDDfileList",'-',120)
 
 		Log.addINFO("\t"+'MODOBJ'.padRight(16) + 'JDDFULLNAME')
@@ -48,7 +50,7 @@ public class JDDFiles {
 				Log.addINFO('\t' + modObj.padRight(16) + file.getPath())
 			}
 		}
-		//}
+		Log.addTraceEND(CLASS_FORLOG,"static")
 	}
 
 
@@ -58,18 +60,11 @@ public class JDDFiles {
 	 * @param casDeTest le nom du cas de test.
 	 * @return le nom complet du fichier JDD correspondant, ou null si aucun fichier JDD ne correspond.
 	 */
-	static getJDDFullNameFromCasDeTest(String casDeTest) {
-
+	static String getFullnameFromCasDeTest(String casDeTest) {
+		Log.addTraceBEGIN(CLASS_FORLOG,"getFullnameFromCasDeTest",[casDeTest:casDeTest])
 		def modObj = Tools.getMobObj(casDeTest)
-
-		return modObj ? JDDfilemap[modObj] : null
-	}
-
-
-
-	static String getJDDFullName(String modObj) {
-
-		return modObj ? JDDfilemap[modObj] : null
+		Log.addTraceEND(CLASS_FORLOG,"getFullnameFromCasDeTest",JDDfilemap[modObj])
+		return JDDfilemap[modObj]
 	}
 
 
@@ -78,7 +73,9 @@ public class JDDFiles {
 	 * @param modObj
 	 * @return
 	 */
-	static String getFullname(String modObj) {
+	static String getFullnameFromModObj(String modObj) {
+		Log.addTraceBEGIN(CLASS_FORLOG,"getFullname",[modObj:modObj])
+		Log.addTraceEND(CLASS_FORLOG,"getFullname",JDDfilemap[modObj])
 		return JDDfilemap[modObj]
 	}
 
@@ -89,8 +86,10 @@ public class JDDFiles {
 	 * @param fullName
 	 * @return
 	 */
-	static add(String modObj,String fullName) {
+	static void add(String modObj,String fullName) {
+		Log.addTraceBEGIN(CLASS_FORLOG,"add",[modObj:modObj , fullName:fullName])
 		JDDfilemap.put(modObj,fullName)
+		Log.addTraceEND(CLASS_FORLOG,"add")
 	}
 
 } // end of class

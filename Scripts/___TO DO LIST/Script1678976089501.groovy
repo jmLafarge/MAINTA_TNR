@@ -9,9 +9,7 @@
  * 
  * 
 
-
-
-JDDFilesTesst en cours --> verify si GETFULL... encor eutilisé
+finir def checkLOCATOR() dans JDDParams --> est ce qu'il  ne faut pas faire une class Locator ?
 
 
 

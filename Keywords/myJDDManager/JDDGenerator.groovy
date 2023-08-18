@@ -38,14 +38,14 @@ class JDDGenerator {
 		XSSFWorkbook JDDbook
 		XSSFWorkbook PREJDDbook
 		Log.addINFO('')
-		if (!JDDFiles.getFullname(modObj)) {
+		if (!JDDFiles.getFullnameFromModObj(modObj)) {
 			Log.addINFO("Création du fichier JDD pour $modObj")
 			String fullName = createJDDFileByCopy(table,modObj)
 			JDDbook = my.XLS.open(fullName)
 			JDDFiles.add(modObj, fullName)
 		}else {
-			Log.addINFO("Le fichier JDD pour $modObj existe déjà : " + JDDFiles.getFullname(modObj))
-			JDDbook = my.XLS.open(JDDFiles.getFullname(modObj))
+			Log.addINFO("Le fichier JDD pour $modObj existe déjà : " + JDDFiles.getFullnameFromModObj(modObj))
+			JDDbook = my.XLS.open(JDDFiles.getFullnameFromModObj(modObj))
 		}
 
 		String msg=addJDDSheet(JDDbook, table, modObj,fct,listRubriquesIHM)
@@ -56,7 +56,7 @@ class JDDGenerator {
 
 			addInfoVersion(JDDbook,msg)
 
-			OutputStream JDDfileOut = new FileOutputStream(JDDFiles.getFullname(modObj))
+			OutputStream JDDfileOut = new FileOutputStream(JDDFiles.getFullnameFromModObj(modObj))
 			JDDbook.write(JDDfileOut)
 		}
 

@@ -314,19 +314,16 @@ public class SQL {
 			}else {
 				Log.addTrace("$fieldName est NU ou NULL, pas de recherche de FK")
 			}
-/*
-		}else if (!specificValue && paraIV){
-
-			String internalVal = IV.getInternalValueOf(paraIV,valJDD.toString())
-
-
-			if (internalVal==valDB) {
-				Log.addTrace("Contrôle de la valeur INTERNAL de '$fieldName' pour '$valDB' OK : la valeur attendue est '$valJDD' et la valeur en BD est  : '$internalVal'" )
-			}else {
-				TNRResult.addDETAIL("Contrôle de la valeur INTERNAL de '$fieldName' pour '$valDB' KO : la valeur attendue est '$valJDD' et la valeur en BD est  : '$internalVal'")
-				verifStatus = 'FAIL'
-			}
-*/
+			/*
+			 }else if (!specificValue && paraIV){
+			 String internalVal = IV.getInternalValueOf(paraIV,valJDD.toString())
+			 if (internalVal==valDB) {
+			 Log.addTrace("Contrôle de la valeur INTERNAL de '$fieldName' pour '$valDB' OK : la valeur attendue est '$valJDD' et la valeur en BD est  : '$internalVal'" )
+			 }else {
+			 TNRResult.addDETAIL("Contrôle de la valeur INTERNAL de '$fieldName' pour '$valDB' KO : la valeur attendue est '$valJDD' et la valeur en BD est  : '$internalVal'")
+			 verifStatus = 'FAIL'
+			 }
+			 */
 		}else {
 
 			switch (valJDD) {

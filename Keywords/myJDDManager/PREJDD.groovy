@@ -6,6 +6,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.transform.CompileStatic
 import my.Log
+import my.SQL
 
 
 @CompileStatic
@@ -56,7 +57,7 @@ public class PREJDD {
 
 				// vérifier si la valeur n'est  pas déjà en BDD
 				String val = cdtVal.toString().split("'")[3]
-				String JDDFullName= JDDFiles.getJDDFullName(map.getAt('PREJDDMODOBJ').toString())
+				String JDDFullName= JDDFiles.getFullnameFromModObj(map.getAt('PREJDDMODOBJ').toString())
 				myJDDManager.JDD myJDD = new JDD(JDDFullName,'001',null,false)
 
 				int cpt = SQL.checkIfExist(myJDD.getDBTableName(), map.getAt('JDDID').toString()+"='$val'")

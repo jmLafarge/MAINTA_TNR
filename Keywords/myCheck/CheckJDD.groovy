@@ -53,7 +53,7 @@ public class CheckJDD {
 					myJDD.loadTCSheet(sheet)
 					table = myJDD.getDBTableName()
 
-					if (myJDD.getHeadersSize() >1) {
+					if (myJDD.JDDHeader.getSize() >1) {
 
 						checkTable()
 						checkLOCATOR()

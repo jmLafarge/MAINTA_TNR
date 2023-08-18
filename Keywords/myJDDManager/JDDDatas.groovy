@@ -15,7 +15,9 @@ public class JDDDatas {
 
 	private final String CLASS_FORLOG = 'JDDDatas'
 
-	private List<Map<String, Map<String, String>>> datasList = []
+	private List<Map<String, Map<String, Object>>> datasList = []
+
+
 
 
 	JDDDatas(Sheet sheet, JDDHeaders JDDHeader,String START_DATA_WORD) {
@@ -43,11 +45,12 @@ public class JDDDatas {
 			}
 			Log.addTrace("- cas de test : $cdt")
 
-			List cdtLine = my.XLS.loadRow(row,JDDHeader.getHeaderSize())
+			List cdtLine = my.XLS.loadRow(row,JDDHeader.getSize())
 
 			def fieldMap = [:]
 			def cdtMap=[:]
-			JDDHeader.headersList.eachWithIndex { header, index ->
+
+			JDDHeader.getList().eachWithIndex { header, index ->
 				fieldMap[header] = cdtLine[index + 1]
 			}
 			cdtMap[cdt] = fieldMap
@@ -64,9 +67,9 @@ public class JDDDatas {
 
 
 
-	def getRawData(String name, String cdt, int cdtnum=1) {
+	def getRawData(String name, String cdt, int cdtnum ) {
 		// Filtrer les éléments qui ont la clé 'cdt'
-		List<Map<String, Map<String, String>>> filtered = datasList.findAll { it.containsKey(cdt) }
+		List<Map<String, Map<String, Object>>> filtered = datasList.findAll { it.containsKey(cdt) }
 
 		// Si l'occurrence demandée est hors limites, retourner null
 		if (cdtnum <= 0 || cdtnum > filtered.size()) {
@@ -97,10 +100,14 @@ public class JDDDatas {
 	}
 
 
+	def List getList() {
+		return  datasList
 
-	void setValueOf(String cdt, int cdtnum, String name, String value) {
+	}
+
+	void setValueOf(String name, def value, String cdt, int cdtnum) {
 		// Filtrer les entrées qui correspondent au cdt spécifié
-		List<Map<String, Map<String, String>>> matchingCdtEntries = datasList.findAll { it.containsKey(cdt) }
+		List<Map<String, Map<String, Object>>> matchingCdtEntries = datasList.findAll { it.containsKey(cdt) }
 
 		// Vérifier si l'occurrence spécifiée est valide
 		if(cdtnum <= 0 || cdtnum > matchingCdtEntries.size()) {
@@ -109,11 +116,13 @@ public class JDDDatas {
 		}
 
 		// Récupérer l'entrée correspondante à l'occurrence spécifiée
-		Map<String, Map<String, String>> entry = matchingCdtEntries[cdtnum - 1]
+		Map<String, Map<String, Object>> entry = matchingCdtEntries[cdtnum - 1]
 
 		// Mettre à jour la valeur de la clé 'name'
 		entry[cdt][name] = value
 	}
+
+
 
 
 

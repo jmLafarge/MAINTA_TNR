@@ -44,9 +44,8 @@ public class PREJDDFiles {
 
 	public static String getFullname(String modObj){
 		Log.addTraceBEGIN(CLASS_FORLOG,"getFullname",[modObj:modObj])
-		String fullname = PREJDDfilemap.getAt(modObj)
-		Log.addTraceEND(CLASS_FORLOG,"getFullname",fullname)
-		return fullname
+		Log.addTraceEND(CLASS_FORLOG,"getFullname",PREJDDfilemap[modObj])
+		return PREJDDfilemap[modObj]
 	}
 
 
@@ -84,8 +83,8 @@ public class PREJDDFiles {
 			String val = ''
 			List PKwhere = []
 			for (Cell c in row) {
-				
-				
+
+
 				String fieldName = my.XLS.getCellValue(row0.getCell(c.getColumnIndex()))
 				if (fieldName=="") {
 					break
@@ -96,15 +95,15 @@ public class PREJDDFiles {
 				Log.addTrace("\tCell value = '$valueOfJDD' getClass()=" + valueOfJDD.getClass())
 
 				if (c.getColumnIndex()>0) {
-					
-					
+
+
 
 					if (!myJDDManager.JDDKW.isNU(valueOfJDD.toString()) && !myJDD.isOBSOLETE(fieldName)) {
 						fields.add(fieldName)
 						Log.addTrace("\tAjout fieldName='$fieldName' in req SQL")
 
 						// cas d'un champ lié à une séquence
-						String seqTable = myJDD.getParamForThisName('SEQUENCE',fieldName)
+						String seqTable = myJDD.JDDParam.getSEQUENCEFor(fieldName)
 						if (seqTable && !JDDKW.isNULL(valueOfJDD)){
 							int seq = (int)valueOfJDD
 							if (sequence.containsKey(seqTable)) {
@@ -117,52 +116,53 @@ public class PREJDDFiles {
 								sequence.put(seqTable, seq)
 							}
 						}
-	
-	
-	
+
+
+
 						// cas d'un champ lié à une FOREIGNKEY
-						String FK = myJDD.getParamForThisName('FOREIGNKEY',fieldName)
+						String FK = myJDD.JDDParam.getFOREIGNKEYFor(fieldName)
 						if (FK) {
-	
+
 							Log.addTrace("Détection d'une FK sur $fieldName, FK= $FK")
-	
+
 							if (!myJDDManager.JDDKW.isNULL(valueOfJDD.toString()) && !myJDDManager.JDDKW.isVIDE(valueOfJDD.toString())){
-	
+
 								valueOfJDD =getValueFromFK(FK,cdt,valueOfJDD.toString())
-	
+
 							}else {
 								Log.addTrace(" - Pas de lecture de FK, la valeur est '${valueOfJDD.toString()}'")
 							}
 						}
-	
-	
-	
+
+
+
 						// cas d'un champ lié à une INTERNALVALUE
-						String paraIV = myJDD.getParamForThisName('INTERNALVALUE',fieldName)
-	
+						
+						String paraIV = myJDD.JDDParam.getINTERNALVALUEFor(fieldName)
+
 						if (paraIV) {
-	
+
 							if (valueOfJDD) {
-	
+
 								Log.addTrace("Détection d'une IV sur $fieldName, IV= $paraIV valueOfJDD$valueOfJDD :")
-	
+
 								String internalVal = IV.getInternalValueOf(paraIV,valueOfJDD.toString())
-	
+
 								Log.addTrace("- internal value =$internalVal")
-	
+
 								valueOfJDD = internalVal
 							}else {
 								Log.addErrorAndStop("Détection d'une INTERNALVALUE sur $fieldName, IV= $paraIV, la valeur est null ou vide.")
 							}
 						}
-	
-	
-	
+
+
+
 						// Cas des val TBD
 						if (JDDKW.startWithTBD(valueOfJDD)) {
-	
+
 							Log.addTrace("Détection d'une valeur TBD sur $fieldName '$valueOfJDD'")
-	
+
 							def newValue = JDDKW.getValueOfKW_TBD(valueOfJDD)
 							// si une valeur de test existe, on remplace la valeur du JDD par cette valeur
 							if (newValue) {
@@ -170,19 +170,19 @@ public class PREJDDFiles {
 							}else {
 								Log.addErrorAndStop("Détection d'une valeur TBD sur $fieldName sans valeur de test.")
 							}
-	
+
 						}
-	
+
 						// Cas des val $UPD$...$...
 						if (JDDKW.startWithUPD(valueOfJDD)) {
-	
+
 							Log.addErrorAndStop("Détection d'une valeur UPD sur $fieldName INTERDIT sur PREJDD.")
 						}
-	
-	
-	
+
+
+
 						switch (valueOfJDD) {
-	
+
 							case JDDKW.getKW_ORDRE() :
 								if (maxORDRE == 0) {
 									maxORDRE = SQL.getMaxFromTable(fieldName, myJDD.getDBTableName())
@@ -190,48 +190,48 @@ public class PREJDDFiles {
 								maxORDRE++
 								val = maxORDRE.toString()
 								break
-	
+
 							case myJDDManager.JDDKW.getKW_NULL() :
 								val = null
 								break
-	
+
 							case myJDDManager.JDDKW.getKW_VIDE() :
 								val = ''
 								break
-	
+
 							case myJDDManager.JDDKW.getKW_DATE() :
 								def now = new Date()
 								val =  now.format('yyyy-dd-MM')
 								break
-	
+
 							case myJDDManager.JDDKW.getKW_DATETIME() :
 								def now = new Date()
 								val = now.format('yyyy-dd-MM HH:mm:ss.SSS')
 								break
 							default :
-	
+
 								if (valueOfJDD instanceof java.util.Date) {
 									Log.addTrace("\tinstanceof java.util.Date = TRUE")
 									val = valueOfJDD.format('yyyy-dd-MM HH:mm:ss.SSS')
-	
+
 								}else {
 									val = valueOfJDD.toString()
 								}
 								break
 						}
-	
-	
+
+
 						if (InfoDB.isImage(myJDD.getDBTableName(), fieldName)) {
 							values.add(getRTFTEXT(valueOfJDD.toString()).getBytes())
 						}else if (!myJDDManager.JDDKW.isNU(valueOfJDD.toString()) && !myJDD.isOBSOLETE(fieldName) ) {
 							values.add(val)
 						}
-	
+
 						if (PKlist.contains(fieldName)) {
 							PKwhere.add("$fieldName = '$val'")
-	
+
 						}
-					
+
 					}
 
 				}
@@ -252,39 +252,6 @@ public class PREJDDFiles {
 
 
 
-	static String getValueFromFK______OLD__________(String PR,String FK, String cdt,String valeur) {
-
-		Log.addTraceBEGIN(CLASS_FORLOG,"getValueFromFK",[PR:PR,FK:FK,cdt:cdt,valeur:valeur])
-
-		def pr = PR.split(/\*/)
-		def fk = FK.split(/\*/)
-
-		String modObj = pr[0]
-		String tabName = pr[1]
-		String id=fk[0]
-		String field=fk[2]
-
-		Log.addTrace("Lecture du PREJDD pour la FK : '" + PREJDDfilemap.getAt(modObj)+ " ($tabName)")
-		XSSFWorkbook book = my.XLS.open(PREJDDfilemap.getAt(modObj))
-
-		Sheet sheet = book.getSheet(tabName)
-		List <String> headersPREJDD = my.XLS.loadRow(sheet.getRow(0))
-		List <List> datas = myJDDManager.PREJDD.loadDATA(sheet,headersPREJDD.size())
-
-		int fieldIndex =XLS.getColumnIndexOfColumnName(sheet, field)
-		int idIndex =XLS.getColumnIndexOfColumnName(sheet, id)
-
-		Log.addTrace("Pour le champ '$field' l'index = '$fieldIndex' la valeur est '$valeur'")
-		Log.addTrace("Pour le champ '$id' l'index = '$idIndex' le cdt est '$cdt'")
-
-		try {
-			String val = datas.find { it[0] == cdt && it[fieldIndex] == valeur }[idIndex]
-			Log.addTraceEND(CLASS_FORLOG,"getValueFromFK",val)
-			return val
-		} catch (NullPointerException e) {
-			Log.addErrorAndStop("La valeur recherchée n'a pas été trouvée.ARRET DU PROGRAMME")
-		}
-	}
 
 
 	static String getValueFromFK(String FK, String cdt,String valeur) {
@@ -308,6 +275,9 @@ public class PREJDDFiles {
 	}
 
 
+	
+	
+	
 	static insertIfNotExist(String table, String PKwhere, List fields, List values) {
 
 		Log.addTraceBEGIN(CLASS_FORLOG,"insertIfNotExist",[table:table,PKwhere:PKwhere,fields:fields,values:values])

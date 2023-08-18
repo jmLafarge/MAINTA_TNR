@@ -42,6 +42,9 @@ public class JDD {
 	JDDHeaders JDDHeader
 	JDDParams JDDParam
 	JDDDatas JDDData
+	JDDIHMTOs JDDIHMTO
+	JDDXpaths JDDXpath
+
 
 	///////////////////////
 
@@ -81,14 +84,14 @@ public class JDD {
 	private Sheet TOSheet
 
 	private String JDDFullName = ''
-	private String TCTabName   = ''
+	private String TCSheetName   = ''
+
 	private String casDeTest = ''
 	private int casDeTestNum   = 1
-
 	//private List <String> headers = []
 	//private List <List <String>> params  = []
 	//private List <List> datas   = []
-	private Map <String,String> xpathTO  = [:]
+	//private Map <String,String> xpathTO  = [:]
 
 
 
@@ -114,11 +117,11 @@ public class JDD {
 
 		if(fullname == null) {
 			def modObj = Tools.getMobObj(GlobalVariable.CASDETESTPATTERN.toString())
-			JDDFullName = JDDFiles.getJDDFullName(modObj)
-			TCTabName = GlobalVariable.CASDETESTPATTERN.toString().split('\\.')[2]
+			JDDFullName = JDDFiles.getFullnameFromModObj(modObj)
+			TCSheetName = GlobalVariable.CASDETESTPATTERN.toString().split('\\.')[2]
 		}else {
 			JDDFullName = fullname
-			TCTabName = tabName
+			TCSheetName = tabName
 			casDeTest = cdt
 		}
 
@@ -127,42 +130,12 @@ public class JDD {
 
 		book = my.XLS.open(JDDFullName)
 
-		if (TCTabName) {
-
-			TCSheet = book.getSheet(TCTabName)
+		if (TCSheetName) {
+			TCSheet = book.getSheet(TCSheetName)
 			loadTCSheet(TCSheet)
-			if (!casDeTest) casDeTest = CDTList[0]
-
-			// ajout des xpath de l'onglet des cas de test en cours
-			addXpath(getParam('LOCATOR'))
 		}
 
-		// ajout des xpath de l'onglet Test_Object sil existe
-		TOSheet = book.getSheet(TOSHEETNAME)
-		if (TOSheet) {
-			Iterator<Row> rowIt = TOSheet.rowIterator()
-			rowIt.next()
-			while(rowIt.hasNext()) {
-				Row row = rowIt.next()
-				String tab = my.XLS.getCellValue(row.getCell(0))
-				String name = my.XLS.getCellValue(row.getCell(1))
-				String xpath = my.XLS.getCellValue(row.getCell(2))
-				Log.addTrace("tab : $tab name : $name xpath : $xpath TCTabName =${TCTabName}")
-				if (tab == '') {
-					break
-				}else if (tab in [TCTabName, 'ALL']) {
-					Log.addTrace("xpathTO.put($name, $xpath)")
-					xpathTO.put(name, xpath)
-				}
-
-			}
-		}else {
-			Log.addTrace("Pas de d'onglet '$TOSHEETNAME'" )
-		}
-
-		Log.addTrace("xpathTO = " + xpathTO.toString())
-
-		// ajout des INTERNALVALUE de l'onglet INTERNALVALUESHEETNAME s il existe
+		// add INTERNALVALUE
 		if (book.getSheet(INTERNALVALUESHEETNAME) != null) {
 			IV.addAll(book.getSheet(INTERNALVALUESHEETNAME))
 		}
@@ -185,9 +158,15 @@ public class JDD {
 		JDDParam = new JDDParams(sheet,JDDHeader,START_DATA_WORD)
 
 		JDDData = new JDDDatas(sheet,JDDHeader,'CAS_DE_TEST')
-
+		
+		JDDXpath  = new JDDXpaths()
+		
+		JDDXpath.addFromMap(JDDParam.getAllLOCATOR())
+		
+		///////////////////////////////////////////////////////////// est ce que cela ne doit pas etre dans JDDData ?
+		
 		String cdtPattern = casDeTest ? casDeTest : GlobalVariable.CASDETESTPATTERN
-
+		
 		//Liste des cas de test qui répondent au pattern, sans doublons (les doublons sont des casDeTestNum)
 		List <String> cdtli = JDDData.getCdtsContainingSubstringWithoutDuplicates(cdtPattern)
 
@@ -196,10 +175,31 @@ public class JDD {
 			cdt.startsWith(cdtPattern) && (!TCFiles.TCfileMap.containsKey(cdt) || cdt == cdtPattern)
 		}
 
-
 		if (CDTList.size()==0 && cdtPattern){
-			Log.addINFO('Pas de cas de test défini pour '+cdtPattern)
+			Log.addINFO('Pas de cas de test défini pour '+ cdtPattern)
 		}
+		
+		casDeTest = casDeTest ? casDeTest : CDTList[0]
+		
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		
+		
+		
+		// add IHMTO
+		TOSheet = book.getSheet(TOSHEETNAME)
+		if (TOSheet) {
+			JDDIHMTO = new JDDIHMTOs(TOSheet,TCSheetName)
+		}else {
+			Log.addTrace("Pas de d'onglet '$TOSHEETNAME'" )
+		}
+		
+		JDDXpath.addFromMap(JDDIHMTO.getXpaths())
+		
+		
+		
+
+
 
 		Log.addTraceEND(CLASS_FORLOG,"loadTCSheet")
 
@@ -294,7 +294,7 @@ public class JDD {
 			Log.addERROR("Le cas de test N° : $cdtnum n'existe pas (max = "+ getNbrLigneCasDeTest() + ')')
 		}else {
 			// Vérifie que le nom fait partie des en-têtes.
-			if (JDDHeader.headersList.contains(name)) {
+			if (JDDHeader.list.contains(name)) {
 				// Récupère la donnée correspondante et vérifie si c'est de type UPD
 
 				ret = JDDKW.isUPD(JDDData.getRawData(name,casDeTest, cdtnum))
@@ -326,7 +326,7 @@ public class JDD {
 			Log.addERROR("Le cas de test N° : $cdtnum n'existe pas (max = "+ getNbrLigneCasDeTest() + ')')
 		}else {
 			// Vérifie que le nom fait partie des en-têtes.
-			if (JDDHeader.headersList.contains(name)) {
+			if (JDDHeader.list.contains(name)) {
 				// Récupère la donnée correspondante.
 				ret = JDDData.getRawData(name,casDeTest, cdtnum)
 				if (JDDKW.isUPD(ret)) {
@@ -367,7 +367,7 @@ public class JDD {
 	def String getStrData(String name = null, def cdtnum =null , boolean UPD = false) {
 		Log.addTraceBEGIN(CLASS_FORLOG,"getStrData",[name:name,cdtnum:cdtnum , UPD:UPD])
 		cdtnum = (cdtnum?:casDeTestNum) as int
-		name = name?:JDDHeader.headersList[0]
+		name = name?:JDDHeader.list[0]
 		String ret = getData(name, casDeTestNum,UPD).toString()
 		Log.addTraceEND(CLASS_FORLOG,"getStrData",ret)
 		return ret
@@ -393,53 +393,6 @@ public class JDD {
 
 
 
-
-	/**
-	 * Ajoute des expressions XPath à xpathTO
-	 *
-	 * @param locators Une liste de localisateurs.
-	 */
-	private addXpath(List <String> locators) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"addXpath",[locators:locators])
-
-		// Itère sur chaque localisateur et son index.
-		locators.eachWithIndex {loc,i ->
-			// Assure que le localisateur est valide et que l'index n'est pas 0.
-			if (loc!=null && loc!='' && i!=0) {
-				String name = headers[i]
-
-				// Ajoute le XPath approprié.
-				if (loc in TAG_LIST_ALLOWED) {
-					if (loc == 'checkbox') {
-						xpathTO.put(name, "//input[@id='" + name +"' and @type='checkbox']")
-						xpathTO.put('Lbl'+name, "//label[@id='Lbl$name']".toString())
-					}else if (loc == 'radio') {
-						//xpathTO.put(name, "//input[@id='" + name +"' and @type='radio']")
-						xpathTO.put(name, "//label[@id='L${name}']".toString())
-					}else if (loc=='input') {
-						xpathTO.put(name, "//$loc[@id='$name' and not(@type='hidden')]".toString())
-					}else {
-						xpathTO.put(name, "//$loc[@id='$name']".toString())
-					}
-				}else if ((loc[0] != '/') && (loc.toString().split(/\*/).size()>1)) {
-					// balises avec attributs.
-					def lo = loc.toString().split(/\*/)
-					if (lo[0] in TAG_LIST_ALLOWED) {
-						xpathTO.put(name, "//${lo[0]}[@${lo[1]}='$name']".toString())
-					}else {
-						Log.addERROR("LOCATOR inconnu : ${lo[0]} in '$loc'")
-					}
-				}else if (loc[0] == '/') {
-					// XPath avec des valeurs potentiellement dynamiques.
-					xpathTO.put(name,loc)
-				}else {
-					Log.addERROR("LOCATOR inconnu : '$loc'")
-				}
-			}
-		}
-		Log.addTrace("xpathTO $xpathTO")
-		Log.addTraceEND(CLASS_FORLOG,"addXpath")
-	}
 
 
 
@@ -507,6 +460,7 @@ public class JDD {
 
 
 
+
 	/**
 	 * Remplace un SEQUENCID dans le JDD par une séquence de base de données.
 	 *
@@ -516,12 +470,11 @@ public class JDD {
 	def replaceSEQUENCIDInJDD(String fieldName, int delta=0) {
 		Log.addTraceBEGIN(CLASS_FORLOG,"replaceSEQUENCIDInJDD",[fieldName:fieldName,delta:delta])
 
-		int dataLineNum = getDataLineNum()
-		int index = headers.indexOf(fieldName)
 		if (JDDKW.isSEQUENCEID(getStrData(fieldName))){
 
 			String paraSeq =  JDDParam.getSEQUENCEFor(fieldName)
-			datas[dataLineNum][index] = SQL.getLastSequence(paraSeq)+delta
+			int val = SQL.getLastSequence(paraSeq)+delta
+			JDDData.setValueOf(fieldName, val,casDeTest,casDeTestNum)
 		}
 
 		Log.addTraceEND(CLASS_FORLOG,"replaceSEQUENCIDInJDD")
@@ -529,10 +482,12 @@ public class JDD {
 
 
 
+
 	def boolean isSheetAvailable(String sheetName) {
 
 		return !(sheetName in SKIP_LIST_SHEETNAME)
 	}
+
 
 	def XSSFWorkbook getBook() {
 		return book

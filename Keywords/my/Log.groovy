@@ -365,20 +365,26 @@ class Log {
 	}
 	
 	
-	public static addAssert(String msg,def val,def fct){
-		
-		
-		addINFO("Test $msg " )
+	public static addAssert(String msg,def expectedResult,def actualResult){
+
 		try{
-			assert (val==fct)
-			addDETAIL("- OK : '$val'")
+			assert (expectedResult==actualResult)
+			add(':)',"Test $msg --> '$expectedResult'")
 		}catch(AssertionError  e){
+			add('KO',"Test $msg " )
 			String err = e.getMessage().replaceAll('\n','\n'+'\t'*5+'  ')
-			addDETAILFAIL("$err")
-		}finally {
-			addINFO('')
+			addB('\t'*3 +"- $err")
+			addB('\t'*4 +'  |               |')
+			if(actualResult!=null) {
+				addB('\t'*4 +'  |               ' + actualResult.getClass())
+			}else {
+				addB('\t'*4 +'  |')
+			}
+			if(expectedResult!=null) {
+				addB('\t'*4 +'  ' + expectedResult.getClass())
+			}
+			addB('')
 		}
-		
 	}
 	
 

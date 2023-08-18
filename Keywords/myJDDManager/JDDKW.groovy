@@ -24,50 +24,81 @@ public class JDDKW {
 
 
 	static List getKWAllowedList() {
+		Log.addTrace("${CLASS_FORLOG}.getKWAllowedList()")
 		return KEYWORD_ALLOWED.values() as List
 	}
 
 
 
 	static boolean isAllowedKeyword(def val) {
-		return ((val instanceof String) && (KEYWORD_ALLOWED.containsValue(val) && val!=KEYWORD_ALLOWED.getAt('KW_UPD').toString())|| startWithTBD(val) || isUPD(val))
+		Log.addTraceBEGIN(CLASS_FORLOG, 'isAllowedKeyword', [val:val])
+		boolean ret = ((val instanceof String) && (KEYWORD_ALLOWED.containsValue(val) && val!=KEYWORD_ALLOWED.getAt('KW_UPD').toString())|| startWithTBD(val) || isUPD(val))
+		Log.addTraceEND(CLASS_FORLOG, 'isAllowedKeyword', ret)
+		return ret
 	}
 
 	static boolean isNU(def val) {
-		return ((val instanceof String) && val == KEYWORD_ALLOWED.getAt('KW_NU'))
+		Log.addTraceBEGIN(CLASS_FORLOG, 'isNU', [val:val])
+		boolean ret =  ((val instanceof String) && val == KEYWORD_ALLOWED.getAt('KW_NU'))
+		Log.addTraceEND(CLASS_FORLOG, 'isNU', ret)
+		return ret
 	}
 
 	static boolean isVIDE(def val) {
-		return ((val instanceof String) && val == KEYWORD_ALLOWED.getAt('KW_VIDE'))
+		Log.addTraceBEGIN(CLASS_FORLOG, 'isVIDE', [val:val])
+		boolean ret =  ((val instanceof String) && val == KEYWORD_ALLOWED.getAt('KW_VIDE'))
+		Log.addTraceEND(CLASS_FORLOG, 'isVIDE', ret)
+		return ret
 	}
 
 	static boolean isNULL(def val) {
-		return ((val instanceof String) && val == KEYWORD_ALLOWED.getAt('KW_NULL'))
+		Log.addTraceBEGIN(CLASS_FORLOG, 'isNULL', [val:val])
+		boolean ret =  ((val instanceof String) && val == KEYWORD_ALLOWED.getAt('KW_NULL'))
+		Log.addTraceEND(CLASS_FORLOG, 'isNULL', ret)
+		return ret
 	}
 
 	static boolean isDATE(def val) {
-		return ((val instanceof String) && val == KEYWORD_ALLOWED.getAt('KW_DATE'))
+		Log.addTraceBEGIN(CLASS_FORLOG, 'isDATE', [val:val])
+		boolean ret =  ((val instanceof String) && val == KEYWORD_ALLOWED.getAt('KW_DATE'))
+		Log.addTraceEND(CLASS_FORLOG, 'isDATE', ret)
+		return ret
 	}
 
 	static boolean isDATETIME(def val) {
-		return ((val instanceof String) && val == KEYWORD_ALLOWED.getAt('KW_DATETIME'))
+		Log.addTraceBEGIN(CLASS_FORLOG, 'isDATETIME', [val:val])
+		boolean ret =  ((val instanceof String) && val == KEYWORD_ALLOWED.getAt('KW_DATETIME'))
+		Log.addTraceEND(CLASS_FORLOG, 'isDATETIME', ret)
+		return ret
 	}
 
 	static boolean isORDRE(def val) {
-		return ((val instanceof String) && val == KEYWORD_ALLOWED.getAt('KW_ORDRE'))
+		Log.addTraceBEGIN(CLASS_FORLOG, 'isORDRE', [val:val])
+		boolean ret =  ((val instanceof String) && val == KEYWORD_ALLOWED.getAt('KW_ORDRE'))
+		Log.addTraceEND(CLASS_FORLOG, 'isORDRE', ret)
+		return ret
 	}
 
 	static boolean isSEQUENCEID(def val) {
-		return ((val instanceof String) && val == KEYWORD_ALLOWED.getAt('KW_SEQUENCEID'))
+		Log.addTraceBEGIN(CLASS_FORLOG, 'isSEQUENCEID', [val:val])
+		boolean ret =  ((val instanceof String) && val == KEYWORD_ALLOWED.getAt('KW_SEQUENCEID'))
+		Log.addTraceEND(CLASS_FORLOG, 'isSEQUENCEID', ret)
+		return ret
 	}
 
 
 	static boolean startWithTBD(def val) {
-		return ((val instanceof String) && val.toString().startsWith(KEYWORD_ALLOWED.getAt('KW_TBD').toString()))
+		Log.addTraceBEGIN(CLASS_FORLOG, 'startWithTBD', [val:val])
+		boolean ret =  ((val instanceof String) && val.toString().startsWith(KEYWORD_ALLOWED.getAt('KW_TBD').toString()))
+		Log.addTraceEND(CLASS_FORLOG, 'startWithTBD', ret)
+		return ret
 	}
 
 	static boolean startWithUPD(def val) {
-		return ((val instanceof String) && val.toString().startsWith(KEYWORD_ALLOWED.getAt('KW_UPD').toString()))
+		Log.addTraceBEGIN(CLASS_FORLOG, 'isAllowedKeyword', [val:val])
+		boolean ret =  ((val instanceof String) && val.toString().startsWith(KEYWORD_ALLOWED.getAt('KW_UPD').toString()))
+		Log.addTraceEND(CLASS_FORLOG, 'isAllowedKeyword', ret)
+		return ret
 	}
 
 
@@ -99,34 +130,42 @@ public class JDDKW {
 
 
 	static String getKW_NU() {
+		Log.addTrace("${CLASS_FORLOG}.getKW_NU()")
 		return KEYWORD_ALLOWED.getAt('KW_NU')
 	}
 
 	static String getKW_VIDE() {
+		Log.addTrace("${CLASS_FORLOG}.getKW_VIDE()")
 		return KEYWORD_ALLOWED.getAt('KW_VIDE')
 	}
 
 	static String getKW_NULL() {
+		Log.addTrace("${CLASS_FORLOG}.getKW_NULL()")
 		return KEYWORD_ALLOWED.getAt('KW_NULL')
 	}
 
 	static String getKW_DATE() {
+		Log.addTrace("${CLASS_FORLOG}.getKW_DATE()")
 		return KEYWORD_ALLOWED.getAt('KW_DATE')
 	}
 
 	static String getKW_DATETIME() {
+		Log.addTrace("${CLASS_FORLOG}.getKW_DATETIME()")
 		return KEYWORD_ALLOWED.getAt('KW_DATETIME')
 	}
 
 	static String getKW_ORDRE() {
+		Log.addTrace("${CLASS_FORLOG}.getKW_ORDRE()")
 		return KEYWORD_ALLOWED.getAt('KW_ORDRE')
 	}
 
 	static String getKW_SEQUENCEID() {
+		Log.addTrace("${CLASS_FORLOG}.getKW_SEQUENCEID()")
 		return KEYWORD_ALLOWED.getAt('KW_SEQUENCEID')
 	}
 
 	static String getKW_TBD() {
+		Log.addTrace("${CLASS_FORLOG}.getKW_TBD()")
 		return KEYWORD_ALLOWED.getAt('KW_TBD')
 	}
 

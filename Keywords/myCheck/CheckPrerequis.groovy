@@ -77,7 +77,7 @@ public class CheckPrerequis {
 
 		PREJDDFiles.PREJDDfilemap.each { modObj,fullName ->
 			Log.addTrace("Lecture du JDD pour modObj : " + modObj)
-			myJDD = new JDD(JDDFiles.getJDDFullName(modObj),null,null,false)
+			myJDD = new JDD(JDDFiles.getFullnameFromModObj(modObj),null,null,false)
 			PREJDDBook = my.XLS.open(fullName)
 			getAllPrerequis(fullName,false)
 		}

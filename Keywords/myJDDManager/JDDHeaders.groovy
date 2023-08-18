@@ -32,7 +32,11 @@ public class JDDHeaders {
 	}
 
 
-	def int getHeaderSize() {
+	def int getSize() {
 		return headersList.size()
+	}
+
+	def List <String> getList() {
+		return headersList
 	}
 } //end of class
