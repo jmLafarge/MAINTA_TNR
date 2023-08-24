@@ -7,8 +7,10 @@ import groovy.transform.CompileStatic
 import my.InfoDB
 import my.Log
 import myJDDManager.JDD
-import myJDDManager.JDDFiles
-import myJDDManager.PREJDDFiles
+import myJDDManager.JDDData
+import myJDDManager.JDDFileMapper
+import myJDDManager.JDDHeader
+import myPREJDDManager.PREJDDFileMapper
 
 
 @CompileStatic
@@ -16,16 +18,6 @@ public class CheckPREJDD {
 
 
 	private static final String CLASS_FORLOG = 'CheckPREJDD'
-
-	private static myJDDManager.JDD myJDD
-	private static List <List> datas = []
-	private static String PREJDDFullName =''
-	private static String sheetName =''
-	private static String table =''
-	private static List <String> headersPREJDD=[]
-	//private static List <String> PKList=[]
-	private static boolean status = true
-
 
 
 	/**
@@ -37,44 +29,48 @@ public class CheckPREJDD {
 	 *
 	 * @return
 	 */
-	static run(boolean withDetails) {
+	static run() {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"run",[withDetails:withDetails])
+		Log.addTraceBEGIN(CLASS_FORLOG,"run",[:])
 
 		Log.addSubTITLE('Vérification des PREJDD')
 
+		boolean status = true
 
-		PREJDDFiles.PREJDDfilemap.each { modObj,fullName ->
+		PREJDDFileMapper.PREJDDfilemap.each { modObj,PREJDDfullname ->
 
-			PREJDDFullName = fullName
 			Log.addTrace("")
-			Log.addTrace("Lecture du PREJDD : $fullName")
+			Log.addTrace("Lecture du PREJDD : $PREJDDfullname")
 
-			myJDD = new JDD(JDDFiles.JDDfilemap.getAt(modObj),null,null,false)
+			JDD myJDD = new JDD(JDDFileMapper.JDDfilemap.getAt(modObj),null,null,false)
 
-			XSSFWorkbook book = my.XLS.open(fullName)
+			XSSFWorkbook PREJDDbook = my.XLS.open(PREJDDfullname)
 
-			for(Sheet sheet: book) {
+			for(Sheet PREJDDsheet: PREJDDbook) {
 
-				sheetName = sheet.getSheetName()
+				String PREJDDsheetName = PREJDDsheet.getSheetName()
 
-				if (myJDD.isSheetAvailable(sheetName)) {
+				if (myJDD.isSheetAvailable(PREJDDsheetName)) {
+					
+					JDDHeader PREJDDheader = new JDDHeader(PREJDDsheet)
 
-					myJDD.loadTCSheet(myJDD.getBook().getSheet(sheetName))
-					headersPREJDD = my.XLS.loadRow(sheet.getRow(0))
-					datas = myJDDManager.PREJDD.loadDATA(sheet,headersPREJDD.size())
-					table = myJDD.getDBTableName()
+					myJDD.loadTCSheet(myJDD.getBook().getSheet(PREJDDsheetName))
+					JDDData PREJDDData = new JDDData(PREJDDsheet,PREJDDheader,'')
+					String table = myJDD.getDBTableName()
 
-					Log.addTrace("Onglet : " + sheetName)
+					Log.addTrace("Onglet : " + PREJDDsheetName)
 
-					if (headersPREJDD.size()>1) {
-
-						checkColumn()
-						status = CheckKWInDATA.run(datas,true, fullName,sheetName, status)
+					if (PREJDDheader.getSize()>1) {
 						if (table) {
-							status = CheckTypeInDATA.run(datas,myJDD, table,fullName,status)
-							status = CheckDoublonOnPK.run(datas, headersPREJDD, table, fullName, sheetName, status,withDetails)
+							status = CheckColumn.run('PREJDD',PREJDDheader.getList(), table,status)
+							status = CheckKWInData.run('PREJDD',PREJDDData.getList(), PREJDDfullname,PREJDDsheetName, status)
+							status = CheckTypeInData.run(PREJDDData.getList(),myJDD, table,PREJDDfullname,status)
+							status = CheckDoublonOnPK.run(PREJDDData.getList(), InfoDB.getPK(table), PREJDDfullname, PREJDDsheetName, status)
+						}else {
+							Log.addDETAIL('Pas de table dans le PREJDD')
 						}
+					}else {
+						Log.addDETAIL('Pas de colonnes dans le PREJDD')
 					}
 				}
 			}
@@ -83,32 +79,6 @@ public class CheckPREJDD {
 			Log.addINFO('     ***  OK   ***')
 		}
 		Log.addTraceEND(CLASS_FORLOG,"run")
-	}
-
-
-
-
-
-
-	private static checkColumn() {
-
-		Log.addTraceBEGIN(CLASS_FORLOG,"checkColumn",[:])
-
-		Log.addDEBUGDETAIL("Contrôle des colonnes")
-
-		InfoDB.map[table].each{col,vlist ->
-
-			if (col == headersPREJDD[(int)vlist[0]]) {
-				Log.addTrace("'$col' OK")
-			}else if (col in headersPREJDD) {
-				Log.addDETAILFAIL("'$col' est dans le PREJDD mais pas à la bonne place")
-				status=false
-			}else {
-				Log.addDETAILFAIL("Le champ '$col' n'est pas dans le PREJDD")
-				status=false
-			}
-		}
-		Log.addTraceEND(CLASS_FORLOG,"checkColumn")
 	}
 
 

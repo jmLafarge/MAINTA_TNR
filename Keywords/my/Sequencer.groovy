@@ -63,22 +63,29 @@ public class Sequencer {
 				String casDeTestPatternFromSequencer = row.getCell(0).getStringCellValue()
 	
 				Log.addTrace('casDeTestPatternFromSequencer = ' + casDeTestPatternFromSequencer)
-	
-				if (casDeTestPatternFromSequencer == "") {
-					break
+				
+				String repStr = my.XLS.getCellValue(row.getCell(1)).toString()
+				int rep = 0
+				
+				if (repStr=='') {
+					rep = 1
+				}else {
+					try {
+						rep= repStr.toInteger()
+					} catch (NumberFormatException e) {
+						Log.addERROR("La répétition n'est pas un entier, ligne ${numline + 1}")
+					}
 				}
+
 	
-				// Default value if REPETITION cell is null
-				int rep = (row.getCell(1) == null) ? 1 : (int)row.getCell(1).getNumericCellValue()
-	
-				Map res= TCFiles.TCfileMap.findAll { it.key.contains(casDeTestPatternFromSequencer) }
+				Map res= TCFileMapper.TCfileMap.findAll { it.key.contains(casDeTestPatternFromSequencer) }
 	
 				if (res.size()==0) {
 	
-					def key = TCFiles.TCfileMap.keySet().find { casDeTestPatternFromSequencer.contains(it) }
+					def key = TCFileMapper.TCfileMap.keySet().find { casDeTestPatternFromSequencer.contains(it) }
 	
 					if (key) {
-						addToTestCasesList(casDeTestPatternFromSequencer,TCFiles.TCfileMap[key], rep)
+						addToTestCasesList(casDeTestPatternFromSequencer,TCFileMapper.TCfileMap[key], rep)
 					}else {
 						Log.add('WARNING',"\tPas de fichier trouvé pour le pattern $casDeTestPatternFromSequencer")
 					}

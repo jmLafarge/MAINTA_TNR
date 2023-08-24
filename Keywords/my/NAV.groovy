@@ -22,7 +22,7 @@ class NAV {
 
 	static {
 		Log.addTraceBEGIN(CLASS_FORLOG,"static",[:])
-		myGlobalJDD = new JDD(my.PropertiesReader.getMyProperty('JDD_PATH') + File.separator + my.PropertiesReader.getMyProperty('JDD_GLOBALFILENAME'),null,null,false)
+		myGlobalJDD = new JDD(my.PropertiesReader.getMyProperty('JDD_PATH') + File.separator + my.PropertiesReader.getMyProperty('JDD_GLOBALFILENAME'),'001',null,false)
 		Log.addTraceEND(CLASS_FORLOG,"static")
 	}
 

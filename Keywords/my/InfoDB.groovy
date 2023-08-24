@@ -10,9 +10,7 @@ public class InfoDB {
 
 	private static final String CLASS_FORLOG = 'InfoDB'
 
-
-	public static Map  <String, Map<String, List<Object>>> map = [:]      // Map de Map de List[TABLE_NAME] [COLUMN_NAME] [0]:ORDINAL_POSITION [1]:IS_NULLABLE [2]:DATA_TYPE [3]:MAXCHAR [4]:DOMAIN_NAME [5]:CONSTRAINT_NAME
-
+	private static Map  <String, Map<String, Map <String , Object>>> datas = [:] // Map de Map de List[TABLE_NAME] [COLUMN_NAME] [0]:ORDINAL_POSITION [1]:IS_NULLABLE [2]:DATA_TYPE [3]:MAXCHAR [4]:DOMAIN_NAME [5]:CONSTRAINT_NAME
 
 	private static XSSFWorkbook book
 	private static String fileName = ''
@@ -28,10 +26,7 @@ public class InfoDB {
 		'CONSTRAINT_NAME'
 	]
 
-	/*
-	 public static load() {
-	 if (map.isEmpty()) {
-	 */			
+
 	static {
 		Log.addTraceBEGIN(CLASS_FORLOG,"static",[:])
 		fileName = my.PropertiesReader.getMyProperty('TNR_PATH') + File.separator + my.PropertiesReader.getMyProperty('INFODBFILENAME')
@@ -41,6 +36,7 @@ public class InfoDB {
 		Sheet sheet = book.getSheet('INFO')
 
 		Iterator<Row> rowIt = sheet.rowIterator()
+
 		Row row = rowIt.next()
 		List <String> headers = XLS.loadRow(row)
 
@@ -52,33 +48,59 @@ public class InfoDB {
 			Log.addErrorAndStop('')
 		}
 
+
 		while(rowIt.hasNext()) {
 			row = rowIt.next()
-			if (XLS.getCellValue(row.getCell(0))=='') {
+			String tableName = row.getCell(headers.indexOf("TABLE_NAME")).getStringCellValue()
+
+			if (!tableName) {
 				break
 			}
-			List listxls = XLS.loadRow(row,HEADERS.size())
-			String tableName = listxls[0].toString()
-			String columnName= listxls[1].toString()
-			if (!map[tableName]) {
-				map[tableName] = [:]
-			}
-			map[tableName][columnName] = listxls.subList(2, 8)
-		}
-		// }
-		Log.addTraceEND(CLASS_FORLOG,"static")
 
+			String columnName = row.getCell(headers.indexOf("COLUMN_NAME")).getStringCellValue()
+
+			List lineXLS = XLS.loadRow(row,HEADERS.size())
+
+			Map columnDetails = [
+				headers.subList(2, 8),
+				lineXLS.subList(2, 8)
+			].transpose().collectEntries()
+
+			if (!datas[tableName]) {
+				datas[tableName] = [:]
+			}
+			datas[tableName][columnName] = columnDetails
+		}
+		Log.addTraceEND(CLASS_FORLOG,"static")
 	}
 
 
 
 
+	public static boolean isTableExist(String table) {
+		Log.addTraceBEGIN(CLASS_FORLOG,"isTableExist",[table:table])
+		boolean ret = datas.containsKey(table)
+		Log.addTraceEND(CLASS_FORLOG,"isTableExist",ret)
+		return ret
+	}
+
+
+	public static boolean inTable(String table, String name) {
+		Log.addTraceBEGIN(CLASS_FORLOG,"inTable",[table:table,name:name])
+		boolean ret = false
+		if (isTableExist(table)) {
+			ret = datas[table].containsKey(name)
+		}
+		Log.addTraceEND(CLASS_FORLOG,"inTable",ret)
+		return ret
+	}
+
 
 	public static List getPK(String table) {
 		Log.addTraceBEGIN(CLASS_FORLOG,"getPK",[table:table])
-		List list=[]
-		map[table].each { k, li ->
-			if (li[5]!='NULL') list.add(k)
+		List list= []
+		if (isTableExist(table)) {
+			list= datas[table].findAll { entry -> entry.value.CONSTRAINT_NAME != 'NULL'}.keySet().toList()
 		}
 		Log.addTraceEND(CLASS_FORLOG,"getPK",list)
 		return list
@@ -89,26 +111,22 @@ public class InfoDB {
 		Log.addTraceBEGIN(CLASS_FORLOG,"isPK",[table:table,name:name])
 		boolean ret = false
 		if (isTableExist(table) && inTable(table,name)) {
-			ret= map[table][name][5] !='NULL'
+			ret= datas[table][name]['CONSTRAINT_NAME'] !='NULL'
 		}
 		Log.addTraceEND(CLASS_FORLOG,"isPK",ret)
 		return ret
 	}
 
 
-	public static boolean isTableExist(String table) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"isTableExist",[table:table])
-		boolean ret = map.containsKey(table)
-		Log.addTraceEND(CLASS_FORLOG,"isTableExist",ret)
-		return ret
-	}
-
 
 
 
 	public static String getDATA_TYPE(String table, String name) {
 		Log.addTraceBEGIN(CLASS_FORLOG,"getDATA_TYPE",[table:table,name:name])
-		String ret = map[table][name][2]
+		String ret = null
+		if (isTableExist(table) && inTable(table,name)) {
+			ret = datas[table][name]['DATA_TYPE']
+		}
 		Log.addTraceEND(CLASS_FORLOG,"getDATA_TYPE",ret)
 		return ret
 	}
@@ -117,73 +135,123 @@ public class InfoDB {
 
 	public static int getDATA_MAXCHAR(String table, String name) {
 		Log.addTraceBEGIN(CLASS_FORLOG,"getDATA_MAXCHAR",[table:table,name:name])
-		int ret = (int)map[table][name][3]
+		int ret = 0
+		if (isTableExist(table) && inTable(table,name)) {
+			def val = datas[table][name]['MAXCHAR']
+			if (val && val!='NULL') {
+				ret = (int) val
+			}
+		}
 		Log.addTraceEND(CLASS_FORLOG,"getDATA_MAXCHAR",ret)
 		return ret
 	}
 
 
 
+	public static int getORDINAL_POSITION(String table, String name) {
+		Log.addTraceBEGIN(CLASS_FORLOG,"getORDINAL_POSITION",[table:table,name:name])
+		int ret = 0
+		if (isTableExist(table) && inTable(table,name)) {
+			def val = datas[table][name]['ORDINAL_POSITION']
+			if (val && val!='NULL') {
+				ret = (int) val
+			}
+		}
+		Log.addTraceEND(CLASS_FORLOG,"getORDINAL_POSITION",ret)
+		return ret
+	}
+
+
+
+
+
 	public static boolean isNumeric(String table, String name) {
 		Log.addTraceBEGIN(CLASS_FORLOG,"isNumeric",[table:table,name:name])
-		boolean ret = map[table][name][2]==getNumeric()
+		boolean ret = false
+		if (isTableExist(table) && inTable(table,name)) {
+			ret = datas[table][name]['DATA_TYPE']=='numeric'
+		}
 		Log.addTraceEND(CLASS_FORLOG,"isNumeric",ret)
 		return ret
 	}
 
+
 	public static boolean isImage(String table, String name) {
 		Log.addTraceBEGIN(CLASS_FORLOG,"isImage",[table:table,name:name])
-		boolean ret = map[table][name][2]==getImage()
+		boolean ret = false
+		if (isTableExist(table) && inTable(table,name)) {
+			ret = datas[table][name]['DATA_TYPE']=='image'
+		}
 		Log.addTraceEND(CLASS_FORLOG,"isImage",ret)
 		return ret
 	}
 
 
+	public static boolean isVarchar(String table, String name) {
+		Log.addTraceBEGIN(CLASS_FORLOG,"isImage",[table:table,name:name])
+		boolean ret = false
+		if (isTableExist(table) && inTable(table,name)) {
+			ret = datas[table][name]['DATA_TYPE']=='varchar'
+		}
+		Log.addTraceEND(CLASS_FORLOG,"isImage",ret)
+		return ret
+	}
 
-	public static String getNumeric() {
-		return 'numeric'
+
+	public static boolean isDatetime(String table, String name) {
+		Log.addTraceBEGIN(CLASS_FORLOG,"isDatetime",[table:table,name:name])
+		boolean ret = false
+		if (isTableExist(table) && inTable(table,name)) {
+			ret = datas[table][name]['DATA_TYPE']=='datetime'
+		}
+		Log.addTraceEND(CLASS_FORLOG,"isDatetime",ret)
+		return ret
+	}
+
+
+	public static boolean isBoolean(String table, String name) {
+		Log.addTraceBEGIN(CLASS_FORLOG,"isBoolean",[table:table,name:name])
+		boolean ret = false
+		if (isTableExist(table) && inTable(table,name)) {
+			ret = datas[table][name]['DOMAIN_NAME']=='T_BOOLEEN'
+		}
+		Log.addTraceEND(CLASS_FORLOG,"isBoolean",ret)
+		return ret
 	}
 
 
 
-	public static String getVarchar() {
-		return 'varchar'
-	}
 
 
-	public static String getImage() {
-		return 'image'
-	}
 
 	public static castJDDVal(String table, String name, def val) {
 		Log.addTraceBEGIN(CLASS_FORLOG,"castJDDVal",[table:table,name:name,val:val])
 		def ret
-		switch (getDATA_TYPE( table, name)) {
-			case getVarchar():
-				ret = val.toString()
-				break
-			/*
-			 case getImage():
-			 def texte = new DefaultStyledDocument()
-			 def editorKit = new RTFEditorKit()
-			 editorKit.read(new StringReader(val), texte, 0)
-			 return texte.getText(0, texte.getLength())
-			 break
-			 */
-			default :
-				ret = val
+		if (isVarchar(table,name)) {
+			ret = val.toString()
+		}else {
+			ret = val
 		}
 		Log.addTraceEND(CLASS_FORLOG,"castJDDVal",ret)
 		return ret
 	}
 
 
-	public static boolean inTable(String table, String name) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"inTable",[table:table,name:name])
-		boolean ret = map[table].containsKey(name)
-		Log.addTraceEND(CLASS_FORLOG,"inTable",ret)
+
+	public static Map<String, Map <String , Object>> getDatasForTable(String table) {
+		Log.addTraceBEGIN(CLASS_FORLOG,"getDatasForTable",[table:table])
+		Map<String, Map <String , Object>> ret =[:]
+		if (isTableExist(table)) {
+			ret = datas[table]
+		}
+		Log.addTraceEND(CLASS_FORLOG,"getDatasForTable",ret)
 		return ret
+
+
 	}
+
+
+
 
 
 }// end of class

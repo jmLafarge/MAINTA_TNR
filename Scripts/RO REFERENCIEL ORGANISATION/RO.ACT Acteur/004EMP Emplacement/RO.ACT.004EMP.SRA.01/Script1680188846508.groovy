@@ -1,15 +1,9 @@
-import static com.kms.katalon.core.testcase.TestCaseFactory.findTestCase
-
-import com.kms.katalon.core.util.KeywordUtil
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-
-import internal.GlobalVariable
 import my.KW
 import my.NAV
-import myResult.TNRResult
-import myJDDManager.JDD
 import my.SQL
-import my.Log
+import myJDDManager.JDD
+import myJDDManager.JDDKW
+import myResult.TNRResult
 
 'Lecture du JDD'
 def myJDD = new JDD()
@@ -61,7 +55,7 @@ for (String cdt in myJDD.CDTList) {
 			}
 
 			
-			if (!my.JDDKW.isNULL(myJDD.getData('DT_DATDEB'))) {
+			if (!JDDKW.isNULL(myJDD.getData('DT_DATDEB'))) {
 			
 		        KW.scrollAndDoubleClick(myJDD,'td_DateDebut')
 		
@@ -75,7 +69,7 @@ for (String cdt in myJDD.CDTList) {
 				KW.setDate(myJDD,'DT_DATDEB')
 			}
 	
-			if (!my.JDDKW.isNULL(myJDD.getData('DT_DATFIN'))) {
+			if (!JDDKW.isNULL(myJDD.getData('DT_DATFIN'))) {
 				
 		        KW.scrollAndClick(myJDD,'SelectionEmplacement_td')
 		

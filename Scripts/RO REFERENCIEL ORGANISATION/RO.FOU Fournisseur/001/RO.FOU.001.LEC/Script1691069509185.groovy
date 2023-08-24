@@ -84,7 +84,8 @@ for (String cdt in myJDD.CDTList) {
 		KW.scrollToPosition(0, 0)
 		KW.delay(1)
 		
-		KW.verifyElementText(new JDD(JDDFiles.getFullname('RO.FOU'),'001A',GlobalVariable.CASDETESTENCOURS),"OL_DOC")
+		
+		KW.verifyElementText(new JDD(JDDFiles.getFullnameFromModObj('RO.FOU'),'001A',GlobalVariable.CASDETESTENCOURS),"OL_DOC")
 
 	TNRResult.addEndTestCase()
 }

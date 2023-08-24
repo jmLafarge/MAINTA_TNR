@@ -9,6 +9,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
 import my.Log
+import my.RestoreDB
 import my.Sequencer
 import my.Tools
 import myResult.TNRResult
@@ -25,6 +26,8 @@ Tools.addInfoContext()
 Sequencer.testCasesList.each { TCMap ->
 	
 	GlobalVariable.CASDETESTPATTERN = TCMap.CDTPATTERN
+	
+	Log.addINFO('GlobalVariable.CASDETESTPATTERN = ' + GlobalVariable.CASDETESTPATTERN)
 			
 	for(int i = 1 ; i <= TCMap.REP ;i++) {
 

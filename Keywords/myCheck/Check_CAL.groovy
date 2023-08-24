@@ -8,24 +8,24 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import my.Log
 import my.XLS
-import myJDDManager.PREJDDFiles
+import myPREJDDManager.PREJDDFileMapper
 
 @CompileStatic
 public class Check_CAL {
 
 	private static final String CLASS_FORLOG = 'Check_CAL'
-	
+
 	private static List listCAL =[]
 	private static List listCALDEF=[]
 	private static boolean status = true
 
 	static run() {
-		
+
 		Log.addTraceBEGIN(CLASS_FORLOG,"run",[:])
 
 		Log.addSubTITLE('Vérification spécifique de CAL/CALDEF')
 
-		XSSFWorkbook book = XLS.open(PREJDDFiles.PREJDDfilemap['RO.CAL'])
+		XSSFWorkbook book = XLS.open(PREJDDFileMapper.PREJDDfilemap['RO.CAL'])
 
 		Sheet shCAL = book.getSheet('001')
 		Sheet shCALDEF = book.getSheet('001A')
@@ -82,5 +82,4 @@ public class Check_CAL {
 		}
 		Log.addTraceEND(CLASS_FORLOG,"loadListCALDEF")
 	}
-	
 }

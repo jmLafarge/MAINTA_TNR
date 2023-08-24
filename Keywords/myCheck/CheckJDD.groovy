@@ -6,19 +6,13 @@ import groovy.transform.CompileStatic
 import my.InfoDB
 import my.Log
 import myJDDManager.JDD
-import myJDDManager.JDDFiles
+import myJDDManager.JDDFileMapper
 
 @CompileStatic
 public class CheckJDD {
-	
-	private static final String CLASS_FORLOG = 'CheckJDD'
-	
 
-	private static myJDDManager.JDD myJDD
-	private static String table
-	private static String JDDFullName
-	private static String sheetName
-	private static boolean status = true
+	private static final String CLASS_FORLOG = 'CheckJDD'
+
 
 
 	/**
@@ -28,45 +22,47 @@ public class CheckJDD {
 	 * Contrôle les mots clés dans les DATA
 	 * @return
 	 */
-	static run(boolean withDetails) {
-		
-		Log.addTraceBEGIN(CLASS_FORLOG,"run",[withDetails:withDetails])
+	static run() {
+
+		Log.addTraceBEGIN(CLASS_FORLOG,"run",[:])
 
 		Log.addSubTITLE('Vérification des JDD')
+		
+		boolean status = true
 
-		JDDFiles.JDDfilemap.each { modObj,fullname ->
+		JDDFileMapper.JDDfilemap.each { modObj,JDDFullname ->
 
-			JDDFullName = fullname
+			JDD myJDD = new JDD(JDDFullname,null,null,false)
+			
+			Log.addINFO("")
+			Log.addINFO("Controle de $JDDFullname")
 
-			myJDD = new JDD(JDDFullName,null,null,false)
+			for(Sheet JDDsheet: myJDD.book) {
 
-			for(Sheet sheet: myJDD.book) {
+				String JDDsheetName = JDDsheet.getSheetName()
+				
+				if (myJDD.isSheetAvailable(JDDsheetName)) {
 
-				sheetName = sheet.getSheetName()
+					Log.addDETAIL("Onglet : $JDDsheetName")
+					//Log.addDEBUGDETAIL("Contrôle de la liste des paramètres")
 
-				if (myJDD.isSheetAvailable(sheetName)) {
+					myJDD.loadTCSheet(JDDsheet)
+					String table = myJDD.getDBTableName()
 
-
-					Log.addTrace("Onglet : $sheetName")
-					Log.addDEBUGDETAIL("Contrôle de la liste des paramètres")
-
-					myJDD.loadTCSheet(sheet)
-					table = myJDD.getDBTableName()
-
-					if (myJDD.JDDHeader.getSize() >1) {
-
-						checkTable()
-						checkLOCATOR()
-						status = CheckKWInDATA.run(myJDD.getDatas(),false, JDDFullName,sheetName, status)
-						
-						if (myJDD.getDBTableName()) {
-							status = CheckDoublonOnPK.run(myJDD.getDatas(), myJDD.getHeaders(), table, JDDFullName, sheetName, status,withDetails)
+					if (myJDD.myJDDHeader.getSize() >1) {
+						if (table) {
+							status = CheckColumn.run('JDD',myJDD.myJDDHeader.getList(), table,status)
+							status = CheckKWInData.run('JDD',myJDD.myJDDData.getList(),JDDFullname,JDDsheetName, status)
+							status = CheckTypeInData.run(myJDD.myJDDData.getList(),myJDD, table,JDDFullname,status)
+							status = CheckDoublonOnPK.run(myJDD.myJDDData.getList(), InfoDB.getPK(table), JDDFullname, JDDsheetName, status)
 						}else {
-							Log.addDETAILWARNING("$JDDFullName ($sheetName) : Pas de table donc pas de contrôle de l'unicité des PKs")
+							Log.addDETAIL('Pas de table dans le JDD')
 						}
 					}else {
-						Log.addDETAILWARNING("$JDDFullName ($sheetName) : Pas de colonnes dans le JDD")
+						Log.addDETAIL('Pas de colonnes dans le JDD')
 					}
+				}else {
+					Log.addDETAIL("Onglet : $JDDsheetName (skip)")
 				}
 			}
 		}
@@ -75,97 +71,6 @@ public class CheckJDD {
 		}
 		Log.addTraceEND(CLASS_FORLOG,"run")
 	}
-
-
-
-
-
-	private static checkTable() {
-		
-		Log.addTraceBEGIN(CLASS_FORLOG,"checkTable",[:])
-
-		if (table=='') {
-			Log.addDEBUGDETAIL("Pas de table DB dans le JDD ")
-		}else {
-			if (InfoDB.isTableExist(table)) {
-				Log.addDEBUGDETAIL("Contrôle de la table DB '$table'")
-
-				checkColumn()
-				status = CheckTypeInDATA.run(myJDD.getDatas(),myJDD, table,JDDFullName,status)
-			}else {
-				Log.addDETAILFAIL("$JDDFullName ($sheetName) : La table '$table' n'existe pas !")
-				status=false
-			}
-		}
-		Log.addTraceEND(CLASS_FORLOG,"checkTable")
-	}
-
-
-
-
-
-	private static checkColumn() {
-		
-		Log.addTraceBEGIN(CLASS_FORLOG,"checkColumn",[:])
-
-		Log.addDEBUGDETAIL("Contrôle des colonnes (Présence, ordre)")
-
-		InfoDB.map[table].each{col,vlist ->
-
-			Log.addTrace(vlist.join('|'))
-
-			if (col == myJDD.getHeader((int)vlist[0])) {
-				Log.addTrace("'$col' OK")
-
-				//InfoDB.updateParaInfoDB(myJDD, col,fullName, modObj+'.'+sheet.getSheetName())
-
-			}else if (col in myJDD.getHeaders()) {
-
-				Log.addDETAILFAIL("$JDDFullName ($sheetName) : La colonne '$col' est dans le JDD mais pas à la bonne place")
-				status=false
-			}else {
-				Log.addDETAILFAIL("$JDDFullName ($sheetName) : Le champ '$col' n'est pas dans le JDD")
-				status=false
-			}
-		}
-		Log.addTraceEND(CLASS_FORLOG,"checkColumn")
-	}
-
-
-
-
-	private static checkLOCATOR() {
-		
-		Log.addTraceBEGIN(CLASS_FORLOG,"checkLOCATOR",[:])
-
-		Log.addDEBUGDETAIL("Contrôle des LOCATOR")
-		myJDD.getParam('LOCATOR').eachWithIndex {loc,i ->
-			if (loc!=null && loc!='' && i!=0) {
-				String name = myJDD.getHeader(i)
-
-				if (myJDD.isTagAllowed(loc)) {
-					Log.addTrace("$name : $loc in myJDD.TAG_LIST_ALLOWED")
-				}else if ((loc[0] != '/') && (loc.toString().split(/\*/).size()>1)) {
-					//it's a tag with an attribut
-					def lo = loc.toString().split(/\*/)
-					if (myJDD.isTagAllowed(lo[0])) {
-						Log.addTrace("$name : $name : ${loc[0]} in myJDD.TAG_LIST_ALLOWED dans $loc")
-					}else {
-						Log.addDETAILFAIL("$JDDFullName ($sheetName) : Champ '$name' : LOCATOR inconnu : ${lo[0]} in '$loc'")
-						status=false
-					}
-				}else if (loc[0] == '/') {
-					Log.addTrace("$loc OK")
-				}else {
-					Log.addDETAILFAIL("$JDDFullName ($sheetName) : Champ '$name' : LOCATOR inconnu : '$loc'")
-					status=false
-				}
-			}
-		}
-		Log.addTraceEND(CLASS_FORLOG,"checkLOCATOR")
-	}
-
-	
 
 
 }// end of class

@@ -1,5 +1,6 @@
-import org.apache.poi.ss.usermodel.*
-import org.apache.poi.xssf.usermodel.XSSFWorkbook
+import my.Log
+import myJDDManager.JDDFiles
+import myJDDManager.PREJDDFiles
 
 
 
@@ -19,7 +20,7 @@ JDDFiles.JDDfilemap.each { modObj,fullName ->
 
 list.eachWithIndex { map,idx ->
 	
-	Log.addTrace(idx + ' : ' + PREJDDFiles.getFullname(map.getAt('PREJDDMODOBJ')))
+	Log.addTrace(idx + ' : ' + PREJDDFiles.getFullnameFromModObj(map.getAt('PREJDDMODOBJ')))
 	
 	map.each { key,val ->
 		Log.addTrace('\t' + key + ' : ' +val)

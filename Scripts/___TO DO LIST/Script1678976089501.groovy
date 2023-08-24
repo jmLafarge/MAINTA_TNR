@@ -9,9 +9,8 @@
  * 
  * 
 
-finir def checkLOCATOR() dans JDDParams --> est ce qu'il  ne faut pas faire une class Locator ?
 
-
+supprimer les extensions des sous class de JDD (j'ai mis les sous class sont en public
 
 
 
@@ -217,10 +216,6 @@ finir def checkLOCATOR() dans JDDParams --> est ce qu'il  ne faut pas faire une 
 		Chrome  : marche pas, par exemple le click sur a_Habilitation (voir pour prendre une capture écran)
 		Firefox : marche mais pas le double click 
 	
-	
-	JDD
-		créer une class pour parametre
-		*** revoir la gestion du JDD ***
 		
 		
 	SQL
@@ -297,7 +292,9 @@ finir def checkLOCATOR() dans JDDParams --> est ce qu'il  ne faut pas faire une 
 		Revoir la suppression des emplacements par rapport à ST_DEF pour rendre automatique le truc
 	
 
-
+	LOG
+	
+		Ajouter des stats sur les logbegin....
 
 * 
  * -----------------------------------------------------------------------------------------------------

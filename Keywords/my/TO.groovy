@@ -23,7 +23,9 @@ public class TO {
 
 		TestObject to = null
 
-		if (!myJDD.xpathTO.containsKey(ID)) {
+		String xpath = myJDD.getXPath(ID)
+
+		if (!xpath) {
 			msgTO = "L'ID '$ID' n'existe pas, impossible de créer le TEST OBJET"
 		}else {
 
@@ -31,7 +33,7 @@ public class TO {
 
 			to = new TestObject(ID)
 			to.setSelectorMethod(SelectorMethod.XPATH)
-			String xpath = myJDD.xpathTO.getAt(ID)
+
 			Log.addTrace("xpath : $xpath")
 
 			if (xpath.startsWith('$')) {
@@ -41,17 +43,17 @@ public class TO {
 
 					case "TAB":
 						binding['tabname']=xpath.split('\\$')[2]
-						xpath = NAV.myGlobalJDD.getXpathTO('TAB')
+						xpath = NAV.myGlobalJDD.getXPath('TAB')
 						break
 
 					case "TABSELECTED":
 						binding['tabname']=xpath.split('\\$')[2]
-						xpath = NAV.myGlobalJDD.getXpathTO('TABSELECTED')
+						xpath = NAV.myGlobalJDD.getXPath('TABSELECTED')
 						break
 
 					case "FILTREGRILLE":
 						binding['idname']=xpath.split('\\$')[2]
-						xpath = NAV.myGlobalJDD.getXpathTO('FILTREGRILLE')
+						xpath = NAV.myGlobalJDD.getXPath('FILTREGRILLE')
 						break
 
 					case "TDGRILLE":
@@ -63,7 +65,7 @@ public class TO {
 					//////
 						binding['numTD']=xpath.split('\\$')[2]
 						binding['idnameval']=myJDD.getData(xpath.split('\\$')[3])
-						xpath = NAV.myGlobalJDD.getXpathTO('TDGRILLE')
+						xpath = NAV.myGlobalJDD.getXPath('TDGRILLE')
 						break
 
 					default:
@@ -127,7 +129,7 @@ public class TO {
 
 				if (binding.containsKey(value)) {
 					Log.addTrace('External binding')
-				} else if (value in myJDD.headers) {
+				} else if (value in myJDD.myJDDHeader.getList()) {
 					binding.put(value, myJDD.getData(value.toString()))
 					Log.addTrace('JDD binding k --> v : ' + value + ' --> ' + myJDD.getData(value.toString()))
 				} else {
@@ -137,7 +139,7 @@ public class TO {
 
 			xpathResolved = engine.createTemplate(xpath).make(binding).toString()
 
-		} else if (myJDD.getParamForThisName('LOCATOR', name) == 'radio') {
+		} else if (myJDD.myJDDParam.isRADIO(name)) {
 			Log.addTrace('radio xpath')
 			xpathResolved = xpath.replaceAll(name, name + myJDD.getStrData(name))
 

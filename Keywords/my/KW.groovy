@@ -893,9 +893,8 @@ class KW {
 			String inputXpath 	= "//input[@name='$inputSearchName']"
 			String tdXpath 		= "//div[@id='v-dbtdhtmlx1']/table/tbody//td[3][text()='$val']"
 
-			myJDD.xpathTO.put('btnSearch', btnXpath)
-			myJDD.xpathTO.put('inputSearch', inputXpath)
-			myJDD.xpathTO.put('tdSearch', tdXpath)
+
+			myJDD.addXpath(['btnSearch':btnXpath , 'inputSearch':inputXpath , 'tdSearch':tdXpath])
 
 			scrollAndClick(myJDD,'btnSearch')
 

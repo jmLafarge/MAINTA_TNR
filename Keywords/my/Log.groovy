@@ -58,6 +58,8 @@ class Log {
 
 	private static Map<String, ArrayList> lists = [:]
 
+	private static int nbrAssert = 0
+	private static int nbrAssertKO = 0
 
 
 	static {
@@ -361,17 +363,27 @@ class Log {
 		traceEnd=true
 		Date stop = new Date()
 		fileDebug.append("Max Level = $maxLevel\n")
-		fileDebug.append('Time Duration : ' + Tools.getDuration(startLog,stop))
+		fileDebug.append('Time Duration : ' + Tools.getDuration(startLog,stop)+'\n')
+		file.append('Time Duration : ' + Tools.getDuration(startLog,stop)+'\n')
+		if (nbrAssert>0) {
+			file.append("Nombre de tests unitaires KO = $nbrAssertKO / $nbrAssert\n")
+			fileDebug.append("Nombre de tests unitaires KO = $nbrAssertKO / $nbrAssert\n")
+		}
+		fileDebug.append('*** END ***')
+		file.append('*** END ***')
 	}
-	
-	
-	public static addAssert(String msg,def expectedResult,def actualResult){
 
+
+	public static addAssert(String msg,def expectedResult,def actualResult){
+		
+		nbrAssert++
 		try{
 			assert (expectedResult==actualResult)
-			add(':)',"Test $msg --> '$expectedResult'")
+			add(':)',"TEST '$msg' --> OK : '$expectedResult'")
 		}catch(AssertionError  e){
-			add('KO',"Test $msg " )
+			nbrAssertKO++
+			KeywordUtil.markWarning("Test $msg --> KO")
+			add('KO',"TEST '$msg' " )
 			String err = e.getMessage().replaceAll('\n','\n'+'\t'*5+'  ')
 			addB('\t'*3 +"- $err")
 			addB('\t'*4 +'  |               |')
@@ -383,10 +395,12 @@ class Log {
 			if(expectedResult!=null) {
 				addB('\t'*4 +'  ' + expectedResult.getClass())
 			}
+
+		}finally {
 			addB('')
 		}
 	}
-	
+
 
 
 

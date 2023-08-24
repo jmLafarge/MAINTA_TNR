@@ -6,11 +6,11 @@ import java.nio.file.StandardCopyOption
 
 import groovy.transform.CompileStatic
 import internal.GlobalVariable
-import myJDDManager.PREJDDFiles
+import myPREJDDManager.PREJDDFileMapper
 
 @CompileStatic
 public class RestoreDB {
-	
+
 	private static final String CLASS_FORLOG = 'RestoreDB'
 
 	private static final String DBBACKUP_PATH 			= PropertiesReader.getMyProperty('DBBACKUP_PATH')
@@ -18,18 +18,18 @@ public class RestoreDB {
 
 	static run() {
 		Log.addTraceBEGIN(CLASS_FORLOG,"run",[:])
-		
+
 		NAV.myGlobalJDD
-		
+
 		List <String > backupFileList = Tools.getFilesFromFolder('^\\d{8}_\\d{6}-' + SQL.getProfileName() +'_' + SQL.getDatabaseName() + '.*\\.bak$',DBBACKUP_PATH)
 		if (backupFileList.size() == 1) {
 			restoreTNR(backupFileList[0])
 		}else {
 			initTNR()
-		}	
-		
+		}
+
 		// Ajouter le recyclage
-		
+
 		Log.addTraceEND(CLASS_FORLOG,"run")
 	}
 
@@ -57,12 +57,12 @@ public class RestoreDB {
 		Log.addDETAIL("Supprime le fichier de backup")
 
 		Tools.deleteFilesFromFolder(dest)
-		
+
 		Log.addTraceEND(CLASS_FORLOG,"restoreTNR")
 	}
 
-	
-	
+
+
 
 
 	private static initTNR() {
@@ -102,8 +102,8 @@ public class RestoreDB {
 
 
 
-		
-		
+
+
 		Log.addDETAIL("Restaure la BDD TNR")
 
 		SQL.restore(backupFilename)
@@ -118,7 +118,7 @@ public class RestoreDB {
 
 		Log.addDETAIL("Création des PREJDD")
 
-		PREJDDFiles.createInDB()
+		PREJDDFileMapper.createInDB()
 
 		Log.addDETAIL("Sauvegarde de la BDD TNR avec les PREJDD")
 
@@ -133,5 +133,4 @@ public class RestoreDB {
 		Log.addTraceEND(CLASS_FORLOG,"initTNR")
 
 	}
-
 }

@@ -1,23 +1,23 @@
 package myCheck
 
-import org.apache.poi.ss.usermodel.Sheet
+import org.apache.poi.ss.usermodel.*
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.transform.CompileStatic
 import my.InfoDB
 import my.Log
 import myJDDManager.JDD
-import myJDDManager.JDDFiles
+import myJDDManager.JDDData
+import myJDDManager.JDDFileMapper
+import myJDDManager.JDDHeader
 import myJDDManager.JDDKW
-import myJDDManager.PREJDD
-import myJDDManager.PREJDDFiles
-
-import org.apache.poi.ss.usermodel.*
-import org.apache.poi.xssf.usermodel.XSSFWorkbook
+import myPREJDDManager.PREJDD
+import myPREJDDManager.PREJDDFileMapper
 
 @CompileStatic
 public class CheckPrerequis {
-	
-	
+
+
 	private static final String CLASS_FORLOG = 'CheckPrerequis'
 
 	private static List <Map> list =[]
@@ -26,18 +26,18 @@ public class CheckPrerequis {
 	private static boolean status = true
 
 	static run() {
-		
+
 		Log.addTraceBEGIN(CLASS_FORLOG,"run",[:])
-		
+
 		Log.addTrace('--------------------------------------')
 		Log.addTrace('Collecte de tous les PREREQUIS des JDD')
 		Log.addTrace('--------------------------------------')
 
 		//Récupére la liste de tous les PREREQUIS de tous les JDD
-		JDDFiles.JDDfilemap.each { modObj,fullName ->
+		JDDFileMapper.JDDfilemap.each { modObj,fullName ->
 			Log.addTrace("Lecture du JDD : " + fullName)
 			myJDD = new JDD(fullName,null,null,false)
-			getAllPrerequis(fullName,true)
+			getAllPrerequis('JDD',fullName)
 		}
 
 
@@ -50,11 +50,11 @@ public class CheckPrerequis {
 		 * Controle si tous les PREREQUIS des JDD sont bien dans les PREJDD
 		 */
 		list.eachWithIndex { map,idx ->
-			Log.addTrace(idx + ' : ' + PREJDDFiles.getFullname(map.getAt('PREJDDMODOBJ').toString()))
+			Log.addTrace(idx + ' : ' + PREJDDFileMapper.getFullnameFromModObj(map.getAt('PREJDDMODOBJ').toString()))
 			map.each { key,val ->
 				Log.addTrace('\t' + key + ' : ' +val)
 			}
-			if (PREJDDFiles.getFullname(map.getAt('PREJDDMODOBJ').toString())) {
+			if (PREJDDFileMapper.getFullnameFromModObj(map.getAt('PREJDDMODOBJ').toString())) {
 				if (!PREJDD.checkPREJDD(map)) {
 					status=false
 				}
@@ -75,11 +75,11 @@ public class CheckPrerequis {
 		Log.addTrace('Collecte de tous les PREREQUIS des PREJDD')
 		Log.addTrace('--------------------------------------')
 
-		PREJDDFiles.PREJDDfilemap.each { modObj,fullName ->
+		PREJDDFileMapper.PREJDDfilemap.each { modObj,fullName ->
 			Log.addTrace("Lecture du JDD pour modObj : " + modObj)
-			myJDD = new JDD(JDDFiles.getFullnameFromModObj(modObj),null,null,false)
+			myJDD = new JDD(JDDFileMapper.getFullnameFromModObj(modObj),null,null,false)
 			PREJDDBook = my.XLS.open(fullName)
-			getAllPrerequis(fullName,false)
+			getAllPrerequis('PREJDD',fullName)
 		}
 
 		Log.addSubTITLE('Contrôle des PREREQUIS des PREJDD')
@@ -90,11 +90,11 @@ public class CheckPrerequis {
 		 * Controle si tous les PREREQUIS des JDD sont bien dans les PREJDD
 		 */
 		list.eachWithIndex { map,idx ->
-			Log.addTrace(idx + ' : ' + PREJDDFiles.getFullname(map.getAt('PREJDDMODOBJ').toString()))
+			Log.addTrace(idx + ' : ' + PREJDDFileMapper.getFullnameFromModObj(map.getAt('PREJDDMODOBJ').toString()))
 			map.each { key,val ->
 				Log.addTrace('\t' + key + ' : ' +val)
 			}
-			if (PREJDDFiles.getFullname(map.getAt('PREJDDMODOBJ').toString())) {
+			if (PREJDDFileMapper.getFullnameFromModObj(map.getAt('PREJDDMODOBJ').toString())) {
 				if (!PREJDD.checkPREJDD(map)) {
 					status=false
 				}
@@ -133,46 +133,48 @@ public class CheckPrerequis {
 	 ]
 	 *
 	 */
-	private static getAllPrerequis(String fullName,boolean forJDD) {
+	private static getAllPrerequis(String type, String fullName) {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"getAllPrerequis",[fullName:fullName,forJDD:forJDD])
-		
+		Log.addTraceBEGIN(CLASS_FORLOG,"getAllPrerequis",[type:type , fullName:fullName])
+
 		for(Sheet sheet: myJDD.book) {
 			if (myJDD.isSheetAvailable(sheet.getSheetName())) {
 
 				myJDD.loadTCSheet(sheet)
 				String PRInThisSheet =''
-				if (myJDD.getParam('PREREQUIS')) {
-				myJDD.getParam('PREREQUIS').eachWithIndex { value,i ->
-						if (!(value in ['', 'PREREQUIS', 'OBSOLETE'])) {
-							PRInThisSheet = PRInThisSheet + myJDD.getHeader(i)+','
-							Log.addTrace('\theader = ' + myJDD.getHeader(i))
-							Log.addTrace('\tvalue = ' + value)
-							Map prerequisMap = [:]
-							prerequisMap.putAt('PREJDDMODOBJ',value.split(/\*/)[0])
-							prerequisMap.putAt('PREJDDTAB',value.split(/\*/)[1])
-							prerequisMap.putAt('PREJDDID',value.split(/\*/)[2])
-							prerequisMap.putAt('JDDNAME',fullName)
-							prerequisMap.putAt('JDDID',myJDD.getHeader(i))
-							if (forJDD) {
-								prerequisMap.putAt('LISTCDTVAL',getListCDTVAL(myJDD.getDatas(),i))
+				myJDD.myJDDParam.getAllPREREQUIS().each { name,value ->
+					if (!(value in ['', 'OBSOLETE'])) {
+						PRInThisSheet = PRInThisSheet + name+','
+						Log.addTrace('\tname = ' + name)
+						Log.addTrace('\tvalue = ' + value)
+						Map prerequisMap = [:]
+						prerequisMap.putAt('PREJDDMODOBJ',value.split(/\*/)[0])
+						prerequisMap.putAt('PREJDDTAB',value.split(/\*/)[1])
+						prerequisMap.putAt('PREJDDID',value.split(/\*/)[2])
+						prerequisMap.putAt('JDDNAME',fullName)
+						prerequisMap.putAt('JDDID',name)
+						if (type=='JDD') {
+							prerequisMap.putAt('LISTCDTVAL',getListCDTVAL(myJDD.myJDDData.getList(),myJDD.getDBTableName(),name))
+						}else if (type == 'PREJDD'){
+							Sheet PREJDDsheet = PREJDDBook.getSheet(sheet.getSheetName())
+							if (PREJDDsheet) {
+								JDDHeader PREJDDheader = new JDDHeader(PREJDDsheet)
+								JDDData PREJDDData = new JDDData(PREJDDsheet,PREJDDheader,'')
+								prerequisMap.putAt('LISTCDTVAL',getListCDTVAL(PREJDDData.getList(),myJDD.getDBTableName(),name))
 							}else {
-								Sheet shPREJDD = PREJDDBook.getSheet(sheet.getSheetName())
-								if (shPREJDD) {
-									List <String> headersPREJDD = my.XLS.loadRow(shPREJDD.getRow(0))
-									prerequisMap.putAt('LISTCDTVAL',getListCDTVAL(myJDDManager.PREJDD.loadDATA(shPREJDD,headersPREJDD.size()),i))
-								}else {
-									Log.addTrace('le sheet '+sheet.getSheetName() + " n'existe pas dans ce PREJDD")
-								}
+								Log.addTrace('le sheet '+sheet.getSheetName() + " n'existe pas dans ce PREJDD")
 							}
-							Log.addTrace('\tPrerequisMap : ')
-							prerequisMap.each { key,val ->
-								Log.addTrace('\t\t'+key + ' : ' +val)
-							}
-							list.add(prerequisMap)
+						}else {
+							Log.addERROR("Type '$type' non connu !")
 						}
+						Log.addTrace('\tPrerequisMap : ')
+						prerequisMap.each { key,val ->
+							Log.addTrace('\t\t'+key + ' : ' +val)
+						}
+						list.add(prerequisMap)
 					}
 				}
+				//}
 				if (PRInThisSheet.size()>0) {
 					Log.addDEBUGDETAIL("Lecture onglet '" + sheet.getSheetName() + "' --> PREREQUIS : " + PRInThisSheet.substring(0,PRInThisSheet.length()-1))
 				}else {
@@ -190,29 +192,54 @@ public class CheckPrerequis {
 
 
 	/**
-	 *
-	 * @param sheet
-	 * @param index
+	 * Récupere la liste des couples CDT - Valeur de la colonne name
+	 * 
+	 * Sauf si la valeur est null ou vide ou $NU ou $NULK ou $VIDE
+	 * Sauf si le CDT est un cdt de création et que le name est une PK (il ne doit pas être en prérequis casr on va le créer)
+	 * Pour les $UPD*oldValue*newValue, la oldValue doit être en prérequis, mais pas la newValue
+	 * 
+	 * @param datas
+	 * @param table
+	 * @param name
 	 * @return
 	 */
-	private static List getListCDTVAL(List <List> datas,int index) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"getListCDTVAL",[datas:datas,index:index])
-		List PKlist=InfoDB.getPK(myJDD.getDBTableName())
+	private static List getListCDTVAL(List <Map<String, Map<String, String>>> datas,String table, String name) {
+		Log.addTraceBEGIN(CLASS_FORLOG,"getListCDTVAL",[datas:datas , table:table , name:name])
 		List list =[]
-		datas.each{
-			if (it[index]!=null && it[index]!='' && !JDDKW.isNU(it[index]) && !JDDKW.isNULL(it[index]) && !JDDKW.isVIDE(it[index]) ) {
-				if (it[0].toString().contains('.CRE.') && PKlist.contains(myJDD.getHeader(index))) {
-					Log.addTrace("skip : " + "'" + it[0] + "' - '" + it[index] + "'")
-				}else {
-					if (JDDKW.getOldValueOfKW_UPD(it[index])) {
-						list.add("'" + it[0] + "' - '" + JDDKW.getOldValueOfKW_UPD(it[index]) + "'")
-						Log.addTrace('$UPD trouvé en ' + it[0] + 'old value = ' + JDDKW.getOldValueOfKW_UPD(it[index]) )
-					}else {
-						list.add("'" + it[0] + "' - '" + it[index] + "'")
-						Log.addTrace("add '" + it[0] + "' - '" + it[index] + "'")
+
+		if (InfoDB.isTableExist(table)) {
+			
+			if (InfoDB.inTable(table, name)) {
+				List<List<String>> listAllCDTVAL = []
+				datas.each { outerMap ->
+				    outerMap.each { key, innerMap ->
+				        listAllCDTVAL << [key, innerMap[name]]
+				    }
+				}
+				listAllCDTVAL.each {li ->
+					String cdt = li[0]
+					String val = li[1]
+					if (val!=null && val!='' && !JDDKW.isNU(val) && !JDDKW.isNULL(val) && !JDDKW.isVIDE(val) ) {
+						String cdtVal = "'$cdt' - '$val'"
+						if (cdt.toString().contains('.CRE.') && InfoDB.isPK(table,name)) {
+							Log.addTrace("skip : $cdtVal")
+						}else {
+							if (JDDKW.getOldValueOfKW_UPD(val)) {
+								cdtVal= "'$cdt' - '" + JDDKW.getOldValueOfKW_UPD(val) + "'"
+								list.add(cdtVal)
+								Log.addTrace("add $cdtVal \$UPD")
+							}else {
+								list.add(cdtVal)
+								Log.addTrace("add $cdtVal")
+							}
+						}
 					}
 				}
+			}else {
+				Log.addERROR("La colonne '$name' n'existe pas dans la table '$table'!")
 			}
+		}else {
+			Log.addERROR("La table '$table' n'existe pas!")
 		}
 		Log.addTraceEND(CLASS_FORLOG,"getListCDTVAL",list)
 		return list

@@ -173,9 +173,11 @@ public class XLS {
 
 			switch (cell.getCellType()) {
 				case Cell.CELL_TYPE_STRING: // 1
+					Log.addTrace("CELL_TYPE_STRING")
 					CellData = cell.getStringCellValue()
 					break
 				case Cell.CELL_TYPE_NUMERIC: // 0
+					Log.addTrace("CELL_TYPE_NUMERIC")
 					if (DateUtil.isCellDateFormatted(cell)) {
 						Log.addTrace("isCellDateFormatted() = true" + cell.getDateCellValue().getClass())
 						CellData = cell.getDateCellValue()
@@ -184,15 +186,18 @@ public class XLS {
 					}
 					break
 				case Cell.CELL_TYPE_BOOLEAN: // 4
+				Log.addTrace("CELL_TYPE_BOOLEAN")
 					CellData = cell.getBooleanCellValue()
 					break
 				case Cell.CELL_TYPE_FORMULA: // 2
+					Log.addTrace("CELL_TYPE_FORMULA")
 					Workbook wb = cell.getSheet().getWorkbook()
 					CreationHelper crateHelper = wb.getCreationHelper()
 					FormulaEvaluator evaluator = crateHelper.createFormulaEvaluator()
 					CellData = getCellValue(evaluator.evaluateInCell(cell))
 					break
 				case Cell.CELL_TYPE_BLANK: // 3
+				Log.addTrace("CELL_TYPE_BLANK")
 					CellData = ""
 					break
 				case Cell.CELL_TYPE_ERROR: // 5

@@ -39,7 +39,7 @@ for (String cdt in myJDD.CDTList) {
 		TNRResult.addSTEPBLOCK("FOURNISSEUR NORMALISE")
 		
 			// Lire le JDD spécifique
-			def JDD_ARTFOU = new my.JDD(JDDFiles.getFullname('RT.ART'),'001B',GlobalVariable.CASDETESTENCOURS)
+			def JDD_ARTFOU = new my.JDD(JDDFiles.getFullnameFromModObj('RT.ART'),'001B',GlobalVariable.CASDETESTENCOURS)
 			
 				KW.verifyValue(JDD_ARTFOU,"ID_CODFOU")
 			KW.verifyValue(myJDD,"ST_DESID_CODFOU")

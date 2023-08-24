@@ -1,7 +1,5 @@
 package my
 
-import java.util.regex.Pattern
-
 import org.openqa.selenium.Capabilities
 import org.openqa.selenium.WebDriver
 
@@ -186,7 +184,7 @@ class Tools {
 		return ret
 	}
 
-	
+
 
 	static def displayWithQuotes(input) {
 		if (input instanceof List) {
@@ -204,8 +202,7 @@ class Tools {
 		}
 	}
 
-	
-	
+
 
 
 } // end of class

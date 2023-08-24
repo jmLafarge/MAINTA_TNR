@@ -72,7 +72,7 @@ for (String cdt in myJDD.CDTList) {
 		
 		if (!JDDKW.isNU(myJDD.getStrData('ID_CODSER')) && !JDDKW.isNULL(myJDD.getStrData('ID_CODSER'))) {
 			
-			JDD JDDSER = new JDD(JDDFiles.getFullname('RO.ORG'),'001A',GlobalVariable.CASDETESTENCOURS)
+			JDD JDDSER = new JDD(JDDFiles.getFullnameFromModObj('RO.ORG'),'001A',GlobalVariable.CASDETESTENCOURS)
 			
 			JDDSER.replaceSEQUENCIDInJDD('ID_CODSER',0)
 			JDDSER.replaceSEQUENCIDInJDD('ID_NUMGES',0)

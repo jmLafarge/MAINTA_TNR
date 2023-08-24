@@ -5,7 +5,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.transform.CompileStatic
 import myJDDManager.JDD
-import myJDDManager.JDDFiles
+import myJDDManager.JDDFileMapper
 
 @CompileStatic
 public class InfoPARA {
@@ -48,8 +48,8 @@ public class InfoPARA {
 		paraStyle.setVerticalAlignment(VerticalAlignment.TOP)
 
 
-		def jdd = new myJDDManager.JDD(JDDFiles.JDDfilemap.values()[0])
-		List paramListAllowed = jdd.getParamListAllowed()
+		def jdd = new myJDDManager.JDD(JDDFileMapper.JDDfilemap.values()[0])
+		List paramListAllowed = jdd.myJDDParam.getParamListAllowed()
 
 		for (String para : paramListAllowed) {
 			headersPara.add(para)
@@ -105,11 +105,11 @@ public class InfoPARA {
 
 		int icol = 2
 
-		List paramListAllowed = myJDD.getParamListAllowed()
+		List paramListAllowed = myJDD.myJDDParam.getParamListAllowed()
 
 		for (String para in paramListAllowed) {
 
-			String valPara = myJDD.getParamForThisName(para, col)
+			String valPara = myJDD.myJDDParam.getParamFor(para, col)
 
 			if (valPara) {
 

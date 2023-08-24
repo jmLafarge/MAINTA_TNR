@@ -39,7 +39,7 @@ for (String cdt in myJDD.CDTList) {
 		
 		TNRResult.addSTEPBLOCK("ADRESSE")
 		
-		def JDD_Adr = new my.JDD(JDDFiles.getFullname('RO.ADR'),'001',GlobalVariable.CASDETESTENCOURS)
+		def JDD_Adr = new my.JDD(JDDFiles.getFullnameFromModObj('RO.ADR'),'001',GlobalVariable.CASDETESTENCOURS)
 		
 		KW.scrollAndClick(myJDD,"TD_Adresse")
 		KW.scrollAndClick(myJDD,"BTN_ModifierAdresse")
@@ -107,7 +107,7 @@ for (String cdt in myJDD.CDTList) {
 		KW.scrollAndClick(myJDD,"tab_Notes")
 		KW.waitForElementVisible(myJDD,"tab_NotesSelected")
 		
-		def JDD_Note = new JDD(JDDFiles.getFullname('RO.FOU'),'001A',GlobalVariable.CASDETESTENCOURS)
+		def JDD_Note = new JDD(JDDFiles.getFullnameFromModObj('RO.FOU'),'001A',GlobalVariable.CASDETESTENCOURS)
 		
 		KW.scrollToPosition(0, 0)
 		KW.delay(1)

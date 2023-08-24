@@ -305,7 +305,7 @@ public class SQL {
 				logAddDETAIL('',fieldName,newVal,valDB)
 				verifStatus = 'FAIL'
 			}
-		}else if (!specificValue && myJDD.JDDParam.getFOREIGNKEYFor(fieldName)) {
+		}else if (!specificValue && myJDD.myJDDParam.getFOREIGNKEYFor(fieldName)) {
 
 			if (!JDDKW.isNU(valJDD) && !JDDKW.isNULL(valJDD)) {
 				if (!checkForeignKey(myJDD, fieldName, valDB)) {

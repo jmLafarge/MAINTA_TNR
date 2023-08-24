@@ -4,7 +4,7 @@ package myResult
 import groovy.transform.CompileStatic
 import internal.GlobalVariable
 import my.Log
-import my.TCFiles
+import my.TCFileMapper
 import my.Tools
 
 @CompileStatic
@@ -147,7 +147,7 @@ public class TNRResult {
 		testCaseStarted = true
 
 		GlobalVariable.CASDETESTENCOURS = cdt
-		cdt += ' : ' + TCFiles.getTitle()
+		cdt += ' : ' + TCFileMapper.getTitle()
 		status.WARNING = 0
 		status.FAIL = 0
 		status.PASS = 0
@@ -164,7 +164,7 @@ public class TNRResult {
 		if (testCaseStarted) {
 
 			testCaseStarted = false
-			String cdt = GlobalVariable.CASDETESTENCOURS.toString() + ' : ' + TCFiles.getTitle()
+			String cdt = GlobalVariable.CASDETESTENCOURS.toString() + ' : ' + TCFileMapper.getTitle()
 
 			Date stop = new Date()
 

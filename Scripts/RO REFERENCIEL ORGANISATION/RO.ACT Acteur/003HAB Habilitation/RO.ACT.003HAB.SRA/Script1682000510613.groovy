@@ -1,7 +1,8 @@
-import myJDDManager.JDD
 import my.KW
 import my.NAV
 import my.SQL
+import myJDDManager.JDD
+import myJDDManager.JDDKW
 import myResult.TNRResult
 
 'Lecture du JDD'
@@ -50,7 +51,7 @@ for (String cdt in myJDD.CDTList) {
 	
 	        KW.waitAndVerifyElementText(myJDD,'ID_CODHAB')
 			
-			if (!my.JDDKW.isNULL(myJDD.getData('DT_DATDEB'))) {
+			if (!JDDKW.isNULL(myJDD.getData('DT_DATDEB'))) {
 			
 		        KW.scrollAndDoubleClick(myJDD,'td_DateDebut')
 		
@@ -64,7 +65,7 @@ for (String cdt in myJDD.CDTList) {
 				KW.setDate(myJDD,'DT_DATDEB')
 			}
 	
-			if (!my.JDDKW.isNULL(myJDD.getData('DT_DATFIN'))) {
+			if (!JDDKW.isNULL(myJDD.getData('DT_DATFIN'))) {
 				
 		        KW.scrollAndClick(myJDD,'SelectionHabilitation_td')
 		

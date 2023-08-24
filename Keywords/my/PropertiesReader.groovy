@@ -26,5 +26,4 @@ class PropertiesReader {
 		}
 		return prop
 	}
-
 } // end of class
