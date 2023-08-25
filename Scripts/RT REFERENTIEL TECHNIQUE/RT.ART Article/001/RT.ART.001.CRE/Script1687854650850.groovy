@@ -1,10 +1,10 @@
 import internal.GlobalVariable
-import myJDDManager.JDD
-import myJDDManager.JDDFiles
-import my.KW
-import my.NAV
-import my.SQL
-import myResult.TNRResult
+import tnrJDDManager.JDD
+import tnrJDDManager.JDDFiles
+import tnrWebUI.KW
+import tnrWebUI.NAV
+import tnrSqlManager.SQL
+import tnrResultManager.TNRResult
 
 'Lecture du JDD'
 def myJDD = new JDD()
@@ -40,7 +40,7 @@ for (String cdt in myJDD.CDTList) {
 		TNRResult.addSTEPBLOCK("FOURNISSEUR NORMALISE")
 		
 			// Lire le JDD spécifique
-			def JDD_ARTFOU = new my.JDD(JDDFiles.getFullnameFromModObj('RT.ART'),'001B',GlobalVariable.CASDETESTENCOURS)
+			def JDD_ARTFOU = new my.JDD(JDDFiles.getFullnameFromModObj('RT.ART'),'001B',GlobalVariable.CAS_DE_TEST_EN_COURS)
 			
 				KW.scrollAndSetText(JDD_ARTFOU,"ID_CODFOU")
 				//ST_DESID_CODFOU --> pas d'action en création

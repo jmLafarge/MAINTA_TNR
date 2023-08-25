@@ -1,14 +1,14 @@
 
 /*
-println my.PropertiesReader.getMyProperty('INFODBFILENAME') // ok
-println "'"+my.PropertiesReader.getMyProperty('TEST')+"'" // c'et vide quand pas de valeur même si pas de =
-println my.PropertiesReader.getMyProperty('EXISTEPAS') // c'est null quand existe pas
+println TNRPropertiesReader.getMyProperty('INFODBFILENAME') // ok
+println "'"+TNRPropertiesReader.getMyProperty('TEST')+"'" // c'et vide quand pas de valeur même si pas de =
+println TNRPropertiesReader.getMyProperty('EXISTEPAS') // c'est null quand existe pas
 */
 
 
 
 /*
-String debugClassList = my.PropertiesReader.getMyProperty('LOG_DEBUGCLASSES')
+String debugClassList = TNRPropertiesReader.getMyProperty('LOG_DEBUGCLASSES')
 println debugClassList
 List <String> debugClassesExcluded = []
 List <String> debugClassesAdded = []
@@ -25,7 +25,7 @@ println debugClassesAdded
 */
 
 
-String debugClassList = my.PropertiesReader.getMyProperty('LOG_DEBUGFUNCTION')
+String debugClassList = TNRPropertiesReader.getMyProperty('LOG_DEBUGFUNCTION')
 println debugClassList
 List <String> debugClassesExcluded = []
 List <String> debugClassesAdded = []

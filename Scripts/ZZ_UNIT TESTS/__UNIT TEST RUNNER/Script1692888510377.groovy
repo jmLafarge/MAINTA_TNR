@@ -7,7 +7,8 @@ import com.kms.katalon.core.model.FailureHandling
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import groovy.io.FileType
-import my.Log
+import tnrCommon.TNRPropertiesReader
+import tnrLog.Log
 
 /**
  * UNIT TEST RUNNER
@@ -44,17 +45,17 @@ import my.Log
  * 
  *
  * @author JM Lafarge
- * @since 1.0
+ * @version 1.0
  */
 
 String tcTestFolder = 'ZZ_UNIT TESTS'
-String tcTestPath = my.PropertiesReader.getMyProperty('TC_PATH') + File.separator + tcTestFolder
+String tcTestPath = TNRPropertiesReader.getMyProperty('TC_PATH') + File.separator + tcTestFolder
 
 new File(tcTestPath).eachFileRecurse(FileType.FILES) { file ->
 
 	Log.addTrace('file.getPath() : '+file.getPath())
 
-	String TCFullName = file.getPath().replace(my.PropertiesReader.getMyProperty('TC_PATH') + File.separator, '').replace('.tc', '')
+	String TCFullName = file.getPath().replace(TNRPropertiesReader.getMyProperty('TC_PATH') + File.separator, '').replace('.tc', '')
 	String TCName= file.getName().replace('.tc','').split(' ')[0]
 
 	//Ne lance que les tests qui se termine par Tests

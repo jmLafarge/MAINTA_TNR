@@ -1,9 +1,9 @@
 
-import my.Log
-import myCheck.CheckJDD
-import myCheck.CheckPREJDD
-import myCheck.CheckPrerequis
-import myCheck.Check_CAL
+import tnrLog.Log
+import tnrCheck.CheckJDD
+import tnrCheck.CheckPREJDD
+import tnrCheck.CheckPrerequis
+import tnrCheck.Check_CAL
 
 
 Log.setDebugLevel(4)

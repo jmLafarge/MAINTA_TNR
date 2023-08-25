@@ -3,14 +3,14 @@
 import org.jsoup.Jsoup
 import org.apache.commons.lang3.StringUtils
 
-import my.InfoDB
-import myJDDManager.JDD
-import myJDDManager.JDDFiles
-import my.NAV
-import my.PREJDDFiles
-import my.TCFiles
+import tnrCommon.InfoDB
+import tnrJDDManager.JDD
+import tnrJDDManager.JDDFiles
+import tnrWebUI.NAV
+import tnr.PREJDDFiles
+import tnr.TCFiles
 
-import my.Log
+import tnrLog.Log
 
 
 // Enregistrer la page html dans C:\Users\A1008045\Documents\IHM

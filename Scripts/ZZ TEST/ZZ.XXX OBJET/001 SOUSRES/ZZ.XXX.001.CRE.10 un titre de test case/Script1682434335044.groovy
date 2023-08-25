@@ -1,7 +1,7 @@
 
-import myJDDManager.JDD
-import myResult.TNRResult
-import myJDDManager.JDD
+import tnrJDDManager.JDD
+import tnrResultManager.TNRResult
+import tnrJDDManager.JDD
 
 
 'Lecture du JDD'

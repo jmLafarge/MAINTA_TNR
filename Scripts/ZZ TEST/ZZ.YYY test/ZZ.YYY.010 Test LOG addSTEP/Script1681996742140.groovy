@@ -1,4 +1,4 @@
-import myResult.TNRResult
+import tnrResultManager.TNRResult
 
 Random random = new Random()
 

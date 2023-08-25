@@ -1,7 +1,7 @@
 import javax.swing.JFileChooser
 
 // Sélectionner le dossier dans lequel vous voulez lister les fichiers
-def dossier = my.PropertiesReader.getMyProperty('LOCALTNR_BDDBACKUPPATH')
+def dossier = TNRPropertiesReader.getMyProperty('LOCALTNR_BDDBACKUPPATH')
 
 // Créer une boîte de dialogue de sélection de fichier
 JFileChooser fileChooser = new JFileChooser(dossier)

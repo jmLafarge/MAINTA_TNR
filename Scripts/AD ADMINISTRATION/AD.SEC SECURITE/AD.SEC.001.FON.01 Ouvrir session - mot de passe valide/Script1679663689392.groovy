@@ -1,8 +1,8 @@
 import internal.GlobalVariable
-import myJDDManager.JDD
-import my.KW
-import my.SQL
-import myResult.TNRResult
+import tnrJDDManager.JDD
+import tnrWebUI.KW
+import tnrSqlManager.SQL
+import tnrResultManager.TNRResult
 
 'Lecture du JDD'
 def myJDD = new JDD()

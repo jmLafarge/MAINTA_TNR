@@ -27,11 +27,11 @@
    <GlobalVariableEntity>
       <description>INTERNAL DATA</description>
       <initValue>''</initValue>
-      <name>CASDETESTENCOURS</name>
+      <name>CAS_DE_TEST_EN_COURS</name>
    </GlobalVariableEntity>
    <GlobalVariableEntity>
       <description>INTERNAL DATA</description>
       <initValue>''</initValue>
-      <name>CASDETESTPATTERN</name>
+      <name>CAS_DE_TEST_PATTERN</name>
    </GlobalVariableEntity>
 </GlobalVariableEntities>

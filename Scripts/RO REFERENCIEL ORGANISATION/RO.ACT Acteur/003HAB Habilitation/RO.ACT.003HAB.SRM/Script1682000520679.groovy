@@ -1,11 +1,11 @@
 import org.openqa.selenium.Keys
 
-import myJDDManager.JDD
-import my.KW
-import my.Log
-import my.NAV
-import my.SQL
-import myResult.TNRResult
+import tnrJDDManager.JDD
+import tnrWebUI.KW
+import tnrLog.Log
+import tnrWebUI.NAV
+import tnrSqlManager.SQL
+import tnrResultManager.TNRResult
 
 
 'Lecture du JDD'

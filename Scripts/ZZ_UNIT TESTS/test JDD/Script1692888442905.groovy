@@ -1,9 +1,9 @@
 
 import internal.GlobalVariable
-import my.InfoDB
-import myJDDManager.JDDFiles
-import my.NAV
-import my.TCFiles
+import tnrCommon.InfoDB
+import tnrJDDManager.JDDFiles
+import tnrWebUI.NAV
+import tnr.TCFiles
 
  
 
@@ -14,7 +14,7 @@ import my.TCFiles
 
 
 
-GlobalVariable.CASDETESTPATTERN = 'RT.MAT.001'
+GlobalVariable.CAS_DE_TEST_PATTERN = 'RT.MAT.001'
 
 my.JDD myJDD = new my.JDD()
 

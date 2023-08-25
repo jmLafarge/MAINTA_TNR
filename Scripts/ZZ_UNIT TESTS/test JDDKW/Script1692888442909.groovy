@@ -1,4 +1,4 @@
-import myJDDManager.JDDKW
+import tnrJDDManager.JDDKW
 
 def liUPD = ['$UPD','$UPD*ss','$UPD*ss*','$UPD*ss*qq']
 

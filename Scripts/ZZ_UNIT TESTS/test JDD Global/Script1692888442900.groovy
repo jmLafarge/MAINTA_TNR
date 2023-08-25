@@ -1,9 +1,9 @@
 
 import internal.GlobalVariable
-import my.InfoDB
-import myJDDManager.JDDFiles
-import my.NAV
-import my.TCFiles
+import tnrCommon.InfoDB
+import tnrJDDManager.JDDFiles
+import tnrWebUI.NAV
+import tnr.TCFiles
 
  
 

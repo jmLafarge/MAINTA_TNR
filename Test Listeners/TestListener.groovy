@@ -6,7 +6,7 @@ import com.kms.katalon.core.context.TestCaseContext
 import com.kms.katalon.core.context.TestSuiteContext
 
 import internal.GlobalVariable
-import my.Log
+import tnrLog.Log
 
 class TestListener {
 	
@@ -40,8 +40,8 @@ class TestListener {
 		if (testSuite) {
 			String TCName = testCaseContext.getTestCaseId().split('/')[-1].split(' ')[0]
 			Log.addTrace("TCName : '$TCName'")
-			GlobalVariable.CASDETESTENCOURS = TCName
-			GlobalVariable.CASDETESTPATTERN = TCName
+			GlobalVariable.CAS_DE_TEST_EN_COURS = TCName
+			GlobalVariable.CAS_DE_TEST_PATTERN = TCName
 		}
 		Log.addTraceEND(CLASS_FORLOG,"beforeTestCase")
 	}

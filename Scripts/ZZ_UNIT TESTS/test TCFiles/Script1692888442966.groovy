@@ -1,5 +1,5 @@
 
-import my.TCFiles
+import tnr.TCFiles
 
 
 

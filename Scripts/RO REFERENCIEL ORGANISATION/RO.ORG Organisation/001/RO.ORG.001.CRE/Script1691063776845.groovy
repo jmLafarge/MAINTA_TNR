@@ -1,11 +1,11 @@
 import internal.GlobalVariable
-import myJDDManager.JDD
-import myJDDManager.JDDFiles
-import myJDDManager.JDDKW
-import my.KW
-import my.NAV
-import my.SQL
-import myResult.TNRResult
+import tnrJDDManager.JDD
+import tnrJDDManager.JDDFiles
+import tnrJDDManager.JDDKW
+import tnrWebUI.KW
+import tnrWebUI.NAV
+import tnrSqlManager.SQL
+import tnrResultManager.TNRResult
 
 'Lecture du JDD'
 def myJDD = new JDD()
@@ -72,7 +72,7 @@ for (String cdt in myJDD.CDTList) {
 		
 		if (!JDDKW.isNU(myJDD.getStrData('ID_CODSER')) && !JDDKW.isNULL(myJDD.getStrData('ID_CODSER'))) {
 			
-			JDD JDDSER = new JDD(JDDFiles.getFullnameFromModObj('RO.ORG'),'001A',GlobalVariable.CASDETESTENCOURS)
+			JDD JDDSER = new JDD(JDDFiles.getFullnameFromModObj('RO.ORG'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS)
 			
 			JDDSER.replaceSEQUENCIDInJDD('ID_CODSER',0)
 			JDDSER.replaceSEQUENCIDInJDD('ID_NUMGES',0)

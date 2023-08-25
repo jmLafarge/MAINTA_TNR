@@ -15,15 +15,15 @@ println "après le 1er rowIT.next "+row.getRowNum()
 while(rowIt.hasNext()) {
 	row = rowIt.next()
 	println "après rowIT.next "+row.getRowNum()
-	if (!my.XLS.getCellValue(row.getCell(0))) {
+	if (!tnrCommon.ExcelUtils.getCellValue(row.getCell(0))) {
 		println 'cell vide'
 		break
 	}
-	paraMap.putAt(my.XLS.getCellValue(row.getCell(0)),my.XLS.loadRow2(row,0,10,'x'))
+	paraMap.putAt(tnrCommon.ExcelUtils.getCellValue(row.getCell(0)),tnrCommon.ExcelUtils.loadRow2(row,0,10,'x'))
 }
 
-my.Tools.parseMap(paraMap)
+tnrCommon.Tools.parseMap(paraMap)
 
 println paraMap.size()
 
-println my.XLS.loadRow(sh.getRow(0),15)
+println tnrCommon.ExcelUtils.loadRow(sh.getRow(0),15)

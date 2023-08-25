@@ -10,7 +10,8 @@
  * 
 
 
-supprimer les extensions des sous class de JDD (j'ai mis les sous class sont en public
+
+
 
 
 
@@ -203,7 +204,7 @@ supprimer les extensions des sous class de JDD (j'ai mis les sous class sont en 
 			- soit les passer rapidement (agir sur le timeout ?)
 	
 	GLOBALE VARIABLES
-		 Remplacer les GlobalVariable.CASDETESTENCOURS  et GlobalVariable.CASDETESTPATTERN --> voir ou les mettre
+		 Remplacer les GlobalVariable.CAS_DE_TEST_EN_COURS  et GlobalVariable.CAS_DE_TEST_PATTERN --> voir ou les mettre
 		 voir aussi les autres variables ?
 	
 	CONTROLE
@@ -224,7 +225,7 @@ supprimer les extensions des sous class de JDD (j'ai mis les sous class sont en 
 
 	XLS
 		ajouter un controle sur open file
-		Verifier si XLS.open est pertinant ! car il faut normalement fermer la connexion
+		Verifier si tnrCommon.ExcelUtils.open est pertinant ! car il faut normalement fermer la connexion
 		JDD et autre : Ajouter un close() du fichier dans tous les TC --> créer un JDD.close()
 		
 		

@@ -1,8 +1,8 @@
 
 import internal.GlobalVariable
-import myResult.TNRResult
-import myJDDManager.JDD
-import my.Log
+import tnrResultManager.TNRResult
+import tnrJDDManager.JDD
+import tnrLog.Log
 
 'Lecture du JDD'
 def myJDD = new JDD()

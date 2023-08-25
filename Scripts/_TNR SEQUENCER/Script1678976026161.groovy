@@ -8,11 +8,11 @@ import com.kms.katalon.core.model.FailureHandling
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
-import my.Log
-import my.RestoreDB
-import my.Sequencer
-import my.Tools
-import myResult.TNRResult
+import tnrLog.Log
+import tnrSqlManager.RestoreDB
+import tnrTC.Sequencer
+import tnrCommon.Tools
+import tnrResultManager.TNRResult
 
  
 Log.addTITLE("Lancement de TNR SEQUENCER")
@@ -25,9 +25,9 @@ Tools.addInfoContext()
 
 Sequencer.testCasesList.each { TCMap ->
 	
-	GlobalVariable.CASDETESTPATTERN = TCMap.CDTPATTERN
+	GlobalVariable.CAS_DE_TEST_PATTERN = TCMap.CDTPATTERN
 	
-	Log.addINFO('GlobalVariable.CASDETESTPATTERN = ' + GlobalVariable.CASDETESTPATTERN)
+	Log.addINFO('GlobalVariable.CAS_DE_TEST_PATTERN = ' + GlobalVariable.CAS_DE_TEST_PATTERN)
 			
 	for(int i = 1 ; i <= TCMap.REP ;i++) {
 

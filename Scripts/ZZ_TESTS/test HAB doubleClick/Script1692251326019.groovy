@@ -11,9 +11,9 @@ import com.kms.katalon.core.webui.common.WebUiCommonHelper
 import com.kms.katalon.core.webui.driver.DriverFactory
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
-import my.KW
-import my.KW as GlobalVariable
-import myResult.TNRResult
+import tnrWebUI.KW
+import tnrWebUI.KW as GlobalVariable
+import tnrResultManager.TNRResult
 
 //click object using Javascript
 def clickUsingJS(TestObject to, int timeout) {

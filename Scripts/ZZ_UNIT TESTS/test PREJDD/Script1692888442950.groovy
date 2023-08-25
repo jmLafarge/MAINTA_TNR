@@ -11,11 +11,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 
 
-XSSFWorkbook book = my.XLS.open('TNR_PREJDD/PREJDD.RO.CAL.xlsx')
+XSSFWorkbook book = tnrCommon.ExcelUtils.open('TNR_PREJDD/PREJDD.RO.CAL.xlsx')
 
 for(Sheet sheet: book) {
 
-	List headersPREJDD = my.XLS.loadRow(sheet.getRow(0))
+	List headersPREJDD = tnrCommon.ExcelUtils.loadRow(sheet.getRow(0))
 	List datas = my.PREJDD.loadDATA(sheet,headersPREJDD.size())
 	List PKList = InfoDB.getPK('CALDEF')
 	

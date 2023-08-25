@@ -1,6 +1,6 @@
-import my.Log
-import myJDDManager.JDDFiles
-import myJDDManager.PREJDDFiles
+import tnrLog.Log
+import tnrJDDManager.JDDFiles
+import tnrJDDManager.PREJDDFiles
 
 
 

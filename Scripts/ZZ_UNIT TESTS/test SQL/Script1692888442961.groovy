@@ -1,6 +1,6 @@
-import my.PropertiesReader
-import my.SQL
-import my.SQL.AllowedDBProfilNames
+import tnr.PropertiesReader
+import tnrSqlManager.SQL
+import tnrSqlManager.SQL.AllowedDBProfilNames
 
 
 //def filename = 'TNR_JDD/RO/JDD.RO.ACT.xlsx'

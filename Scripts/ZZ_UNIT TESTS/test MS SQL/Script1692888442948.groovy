@@ -1,7 +1,7 @@
 
 import com.kms.katalon.core.configuration.RunConfiguration
 
-import my.SQL
+import tnrSqlManager.SQL
 
 println SQL.databaseName
 

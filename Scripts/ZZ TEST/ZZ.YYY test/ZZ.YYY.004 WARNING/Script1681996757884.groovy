@@ -1,4 +1,4 @@
-import myResult.TNRResult
+import tnrResultManager.TNRResult
 
 TNRResult.addSTEPWARNING("Ici un warning")
 

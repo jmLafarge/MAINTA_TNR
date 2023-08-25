@@ -1,4 +1,4 @@
-import my.Log
+import tnrLog.Log
 
 // Enregistrer la page html dans C:\Users\A1008045\Documents\IHM
 // Mettre à jour la liste et renseigner l

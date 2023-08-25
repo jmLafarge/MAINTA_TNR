@@ -1,8 +1,8 @@
 
 import groovy.sql.Sql
 import internal.GlobalVariable
-import my.SQL
-import my.PREJDDFiles
+import tnrSqlManager.SQL
+import tnr.PREJDDFiles
 
 String ID = 'FOUDOC_ID'
 String req = "SELECT IDENT_CURRENT('$ID') as lastID"

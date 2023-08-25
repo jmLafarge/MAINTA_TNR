@@ -4,11 +4,11 @@ import com.kms.katalon.core.model.FailureHandling
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
-import my.InfoDB
-import myResult.TNRResult
-import my.Sequencer
-import my.Tools
-import myResult.ResultGenerator as XLSResult
+import tnrCommon.InfoDB
+import tnrResultManager.TNRResult
+import tnr.Sequencer
+import tnrCommon.Tools
+import tnrResult.ResultGenerator as XLSResult
 
 
 
@@ -22,7 +22,7 @@ import myResult.ResultGenerator as XLSResult
 
 Sequencer.testCasesList.each { TCMap ->
 	
-	GlobalVariable.CASDETESTPATTERN = TCMap.CDTPATTERN
+	GlobalVariable.CAS_DE_TEST_PATTERN = TCMap.CDTPATTERN
 	
 	
 	

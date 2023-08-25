@@ -1,9 +1,9 @@
-import my.KW
-import my.NAV
-import my.SQL
-import myJDDManager.JDD
-import myJDDManager.JDDKW
-import myResult.TNRResult
+import tnrWebUI.KW
+import tnrWebUI.NAV
+import tnrSqlManager.SQL
+import tnrJDDManager.JDD
+import tnrJDDManager.JDDKW
+import tnrResultManager.TNRResult
 
 'Lecture du JDD'
 def myJDD = new JDD()

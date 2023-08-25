@@ -1,4 +1,4 @@
-import my.Log
+import tnrLog.Log
 
 
 Log.addTrace('une trace au debut')

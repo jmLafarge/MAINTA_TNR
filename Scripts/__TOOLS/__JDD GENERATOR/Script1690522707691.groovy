@@ -1,9 +1,9 @@
 
-import myJDDManager.JDDGenerator
-import my.InfoDB
-import my.PREJDDFiles
-import myJDDManager.JDDFiles
-import my.Log
+import tnrJDDManager.JDDGenerator
+import tnrCommon.InfoDB
+import tnr.PREJDDFiles
+import tnrJDDManager.JDDFiles
+import tnrLog.Log
 
 
 Log.addTITLE("Lancement de JDD GENERATOR")

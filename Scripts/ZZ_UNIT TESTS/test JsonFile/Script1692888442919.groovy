@@ -1,9 +1,9 @@
-import my.JsonFile
+import tnr.JsonFile
 
 //def TNRvar = [key1: "value1", key2: "value2", key3: 42,key4: 'JML'] TNRDATAFILENAME
 
 
-def TNRvar = new JsonFile(my.PropertiesReader.getMyProperty('TNRVARFILENAME'))
+def TNRvar = new JsonFile(TNRPropertiesReader.getMyProperty('TNRVARFILENAME'))
 //jsonFile.writeToJsonFile(TNRvar)
 
 println TNRvar.getVar('key1')

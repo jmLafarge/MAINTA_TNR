@@ -1,8 +1,8 @@
 
 
-import my.InfoDB
-import my.TCFiles
-import my.Sequencer
+import tnrCommon.InfoDB
+import tnr.TCFiles
+import tnr.Sequencer
 
 
 Sequencer.testCasesList.each { TCMap ->

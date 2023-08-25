@@ -1,7 +1,3 @@
-import my.RestoreDB
-
-
-
-
+import tnrSqlManager.RestoreDB
 
 RestoreDB.run()
