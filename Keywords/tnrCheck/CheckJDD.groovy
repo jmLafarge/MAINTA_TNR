@@ -3,15 +3,15 @@ package tnrCheck
 import org.apache.poi.ss.usermodel.*
 
 import groovy.transform.CompileStatic
-import tnrCommon.InfoDB
 import tnrLog.Log
+import tnrSqlManager.InfoDB
 import tnrJDDManager.JDD
 import tnrJDDManager.JDDFileMapper
 
 @CompileStatic
 public class CheckJDD {
 
-	private static final String CLASS_FORLOG = 'CheckJDD'
+	private static final String CLASS_FOR_LOG = 'CheckJDD'
 
 
 
@@ -24,7 +24,7 @@ public class CheckJDD {
 	 */
 	static run() {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"run",[:])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"run",[:])
 
 		Log.addSubTITLE('Vérification des JDD')
 		
@@ -51,10 +51,11 @@ public class CheckJDD {
 
 					if (myJDD.myJDDHeader.getSize() >1) {
 						if (table) {
-							status = CheckColumn.run('JDD',myJDD.myJDDHeader.getList(), table,status)
-							status = CheckKWInData.run('JDD',myJDD.myJDDData.getList(),JDDFullname,JDDsheetName, status)
-							status = CheckTypeInData.run(myJDD.myJDDData.getList(),myJDD, table,JDDFullname,status)
-							status = CheckDoublonOnPK.run(myJDD.myJDDData.getList(), InfoDB.getPK(table), JDDFullname, JDDsheetName, status)
+							//status = CheckColumn.run('JDD',myJDD.myJDDHeader.getList(), table,status)
+							//status = CheckDoublonOnPK.run(myJDD.myJDDData.getList(), InfoDB.getPK(table), JDDFullname, JDDsheetName, status)
+							//status = CheckKWInData.run('JDD',myJDD.myJDDData.getList(),JDDFullname,JDDsheetName, status)
+							//status = CheckTypeInData.run(myJDD.myJDDData.getList(),myJDD, table,JDDFullname,status)
+							status = CheckPrerequis.run2('JDD',myJDD,JDDFullname,status)
 						}else {
 							Log.addDETAIL('Pas de table dans le JDD')
 						}
@@ -69,7 +70,7 @@ public class CheckJDD {
 		if (status) {
 			Log.addINFO('     ***  OK   ***')
 		}
-		Log.addTraceEND(CLASS_FORLOG,"run")
+		Log.addTraceEND(CLASS_FOR_LOG,"run")
 	}
 
 

@@ -44,6 +44,7 @@ JDDData myJDDData = new JDDData(sheet,myJDDHeader,'CAS_DE_TEST')
 
 
 Log.addAssert("myJDDData.datasList",datasListTest,myJDDData.datasList)
+
 Log.addAssert("myJDDData.getRawData('ST_INA', 'AA.BBB.001.LEC.01', 2)",'JMLLEC12_INA',myJDDData.getRawData('ST_INA', 'AA.BBB.001.LEC.01', 2))
 Log.addAssert("myJDDData.getRawData('ST_DES', 'AA.BBB.001.MAJ.01',1 )",'DESJMLMAJ01',myJDDData.getRawData('ST_DES', 'AA.BBB.001.MAJ.01',1 ))
 Log.addAssert("myJDDData.getRawData('ST_DES', 'AA.BBB.001.MAJ.01',1 )",'DESJMLMAJ01',myJDDData.getRawData('ST_DES', 'AA.BBB.001.MAJ.01',1 ))
@@ -65,4 +66,30 @@ Log.addAssert("myJDDData.setValueOf('ST_DES','UPD_DESMAJ01','AA.BBB.001.MAJ.01',
 Log.addAssert("myJDDData.getRawData('ST_DES', 'AA.BBB.001.MAJ.01',1 )",'UPD_DESMAJ01',myJDDData.getRawData('ST_DES', 'AA.BBB.001.MAJ.01' ,1))
 
 
+
+List<String> resultList1 =[
+	'AA.BBB.001.CRE.01-JMLCRE01',
+	'AA.BBB.001.CRE.02-JMLCRE02',
+	'AA.BBB.001.CRE.03-JMLCRE03',
+	'AA.BBB.001.LEC.01-JMLLEC11',
+	'AA.BBB.001.LEC.01-JMLLEC12',
+	'AA.BBB.001.LEC.01-JMLLEC13',
+	'AA.BBB.001.MAJ.01-JMLMAJ01',
+	'AA.BBB.001.SUP.01-JMLMAJ02']
+
+Log.addAssert("concatenateCdtsAndValues(datasListTest, ['ID_JML']",resultList1,myJDDData.concatenateCdtsAndValues(datasListTest, ['ID_JML']))
+
+List<String> resultList2 =[
+	'AA.BBB.001.CRE.01-JMLCRE01-JMLCRE01_INA',
+	'AA.BBB.001.CRE.02-JMLCRE02-JMLCRE02_INA',
+	'AA.BBB.001.CRE.03-JMLCRE03-JMLCRE03_INA',
+	'AA.BBB.001.LEC.01-JMLLEC11-JMLLEC11_INA',
+	'AA.BBB.001.LEC.01-JMLLEC12-JMLLEC12_INA',
+	'AA.BBB.001.LEC.01-JMLLEC13-JMLLEC13_INA',
+	'AA.BBB.001.MAJ.01-JMLMAJ01-JMLMAJ01_INA',
+	'AA.BBB.001.SUP.01-JMLMAJ02-JMLMAJ02_INA']
+
+Log.addAssert("xxxxxxxxxx",resultList2,myJDDData.concatenateCdtsAndValues(datasListTest, ['ID_JML','ST_INA']))
+
+Log.addAssert("Colonne UNK",[],myJDDData.concatenateCdtsAndValues(datasListTest, ['UNK']))
 

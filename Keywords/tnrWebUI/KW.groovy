@@ -23,7 +23,7 @@ import tnrResultManager.TNRResult
 class KW {
 
 
-	private static final String CLASS_FORLOG = 'KW'
+	private static final String CLASS_FOR_LOG = 'KW'
 
 
 	static void delay(Number second) {
@@ -203,7 +203,7 @@ class KW {
 
 
 	static void scrollToElement(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FORLOG, "scrollToElement", [myJDD: myJDD.toString(), name: name , timeOut:timeOut , status:status])
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "scrollToElement", [myJDD: myJDD.toString(), name: name , timeOut:timeOut , status:status])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			try {
@@ -217,7 +217,7 @@ class KW {
 			TNRResult.addSTEPERROR("Scroll to '$name' impossible")
 			TNRResult.addDETAIL(msgTO)
 		}
-		Log.addTraceEND(CLASS_FORLOG, "scrollToElement")
+		Log.addTraceEND(CLASS_FOR_LOG, "scrollToElement")
 	}
 
 
@@ -427,7 +427,7 @@ class KW {
 	 * @return
 	 */
 	static boolean waitForElementVisible(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FORLOG, "waitForElementVisible", [myJDD: myJDD.toString(), name: name , timeOut:timeOut , status:status])
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "waitForElementVisible", [myJDD: myJDD.toString(), name: name , timeOut:timeOut , status:status])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		boolean ret = false
 		if (tObj) {
@@ -455,7 +455,7 @@ class KW {
 			TNRResult.addSTEPERROR("Vérifier que l'élément '$name' soit visible impossible")
 			TNRResult.addDETAIL(msgTO)
 		}
-		Log.addTraceEND(CLASS_FORLOG, "waitForElementVisible",ret)
+		Log.addTraceEND(CLASS_FOR_LOG, "waitForElementVisible",ret)
 	} // end of def
 
 
@@ -573,7 +573,7 @@ class KW {
 
 
 	static void scrollAndSetRadio(JDD myJDD, String name, String text=null, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FORLOG, "scrollAndSetRadio", [myJDD: myJDD.toString(), name: name , text:text , timeOut:timeOut , status:status])
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "scrollAndSetRadio", [myJDD: myJDD.toString(), name: name , text:text , timeOut:timeOut , status:status])
 		if (text==null) text = myJDD.getStrData(name)
 		if (text != tnrJDDManager.JDDKW.getKW_NULL()) {
 			if (text == tnrJDDManager.JDDKW.getKW_VIDE()) text=''
@@ -593,7 +593,7 @@ class KW {
 				TNRResult.addDETAIL(msgTO)
 			}
 		}
-		Log.addTraceEND(CLASS_FORLOG, "scrollAndSetRadio")
+		Log.addTraceEND(CLASS_FOR_LOG, "scrollAndSetRadio")
 	} // end of def
 
 

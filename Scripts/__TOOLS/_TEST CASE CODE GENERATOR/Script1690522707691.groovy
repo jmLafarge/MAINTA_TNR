@@ -3,7 +3,7 @@
 import org.jsoup.Jsoup
 import org.apache.commons.lang3.StringUtils
 
-import tnrCommon.InfoDB
+import tnrSqlManager.InfoDB
 import tnrJDDManager.JDD
 import tnrJDDManager.JDDFiles
 import tnrWebUI.NAV

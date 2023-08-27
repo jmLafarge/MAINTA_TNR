@@ -7,7 +7,6 @@ import com.kms.katalon.core.configuration.RunConfiguration
 
 import groovy.sql.Sql
 import groovy.transform.CompileStatic
-import tnrCommon.InfoDB
 import tnrCommon.TNRPropertiesReader
 import tnrJDDManager.JDD
 import tnrJDDManager.JDDKW
@@ -20,7 +19,7 @@ import tnrWebUI.KW
 public class SQL {
 
 
-	private static final String CLASS_FORLOG = 'SQL'
+	private static final String CLASS_FOR_LOG = 'SQL'
 
 
 	/**
@@ -43,14 +42,14 @@ public class SQL {
 
 
 	static {
-		Log.addTraceBEGIN(CLASS_FORLOG,"static",[:])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"static",[:])
 		setNewInstance()
-		Log.addTraceEND(CLASS_FORLOG,"static")
+		Log.addTraceEND(CLASS_FOR_LOG,"static")
 	}
 
 
 	private static AllowedDBProfilNames getDBProfilBasedOnExecProfile() {
-		Log.addTraceBEGIN(CLASS_FORLOG,"getDBProfilBasedOnExecProfile",[:])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getDBProfilBasedOnExecProfile",[:])
 		String execProfileName = RunConfiguration.getExecutionProfile()
 		Log.addTrace("execProfileName '$execProfileName'")
 		AllowedDBProfilNames allowedDBProfilNames
@@ -59,14 +58,14 @@ public class SQL {
 		} catch (IllegalArgumentException e) {
 			Log.addErrorAndStop( "$execProfileName n'est pas une valeur valide d'AllowedDBProfilNames.")
 		}
-		Log.addTraceEND(CLASS_FORLOG,"getDBProfilBasedOnExecProfile",allowedDBProfilNames)
+		Log.addTraceEND(CLASS_FOR_LOG,"getDBProfilBasedOnExecProfile",allowedDBProfilNames)
 		return allowedDBProfilNames
 	}
 
 
 	static setNewInstance(AllowedDBProfilNames  name = getDBProfilBasedOnExecProfile()) {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"setNewInstance",[nameStr:name.toString()])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"setNewInstance",[nameStr:name.toString()])
 
 		profileName = name.toString()
 
@@ -86,7 +85,7 @@ public class SQL {
 
 		sqlInstance = Sql.newInstance(url, username, pw)
 
-		Log.addTraceEND(CLASS_FORLOG,"setNewInstance")
+		Log.addTraceEND(CLASS_FOR_LOG,"setNewInstance")
 	}
 
 
@@ -104,26 +103,26 @@ public class SQL {
 
 	static restore(String backupFilePath) {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"restore",[backupFilePath:backupFilePath])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"restore",[backupFilePath:backupFilePath])
 		executeSQL("USE master")
 		executeSQL("ALTER DATABASE ${databaseName} SET SINGLE_USER WITH ROLLBACK IMMEDIATE")
 		executeSQL("RESTORE DATABASE ${databaseName} FROM DISK = '${backupFilePath}' WITH REPLACE")
 		executeSQL("ALTER DATABASE ${databaseName} SET MULTI_USER")
-		Log.addTraceEND(CLASS_FORLOG,"restore")
+		Log.addTraceEND(CLASS_FOR_LOG,"restore")
 	}
 
 
 
 	static String backup() {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"backup",[:])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"backup",[:])
 
 		String dateFile = new Date().format("yyyyMMdd_HHmmss")
 		String backupFile = "${dateFile}-${profileName}_${databaseName}_${getMaintaVersion()}.bak"
 
 		executeSQL("BACKUP DATABASE ${databaseName} TO DISK = '${backupFile}' WITH INIT, FORMAT")
 
-		Log.addTraceEND(CLASS_FORLOG,"backup",backupFile)
+		Log.addTraceEND(CLASS_FOR_LOG,"backup",backupFile)
 		return backupFile
 	}
 
@@ -132,7 +131,7 @@ public class SQL {
 
 	static executeSQL(String query) {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"executeSQL",[query:query])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"executeSQL",[query:query])
 
 		try {
 			sqlInstance.execute(query)
@@ -142,13 +141,13 @@ public class SQL {
 			TNRResult.addDETAIL("executeSQL()")
 			TNRResult.addDETAIL(ex.getMessage())
 		}
-		Log.addTraceEND(CLASS_FORLOG,"executeSQL")
+		Log.addTraceEND(CLASS_FOR_LOG,"executeSQL")
 	}
 
 
 	static Map getFirstRow(String query) {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"getFirstRow",[query:query])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getFirstRow",[query:query])
 
 		Map map
 		try {
@@ -158,7 +157,7 @@ public class SQL {
 			TNRResult.addDETAIL("getFirstRow()")
 			TNRResult.addDETAIL(ex.getMessage())
 		}
-		Log.addTraceEND(CLASS_FORLOG,"getFirstRow",map)
+		Log.addTraceEND(CLASS_FOR_LOG,"getFirstRow",map)
 		return map
 	}
 
@@ -167,12 +166,12 @@ public class SQL {
 
 	static getFirstVal(String query) {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"getFirstVal",[query:query])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getFirstVal",[query:query])
 
 		Map frow = getFirstRow(query)
 		def ret = (frow) ? frow.values().first() : null
 
-		Log.addTraceEND(CLASS_FORLOG,"getFirstVal",ret)
+		Log.addTraceEND(CLASS_FOR_LOG,"getFirstVal",ret)
 		return ret
 	}
 
@@ -184,12 +183,12 @@ public class SQL {
 
 	static int checkIfExist(String table, String where) {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"checkIfExist",[table:table,where:where])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"checkIfExist",[table:table,where:where])
 
 		def fval = getFirstVal("SELECT count(*) FROM $table WHERE $where")
 		int ret = (fval) ? fval as int: 0
 
-		Log.addTraceEND(CLASS_FORLOG,"checkIfExist",ret)
+		Log.addTraceEND(CLASS_FOR_LOG,"checkIfExist",ret)
 		return ret
 	}
 
@@ -207,7 +206,7 @@ public class SQL {
 	 */
 	static checkJDDWithBD(JDD myJDD,Map specificValueMap=[:],String sql =''){
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"checkJDDWithBD",[:])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"checkJDDWithBD",[:])
 		KW.delay(1)
 
 		String verifStatus = 'PASS'
@@ -273,7 +272,7 @@ public class SQL {
 		}//for
 
 		TNRResult.addEndBlock("Fin de la vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')',verifStatus)
-		Log.addTraceEND(CLASS_FORLOG,"checkJDDWithBD")
+		Log.addTraceEND(CLASS_FOR_LOG,"checkJDDWithBD")
 
 	}
 
@@ -285,12 +284,12 @@ public class SQL {
 
 
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"checkValue",[myJDD:myJDD.toString() , fieldName:fieldName , val:valDB , verifStatus:verifStatus,specificValueMap:specificValueMap,casDeTestNum:casDeTestNum])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"checkValue",[myJDD:myJDD.toString() , fieldName:fieldName , val:valDB , verifStatus:verifStatus,specificValueMap:specificValueMap,casDeTestNum:casDeTestNum])
 
 		def valJDD = myJDD.getData(fieldName,casDeTestNum)
 
 		if (myJDD.isOBSOLETE(fieldName)) {
-			Log.addTraceEND(CLASS_FORLOG,"checkValue",verifStatus)
+			Log.addTraceEND(CLASS_FOR_LOG,"checkValue",verifStatus)
 			return verifStatus
 		}
 
@@ -432,7 +431,7 @@ public class SQL {
 			}//case
 		}
 
-		Log.addTraceEND(CLASS_FORLOG,"checkValue",verifStatus)
+		Log.addTraceEND(CLASS_FOR_LOG,"checkValue",verifStatus)
 		return verifStatus
 	}
 
@@ -453,19 +452,19 @@ public class SQL {
 
 	public static String getMaintaVersion() {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"getMaintaVersion",[:])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getMaintaVersion",[:])
 
 		def fval =this.getFirstVal("SELECT ST_VAL FROM VER WHERE ID_CODINF = 'CURR_VERS'")
 		String ret = (fval) ? fval.toString() : null
 
-		Log.addTraceEND(CLASS_FORLOG,"getMaintaVersion",ret)
+		Log.addTraceEND(CLASS_FOR_LOG,"getMaintaVersion",ret)
 		return ret
 	}
 
 
 	private static boolean checkForeignKey(JDD myJDD, String fieldName, def valDB) {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"checkForeignKey",[myJDD:myJDD.toString(),fieldName:fieldName,val:valDB])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"checkForeignKey",[myJDD:myJDD.toString(),fieldName:fieldName,val:valDB])
 
 		boolean pass = false
 		String query = myJDD.getSqlForForeignKey(fieldName)
@@ -478,7 +477,7 @@ public class SQL {
 			Log.addTrace("Contrôle de la valeur de $fieldName (FK) OK : la valeur du JDD attendue est : " + myJDD.getData(fieldName) + " ($fval) et la valeur est BD est : " +  valDB)
 			pass = true
 		}
-		Log.addTraceEND(CLASS_FORLOG,"checkForeignKey",pass)
+		Log.addTraceEND(CLASS_FOR_LOG,"checkForeignKey",pass)
 		return pass
 	}
 
@@ -494,7 +493,7 @@ public class SQL {
 
 	static checkIDNotInBD(JDD myJDD){
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"checkIDNotInBD",[myJDD:myJDD.toString()])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"checkIDNotInBD",[myJDD:myJDD.toString()])
 
 		KW.delay(1)
 		//boolean pass = true
@@ -520,7 +519,7 @@ public class SQL {
 		}
 
 		TNRResult.addEndBlock("Fin de la  vérification de la suppression des valeurs en Base de Données",status)
-		Log.addTraceEND(CLASS_FORLOG,"checkIDNotInBD")
+		Log.addTraceEND(CLASS_FOR_LOG,"checkIDNotInBD")
 	}
 
 
@@ -533,7 +532,7 @@ public class SQL {
 	 */
 	private static String getWhereWithAllPK(JDD myJDD,int casDeTestNum) {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"getWhereWithAllPK",[myJDD:myJDD.toString(),casDeTestNum:casDeTestNum])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getWhereWithAllPK",[myJDD:myJDD.toString(),casDeTestNum:casDeTestNum])
 
 		List <String> PKList = InfoDB.getPK(myJDD.getDBTableName())
 		String ret =''
@@ -544,7 +543,7 @@ public class SQL {
 			}
 			ret = query.substring(0,query.length()-5)
 		}
-		Log.addTraceEND(CLASS_FORLOG,"getWhereWithAllPK",ret)
+		Log.addTraceEND(CLASS_FOR_LOG,"getWhereWithAllPK",ret)
 		return ret
 	}
 
@@ -553,12 +552,12 @@ public class SQL {
 
 	static int getMaxFromTable(String fieldName, String tableName) {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"getMaxFromTable",[fieldName:fieldName, table:tableName])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getMaxFromTable",[fieldName:fieldName, table:tableName])
 
 		def fval = getFirstVal("SELECT MAX($fieldName) as num FROM $tableName")
 		int ret = (fval) ? fval as int: 0
 
-		Log.addTraceEND(CLASS_FORLOG,"getMaxFromTable",ret)
+		Log.addTraceEND(CLASS_FOR_LOG,"getMaxFromTable",ret)
 		return ret
 	}
 
@@ -567,10 +566,10 @@ public class SQL {
 
 	static String getNumEcran(String table) {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"getNumEcran",[table:table])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getNumEcran",[table:table])
 		def fval = getFirstVal("SELECT ID_NUMECR as num FROM OBJ where ST_NOMOBJ=$table")
 		String ret = (fval) ? fval.toString(): null
-		Log.addTraceEND(CLASS_FORLOG,"getNumEcran",ret)
+		Log.addTraceEND(CLASS_FOR_LOG,"getNumEcran",ret)
 		return ret
 	}
 
@@ -579,7 +578,7 @@ public class SQL {
 
 	static Map getLibelle(String table, String numEcran) {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"getLibelle",[table:table, numEcran:numEcran])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getLibelle",[table:table, numEcran:numEcran])
 
 		TNRResult.addDETAIL("Recherche des libellés pour la table $table et numéro écran $numEcran")
 		def query = """SELECT COLUMN_NAME as name, obj_lan.st_lib as lib
@@ -598,13 +597,13 @@ public class SQL {
 			resultMap.putAt(it.name, it.lib)
 		}
 		Log.addTrace("map.size : " + resultMap.size())
-		Log.addTraceEND(CLASS_FORLOG,"getLibelle")
+		Log.addTraceEND(CLASS_FOR_LOG,"getLibelle")
 		return resultMap
 	}
 
 	static int getLastSequence(String seq) {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"getLastSequence",[seq:seq])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getLastSequence",[seq:seq])
 		/*
 		 String req = "SELECT IDENT_CURRENT('$seq') as lastSeq"
 		 def result = sqlInstance.rows(req)
@@ -613,7 +612,7 @@ public class SQL {
 		def fval = getFirstVal("SELECT IDENT_CURRENT('$seq') as lastSeq")
 		int ret = (fval) ? fval as int: 0
 
-		Log.addTraceEND(CLASS_FORLOG,"getLastSequence",ret)
+		Log.addTraceEND(CLASS_FOR_LOG,"getLastSequence",ret)
 		return ret
 	}
 

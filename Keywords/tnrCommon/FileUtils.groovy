@@ -8,11 +8,11 @@ import tnrLog.Log
 @CompileStatic
 class FileUtils {
 
-	private static final String CLASS_FORLOG = 'FileUtils'
+	private static final String CLASS_FOR_LOG = 'FileUtils'
 
 
 	static createFolderIfNotExist(String dir) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"createFolderIfNotExist",[dir:dir])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"createFolderIfNotExist",[dir:dir])
 		File fdir = new File(dir)
 		if (!fdir.exists()) {
 			fdir.mkdirs()
@@ -20,12 +20,12 @@ class FileUtils {
 		}else {
 			Log.addTrace("Dossier existe déjà")
 		}
-		Log.addTraceEND(CLASS_FORLOG,"createFolderIfNotExist")
+		Log.addTraceEND(CLASS_FOR_LOG,"createFolderIfNotExist")
 	}
 
 
 	static void deleteFilesFromFolder(String filePath ) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"deleteFilesFromFolder",[filePath:filePath])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"deleteFilesFromFolder",[filePath:filePath])
 		def file = new File(filePath)
 		if (file.exists()) {
 			if (file.delete()) {
@@ -36,7 +36,7 @@ class FileUtils {
 		} else {
 			Log.addTrace( "Le fichier n'existe pas.")
 		}
-		Log.addTraceEND(CLASS_FORLOG,"deleteFilesFromFolder")
+		Log.addTraceEND(CLASS_FOR_LOG,"deleteFilesFromFolder")
 	}
 
 
@@ -61,7 +61,7 @@ class FileUtils {
 	 * @return Un message de statut indiquant le résultat de l'opération de suppression.
 	 */
 	static void deleteFilesFromFolder(String fileRegex , String folderPath) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"deleteFilesFromFolder",[fileRegex:fileRegex,folderPath:folderPath])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"deleteFilesFromFolder",[fileRegex:fileRegex,folderPath:folderPath])
 		def folder = new File(folderPath)
 		//def regexPattern = Pattern.compile(fileRegex)
 		if (folder.exists() && folder.isDirectory()) {
@@ -75,12 +75,12 @@ class FileUtils {
 		} else {
 			Log.addTrace("Le dossier spécifié n'existe pas ou n'est pas un dossier valide.")
 		}
-		Log.addTraceEND(CLASS_FORLOG,"deleteFilesFromFolder")
+		Log.addTraceEND(CLASS_FOR_LOG,"deleteFilesFromFolder")
 	}
 
 
 	static List <String> getFilesFromFolder( String fileRegex , String folderPath) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"getFilesFromFolder",[fileRegex:fileRegex,folderPath:folderPath])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getFilesFromFolder",[fileRegex:fileRegex,folderPath:folderPath])
 		List <String> ret = []
 		def folder = new File(folderPath)
 		if (folder.exists() && folder.isDirectory()) {
@@ -91,7 +91,7 @@ class FileUtils {
 		} else {
 			Log.addTrace("Le dossier spécifié n'existe pas ou n'est pas un dossier valide.")
 		}
-		Log.addTraceEND(CLASS_FORLOG,"getFilesFromFolder",ret)
+		Log.addTraceEND(CLASS_FOR_LOG,"getFilesFromFolder",ret)
 		return ret
 	}
 

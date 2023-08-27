@@ -1,6 +1,6 @@
 
 import internal.GlobalVariable
-import tnrCommon.InfoDB
+import tnrSqlManager.InfoDB
 import tnrJDDManager.JDDFiles
 import tnrWebUI.NAV
 import tnr.TCFiles

@@ -1,18 +1,18 @@
 package tnrCheck
 
 import groovy.transform.CompileStatic
-import tnrCommon.InfoDB
 import tnrLog.Log
+import tnrSqlManager.InfoDB
 import tnrJDDManager.JDDKW
 
 
 @CompileStatic
 public class CheckDoublonOnPK {
 
-	static private final String CLASS_FORLOG = 'CheckDoublonOnPK'
+	static private final String CLASS_FOR_LOG = 'CheckDoublonOnPK'
 
 	static boolean run(List<Map<String, Map<String, Object>>> datasList, List <String> PKList, String JDDFullName, String sheetName, boolean status) {
-		Log.addTraceBEGIN(CLASS_FORLOG, "run", [datasList:datasList.size() , PKList:PKList , JDDFullName:JDDFullName , sheetName:sheetName , status:status])
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "run", [datasList:datasList.size() , PKList:PKList , JDDFullName:JDDFullName , sheetName:sheetName , status:status])
 		if (PKList) {
 
 			Log.addDETAIL(" - Contrôle absence de doublon sur PRIMARY KEY : " +  PKList.join(' , '))
@@ -39,14 +39,14 @@ public class CheckDoublonOnPK {
 		}else {
 			Log.addDETAILWARNING("$JDDFullName ($sheetName) : Pas de PRIMARY KEY !")
 		}
-		Log.addTraceEND(CLASS_FORLOG, "run",status)
+		Log.addTraceEND(CLASS_FOR_LOG, "run",status)
 		return status
 	}
 
 
 
 	private static String concatPKVal(Map<String, Object> datas,List<String>PKList) {
-		Log.addTraceBEGIN(CLASS_FORLOG, "concatPKVal", [datas:datas.size() , PKList:PKList])
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "concatPKVal", [datas:datas.size() , PKList:PKList])
 		List concatenedPKVals = []
 		datas.each{name,val ->
 			if (name in PKList) {
@@ -63,7 +63,7 @@ public class CheckDoublonOnPK {
 		if (concatenedPKVal.contains(JDDKW.getKW_SEQUENCEID()) || concatenedPKVal.contains(JDDKW.getKW_ORDRE())) {
 			concatenedPKVal = ''
 		}
-		Log.addTraceEND(CLASS_FORLOG, "concatPKVal",concatenedPKVal)
+		Log.addTraceEND(CLASS_FOR_LOG, "concatPKVal",concatenedPKVal)
 		return concatenedPKVal
 	}
 } // end of class

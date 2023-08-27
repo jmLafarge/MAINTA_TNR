@@ -9,48 +9,67 @@ import tnrCommon.TNRPropertiesReader
 import tnrLog.Log
 
 
+
+
+
+/**
+ * This class is responsible for mapping Test Case (TC) files using a static Map.
+ * It associates a short name of a Test Case file (TCName) to its full name (TCFullName),
+ * based on a specified directory path.
+ *
+ * The mapping is performed during the static initialization of the class.
+ * 
+ * @author JM Lafarge
+ * @version 1.0
+ * 
+ */
 @CompileStatic
 public class TCFileMapper {
 
-	private static final String CLASS_FORLOG = 'TCFiles'
+	private static final String CLASS_FOR_LOG = 'TCFiles'
 
 
-	public static Map <String,String> TCfileMap = [:]
+	// mapping between tcName and tcFullname [ tcName : tcFullname ]
+	public static Map <String,String> tcFileMap = [:]
 
 
 	static {
-		Log.addTraceBEGIN(CLASS_FORLOG,"static",[:])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"static",[:])
 		Log.addSubTITLE("Load TC file List",'-',120,true)
 		Log.addTrace("\t" + 'TCNAME'.padRight(24) + 'TCFULLNAME')
 		Log.addTrace("")
 
-		new File(TNRPropertiesReader.getMyProperty('TC_PATH')).eachFileRecurse(FileType.FILES) { file ->
+		String tcPath = TNRPropertiesReader.getMyProperty('TC_PATH')
+		new File(tcPath).eachFileRecurse(FileType.FILES) { file ->
 
-			Log.addTrace('file.getPath() : '+file.getPath())
+			String tcFullname = file.getPath().replace("$tcPath\\", '').replace('.tc', '')
+			String tcName = file.getName().replace('.tc','').split(' ')[0]
 
-			String TCFullName = file.getPath().replace(TNRPropertiesReader.getMyProperty('TC_PATH') + '\\', '').replace('.tc', '')
-			String TCName= file.getName().replace('.tc','').split(' ')[0]
-
-			if (TCFullName.matches("^[A-Z]{2}[ ].*") && !TCName.startsWith('.')) {
-
-				TCfileMap.put(TCName, TCFullName)
-
-				Log.addTrace('\t'+ TCName.padRight(24) + TCFullName)
+			// add tcName and tcFullname to the map only if it matches with pattern
+			if (tcFullname.matches("^[A-Z]{2}[ ].*") && !tcName.startsWith('.')) {
+				tcFileMap.put(tcName, tcFullname)
+				Log.addTrace('\t'+ tcName.padRight(24) + tcFullname)
 			}
 		}
-		Log.addTraceEND(CLASS_FORLOG,"static")
-	} //end
+		Log.addTraceEND(CLASS_FOR_LOG,"static")
+	}
+
+	
+	public static boolean isTCNameExist(String tcName) {
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"isTCNameExist",[tcName:tcName])
+		boolean ret = tcFileMap.containsKey(tcName)
+		Log.addTraceEND(CLASS_FOR_LOG,"isTCNameExist" ,ret)
+		return ret
+	}
 
 
 
+	public static String getTCNameTitle() { //////////////////////////////////////////////////// NOT USED
 
-
-	public static String getTCNameTitle() {
-
-		Log.addTraceBEGIN(CLASS_FORLOG,"getTCNameTitle",[:])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getTCNameTitle",[:])
 		Log.addINFO ('GlobalVariable.CAS_DE_TEST_PATTERN :' + GlobalVariable.CAS_DE_TEST_PATTERN)
 
-		List liTCFullName= Arrays.asList(TCfileMap[GlobalVariable.CAS_DE_TEST_PATTERN.toString()].split(Pattern.quote(File.separator)))
+		List liTCFullName= Arrays.asList(tcFileMap[GlobalVariable.CAS_DE_TEST_PATTERN.toString()].split(Pattern.quote(File.separator)))
 
 		//Détermine objet et sous-ressources à partir des noms des dossier père (SR) et grandpère(OBJ) des TC
 		String obj =''
@@ -74,7 +93,7 @@ public class TCFileMapper {
 			}
 			ret = ''
 		}
-		Log.addTraceEND(CLASS_FORLOG,"getTCNameTitle", ret)
+		Log.addTraceEND(CLASS_FOR_LOG,"getTCNameTitle", ret)
 		return ret
 	}
 
@@ -86,8 +105,8 @@ public class TCFileMapper {
 
 
 	public static String getTitle() {
-		Log.addTraceBEGIN(CLASS_FORLOG,"getTitle",[:])
-		String TCfile = TCfileMap[GlobalVariable.CAS_DE_TEST_PATTERN]
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getTitle",[:])
+		String TCfile = tcFileMap[GlobalVariable.CAS_DE_TEST_PATTERN]
 		Log.addTrace("TCfile = '$TCfile'")
 		String ret = ''
 		if (TCfile) {
@@ -118,7 +137,7 @@ public class TCFileMapper {
 		}else {
 			ret =  'UNKNOWN TITLE'
 		}
-		Log.addTraceEND(CLASS_FORLOG,"getTitle", ret)
+		Log.addTraceEND(CLASS_FOR_LOG,"getTitle", ret)
 		return ret
 	}
 
@@ -130,7 +149,7 @@ public class TCFileMapper {
 
 
 	private static String getAutoTitle(String obj, String sr, String code) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"getAutoTitle",[obj:obj , sr:sr , code:code])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getAutoTitle",[obj:obj , sr:sr , code:code])
 		String ret = ''
 		switch (code) {
 			case "CRE" :
@@ -163,7 +182,7 @@ public class TCFileMapper {
 			default :
 				ret = '--'
 		}
-		Log.addTraceEND(CLASS_FORLOG,"getAutoTitle", ret)
+		Log.addTraceEND(CLASS_FOR_LOG,"getAutoTitle", ret)
 		return ret
 	}
 

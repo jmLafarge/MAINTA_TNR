@@ -14,13 +14,13 @@ import tnrWebUI.NAV
 @CompileStatic
 public class RestoreDB {
 
-	private static final String CLASS_FORLOG = 'RestoreDB'
+	private static final String CLASS_FOR_LOG = 'RestoreDB'
 
 	private static final String DBBACKUP_PATH 			= TNRPropertiesReader.getMyProperty('DB_BACKUP_PATH')
 	private static final String MASTERTNR_DBBACKUPPATH 	= TNRPropertiesReader.getMyProperty('MASTERTNR_DBBACKUPPATH')
 
 	static run() {
-		Log.addTraceBEGIN(CLASS_FORLOG,"run",[:])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"run",[:])
 
 		NAV.myGlobalJDD
 
@@ -33,13 +33,13 @@ public class RestoreDB {
 
 		// Ajouter le recyclage
 
-		Log.addTraceEND(CLASS_FORLOG,"run")
+		Log.addTraceEND(CLASS_FOR_LOG,"run")
 	}
 
 
 
 	private static restoreTNR(String backupFilename) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"restoreTNR",[backupFilename:backupFilename])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"restoreTNR",[backupFilename:backupFilename])
 		String origin = ''
 		String dest = ''
 		Log.addSubTITLE("Restauration de la BDD de test")
@@ -61,7 +61,7 @@ public class RestoreDB {
 
 		FileUtils.deleteFilesFromFolder(dest)
 
-		Log.addTraceEND(CLASS_FORLOG,"restoreTNR")
+		Log.addTraceEND(CLASS_FOR_LOG,"restoreTNR")
 	}
 
 
@@ -69,7 +69,7 @@ public class RestoreDB {
 
 
 	private static initTNR() {
-		Log.addTraceBEGIN(CLASS_FORLOG,"initTNR",[:])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"initTNR",[:])
 		String origin = ''
 		String dest = ''
 		String backupFilename = ''
@@ -133,7 +133,7 @@ public class RestoreDB {
 		origin = SQL.getDBBackupPath() + File.separator + backupFilename
 		dest = DBBACKUP_PATH + File.separator + backupFilename
 		Files.move(Paths.get(origin), Paths.get(dest), StandardCopyOption.REPLACE_EXISTING)
-		Log.addTraceEND(CLASS_FORLOG,"initTNR")
+		Log.addTraceEND(CLASS_FOR_LOG,"initTNR")
 
 	}
 }

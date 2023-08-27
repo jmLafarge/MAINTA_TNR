@@ -1,4 +1,4 @@
-import tnrCommon.InfoDB
+import tnrSqlManager.InfoDB
 
 println my.InfoDB.isTableExist('INTER')
 

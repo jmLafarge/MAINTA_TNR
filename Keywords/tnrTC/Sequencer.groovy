@@ -80,14 +80,14 @@ public class Sequencer {
 				}
 
 	
-				Map res= TCFileMapper.TCfileMap.findAll { it.key.contains(casDeTestPatternFromSequencer) }
+				Map res= TCFileMapper.tcFileMap.findAll { it.key.contains(casDeTestPatternFromSequencer) }
 	
 				if (res.size()==0) {
 	
-					def key = TCFileMapper.TCfileMap.keySet().find { casDeTestPatternFromSequencer.contains(it) }
+					def key = TCFileMapper.tcFileMap.keySet().find { casDeTestPatternFromSequencer.contains(it) }
 	
 					if (key) {
-						addToTestCasesList(casDeTestPatternFromSequencer,TCFileMapper.TCfileMap[key], rep)
+						addToTestCasesList(casDeTestPatternFromSequencer,TCFileMapper.tcFileMap[key], rep)
 					}else {
 						Log.add('WARNING',"\tPas de fichier trouvé pour le pattern $casDeTestPatternFromSequencer")
 					}

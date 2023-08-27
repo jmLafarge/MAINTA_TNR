@@ -12,7 +12,7 @@ import tnrCommon.Tools
 public class JDDParam {
 
 
-	private final String CLASS_FORLOG = 'JDDParams'
+	private final String CLASS_FOR_LOG = 'JDDParams'
 
 
 	private final enum PARAM_LIST_ALLOWED {
@@ -32,7 +32,7 @@ public class JDDParam {
 
 	JDDParam(Sheet sheet, JDDHeader JDDHeader,String startDataWord) {
 
-		Log.addTraceBEGIN(CLASS_FORLOG, "JDDParams", [sheet:sheet.getSheetName() , JDDHeader:JDDHeader, startDataWord:startDataWord])
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "JDDParams", [sheet:sheet.getSheetName() , JDDHeader:JDDHeader, startDataWord:startDataWord])
 
 		Iterator<Row> rowIt = sheet.rowIterator()
 		rowIt.next()
@@ -56,7 +56,7 @@ public class JDDParam {
 		}
 		Log.addTrace('- params : ' + paramsMap)
 
-		Log.addTraceEND(CLASS_FORLOG, "JDDParams")
+		Log.addTraceEND(CLASS_FOR_LOG, "JDDParams")
 	}
 
 
@@ -81,14 +81,18 @@ public class JDDParam {
 
 
 	def Map<String ,String> getAllPREREQUIS() {
-		return paramsMap[PARAM_LIST_ALLOWED.PREREQUIS.name()]
+		Map <String ,String> map =[:]
+		if (paramsMap.containsKey(PARAM_LIST_ALLOWED.PREREQUIS.name())) {
+			map = paramsMap[PARAM_LIST_ALLOWED.PREREQUIS.name()]
+		}
+		return map
 	}
 
 
 
 
 	def String getParamFor(String param,String name) {
-		Log.addTraceBEGIN(CLASS_FORLOG, "getParamFor", [param:param , name:name])
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "getParamFor", [param:param , name:name])
 		String ret = ''
 		if (isParamAllowed(param)){
 			if (paramsMap.containsKey(param)) {
@@ -97,7 +101,7 @@ public class JDDParam {
 				ret = ''
 			}
 		}
-		Log.addTraceEND(CLASS_FORLOG, "getParamFor" , ret)
+		Log.addTraceEND(CLASS_FOR_LOG, "getParamFor" , ret)
 		return ret
 	}
 
@@ -105,66 +109,66 @@ public class JDDParam {
 
 
 	def String getPREREQUISFor(String name) {
-		Log.addTraceBEGIN(CLASS_FORLOG, "getPREREQUISFor", [name:name])
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "getPREREQUISFor", [name:name])
 		String ret = ''
 		if (paramsMap.containsKey(PARAM_LIST_ALLOWED.PREREQUIS.name())) {
 			ret=  paramsMap[PARAM_LIST_ALLOWED.PREREQUIS.name()][name]
 		}else {
 			ret = ''
 		}
-		Log.addTraceEND(CLASS_FORLOG, "getPREREQUISFor" , ret)
+		Log.addTraceEND(CLASS_FOR_LOG, "getPREREQUISFor" , ret)
 		return ret
 	}
 
 	def String getFOREIGNKEYFor(String name) {
-		Log.addTraceBEGIN(CLASS_FORLOG, "getFOREIGNKEYFor", [name:name])
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "getFOREIGNKEYFor", [name:name])
 		String ret = ''
 		if (paramsMap.containsKey(PARAM_LIST_ALLOWED.FOREIGNKEY.name())) {
 			ret=  paramsMap[PARAM_LIST_ALLOWED.FOREIGNKEY.name()][name]
 		}else {
 			ret = ''
 		}
-		Log.addTraceEND(CLASS_FORLOG, "getFOREIGNKEYFor" , ret)
+		Log.addTraceEND(CLASS_FOR_LOG, "getFOREIGNKEYFor" , ret)
 		return ret
 	}
 
 	def String getSEQUENCEFor(String name) {
-		Log.addTraceBEGIN(CLASS_FORLOG, "getSEQUENCEFor", [name:name])
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "getSEQUENCEFor", [name:name])
 		String ret = ''
 		if (paramsMap.containsKey(PARAM_LIST_ALLOWED.SEQUENCE.name())) {
 			ret=  paramsMap[PARAM_LIST_ALLOWED.SEQUENCE.name()][name]
 		}else {
 			ret = ''
 		}
-		Log.addTraceEND(CLASS_FORLOG, "getSEQUENCEFor" , ret)
+		Log.addTraceEND(CLASS_FOR_LOG, "getSEQUENCEFor" , ret)
 		return ret
 	}
 
 
 
 	def String getLOCATORFor(String name) {
-		Log.addTraceBEGIN(CLASS_FORLOG, "getLOCATORFor", [name:name])
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "getLOCATORFor", [name:name])
 		String ret = ''
 		if (paramsMap.containsKey(PARAM_LIST_ALLOWED.LOCATOR.name())) {
 			ret=  paramsMap[PARAM_LIST_ALLOWED.LOCATOR.name()][name]
 		}else {
 			ret = ''
 		}
-		Log.addTraceEND(CLASS_FORLOG, "getLOCATORFor" , ret)
+		Log.addTraceEND(CLASS_FOR_LOG, "getLOCATORFor" , ret)
 		return ret
 	}
 
 
 
 	def String getINTERNALVALUEFor(String name) {
-		Log.addTraceBEGIN(CLASS_FORLOG, "getINTERNALVALUEFor", [name:name])
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "getINTERNALVALUEFor", [name:name])
 		String ret = ''
 		if (paramsMap.containsKey(PARAM_LIST_ALLOWED.INTERNALVALUE.name())) {
 			ret=  paramsMap[PARAM_LIST_ALLOWED.INTERNALVALUE.name()][name]
 		}else {
 			ret = ''
 		}
-		Log.addTraceEND(CLASS_FORLOG, "getINTERNALVALUEFor" , ret)
+		Log.addTraceEND(CLASS_FOR_LOG, "getINTERNALVALUEFor" , ret)
 		return ret
 	}
 

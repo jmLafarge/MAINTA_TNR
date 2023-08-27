@@ -1,9 +1,7 @@
 
-import tnrLog.Log
 import tnrCheck.CheckJDD
-import tnrCheck.CheckPREJDD
 import tnrCheck.CheckPrerequis
-import tnrCheck.Check_CAL
+import tnrLog.Log
 
 
 Log.setDebugLevel(4)
@@ -14,11 +12,11 @@ Log.addTITLE("Vérification des JDD et des PREJDD")
 
 CheckJDD.run()
 
-CheckPREJDD.run()
+//CheckPREJDD.run()
 
-CheckPrerequis.run()
+//CheckPrerequis.run()
 
-Check_CAL.run()
+//Check_CAL.run()
 
 Log.addSubTITLE('Liste des $TBD avec valeur de test ')
 Log.writeList('TBDOK','WARNING')

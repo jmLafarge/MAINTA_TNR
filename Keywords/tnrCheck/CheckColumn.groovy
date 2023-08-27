@@ -1,18 +1,38 @@
 package tnrCheck
 
 import groovy.transform.CompileStatic
-import tnrCommon.InfoDB
 import tnrLog.Log
+import tnrSqlManager.InfoDB
 
+
+/**
+ * This class contains a method to validate the columns of a specified table
+ * against a given list of headers. The validation checks whether each column
+ * exists in the header list and whether the positions match between the
+ * headers list and the table.
+ * 
+ * @author JM Lafarge
+ * @version 1.0
+ * 
+ */
 @CompileStatic
 public class CheckColumn {
 
-	private static final String CLASS_FORLOG = 'CheckColumn'
+	private static final String CLASS_FOR_LOG = 'CheckColumn'
 
 
+	/**
+	 * Run the validation on the specified table columns.
+	 *
+	 * @param typeFile The type of the file containing the headers.
+	 * @param headersList The list of headers to validate.
+	 * @param table The table name to validate against.
+	 * @param status Initial status of the validation (usually true to start with).
+	 * @return The final status of the validation.
+	 */
 	public static boolean run(String typeFile, List <String> headersList, String table, boolean status) {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"run",[typeFile:typeFile , headersList:headersList , table:table , status:status])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"run",[typeFile:typeFile , headersList:headersList , table:table , status:status])
 
 		Log.addDETAIL(" - Contrôle des colonnes")
 
@@ -39,7 +59,7 @@ public class CheckColumn {
 			Log.addDETAILFAIL("La table '$table' n'existe pas !")
 			return false
 		}
-		Log.addTraceEND(CLASS_FORLOG,"run",status)
+		Log.addTraceEND(CLASS_FOR_LOG,"run",status)
 		return status
 	}
 }

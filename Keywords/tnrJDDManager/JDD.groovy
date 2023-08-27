@@ -17,7 +17,7 @@ import tnrCommon.Tools
 @CompileStatic
 public class JDD {
 
-	private final String CLASS_FORLOG = 'JDD'
+	private final String CLASS_FOR_LOG = 'JDD'
 
 
 
@@ -68,7 +68,7 @@ public class JDD {
 	 */
 	JDD(String fullname = null, String tabName = null,String cdt = null,boolean step=true) {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"JDD",[fullname:fullname,tabName:tabName,cdt:cdt,step:step])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"JDD",[fullname:fullname,tabName:tabName,cdt:cdt,step:step])
 
 
 		Log.addTrace("GlobalVariable.CAS_DE_TEST_PATTERN : "+GlobalVariable.CAS_DE_TEST_PATTERN)
@@ -99,7 +99,7 @@ public class JDD {
 			JDDIV.addAll(book.getSheet(INTERNAL_VALUE_SHEET_NAME))
 		}
 
-		Log.addTraceEND(CLASS_FORLOG,"JDD")
+		Log.addTraceEND(CLASS_FOR_LOG,"JDD")
 	}
 
 
@@ -108,7 +108,7 @@ public class JDD {
 
 	public void loadTCSheet(Sheet sheet) {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"loadTCSheet",[sheet:sheet.getSheetName()])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"loadTCSheet",[sheet:sheet.getSheetName()])
 
 		TCSheet = sheet
 
@@ -131,7 +131,7 @@ public class JDD {
 
 		//supprimer de la liste les cas de test traités par un autre Test Case
 		CDTList = cdtli.findAll { cdt ->
-			cdt.startsWith(cdtPattern) && (!TCFileMapper.TCfileMap.containsKey(cdt) || cdt == cdtPattern)
+			cdt.startsWith(cdtPattern) && (!TCFileMapper.tcFileMap.containsKey(cdt) || cdt == cdtPattern)
 		}
 
 		if (CDTList.size()==0 && cdtPattern){
@@ -149,13 +149,12 @@ public class JDD {
 		TOSheet = book.getSheet(TO_SHEET_NAME)
 		if (TOSheet) {
 			myJDDIHMTO = new JDDIHMTO(TOSheet,TCSheetName)
+			myJDDXpath.add(myJDDIHMTO.getXpaths())
 		}else {
 			Log.addTrace("Pas de d'onglet '$TO_SHEET_NAME'" )
 		}
 
-		myJDDXpath.add(myJDDIHMTO.getXpaths())
-
-		Log.addTraceEND(CLASS_FORLOG,"loadTCSheet")
+		Log.addTraceEND(CLASS_FOR_LOG,"loadTCSheet")
 
 	}
 
@@ -170,11 +169,11 @@ public class JDD {
 	 * @return Le nombre de lignes dans le cas de test.
 	 */
 	public int getNbrLigneCasDeTest(String cdt = casDeTest) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"getNbrLigneCasDeTest",[cdt:cdt])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getNbrLigneCasDeTest",[cdt:cdt])
 
 		int ret = myJDDData.getNbrLigneCasDeTest(cdt)
 
-		Log.addTraceEND(CLASS_FORLOG,"getNbrLigneCasDeTest",ret)
+		Log.addTraceEND(CLASS_FOR_LOG,"getNbrLigneCasDeTest",ret)
 		return ret
 	}
 
@@ -187,9 +186,9 @@ public class JDD {
 	 * @param i Le numéro du cas de test.
 	 */
 	public void setCasDeTestNum(int i) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"setCasDeTestNum",[i:i])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"setCasDeTestNum",[i:i])
 		casDeTestNum = i
-		Log.addTraceEND(CLASS_FORLOG,"setCasDeTestNum")
+		Log.addTraceEND(CLASS_FOR_LOG,"setCasDeTestNum")
 	}
 
 
@@ -201,9 +200,9 @@ public class JDD {
 	 * @param cdt Le nom du cas de test.
 	 */
 	public void setCasDeTest(String cdt) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"setCasDeTest",[cdt:cdt])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"setCasDeTest",[cdt:cdt])
 		casDeTest = cdt
-		Log.addTraceEND(CLASS_FORLOG,"setCasDeTest")
+		Log.addTraceEND(CLASS_FOR_LOG,"setCasDeTest")
 	}
 
 
@@ -212,7 +211,7 @@ public class JDD {
 
 
 	boolean isDataUPD(String name, def cdtnum=null) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"isDataUPD",[name:name , cdtnum:cdtnum])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"isDataUPD",[name:name , cdtnum:cdtnum])
 		cdtnum = (cdtnum?:casDeTestNum) as int
 		boolean ret = false
 		// Vérifie que le numéro de cas de test est valide.
@@ -228,7 +227,7 @@ public class JDD {
 				Log.addERROR("'$name' n'est pas une colonne du JDD")
 			}
 		}
-		Log.addTraceEND(CLASS_FORLOG,"isDataUPD",ret)
+		Log.addTraceEND(CLASS_FOR_LOG,"isDataUPD",ret)
 		return ret
 	}
 
@@ -244,7 +243,7 @@ public class JDD {
 	 * @return La donnée correspondant au nom et au numéro de cas de test donnés, ou null si le numéro de cas de test ou le nom est invalide.
 	 */
 	public getData(String name, def cdtnum=null, boolean UPD = false) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"getData",[name:name , cdtnum:cdtnum , UPD:UPD])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getData",[name:name , cdtnum:cdtnum , UPD:UPD])
 		cdtnum = (cdtnum?:casDeTestNum) as int
 		def ret
 		// Vérifie que le numéro de cas de test est valide.
@@ -273,7 +272,7 @@ public class JDD {
 				Log.addERROR("'$name' n'est pas une colonne du JDD")
 			}
 		}
-		Log.addTraceEND(CLASS_FORLOG,"getData",ret)
+		Log.addTraceEND(CLASS_FOR_LOG,"getData",ret)
 		return ret
 	}
 
@@ -291,11 +290,11 @@ public class JDD {
 	 * @return La donnée correspondant au nom et au numéro de cas de test donnés, convertie en chaîne de caractères.
 	 */
 	public String getStrData(String name = null, def cdtnum =null , boolean UPD = false) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"getStrData",[name:name,cdtnum:cdtnum , UPD:UPD])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getStrData",[name:name,cdtnum:cdtnum , UPD:UPD])
 		cdtnum = (cdtnum?:casDeTestNum) as int
 		name = name?:myJDDHeader.list[0]
 		String ret = getData(name, casDeTestNum,UPD).toString()
-		Log.addTraceEND(CLASS_FORLOG,"getStrData",ret)
+		Log.addTraceEND(CLASS_FOR_LOG,"getStrData",ret)
 		return ret
 	}
 
@@ -310,9 +309,9 @@ public class JDD {
 	 * @return Le nom de la table de la base de données.
 	 */
 	public String getDBTableName() {
-		Log.addTraceBEGIN(CLASS_FORLOG,"getDBTableName",[:])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getDBTableName",[:])
 		String tableName = myJDDHeader.tableName
-		Log.addTraceEND(CLASS_FORLOG,"getDBTableName",tableName)
+		Log.addTraceEND(CLASS_FOR_LOG,"getDBTableName",tableName)
 		return tableName
 	}
 
@@ -329,13 +328,13 @@ public class JDD {
 	 * @return True si la valeur est obsolète, false sinon.
 	 */
 	public boolean isOBSOLETE(String name) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"isOBSOLETE",[name:name])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"isOBSOLETE",[name:name])
 
 		String ret = myJDDParam.getPREREQUISFor(name)
 
 		boolean result = ret ? ret == 'OBSOLETE' : false
 
-		Log.addTraceEND(CLASS_FORLOG,"isOBSOLETE",result)
+		Log.addTraceEND(CLASS_FOR_LOG,"isOBSOLETE",result)
 		return result
 	}
 
@@ -350,11 +349,11 @@ public class JDD {
 	 * @return True si la valeur est une clé étrangère, false sinon.
 	 */
 	public boolean isFK(String name) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"isFK",[name:name])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"isFK",[name:name])
 
 		boolean result = myJDDParam.getFOREIGNKEYFor(name)!=''
 
-		Log.addTraceEND(CLASS_FORLOG,"isFK",result)
+		Log.addTraceEND(CLASS_FOR_LOG,"isFK",result)
 		return result
 	}
 
@@ -367,12 +366,12 @@ public class JDD {
 	 * @return La requête SQL construite.
 	 */
 	public String getSqlForForeignKey(String name) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"getSqlForForeignKey",[name:name])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getSqlForForeignKey",[name:name])
 
 		def sql = myJDDParam.getFOREIGNKEYFor(name).toString().split(/\*/)
 		String query = "SELECT ${sql[0]} FROM ${sql[1]} WHERE ${sql[2]} = '" + getData(name) + "'"
 
-		Log.addTraceEND(CLASS_FORLOG,"getSqlForForeignKey",query)
+		Log.addTraceEND(CLASS_FOR_LOG,"getSqlForForeignKey",query)
 		return query
 	}
 
@@ -388,7 +387,7 @@ public class JDD {
 	 * @param delta Le décalage à appliquer à la séquence. Valeur par défaut : 0.
 	 */
 	public void replaceSEQUENCIDInJDD(String fieldName, int delta=0) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"replaceSEQUENCIDInJDD",[fieldName:fieldName,delta:delta])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"replaceSEQUENCIDInJDD",[fieldName:fieldName,delta:delta])
 
 		if (JDDKW.isSEQUENCEID(getStrData(fieldName))){
 
@@ -397,7 +396,7 @@ public class JDD {
 			myJDDData.setValueOf(fieldName, val,casDeTest,casDeTestNum)
 		}
 
-		Log.addTraceEND(CLASS_FORLOG,"replaceSEQUENCIDInJDD")
+		Log.addTraceEND(CLASS_FOR_LOG,"replaceSEQUENCIDInJDD")
 	}
 
 
@@ -422,7 +421,9 @@ public class JDD {
 	}
 
 
-
+	public String getTCSheetName() {
+		return JDDFullName
+	}
 
 
 
@@ -435,7 +436,7 @@ public class JDD {
 	 */
 	/*
 	 public void addIHMTO(String tab, String nom, String xpath) {
-	 Log.addTraceBEGIN(CLASS_FORLOG,"addIHMTO",[tab:tab,nom:nom,xpath:xpath])
+	 Log.addTraceBEGIN(CLASS_FOR_LOG,"addIHMTO",[tab:tab,nom:nom,xpath:xpath])
 	 if (xpathTO[nom]) {
 	 Log.addDETAILFAIL("IHMTO '${nom}' existe déjà")
 	 } else {
@@ -447,7 +448,7 @@ public class JDD {
 	 book.write(JDDfileOut)
 	 xpathTO.put(nom, xpath)
 	 }
-	 Log.addTraceEND(CLASS_FORLOG,"addIHMTO")
+	 Log.addTraceEND(CLASS_FOR_LOG,"addIHMTO")
 	 }
 	 */
 
@@ -459,7 +460,7 @@ public class JDD {
 	 */
 	/*
 	 public void addColumn(String name) {
-	 Log.addTraceBEGIN(CLASS_FORLOG,"addColumn",[name:name])
+	 Log.addTraceBEGIN(CLASS_FOR_LOG,"addColumn",[name:name])
 	 if (name in headers) {  // Si la colonne existe déjà
 	 Log.addTrace("\t- La colonne '${name}' existe déjà")
 	 } else {
@@ -483,7 +484,7 @@ public class JDD {
 	 book.write(JDDfileOut)
 	 headers.add(name)
 	 }
-	 Log.addTraceEND(CLASS_FORLOG,"addColumn")
+	 Log.addTraceEND(CLASS_FOR_LOG,"addColumn")
 	 }
 	 */
 

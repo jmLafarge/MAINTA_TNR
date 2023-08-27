@@ -49,5 +49,8 @@ Method method = PREJDD.class.getDeclaredMethod("getListOfCasDeTestAndIDValue", S
 method.setAccessible(true);
 
 Log.addAssert("(private) JDDParam.getListOfCasDeTestAndIDValue('LOCATOR')",listTests,(List) method.invoke(PREJDD, sheet,'ID_NUMACT'))
+Log.addAssert("(private) JDDParam.getListOfCasDeTestAndIDValue('LOCATOR')",[],(List) method.invoke(PREJDD, sheet,''))
+Log.addAssert("(private) JDDParam.getListOfCasDeTestAndIDValue('LOCATOR')",[],(List) method.invoke(PREJDD, sheet,null))
+Log.addAssert("(private) JDDParam.getListOfCasDeTestAndIDValue('LOCATOR')",[],(List) method.invoke(PREJDD, null,'ID_NUMACT'))
 
 

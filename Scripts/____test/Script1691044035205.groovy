@@ -1,3 +1,2 @@
-import tnrCommon.InfoDB
 
-InfoDB
+println 'coucou'

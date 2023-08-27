@@ -10,7 +10,7 @@ import tnrLog.Log
 
 class TestListener {
 	
-	private static final String CLASS_FORLOG = 'TestListener'
+	private static final String CLASS_FOR_LOG = 'TestListener'
 
 	private boolean testSuite=false
 	
@@ -20,13 +20,13 @@ class TestListener {
 	 */
 	@BeforeTestSuite
 	def beforeTestSuite(TestSuiteContext testSuiteContext) {
-//		Log.addTraceBEGIN(CLASS_FORLOG,"TestListener.beforeTestSuite('${testSuiteContext.getTestSuiteId()}')")
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"TestListener.beforeTestSuite('${testSuiteContext.getTestSuiteId()}')")
 //		testSuite=true
 //		Log.addTITLE('Lancement de ' + testSuiteContext.getTestSuiteId())
 //		RestoreDB.run()
 //		TNRResult.addStartInfo(testSuiteContext.getTestSuiteId())
 //		Tools.addInfoContext()
-//		Log.addTraceEND(CLASS_FORLOG,"TestListener.beforeTestSuite()")
+		Log.addTraceEND(CLASS_FOR_LOG,"TestListener.beforeTestSuite()")
 	}
 	
 	
@@ -36,14 +36,14 @@ class TestListener {
 	 */
 	@BeforeTestCase
 	def beforeTestCase(TestCaseContext testCaseContext) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"beforeTestCase",[getTestCaseId:testCaseContext.getTestCaseId()])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"beforeTestCase",[getTestCaseId:testCaseContext.getTestCaseId()])
 		if (testSuite) {
 			String TCName = testCaseContext.getTestCaseId().split('/')[-1].split(' ')[0]
 			Log.addTrace("TCName : '$TCName'")
 			GlobalVariable.CAS_DE_TEST_EN_COURS = TCName
 			GlobalVariable.CAS_DE_TEST_PATTERN = TCName
 		}
-		Log.addTraceEND(CLASS_FORLOG,"beforeTestCase")
+		Log.addTraceEND(CLASS_FOR_LOG,"beforeTestCase")
 	}
 
 
@@ -54,9 +54,9 @@ class TestListener {
 	 */
 	@AfterTestCase
 	def afterTestCase(TestCaseContext testCaseContext) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"afterTestCase",[getTestCaseId:testCaseContext.getTestCaseId()])
-		Log.addTrace('afterTestCase : ' + testCaseContext.getTestCaseId().split('/')[-1] + ' : '+testCaseContext.getTestCaseStatus())
-		Log.addTraceEND(CLASS_FORLOG,"afterTestCase")
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"afterTestCase",[getTestCaseId:testCaseContext.getTestCaseId()])
+		Log.addTrace(testCaseContext.getTestCaseId().split('/')[-1] + ' : '+testCaseContext.getTestCaseStatus())
+		Log.addTraceEND(CLASS_FOR_LOG,"afterTestCase")
 		if (!testSuite) {
 			Log.addEndLog()
 		}
@@ -73,9 +73,9 @@ class TestListener {
 	 */
 	@AfterTestSuite
 	def afterTestSuite(TestSuiteContext testSuiteContext) {
-//		Log.addTraceBEGIN(CLASS_FORLOG,"TestListener.afterTestSuite('${testSuiteContext.getTestSuiteId()}')")
+//		Log.addTraceBEGIN(CLASS_FOR_LOG,"TestListener.afterTestSuite('${testSuiteContext.getTestSuiteId()}')")
 //		TNRResult.close(testSuiteContext.getTestSuiteId())
-//		Log.addTraceEND(CLASS_FORLOG,"TestListener.afterTestSuite()")
+//		Log.addTraceEND(CLASS_FOR_LOG,"TestListener.afterTestSuite()")
 	}
 
 }

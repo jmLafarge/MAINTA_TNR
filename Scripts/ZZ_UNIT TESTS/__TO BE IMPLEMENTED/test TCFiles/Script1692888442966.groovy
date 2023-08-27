@@ -3,7 +3,7 @@ import tnr.TCFiles
 
 
 
-//println TCFiles.TCfileMap['ZZ.YYY.001']
+//println TCFiles.tcFileMap['ZZ.YYY.001']
 
 println TCFiles.getTitle('AD ADMINISTRATION'+File.separator+'AD.SEC SECURITE'+File.separator+'AD.SEC.001.FON.01 Ouvrir session - mot de passe valide')
 println TCFiles.getTitle('MP MAINTENANCE PREVENTIVE'+File.separator+'MP.CPT Compteur'+File.separator+'001'+File.separator+'MP.CPT.001.LEC.01')

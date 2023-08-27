@@ -1,6 +1,6 @@
 
 
-import tnrCommon.InfoDB
+import tnrSqlManager.InfoDB
 import tnr.TCFiles
 import tnr.Sequencer
 

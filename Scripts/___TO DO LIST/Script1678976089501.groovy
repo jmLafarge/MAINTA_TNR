@@ -9,9 +9,8 @@
  * 
  * 
 
-
-
-
+ finir getAllPrerequis2
+ 
 
 
 
@@ -58,15 +57,6 @@
 		si TestCase ZZ.YYY.001.CRE.01 existe, c'est lui qui sera utilisé pour le CDT correspondant
 		
 		
-		
-	ANNOTATION
-	
-		import groovy.transform.CompileStatic et @CompileStatic sur une class (ou une fonction)
-			--> active les controle à la compilation
-			
-		import groovy.transform.CompileDynamic et @CompileDynamic sur une class (ou une fonction) 
-			indique que la méthode ou la classe doit être compilée dynamiquement plutôt que statiquement
-			même si la compilation statique est activée pour la classe parente.
 		
 		
 	ST_TYPART

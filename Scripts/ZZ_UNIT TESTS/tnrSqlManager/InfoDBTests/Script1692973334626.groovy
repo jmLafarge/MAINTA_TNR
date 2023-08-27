@@ -1,4 +1,4 @@
-import tnrCommon.InfoDB
+import tnrSqlManager.InfoDB
 import tnrLog.Log
 
 /**

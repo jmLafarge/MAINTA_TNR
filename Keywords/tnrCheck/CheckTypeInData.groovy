@@ -1,8 +1,8 @@
 package tnrCheck
 
 import groovy.transform.CompileStatic
-import tnrCommon.InfoDB
 import tnrLog.Log
+import tnrSqlManager.InfoDB
 import tnrJDDManager.JDDIV
 import tnrJDDManager.JDD
 import tnrJDDManager.JDDKW

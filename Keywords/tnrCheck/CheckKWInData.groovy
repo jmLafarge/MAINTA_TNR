@@ -8,10 +8,10 @@ import tnrJDDManager.JDDKW
 @CompileStatic
 public class CheckKWInData {
 
-	private static final String CLASS_FORLOG = 'CheckKWInDATA'
+	private static final String CLASS_FOR_LOG = 'CheckKWInDATA'
 
 	static boolean run(String typeFile,List <Map<String, Map<String, String>>> datas, String JDDFullName, String sheetName, boolean status) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"run",[typeFile:typeFile , datas:datas.size() , JDDFullName:JDDFullName , sheetName:sheetName , status:status])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"run",[typeFile:typeFile , datas:datas.size() , JDDFullName:JDDFullName , sheetName:sheetName , status:status])
 		Log.addDETAIL(" - Contrôle des mots clés dans les DATA")
 		datas.each { lineMap ->
 			lineMap.each { cdt,dataMap ->
@@ -26,7 +26,7 @@ public class CheckKWInData {
 				}
 			}
 		}
-		Log.addTraceEND(CLASS_FORLOG,"run",status)
+		Log.addTraceEND(CLASS_FOR_LOG,"run",status)
 		return status
 	}
 }

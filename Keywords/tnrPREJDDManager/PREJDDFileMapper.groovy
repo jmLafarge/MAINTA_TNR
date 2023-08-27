@@ -7,12 +7,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.io.FileType
 import groovy.transform.CompileStatic
-import tnrCommon.InfoDB
 import tnrCommon.TNRPropertiesReader
 import tnrJDDManager.JDDFileMapper
 import tnrJDDManager.JDDIV
 import tnrJDDManager.JDDKW
 import tnrLog.Log
+import tnrSqlManager.InfoDB
 import tnrSqlManager.SQL
 
 
@@ -20,14 +20,14 @@ import tnrSqlManager.SQL
 public class PREJDDFileMapper {
 
 
-	private static final String CLASS_FORLOG = 'PREJDDFiles'
+	private static final String CLASS_FOR_LOG = 'PREJDDFiles'
 
 
 	public static Map <String,String> PREJDDfilemap = [:]
 
 
 	static {
-		Log.addTraceBEGIN(CLASS_FORLOG,"static",[:])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"static",[:])
 		Log.addSubTITLE("Load PREJDDfileList",'-',120)
 		Log.addINFO("\t"+'MODOBJ'.padRight(11) + 'JDDFULLNAME')
 		Log.addINFO('')
@@ -40,15 +40,15 @@ public class PREJDDFileMapper {
 				Log.addINFO('\t' + modObj.padRight(11) + file.getPath())
 			}
 		}
-		Log.addTraceEND(CLASS_FORLOG,"static")
+		Log.addTraceEND(CLASS_FOR_LOG,"static")
 	}
 
 
 
 
 	static String getFullnameFromModObj(String modObj){
-		Log.addTraceBEGIN(CLASS_FORLOG,"getFullname",[modObj:modObj])
-		Log.addTraceEND(CLASS_FORLOG,"getFullname",PREJDDfilemap[modObj])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getFullname",[modObj:modObj])
+		Log.addTraceEND(CLASS_FOR_LOG,"getFullname",PREJDDfilemap[modObj])
 		return PREJDDfilemap[modObj]
 	}
 
@@ -56,7 +56,7 @@ public class PREJDDFileMapper {
 
 
 	static insertPREJDDinDB(String modObj, String tabName) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"insertPREJDDinDB",[modObj:modObj,tabName:tabName])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"insertPREJDDinDB",[modObj:modObj,tabName:tabName])
 
 		def myJDD = new tnrJDDManager.JDD(JDDFileMapper.JDDfilemap.getAt(modObj),tabName)
 
@@ -251,7 +251,7 @@ public class PREJDDFileMapper {
 				SQL.executeSQL(req)
 			}
 		}
-		Log.addTraceEND(CLASS_FORLOG,"insertPREJDDinDB")
+		Log.addTraceEND(CLASS_FOR_LOG,"insertPREJDDinDB")
 	}
 
 
@@ -260,7 +260,7 @@ public class PREJDDFileMapper {
 
 	static String getValueFromFK(String FK, String cdt,String valeur) {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"getValueFromFK",[FK:FK,cdt:cdt,valeur:valeur])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getValueFromFK",[FK:FK,cdt:cdt,valeur:valeur])
 
 		def fk = FK.split(/\*/)
 
@@ -271,7 +271,7 @@ public class PREJDDFileMapper {
 		String val = SQL.getFirstVal("SELECT $id FROM $table WHERE $field = '$valeur'").toString()
 
 		if (val) {
-			Log.addTraceEND(CLASS_FORLOG,"getValueFromFK",val)
+			Log.addTraceEND(CLASS_FOR_LOG,"getValueFromFK",val)
 			return val
 		}else {
 			Log.addErrorAndStop("La valeur recherchée n'a pas été trouvée.ARRET DU PROGRAMME")
@@ -284,7 +284,7 @@ public class PREJDDFileMapper {
 
 	static insertIfNotExist(String table, String PKwhere, List fields, List values) {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"insertIfNotExist",[table:table,PKwhere:PKwhere,fields:fields,values:values])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"insertIfNotExist",[table:table,PKwhere:PKwhere,fields:fields,values:values])
 
 		Map result = SQL.getFirstRow("SELECT count(*) as nbr FROM $table WHERE $PKwhere")
 
@@ -309,7 +309,7 @@ public class PREJDDFileMapper {
 				Log.addINFO("SELECT count(*) FROM $table WHERE $PKwhere")
 			}
 		}
-		Log.addTraceEND(CLASS_FORLOG,"insertIfNotExist",result.size())
+		Log.addTraceEND(CLASS_FOR_LOG,"insertIfNotExist",result.size())
 	}
 
 
@@ -320,17 +320,17 @@ public class PREJDDFileMapper {
 
 
 	private static String getRTFTEXT(String val) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"getRTFTEXT",[val:val])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getRTFTEXT",[val:val])
 		String strBegin ="{\\rtf1\\fbidis\\ansi\\ansicpg0\\uc1\\deff0\\deflang0\\deflangfe0{\\fonttbl{\\f0\\fnil Arial;}}{\\colortbl;}{\\stylesheet{\\s0\\fi0\\li0\\ql\\ri0\\sb0\\sa0 Paragraph Style;}{\\*\\cs1\\f0\\fs24 Font Style;}}\\pard\\s0\\fi0\\li0\\ql\\ri0\\sb0\\sa0\\itap0 \\plain \\cs1\\f0\\fs24 "
 		String strEnd	="\\par}"
 		String RTFText = strBegin+val+strEnd
-		Log.addTraceEND(CLASS_FORLOG,"getRTFTEXT")
+		Log.addTraceEND(CLASS_FOR_LOG,"getRTFTEXT")
 		return RTFText
 	}
 
 	static createInDB() {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"createInDB",[:])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"createInDB",[:])
 
 		Log.addTITLE("Lancement de CREATE PREJDD IN DB")
 
@@ -436,7 +436,7 @@ public class PREJDDFileMapper {
 		Log.addTITLE("Fin des créations des PRE REQUIS")
 
 
-		Log.addTraceEND(CLASS_FORLOG,"createInDB")
+		Log.addTraceEND(CLASS_FOR_LOG,"createInDB")
 	}
 
 } // end of class

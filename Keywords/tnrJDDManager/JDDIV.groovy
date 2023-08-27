@@ -16,14 +16,14 @@ import tnrCommon.Tools
 @CompileStatic
 public class JDDIV {
 
-	private static final String CLASS_FORLOG = 'IV'
+	private static final String CLASS_FOR_LOG = 'IV'
 
 	private static List<Map<String, String>> list = []
 
 
 
 	public static addAll(Sheet sheet) {
-		Log.addTraceBEGIN(CLASS_FORLOG, "addAll", [sheet:sheet.getSheetName()])
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "addAll", [sheet:sheet.getSheetName()])
 		Iterator<Row> rowIV = sheet.rowIterator()
 		rowIV.next()
 		while(rowIV.hasNext()) {
@@ -41,7 +41,7 @@ public class JDDIV {
 		}
 		Log.addTrace("internalValues = " + list.toString())
 		println Tools.displayWithQuotes(list)
-		Log.addTraceEND(CLASS_FORLOG, "addAll")
+		Log.addTraceEND(CLASS_FOR_LOG, "addAll")
 	}
 
 
@@ -56,7 +56,7 @@ public class JDDIV {
 	 * @return La valeur interne correspondante, ou null si aucune valeur n'est trouvée.
 	 */
 	public static String getInternalValueOf(String para, String val) {
-		Log.addTraceBEGIN(CLASS_FORLOG, "getInternalValueOf", [para: para, val: val])
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "getInternalValueOf", [para: para, val: val])
 
 		String res = list.find { it['param'] == para && it['value'] == val }?.get('internalValue')
 
@@ -64,7 +64,7 @@ public class JDDIV {
 			Log.addERROR('Pas de valeur trouvée')
 		}
 
-		Log.addTraceEND(CLASS_FORLOG, "getInternalValueOf", res)
+		Log.addTraceEND(CLASS_FOR_LOG, "getInternalValueOf", res)
 		return res
 	}
 }

@@ -13,13 +13,13 @@ import tnrLog.Log
 @CompileStatic
 public class TO {
 
-	private static final String CLASS_FORLOG = 'TO'
+	private static final String CLASS_FOR_LOG = 'TO'
 
 	private String msgTO
 
 	public TestObject make(JDD myJDD,String ID) {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"make",[myJDD:myJDD.toString(),ID:ID])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"make",[myJDD:myJDD.toString(),ID:ID])
 
 		TestObject to = null
 
@@ -86,7 +86,7 @@ public class TO {
 			binding=[:]
 
 		}
-		Log.addTraceEND(CLASS_FORLOG,"make",to)
+		Log.addTraceEND(CLASS_FOR_LOG,"make",to)
 
 		return to
 
@@ -112,7 +112,7 @@ public class TO {
 	 * @return L'xpath résolu.
 	 */
 	private String resolveXpath(JDD myJDD, String name, String xpath, Map binding) {
-		Log.addTraceBEGIN(CLASS_FORLOG,"resolveXpath",[myJDD:myJDD.toString(), name:name,xpath:xpath,binding:binding])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"resolveXpath",[myJDD:myJDD.toString(), name:name,xpath:xpath,binding:binding])
 
 		// Vérifie si c'est un xpath dynamique
 		def matcher = xpath =~ /\$\{(.+?)\}/
@@ -146,7 +146,7 @@ public class TO {
 		}else {
 			Log.addTrace('normal xpath')
 		}
-		Log.addTraceEND(CLASS_FORLOG,"resolveXpath",xpathResolved)
+		Log.addTraceEND(CLASS_FOR_LOG,"resolveXpath",xpathResolved)
 		return xpathResolved
 	}
 
