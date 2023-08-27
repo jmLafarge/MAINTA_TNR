@@ -18,7 +18,6 @@ import java.lang.reflect.Method
  *
  */
 
-
 List<Map<String, Map<String, Object>>> datasListTest_PK = [
 	['AA.BBB.001.CRE.01':['ID_CODINT':'JMLCRE01', 'ST_DES':'DESJMLCRE01', 'ST_INA':'JMLCRE01_INA', 'NU_IV':null]],
 	['AA.BBB.001.CRE.02':['ID_CODINT':'JMLCRE02', 'ST_DES':'DESJMLCRE02', 'ST_INA':'JMLCRE02_INA', 'NU_IV':null]],
@@ -59,6 +58,7 @@ List<String> resultListTest_nonPK = [
 	"'AA.BBB.001.LEC.01' - 'DESJMLLEC12'"
 
 ]
+
 
 Method method = CheckPrerequis.class.getDeclaredMethod("getListCDTVAL", List.class, String.class, String.class);
 method.setAccessible(true);

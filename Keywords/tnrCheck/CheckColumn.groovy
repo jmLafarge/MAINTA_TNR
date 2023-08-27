@@ -6,10 +6,7 @@ import tnrSqlManager.InfoDB
 
 
 /**
- * This class contains a method to validate the columns of a specified table
- * against a given list of headers. The validation checks whether each column
- * exists in the header list and whether the positions match between the
- * headers list and the table.
+ * Valide les colonnes d'un JDD ou d'un PREJDD par rapport à la table en BD
  * 
  * @author JM Lafarge
  * @version 1.0
@@ -19,22 +16,27 @@ import tnrSqlManager.InfoDB
 public class CheckColumn {
 
 	private static final String CLASS_FOR_LOG = 'CheckColumn'
+	
+	public enum FileType {
+        JDD, PREJDD
+    }
 
 
 	/**
-	 * Run the validation on the specified table columns.
-	 *
-	 * @param typeFile The type of the file containing the headers.
-	 * @param headersList The list of headers to validate.
-	 * @param table The table name to validate against.
-	 * @param status Initial status of the validation (usually true to start with).
-	 * @return The final status of the validation.
+     * Exécute la validation sur les colonnes de la table spécifiée.
+     *
+     * @param fileType enum JDD ou PREJDD.
+     * @param headersList La liste des en-têtes à valider.
+     * @param table Le nom de la table contre laquelle effectuer la validation.
+     * @return Le statut final de la validation.
 	 */
-	public static boolean run(String typeFile, List <String> headersList, String table, boolean status) {
+	public static boolean run(FileType fileType, List <String> headersList, String table) {
 
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"run",[typeFile:typeFile , headersList:headersList , table:table , status:status])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"run",[fileType:fileType.name() , headersList:headersList , table:table ])
 
 		Log.addDETAIL(" - Contrôle des colonnes")
+
+		boolean status = true
 
 		if (InfoDB.isTableExist(table)) {
 
@@ -47,19 +49,21 @@ public class CheckColumn {
 					if (colPosInFile==colPosInDB) {
 						Log.addTrace("'$col' OK")
 					}else {
-						Log.addDETAILFAIL("'$col' est dans le $typeFile mais pas à la bonne place : $colPosInFile au lieu de $colPosInDB en BDD")
+						Log.addDETAILFAIL("'$col' est dans le ${fileType.name()} mais pas à la bonne place : $colPosInFile au lieu de $colPosInDB en BDD")
 						status=false
 					}
 				}else {
-					Log.addDETAILFAIL("Le champ '$col' n'est pas dans le $typeFile")
+					Log.addDETAILFAIL("Le champ '$col' n'est pas dans le ${fileType.name()}")
 					status=false
 				}
 			}
 		}else {
 			Log.addDETAILFAIL("La table '$table' n'existe pas !")
-			return false
+			status = false
 		}
 		Log.addTraceEND(CLASS_FOR_LOG,"run",status)
 		return status
 	}
-}
+	
+	
+}// fin de class

@@ -3,16 +3,15 @@ package tnrCheck
 import org.apache.poi.ss.usermodel.*
 
 import groovy.transform.CompileStatic
-import tnrLog.Log
-import tnrSqlManager.InfoDB
 import tnrJDDManager.JDD
 import tnrJDDManager.JDDFileMapper
+import tnrLog.Log
+import tnrSqlManager.InfoDB
 
 @CompileStatic
 public class CheckJDD {
 
 	private static final String CLASS_FOR_LOG = 'CheckJDD'
-
 
 
 	/**
@@ -27,20 +26,20 @@ public class CheckJDD {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"run",[:])
 
 		Log.addSubTITLE('Vérification des JDD')
-		
+
 		boolean status = true
 
 		JDDFileMapper.JDDfilemap.each { modObj,JDDFullname ->
 
 			JDD myJDD = new JDD(JDDFullname,null,null,false)
-			
+
 			Log.addINFO("")
 			Log.addINFO("Controle de $JDDFullname")
 
 			for(Sheet JDDsheet: myJDD.book) {
 
 				String JDDsheetName = JDDsheet.getSheetName()
-				
+
 				if (myJDD.isSheetAvailable(JDDsheetName)) {
 
 					Log.addDETAIL("Onglet : $JDDsheetName")
@@ -51,11 +50,11 @@ public class CheckJDD {
 
 					if (myJDD.myJDDHeader.getSize() >1) {
 						if (table) {
-							//status = CheckColumn.run('JDD',myJDD.myJDDHeader.getList(), table,status)
-							//status = CheckDoublonOnPK.run(myJDD.myJDDData.getList(), InfoDB.getPK(table), JDDFullname, JDDsheetName, status)
-							//status = CheckKWInData.run('JDD',myJDD.myJDDData.getList(),JDDFullname,JDDsheetName, status)
-							//status = CheckTypeInData.run(myJDD.myJDDData.getList(),myJDD, table,JDDFullname,status)
-							status = CheckPrerequis.run2('JDD',myJDD,JDDFullname,status)
+							//status &= CheckColumn.run(CheckColumn.FileType.JDD,myJDD.myJDDHeader.getList(), table)
+							status &= CheckDoublonOnPK.run(myJDD.myJDDData.getList(), InfoDB.getPK(table), JDDFullname, JDDsheetName)
+							//status &= CheckKWInData.run('JDD',myJDD.myJDDData.getList(),JDDFullname,JDDsheetName)
+							//status &= CheckTypeInData.run(myJDD.myJDDData.getList(),myJDD, table,JDDFullname)
+							//status &= CheckPrerequis.run2(CheckColumn.FileType.JDD,myJDD,JDDFullname)
 						}else {
 							Log.addDETAIL('Pas de table dans le JDD')
 						}
@@ -72,6 +71,11 @@ public class CheckJDD {
 		}
 		Log.addTraceEND(CLASS_FOR_LOG,"run")
 	}
+	
+	
+	
+	
+	
 
 
 }// end of class

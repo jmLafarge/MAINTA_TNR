@@ -24,49 +24,53 @@ public class CheckPrerequis {
 	private static JDD myJDD
 	private static XSSFWorkbook PREJDDBook
 	private static boolean status = true
-	
+
 	static boolean run2(String type, JDD myJDD, String fullName, boolean status) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"run",[:])
-		
+
 		Log.addDETAIL(" - Contrôle des PREREQUIS")
 		List <Map <String, Object>> list2 = getAllPrerequis2(type, myJDD, fullName)
-		
+
 		Log.addINFO('****************************************************************')
 		/*
-		Log.addSubTITLE("Contrôle des PREREQUIS")
-		Log.addINFO("\t\tDétails en cas d'erreur")
-		Log.addINFO("\t\t    CAS DE TEST      -     VALEUR")
-		Log.addINFO('')
-		*/
-		 //Controle si tous les PREREQUIS des JDD/PREJDD sont bien dans les PREJDD
+		 Log.addSubTITLE("Contrôle des PREREQUIS")
+		 Log.addINFO("\t\tDétails en cas d'erreur")
+		 Log.addINFO("\t\t    CAS DE TEST      -     VALEUR")
+		 Log.addINFO('')
+		 */
+		//Controle si tous les PREREQUIS des JDD/PREJDD sont bien dans les PREJDD
+
 		
 		list2.each{ map ->
-
+			/*
 			map.each { key,val ->
-				Log.addINFO('\t' + key + ' : ' +val)
+				Log.addINFO("\t$key:" + val.toString())
 			}
 			
 			if (!checkCdtValInPREJDD(map)) {
 				status=false
 			}
+			*/
+			println map
 		}
+		
 		
 		if (status) {
 			Log.addINFO('     ***  OK   ***')
 		}
-		
+
 		Log.addTraceEND(CLASS_FOR_LOG,"run")
 		return status
 	}
-	
-	
+
+
 
 	private static boolean checkCdtValInPREJDD(Map <String, Object> map) {
-		
+
 		boolean ret = true
-		
-		
-		
+
+
+
 		return ret
 	}
 
@@ -79,17 +83,17 @@ public class CheckPrerequis {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"getAllPrerequis",[type:type , fullName:fullName])
 
 		List <Map <String, Object>> list2 =[]
-				myJDD.myJDDParam.getAllPREREQUIS().each { name,value ->
-					if (!(value in ['', 'OBSOLETE'])) {
-						List cdtValList =getListCDTVAL(myJDD.myJDDData.getList(),myJDD.getDBTableName(),name)
-						if (!cdtValList.isEmpty()) {
-							Map <String, Object> prerequisMap = [:]
-							prerequisMap.putAt('PREREQUIS',value)
-							prerequisMap.putAt('CDTVALLIST',cdtValList)
-							list2.add(prerequisMap)
-						}
-					}
+		myJDD.myJDDParam.getAllPREREQUIS().each { name,value ->
+			if (!(value in ['', 'OBSOLETE'])) {
+				List cdtValList =getListCDTVAL(myJDD.myJDDData.getList(),myJDD.getDBTableName(),name)
+				if (!cdtValList.isEmpty()) {
+					Map <String, Object> prerequisMap = [:]
+					prerequisMap.putAt('PREREQUIS',value)
+					prerequisMap.putAt('CDTVALLIST',cdtValList)
+					list2.add(prerequisMap)
 				}
+			}
+		}
 		Log.addTraceEND(CLASS_FOR_LOG,"getAllPrerequis")
 		return list2
 	}
@@ -116,13 +120,13 @@ public class CheckPrerequis {
 		List<String> list =[]
 
 		if (InfoDB.isTableExist(table)) {
-			
+
 			if (InfoDB.inTable(table, name)) {
 				List<List<String>> listAllCDTVAL = []
 				datas.each { outerMap ->
-				    outerMap.each { key, innerMap ->
-				        listAllCDTVAL << [key, innerMap[name]]
-				    }
+					outerMap.each { key, innerMap ->
+						listAllCDTVAL << [key, innerMap[name]]
+					}
 				}
 				listAllCDTVAL.each {li ->
 					String cdt = li[0]

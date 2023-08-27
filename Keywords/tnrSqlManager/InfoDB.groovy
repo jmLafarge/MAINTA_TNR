@@ -48,7 +48,7 @@ public class InfoDB {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"static",[:])
 
 		InfoDBLoader infoDB = new InfoDBLoader()
-		datas = infoDB.datas
+		datas = infoDB.getDatas()
 
 		Log.addTraceEND(CLASS_FOR_LOG,"static")
 	}

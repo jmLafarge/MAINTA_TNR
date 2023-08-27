@@ -62,10 +62,10 @@ public class CheckPREJDD {
 
 					if (PREJDDheader.getSize()>1) {
 						if (table) {
-							status = CheckColumn.run('PREJDD',PREJDDheader.getList(), table,status)
-							status = CheckKWInData.run('PREJDD',PREJDDData.getList(), PREJDDfullname,PREJDDsheetName, status)
-							status = CheckTypeInData.run(PREJDDData.getList(),myJDD, table,PREJDDfullname,status)
-							status = CheckDoublonOnPK.run(PREJDDData.getList(), InfoDB.getPK(table), PREJDDfullname, PREJDDsheetName, status)
+							//status &= CheckColumn.run('PREJDD',PREJDDheader.getList(), table)
+							//status &= CheckKWInData.run('PREJDD',PREJDDData.getList(), PREJDDfullname,PREJDDsheetName)
+							//status &= CheckTypeInData.run(PREJDDData.getList(),myJDD, table,PREJDDfullname)
+							//status &= CheckDoublonOnPK.run(PREJDDData.getList(), InfoDB.getPK(table), PREJDDfullname, PREJDDsheetName)
 							//status = CheckPrerequis.run2('PREJDD',myJDD,PREJDDfullname,status)
 						}else {
 							Log.addDETAIL('Pas de table dans le PREJDD')

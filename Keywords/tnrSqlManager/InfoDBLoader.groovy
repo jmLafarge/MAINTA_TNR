@@ -78,6 +78,19 @@ public class InfoDBLoader {
 	}
 	
 	
+	/**
+	 * Renvoie le Map datas
+	 * 
+	 * @return le Map 'datas'
+	 */
+	public Map  <String, Map<String, Map <String , Object>>> getDatas() {
+		 return datas
+	}	
+	
+	
+	
+	
+	
 	
 	/**
 	 * Obtient le chemin complet du fichier Excel.

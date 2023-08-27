@@ -54,12 +54,17 @@ public class TCFileMapper {
 		Log.addTraceEND(CLASS_FOR_LOG,"static")
 	}
 
-	
-	public static boolean isTCNameExist(String tcName) {
+
+	private static boolean isTCNameExist(String tcName) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"isTCNameExist",[tcName:tcName])
-		boolean ret = tcFileMap.containsKey(tcName)
-		Log.addTraceEND(CLASS_FOR_LOG,"isTCNameExist" ,ret)
-		return ret
+		boolean tcNameExist = false
+		if (tcName) {
+			tcNameExist = tcFileMap.containsKey(tcName)
+		}else {
+			Log.addERROR("Le cas de test '$tcName' n'existe pas ")
+		}
+		Log.addTraceEND(CLASS_FOR_LOG,"isTCNameExist" ,tcNameExist)
+		return tcNameExist
 	}
 
 
