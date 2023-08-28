@@ -16,23 +16,19 @@ import tnrSqlManager.InfoDB
 public class CheckColumn {
 
 	private static final String CLASS_FOR_LOG = 'CheckColumn'
-	
-	public enum FileType {
-        JDD, PREJDD
-    }
 
 
 	/**
-     * Exécute la validation sur les colonnes de la table spécifiée.
-     *
-     * @param fileType enum JDD ou PREJDD.
-     * @param headersList La liste des en-têtes à valider.
-     * @param table Le nom de la table contre laquelle effectuer la validation.
-     * @return Le statut final de la validation.
+	 * Exécute la validation sur les colonnes de la table spécifiée.
+	 *
+	 * @param fileType    Type du fichier (JDD ou PREJDD).
+	 * @param headersList La liste des en-têtes à valider.
+	 * @param table Le nom de la table contre laquelle effectuer la validation.
+	 * @return Le statut final de la validation.
 	 */
-	public static boolean run(FileType fileType, List <String> headersList, String table) {
+	public static boolean run(String fileType, List <String> headersList, String table) {
 
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"run",[fileType:fileType.name() , headersList:headersList , table:table ])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"run",[fileType:fileType , headersList:headersList , table:table ])
 
 		Log.addDETAIL(" - Contrôle des colonnes")
 
@@ -49,11 +45,11 @@ public class CheckColumn {
 					if (colPosInFile==colPosInDB) {
 						Log.addTrace("'$col' OK")
 					}else {
-						Log.addDETAILFAIL("'$col' est dans le ${fileType.name()} mais pas à la bonne place : $colPosInFile au lieu de $colPosInDB en BDD")
+						Log.addDETAILFAIL("'$col' est dans le $fileType mais pas à la bonne place : $colPosInFile au lieu de $colPosInDB en BDD")
 						status=false
 					}
 				}else {
-					Log.addDETAILFAIL("Le champ '$col' n'est pas dans le ${fileType.name()}")
+					Log.addDETAILFAIL("Le champ '$col' n'est pas dans le $fileType")
 					status=false
 				}
 			}
@@ -64,6 +60,4 @@ public class CheckColumn {
 		Log.addTraceEND(CLASS_FOR_LOG,"run",status)
 		return status
 	}
-	
-	
 }// fin de class

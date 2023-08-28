@@ -406,4 +406,4 @@ class Log {
 
 
 
-}// end of class
+}// Fin de class

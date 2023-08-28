@@ -26,4 +26,4 @@ class TNRPropertiesReader {
 		}
 		return prop
 	}
-} // end of class
+} // Fin de class

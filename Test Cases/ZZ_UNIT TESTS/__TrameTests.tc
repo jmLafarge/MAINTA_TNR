@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestCaseEntity>
    <description></description>
-   <name>CheckTypeInDataTests</name>
+   <name>__TrameTests</name>
    <tag></tag>
    <comment></comment>
-   <testCaseGuid>fa5e79b4-a4bc-43aa-bef7-570d98ce3e86</testCaseGuid>
+   <testCaseGuid>0df34746-bb86-41a9-9a8a-f01ba4328a1d</testCaseGuid>
 </TestCaseEntity>

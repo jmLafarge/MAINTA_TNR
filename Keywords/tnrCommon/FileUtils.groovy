@@ -96,4 +96,4 @@ class FileUtils {
 	}
 
 
-} // end of class
+} // Fin de class

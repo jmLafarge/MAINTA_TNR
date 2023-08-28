@@ -641,4 +641,4 @@ public class SQL {
 	}
 
 
-} // end of class
+} // Fin de class

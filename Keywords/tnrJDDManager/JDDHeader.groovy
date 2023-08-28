@@ -44,4 +44,4 @@ public class JDDHeader {
 		return tableName
 	}
 	
-} //end of class
+} //Fin de class

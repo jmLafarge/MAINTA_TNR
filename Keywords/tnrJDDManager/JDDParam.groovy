@@ -177,4 +177,4 @@ public class JDDParam {
 	def boolean isRADIO(String name) {
 		return paramsMap[PARAM_LIST_ALLOWED.LOCATOR.name()][name] == 'radio'
 	}
-} //end of class
+} //Fin de class

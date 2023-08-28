@@ -317,4 +317,4 @@ public class InfoDB {
 		Log.addTraceEND(CLASS_FOR_LOG,"getDatasForTable",ret)
 		return ret
 	}
-}// end of class
+}// Fin de class

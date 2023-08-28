@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestCaseEntity>
    <description></description>
-   <name>CheckDoublonOnPKTests</name>
+   <name>CheckTypeTests</name>
    <tag></tag>
    <comment></comment>
-   <testCaseGuid>fdf94aa4-fe99-4603-8860-a6e1d8eac9c7</testCaseGuid>
+   <testCaseGuid>fa5e79b4-a4bc-43aa-bef7-570d98ce3e86</testCaseGuid>
 </TestCaseEntity>

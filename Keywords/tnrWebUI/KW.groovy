@@ -913,4 +913,4 @@ class KW {
 	}
 
 
-} // end of class
+} // Fin de class

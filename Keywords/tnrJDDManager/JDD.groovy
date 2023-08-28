@@ -489,4 +489,4 @@ public class JDD {
 	 */
 
 
-} // end of class
+} // Fin de class

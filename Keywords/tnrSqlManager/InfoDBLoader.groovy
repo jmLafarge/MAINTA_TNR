@@ -162,4 +162,4 @@ public class InfoDBLoader {
 	}
 	
 	
-}// end of class
+}// Fin de class

@@ -405,4 +405,4 @@ class JDDFileGenerator {
 	}
 
 
-} // end of class
+} // Fin de class

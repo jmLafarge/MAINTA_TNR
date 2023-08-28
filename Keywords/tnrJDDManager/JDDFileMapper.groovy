@@ -93,4 +93,4 @@ public class JDDFileMapper {
 		Log.addTraceEND(CLASS_FOR_LOG,"add")
 	}
 
-} // end of class
+} // Fin de class

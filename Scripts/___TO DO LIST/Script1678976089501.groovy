@@ -9,7 +9,7 @@
  * 
  * 
 
-finir ChechJDD
+finir CheckTypeTests
 
 
  finir getAllPrerequis2

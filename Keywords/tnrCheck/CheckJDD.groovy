@@ -50,11 +50,16 @@ public class CheckJDD {
 
 					if (myJDD.myJDDHeader.getSize() >1) {
 						if (table) {
-							//status &= CheckColumn.run(CheckColumn.FileType.JDD,myJDD.myJDDHeader.getList(), table)
-							status &= CheckDoublonOnPK.run(myJDD.myJDDData.getList(), InfoDB.getPK(table), JDDFullname, JDDsheetName)
+							//status &= CheckColumn.run('JDD',myJDD.myJDDHeader.getList(), table)
+							status &= CheckData.run('JDD',myJDD,table, JDDFullname,JDDsheetName)
+							
+							
+							
+							//status &= CheckDoublonOnPK.run(myJDD.myJDDData.getList(), InfoDB.getPK(table), JDDFullname, JDDsheetName)
 							//status &= CheckKWInData.run('JDD',myJDD.myJDDData.getList(),JDDFullname,JDDsheetName)
 							//status &= CheckTypeInData.run(myJDD.myJDDData.getList(),myJDD, table,JDDFullname)
 							//status &= CheckPrerequis.run2(CheckColumn.FileType.JDD,myJDD,JDDFullname)
+							
 						}else {
 							Log.addDETAIL('Pas de table dans le JDD')
 						}
@@ -71,11 +76,11 @@ public class CheckJDD {
 		}
 		Log.addTraceEND(CLASS_FOR_LOG,"run")
 	}
-	
-	
-	
-	
-	
 
 
-}// end of class
+
+
+
+
+
+}// Fin de class

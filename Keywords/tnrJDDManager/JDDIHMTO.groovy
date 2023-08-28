@@ -59,4 +59,4 @@ public class JDDIHMTO {
 	def Map <String,String> getXpaths() {
 		return xpathMap
 	}
-}// end of Class
+}// Fin de class

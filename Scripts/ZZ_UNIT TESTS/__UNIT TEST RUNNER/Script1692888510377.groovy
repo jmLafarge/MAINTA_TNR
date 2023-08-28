@@ -36,7 +36,7 @@ import tnrLog.Log
  * 
  * 		import java.lang.reflect.Method
  * 
- * 		Method method = LaClassATesté.class.getDeclaredMethod("La methode private", énumérer les class des paramètres ex : List.class, String.class, String.class)
+ * 		Method method = LaClassATesté.class.getDeclaredMethod("La methode private", énumérer les class des paramètres ex : List.class, String.class, Object.class)
  * 
  * 		method.setAccessible(true)
  * 
