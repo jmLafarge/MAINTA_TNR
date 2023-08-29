@@ -16,98 +16,64 @@ import tnrSqlManager.InfoDB
 @CompileStatic
 public class CheckPK {
 
-	private final String CLASS_FOR_LOG = 'CheckPK'
 
+	static private final String CLASS_FOR_LOG = 'CheckPK'
+	
+	
 
-
-	private List <String> PKList
-	private List PKVals = []
-	private List <String> concatenedPKVals = []
-	private List <String> cdts = []
-	private String JDDFullname =''
-	private String sheetName =''
-	private boolean checkPKValuesStatus = true
-
-
-
-	/**
-	 * Constructeur
-	 *
-	 * @param jddFullname : Nom du JDD/PREJDD
-	 * @param shName : Nom de la feuille.
-	 * @param tableName : Nom de la table BD.
-	 */
-	CheckPK(String JDDFullname, String shName,String tableName){
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "CheckPK", [JDDFullname:JDDFullname, sheetName:sheetName,tableName:tableName])
-		this.JDDFullname = JDDFullname
-		this.sheetName = sheetName
-		PKList = InfoDB.getPK(tableName)
-		Log.addTraceEND(CLASS_FOR_LOG, "CheckPK")
-	}
-
-
-	/**
-	 * Vérifie l'unicité des clés primaires.
-	 *
-	 * @param cdt : cas de test en cours de vérif.
-	 * @param numLine : Numéro de ligne du cas de test en cours de verif.
-	 * @return : Retourne true s'il n'y a pas de doublons
-	 */
-	public boolean checkDuplicates( String cdt, int numLine) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "checkDuplicates", [ cdt:cdt, numLine:numLine])
+	static boolean run(List<Map<String, Map<String, Object>>> datasList, List <String> PKList, String JDDFullName, String sheetName) {
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "run", ['datasList.size()':datasList.size() , PKList:PKList , JDDFullName:JDDFullName , sheetName:sheetName])
 		boolean status = true
-		if (checkPKValuesStatus) {
-			// on concatene les PKVals
-			String concatenedPKVal = PKVals.join(' - ')
-			if ( (!PKVals) ||concatenedPKVal.contains(JDDKW.getKW_SEQUENCEID()) || concatenedPKVal.contains(JDDKW.getKW_ORDRE())) {
-				Log.addTrace(" PKVals est vide ou concatenedPKVal contient SEQUENCEID ou ORDRE, on skipe le controle : $PKVals")
-			}else {
-				cdts.add(cdt)
-				// si ces valeurs ont déjà été détectées c'est un doublon
-				if (concatenedPKVals.contains(concatenedPKVal)) {
-					int i = concatenedPKVals.indexOf(concatenedPKVal)
-					String c = cdts[i]
-					Log.addDETAILFAIL("$JDDFullname ($sheetName) ligne ${numLine} cas de test:$cdt, la PK '$concatenedPKVal' existe déjà en ligne ${i+1} cas de test:$c")
-					status=false
-				}else {
-					// sinon on les mémorise
-					concatenedPKVals.add(concatenedPKVal)
+		if (PKList) {
+			Log.addDEBUGDETAIL("Contrôle absence de doublon sur PRIMARY KEY : " +  PKList.join(' , '))
+
+			List <String>  concatenedPKVals = []
+			List <String>  cdts = []
+
+			datasList.eachWithIndex { lines,idx ->
+				lines.each { cdt,datas ->
+					String concatenedPKVal = concatPKVal(datas,PKList)
+					if (concatenedPKVal){
+						cdts.add(cdt)
+						if (concatenedPKVals.contains(concatenedPKVal)) {
+							int i = concatenedPKVals.indexOf(concatenedPKVal)
+							String c = cdts[i]
+							Log.addDETAILFAIL("$JDDFullName ($sheetName) ligne ${idx+1} cas de test:$cdt, la PK $concatenedPKVal existe déjà en ligne ${i+1} cas de test:$c")
+							status=false
+						}else {
+							concatenedPKVals.add(concatenedPKVal)
+						}
+					}
 				}
 			}
+		}else {
+			Log.addDETAILWARNING("$JDDFullName ($sheetName) : Pas de PRIMARY KEY !")
 		}
-		PKVals = []
-		checkPKValuesStatus = true
-		Log.addTraceEND(CLASS_FOR_LOG, "checkDuplicates", status)
+		Log.addTraceEND(CLASS_FOR_LOG, "run",status)
 		return status
 	}
 
 
-	/**
-	 * Vérifie les valeurs des clés primaires.
-	 *
-	 * @param cdt : Cas de test enc ours.
-	 * @param numLine : Numéro de ligne du Cas de test en cours.
-	 * @param name : Nom du champ.
-	 * @param val : Valeur du champ.
-	 * @return : Retourne true si la vérification est correcte
-	 */
-	public boolean checkPKValues(String cdt, int numLine, String name, def val) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "checkPKValues", [cdt:cdt , numLine:numLine , name:name , val:val])
-		if (name in PKList) {
-			if (JDDKW.isUPD(val)) {
-				PKVals.add(JDDKW.getOldValueOfKW_UPD(val))
-			}else if (JDDKW.isTBD(val)) {
-				PKVals.add(JDDKW.getValueOfKW_TBD(val))
-			}else if (val) {
-				PKVals.add(val)
-			}else {
-				Log.addDETAILFAIL("$JDDFullname ($sheetName) ligne ${numLine} cas de test:$cdt, la PK est vide ou null")
-				checkPKValuesStatus=false
+
+	private static String concatPKVal(Map<String, Object> datas,List<String>PKList) {
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "concatPKVal", [datas:datas.size() , PKList:PKList])
+		List concatenedPKVals = []
+		datas.each{name,val ->
+			if (name in PKList) {
+				if (JDDKW.isUPD(val)) {
+					concatenedPKVals.add(JDDKW.getOldValueOfKW_UPD(val))
+				}else if (JDDKW.isTBD(val)) {
+					concatenedPKVals.add(JDDKW.getValueOfKW_TBD(val))
+				}else {
+					concatenedPKVals.add(val)
+				}
 			}
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "checkPKValues",checkPKValuesStatus)
-		return checkPKValuesStatus
+		String concatenedPKVal = concatenedPKVals.join(' - ')
+		if (concatenedPKVal.contains(JDDKW.getKW_SEQUENCEID()) || concatenedPKVal.contains(JDDKW.getKW_ORDRE())) {
+			concatenedPKVal = ''
+		}
+		Log.addTraceEND(CLASS_FOR_LOG, "concatPKVal",concatenedPKVal)
+		return concatenedPKVal
 	}
-
-
-}// Fin de class
+} // end of class

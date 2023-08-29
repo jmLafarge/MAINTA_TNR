@@ -15,9 +15,10 @@ import tnrLog.Log
 
 /**
  *
- * TEST private static List <String >getListCDTVAL(List <Map<String, Map<String, Object>>> datas,String table, String name) {
+ * TEST private static List getListCDTVAL(List <Map<String, Map<String, String>>> datas,String table, String name) {
  *
  */
+
 
 List<Map<String, Map<String, Object>>> datasListTest_PK = [
 	['AA.BBB.001.CRE.01':['ID_CODINT':'JMLCRE01', 'ST_DES':'DESJMLCRE01', 'ST_INA':'JMLCRE01_INA', 'NU_IV':null]],
@@ -60,7 +61,6 @@ List<String> resultListTest_nonPK = [
 
 ]
 
-
 Method method = CheckPrerequis.class.getDeclaredMethod("getListCDTVAL", List.class, String.class, String.class);
 method.setAccessible(true);
 Log.addAssert("(private) CheckPrerequis d'une colonne PK",resultListTest_PK, method.invoke(CheckPrerequis, datasListTest_PK, 'INTER','ID_CODINT'))
@@ -76,5 +76,14 @@ Log.addAssert("(private) CheckPrerequis d'une table vide",[], method.invoke(Chec
 Log.addAssert("(private) CheckPrerequis d'une table null",[], method.invoke(CheckPrerequis, datasListTest_PK, null,'ID_CODINT'))
 
 
+List<Map<String, Map<String, Object>>> datasListTest_ColAdded = [
+	['AA.BBB.001.CRE.01':['ID_CODINT':'JMLCRE01', 'ST_DES':'DESJMLCRE01', 'ST_INA':'JMLCRE01_INA', 'NU_IV':null, 'COLADDED':'toto']],
+	['AA.BBB.001.LEC.01':['ID_CODINT':'JMLLEC12', 'ST_DES':'DESJMLLEC12', 'ST_INA':'JMLLEC12_INA', 'NU_IV':null, 'COLADDED':'titi']]
+]
 
+List<String> resultListTest_ColAdded = [
+	"'AA.BBB.001.CRE.01' - 'toto'",
+	"'AA.BBB.001.LEC.01' - 'titi'"
+]
 
+Log.addAssert("(private) CheckPrerequis d'une colonne PK",resultListTest_ColAdded, method.invoke(CheckPrerequis, datasListTest_ColAdded, 'INTER','COLADDED'))

@@ -7,7 +7,7 @@ import tnrLog.Log
 
 /**
  *
- * vérifie les mot clés (KW) dans les JDD/PREJDDD
+ * vérifie les mot clés (KW) dans le JDD ou dans le PREJDDD
  *
  * @author JM Lafarge
  * @version 1.0
@@ -16,54 +16,38 @@ import tnrLog.Log
 @CompileStatic
 public class CheckKW {
 
-	private final String CLASS_FOR_LOG = 'CheckKW'
-
-
-	private String fileType =''
-	private String JDDFullname =''
-	private String sheetName =''
+	private static final String CLASS_FOR_LOG = 'CheckKW'
 
 
 	/**
-	 * Constructeur
-	 * 
-	 * @param fileType Type du fichier à vérifier JDD ou PREJDD
-	 * @param JDDFullname Nom complet du JDD
-	 * @param sheetName Nom de la feuille 
+	 * Vérifie la validité des mots-clés dans les données du JDD/PREJDD.
+	 *
+	 * @param typeFile     Le type du fichier contenant les données (JDD ou PREJDD)
+	 * @param datasList    La liste des données.
+	 * @param JDDFullName  Le nom complet du fichier JDD/PREJDD.
+	 * @param sheetName    Le nom de la feuille
+	 * @return             Le statut après vérification (true si pas de FAIL, sinon false).
 	 */
-	CheckKW(String fileType, String JDDFullname, String sheetName){
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "CheckKW", [fileType:fileType, JDDFullname:JDDFullname, sheetName:sheetName])
-		this.fileType = fileType
-		this.JDDFullname = JDDFullname
-		this.sheetName = sheetName
-		Log.addTraceEND(CLASS_FOR_LOG, "CheckKW")
-	}
-
-
-	/**
-	 * Vérifie la valeur 
-	 * 
-	 * @param cdt cas de test
-	 * @param name Nom de la colonne
-	 * @param val Valeur à vérifier
-	 * @return status Retourne true si la valeur est correcte, sinon false
-	 */
-	public boolean checkValue(String cdt, String name, def val ) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"checkValue",[ cdt:cdt , name:name , val:val])
-		boolean status = true
-		// FAIL si la valeur commence par un $ et que ce n'est pas un mot clé
-		if ((val instanceof String) && val.startsWith('$') && !JDDKW.isAllowedKeyword(val)) {
-			Log.addDETAILFAIL("$JDDFullname ($sheetName) : Le mot clé '$val' est inconnu. Trouvé dans le cas de test $cdt colonne $name")
-			status=false
-			// FAIL si dans les PREJDD on trouve un mot clé de type $UPD
-		}else if (fileType=='PREJDD' && (val instanceof String) && val.startsWith('$') && JDDKW.startWithUPD(val)) {
-			Log.addDETAILFAIL("$JDDFullname ($sheetName) : Le mot clé '$val' n'est pas autorisé dans les PREJDD. Trouvé dans le cas de test $cdt colonne $name")
-			status=false
+	static boolean run(String typeFile,List <Map<String, Map<String, Object>>> datasList, String JDDFullName, String sheetName) {
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"run",[typeFile:typeFile , 'datasList.size()':datasList.size() , JDDFullName:JDDFullName , sheetName:sheetName ])
+		Log.addDEBUGDETAIL("Contrôle des mots clés dans les DATA")
+		boolean status =true
+		// Parcours de chaque ligne de données
+		datasList.each { lines ->
+			lines.each { cdt,datas ->
+				datas.each { name,val ->
+					if ((val instanceof String) && val.startsWith('$') && !JDDKW.isAllowedKeyword(val)) {
+						Log.addDETAILFAIL("$JDDFullName ($sheetName) : Le mot clé '$val' est inconnu. Trouvé dans le cas de test $cdt colonne $name")
+						status=false
+					}else if (typeFile=='PREJDD' && (val instanceof String) && val.startsWith('$') && JDDKW.startWithUPD(val)) {
+						Log.addDETAILFAIL("$JDDFullName ($sheetName) : Le mot clé '$val' n'est pas autorisé dans les PREJDD. Trouvé dans le cas de test $cdt colonne $name")
+						status=false
+					}
+				}
+			}
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"checkValue",status)
+		Log.addTraceEND(CLASS_FOR_LOG,"run",status)
 		return status
 	}
-
-
 
 }// Fin de class

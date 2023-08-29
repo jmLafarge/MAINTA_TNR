@@ -1,7 +1,10 @@
 
 
+import java.lang.reflect.Method
+
 import tnrCheck.data.CheckPK
 import tnrLog.Log
+
 
 /**
  * UNIT TESTS
@@ -13,111 +16,153 @@ import tnrLog.Log
 
 /**
  *
- * TEST 
- * 
- * CheckPK(String jddFullname, String shName,String tableName){
- * public boolean checkPKValues(String cdt, int numLine, String name, def val) {
- * public boolean checkDuplicates( String cdt, int numLine) {
+ * TEST private static String concatPKVal(Map<String, Object> datas,List<String>PKList)
  *
  */
 
-CheckPK checkPK1 = new CheckPK('Le JDDFullname', 'Le sheetName','ACT')
+Method method = CheckPK.class.getDeclaredMethod("concatPKVal",  Map.class, List.class)
+method.setAccessible(true)
 
-Log.addAssert("addPKVal ID1",true,checkPK1.checkPKValues('Cas de test 1', 1,'ID_NUMACT','ID1'))
-Log.addAssert("addPKVal type1",true,checkPK1.checkPKValues('Cas de test 1', 1,'ST_TYP','type1'))
-Log.addAssert("addPKVal Lib1",true,checkPK1.checkPKValues('Cas de test 1', 1,'ST_LIB','Lib1'))
-Log.addAssert("Controle OK",true,checkPK1.checkDuplicates('Cas de Test 1', 1))
+Map<String, Object> datas
 
-Log.addAssert("addPKVal ID2",true,checkPK1.checkPKValues('Cas de test 2', 2,'ID_NUMACT','ID2'))
-Log.addAssert("addPKVal type2",true,checkPK1.checkPKValues('Cas de test 2', 2,'ST_TYP','type2'))
-Log.addAssert("addPKVal Lib2",true,checkPK1.checkPKValues('Cas de test 2', 2,'ST_LIB','Lib2'))
-Log.addAssert("Controle OK",true,checkPK1.checkDuplicates('Cas de Test 2', 2))
+datas = ['ID_JML':'JMLCRE01', 'ST_DES':'DESJMLCRE01', 'ST_INA':'JMLCRE01_INA', 'NU_IV':null]
+Log.addAssert("(private) concatPKVal Avec PKList vide" , '' ,  method.invoke(CheckPK,datas,[]))
+Log.addAssert("(private) concatPKVal Avec PKList ['']" , '' ,  method.invoke(CheckPK,datas,['']))
+Log.addAssert("(private) concatPKVal Avec PKList 1 valeur" , 'DESJMLCRE01' ,  method.invoke(CheckPK,datas,['ST_DES']))
+Log.addAssert("(private) concatPKVal Avec PKList 2 valeurs" , 'JMLCRE01 - JMLCRE01_INA' ,  method.invoke(CheckPK,datas,['ID_JML','ST_INA']))
+Log.addAssert("(private) concatPKVal Avec PKList 3 valeurs" , 'JMLCRE01 - DESJMLCRE01 - JMLCRE01_INA' ,  method.invoke(CheckPK,datas,['ID_JML','ST_DES','ST_INA']))
 
-Log.addAssert("addPKVal ID2",true,checkPK1.checkPKValues('Cas de test 3', 3,'ID_NUMACT','ID2'))
-Log.addAssert("addPKVal type3",true,checkPK1.checkPKValues('Cas de test 3', 3,'ST_TYP','type3'))
-Log.addAssert("addPKVal Lib3",true,checkPK1.checkPKValues('Cas de test 3', 3,'ST_LIB','Lib3'))
-Log.addAssert("Controle doublon PK",false,checkPK1.checkDuplicates('Cas de Test 3', 3))
+Log.addAssert("(private) concatPKVal Avec datas vide" , '' ,  method.invoke(CheckPK,[:],['ST_DES']))
 
-Log.addAssert("addPKVal ID2",true,checkPK1.checkPKValues('Cas de test 4', 5,'ID_NUMACT','ID2'))
-Log.addAssert("Controle 2e doublon PK",false,checkPK1.checkDuplicates('Cas de Test 4', 4))
+datas = ['ID_JML':'$SEQUENCEID', 'ST_DES':'DESJMLCRE01', 'ST_INA':'JMLCRE01_INA', 'NU_IV':null]
+Log.addAssert("(private) concatPKVal Avec \$SEQUENCEID" , '' ,  method.invoke(CheckPK,datas,['ID_JML','ST_INA']))
 
-Log.addAssert("addPKVal ID4",true,checkPK1.checkPKValues('Cas de test 1', 1,'ID_NUMACT','ID4'))
-Log.addAssert("Controle 2e ligne de Cas de Test 4",true,checkPK1.checkDuplicates('Cas de Test 4', 5))
+datas = ['ID_JML':'$ORDRE', 'ST_DES':'DESJMLCRE01', 'ST_INA':'JMLCRE01_INA', 'NU_IV':null]
+Log.addAssert("(private) concatPKVal Avec \$ORDRE" , '' ,  method.invoke(CheckPK,datas,['ID_JML','ST_INA']))
 
-Log.addAssert("addPKVal ID1",true,checkPK1.checkPKValues('Cas de test 4', 6,'ID_NUMACT','ID1'))
-Log.addAssert("Controle autre doublon PK",false,checkPK1.checkDuplicates('Cas de Test 4', 6))
+datas = ['ID_JML':'$UPD*OLDVAL*NEWVAL', 'ST_DES':'DESJMLCRE01', 'ST_INA':'JMLCRE01_INA', 'NU_IV':null]
+Log.addAssert("(private) concatPKVal Avec \$UPD" , 'OLDVAL - JMLCRE01_INA' ,  method.invoke(CheckPK,datas,['ID_JML','ST_INA']))
 
+datas = ['ID_JML':'JMLCRE01', 'ST_DES':'DESJMLCRE01', 'ST_INA':'$TBD', 'NU_IV':null]
+Log.addAssert("(private) concatPKVal Avec \$TBD seul" , 'JMLCRE01 - $TBD' ,  method.invoke(CheckPK,datas,['ID_JML','ST_INA']))
 
-Log.addAssert("addPKVal ID5",true,checkPK1.checkPKValues('Cas de test 5', 7,'ID_NUMACT','ID5'))
-Log.addAssert("addPKVal type3",true,checkPK1.checkPKValues('Cas de test 5', 7,'ST_TYP','type3'))
-Log.addAssert("Controle doublon non PK",true,checkPK1.checkDuplicates('Cas de Test 5', 7))
-
-
-Log.addAssert('addPKVal $SEQUENCEID',true,checkPK1.checkPKValues('Cas de test 6', 8,'ID_NUMACT','$SEQUENCEID'))
-Log.addAssert('Controle doublon$SEQUENCEID',true,checkPK1.checkDuplicates('Cas de Test 6', 8))
-
-Log.addAssert('addPKVal $SEQUENCEID',true,checkPK1.checkPKValues('Cas de test 7', 9,'ID_NUMACT','$SEQUENCEID'))
-Log.addAssert('Controle doublon $SEQUENCEID',true,checkPK1.checkDuplicates('Cas de Test 7', 9))
-
-
-Log.addAssert('addPKVal $ORDRE',true,checkPK1.checkPKValues('Cas de test 8', 10,'ID_NUMACT','$ORDRE'))
-Log.addAssert('Controle doublon$ORDRE',true,checkPK1.checkDuplicates('Cas de Test 8', 10))
-
-Log.addAssert('addPKVal $ORDRE',true,checkPK1.checkPKValues('Cas de test 9', 11,'ID_NUMACT','$ORDRE'))
-Log.addAssert('Controle doublon $ORDRE',true,checkPK1.checkDuplicates('Cas de Test 9', 11))
-
-
-Log.addAssert("addPKVal vide",false,checkPK1.checkPKValues('Cas de test 10', 12,'ID_NUMACT',''))
-Log.addAssert("Controle vide",true,checkPK1.checkDuplicates('Cas de Test 10', 12))
-
-Log.addAssert("addPKVal vide",false,checkPK1.checkPKValues('Cas de test 11', 13,'ID_NUMACT',''))
-Log.addAssert("Controle doublon vide",true,checkPK1.checkDuplicates('Cas de Test 11', 13))
+datas = ['ID_JML':'JMLCRE01', 'ST_DES':'DESJMLCRE01', 'ST_INA':'$TBD*DRAFT', 'NU_IV':null]
+Log.addAssert("(private) concatPKVal Avec \$TBD" , 'JMLCRE01 - DRAFT' ,  method.invoke(CheckPK,datas,['ID_JML','ST_INA']))
 
 
 
-Log.addAssert("addPKVal null",false,checkPK1.checkPKValues('Cas de test 13', 15,'ID_NUMACT',null))
-Log.addAssert("Controle null '",true,checkPK1.checkDuplicates('Cas de Test 13', 15))
 
-Log.addAssert("addPKVal null",false,checkPK1.checkPKValues('Cas de test 14', 16,'ID_NUMACT',null))
-Log.addAssert("Controle doublon null '",true,checkPK1.checkDuplicates('Cas de Test 14', 16))
-
-
-CheckPK checkPK2 = new CheckPK('Le JDDFullname', 'Le sheetName','INTER_HAB')
-
-Log.addAssert("addPKVal codint1",true,checkPK2.checkPKValues('Cas de test 1', 1,'ID_CODINT','codint1'))
-Log.addAssert("addPKVal codhab1",true,checkPK2.checkPKValues('Cas de test 1', 1,'ID_CODHAB','codhab1'))
-Log.addAssert("Controle OK '",true,checkPK2.checkDuplicates('Cas de Test 1', 1))
-
-Log.addAssert("addPKVal codint2",true,checkPK2.checkPKValues('Cas de test 2', 2,'ID_CODINT','codint2'))
-Log.addAssert("addPKVal codhab2",true,checkPK2.checkPKValues('Cas de test 2', 2,'ID_CODHAB','codhab2'))
-Log.addAssert("Controle OK '",true,checkPK2.checkDuplicates('Cas de Test 2', 2))
-
-Log.addAssert("addPKVal codint1",true,checkPK2.checkPKValues('Cas de test 3', 3,'ID_CODINT','codint1'))
-Log.addAssert("addPKVal codhab2",true,checkPK2.checkPKValues('Cas de test 3', 3,'ID_CODHAB','codhab2'))
-Log.addAssert("Controle OK '",true,checkPK2.checkDuplicates('Cas de Test 3', 3))
-
-Log.addAssert("addPKVal codint2",true,checkPK2.checkPKValues('Cas de test 4', 4,'ID_CODINT','codint2'))
-Log.addAssert("addPKVal codhab1",true,checkPK2.checkPKValues('Cas de test 4', 4,'ID_CODHAB','codhab1'))
-Log.addAssert("Controle OK '",true,checkPK2.checkDuplicates('Cas de Test 4', 4))
-
-Log.addAssert("addPKVal codint1",true,checkPK2.checkPKValues('Cas de test 5', 5,'ID_CODINT','codint1'))
-Log.addAssert("addPKVal codhab1",true,checkPK2.checkPKValues('Cas de test 5', 5,'ID_CODHAB','codhab1'))
-Log.addAssert("Controle OK '",false,checkPK2.checkDuplicates('Cas de Test 5', 5))
+/**
+ *
+ * TEST static boolean run(List<Map<String, Map<String, Object>>> datasList, List <String> PKList, String JDDFullName, String sheetName)
+ *
+ */
 
 
-Log.addAssert("addPKVal codint1",true,checkPK2.checkPKValues('Cas de test 6', 6,'ID_CODINT','codint1'))
-Log.addAssert("addPKVal \$SEQUENCEID",true,checkPK2.checkPKValues('Cas de test 6', 6,'ID_CODHAB','$SEQUENCE'))
-Log.addAssert("Controle SEQUENCE '",true,checkPK2.checkDuplicates('Cas de Test 6', 6))
+List<Map<String, Map<String, Object>>> datasListTRUE = [
+	['AA.BBB.001.CRE.01':['ID_JML':'JMLCRE01', 'ST_DES':'DESJMLCRE01', 'ST_INA':'JMLCRE01_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.02':['ID_JML':'JMLCRE02', 'ST_DES':'DESJMLCRE02', 'ST_INA':'JMLCRE02_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.03':['ID_JML':'JMLCRE03', 'ST_DES':'DESJMLCRE03', 'ST_INA':'JMLCRE03_INA', 'NU_IV':null]],
+	['AA.BBB.001.LEC.01':['ID_JML':'JMLLEC11', 'ST_DES':'DESJMLLEC11', 'ST_INA':'JMLLEC11_INA', 'NU_IV':null]],
+	['AA.BBB.001.LEC.01':['ID_JML':'JMLLEC12', 'ST_DES':'DESJMLLEC12', 'ST_INA':'JMLLEC12_INA', 'NU_IV':null]],
+	['AA.BBB.001.LEC.01':['ID_JML':'JMLLEC13', 'ST_DES':'DESJMLLEC13', 'ST_INA':'JMLLEC13_INA', 'NU_IV':null]],
+	['AA.BBB.001.MAJ.01':['ID_JML':'JMLMAJ01', 'ST_DES':'DESJMLMAJ01', 'ST_INA':'JMLMAJ01_INA', 'NU_IV':null]],
+	['AA.BBB.001.SUP.01':['ID_JML':'JMLMAJ02', 'ST_DES':'DESJMLMAJ02', 'ST_INA':'JMLMAJ02_INA', 'NU_IV':null]]
+]
+Log.addAssert("Pas de doublons status true",true,CheckPK.run(datasListTRUE, ['ID_JML','ST_DES'], 'fullname','sheetname'))
 
 
-Log.addAssert("addPKVal codint1",true,checkPK2.checkPKValues('Cas de test 7', 7,'ID_CODINT','codint1'))
-Log.addAssert("addPKVal \$ORDRE",true,checkPK2.checkPKValues('Cas de test 7', 7,'ID_CODHAB','$ORDRE'))
-Log.addAssert("Controle ORDRE '",true,checkPK2.checkDuplicates('Cas de Test 7', 7))
+List<Map<String, Map<String, Object>>> datasListFALSE = [
+	['AA.BBB.001.CRE.01':['ID_JML':'xxxxxxxx', 'ST_DES':'DESJMLCRE01', 'ST_INA':'JMLCRE01_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.01':['ID_JML':'yyyyyyyy', 'ST_DES':'zzzzzzzzzz', 'ST_INA':'JMLCRE01_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.02':['ID_JML':'JMLCRE02', 'ST_DES':'ooooooooooo', 'ST_INA':'JMLCRE02_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.03':['ID_JML':'JMLCRE03', 'ST_DES':'DESJMLCRE03', 'ST_INA':'JMLCRE03_INA', 'NU_IV':null]],
+	['AA.BBB.001.LEC.01':['ID_JML':'xxxxxxxx', 'ST_DES':'oooooooooo', 'ST_INA':'JMLLEC11_INA', 'NU_IV':null]],
+	['AA.BBB.001.LEC.01':['ID_JML':'JMLLEC12', 'ST_DES':'DESJMLLEC12', 'ST_INA':'JMLLEC12_INA', 'NU_IV':null]],
+	['AA.BBB.001.LEC.01':['ID_JML':'xxxxxxxx', 'ST_DES':'oooooooooo', 'ST_INA':'JMLLEC13_INA', 'NU_IV':null]],
+	['AA.BBB.001.MAJ.01':['ID_JML':'xxxxxxxx', 'ST_DES':'oooooooooo', 'ST_INA':'JMLMAJ01_INA', 'NU_IV':null]],
+	['AA.BBB.001.MAJ.01':['ID_JML':'yyyyyyyy', 'ST_DES':'zzzzzzzzzz', 'ST_INA':'JMLMAJ01_INA', 'NU_IV':null]],
+	['AA.BBB.001.SUP.01':['ID_JML':'JMLMAJ02', 'ST_DES':'DESJMLMAJ02', 'ST_INA':'JMLMAJ02_INA', 'NU_IV':null]]
+]
+Log.addAssert("Plusieurs doublons",false,CheckPK.run(datasListFALSE, ['ID_JML','ST_DES'], 'fullname','sheetname'))
 
-Log.addAssert("addPKVal codint1",true,checkPK2.checkPKValues('Cas de test 8', 8,'ID_CODINT','codint1'))
-Log.addAssert("addPKVal vide",false,checkPK2.checkPKValues('Cas de test 8', 8,'ID_CODHAB',''))
-Log.addAssert("Controle vide '",true,checkPK2.checkDuplicates('Cas de Test 8', 8))
 
-Log.addAssert("addPKVal codint1",true,checkPK2.checkPKValues('Cas de test 9', 9,'ID_CODINT','codint1'))
-Log.addAssert("addPKVal null",false,checkPK2.checkPKValues('Cas de test 9', 9,'ID_CODHAB',null))
-Log.addAssert("Controle null '",true,checkPK2.checkDuplicates('Cas de Test 9', 9))
+List<Map<String, Map<String, Object>>> datasListTRUE_SEQUENCEID = [
+	['AA.BBB.001.CRE.01':['ID_JML':'JMLCRE01', 'ST_DES':'DESJMLCRE01', 'ST_INA':'JMLCRE01_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.02':['ID_JML':'$SEQUENCEID', 'ST_DES':'DESJMLCRE02', 'ST_INA':'JMLCRE02_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.03':['ID_JML':'JMLCRE03', 'ST_DES':'DESJMLCRE03', 'ST_INA':'JMLCRE03_INA', 'NU_IV':null]],
+	['AA.BBB.001.LEC.01':['ID_JML':'$SEQUENCEID', 'ST_DES':'xxxxxxxxxx', 'ST_INA':'JMLLEC11_INA', 'NU_IV':null]],
+	['AA.BBB.001.LEC.01':['ID_JML':'$SEQUENCEID', 'ST_DES':'xxxxxxxxxx', 'ST_INA':'JMLLEC12_INA', 'NU_IV':null]],
+	['AA.BBB.001.LEC.01':['ID_JML':'JMLLEC13', 'ST_DES':'DESJMLLEC13', 'ST_INA':'JMLLEC13_INA', 'NU_IV':null]],
+	['AA.BBB.001.MAJ.01':['ID_JML':'JMLMAJ01', 'ST_DES':'DESJMLMAJ01', 'ST_INA':'JMLMAJ01_INA', 'NU_IV':null]],
+	['AA.BBB.001.SUP.01':['ID_JML':'JMLMAJ02', 'ST_DES':'DESJMLMAJ02', 'ST_INA':'JMLMAJ02_INA', 'NU_IV':null]]
+]
+Log.addAssert("Plusieurs SEQUENCEID",true,CheckPK.run(datasListTRUE_SEQUENCEID, ['ID_JML','ST_DES'], 'fullname','sheetname'))
+
+List<Map<String, Map<String, Object>>> datasListTRUE_ORDRE = [
+	['AA.BBB.001.CRE.01':['ID_JML':'JMLCRE01', 'ST_DES':'DESJMLCRE01', 'ST_INA':'JMLCRE01_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.02':['ID_JML':'$ORDRE', 'ST_DES':'DESJMLCRE02', 'ST_INA':'JMLCRE02_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.03':['ID_JML':'JMLCRE03', 'ST_DES':'DESJMLCRE03', 'ST_INA':'JMLCRE03_INA', 'NU_IV':null]],
+	['AA.BBB.001.LEC.01':['ID_JML':'$ORDRE', 'ST_DES':'xxxxxxxxxx', 'ST_INA':'JMLLEC11_INA', 'NU_IV':null]],
+	['AA.BBB.001.LEC.01':['ID_JML':'$ORDRE', 'ST_DES':'xxxxxxxxxx', 'ST_INA':'JMLLEC12_INA', 'NU_IV':null]],
+	['AA.BBB.001.LEC.01':['ID_JML':'JMLLEC13', 'ST_DES':'DESJMLLEC13', 'ST_INA':'JMLLEC13_INA', 'NU_IV':null]],
+	['AA.BBB.001.MAJ.01':['ID_JML':'JMLMAJ01', 'ST_DES':'DESJMLMAJ01', 'ST_INA':'JMLMAJ01_INA', 'NU_IV':null]],
+	['AA.BBB.001.SUP.01':['ID_JML':'JMLMAJ02', 'ST_DES':'DESJMLMAJ02', 'ST_INA':'JMLMAJ02_INA', 'NU_IV':null]]
+]
+Log.addAssert("Plusieurs ORDRE",true,CheckPK.run(datasListTRUE_ORDRE, ['ID_JML','ST_DES'], 'fullname','sheetname'))
+
+
+
+
+List<Map<String, Map<String, Object>>> datasListTRUE_UPD = [
+	['AA.BBB.001.CRE.01':['ID_JML':'$UPD*xxxx*yyyy', 'ST_DES':'DESJMLCRE01', 'ST_INA':'JMLCRE01_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.02':['ID_JML':'yyyy', 'ST_DES':'DESJMLCRE02', 'ST_INA':'JMLCRE02_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.03':['ID_JML':'JMLCRE03', 'ST_DES':'DESJMLCRE03', 'ST_INA':'JMLCRE03_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.02':['ID_JML':'JMLCRE04', 'ST_DES':'DESJMLCRE04', 'ST_INA':'JMLCRE02_INA', 'NU_IV':null]]
+]
+Log.addAssert("Avec UPD OK",true,CheckPK.run(datasListTRUE_UPD, ['ID_JML'], 'fullname','sheetname'))
+
+List<Map<String, Map<String, Object>>> datasListFALSE_UPD = [
+	['AA.BBB.001.CRE.01':['ID_JML':'$UPD*xxxx*yyyy', 'ST_DES':'DESJMLCRE01', 'ST_INA':'JMLCRE01_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.03':['ID_JML':'JMLCRE03', 'ST_DES':'DESJMLCRE03', 'ST_INA':'JMLCRE03_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.02':['ID_JML':'JMLCRE04', 'ST_DES':'DESJMLCRE04', 'ST_INA':'JMLCRE02_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.02':['ID_JML':'xxxx', 'ST_DES':'DESJMLCRE02', 'ST_INA':'JMLCRE02_INA', 'NU_IV':null]]
+]
+Log.addAssert("Avec UPD KO",false,CheckPK.run(datasListFALSE_UPD, ['ID_JML'], 'fullname','sheetname'))
+
+
+
+List<Map<String, Map<String, Object>>> datasListTRUE_TBD = [
+	['AA.BBB.001.CRE.01':['ID_JML':'$TBD', 'ST_DES':'DESJMLCRE01', 'ST_INA':'JMLCRE01_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.02':['ID_JML':'JMLCRE02', 'ST_DES':'DESJMLCRE02', 'ST_INA':'JMLCRE02_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.03':['ID_JML':'JMLCRE03', 'ST_DES':'DESJMLCRE03', 'ST_INA':'JMLCRE03_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.02':['ID_JML':'JMLCRE04', 'ST_DES':'DESJMLCRE04', 'ST_INA':'JMLCRE02_INA', 'NU_IV':null]]
+]
+Log.addAssert("Avec TBD seul",true,CheckPK.run(datasListTRUE_TBD, ['ID_JML'], 'fullname','sheetname'))
+
+
+List<Map<String, Map<String, Object>>> datasListTRUE_TBD2 = [
+	['AA.BBB.001.CRE.01':['ID_JML':'$TBD*xxxx', 'ST_DES':'DESJMLCRE01', 'ST_INA':'JMLCRE01_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.02':['ID_JML':'JMLCRE02', 'ST_DES':'DESJMLCRE02', 'ST_INA':'JMLCRE02_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.03':['ID_JML':'JMLCRE03', 'ST_DES':'DESJMLCRE03', 'ST_INA':'JMLCRE03_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.02':['ID_JML':'JMLCRE04', 'ST_DES':'DESJMLCRE04', 'ST_INA':'JMLCRE02_INA', 'NU_IV':null]]
+]
+Log.addAssert("Avec TBD*VAL sans doublons",true,CheckPK.run(datasListTRUE_TBD2, ['ID_JML'], 'fullname','sheetname'))
+
+
+List<Map<String, Map<String, Object>>> datasListFALSE_TBD = [
+	['AA.BBB.001.CRE.01':['ID_JML':'$TBD*xxxx', 'ST_DES':'DESJMLCRE01', 'ST_INA':'JMLCRE01_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.02':['ID_JML':'xxxx', 'ST_DES':'DESJMLCRE02', 'ST_INA':'JMLCRE02_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.03':['ID_JML':'JMLCRE03', 'ST_DES':'DESJMLCRE03', 'ST_INA':'JMLCRE03_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.02':['ID_JML':'JMLCRE04', 'ST_DES':'DESJMLCRE04', 'ST_INA':'JMLCRE02_INA', 'NU_IV':null]]
+]
+Log.addAssert("Avec TBD*VAL avec doublons",false,CheckPK.run(datasListFALSE_TBD, ['ID_JML'], 'fullname','sheetname'))
+
+
+
+List<Map<String, Map<String, Object>>> datasListFALSE_TBD2 = [
+	['AA.BBB.001.CRE.01':['ID_JML':'$TBD', 'ST_DES':'DESJMLCRE01', 'ST_INA':'JMLCRE01_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.02':['ID_JML':'$TBD', 'ST_DES':'DESJMLCRE02', 'ST_INA':'JMLCRE02_INA', 'NU_IV':null]],
+	['AA.BBB.001.CRE.02':['ID_JML':'JMLCRE01', 'ST_DES':'DESJMLCRE02', 'ST_INA':'JMLCRE02_INA', 'NU_IV':null]]
+]
+Log.addAssert("Avec plusieurs TBD seul",false,CheckPK.run(datasListFALSE_TBD2, ['ID_JML'], 'fullname','sheetname'))

@@ -5,13 +5,16 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.transform.CompileStatic
 import tnrCheck.column.CheckColumn
-import tnrCheck.data.CheckData
+import tnrCheck.data.CheckKW
+import tnrCheck.data.CheckPK
+import tnrCheck.data.CheckType
 import tnrJDDManager.JDD
 import tnrJDDManager.JDDData
 import tnrJDDManager.JDDFileMapper
 import tnrJDDManager.JDDHeader
 import tnrLog.Log
 import tnrPREJDDManager.PREJDDFileMapper
+import tnrSqlManager.InfoDB
 
 
 @CompileStatic
@@ -40,8 +43,8 @@ public class CheckPREJDD {
 
 		PREJDDFileMapper.PREJDDfilemap.each { modObj,PREJDDfullname ->
 
-			Log.addTrace("")
-			Log.addTrace("Lecture du PREJDD : $PREJDDfullname")
+			Log.addDEBUG("")
+			Log.addDEBUG("Controle de $PREJDDfullname")
 
 			JDD myJDD = new JDD(JDDFileMapper.JDDfilemap.getAt(modObj),null,null,false)
 
@@ -59,17 +62,14 @@ public class CheckPREJDD {
 					JDDData PREJDDData = new JDDData(PREJDDsheet,PREJDDheader,'')
 					String table = myJDD.getDBTableName()
 
-					Log.addTrace("Onglet : " + PREJDDsheetName)
+					Log.addDEBUGDETAIL("Onglet : $PREJDDsheetName")
 
 					if (PREJDDheader.getSize()>1) {
 						if (table) {
-							
 							status &= CheckColumn.run('PREJDD',PREJDDheader.getList(), table)
-							status &= CheckData.run('PREJDD',myJDD,PREJDDData, table, PREJDDfullname,PREJDDsheetName)
-
-							//status &= CheckKWInData.run('PREJDD',PREJDDData.getList(), PREJDDfullname,PREJDDsheetName)
-							
-							//status = CheckPrerequis.run2('PREJDD',myJDD,PREJDDfullname,status)
+							status &= CheckKW.run('PREJDD',PREJDDData.getList(), PREJDDfullname,PREJDDsheetName)
+							status &= CheckType.run(PREJDDData.getList(),myJDD, table,PREJDDfullname)
+							status &= CheckPK.run(PREJDDData.getList(), InfoDB.getPK(table), PREJDDfullname, PREJDDsheetName)
 						}else {
 							Log.addDETAIL('Pas de table dans le PREJDD')
 						}

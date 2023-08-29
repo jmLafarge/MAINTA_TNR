@@ -4,10 +4,13 @@ import org.apache.poi.ss.usermodel.*
 
 import groovy.transform.CompileStatic
 import tnrCheck.column.CheckColumn
-import tnrCheck.data.CheckData
+import tnrCheck.data.CheckKW
+import tnrCheck.data.CheckPK
+import tnrCheck.data.CheckType
 import tnrJDDManager.JDD
 import tnrJDDManager.JDDFileMapper
 import tnrLog.Log
+import tnrSqlManager.InfoDB
 
 @CompileStatic
 public class CheckJDD {
@@ -51,10 +54,11 @@ public class CheckJDD {
 					if (myJDD.myJDDHeader.getSize() >1) {
 						if (table) {
 							status &= CheckColumn.run('JDD',myJDD.myJDDHeader.getList(), table)
+							status &= CheckKW.run('JDD',myJDD.myJDDData.getList(),JDDFullname,JDDsheetName)
+							status &= CheckType.run(myJDD.myJDDData.getList(),myJDD, table,JDDFullname)
+							status &= CheckPK.run(myJDD.myJDDData.getList(), InfoDB.getPK(table), JDDFullname, JDDsheetName)
 
-							status &= CheckData.run('JDD',myJDD,myJDD.myJDDData,table, JDDFullname,JDDsheetName)
 
-							//reste à faire status &= CheckPrerequis.run2('JDD',myJDD,JDDFullname)
 
 						}else {
 							Log.addDEBUGDETAIL('Pas de table dans le JDD')

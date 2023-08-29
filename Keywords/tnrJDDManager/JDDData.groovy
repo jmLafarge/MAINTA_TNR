@@ -32,7 +32,7 @@ public class JDDData {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "JDDDatas", [sheet:sheet.getSheetName() , JDDHeader:JDDHeader, startDataWord:startDataWord])
 
 		Iterator<Row> rowIt = sheet.rowIterator()
-		
+
 		skipToStartDataWord(rowIt, startDataWord)
 		processData(rowIt, JDDHeader)
 
@@ -57,8 +57,8 @@ public class JDDData {
 			}
 		}
 	}
-	
-	
+
+
 	/**
 	 * Traite les données de chaque ligne pour peupler datasList.
 	 * 
@@ -74,17 +74,17 @@ public class JDDData {
 				Log.addTrace('- break')
 				break
 			}
-			
+
 			List<String> rowValues = tnrCommon.ExcelUtils.loadRow(row, JDDHeader.getSize() + 1)
 			Log.addTrace("- rowValues: $rowValues")
-			
+
 			def fieldMap = [:]
 			def rowMap = [:]
-			
+
 			JDDHeader.getList().eachWithIndex { header, index ->
 				fieldMap[header] = rowValues[index + 1]
 			}
-			
+
 			rowMap[cellValue] = fieldMap
 			datasList.add(rowMap)
 		}
@@ -113,8 +113,8 @@ public class JDDData {
 		Log.addTraceEND(CLASS_FOR_LOG, "getRawData" , ret)
 		return ret
 	}
-	
-	
+
+
 	/**
 	 * Récupère tous les cas de test (cdts) contenant une sous-chaîne donnée, sans doublons.
 	 * 
@@ -128,7 +128,7 @@ public class JDDData {
 		Log.addTraceEND(CLASS_FOR_LOG, "getCdtsContainingSubstringWithoutDuplicates" , ret)
 		return ret
 	}
-	
+
 
 	/**
 	 * Concatène les cdts et les valeurs de certains champs de chaque ligne de données.
@@ -140,20 +140,20 @@ public class JDDData {
 	public List<String> concatenateCdtsAndValues(List<Map<String, Map<String, Object>>> JDDDatas, List<String> namesToConcat) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "concatenateCdtsAndValues", ['JDDDatas.size()':JDDDatas.size() , namesToConcat:namesToConcat])
 		boolean err = false
-	    List<String> list = (List<String>) JDDDatas.collect { cdtLine ->
-	        cdtLine.collect { cdt, dataLine ->
-	            String concatCdt = cdt
-	            namesToConcat.each { name ->
+		List<String> list = (List<String>) JDDDatas.collect { cdtLine ->
+			cdtLine.collect { cdt, dataLine ->
+				String concatCdt = cdt
+				namesToConcat.each { name ->
 					if (dataLine[name]) {
 						concatCdt += "-" + dataLine[name]
 					}else {
 						Log.addERROR("concatenateCdtsAndValues() : $name n'est pas une colonne du JDD")
 						err=true
 					}
-	            }
-	            return concatCdt
-	        }
-	    }.flatten()
+				}
+				return concatCdt
+			}
+		}.flatten()
 		//renvoie une List vide si une erreur est arrivée
 		list = err?[] as List<String>:list
 		Log.addTraceEND(CLASS_FOR_LOG, "concatenateCdtsAndValues" , list)
@@ -185,7 +185,7 @@ public class JDDData {
 	}
 
 
-	
+
 	/**
 	 * Modifie la valeur d'un champ spécifique pour un cdt et une occurrence donnée.
 	 * 

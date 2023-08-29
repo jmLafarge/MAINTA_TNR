@@ -14,30 +14,40 @@ import tnrLog.Log
 
 /**
  *
- * TEST
- * 
- * 	checkKW(String fileType, String JDDFullname, String sheetName){
- * 	public boolean checkKW( String cdt, String name, def val ) {
+ * TEST static boolean run(String typeFile,List <Map<String, Map<String, String>>> datasList, String JDDFullName, String sheetName)
  *
  */
 
 
-CheckKW checkKW = new CheckKW( 'JDD','Le JDDFullname', 'Le sheetName')
 
-Log.addAssert("checkValue un varchar" , true ,  checkKW.checkValue('Le cas de test', 'NAME', 'MonNom'))
+List<Map<String, Map<String, Object>>> datasListTestJDDTRUE = [
+	['AA.BBB.001.CRE.01':['ID_JML':'JMLCRE01', 'ST_DES':'$ORDRE', 'ST_INA':'$DATETIMESYS', 'NU_IV':null]],
+	['AA.BBB.001.CRE.02':['ID_JML':'$SEQUENCEID', 'ST_DES':'DESJMLCRE02', 'ST_INA':'DATESYS', 'NU_IV':null]],
+	['AA.BBB.001.CRE.03':['ID_JML':'JMLCRE03', 'ST_DES':'$NULL', 'ST_INA':'JMLCRE03_INA', 'NU_IV':null]],
+	['AA.BBB.001.LEC.01':['ID_JML':'JMLLEC11', 'ST_DES':'$NU', 'ST_INA':'JMLLEC11_INA', 'NU_IV':null]],
+	['AA.BBB.001.LEC.01':['ID_JML':'$ORDRE', 'ST_DES':'NULL', 'ST_INA':'JMLLEC12_INA', 'NU_IV':null]],
+	['AA.BBB.001.LEC.01':['ID_JML':'JMLLEC13', 'ST_DES':'$VIDE', 'ST_INA':'JMLLEC13_INA', 'NU_IV':null]],
+	['AA.BBB.001.MAJ.01':['ID_JML':'JMLMAJ01', 'ST_DES':'$TBD', 'ST_INA':'JMLMAJ01_INA', 'NU_IV':null]],
+	['AA.BBB.001.SUP.01':['ID_JML':'JMLMAJ02', 'ST_DES':'$UPD*VAL*NEWVAL', 'ST_INA':'JMLMAJ02_INA', 'NU_IV':null]]
+]
 
-Log.addAssert("checkValue un numéric" , true ,  checkKW.checkValue('Le cas de test', 'NAME', 1))
-Log.addAssert('checkValue $SEQUENCEID' , true ,  checkKW.checkValue('Le cas de test', 'NAME', '$SEQUENCEID'))
-Log.addAssert('checkValue $ORDRE' , true ,  checkKW.checkValue('Le cas de test', 'NAME', '$ORDRE'))
-Log.addAssert('checkValue $UPD*OLD*NEW' , true ,  checkKW.checkValue('Le cas de test', 'NAME', '$UPD*OLD*NEW'))
+List<Map<String, Map<String, Object>>> datasListTestPREJDDTRUE = [
+	['AA.BBB.001.CRE.01':['ID_JML':'JMLCRE01', 'ST_DES':'$ORDRE', 'ST_INA':'$DATETIMESYS', 'NU_IV':null]],
+	['AA.BBB.001.CRE.02':['ID_JML':'$SEQUENCEID', 'ST_DES':'DESJMLCRE02', 'ST_INA':'DATESYS', 'NU_IV':null]],
+	['AA.BBB.001.CRE.03':['ID_JML':'JMLCRE03', 'ST_DES':'$NULL', 'ST_INA':'JMLCRE03_INA', 'NU_IV':null]],
+	['AA.BBB.001.LEC.01':['ID_JML':'JMLLEC11', 'ST_DES':'$NU', 'ST_INA':'JMLLEC11_INA', 'NU_IV':null]],
+	['AA.BBB.001.LEC.01':['ID_JML':'$ORDRE', 'ST_DES':'NULL', 'ST_INA':'JMLLEC12_INA', 'NU_IV':null]],
+	['AA.BBB.001.LEC.01':['ID_JML':'JMLLEC13', 'ST_DES':'$VIDE', 'ST_INA':'JMLLEC13_INA', 'NU_IV':null]],
+	['AA.BBB.001.MAJ.01':['ID_JML':'JMLMAJ01', 'ST_DES':'$TBD', 'ST_INA':'JMLMAJ01_INA', 'NU_IV':null]]
+]
 
-Log.addAssert('checkValue $UPD*OLD' , false ,  checkKW.checkValue('Le cas de test', 'NAME', '$UPD*OLD'))
-Log.addAssert('checkValue $TBD' , true ,  checkKW.checkValue('Le cas de test', 'NAME', '$ORDRE'))
+List<Map<String, Map<String, Object>>> datasListTestFALSE = [
+	['AA.BBB.001.CRE.01':['ID_JML':'JMLCRE01', 'ST_DES':'$UNK', 'ST_INA':'$DATETIMESYS', 'NU_IV':null]],
+	['AA.BBB.001.CRE.02':['ID_JML':'$UPD', 'ST_DES':'DESJMLCRE02', 'ST_INA':'DATESYS', 'NU_IV':null]]
+]
 
-Log.addAssert('checkValue $UNK' , false ,  checkKW.checkValue('Le cas de test', 'NAME', '$UNK'))
+Log.addAssert("Controle OK dans le JDD avec status à TRUE",true,CheckKW.run('JDD',datasListTestJDDTRUE, 'le JDDFullName', 'le sheetName'))
+Log.addAssert("Controle OK dans le PREJDD avec status à TRUE",true,CheckKW.run('JDD',datasListTestPREJDDTRUE, 'le JDDFullName', 'le sheetName'))
+Log.addAssert("Mot clé '\$UPD*VAL*NEWVAL' dans le PREJDD avec status à TRUE",false,CheckKW.run('PREJDD',datasListTestJDDTRUE, 'le JDDFullName', 'le sheetName'))
 
-checkKW = new CheckKW( 'PREJDD','Le PREJDDFullname', 'Le sheetName')
-Log.addAssert('checkValue $UPD*OLD*NEW dans un PREJDD' , false ,  checkKW.checkValue('Le cas de test', 'NAME', '$UPD*OLD*NEW'))
-
-	
-
+Log.addAssert("Mot clé '\$UNK' avec status à TRUE",false,CheckKW.run('PREJDD',datasListTestFALSE, 'le JDDFullName', 'le sheetName'))
