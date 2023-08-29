@@ -42,7 +42,7 @@ public class InfoDB {
 
 
 	/**
-	 * CONSTRUCTOR : lit le fichier et charget le map 'datas'
+	 * Constructeur : lit le fichier et charget le map 'datas'
 	 */
 	static {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"static",[:])

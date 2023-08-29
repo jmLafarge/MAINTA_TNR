@@ -1,10 +1,11 @@
 
 import tnrCheck.CheckJDD
-import tnrCheck.CheckPrerequis
+import tnrCheck.CheckPREJDD
+import tnrCheck.specific.Check_CAL
 import tnrLog.Log
 
 
-Log.setDebugLevel(4)
+Log.setTraceLevel(0)
 
 
 Log.addTITLE("Vérification des JDD et des PREJDD")

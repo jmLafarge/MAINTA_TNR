@@ -56,7 +56,7 @@ public class InfoDBLoader {
 
 
 	/**
-	 * CONSTRUCTOR : charge les données à partir du fichier Excel
+	 * Constructeur : charge les données à partir du fichier Excel
 	 */
 	InfoDBLoader (){
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"InfoDBLoader",[:])

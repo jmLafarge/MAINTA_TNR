@@ -28,16 +28,17 @@ public class PREJDDFileMapper {
 
 	static {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"static",[:])
-		Log.addSubTITLE("Load PREJDDfileList",'-',120)
-		Log.addINFO("\t"+'MODOBJ'.padRight(11) + 'JDDFULLNAME')
-		Log.addINFO('')
+		Log.addDEBUG("Load PREJDDfileList")
+		Log.addDEBUG('')
+		Log.addDEBUG("\t"+'MODOBJ'.padRight(11) + 'JDDFULLNAME')
+		Log.addDEBUG('')
 
 		new File(TNRPropertiesReader.getMyProperty('PREJDD_PATH')).eachFileRecurse(FileType.FILES) { file ->
 			// keep only TC Name like PREJDD.*.xlsx
 			if (file.getName()==~ /PREJDD\..*\.xlsx/ && file.getPath()==~ /^((?!standby).)*$/) {
 				String modObj = file.getName().replace('PREJDD.','').replace('.xlsx','')
 				PREJDDfilemap.put(modObj,file.getPath())
-				Log.addINFO('\t' + modObj.padRight(11) + file.getPath())
+				Log.addDEBUG('\t' + modObj.padRight(11) + file.getPath())
 			}
 		}
 		Log.addTraceEND(CLASS_FOR_LOG,"static")

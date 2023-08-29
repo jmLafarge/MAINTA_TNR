@@ -35,9 +35,10 @@ public class JDDFileMapper {
 
 	static {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"static",[:])
-		Log.addSubTITLE("Load JDDfileList",'-',120)
 
-		Log.addINFO("\t"+'MODOBJ'.padRight(16) + 'JDDFULLNAME')
+		Log.addTrace("Load JDDfileList")
+		Log.addTrace("")
+		Log.addTrace("\t"+'MODOBJ'.padRight(16) + 'JDDFULLNAME')
 
 		new File(TNRPropertiesReader.getMyProperty('JDD_PATH')).eachFileRecurse(FileType.FILES) { file ->
 
@@ -48,7 +49,7 @@ public class JDDFileMapper {
 
 				JDDfilemap.put(modObj,file.getPath())
 
-				Log.addINFO('\t' + modObj.padRight(16) + file.getPath())
+				Log.addDEBUG('\t' + modObj.padRight(16) + file.getPath())
 			}
 		}
 		Log.addTraceEND(CLASS_FOR_LOG,"static")

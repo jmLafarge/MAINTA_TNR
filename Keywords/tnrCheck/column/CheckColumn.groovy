@@ -1,4 +1,4 @@
-package tnrCheck
+package tnrCheck.column
 
 import groovy.transform.CompileStatic
 import tnrLog.Log
@@ -30,7 +30,7 @@ public class CheckColumn {
 
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"run",[fileType:fileType , headersList:headersList , table:table ])
 
-		Log.addDETAIL(" - Contrôle des colonnes")
+		Log.addDEBUGDETAIL("Contrôle des colonnes")
 
 		boolean status = true
 

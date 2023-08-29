@@ -4,13 +4,14 @@ import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.transform.CompileStatic
-import tnrLog.Log
+import tnrCheck.column.CheckColumn
+import tnrCheck.data.CheckData
 import tnrJDDManager.JDD
 import tnrJDDManager.JDDData
 import tnrJDDManager.JDDFileMapper
 import tnrJDDManager.JDDHeader
+import tnrLog.Log
 import tnrPREJDDManager.PREJDDFileMapper
-import tnrSqlManager.InfoDB
 
 
 @CompileStatic
@@ -62,10 +63,12 @@ public class CheckPREJDD {
 
 					if (PREJDDheader.getSize()>1) {
 						if (table) {
-							//status &= CheckColumn.run('PREJDD',PREJDDheader.getList(), table)
+							
+							status &= CheckColumn.run('PREJDD',PREJDDheader.getList(), table)
+							status &= CheckData.run('PREJDD',myJDD,PREJDDData, table, PREJDDfullname,PREJDDsheetName)
+
 							//status &= CheckKWInData.run('PREJDD',PREJDDData.getList(), PREJDDfullname,PREJDDsheetName)
-							//status &= CheckTypeInData.run(PREJDDData.getList(),myJDD, table,PREJDDfullname)
-							//status &= CheckDoublonOnPK.run(PREJDDData.getList(), InfoDB.getPK(table), PREJDDfullname, PREJDDsheetName)
+							
 							//status = CheckPrerequis.run2('PREJDD',myJDD,PREJDDfullname,status)
 						}else {
 							Log.addDETAIL('Pas de table dans le PREJDD')

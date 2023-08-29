@@ -40,21 +40,20 @@ public class CheckPrerequis {
 		 */
 		//Controle si tous les PREREQUIS des JDD/PREJDD sont bien dans les PREJDD
 
-		
+
 		list2.each{ map ->
 			/*
-			map.each { key,val ->
-				Log.addINFO("\t$key:" + val.toString())
-			}
-			
-			if (!checkCdtValInPREJDD(map)) {
-				status=false
-			}
-			*/
+			 map.each { key,val ->
+			 Log.addINFO("\t$key:" + val.toString())
+			 }
+			 if (!checkCdtValInPREJDD(map)) {
+			 status=false
+			 }
+			 */
 			println map
 		}
-		
-		
+
+
 		if (status) {
 			Log.addINFO('     ***  OK   ***')
 		}
@@ -115,7 +114,7 @@ public class CheckPrerequis {
 	 * @param name
 	 * @return
 	 */
-	private static List <String >getListCDTVAL(List <Map<String, Map<String, String>>> datas,String table, String name) {
+	private static List <String >getListCDTVAL(List <Map<String, Map<String, Object>>> datas,String table, String name) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"getListCDTVAL",[datas:datas , table:table , name:name])
 		List<String> list =[]
 
@@ -123,9 +122,9 @@ public class CheckPrerequis {
 
 			if (InfoDB.inTable(table, name)) {
 				List<List<String>> listAllCDTVAL = []
-				datas.each { outerMap ->
-					outerMap.each { key, innerMap ->
-						listAllCDTVAL << [key, innerMap[name]]
+				datas.each { line ->
+					line.each { cdt, data ->
+						listAllCDTVAL << [cdt, data[name]]
 					}
 				}
 				listAllCDTVAL.each {li ->

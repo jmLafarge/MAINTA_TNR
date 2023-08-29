@@ -2,9 +2,9 @@
 import java.lang.reflect.Method
 
 import internal.GlobalVariable
-import tnrCheck.CheckType
-import tnrLog.Log
+import tnrCheck.data.CheckType
 import tnrJDDManager.JDD
+import tnrLog.Log
 
 /**
  * UNIT TESTS

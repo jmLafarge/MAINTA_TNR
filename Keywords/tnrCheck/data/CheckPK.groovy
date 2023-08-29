@@ -1,4 +1,4 @@
-package tnrCheck
+package tnrCheck.data
 
 import groovy.transform.CompileStatic
 import tnrJDDManager.JDDKW
@@ -31,7 +31,7 @@ public class CheckPK {
 
 
 	/**
-	 * CONSTRUCTOR
+	 * Constructeur
 	 *
 	 * @param jddFullname : Nom du JDD/PREJDD
 	 * @param shName : Nom de la feuille.

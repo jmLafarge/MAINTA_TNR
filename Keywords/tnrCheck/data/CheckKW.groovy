@@ -1,9 +1,9 @@
-package tnrCheck
+package tnrCheck.data
 
 import groovy.transform.CompileStatic
 import tnrJDDManager.JDDKW
 import tnrLog.Log
-import tnrSqlManager.InfoDB
+
 
 /**
  *
@@ -25,7 +25,7 @@ public class CheckKW {
 
 
 	/**
-	 * CONSTRUCTOR
+	 * Constructeur
 	 * 
 	 * @param fileType Type du fichier à vérifier JDD ou PREJDD
 	 * @param JDDFullname Nom complet du JDD

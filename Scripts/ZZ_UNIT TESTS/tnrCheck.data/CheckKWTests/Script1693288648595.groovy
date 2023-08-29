@@ -1,8 +1,8 @@
 
 
+import tnrCheck.data.CheckKW
 import tnrLog.Log
-import tnrCheck.CheckKW
-import java.lang.reflect.Method
+
 
 /**
  * UNIT TESTS

@@ -99,7 +99,7 @@ public class Sequencer {
 	
 			} // end of for each data line
 		//}
-	}//end of constructor
+	}//end of Constructeur
 
 
 

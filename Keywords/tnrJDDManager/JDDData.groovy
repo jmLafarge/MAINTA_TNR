@@ -21,7 +21,7 @@ public class JDDData {
 
 
 	/**
-	 * CONSTRUCTOR : Lit les données du fichier Excel et charge datasList.
+	 * Constructeur : Lit les données du fichier Excel et charge datasList.
 	 * 
 	 * @param sheet La feuille Excel à lire
 	 * @param JDDHeader L'entête de la feuille Excel
@@ -180,7 +180,7 @@ public class JDDData {
 	 * Récupère la liste de données.
 	 * @return La liste de données
 	 */
-	public List getList() {
+	public List<Map<String, Map<String, Object>>> getList() {
 		return  datasList
 	}
 

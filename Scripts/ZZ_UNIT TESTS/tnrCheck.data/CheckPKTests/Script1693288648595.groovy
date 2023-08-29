@@ -1,8 +1,7 @@
 
 
+import tnrCheck.data.CheckPK
 import tnrLog.Log
-import tnrCheck.CheckPK
-
 
 /**
  * UNIT TESTS

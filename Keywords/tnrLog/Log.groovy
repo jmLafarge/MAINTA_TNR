@@ -36,14 +36,14 @@ class Log {
 	private static int nbCarStatus = 7
 
 	private static Date startLog = null
-	private static int debugLevel = 0
+	private static int traceLevel = 0
 	private static int level = 0
 	private static int maxLevel = 0
 
-	private static List <String> debugClassesExcluded = []
-	private static List <String> debugClassesAdded = []
-	private static List <String> debugFunctionsExcluded = []
-	private static List <String> debugFunctionsAdded = []
+	private static List <String> traceClassesExcluded = []
+	private static List <String> traceClassesAdded = []
+	private static List <String> traceFunctionsExcluded = []
+	private static List <String> traceFunctionsAdded = []
 
 	private static List<Map<String, Boolean>> traceList = []
 
@@ -76,34 +76,34 @@ class Log {
 		file 		=new File(TNRPropertiesReader.getMyProperty('LOG_PATH') + File.separator +  dateFile + "-log.txt")
 		fileDebug 	=new File(TNRPropertiesReader.getMyProperty('LOG_PATH') + File.separator +  dateFile + "-logDEBUG.txt")
 
-		debugLevel = TNRPropertiesReader.getMyProperty('LOG_DEBUGLEVEL').toInteger()
+		traceLevel = TNRPropertiesReader.getMyProperty('LOG_TRACE_LEVEL').toInteger()
 
-		String debugClassList = TNRPropertiesReader.getMyProperty('LOG_DEBUGCLASSES')
+		String traceClassList = TNRPropertiesReader.getMyProperty('LOG_TRACE_CLASSES')
 
 
-		if (debugClassList) {
-			debugClassList = debugClassList.replaceAll("[\\s\\t]+", "") // Supprime les espaces et les tabulations
-			List <String> classList = debugClassList.split(',') as List
-			debugClassesExcluded = classList.findAll { it[0] == '-' }.collect { it.substring(1) }
-			debugClassesAdded = classList.findAll { it[0] == '+' }.collect { it.substring(1) }
+		if (traceClassList) {
+			traceClassList = traceClassList.replaceAll("[\\s\\t]+", "") // Supprime les espaces et les tabulations
+			List <String> classList = traceClassList.split(',') as List
+			traceClassesExcluded = classList.findAll { it[0] == '-' }.collect { it.substring(1) }
+			traceClassesAdded = classList.findAll { it[0] == '+' }.collect { it.substring(1) }
 		}
 
-		String debugFunctionList = TNRPropertiesReader.getMyProperty('LOG_DEBUGFUNCTION')
+		String traceFunctionList = TNRPropertiesReader.getMyProperty('LOG_TRACE_FUNCTION')
 
-		if (debugFunctionList) {
-			debugFunctionList = debugFunctionList.replaceAll("[\\s\\t]+", "") // Supprime les espaces et les tabulations
-			List <String> functionList = debugFunctionList.split(',') as List
-			debugFunctionsExcluded = functionList.findAll { it[0] == '-' }.collect { it.substring(1) }
-			debugFunctionsAdded = functionList.findAll { it[0] == '+' }.collect { it.substring(1) }
+		if (traceFunctionList) {
+			traceFunctionList = traceFunctionList.replaceAll("[\\s\\t]+", "") // Supprime les espaces et les tabulations
+			List <String> functionList = traceFunctionList.split(',') as List
+			traceFunctionsExcluded = functionList.findAll { it[0] == '-' }.collect { it.substring(1) }
+			traceFunctionsAdded = functionList.findAll { it[0] == '+' }.collect { it.substring(1) }
 		}
 
 
 		add('','Fichier log de Katalon TNR')
-		addDEBUG("Debug level : $debugLevel")
-		addDEBUG('Debug classes excluded   = ' + debugClassesExcluded + '\tThese classes will never be traced' )
-		addDEBUG('Debug classes added      = ' + debugClassesAdded + '\tThese classes will always be traced')
-		addDEBUG('Debug functions excluded = ' + debugFunctionsExcluded + '\tThese functions will never be traced' )
-		addDEBUG('Debug functions added    = ' + debugFunctionsAdded + '\tThese functions will always be traced')
+		addDEBUG("Trace niveau (profondeur)    : $traceLevel")
+		addDEBUG('Trace des classes exclues    : ' + traceClassesExcluded + '\tCes classes ne seront jamais tracées' )
+		addDEBUG('Trace classes ajoutées       : ' + traceClassesAdded + '\tCes classes seront toujours tracées')
+		addDEBUG('Trace des fonctions exclues  : ' + traceFunctionsExcluded + '\tCes fonctions ne seront jamais tracées' )
+		addDEBUG('Trace des fonctions ajoutées : ' + traceFunctionsAdded + '\tCes fonctions seront toujours tracées')
 	}
 
 
@@ -236,16 +236,16 @@ class Log {
 
 	private static setTraceAllowed(String myClass, String myFunction, int level) {
 
-		traceAllowed =  (level <= debugLevel)
+		traceAllowed =  (level <= traceLevel)
 
-		if (debugClassesExcluded.contains(myClass)) {
+		if (traceClassesExcluded.contains(myClass)) {
 			traceAllowed = false
-		}else if (debugClassesAdded.contains(myClass)) {
+		}else if (traceClassesAdded.contains(myClass)) {
 			traceAllowed= true
 		}
-		if (debugFunctionsExcluded.contains(getClassFunction(myClass,myFunction))) {
+		if (traceFunctionsExcluded.contains(getClassFunction(myClass,myFunction))) {
 			traceAllowed = false
-		}else if (debugFunctionsAdded.contains(getClassFunction(myClass,myFunction))) {
+		}else if (traceFunctionsAdded.contains(getClassFunction(myClass,myFunction))) {
 			traceAllowed= true
 		}
 
@@ -254,7 +254,7 @@ class Log {
 
 
 	public static addDEBUGDETAIL (String msg) {
-		addTrace('- '+ msg)
+		addDEBUG("- $msg")
 	}
 
 
@@ -349,15 +349,13 @@ class Log {
 
 
 
-	public static setDebugLevel(int newLevel) {
-		debugLevel = newLevel
-		fileDebug.append("New debug level = $debugLevel\n")
+	public static setTraceLevel(int newLevel) {
+		fileDebug.append("Ancien niveau de trace  : $traceLevel\n")
+		traceLevel = newLevel
+		fileDebug.append("Nouveau niveau de trace : $traceLevel\n")
 	}
 
-	public static setDebugClasses(String[] newClasses) {
-		debugClasses = newClasses
-		fileDebug.append("New debug Classes = $newClasses\n")
-	}
+
 
 
 	public static addEndLog(String msg='') {

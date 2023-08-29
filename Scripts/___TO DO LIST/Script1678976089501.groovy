@@ -9,8 +9,6 @@
  * 
  * 
 
-finir CheckTypeTests
-
 
  finir getAllPrerequis2
  
@@ -222,12 +220,9 @@ finir CheckTypeTests
 		JDD et autre : Ajouter un close() du fichier dans tous les TC --> créer un JDD.close()
 		
 		
-	CHECK PREREQUIS 
+	CHECK  
 	
-		Ajouter un ctrl sur les prérequis des prérequis
 		
-		J'ai ajouté le Check_CAL --> faire pareil avec les autres chck spécifique , comme par exe les org/ser et inter...
-	  
 		Ajouter les controle des PARAM_LIST_ALLOWED dans les controles JDD "CHECK PREREQUIS" plutot que dans le code des tests
 		
 		Ajouter un ctrl sur les valeurs de chaque paramètre ex : 
@@ -242,18 +237,14 @@ finir CheckTypeTests
 			- car cela conditionne les créations de SOCIETE SER INTER et UTI
 		  
 		  
-	RESULT
+	Check_CAL
 	
-		groupDetail pose problème, les lignes jusquà 595 sont masquées !? --> mis en commentaire
-	 
-		Sortir la gestion des STEP et du Status de Log
-			- Mettre status dans une class à part
-			- Mettre la gestion des STEPs dans Result --> ou à part ?
-			
-		Ajouter les step FAIL dans le xls en grouper sous le test ou dans un autre onglet --> avec les élements nécessaire pour le ticket
+		Revoir la class et la mettre à jour avec les nouvelles class JDDData par exemple
+		--> faire pareil avec d'autres chck spécifique , comme par exe les org/ser et inter...
 		
-		Ou faire un plan(regrouper) avec les STEPs
-	  		si on veut lister les STEP dans le xls il faut peut être simplifiué
+		
+	
+	RESULT
 	  		
 	  	modif le step de ctrl en BDD pour faire une ligne + details avec un refrech de la ligne du dessus comme ....
 	  	
@@ -263,6 +254,7 @@ finir CheckTypeTests
 		Ajouter un récap des résultats de Test, par RESUME, par cas de test,  voir ce que fait Katalon
 		Si on veut indentifier les STEP pour comparer entr eplusieurs campagne il faut les identifier, par exemple CDT_nnnn_texte --> mais si on maj le texte :-(
 	  		du coup faudrait peut être ajouter la durée  
+	 
 	 
 	TEST SUITE
 	

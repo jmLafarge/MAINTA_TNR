@@ -1,8 +1,9 @@
 
 
-import tnrLog.Log
-import tnrCheck.CheckPrerequis
 import java.lang.reflect.Method
+
+import tnrCheck.CheckPrerequis
+import tnrLog.Log
 
 /**
  * UNIT TESTS
@@ -14,7 +15,7 @@ import java.lang.reflect.Method
 
 /**
  *
- * TEST private static List getListCDTVAL(List <Map<String, Map<String, String>>> datas,String table, String name) {
+ * TEST private static List <String >getListCDTVAL(List <Map<String, Map<String, Object>>> datas,String table, String name) {
  *
  */
 
