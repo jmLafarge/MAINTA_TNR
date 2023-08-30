@@ -147,7 +147,7 @@ public class TNRResult {
 		testCaseStarted = true
 
 		GlobalVariable.CAS_DE_TEST_EN_COURS = cdt
-		cdt += ' : ' + TCFileMapper.getTitle()
+		cdt += ' : ' + TCFileMapper.getTitle(cdt)
 		status.WARNING = 0
 		status.FAIL = 0
 		status.PASS = 0
@@ -164,7 +164,7 @@ public class TNRResult {
 		if (testCaseStarted) {
 
 			testCaseStarted = false
-			String cdt = GlobalVariable.CAS_DE_TEST_EN_COURS.toString() + ' : ' + TCFileMapper.getTitle()
+			String cdt = GlobalVariable.CAS_DE_TEST_EN_COURS.toString() + ' : ' + TCFileMapper.getTitle(GlobalVariable.CAS_DE_TEST_EN_COURS.toString())
 
 			Date stop = new Date()
 

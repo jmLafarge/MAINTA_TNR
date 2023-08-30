@@ -12,12 +12,7 @@ import tnrLog.Log
 @CompileStatic
 public class Sequencer {
 
-	/*
-	 * Read the TNRSequencer File
-	 * 
-	 * 
-	 * 
-	 */
+	private static final String CLASS_FOR_LOG = 'Sequencer'
 
 
 	public static List testCasesList = []
@@ -25,81 +20,76 @@ public class Sequencer {
 	 * 
 	 * Example :
 	 *
-	 * [ FULLTCNAME : full path TC1 , NAME : CDT1 , REP : 1 ] 
+	 * [ TCFULLNAME : full path TC1 , CDTPATTERN : CDT1 , REP : 1 ] 
 	 * 
-	 * [ FULLTCNAME : full path TC2 , NAME : CDT21 , REP : 5 ]
+	 * [ TCFULLNAME : full path TC2 , CDTPATTERN : CDT21 , REP : 5 ]
 	 * 
-	 * [ FULLTCNAME : full path TC2 , NAME : CDT22 , REP : 1 ]
+	 * [ TCFULLNAME : full path TC2 , CDTPATTERN : CDT22 , REP : 1 ]
 	 *
-	 * [ FULLTCNAME : full path TC3 , NAME : CDT3 ,  REP : 2 ] 
+	 * [ TCFULLNAME : full path TC3 , CDTPATTERN : CDT3 ,  REP : 2 ] 
 	 *
 	 */
 
 
-
-/*
-	public static load() {
-		
-		if (testCasesList.isEmpty()){
-*/
 	static {
-			Log.addSubTITLE('Load testCasesList from TNR sequencer file','-',120)
-			Log.addINFO("\t" + 'CDTPATTERN'.padRight(24) + 'TCFULLNAME'.padRight(90) + 'REP')
-			Log.addINFO("")
-	
-			// read JDD
-			Sheet shTNR = readSequencerFile()
-	
-			Log.addTrace('shTNR.getLastRowNum() :' + shTNR.getLastRowNum())
-	
-			// for each data line
-			for (int numline : (1..shTNR.getLastRowNum())) {
-	
-				Row row = shTNR.getRow(numline)
-	
-				// exit if lastRow of CAS_DE_TEST
-				if (!row || tnrCommon.ExcelUtils.getCellValue(row.getCell(0))=='') {
-					break
-				}
-	
-				String casDeTestPatternFromSequencer = row.getCell(0).getStringCellValue()
-	
-				Log.addTrace('casDeTestPatternFromSequencer = ' + casDeTestPatternFromSequencer)
-				
-				String repStr = tnrCommon.ExcelUtils.getCellValue(row.getCell(1)).toString()
-				int rep = 0
-				
-				if (repStr=='') {
-					rep = 1
-				}else {
-					try {
-						rep= repStr.toInteger()
-					} catch (NumberFormatException e) {
-						Log.addERROR("La répétition n'est pas un entier, ligne ${numline + 1}")
-					}
-				}
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"static",[:])
+		Log.addSubTITLE('Load testCasesList from TNR sequencer file','-',120)
+		Log.addINFO("\t" + 'CDTPATTERN'.padRight(24) + 'TCFULLNAME'.padRight(90) + 'REP')
+		Log.addINFO("")
 
-	
-				Map res= TCFileMapper.tcFileMap.findAll { it.key.contains(casDeTestPatternFromSequencer) }
-	
-				if (res.size()==0) {
-	
-					def key = TCFileMapper.tcFileMap.keySet().find { casDeTestPatternFromSequencer.contains(it) }
-	
-					if (key) {
-						addToTestCasesList(casDeTestPatternFromSequencer,TCFileMapper.tcFileMap[key], rep)
-					}else {
-						Log.add('WARNING',"\tPas de fichier trouvé pour le pattern $casDeTestPatternFromSequencer")
-					}
-				}else {
-					res.each {
-						addToTestCasesList(it.key,it.value, rep)
-					}
+		Sheet shTNR = getSheetSequencerFile()
+
+		Log.addTrace('shTNR.getLastRowNum() :' + shTNR.getLastRowNum())
+
+		// for each data line
+		for (int numline : (1..shTNR.getLastRowNum())) {
+
+			Row row = shTNR.getRow(numline)
+
+			// exit if lastRow of CAS_DE_TEST
+			if (!row || tnrCommon.ExcelUtils.getCellValue(row.getCell(0))=='') {
+				break
+			}
+
+			String casDeTestPatternFromSequencer = row.getCell(0).getStringCellValue()
+
+			Log.addTrace('casDeTestPatternFromSequencer = ' + casDeTestPatternFromSequencer)
+
+			String repStr = tnrCommon.ExcelUtils.getCellValue(row.getCell(1)).toString()
+			int rep = 0
+
+			if (repStr=='') {
+				rep = 1
+			}else {
+				try {
+					rep= repStr.toInteger()
+				} catch (NumberFormatException e) {
+					Log.addERROR("La répétition n'est pas un entier, ligne ${numline + 1}")
 				}
-	
-			} // end of for each data line
-		//}
-	}//end of Constructeur
+			}
+
+			// renvoie  tous les cas ou le nom de TC contient la valeur du sequenceur (équivalent de RO.ACT*)
+			Map <String,String> testCasesFound = TCFileMapper.getValuesWhereTCNameStartsWith(casDeTestPatternFromSequencer)
+
+			if (testCasesFound .size()==0) {
+
+				// cas ou casDeTestPatternFromSequencer = RO.ACT.001.CRE.01 et TCName = RO.ACT.001.CRE
+				String TCName = TCFileMapper.getTCNameWhereTxtStartingWithTCName(casDeTestPatternFromSequencer)
+
+				if (TCName) {
+					addToTestCasesList(casDeTestPatternFromSequencer,TCFileMapper.getTCFullname(TCName), rep)
+				}else {
+					Log.add('WARNING',"\tPas de fichier trouvé pour le pattern $casDeTestPatternFromSequencer")
+				}
+			}else {
+				testCasesFound .each {
+					addToTestCasesList(it.key,it.value, rep)
+				}
+			}
+
+		} // end of for each data line
+		Log.addTraceEND(CLASS_FOR_LOG,"static")
+	}
 
 
 
@@ -120,15 +110,15 @@ public class Sequencer {
 
 
 
-	private static Sheet readSequencerFile() {
+	private static Sheet getSheetSequencerFile() {
 
-		//File sourceExcel = new File(TNRPropertiesReader.getMyProperty('SEQUENCER_PATH') + File.separator + TNRPropertiesReader.getMyProperty('SEQUENCER_FILENAME'))
-		//FileInputStream fxls = new FileInputStream(sourceExcel)
-		//XSSFWorkbook book = new XSSFWorkbook(fxls)
+		String tnrPath = TNRPropertiesReader.getMyProperty('TNR_PATH')
+		String sequencerFilename = TNRPropertiesReader.getMyProperty('SEQUENCER_FILENAME')
+		String sequencerSheetName = TNRPropertiesReader.getMyProperty('SEQUENCER_SHEETNAME')
 
-		XSSFWorkbook book = tnrCommon.ExcelUtils.open(TNRPropertiesReader.getMyProperty('SEQUENCER_PATH') + File.separator + TNRPropertiesReader.getMyProperty('SEQUENCER_FILENAME'))
+		XSSFWorkbook book = tnrCommon.ExcelUtils.open(tnrPath + File.separator + sequencerFilename )
 
-		return book.getSheet(TNRPropertiesReader.getMyProperty('SEQUENCER_SHEETNAME'))
+		return book.getSheet(sequencerSheetName)
 
 	}
 

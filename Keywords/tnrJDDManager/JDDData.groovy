@@ -6,7 +6,6 @@ import org.apache.poi.ss.usermodel.Sheet
 
 import groovy.transform.CompileStatic
 import tnrLog.Log
-import tnrCommon.Tools
 
 
 @CompileStatic
@@ -18,7 +17,7 @@ public class JDDData {
 	// Liste des lignes de données du JDD/PREJDD
 	private List<Map<String, Map<String, Object>>> datasList = []
 
-
+	private List <String> headers = []
 
 	/**
 	 * Constructeur : Lit les données du fichier Excel et charge datasList.
@@ -27,19 +26,22 @@ public class JDDData {
 	 * @param JDDHeader L'entête de la feuille Excel
 	 * @param startDataWord Le mot de départ pour commencer à lire les données
 	 */
-	JDDData(Sheet sheet, JDDHeader JDDHeader,String startDataWord) {
+	JDDData(Sheet sheet, List <String> headers,String startDataWord) {
 
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "JDDDatas", [sheet:sheet.getSheetName() , JDDHeader:JDDHeader, startDataWord:startDataWord])
+
+		this.headers = headers
 
 		Iterator<Row> rowIt = sheet.rowIterator()
 
 		skipToStartDataWord(rowIt, startDataWord)
-		processData(rowIt, JDDHeader)
+		processData(rowIt)
 
 		Log.addTraceEND(CLASS_FOR_LOG, "JDDDatas")
 	}
 
 
+	
 	/**
 	 * Ignore les lignes jusqu'à trouver le mot de départ des lignes de données
 	 * 
@@ -58,6 +60,7 @@ public class JDDData {
 		}
 	}
 
+	
 
 	/**
 	 * Traite les données de chaque ligne pour peupler datasList.
@@ -65,7 +68,7 @@ public class JDDData {
 	 * @param rowIt Iterateur pour parcourir les lignes de la feuille Excel
 	 * @param JDDHeader L'entête de la feuille Excel
 	 */
-	private processData(Iterator<Row> rowIt, JDDHeader JDDHeader) {
+	private processData(Iterator<Row> rowIt) {
 		// Processes rows to populate datasList.
 		while (rowIt.hasNext()) {
 			Row row = rowIt.next()
@@ -75,13 +78,13 @@ public class JDDData {
 				break
 			}
 
-			List<String> rowValues = tnrCommon.ExcelUtils.loadRow(row, JDDHeader.getSize() + 1)
+			List<String> rowValues = tnrCommon.ExcelUtils.loadRow(row, headers.size() + 1)
 			Log.addTrace("- rowValues: $rowValues")
 
 			def fieldMap = [:]
 			def rowMap = [:]
 
-			JDDHeader.getList().eachWithIndex { header, index ->
+			headers.eachWithIndex { header, index ->
 				fieldMap[header] = rowValues[index + 1]
 			}
 
@@ -116,19 +119,18 @@ public class JDDData {
 
 
 	/**
-	 * Récupère tous les cas de test (cdts) contenant une sous-chaîne donnée, sans doublons.
+	 * Récupère tous les cas de test (cdts) commençant par la chaine donnée, sans doublons.
 	 * 
-	 * @param substring La sous-chaîne à rechercher
-	 * @return Liste des cdts contenant la sous-chaîne, sans doublons
+	 * @param str  La chaîne de recherche
+	 * @return Liste des cdts commençant par la chaine, sans doublons
 	 */
-	public List<String> getCdtsContainingSubstringWithoutDuplicates(String substring) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "getCdtsContainingSubstringWithoutDuplicates", [substring:substring])
-		// Rechercher les cdt qui contiennent la sous-chaîne
-		List<String> ret = datasList.collect { it.keySet().find { k -> k.contains(substring) } }.findAll { it != null }.unique()
-		Log.addTraceEND(CLASS_FOR_LOG, "getCdtsContainingSubstringWithoutDuplicates" , ret)
+	public List<String> getCdtsStartsWithStrWithoutDuplicates(String str) {
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "getCdtsStartsWithStrWithoutDuplicates", [str:str])
+		// Rechercher les cdt qui commence pour Stre
+		List<String> ret = datasList.collect { it.keySet().find { k -> k.startsWith(str) } }.findAll { it != null }.unique()
+		Log.addTraceEND(CLASS_FOR_LOG, "getCdtsStartsWithStrWithoutDuplicates" , ret)
 		return ret
 	}
-
 
 	/**
 	 * Concatène les cdts et les valeurs de certains champs de chaque ligne de données.
@@ -139,23 +141,23 @@ public class JDDData {
 	 */
 	public List<String> concatenateCdtsAndValues(List<Map<String, Map<String, Object>>> JDDDatas, List<String> namesToConcat) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "concatenateCdtsAndValues", ['JDDDatas.size()':JDDDatas.size() , namesToConcat:namesToConcat])
-		boolean err = false
-		List<String> list = (List<String>) JDDDatas.collect { cdtLine ->
-			cdtLine.collect { cdt, dataLine ->
-				String concatCdt = cdt
-				namesToConcat.each { name ->
-					if (dataLine[name]) {
+		List<String> list =[]
+		List namesNonExistantInHeaders = namesToConcat.findAll { !(it in headers) }
+		if (namesNonExistantInHeaders.isEmpty()) {
+			list = (List<String>) JDDDatas.collect { cdtLine ->
+				cdtLine.collect { cdt, dataLine ->
+					String concatCdt = cdt
+					namesToConcat.each { name ->
 						concatCdt += "-" + dataLine[name]
-					}else {
-						Log.addERROR("concatenateCdtsAndValues() : $name n'est pas une colonne du JDD")
-						err=true
 					}
+					return concatCdt
 				}
-				return concatCdt
+			}.flatten()
+		}else {
+			namesNonExistantInHeaders.each { unkName ->
+				Log.addERROR("concatenateCdtsAndValues() : $unkName n'est pas une colonne du JDD")
 			}
-		}.flatten()
-		//renvoie une List vide si une erreur est arrivée
-		list = err?[] as List<String>:list
+		}
 		Log.addTraceEND(CLASS_FOR_LOG, "concatenateCdtsAndValues" , list)
 		return list
 	}

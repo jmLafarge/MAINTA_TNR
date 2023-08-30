@@ -76,6 +76,7 @@ class TestListener {
 //		Log.addTraceBEGIN(CLASS_FOR_LOG,"TestListener.afterTestSuite('${testSuiteContext.getTestSuiteId()}')")
 //		TNRResult.close(testSuiteContext.getTestSuiteId())
 //		Log.addTraceEND(CLASS_FOR_LOG,"TestListener.afterTestSuite()")
+		Log.addEndLog()
 	}
 
 }

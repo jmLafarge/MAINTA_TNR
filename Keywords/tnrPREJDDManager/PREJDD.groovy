@@ -31,7 +31,7 @@ public class PREJDD {
 
 		Sheet sheet = book.getSheet(map.getAt('PREJDDTAB').toString())
 
-		Log.addTrace("Controle de '" + map.getAt('JDDID') +"' de '" + map.getAt('JDDNAME') + "'  dans '" + PREJDDFileMapper.getFullnameFromModObj(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'")
+		Log.addTrace("Controle de '" + map.getAt('JDDID') + "' de '" + map.getAt('JDDNAME') + "'  dans '" + PREJDDFileMapper.getFullnameFromModObj(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'")
 
 		List list = getListOfCasDeTestAndIDValue(sheet, map.getAt('PREJDDID').toString())
 
@@ -78,7 +78,7 @@ public class PREJDD {
 					String txt="Controle de '" + map.getAt('JDDID') + "' dans '" + PREJDDFileMapper.getFullnameFromModObj(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'"
 					if (savTxt != txt) {
 						Log.addINFO('')
-						Log.addINFO("\t\t$txt")
+						Log.addINFO("\t$txt")
 						savTxt = txt
 
 						/*
@@ -107,42 +107,43 @@ public class PREJDD {
 	private static List getListOfCasDeTestAndIDValue(Sheet sheet, String ID) {
 
 		List list = []
+		if (sheet) {
+			int idxID  = tnrCommon.ExcelUtils.getColumnIndexOfColumnName(sheet, ID)
 
-		int idxID  = tnrCommon.ExcelUtils.getColumnIndexOfColumnName(sheet, ID)
+			if (idxID!=-1) {
 
-		if (idxID!=-1) {
+				for (int numLine : 1..sheet.getLastRowNum()) {
 
-			for (int numLine : 1..sheet.getLastRowNum()) {
+					Row row = sheet.getRow(numLine)
 
-				Row row = sheet.getRow(numLine)
-
-				// exit if lastRow of param
-				if (!row || tnrCommon.ExcelUtils.getCellValue(row.getCell(0))=='') {
-					break
-				}
-
-				String casDeTest = tnrCommon.ExcelUtils.getCellValue(row.getCell(0))
-				String IDvalue = tnrCommon.ExcelUtils.getCellValue(row.getCell(idxID))
-
-				if (!JDDKW.isAllowedKeyword(IDvalue)) {
-
-					String casDeTest_IDvalue = "'" + casDeTest + "' - '" + IDvalue + "'"
-
-					if (list.contains(casDeTest_IDvalue)) {
-						String CDTSR = "$PREJDDFullName (${sheet.getSheetName()})"
-						if (CDTSR!=savCDTSR) {
-							Log.addINFO('')
-							Log.addINFO("\t\tControle unicité du couple CasDeTest - Sous-ressources dans $CDTSR")
-							savCDTSR = CDTSR
-						}
-
-						Log.addDETAILFAIL("$casDeTest_IDvalue existe déjà ")
-						status = false
-					}else {
-						list.add(casDeTest_IDvalue)
+					// exit if lastRow of param
+					if (!row || tnrCommon.ExcelUtils.getCellValue(row.getCell(0))=='') {
+						break
 					}
-				}else {
-					Log.addTrace("La valeur de $ID est un mot clé : $IDvalue")
+
+					String casDeTest = tnrCommon.ExcelUtils.getCellValue(row.getCell(0))
+					String IDvalue = tnrCommon.ExcelUtils.getCellValue(row.getCell(idxID))
+
+					if (!JDDKW.isAllowedKeyword(IDvalue)) {
+
+						String casDeTest_IDvalue = "'" + casDeTest + "' - '" + IDvalue + "'"
+
+						if (list.contains(casDeTest_IDvalue)) {
+							String CDTSR = "$PREJDDFullName (${sheet.getSheetName()})"
+							if (CDTSR!=savCDTSR) {
+								Log.addINFO('')
+								Log.addINFO("\t\tControle unicité du couple CasDeTest - Sous-ressources dans $CDTSR")
+								savCDTSR = CDTSR
+							}
+
+							Log.addDETAILFAIL("$casDeTest_IDvalue existe déjà ")
+							status = false
+						}else {
+							list.add(casDeTest_IDvalue)
+						}
+					}else {
+						Log.addTrace("La valeur de $ID est un mot clé : $IDvalue")
+					}
 				}
 			}
 		}

@@ -116,7 +116,7 @@ public class JDD {
 
 		myJDDParam = new JDDParam(sheet,myJDDHeader,START_DATA_WORD)
 
-		myJDDData = new JDDData(sheet,myJDDHeader,START_DATA_WORD)
+		myJDDData = new JDDData(sheet,myJDDHeader.getList(),START_DATA_WORD)
 
 		myJDDXpath  = new JDDXpath()
 
@@ -125,14 +125,23 @@ public class JDD {
 		///////////////////////////////////////////////////////////// est ce que cela ne doit pas etre dans JDDData ?
 
 		String cdtPattern = casDeTest ? casDeTest : GlobalVariable.CAS_DE_TEST_PATTERN
-
+		Log.addTrace("cdtPattern:$cdtPattern)")
 		//Liste des cas de test qui répondent au pattern, sans doublons (les doublons sont des casDeTestNum)
-		List <String> cdtli = myJDDData.getCdtsContainingSubstringWithoutDuplicates(cdtPattern)
-
-		//supprimer de la liste les cas de test traités par un autre Test Case
-		CDTList = cdtli.findAll { cdt ->
-			cdt.startsWith(cdtPattern) && (!TCFileMapper.tcFileMap.containsKey(cdt) || cdt == cdtPattern)
+		List <String> cdtli = myJDDData.getCdtsStartsWithStrWithoutDuplicates(cdtPattern)
+		
+		if(cdtli.size()==1) {
+			CDTList = cdtli
+		}else {
+			//supprimer de la liste les cas de test traités par un autre Test Case
+			CDTList = cdtli.findAll { cdt ->
+				Log.addTrace("cdt:$cdt)")
+				!TCFileMapper.isTCNameExist(cdt)
+			}
 		}
+
+		
+		
+		
 
 		if (CDTList.size()==0 && cdtPattern){
 			Log.addINFO('Pas de cas de test défini pour '+ cdtPattern)

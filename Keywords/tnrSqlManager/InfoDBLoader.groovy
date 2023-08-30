@@ -60,7 +60,7 @@ public class InfoDBLoader {
 	 */
 	InfoDBLoader (){
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"InfoDBLoader",[:])
-		
+
 		infoDBFilename = getInfoDBFilename()
 
 		XSSFWorkbook book = ExcelUtils.open(infoDBFilename)
@@ -69,29 +69,29 @@ public class InfoDBLoader {
 		Sheet sheet = book.getSheet('INFO')
 
 		Iterator<Row> rowIt = sheet.rowIterator()
-		
+
 		List<String> headers = validateHeaders(sheet)
-		
+
 		populateDatas(sheet, headers)
 
 		Log.addTraceEND(CLASS_FOR_LOG,"InfoDBLoader")
 	}
-	
-	
+
+
 	/**
 	 * Renvoie le Map datas
 	 * 
 	 * @return le Map 'datas'
 	 */
 	public Map  <String, Map<String, Map <String , Object>>> getDatas() {
-		 return datas
-	}	
-	
-	
-	
-	
-	
-	
+		return datas
+	}
+
+
+
+
+
+
 	/**
 	 * Obtient le chemin complet du fichier Excel.
 	 *
@@ -102,8 +102,8 @@ public class InfoDBLoader {
 		String filename = TNRPropertiesReader.getMyProperty('INFO_DB_FILENAME');
 		return path + File.separator + filename;
 	}
-	
-	
+
+
 	/**
 	 * Valide les en-têtes du fichier Excel.
 	 *
@@ -122,7 +122,7 @@ public class InfoDBLoader {
 		return headers
 	}
 
-	
+
 	/**
 	 * Charge les données dans la structure 'datas'.
 	 * 
@@ -160,6 +160,6 @@ public class InfoDBLoader {
 			datas[tableName][columnName] = columnDetails
 		}
 	}
-	
-	
+
+
 }// Fin de class

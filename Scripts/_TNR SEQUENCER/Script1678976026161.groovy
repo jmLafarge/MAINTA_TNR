@@ -27,7 +27,7 @@ Sequencer.testCasesList.each { TCMap ->
 	
 	GlobalVariable.CAS_DE_TEST_PATTERN = TCMap.CDTPATTERN
 	
-	Log.addINFO('GlobalVariable.CAS_DE_TEST_PATTERN = ' + GlobalVariable.CAS_DE_TEST_PATTERN)
+	Log.addTrace('GlobalVariable.CAS_DE_TEST_PATTERN = ' + GlobalVariable.CAS_DE_TEST_PATTERN)
 			
 	for(int i = 1 ; i <= TCMap.REP ;i++) {
 

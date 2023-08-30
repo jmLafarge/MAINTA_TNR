@@ -9,10 +9,9 @@
  * 
  * 
 
+finir JDD checrher est ce que cela ne doit pas etre dans JDDData ?
 
-Finir PREJDDTests
- 
-
+et mettre dans data et faire le test
 
 
  * 
@@ -157,21 +156,11 @@ Finir PREJDDTests
  * -----------------------------------------------------------------------------------------------------
  * 
 
-
-	CHECK PREREQUIS
+	Trouver une solution pour RestoreDB.run() 
 	
-		Vérifier ques les valeurs des PREJDD...LEC... soient égales aux valeurs des JDD...LEC...
-		
-
-	TEST SUITE
-	
-		Ajouter RestoreDB.run()
+		Apres une restauration il faut recycler, comment le faire par script ?
 
 
-	
-
-
-	DOC ORGANISATION DES JDD DE RÉFÉRENCE DANS LE CADRE DES TNR --> Stockage par version ? A préciser par JML
 
 
 	
@@ -230,6 +219,8 @@ Finir PREJDDTests
 			pour LOCATOR --> c'est déjà fait
 		  
 		Dans les JDD, mettre en vert les cellules des attributs modifiés par rapport aux PREJDD pour les cas de tests MODIF
+		
+		Vérifier ques les valeurs des PREJDD...LEC... soient égales aux valeurs des JDD...LEC...
 		
 		ctrl des prerequis sur les paires de données, par ex int_met
 		

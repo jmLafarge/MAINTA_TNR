@@ -26,11 +26,11 @@ import tnrLog.Log
 @CompileStatic
 public class TCFileMapper {
 
-	private static final String CLASS_FOR_LOG = 'TCFiles'
+	private static final String CLASS_FOR_LOG = 'TCFileMapper'
 
 
 	// mapping between tcName and tcFullname [ tcName : tcFullname ]
-	public static Map <String,String> tcFileMap = [:]
+	private static Map <String,String> tcFileMap = [:]
 
 
 	static {
@@ -55,92 +55,101 @@ public class TCFileMapper {
 	}
 
 
-	private static boolean isTCNameExist(String tcName) {
+
+
+
+
+
+
+	public static Map<String,String>  getValuesWhereTCNameStartsWith(String substr) {
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getValuesWhereTCNameStartsWith",[substr:substr])
+		Map<String,String> map = [:]
+		if (substr) {
+			map = tcFileMap.findAll { it.key.startsWith(substr) }
+		}else {
+			Log.addTrace("substr vide ou null")
+		}
+		Log.addTraceEND(CLASS_FOR_LOG,"getValuesWhereTCNameStartsWith",map)
+		return map
+	}
+
+
+
+	public static String  getTCNameWhereTxtStartingWithTCName(String txt) {
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getTCNameWhereTxtStartingWithTCName",[txt:txt])
+		String tcName =''
+		if (txt) {
+			tcName = tcFileMap.keySet().find { txt.startsWith(it) }
+		}else {
+			Log.addTrace("txt vide ou null")
+		}
+		Log.addTraceEND(CLASS_FOR_LOG,"getTCNameWhereTxtStartingWithTCName",tcName)
+		return tcName
+	}
+
+
+
+
+	public static String  getTCFullname(String tcName) {
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getTCFullname",[tcName:tcName])
+		String tcFullname =''
+		if (tcName) {
+			tcFullname = tcFileMap[tcName]
+		}else {
+			Log.addTrace("tcName vide ou null")
+		}
+		Log.addTraceEND(CLASS_FOR_LOG,"getTCFullname",tcFullname)
+		return tcFullname
+	}
+
+
+	
+	public static boolean isTCNameExist(String tcName) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"isTCNameExist",[tcName:tcName])
 		boolean tcNameExist = false
 		if (tcName) {
 			tcNameExist = tcFileMap.containsKey(tcName)
 		}else {
-			Log.addERROR("Le cas de test '$tcName' n'existe pas ")
+			Log.addTrace("tcName vide ou null")
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"isTCNameExist" ,tcNameExist)
+		Log.addTraceEND(CLASS_FOR_LOG,"isTCNameExist",tcNameExist)
 		return tcNameExist
 	}
 
 
 
-	public static String getTCNameTitle() { //////////////////////////////////////////////////// NOT USED
+	public static String getTitle(String cdt) {
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getTitle",[cdt:cdt])
+		String ret = 'UNKNOWN TITLE'
+		String TCName = getTCNameWhereTxtStartingWithTCName(cdt)
+		if (TCName) {
+			String TCfile = getTCFullname(TCName)
+			Log.addTrace("TCfile = '$TCfile'")
+			if (TCfile) {
 
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getTCNameTitle",[:])
-		Log.addINFO ('GlobalVariable.CAS_DE_TEST_PATTERN :' + GlobalVariable.CAS_DE_TEST_PATTERN)
+				List liTCFullName= Arrays.asList(TCfile.split(Pattern.quote(File.separator)))
 
-		List liTCFullName= Arrays.asList(tcFileMap[GlobalVariable.CAS_DE_TEST_PATTERN.toString()].split(Pattern.quote(File.separator)))
+				//Détermine objet et sous-ressources à partir des noms des dossier père (SR) et grandpère(OBJ) des TC
+				String obj =''
+				String sr =''
+				if (liTCFullName.size()>2) {
+					obj = liTCFullName[liTCFullName.size()-3].split(' ').drop(1).join(' ')
+					if (liTCFullName[liTCFullName.size()-2].split(' ').size()>1) {
+						sr = liTCFullName[liTCFullName.size()-2].split(' ').drop(1).join(' ')
+					}
+				}
 
-		//Détermine objet et sous-ressources à partir des noms des dossier père (SR) et grandpère(OBJ) des TC
-		String obj =''
-		String sr =''
-		String ret = ''
-		if (liTCFullName.size()>2) {
-			obj = liTCFullName[liTCFullName.size()-3].split(' ').drop(1).join(' ')
-			if (liTCFullName[liTCFullName.size()-2].split(' ').size()>1) {
-				sr = liTCFullName[liTCFullName.size()-2].split(' ').drop(1).join(' ')
-			}
-		}
-
-		// si un titre existe au niveau du TC on le prend sinon on le construit
-		List liTCName = Arrays.asList(liTCFullName[-1].split(' '))
-		if (liTCName.size()>1) {
-			ret = liTCName.drop(1).join(' ')
-		}else {
-			def liTCName2 = GlobalVariable.CAS_DE_TEST_PATTERN.toString().split('\\.')
-			if (liTCName2.size()>2) {
-				ret = getAutoTitle(obj,sr,liTCName2[-2])
-			}
-			ret = ''
-		}
-		Log.addTraceEND(CLASS_FOR_LOG,"getTCNameTitle", ret)
-		return ret
-	}
-
-
-
-
-
-
-
-
-	public static String getTitle() {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getTitle",[:])
-		String TCfile = tcFileMap[GlobalVariable.CAS_DE_TEST_PATTERN]
-		Log.addTrace("TCfile = '$TCfile'")
-		String ret = ''
-		if (TCfile) {
-
-			List liTCFullName= Arrays.asList(TCfile.split(Pattern.quote(File.separator)))
-
-			//Détermine objet et sous-ressources à partir des noms des dossier père (SR) et grandpère(OBJ) des TC
-			String obj =''
-			String sr =''
-			if (liTCFullName.size()>2) {
-				obj = liTCFullName[liTCFullName.size()-3].split(' ').drop(1).join(' ')
-				if (liTCFullName[liTCFullName.size()-2].split(' ').size()>1) {
-					sr = liTCFullName[liTCFullName.size()-2].split(' ').drop(1).join(' ')
+				// si un titre existe au niveau du TC on le prend sinon on le construit
+				List liTCName = Arrays.asList(liTCFullName[-1].split(' '))
+				if (liTCName.size()>1) {
+					ret =  liTCName.drop(1).join(' ')
+				}else {
+					def liTCName2 = liTCFullName[-1].split('\\.')
+					if (liTCName2.size()>2) {
+						ret = getAutoTitle(obj,sr,liTCName2[3])
+					}
 				}
 			}
-
-			// si un titre existe au niveau du TC on le prend sinon on le construit
-			List liTCName = Arrays.asList(liTCFullName[-1].split(' '))
-			if (liTCName.size()>1) {
-				ret =  liTCName.drop(1).join(' ')
-			}else {
-				def liTCName2 = liTCFullName[-1].split('\\.')
-				if (liTCName2.size()>2) {
-					ret = getAutoTitle(obj,sr,liTCName2[3])
-				}
-				ret = ''
-			}
-		}else {
-			ret =  'UNKNOWN TITLE'
 		}
 		Log.addTraceEND(CLASS_FOR_LOG,"getTitle", ret)
 		return ret
@@ -190,10 +199,6 @@ public class TCFileMapper {
 		Log.addTraceEND(CLASS_FOR_LOG,"getAutoTitle", ret)
 		return ret
 	}
-
-
-
-
 
 
 } // Fin de class

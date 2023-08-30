@@ -59,7 +59,7 @@ public class CheckPREJDD {
 					JDDHeader PREJDDheader = new JDDHeader(PREJDDsheet)
 
 					myJDD.loadTCSheet(myJDD.getBook().getSheet(PREJDDsheetName))
-					JDDData PREJDDData = new JDDData(PREJDDsheet,PREJDDheader,'')
+					JDDData PREJDDData = new JDDData(PREJDDsheet,PREJDDheader.getList(),'')
 					String table = myJDD.getDBTableName()
 
 					Log.addDEBUGDETAIL("Onglet : $PREJDDsheetName")

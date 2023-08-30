@@ -159,7 +159,7 @@ public class CheckPrerequis {
 							Sheet PREJDDsheet = PREJDDBook.getSheet(sheet.getSheetName())
 							if (PREJDDsheet) {
 								JDDHeader PREJDDheader = new JDDHeader(PREJDDsheet)
-								JDDData PREJDDData = new JDDData(PREJDDsheet,PREJDDheader,'')
+								JDDData PREJDDData = new JDDData(PREJDDsheet,PREJDDheader.getList(),'')
 								prerequisMap.putAt('LISTCDTVAL',getListCDTVAL(PREJDDData.getList(),myJDD.getDBTableName(),name))
 							}else {
 								Log.addTrace('le sheet '+sheet.getSheetName() + " n'existe pas dans ce PREJDD")

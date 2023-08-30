@@ -32,16 +32,15 @@ public class JDDHeader {
 	}
 
 
-	def int getSize() {
+	public int getSize() {
 		return headersList.size()
 	}
 
-	def List <String> getList() {
+	public List <String> getList() {
 		return headersList
 	}
 
-	def String getTableName() {
+	public String getTableName() {
 		return tableName
 	}
-	
 } //Fin de class
