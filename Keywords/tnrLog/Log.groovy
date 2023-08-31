@@ -58,7 +58,7 @@ class Log {
 	private static String PREDEBUGTXT	= '\t'
 	private static String PREDETAILTXT	= '\t- '
 
-	private static Map<String, ArrayList> lists = [:]
+	private static Map<String, ArrayList<String>> lists = [:]
 
 	private static int nbrAssert = 0
 	private static int nbrAssertKO = 0
@@ -335,12 +335,16 @@ class Log {
 	}
 
 
-	public static writeList(String nomDeLaListe, String status ='') {
-
+	public static writeList(String nomDeLaListe, String status ='', boolean brut = false) {
+		
 		def liste = lists.get(nomDeLaListe)
 		if (liste != null) {
 			liste.each { val ->
-				add(status,PREDETAILTXT+ val)
+				if (brut) {
+					addB(val)
+				}else {
+					add(status,PREDETAILTXT+ val)
+				}
 			}
 		} else {
 			addTrace("La liste '$nomDeLaListe' n'existe pas.")
@@ -360,11 +364,13 @@ class Log {
 
 	public static addEndLog(String msg='') {
 		addTrace(msg)
-		traceEnd=true
 		if (nbrAssert>0) {
+			file.append("Nombre de tests unitaires :) : ${nbrAssert-nbrAssertKO} / $nbrAssert\n")
 			file.append("Nombre de tests unitaires KO : $nbrAssertKO / $nbrAssert\n")
 			fileDebug.append("Nombre de tests unitaires KO : $nbrAssertKO / $nbrAssert\n")
+			writeList('assertKO','',true)
 		}
+		traceEnd=true
 		Date stop = new Date()
 		fileDebug.append("Max Level = $maxLevel\n")
 		fileDebug.append('Time Duration : ' + Tools.getDuration(startLog,stop)+'\n')
@@ -374,13 +380,14 @@ class Log {
 	}
 
 
-	public static addAssert(String msg,def expectedResult,def actualResult){
+	public static addAssert(String myClass,String msg,def expectedResult,def actualResult){
 
 		nbrAssert++
 		try{
 			assert (expectedResult==actualResult)
 			add(':)',"\tTEST '$msg' --> OK : '$expectedResult'")
 		}catch(AssertionError  e){
+			addToList('assertKO', "$myClass : $msg")
 			nbrAssertKO++
 			KeywordUtil.markWarning("Test $msg --> KO")
 			add('KO',"\tTEST '$msg' " )
@@ -395,9 +402,6 @@ class Log {
 			if(expectedResult!=null) {
 				addB('\t'*4 +'  ' + expectedResult.getClass())
 			}
-
-		}finally {
-			//addB('')
 		}
 	}
 

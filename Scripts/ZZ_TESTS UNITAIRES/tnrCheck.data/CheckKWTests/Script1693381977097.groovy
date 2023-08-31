@@ -13,6 +13,8 @@ import tnrLog.Log
  * @version 1.0
  */
 
+final String CLASS_FOR_LOG = 'tnrCheck.data.CheckKW'
+
 
 List<Map<String, Map<String, Object>>> datasListTestJDDTRUE = [
 	['AA.BBB.001.CRE.01':['ID_JML':'JMLCRE01', 'ST_DES':'$ORDRE', 'ST_INA':'$DATETIMESYS', 'NU_IV':null]],
@@ -40,8 +42,8 @@ List<Map<String, Map<String, Object>>> datasListTestFALSE = [
 	['AA.BBB.001.CRE.02':['ID_JML':'$UPD', 'ST_DES':'DESJMLCRE02', 'ST_INA':'DATESYS', 'NU_IV':null]]
 ]
 
-Log.addAssert("Controle OK dans le JDD avec status à TRUE",true,CheckKW.run('JDD',datasListTestJDDTRUE, 'le JDDFullName', 'le sheetName'))
-Log.addAssert("Controle OK dans le PREJDD avec status à TRUE",true,CheckKW.run('JDD',datasListTestPREJDDTRUE, 'le JDDFullName', 'le sheetName'))
-Log.addAssert("Mot clé '\$UPD*VAL*NEWVAL' dans le PREJDD avec status à TRUE",false,CheckKW.run('PREJDD',datasListTestJDDTRUE, 'le JDDFullName', 'le sheetName'))
+Log.addAssert(CLASS_FOR_LOG,"Controle OK dans le JDD avec status à TRUE",true,CheckKW.run('JDD',datasListTestJDDTRUE, 'le JDDFullName', 'le sheetName'))
+Log.addAssert(CLASS_FOR_LOG,"Controle OK dans le PREJDD avec status à TRUE",true,CheckKW.run('JDD',datasListTestPREJDDTRUE, 'le JDDFullName', 'le sheetName'))
+Log.addAssert(CLASS_FOR_LOG,"Mot clé '\$UPD*VAL*NEWVAL' dans le PREJDD avec status à TRUE",false,CheckKW.run('PREJDD',datasListTestJDDTRUE, 'le JDDFullName', 'le sheetName'))
 
-Log.addAssert("Mot clé '\$UNK' avec status à TRUE",false,CheckKW.run('PREJDD',datasListTestFALSE, 'le JDDFullName', 'le sheetName'))
+Log.addAssert(CLASS_FOR_LOG,"Mot clé '\$UNK' avec status à TRUE",false,CheckKW.run('PREJDD',datasListTestFALSE, 'le JDDFullName', 'le sheetName'))

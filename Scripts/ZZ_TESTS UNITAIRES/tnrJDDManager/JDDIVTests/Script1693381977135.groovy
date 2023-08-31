@@ -13,6 +13,7 @@ import tnrJDDManager.JDDIV
  * @version 1.0
  */
 
+final String CLASS_FOR_LOG = 'tnrJDDManager.JDDIV'
 
 Workbook  book = tnrCommon.ExcelUtils.open('TNR_JDDTest\\JDD.AA.BBB.xlsx')
 
@@ -34,14 +35,14 @@ List<Map<String, Object>> listTest = [
 
 JDDIV.addAll(book.getSheet('INTERNALVALUE'))
 
-Log.addAssert("JDDIV.list",listTest,JDDIV.list)
+Log.addAssert(CLASS_FOR_LOG,"JDDIV.list",listTest,JDDIV.list)
 
-Log.addAssert("JDDIV.getInternalValueOf('COM.NU_MET','Non utilisé')",'$NULL',JDDIV.getInternalValueOf('COM.NU_MET','Non utilisé'))
-Log.addAssert("JDDIV.getInternalValueOf('MAT.NU_TYP','Suivi en Stock')",'1',JDDIV.getInternalValueOf('MAT.NU_TYP','Suivi en Stock'))
+Log.addAssert(CLASS_FOR_LOG,"JDDIV.getInternalValueOf('COM.NU_MET','Non utilisé')",'$NULL',JDDIV.getInternalValueOf('COM.NU_MET','Non utilisé'))
+Log.addAssert(CLASS_FOR_LOG,"JDDIV.getInternalValueOf('MAT.NU_TYP','Suivi en Stock')",'1',JDDIV.getInternalValueOf('MAT.NU_TYP','Suivi en Stock'))
 
-Log.addAssert("JDDIV.getInternalValueOf('UNKNOWN','Suivi en Stock')",null,JDDIV.getInternalValueOf('UNKNOWN','Suivi en Stock'))
-Log.addAssert("JDDIV.getInternalValueOf('MAT.NU_TYP','UNKNOWN')",null,JDDIV.getInternalValueOf('MAT.NU_TYP','UNKNOWN'))
-Log.addAssert("JDDIV.getInternalValueOf('UNKNOWN','UNKNOWN')",null,JDDIV.getInternalValueOf('UNKNOWN','UNKNOWN'))
+Log.addAssert(CLASS_FOR_LOG,"JDDIV.getInternalValueOf('UNKNOWN','Suivi en Stock')",null,JDDIV.getInternalValueOf('UNKNOWN','Suivi en Stock'))
+Log.addAssert(CLASS_FOR_LOG,"JDDIV.getInternalValueOf('MAT.NU_TYP','UNKNOWN')",null,JDDIV.getInternalValueOf('MAT.NU_TYP','UNKNOWN'))
+Log.addAssert(CLASS_FOR_LOG,"JDDIV.getInternalValueOf('UNKNOWN','UNKNOWN')",null,JDDIV.getInternalValueOf('UNKNOWN','UNKNOWN'))
 
 
 

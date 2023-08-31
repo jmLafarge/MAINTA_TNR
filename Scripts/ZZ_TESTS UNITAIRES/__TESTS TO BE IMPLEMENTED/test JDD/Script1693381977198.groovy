@@ -20,7 +20,7 @@ my.JDD myJDD = new my.JDD()
 
 myJDD.addColumn('TITI')
 
-//println myJDD.CDTList.join('\t')
+//println myJDD.getCDTList().join('\t')
 
 //println myJDD.addLOCATOR('ID_CODIMP', 'toto')
 

@@ -41,7 +41,7 @@ public class JDDData {
 	}
 
 
-	
+
 	/**
 	 * Ignore les lignes jusqu'à trouver le mot de départ des lignes de données
 	 * 
@@ -60,7 +60,7 @@ public class JDDData {
 		}
 	}
 
-	
+
 
 	/**
 	 * Traite les données de chaque ligne pour peupler datasList.
@@ -94,6 +94,7 @@ public class JDDData {
 	}
 
 
+	
 	/**
 	 * Obtient la valeur brute d'un champ
 	 * 
@@ -117,6 +118,7 @@ public class JDDData {
 		return ret
 	}
 
+	
 
 	/**
 	 * Récupère tous les cas de test (cdts) commençant par la chaine donnée, sans doublons.
@@ -131,7 +133,12 @@ public class JDDData {
 		Log.addTraceEND(CLASS_FOR_LOG, "getCdtsStartsWithStrWithoutDuplicates" , ret)
 		return ret
 	}
+	
+	
+	
 
+	
+	
 	/**
 	 * Concatène les cdts et les valeurs de certains champs de chaque ligne de données.
 	 * 
@@ -163,6 +170,7 @@ public class JDDData {
 	}
 
 
+	
 	/**
 	 * Obtient le nombre de lignes pour un cas de test donné (cdt).
 	 * 

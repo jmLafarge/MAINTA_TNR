@@ -11,7 +11,7 @@ def myJDD = new JDD()
 
 
 
-for (String cdt in myJDD.CDTList) {
+for (String cdt in myJDD.getCDTList()) {
 	
 	myJDD.setCasDeTest(cdt)
 		

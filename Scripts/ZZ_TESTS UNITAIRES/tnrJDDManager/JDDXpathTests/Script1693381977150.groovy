@@ -14,6 +14,7 @@ import tnrJDDManager.JDDXpath
  * @version 1.0
  */
 
+final String CLASS_FOR_LOG = 'tnrJDDManager.JDDXpath'
 
 Map <String,String> xpathMapTest_pass = [
 	// no locator case
@@ -50,24 +51,24 @@ Map <String,String> xpathMapExpectedTest_pass = [
 	'WITH_DOLLAR'	:'$TAB$ID_CODINT'
 	]
 	
-
+	
 JDDXpath myJDDXpath = new JDDXpath()
 
 myJDDXpath.add(xpathMapTest_pass)
 
-Log.addAssert("JDDXpath.xpaths",xpathMapExpectedTest_pass,myJDDXpath.xpaths)
+Log.addAssert(CLASS_FOR_LOG,"JDDXpath.xpaths",xpathMapExpectedTest_pass,myJDDXpath.xpaths)
 
-Log.addAssert("JDDXpath.xpaths","//button[@id='ValidE39']",myJDDXpath.getXPath('UN_XPATH'))
-Log.addAssert("JDDXpath.getXPath('UN_XPATH')","//button[@id='ValidE39']",myJDDXpath.getXPath('UN_XPATH'))
+Log.addAssert(CLASS_FOR_LOG,"JDDXpath.xpaths","//button[@id='ValidE39']",myJDDXpath.getXPath('UN_XPATH'))
+Log.addAssert(CLASS_FOR_LOG,"JDDXpath.getXPath('UN_XPATH')","//button[@id='ValidE39']",myJDDXpath.getXPath('UN_XPATH'))
 
-Log.addAssert("myJDDXpath.add(['UN_XPATH'	:\"//button[@id='Valid']\"])",null,myJDDXpath.add(['UN_XPATH'	:"//button[@id='Valid']"]))
-Log.addAssert("JDDXpath_pass.xpaths","//button[@id='Valid']",myJDDXpath.getXPath('UN_XPATH'))
+Log.addAssert(CLASS_FOR_LOG,"myJDDXpath.add(['UN_XPATH'	:\"//button[@id='Valid']\"])",null,myJDDXpath.add(['UN_XPATH'	:"//button[@id='Valid']"]))
+Log.addAssert(CLASS_FOR_LOG,"JDDXpath_pass.xpaths","//button[@id='Valid']",myJDDXpath.getXPath('UN_XPATH'))
 
 myJDDXpath.xpaths=[:]
 
-Log.addAssert("myJDDXpath.add(['UNKNOWN_TAG' : 'machin'])",null,myJDDXpath.add(['UNKNOWN_TAG' : 'machin']))
-Log.addAssert("JDDXpath.xpaths --> LOCATOR inconnu : truc in 'truc*name'",[:],myJDDXpath.xpaths)
+Log.addAssert(CLASS_FOR_LOG,"myJDDXpath.add(['UNKNOWN_TAG' : 'machin'])",null,myJDDXpath.add(['UNKNOWN_TAG' : 'machin']))
+Log.addAssert(CLASS_FOR_LOG,"JDDXpath.xpaths --> LOCATOR inconnu : truc in 'truc*name'",[:],myJDDXpath.xpaths)
 
-Log.addAssert("myJDDXpath.add(['UNKNOWN_TAG_WITH_STAR' : 'truc*name'])",null,myJDDXpath.add(['UNKNOWN_TAG_WITH_STAR' : 'truc*name']))
-Log.addAssert("JDDXpath.xpaths --> ERROR : LOCATOR inconnu : truc in 'truc*name'",[:],myJDDXpath.xpaths)
+Log.addAssert(CLASS_FOR_LOG,"myJDDXpath.add(['UNKNOWN_TAG_WITH_STAR' : 'truc*name'])",null,myJDDXpath.add(['UNKNOWN_TAG_WITH_STAR' : 'truc*name']))
+Log.addAssert(CLASS_FOR_LOG,"JDDXpath.xpaths --> ERROR : LOCATOR inconnu : truc in 'truc*name'",[:],myJDDXpath.xpaths)
 

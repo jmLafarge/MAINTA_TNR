@@ -333,9 +333,6 @@ public class PREJDDFileMapper {
 
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"createInDB",[:])
 
-		Log.addTITLE("Lancement de CREATE PREJDD IN DB")
-
-
 		def listPREJDD =	 [
 			['RO.CAT', '001'],
 			['RO.HAB', '001'],

@@ -1,18 +1,15 @@
 package tnrJDDManager
 
-import org.apache.poi.ss.usermodel.CellStyle
-import org.apache.poi.ss.usermodel.FillPatternType
-import org.apache.poi.ss.usermodel.IndexedColors
-import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.transform.CompileStatic
 import internal.GlobalVariable
+import tnrCommon.TNRPropertiesReader
+import tnrCommon.Tools
 import tnrLog.Log
 import tnrSqlManager.SQL
 import tnrTC.TCFileMapper
-import tnrCommon.Tools
 
 @CompileStatic
 public class JDD {
@@ -20,18 +17,20 @@ public class JDD {
 	private final String CLASS_FOR_LOG = 'JDD'
 
 
+	private final String VERSION_SHEET_NAME			= TNRPropertiesReader.getMyProperty('VERSION_SHEET_NAME')
+	private final String INFO_SHEET_NAME			= TNRPropertiesReader.getMyProperty('INFO_SHEET_NAME')
+	private final String TO_SHEET_NAME 				= TNRPropertiesReader.getMyProperty('TO_SHEET_NAME')
+	private final String INTERNALVALUE_SHEET_NAME 	= TNRPropertiesReader.getMyProperty('INTERNALVALUE_SHEET_NAME')
+	private final String MODELE_SHEET_NAME			= TNRPropertiesReader.getMyProperty('MODELE_SHEET_NAME')
 
-	private final String TO_SHEET_NAME 				= 'IHMTO'
-	private final String INTERNAL_VALUE_SHEET_NAME 	= 'INTERNALVALUE'
-	private final String START_DATA_WORD			= 'CAS_DE_TEST'
-
+	private final String START_DATA_WORD			= TNRPropertiesReader.getMyProperty('START_DATA_WORD')
 
 	private final List SKIP_LIST_SHEETNAME		= [
-		'Version',
-		'Info',
+		VERSION_SHEET_NAME,
+		INFO_SHEET_NAME,
 		TO_SHEET_NAME,
-		'MODELE',
-		INTERNAL_VALUE_SHEET_NAME
+		MODELE_SHEET_NAME,
+		INTERNALVALUE_SHEET_NAME
 	]
 
 
@@ -45,7 +44,7 @@ public class JDD {
 	private String casDeTest = ''
 	private int casDeTestNum   = 1
 
-	private List CDTList = []
+	private List <String> CDTList = []
 
 
 	/////////////////////// a ajouter évebtuellement changer de nom
@@ -70,7 +69,7 @@ public class JDD {
 
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"JDD",[fullname:fullname,tabName:tabName,cdt:cdt,step:step])
 
-
+		Log.addTrace("SKIP_LIST_SHEETNAME:$SKIP_LIST_SHEETNAME")
 		Log.addTrace("GlobalVariable.CAS_DE_TEST_PATTERN : "+GlobalVariable.CAS_DE_TEST_PATTERN)
 
 		if(fullname == null) {
@@ -91,12 +90,6 @@ public class JDD {
 		if (TCSheetName) {
 			TCSheet = book.getSheet(TCSheetName)
 			loadTCSheet(TCSheet)
-		}
-
-
-		// add INTERNALVALUE
-		if (book.getSheet(INTERNAL_VALUE_SHEET_NAME) != null) {
-			JDDIV.addAll(book.getSheet(INTERNAL_VALUE_SHEET_NAME))
 		}
 
 		Log.addTraceEND(CLASS_FOR_LOG,"JDD")
@@ -122,37 +115,11 @@ public class JDD {
 
 		myJDDXpath.add(myJDDParam.getAllLOCATOR())
 
-		///////////////////////////////////////////////////////////// est ce que cela ne doit pas etre dans JDDData ?
 
 		String cdtPattern = casDeTest ? casDeTest : GlobalVariable.CAS_DE_TEST_PATTERN
 		Log.addTrace("cdtPattern:$cdtPattern)")
-		//Liste des cas de test qui répondent au pattern, sans doublons (les doublons sont des casDeTestNum)
-		List <String> cdtli = myJDDData.getCdtsStartsWithStrWithoutDuplicates(cdtPattern)
-		
-		if(cdtli.size()==1) {
-			CDTList = cdtli
-		}else {
-			//supprimer de la liste les cas de test traités par un autre Test Case
-			CDTList = cdtli.findAll { cdt ->
-				Log.addTrace("cdt:$cdt)")
-				!TCFileMapper.isTCNameExist(cdt)
-			}
-		}
 
-		
-		
-		
-
-		if (CDTList.size()==0 && cdtPattern){
-			Log.addINFO('Pas de cas de test défini pour '+ cdtPattern)
-		}
-
-		//casDeTest = casDeTest ? casDeTest : CDTList[0]
-
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
+		setCDTListAccordingThisPattern(cdtPattern)
 
 		// add IHMTO
 		TOSheet = book.getSheet(TO_SHEET_NAME)
@@ -168,6 +135,34 @@ public class JDD {
 	}
 
 
+
+	private void setCDTListAccordingThisPattern(String cdtPattern){
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "setCDTListAccordingThisPattern", [cdtPattern:cdtPattern])
+		//Liste des cas de test qui répondent au pattern, sans doublons (les doublons sont des casDeTestNum)
+		List <String> cdtli = myJDDData.getCdtsStartsWithStrWithoutDuplicates(cdtPattern)
+
+		if(cdtli.size()==1) {
+			CDTList = cdtli
+		}else {
+			//supprimer de la liste les cas de test traités par un autre Test Case
+			CDTList = cdtli.findAll { cdt ->
+				Log.addTrace("cdt:$cdt)")
+				!TCFileMapper.isTCNameExist(cdt)
+			}
+		}
+
+		if (CDTList.size()==0 && cdtPattern){
+			Log.addINFO('Pas de cas de test défini pour '+ cdtPattern)
+		}
+		Log.addTraceEND(CLASS_FOR_LOG, "setCDTListAccordingThisPattern" , CDTList)
+	}
+
+
+
+
+	public List <String> getCDTList(){
+		return CDTList
+	}
 
 
 

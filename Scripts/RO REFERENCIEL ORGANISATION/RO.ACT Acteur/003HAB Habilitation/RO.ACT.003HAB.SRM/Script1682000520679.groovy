@@ -11,9 +11,9 @@ import tnrResultManager.TNRResult
 'Lecture du JDD'
 def myJDD = new JDD()
 
-Log.addINFO('CDTList: ' +myJDD.CDTList.join(' - '))
+Log.addINFO('CDTList: ' +myJDD.getCDTList().join(' - '))
 
-for (String cdt in myJDD.CDTList) {
+for (String cdt in myJDD.getCDTList()) {
 	
 	myJDD.setCasDeTest(cdt)
 		

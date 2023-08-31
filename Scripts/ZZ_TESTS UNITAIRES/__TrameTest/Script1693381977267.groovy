@@ -18,4 +18,4 @@ import tnrCheck.CheckPK
  *
  */
 
-Log.addAssert("Controle OK",true,true)
+Log.addAssert(CLASS_FOR_LOG,"Controle OK",true,true)

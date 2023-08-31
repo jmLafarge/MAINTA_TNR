@@ -19,6 +19,7 @@ import java.lang.reflect.Method
  * @version 1.0
  */
 
+final String CLASS_FOR_LOG = 'tnrPREJDDManager.PREJDD'
 
 List<Map<String, Map<String, Object>>> datasTests = [
 	['AA.BBB.001.CRE.01':['ID_NUMACT':'JMLCRE01', 'ID_CODNAF':1, 'ST_DES':'DES1', 'ST_TRAUTICRE':'JML', 'ST_TRAUTIUPD':'TUTU', 'DT_TRACRE':'D1', 'DT_TRAUPD':'DUPD1']], 
@@ -54,18 +55,18 @@ JDDData myPREJDDData = new JDDData(sheet,myPREJDDheader.getList(),'')
 
 Tools.displayWithQuotes(myPREJDDData.getList())
 
-Log.addAssert("Lecture PREJDD myPREJDDData.getList()",datasTests,myPREJDDData.getList())
+Log.addAssert(CLASS_FOR_LOG,"Lecture PREJDD myPREJDDData.getList()",datasTests,myPREJDDData.getList())
 
 
 Method method = PREJDD.class.getDeclaredMethod("getListOfCasDeTestAndIDValue", Sheet.class,String.class);
 method.setAccessible(true);
 
-Log.addAssert("(private) getListOfCasDeTestAndIDValue(sheet, 'ID_NUMACT')",listTests1,(List) method.invoke(PREJDD, sheet,'ID_NUMACT'))
-Log.addAssert("(private) getListOfCasDeTestAndIDValue(sheet, 'ID_CODNAF')",listTests2,(List) method.invoke(PREJDD, sheet,'ID_CODNAF'))
+Log.addAssert(CLASS_FOR_LOG,"(private) getListOfCasDeTestAndIDValue(sheet, 'ID_NUMACT')",listTests1,(List) method.invoke(PREJDD, sheet,'ID_NUMACT'))
+Log.addAssert(CLASS_FOR_LOG,"(private) getListOfCasDeTestAndIDValue(sheet, 'ID_CODNAF')",listTests2,(List) method.invoke(PREJDD, sheet,'ID_CODNAF'))
 
-Log.addAssert("(private) getListOfCasDeTestAndIDValue(sheet, 'UNK')",[],(List) method.invoke(PREJDD, sheet,'UNK'))
-Log.addAssert("(private) getListOfCasDeTestAndIDValue(sheet, '')",[],(List) method.invoke(PREJDD, sheet,''))
-Log.addAssert("(private) getListOfCasDeTestAndIDValue(sheet, null)",[],(List) method.invoke(PREJDD, sheet,null))
-Log.addAssert("(private) getListOfCasDeTestAndIDValue(null,'ID_NUMACT')",[],(List) method.invoke(PREJDD, null,'ID_NUMACT'))
+Log.addAssert(CLASS_FOR_LOG,"(private) getListOfCasDeTestAndIDValue(sheet, 'UNK')",[],(List) method.invoke(PREJDD, sheet,'UNK'))
+Log.addAssert(CLASS_FOR_LOG,"(private) getListOfCasDeTestAndIDValue(sheet, '')",[],(List) method.invoke(PREJDD, sheet,''))
+Log.addAssert(CLASS_FOR_LOG,"(private) getListOfCasDeTestAndIDValue(sheet, null)",[],(List) method.invoke(PREJDD, sheet,null))
+Log.addAssert(CLASS_FOR_LOG,"(private) getListOfCasDeTestAndIDValue(null,'ID_NUMACT')",[],(List) method.invoke(PREJDD, null,'ID_NUMACT'))
 
 

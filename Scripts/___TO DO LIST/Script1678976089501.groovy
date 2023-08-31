@@ -9,9 +9,8 @@
  * 
  * 
 
-finir JDD checrher est ce que cela ne doit pas etre dans JDDData ?
+ probleme ave RestoreDB et CHECK JDD depuis que j'ai mis la chargement des IV dans le constructeur de JDDIV
 
-et mettre dans data et faire le test
 
 
  * 

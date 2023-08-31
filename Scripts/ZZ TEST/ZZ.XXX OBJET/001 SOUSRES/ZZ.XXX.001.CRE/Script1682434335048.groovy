@@ -8,7 +8,7 @@ import tnrLog.Log
 def myJDD = new JDD()
 
 
-for (String cdt in myJDD.CDTList) {
+for (String cdt in myJDD.getCDTList()) {
 		
 	TNRResult.addStartTestCase(cdt)
 	

@@ -11,7 +11,7 @@ import tnrResultManager.TNRResult
 def myJDD = new JDD()
 		
 		
-for (String cdt in myJDD.CDTList) {
+for (String cdt in myJDD.getCDTList()) {
 	
 	myJDD.setCasDeTest(cdt)
 		
@@ -147,7 +147,7 @@ for (String cdt in myJDD.CDTList) {
 	
 	    NAV.verifierEcranResultat(myJDD.getStrData())
 		
-		myJDD.replaceSEQUENCIDInJDD('ID_NUMDOC',1)
+		myJDD.replaceSEQUENCIDInJDD('ID_NUMDOC')
 		
 		SQL.checkJDDWithBD(myJDD)
 		

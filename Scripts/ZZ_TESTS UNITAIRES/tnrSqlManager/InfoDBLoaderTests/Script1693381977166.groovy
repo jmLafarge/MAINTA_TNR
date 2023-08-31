@@ -10,10 +10,12 @@ import tnrLog.Log
  * @version 1.0
  */
 
+final String CLASS_FOR_LOG = 'tnrSqlManager.InfoDBLoader'
+
 InfoDBLoader infoDB = new InfoDBLoader()
 
 
-Log.addAssert("infoDB.datas['ABR']['ID_NUMABR']['ORDINAL_POSITION'] 1ere ligne",1,infoDB.datas['ABR']['ID_NUMABR']['ORDINAL_POSITION'])
-Log.addAssert("infoDB.datas['INTER']['ID_CODINT']['DATA_TYPE']",'varchar',infoDB.datas['INTER']['ID_CODINT']['DATA_TYPE'])
-Log.addAssert("infoDB.datas['ZONLIG_ID']['ID_SESSION']['CONSTRAINT_NAME'] Derniere ligne)",'NULL',infoDB.datas['ZONLIG_ID']['ID_SESSION']['CONSTRAINT_NAME'])
+Log.addAssert(CLASS_FOR_LOG,"infoDB.datas['ABR']['ID_NUMABR']['ORDINAL_POSITION'] 1ere ligne",1,infoDB.datas['ABR']['ID_NUMABR']['ORDINAL_POSITION'])
+Log.addAssert(CLASS_FOR_LOG,"infoDB.datas['INTER']['ID_CODINT']['DATA_TYPE']",'varchar',infoDB.datas['INTER']['ID_CODINT']['DATA_TYPE'])
+Log.addAssert(CLASS_FOR_LOG,"infoDB.datas['ZONLIG_ID']['ID_SESSION']['CONSTRAINT_NAME'] Derniere ligne)",'NULL',infoDB.datas['ZONLIG_ID']['ID_SESSION']['CONSTRAINT_NAME'])
 

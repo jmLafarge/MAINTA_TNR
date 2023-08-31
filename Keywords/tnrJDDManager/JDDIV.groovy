@@ -3,10 +3,12 @@ package tnrJDDManager
 
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.transform.CompileStatic
-import tnrLog.Log
+import tnrCommon.TNRPropertiesReader
 import tnrCommon.Tools
+import tnrLog.Log
 
 
 /**
@@ -17,10 +19,20 @@ import tnrCommon.Tools
 public class JDDIV {
 
 	private static final String CLASS_FOR_LOG = 'IV'
-
+	
+	private final String INTERNALVALUE_SHEET_NAME	= TNRPropertiesReader.getMyProperty('INTERNALVALUE_SHEET_NAME')
+	private final String JDDGLOBAL_FULLNAME 		= TNRPropertiesReader.getMyProperty('JDD_PATH') + File.separator + TNRPropertiesReader.getMyProperty('JDDGLOBAL_FILENAME')
+	
 	private static List<Map<String, String>> list = []
 
-
+	JDDIV(){
+		XSSFWorkbook book = tnrCommon.ExcelUtils.open(JDDGLOBAL_FULLNAME)
+		// add INTERNALVALUE
+		if (book.getSheet(INTERNALVALUE_SHEET_NAME) != null) {
+			addAll(book.getSheet(INTERNALVALUE_SHEET_NAME))
+		}
+	}
+	
 
 	public static addAll(Sheet sheet) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "addAll", [sheet:sheet.getSheetName()])

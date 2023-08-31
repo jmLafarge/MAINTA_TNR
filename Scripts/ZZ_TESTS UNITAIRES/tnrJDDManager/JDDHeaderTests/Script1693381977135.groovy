@@ -17,15 +17,18 @@ import tnrJDDManager.JDDHeader
  * @version 1.0
  */
 
+final String CLASS_FOR_LOG = 'tnrJDDManager.JDDHeader'
+
+
 Workbook  book = tnrCommon.ExcelUtils.open('TNR_JDDTest\\JDD.AA.BBB.xlsx')
 Sheet sheet = book.getSheet('001')
 List headersListTest = ['ID_JML', 'ST_DES', 'ST_INA', 'NU_IV']
 JDDHeader myJDDHeader = new JDDHeader(sheet)
 
 
-Log.addAssert("JDDHeader.getSize()",4,myJDDHeader.getSize())
-Log.addAssert("JDDHeader.getList()",headersListTest,myJDDHeader.getList())
-Log.addAssert("JDDHeader.tableName",'JMLTABLE',myJDDHeader.tableName)
+Log.addAssert(CLASS_FOR_LOG,"JDDHeader.getSize()",4,myJDDHeader.getSize())
+Log.addAssert(CLASS_FOR_LOG,"JDDHeader.getList()",headersListTest,myJDDHeader.getList())
+Log.addAssert(CLASS_FOR_LOG,"JDDHeader.tableName",'JMLTABLE',myJDDHeader.tableName)
 
 
 

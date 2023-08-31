@@ -26,6 +26,8 @@ import tnrJDDManager.JDDParam
  * @version 1.0
  */
 
+final String CLASS_FOR_LOG = 'tnrJDDManager.JDDParam'
+
 Workbook  book = tnrCommon.ExcelUtils.open('TNR_JDDTest\\JDD.AA.BBB.xlsx')
 Sheet sheet = book.getSheet('001')
 
@@ -49,51 +51,51 @@ JDDHeader myJDDHeader = new JDDHeader(sheet)
 JDDParam myJDDParam = new JDDParam(sheet,myJDDHeader,'CAS_DE_TEST')
 
 
-Log.addAssert("myJDDParam.paramsMap",paramsMapTest,myJDDParam.paramsMap)
+Log.addAssert(CLASS_FOR_LOG,"myJDDParam.paramsMap",paramsMapTest,myJDDParam.paramsMap)
 
 
 
 Method method = JDDParam.class.getDeclaredMethod("isParamAllowed", String.class);
 method.setAccessible(true);
-Log.addAssert("private myJDDParam.isParamAllowed('LOCATOR')",true,(boolean) method.invoke(myJDDParam, 'LOCATOR'))
-Log.addAssert("private myJDDParam.isParamAllowed('NOTALLOWEDPARA')",false,(boolean) method.invoke(myJDDParam, 'NOTALLOWEDPARA'))
+Log.addAssert(CLASS_FOR_LOG,"private myJDDParam.isParamAllowed('LOCATOR')",true,(boolean) method.invoke(myJDDParam, 'LOCATOR'))
+Log.addAssert(CLASS_FOR_LOG,"private myJDDParam.isParamAllowed('NOTALLOWEDPARA')",false,(boolean) method.invoke(myJDDParam, 'NOTALLOWEDPARA'))
 
 
 
-Log.addAssert("myJDDParam.getParamListAllowed()",['PREREQUIS','FOREIGNKEY','LOCATOR','SEQUENCE','INTERNALVALUE'],myJDDParam.getParamListAllowed())
+Log.addAssert(CLASS_FOR_LOG,"myJDDParam.getParamListAllowed()",['PREREQUIS','FOREIGNKEY','LOCATOR','SEQUENCE','INTERNALVALUE'],myJDDParam.getParamListAllowed())
 
 
-Log.addAssert("myJDDParam.getAllLOCATOR()",paramsMapTest['LOCATOR'],myJDDParam.getAllLOCATOR())
+Log.addAssert(CLASS_FOR_LOG,"myJDDParam.getAllLOCATOR()",paramsMapTest['LOCATOR'],myJDDParam.getAllLOCATOR())
 
 
-Log.addAssert("myJDDParam.getAllPREREQUIS()",paramsMapTest['PREREQUIS'],myJDDParam.getAllPREREQUIS())
-
-
-
-Log.addAssert("myJDDParam.getParamFor('PREREQUIS','ID_JML')",paramsMapTest['PREREQUIS']['ID_JML'],myJDDParam.getParamFor('PREREQUIS','ID_JML'))
-Log.addAssert("myJDDParam.getParamFor('FOREIGNKEY','ST_DES')",paramsMapTest['FOREIGNKEY']['ST_DES'],myJDDParam.getParamFor('FOREIGNKEY','ST_DES'))
-Log.addAssert("myJDDParam.getParamFor('SEQUENCE','ST_INA')",paramsMapTest['SEQUENCE']['ST_INA'],myJDDParam.getParamFor('SEQUENCE','ST_INA'))
-Log.addAssert("myJDDParam.getParamFor('INTERNALVALUE','NU_IV')",paramsMapTest['INTERNALVALUE']['NU_IV'],myJDDParam.getParamFor('INTERNALVALUE','NU_IV'))
-Log.addAssert("myJDDParam.getParamFor('LOCATOR','ST_INA')",paramsMapTest['LOCATOR']['ST_INA'],myJDDParam.getParamFor('LOCATOR','ST_INA'))
+Log.addAssert(CLASS_FOR_LOG,"myJDDParam.getAllPREREQUIS()",paramsMapTest['PREREQUIS'],myJDDParam.getAllPREREQUIS())
 
 
 
-Log.addAssert("myJDDParam.getPREREQUISFor('ID_JML')",paramsMapTest['PREREQUIS']['ID_JML'],myJDDParam.getPREREQUISFor('ID_JML'))
-Log.addAssert("myJDDParam.getFOREIGNKEYFor('ST_DES')",paramsMapTest['FOREIGNKEY']['ST_DES'],myJDDParam.getFOREIGNKEYFor('ST_DES'))
-Log.addAssert("myJDDParam.getSEQUENCEFor('ST_INA')",paramsMapTest['SEQUENCE']['ST_INA'],myJDDParam.getSEQUENCEFor('ST_INA'))
-Log.addAssert("myJDDParam.getLOCATORFor('ST_INA')",paramsMapTest['LOCATOR']['ST_INA'],myJDDParam.getLOCATORFor('ST_INA'))
-Log.addAssert("myJDDParam.getINTERNALVALUEFor('NU_IV')",paramsMapTest['INTERNALVALUE']['NU_IV'],myJDDParam.getINTERNALVALUEFor('NU_IV'))
-Log.addAssert("myJDDParam.getPREREQUISFor('ID_UNK')",null,myJDDParam.getPREREQUISFor('ID_UNK'))
-Log.addAssert("myJDDParam.getPREREQUISFor(null)",null,myJDDParam.getPREREQUISFor(null))
+Log.addAssert(CLASS_FOR_LOG,"myJDDParam.getParamFor('PREREQUIS','ID_JML')",paramsMapTest['PREREQUIS']['ID_JML'],myJDDParam.getParamFor('PREREQUIS','ID_JML'))
+Log.addAssert(CLASS_FOR_LOG,"myJDDParam.getParamFor('FOREIGNKEY','ST_DES')",paramsMapTest['FOREIGNKEY']['ST_DES'],myJDDParam.getParamFor('FOREIGNKEY','ST_DES'))
+Log.addAssert(CLASS_FOR_LOG,"myJDDParam.getParamFor('SEQUENCE','ST_INA')",paramsMapTest['SEQUENCE']['ST_INA'],myJDDParam.getParamFor('SEQUENCE','ST_INA'))
+Log.addAssert(CLASS_FOR_LOG,"myJDDParam.getParamFor('INTERNALVALUE','NU_IV')",paramsMapTest['INTERNALVALUE']['NU_IV'],myJDDParam.getParamFor('INTERNALVALUE','NU_IV'))
+Log.addAssert(CLASS_FOR_LOG,"myJDDParam.getParamFor('LOCATOR','ST_INA')",paramsMapTest['LOCATOR']['ST_INA'],myJDDParam.getParamFor('LOCATOR','ST_INA'))
+
+
+
+Log.addAssert(CLASS_FOR_LOG,"myJDDParam.getPREREQUISFor('ID_JML')",paramsMapTest['PREREQUIS']['ID_JML'],myJDDParam.getPREREQUISFor('ID_JML'))
+Log.addAssert(CLASS_FOR_LOG,"myJDDParam.getFOREIGNKEYFor('ST_DES')",paramsMapTest['FOREIGNKEY']['ST_DES'],myJDDParam.getFOREIGNKEYFor('ST_DES'))
+Log.addAssert(CLASS_FOR_LOG,"myJDDParam.getSEQUENCEFor('ST_INA')",paramsMapTest['SEQUENCE']['ST_INA'],myJDDParam.getSEQUENCEFor('ST_INA'))
+Log.addAssert(CLASS_FOR_LOG,"myJDDParam.getLOCATORFor('ST_INA')",paramsMapTest['LOCATOR']['ST_INA'],myJDDParam.getLOCATORFor('ST_INA'))
+Log.addAssert(CLASS_FOR_LOG,"myJDDParam.getINTERNALVALUEFor('NU_IV')",paramsMapTest['INTERNALVALUE']['NU_IV'],myJDDParam.getINTERNALVALUEFor('NU_IV'))
+Log.addAssert(CLASS_FOR_LOG,"myJDDParam.getPREREQUISFor('ID_UNK')",null,myJDDParam.getPREREQUISFor('ID_UNK'))
+Log.addAssert(CLASS_FOR_LOG,"myJDDParam.getPREREQUISFor(null)",null,myJDDParam.getPREREQUISFor(null))
 
 
 
 
-Log.addAssert("myJDDParam.isRADIO('ST_DES')",true,myJDDParam.isRADIO('ST_DES'))
-Log.addAssert("myJDDParam.isRADIO('ID_JML')",false,myJDDParam.isRADIO('ID_JML'))
-Log.addAssert("myJDDParam.isRADIO(null)",false,myJDDParam.isRADIO(null))
-Log.addAssert("myJDDParam.isRADIO('')",false,myJDDParam.isRADIO(''))
-Log.addAssert("myJDDParam.isRADIO('UNK')",false,myJDDParam.isRADIO('UNK'))
+Log.addAssert(CLASS_FOR_LOG,"myJDDParam.isRADIO('ST_DES')",true,myJDDParam.isRADIO('ST_DES'))
+Log.addAssert(CLASS_FOR_LOG,"myJDDParam.isRADIO('ID_JML')",false,myJDDParam.isRADIO('ID_JML'))
+Log.addAssert(CLASS_FOR_LOG,"myJDDParam.isRADIO(null)",false,myJDDParam.isRADIO(null))
+Log.addAssert(CLASS_FOR_LOG,"myJDDParam.isRADIO('')",false,myJDDParam.isRADIO(''))
+Log.addAssert(CLASS_FOR_LOG,"myJDDParam.isRADIO('UNK')",false,myJDDParam.isRADIO('UNK'))
 
 
 Sheet sheet2 = book.getSheet('002')
@@ -101,8 +103,8 @@ Sheet sheet2 = book.getSheet('002')
 JDDHeader myJDDHeader2 = new JDDHeader(sheet2)
 JDDParam myJDDParam2 = new JDDParam(sheet2,myJDDHeader2,'CAS_DE_TEST')
 
-Log.addAssert("JDDParam2.paramsMap",paramsMapTest2,myJDDParam2.paramsMap)
+Log.addAssert(CLASS_FOR_LOG,"JDDParam2.paramsMap",paramsMapTest2,myJDDParam2.paramsMap)
 
-Log.addAssert("JDDParam2.getPREREQUISFor('ID_JML')",paramsMapTest2['PREREQUIS']['ID_JML'],myJDDParam2.getPREREQUISFor('ID_JML'))
-Log.addAssert("JDDParam2.getINTERNALVALUEFor('NU_IV')",'',myJDDParam2.getINTERNALVALUEFor('NU_IV'))
+Log.addAssert(CLASS_FOR_LOG,"JDDParam2.getPREREQUISFor('ID_JML')",paramsMapTest2['PREREQUIS']['ID_JML'],myJDDParam2.getPREREQUISFor('ID_JML'))
+Log.addAssert(CLASS_FOR_LOG,"JDDParam2.getINTERNALVALUEFor('NU_IV')",'',myJDDParam2.getINTERNALVALUEFor('NU_IV'))
 

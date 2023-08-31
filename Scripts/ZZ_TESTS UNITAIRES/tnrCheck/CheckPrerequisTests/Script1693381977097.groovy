@@ -14,6 +14,8 @@ import tnrLog.Log
  */
 
 
+final String CLASS_FOR_LOG = 'tnrCheck.CheckPrerequis'
+
 List<Map<String, Map<String, Object>>> datasListTest_PK = [
 	['AA.BBB.001.CRE.01':['ID_CODINT':'JMLCRE01', 'ST_DES':'DESJMLCRE01', 'ST_INA':'JMLCRE01_INA', 'NU_IV':null]],
 	['AA.BBB.001.CRE.02':['ID_CODINT':'JMLCRE02', 'ST_DES':'DESJMLCRE02', 'ST_INA':'JMLCRE02_INA', 'NU_IV':null]],
@@ -57,17 +59,17 @@ List<String> resultListTest_nonPK = [
 
 Method method = CheckPrerequis.class.getDeclaredMethod("getListCDTVAL", List.class, String.class, String.class);
 method.setAccessible(true);
-Log.addAssert("(private) CheckPrerequis d'une colonne PK",resultListTest_PK, method.invoke(CheckPrerequis, datasListTest_PK, 'INTER','ID_CODINT'))
-Log.addAssert("(private) CheckPrerequis d'une colonne non PK",resultListTest_nonPK, method.invoke(CheckPrerequis, datasListTest_nonPK, 'INTER','ST_DES'))
+Log.addAssert(CLASS_FOR_LOG,"(private) CheckPrerequis d'une colonne PK",resultListTest_PK, method.invoke(CheckPrerequis, datasListTest_PK, 'INTER','ID_CODINT'))
+Log.addAssert(CLASS_FOR_LOG,"(private) CheckPrerequis d'une colonne non PK",resultListTest_nonPK, method.invoke(CheckPrerequis, datasListTest_nonPK, 'INTER','ST_DES'))
 
-Log.addAssert("(private) CheckPrerequis d'une colonne UNK",[], method.invoke(CheckPrerequis, datasListTest_PK, 'INTER','UNK'))
-Log.addAssert("(private) CheckPrerequis d'une colonne vide",[], method.invoke(CheckPrerequis, datasListTest_PK, 'INTER',''))
-Log.addAssert("(private) CheckPrerequis d'une colonne null",[], method.invoke(CheckPrerequis, datasListTest_PK, 'INTER',null))
+Log.addAssert(CLASS_FOR_LOG,"(private) CheckPrerequis d'une colonne UNK",[], method.invoke(CheckPrerequis, datasListTest_PK, 'INTER','UNK'))
+Log.addAssert(CLASS_FOR_LOG,"(private) CheckPrerequis d'une colonne vide",[], method.invoke(CheckPrerequis, datasListTest_PK, 'INTER',''))
+Log.addAssert(CLASS_FOR_LOG,"(private) CheckPrerequis d'une colonne null",[], method.invoke(CheckPrerequis, datasListTest_PK, 'INTER',null))
 
 
-Log.addAssert("(private) CheckPrerequis d'une table UNK",[], method.invoke(CheckPrerequis, datasListTest_PK, 'UNK','ID_CODINT'))
-Log.addAssert("(private) CheckPrerequis d'une table vide",[], method.invoke(CheckPrerequis, datasListTest_PK, '','ID_CODINT'))
-Log.addAssert("(private) CheckPrerequis d'une table null",[], method.invoke(CheckPrerequis, datasListTest_PK, null,'ID_CODINT'))
+Log.addAssert(CLASS_FOR_LOG,"(private) CheckPrerequis d'une table UNK",[], method.invoke(CheckPrerequis, datasListTest_PK, 'UNK','ID_CODINT'))
+Log.addAssert(CLASS_FOR_LOG,"(private) CheckPrerequis d'une table vide",[], method.invoke(CheckPrerequis, datasListTest_PK, '','ID_CODINT'))
+Log.addAssert(CLASS_FOR_LOG,"(private) CheckPrerequis d'une table null",[], method.invoke(CheckPrerequis, datasListTest_PK, null,'ID_CODINT'))
 
 
 List<Map<String, Map<String, Object>>> datasListTest_ColAdded = [
@@ -80,4 +82,4 @@ List<String> resultListTest_ColAdded = [
 	"'AA.BBB.001.LEC.01' - 'titi'"
 ]
 
-Log.addAssert("(private) CheckPrerequis d'une colonne PK",resultListTest_ColAdded, method.invoke(CheckPrerequis, datasListTest_ColAdded, 'INTER','COLADDED'))
+Log.addAssert(CLASS_FOR_LOG,"(private) CheckPrerequis d'une colonne PK",resultListTest_ColAdded, method.invoke(CheckPrerequis, datasListTest_ColAdded, 'INTER','COLADDED'))
