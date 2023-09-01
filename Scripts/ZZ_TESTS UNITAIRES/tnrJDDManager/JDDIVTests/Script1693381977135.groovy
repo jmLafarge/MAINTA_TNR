@@ -1,7 +1,11 @@
 
+import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.Workbook
-import tnrLog.Log
+
+import tnrCommon.TNRPropertiesReader
 import tnrJDDManager.JDDIV
+import tnrLog.Log
+
 
 /**
  * TESTS UNITAIRES
@@ -16,7 +20,8 @@ import tnrJDDManager.JDDIV
 final String CLASS_FOR_LOG = 'tnrJDDManager.JDDIV'
 
 Workbook  book = tnrCommon.ExcelUtils.open('TNR_JDDTest\\JDD.AA.BBB.xlsx')
-
+Sheet IVSheet = book.getSheet(TNRPropertiesReader.getMyProperty('INTERNALVALUE_SHEET_NAME'))
+JDDIV myJDDIV = new JDDIV(IVSheet)
 
 List<Map<String, Object>> listTest = [
 	['param':'COM.NU_MET', 'value':'Non utilisé', 'internalValue':'$NULL'], 
@@ -33,16 +38,15 @@ List<Map<String, Object>> listTest = [
 	['param':'MAT.NU_TYP', 'value':'Moyen', 'internalValue':'2']
 ]
 
-JDDIV.addAll(book.getSheet('INTERNALVALUE'))
 
-Log.addAssert(CLASS_FOR_LOG,"JDDIV.list",listTest,JDDIV.list)
+Log.addAssert(CLASS_FOR_LOG,"myJDDIV.list",listTest,myJDDIV.list)
 
-Log.addAssert(CLASS_FOR_LOG,"JDDIV.getInternalValueOf('COM.NU_MET','Non utilisé')",'$NULL',JDDIV.getInternalValueOf('COM.NU_MET','Non utilisé'))
-Log.addAssert(CLASS_FOR_LOG,"JDDIV.getInternalValueOf('MAT.NU_TYP','Suivi en Stock')",'1',JDDIV.getInternalValueOf('MAT.NU_TYP','Suivi en Stock'))
+Log.addAssert(CLASS_FOR_LOG,"myJDDIV.getValueOf('COM.NU_MET','\$NULL')",'Non utilisé',myJDDIV.getValueOf('COM.NU_MET','$NULL'))
+Log.addAssert(CLASS_FOR_LOG,"myJDDIV.getValueOf('MAT.NU_TYP','1')",'Suivi en Stock',myJDDIV.getValueOf('MAT.NU_TYP','1'))
 
-Log.addAssert(CLASS_FOR_LOG,"JDDIV.getInternalValueOf('UNKNOWN','Suivi en Stock')",null,JDDIV.getInternalValueOf('UNKNOWN','Suivi en Stock'))
-Log.addAssert(CLASS_FOR_LOG,"JDDIV.getInternalValueOf('MAT.NU_TYP','UNKNOWN')",null,JDDIV.getInternalValueOf('MAT.NU_TYP','UNKNOWN'))
-Log.addAssert(CLASS_FOR_LOG,"JDDIV.getInternalValueOf('UNKNOWN','UNKNOWN')",null,JDDIV.getInternalValueOf('UNKNOWN','UNKNOWN'))
+Log.addAssert(CLASS_FOR_LOG,"myJDDIV.getValueOf('UNKNOWN','1')",null,myJDDIV.getValueOf('UNKNOWN','1'))
+Log.addAssert(CLASS_FOR_LOG,"myJDDIV.getValueOf('MAT.NU_TYP','UNKNOWN')",null,myJDDIV.getValueOf('MAT.NU_TYP','UNKNOWN'))
+Log.addAssert(CLASS_FOR_LOG,"myJDDIV.getValueOf('UNKNOWN','UNKNOWN')",null,myJDDIV.getValueOf('UNKNOWN','UNKNOWN'))
 
 
 

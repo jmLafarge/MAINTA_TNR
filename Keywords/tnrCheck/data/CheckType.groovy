@@ -84,22 +84,14 @@ public class CheckType {
 
 									Log.addTrace("Détection d'une IV sur $name, IV= $paraIV value=$val ")
 
-									String internalVal = JDDIV.getInternalValueOf(paraIV, val.toString())
+									String valueOfIV = myJDD.myJDDIV.getValueOf(paraIV, val.toString())
 
-									if (internalVal) {
-										val = internalVal
-									}else {
+									if (!valueOfIV) {
 										Log.addDETAILFAIL(cdt + "($table.$name) : La valeur '$val' n'est pas autorisé pour une internal value de type '$paraIV'")
 										status = false
 										ctrlVal=false
 									}
-
-
-								}else {
-									Log.addTrace("Détection d'une INTERNALVALUE sur $name, IV= $paraIV la valeur est vide ou null")
-									ctrlVal=false
 								}
-
 							}
 						}
 

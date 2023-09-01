@@ -54,6 +54,7 @@ public class JDD {
 	public JDDData myJDDData
 	public JDDIHMTO myJDDIHMTO
 	public JDDXpath myJDDXpath
+	public JDDIV myJDDIV
 
 
 
@@ -86,6 +87,12 @@ public class JDD {
 
 
 		book = tnrCommon.ExcelUtils.open(JDDFullName)
+
+		// add INTERNALVALUE
+		Sheet IVSheet = book.getSheet(INTERNALVALUE_SHEET_NAME)
+		if (IVSheet) {
+			myJDDIV = new JDDIV(IVSheet)
+		}
 
 		if (TCSheetName) {
 			TCSheet = book.getSheet(TCSheetName)
@@ -265,12 +272,12 @@ public class JDD {
 						ret = JDDKW.getOldValueOfKW_UPD(ret)
 					}
 				}
+				/*
 				String paraIV = myJDDParam.getINTERNALVALUEFor(name)
-
-				if (paraIV) {
-					ret = JDDIV.getInternalValueOf(paraIV,ret.toString())
-				}
-
+				 if (paraIV) {
+				 ret = myJDDIV.getInternalValueOf(paraIV,ret.toString())
+				 }
+				 */
 				//
 			} else {
 				Log.addERROR("'$name' n'est pas une colonne du JDD")

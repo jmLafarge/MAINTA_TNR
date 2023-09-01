@@ -18,32 +18,25 @@ import tnrLog.Log
 @CompileStatic
 public class JDDIV {
 
-	private static final String CLASS_FOR_LOG = 'IV'
-	
+	private final String CLASS_FOR_LOG = 'JDDIV'
+
 	private final String INTERNALVALUE_SHEET_NAME	= TNRPropertiesReader.getMyProperty('INTERNALVALUE_SHEET_NAME')
 	private final String JDDGLOBAL_FULLNAME 		= TNRPropertiesReader.getMyProperty('JDD_PATH') + File.separator + TNRPropertiesReader.getMyProperty('JDDGLOBAL_FILENAME')
-	
-	private static List<Map<String, String>> list = []
 
-	JDDIV(){
-		XSSFWorkbook book = tnrCommon.ExcelUtils.open(JDDGLOBAL_FULLNAME)
-		// add INTERNALVALUE
-		if (book.getSheet(INTERNALVALUE_SHEET_NAME) != null) {
-			addAll(book.getSheet(INTERNALVALUE_SHEET_NAME))
-		}
-	}
-	
+	private List<Map<String, String>> list = []
 
-	public static addAll(Sheet sheet) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "addAll", [sheet:sheet.getSheetName()])
+
+
+	JDDIV(Sheet sheet){
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "JDDIV", [sheet:sheet.getSheetName()])
 		Iterator<Row> rowIV = sheet.rowIterator()
 		rowIV.next()
 		while(rowIV.hasNext()) {
 			Row row = rowIV.next()
 			String IV_para = tnrCommon.ExcelUtils.getCellValue(row.getCell(0))
-			String IV_val = tnrCommon.ExcelUtils.getCellValue(row.getCell(1))
-			String IV_code = tnrCommon.ExcelUtils.getCellValue(row.getCell(2))
-			Log.addTrace("IV_para : $IV_para IV_val : $IV_val IV_code : $IV_code ")
+			String IV_code = tnrCommon.ExcelUtils.getCellValue(row.getCell(1))
+			String IV_val = tnrCommon.ExcelUtils.getCellValue(row.getCell(2))
+			Log.addTrace("IV_para : $IV_para  IV_code : $IV_code  IV_val : $IV_val")
 			if (IV_para == '') {
 				break
 			}else {
@@ -53,30 +46,32 @@ public class JDDIV {
 		}
 		Log.addTrace("internalValues = " + list.toString())
 		println Tools.displayWithQuotes(list)
-		Log.addTraceEND(CLASS_FOR_LOG, "addAll")
+		Log.addTraceEND(CLASS_FOR_LOG, "JDDIV")
 	}
 
 
 
 
 
+
+
 	/**
-	 * Récupère la valeur interne associée à un paramètre et une valeur donnés.
+	 * Récupère la valeur interne associée à un paramètre et une valeur donnés. EX getInternalValueOf
 	 *
 	 * @param para Le paramètre à rechercher.
 	 * @param val La valeur à rechercher.
 	 * @return La valeur interne correspondante, ou null si aucune valeur n'est trouvée.
 	 */
-	public static String getInternalValueOf(String para, String val) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "getInternalValueOf", [para: para, val: val])
+	public String getValueOf(String para, String intVal) {
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "getInternalValueOf", [para: para, intVal: intVal])
 
-		String res = list.find { it['param'] == para && it['value'] == val }?.get('internalValue')
+		String value = list.find { it['param'] == para && it['internalValue'] == intVal }?.get('value')
 
-		if (!res) {
-			Log.addERROR('Pas de valeur trouvée')
+		if (!value) {
+			Log.addERROR("Pas de valeur trouvée pour l'INTERNALVALUE '$intVal'")
 		}
 
-		Log.addTraceEND(CLASS_FOR_LOG, "getInternalValueOf", res)
-		return res
+		Log.addTraceEND(CLASS_FOR_LOG, "getInternalValueOf", value)
+		return value
 	}
 }

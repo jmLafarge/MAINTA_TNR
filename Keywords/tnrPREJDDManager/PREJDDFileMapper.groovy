@@ -140,7 +140,7 @@ public class PREJDDFileMapper {
 						}
 
 
-
+/*
 						// cas d'un champ lié à une INTERNALVALUE
 
 						String paraIV = myJDD.myJDDParam.getINTERNALVALUEFor(fieldName)
@@ -151,7 +151,7 @@ public class PREJDDFileMapper {
 
 								Log.addTrace("Détection d'une IV sur $fieldName, IV= $paraIV valueOfJDD$valueOfJDD :")
 
-								String internalVal = JDDIV.getInternalValueOf(paraIV,valueOfJDD.toString())
+								String internalVal = myJDD.myJDDIV.getInternalValueOf(paraIV,valueOfJDD.toString())
 
 								Log.addTrace("- internal value =$internalVal")
 
@@ -161,7 +161,8 @@ public class PREJDDFileMapper {
 							}
 						}
 
-
+*/
+						
 
 						// Cas des val TBD
 						if (JDDKW.startWithTBD(valueOfJDD)) {

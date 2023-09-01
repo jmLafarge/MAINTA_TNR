@@ -29,22 +29,21 @@ public class CheckPrerequis {
 
 		Log.addTraceBEGIN(CLASS_FORLOG,"run",[:])
 
-		Log.addTrace('--------------------------------------')
-		Log.addTrace('Collecte de tous les PREREQUIS des JDD')
-		Log.addTrace('--------------------------------------')
+		
+		Log.addSubTITLE('Contrôle des PREREQUIS des JDD')
+		Log.addINFO('Collecte de tous les PREREQUIS des JDD')
+
 
 		//Récupére la liste de tous les PREREQUIS de tous les JDD
 		JDDFileMapper.JDDfilemap.each { modObj,fullName ->
-			Log.addTrace("Lecture du JDD : " + fullName)
+			Log.addDEBUG("Lecture du JDD : " + fullName)
 			myJDD = new JDD(fullName,null,null,false)
 			getAllPrerequis('JDD',fullName)
 		}
 
 
 
-		Log.addSubTITLE('Contrôle des PREREQUIS des JDD')
-		Log.addINFO("\t\tDétails en cas d'erreur")
-		Log.addINFO("\t\t    CAS DE TEST      -     VALEUR")
+		Log.addINFO('Contrôle')
 		Log.addINFO('')
 		/*
 		 * Controle si tous les PREREQUIS des JDD sont bien dans les PREJDD
@@ -71,20 +70,18 @@ public class CheckPrerequis {
 
 
 		list =[]
-		Log.addTrace('--------------------------------------')
-		Log.addTrace('Collecte de tous les PREREQUIS des PREJDD')
-		Log.addTrace('--------------------------------------')
+		
+		Log.addSubTITLE('Contrôle des PREREQUIS des PREJDD')
+		Log.addINFO('Collecte de tous les PREREQUIS des PREJDD')
 
 		PREJDDFileMapper.PREJDDfilemap.each { modObj,fullName ->
-			Log.addTrace("Lecture du JDD pour modObj : " + modObj)
+			Log.addDEBUG("Lecture du JDD pour modObj : " + modObj)
 			myJDD = new JDD(JDDFileMapper.getFullnameFromModObj(modObj),null,null,false)
 			PREJDDBook = tnrCommon.ExcelUtils.open(fullName)
 			getAllPrerequis('PREJDD',fullName)
 		}
 
-		Log.addSubTITLE('Contrôle des PREREQUIS des PREJDD')
-		Log.addINFO("\t\tDétails en cas d'erreur")
-		Log.addINFO("\t\t    CAS DE TEST      -     VALEUR")
+		Log.addINFO('Contrôle')
 		Log.addINFO('')
 		/*
 		 * Controle si tous les PREREQUIS des JDD sont bien dans les PREJDD

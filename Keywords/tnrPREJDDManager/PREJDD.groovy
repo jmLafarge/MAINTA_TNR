@@ -31,7 +31,7 @@ public class PREJDD {
 
 		Sheet sheet = book.getSheet(map.getAt('PREJDDTAB').toString())
 
-		Log.addTrace("Controle de '" + map.getAt('JDDID') + "' de '" + map.getAt('JDDNAME') + "'  dans '" + PREJDDFileMapper.getFullnameFromModObj(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'")
+		Log.addDEBUG("Controle de '" + map.getAt('JDDID') + "' de '" + map.getAt('JDDNAME') + "'  dans '" + PREJDDFileMapper.getFullnameFromModObj(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'")
 
 		List list = getListOfCasDeTestAndIDValue(sheet, map.getAt('PREJDDID').toString())
 
@@ -53,45 +53,38 @@ public class PREJDD {
 			}else {
 
 				if (savJDDNAME != map.getAt('JDDNAME').toString()) {
-					Log.addTrace('')
-					Log.addTrace('\t- '+ map.getAt('JDDNAME').toString())
+					Log.addDEBUG('')
+					Log.addDEBUG('\t'+ map.getAt('JDDNAME').toString())
 					savJDDNAME = map.getAt('JDDNAME').toString()
 				}
 
-				// vérifier si la valeur n'est  pas déjà en BDD
+				
+				String cdt = cdtVal.toString().split("'")[1]
 				String val = cdtVal.toString().split("'")[3]
 				String JDDFullName= JDDFileMapper.getFullnameFromModObj(map.getAt('PREJDDMODOBJ').toString())
 				tnrJDDManager.JDD myJDD = new JDD(JDDFullName,'001',null,false)
 
+				// vérifier si la valeur n'est  pas déjà en BDD
 				int cpt = SQL.checkIfExist(myJDD.getDBTableName(), map.getAt('JDDID').toString()+"='$val'")
 
+				
 				if (cpt==1) {
-					Log.addTrace(cdtVal.toString()+' trouvé en BDD')
+					Log.addDEBUGDETAIL(cdtVal.toString()+' trouvé en BDD')
 				}else {
 
 					if (savJDDNAME2 != map.getAt('JDDNAME').toString()) {
 						Log.addINFO('')
-						Log.addINFO('\t- '+ map.getAt('JDDNAME').toString())
+						Log.addINFO('\t'+ map.getAt('JDDNAME').toString())
 						savJDDNAME2 = map.getAt('JDDNAME').toString()
 						savTxt=''
 					}
 					String txt="Controle de '" + map.getAt('JDDID') + "' dans '" + PREJDDFileMapper.getFullnameFromModObj(map.getAt('PREJDDMODOBJ').toString()) + "' (" + map.getAt('PREJDDTAB') + ") '"+ map.getAt('PREJDDID') + "'"
 					if (savTxt != txt) {
 						Log.addINFO('')
-						Log.addINFO("\t$txt")
+						Log.addINFO("\t $txt")
 						savTxt = txt
-
-						/*
-						 Log.addINFO('')
-						 map.each { cle, valeur ->
-						 Log.addINFO("\tClé: $cle, Valeur: $valeur")
-						 }
-						 Log.addINFO('')
-						 */
-
-
 					}
-					Log.addDETAILFAIL(cdtVal.toString()+' non trouvé !')
+					Log.addDETAILFAIL("Cas de test '$cdt', '${map.getAt('JDDID')}' = '$val' non trouvé !")
 					status = false
 				}
 			}

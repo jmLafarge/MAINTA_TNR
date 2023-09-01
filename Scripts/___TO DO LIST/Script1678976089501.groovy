@@ -9,7 +9,8 @@
  * 
  * 
 
- probleme ave RestoreDB et CHECK JDD depuis que j'ai mis la chargement des IV dans le constructeur de JDDIV
+verifier verifyOptionSelectedByValue ne prend pas en compte la IV ? voir le result et le debug
+
 
 
 
@@ -215,6 +216,8 @@
 		
 		Ajouter un ctrl sur les valeurs de chaque paramètre ex : 
 			pour PREREQUIS --> OBSOLETE ou ?*?*?
+			pour FOREIGNKEY --> ?*?*?
+			pour INTERNALVALUE --> ?*? et la valeur dans l'onglet INTERNALVALUE
 			pour LOCATOR --> c'est déjà fait
 		  
 		Dans les JDD, mettre en vert les cellules des attributs modifiés par rapport aux PREJDD pour les cas de tests MODIF

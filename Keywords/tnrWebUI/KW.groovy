@@ -503,6 +503,21 @@ class KW {
 			if (text==null) text = myJDD.getStrData(name)
 			if (WebUI.verifyOptionSelectedByValue(tObj, text, isRegex, timeOut)) {
 				TNRResult.addSTEPPASS("Vérifier que l'option '$text' de '" + tObj.getObjectId() + "' soit sélectionnée")
+				String valIV = myJDD.myJDDIV.getValueOf(name, text)
+				if (valIV) {
+					String myTOXpath = myTO.getXpath()
+					TestObject optionObj = new TestObject("${name}OPTION")
+					optionObj.setSelectorMethod(SelectorMethod.XPATH)
+					optionObj.setSelectorValue(SelectorMethod.XPATH, "$myTOXpath/option[@value='$text']")
+					String optionText = WebUI.getText(optionObj)
+					if (optionText==valIV) {
+						TNRResult.addSTEPPASS("Vérifier que la valeur de l'option '$text' de '" + tObj.getObjectId() + "' soit $valIV")
+					}else {
+						TNRResult.addSTEP("Vérifier que la valeur de l'option '$text' de '" + tObj.getObjectId() + "' soit $valIV KO", status)
+						TNRResult.addDETAIL("La valeur de l'option est '$optionText'")
+					}
+				}
+
 			}else{
 				TNRResult.addSTEP("Vérifier que l'option '$text' de '" + tObj.getObjectId() + "' soit sélectionnée KO", status)
 			}

@@ -15,7 +15,9 @@ public class TO {
 
 	private static final String CLASS_FOR_LOG = 'TO'
 
+	private TestObject to
 	private String msgTO
+	
 
 	public TestObject make(JDD myJDD,String ID) {
 
@@ -86,6 +88,7 @@ public class TO {
 			binding=[:]
 
 		}
+		this.to = to
 		Log.addTraceEND(CLASS_FOR_LOG,"make",to)
 
 		return to
@@ -101,7 +104,10 @@ public class TO {
 	}
 
 
-
+	public String getXpath() {
+		
+		return to.getSelectorCollection().get(SelectorMethod.XPATH)
+	}
 
 	/**
 	 * Résout un xpath en remplaçant les variables dynamiques par leurs valeurs correspondantes.
