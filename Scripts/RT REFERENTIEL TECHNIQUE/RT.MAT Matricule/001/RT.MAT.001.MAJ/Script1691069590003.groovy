@@ -31,7 +31,7 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.scrollAndSetText(myJDD, "ST_NUMINV")
 			KW.scrollAndCheckIfNeeded(myJDD, "ST_INA", "O")
 			KW.scrollAndSetText(myJDD, "ST_DES")
-			KW.scrollAndSelectOptionByValue(myJDD, "NU_TYP")
+			KW.scrollAndSelectOptionByLabel(myJDD, "NU_TYP")
 			KW.scrollAndSetText(myJDD, "NU_PRISTO")
 			KW.searchWithHelper(myJDD, "ID_CODART","","")
 			KW.searchWithHelper(myJDD, "ID_CODMOY","","")

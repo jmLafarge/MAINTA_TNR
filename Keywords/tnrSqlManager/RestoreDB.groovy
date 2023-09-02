@@ -39,7 +39,7 @@ public class RestoreDB {
 			String masterBackupFilename = saveMasterDB()
 			moveMasterBackupFileToBackupFolder(masterBackupFilename)
 			String destFullname = restoreTNRDB(masterBackupFilename)
-			createPREJDD()
+			//createPREJDD()
 			String TNRBackupFilename = saveTNRDB()
 			moveTNRBackupFileToBackupFolder(TNRBackupFilename)
 			deleteFileFromTNRFolder(destFullname)

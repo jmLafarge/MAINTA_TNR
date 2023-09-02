@@ -37,8 +37,8 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.scrollAndSetText(myJDD, "ST_NUMINV")
 			KW.scrollAndCheckIfNeeded(myJDD, "ST_INA", "O")
 			KW.scrollAndSetText(myJDD, "ST_DES")
-			KW.scrollAndSelectOptionByValue(myJDD, "ST_ETA")
-			KW.scrollAndSelectOptionByValue(myJDD, "NU_TYP")
+			KW.scrollAndSelectOptionByLabel(myJDD, "ST_ETA")
+			KW.scrollAndSelectOptionByLabel(myJDD, "NU_TYP")
 			KW.scrollAndSetText(myJDD, "NU_PRISTO")
 			KW.scrollAndSetText(myJDD, "ID_CODART")
 			
@@ -147,7 +147,7 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	    NAV.verifierEcranResultat(myJDD.getStrData())
 		
-		myJDD.replaceSEQUENCIDInJDD('ID_NUMDOC')
+		myJDD.replaceSEQUENCIDInJDD('ID_NUMDOC',-1)
 		
 		SQL.checkJDDWithBD(myJDD)
 		

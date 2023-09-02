@@ -9,8 +9,6 @@
  * 
  * 
 
-verifier verifyOptionSelectedByValue ne prend pas en compte la IV ? voir le result et le debug
-
 
 
 

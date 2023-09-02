@@ -34,18 +34,17 @@ public class JDDIV {
 		while(rowIV.hasNext()) {
 			Row row = rowIV.next()
 			String IV_para = tnrCommon.ExcelUtils.getCellValue(row.getCell(0))
-			String IV_code = tnrCommon.ExcelUtils.getCellValue(row.getCell(1))
+			String IV_intVal = tnrCommon.ExcelUtils.getCellValue(row.getCell(1))
 			String IV_val = tnrCommon.ExcelUtils.getCellValue(row.getCell(2))
-			Log.addTrace("IV_para : $IV_para  IV_code : $IV_code  IV_val : $IV_val")
+			Log.addTrace("IV_para : $IV_para  IV_code : $IV_intVal  IV_val : $IV_val")
 			if (IV_para == '') {
 				break
 			}else {
-				Map<String, String> newItem = [param: IV_para, value: IV_val, internalValue: IV_code]
+				Map<String, String> newItem = [param: IV_para, internalValue: IV_intVal, value: IV_val]
 				list.add(newItem)
 			}
 		}
 		Log.addTrace("internalValues = " + list.toString())
-		println Tools.displayWithQuotes(list)
 		Log.addTraceEND(CLASS_FOR_LOG, "JDDIV")
 	}
 
@@ -63,15 +62,13 @@ public class JDDIV {
 	 * @return La valeur interne correspondante, ou null si aucune valeur n'est trouvée.
 	 */
 	public String getValueOf(String para, String intVal) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "getInternalValueOf", [para: para, intVal: intVal])
-
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "getValueOf", [para: para, intVal: intVal])
+		Log.addTrace("internalValues = " + list.toString())
 		String value = list.find { it['param'] == para && it['internalValue'] == intVal }?.get('value')
-
 		if (!value) {
 			Log.addERROR("Pas de valeur trouvée pour l'INTERNALVALUE '$intVal'")
 		}
-
-		Log.addTraceEND(CLASS_FOR_LOG, "getInternalValueOf", value)
+		Log.addTraceEND(CLASS_FOR_LOG, "getValueOf", value)
 		return value
 	}
 }

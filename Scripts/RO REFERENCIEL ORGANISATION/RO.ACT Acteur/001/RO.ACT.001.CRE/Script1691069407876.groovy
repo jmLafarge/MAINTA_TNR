@@ -25,7 +25,7 @@ for (String cdt in myJDD.getCDTList()) {
 		KW.scrollAndClick(myJDD,"tab_Acteur")
 		KW.waitForElementVisible(myJDD,"tab_ActeurSelected")
 	
-		KW.scrollAndSelectOptionByValue(myJDD,"ST_ETA")
+		KW.scrollAndSelectOptionByLabel(myJDD,"ST_ETA")
 		KW.scrollAndCheckIfNeeded(myJDD,"ST_INA","O")
 		KW.scrollAndSetText(myJDD,"ID_CODINT")
 		KW.scrollAndSetText(myJDD,"ST_NOM")

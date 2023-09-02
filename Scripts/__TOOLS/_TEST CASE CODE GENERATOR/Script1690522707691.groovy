@@ -243,7 +243,7 @@ tagsWithAttributes.each { attribute ->
 		Log.addB("KW.scrollAndCheckIfNeeded(myJDD, \"${attribute.id}\", \"O\")")
 		
 	} else if (attribute.tag == 'select') {
-		Log.addB("KW.scrollAndSelectOptionByValue(myJDD, \"${attribute.id}\")")
+		Log.addB("KW.scrollAndSelectOptionByLabel(myJDD, \"${attribute.id}\")")
 		
 	} else if (attribute.tag == 'a') {
 		Log.addB('')
@@ -276,7 +276,7 @@ tagsWithAttributes.each { attribute ->
 	} else if (attribute.tag == 'input' && attribute.type == 'checkbox') {
 		Log.addB("KW.scrollAndCheckIfNeeded(myJDD, \"${attribute.id}\", \"O\")")
 	} else if (attribute.tag == 'select') {
-		Log.addB("KW.scrollAndSelectOptionByValue(myJDD, \"${attribute.id}\")")
+		Log.addB("KW.scrollAndSelectOptionByLabel(myJDD, \"${attribute.id}\")")
 	} else if (attribute.tag == 'a') {
 		Log.addB('')
 		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attribute.text.toUpperCase()}\")")

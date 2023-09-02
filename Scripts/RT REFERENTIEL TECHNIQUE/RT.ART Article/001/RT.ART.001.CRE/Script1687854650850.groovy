@@ -26,10 +26,10 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.waitForElementVisible(myJDD,"tab_ArticleSelected")
 			
 			KW.scrollAndSetText(myJDD,"ID_CODART")
-			KW.scrollAndSelectOptionByValue(myJDD,"ST_ETA")
+			KW.scrollAndSelectOptionByLabel(myJDD,"ST_ETA")
 			KW.scrollAndCheckIfNeeded(myJDD,"CODARTAUTO","O")
 			KW.scrollAndSetText(myJDD,"ST_DES")
-			KW.scrollAndSelectOptionByValue(myJDD,"ST_TYPART")
+			KW.scrollAndSelectOptionByLabel(myJDD,"ST_TYPART")
 			KW.scrollAndCheckIfNeeded(myJDD,"ST_INA","O")
 			
 			KW.scrollAndSetText(myJDD,"ID_CODNATART")
