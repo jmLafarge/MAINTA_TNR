@@ -21,25 +21,35 @@ public class RestoreDB {
 	
 
 	
-	static run() {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"run",[:])
+	static run(boolean forceFull, boolean withPREJDD) {
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"run",[forceFull:forceFull , withPREJDD:withPREJDD])
 		
 		Log.addTITLE("Restauration de la base de données")
 
 		List <String > backupFileList = FileUtils.getFilesFromFolder('^\\d{8}_\\d{6}-' + SQL.getProfileName() +'_' + SQL.getDatabaseName() + '.*\\.bak$',DBBACKUP_PATH)
-		if (backupFileList.size() == 1) {
+		if (backupFileList.size() == 1 && !forceFull) {
 			Log.addSubTITLE("Restauration de la BDD de test")
 			String TNRBackupFilename = backupFileList[0]
 			String destFullname = restoreTNRDB(TNRBackupFilename)
 			deleteFileFromTNRFolder(destFullname)
 			
 		}else {
+			if (forceFull) {
+				Log.addDETAIL(' /!\\ Forcage restauration complete')
+			}else {
+				Log.addDETAIL("Il n'existe pas de suavegarde de la base TNR")
+			}
 			Log.addSubTITLE("Initialisation complète de la BDD de test")
+
 			deleteFilesFromBackupFolder()
 			String masterBackupFilename = saveMasterDB()
 			moveMasterBackupFileToBackupFolder(masterBackupFilename)
 			String destFullname = restoreTNRDB(masterBackupFilename)
-			//createPREJDD()
+			if (withPREJDD) {
+				createPREJDD()
+			}else {
+				Log.addDETAIL(' /!\\ Pas de création de PREJDD')
+			}
 			String TNRBackupFilename = saveTNRDB()
 			moveTNRBackupFileToBackupFolder(TNRBackupFilename)
 			deleteFileFromTNRFolder(destFullname)

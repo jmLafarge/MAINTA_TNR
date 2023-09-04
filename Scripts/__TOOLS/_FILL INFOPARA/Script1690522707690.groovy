@@ -4,10 +4,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import tnrCommon.InfoPARA
 import tnrJDDManager.JDD
-import tnrJDDManager.JDDFiles
+import tnrJDDManager.JDDFileMapper
 import tnrJDDManager.JDDKW
 import tnrLog.Log
-import tnr.PREJDDFiles
+import tnrPREJDDManager.JDDFilesMapper
 import tnrCommon.ExcelUtils
 
 
@@ -16,7 +16,7 @@ Log.addTITLE("Lancement de FILL INFOPARA")
 Log.addSubTITLE('Renseigner InfoPARA avec le contenu des JDD')
 
 
-JDDFiles.JDDfilemap.each { modObj,fullName ->
+JDDFilesMapper.JDDfilemap.each { modObj,fullName ->
 
 	Log.addINFO("")
 	def myJDD = new my.JDD(fullName)
@@ -44,11 +44,11 @@ JDDFiles.JDDfilemap.each { modObj,fullName ->
 
 
 
-JDDFiles.JDDfilemap.each { modObj,fullName ->
+JDDFilesMapper.JDDfilemap.each { modObj,fullName ->
 	
 	Log.addINFO("")
 	XSSFWorkbook book = tnrCommon.ExcelUtils.open(fullName)
-	myJDD = new JDD(JDDFiles.JDDfilemap.getAt(modObj),null,null,false)
+	myJDD = new JDD(JDDFilesMapper.JDDfilemap.getAt(modObj),null,null,false)
 	for(Sheet sheet: book) {
 		if (myJDD.isSheetAvailable(sheet.getSheetName())) {					// si le sheet est Available
 			Log.addTrace("Onglet : " + sheet.getSheetName())
@@ -76,11 +76,11 @@ JDDFiles.JDDfilemap.each { modObj,fullName ->
 
 
 
-PREJDDFiles.PREJDDfilemap.each { modObj,fullName ->
+PREJDDFilesMapper.PREJDDfilemap.each { modObj,fullName ->
 	
 	Log.addINFO("")
 	XSSFWorkbook book = tnrCommon.ExcelUtils.open(fullName)
-	myJDD = new JDD(JDDFiles.JDDfilemap.getAt(modObj),null,null,false)
+	myJDD = new JDD(JDDFilesMapper.JDDfilemap.getAt(modObj),null,null,false)
 	for(Sheet sheet: book) {
 		if (myJDD.isSheetAvailable(sheet.getSheetName())) {					// si le sheet est Available
 			Log.addTrace("Onglet : " + sheet.getSheetName())

@@ -4,4 +4,7 @@ import tnrSqlManager.RestoreDB
 
 Log.setTraceLevel(0)
 
-RestoreDB.run()
+
+//run(boolean forceFull, boolean withPREJDD)
+
+RestoreDB.run(true,true)

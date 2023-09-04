@@ -20,7 +20,7 @@ import tnrSqlManager.SQL
 public class PREJDDFileMapper {
 
 
-	private static final String CLASS_FOR_LOG = 'PREJDDFiles'
+	private static final String CLASS_FOR_LOG = 'PREJDDFileMapper'
 
 
 	public static Map <String,String> PREJDDfilemap = [:]

@@ -1,11 +1,11 @@
 import internal.GlobalVariable
 import tnrJDDManager.JDD
-import tnrJDDManager.JDDFiles
+import tnrJDDManager.JDDFileMapper
 import tnrJDDManager.JDDKW
+import tnrResultManager.TNRResult
+import tnrSqlManager.SQL
 import tnrWebUI.KW
 import tnrWebUI.NAV
-import tnrSqlManager.SQL
-import tnrResultManager.TNRResult
 
 'Lecture du JDD'
 def myJDD = new JDD()
@@ -31,6 +31,8 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.waitForElementVisible(myJDD, "tab_OrganisationSelected")
 			
 			KW.scrollAndSetRadio(myJDD, "NU_TYP")
+			KW.scrollToPosition(0,0)
+			KW.delay(1)
 
 			KW.scrollAndSetText(myJDD, "ST_CODCOU")
 			KW.scrollAndSetText(myJDD, "ST_CODPERSGES")
@@ -57,8 +59,21 @@ for (String cdt in myJDD.getCDTList()) {
 			
 
 			
-	
-	
+	switch (myJDD.getStrData('SCENARIO')) {
+
+		case 'A2.1':
+
+		break
+		case 'A2.2.1':
+
+		break
+		case 'A2.3':
+
+		break	
+		case 'A2.4':
+		
+		break
+	}
 				
 	TNRResult.addSTEPACTION('VALIDATION')
 		
@@ -72,7 +87,7 @@ for (String cdt in myJDD.getCDTList()) {
 		
 		if (!JDDKW.isNU(myJDD.getStrData('ID_CODSER')) && !JDDKW.isNULL(myJDD.getStrData('ID_CODSER'))) {
 			
-			JDD JDDSER = new JDD(JDDFiles.getFullnameFromModObj('RO.ORG'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS)
+			JDD JDDSER = new JDD(JDDFileMapper.getFullnameFromModObj('RO.ORG'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS)
 			
 			JDDSER.replaceSEQUENCIDInJDD('ID_CODSER',0)
 			JDDSER.replaceSEQUENCIDInJDD('ID_NUMGES',0)

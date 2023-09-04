@@ -2,11 +2,12 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
 import tnrJDDManager.JDD
-import tnrJDDManager.JDDFiles
+import tnrJDDManager.JDDFileMapper
+import tnrPREJDDManager.PREJDDFileMapper
+import tnrResultManager.TNRResult
+import tnrSqlManager.SQL
 import tnrWebUI.KW
 import tnrWebUI.NAV
-import tnrSqlManager.SQL
-import tnrResultManager.TNRResult
 
 'Lecture du JDD'
 def myJDD = new JDD()
@@ -39,7 +40,7 @@ for (String cdt in myJDD.getCDTList()) {
 		
 		TNRResult.addSTEPBLOCK("ADRESSE")
 		
-		def JDD_Adr = new my.JDD(JDDFiles.getFullnameFromModObj('RO.ADR'),'001',GlobalVariable.CAS_DE_TEST_EN_COURS)
+		def JDD_Adr = new my.JDD(JDDFileMapper.getFullnameFromModObj('RO.ADR'),'001',GlobalVariable.CAS_DE_TEST_EN_COURS)
 		
 		KW.scrollAndClick(myJDD,"TD_Adresse")
 		KW.scrollAndClick(myJDD,"BTN_ModifierAdresse")
@@ -107,7 +108,7 @@ for (String cdt in myJDD.getCDTList()) {
 		KW.scrollAndClick(myJDD,"tab_Notes")
 		KW.waitForElementVisible(myJDD,"tab_NotesSelected")
 		
-		def JDD_Note = new JDD(JDDFiles.getFullnameFromModObj('RO.FOU'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS)
+		def JDD_Note = new JDD(JDDFileMapper.getFullnameFromModObj('RO.FOU'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS)
 		
 		KW.scrollToPosition(0, 0)
 		KW.delay(1)

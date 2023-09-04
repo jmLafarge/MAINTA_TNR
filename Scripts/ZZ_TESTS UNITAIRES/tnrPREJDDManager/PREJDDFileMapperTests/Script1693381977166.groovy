@@ -13,9 +13,9 @@ import tnrLog.Log
 
 final String CLASS_FOR_LOG = 'tnrPREJDDManager.PREJDDFileMapper'
 
-Log.addAssert(CLASS_FOR_LOG,"PREJDDFiles.getFullnameFromModObj('RO.ACT')",'TNR_PREJDD\\PREJDD.RO.ACT.xlsx',PREJDDFileMapper.getFullnameFromModObj('RO.ACT'))
-Log.addAssert(CLASS_FOR_LOG,"PREJDDFiles.getFullnameFromModObj('ROACT')",null,PREJDDFileMapper.getFullnameFromModObj('ROACT'))
-Log.addAssert(CLASS_FOR_LOG,"PREJDDFiles.getFullnameFromModObj('')",null,PREJDDFileMapper.getFullnameFromModObj(''))
-Log.addAssert(CLASS_FOR_LOG,"PREJDDFiles.getFullnameFromModObj(null)",null,PREJDDFileMapper.getFullnameFromModObj(null))
+Log.addAssert(CLASS_FOR_LOG,"PREJDDFilesMapper.getFullnameFromModObj('RO.ACT')",'TNR_PREJDD\\PREJDD.RO.ACT.xlsx',PREJDDFileMapper.getFullnameFromModObj('RO.ACT'))
+Log.addAssert(CLASS_FOR_LOG,"PREJDDFilesMapper.getFullnameFromModObj('ROACT')",null,PREJDDFileMapper.getFullnameFromModObj('ROACT'))
+Log.addAssert(CLASS_FOR_LOG,"PREJDDFilesMapper.getFullnameFromModObj('')",null,PREJDDFileMapper.getFullnameFromModObj(''))
+Log.addAssert(CLASS_FOR_LOG,"PREJDDFilesMapper.getFullnameFromModObj(null)",null,PREJDDFileMapper.getFullnameFromModObj(null))
 
 

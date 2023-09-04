@@ -12,7 +12,7 @@ import tnrLog.Log
 public class JDDFileMapper {
 
 
-	private static final String CLASS_FOR_LOG = 'JDDFiles'
+	private static final String CLASS_FOR_LOG = 'JDDFileMapper'
 
 
 	public static Map <String,String> JDDfilemap = [:]

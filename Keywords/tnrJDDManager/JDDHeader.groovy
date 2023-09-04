@@ -3,6 +3,7 @@ package tnrJDDManager
 import org.apache.poi.ss.usermodel.Sheet
 
 import groovy.transform.CompileStatic
+import tnrCommon.ExcelUtils
 import tnrLog.Log
 
 
@@ -22,7 +23,7 @@ public class JDDHeader {
 	JDDHeader(Sheet sheet) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "JDDHeaders", [sheet:sheet.getSheetName()])
 
-		List line0 = tnrCommon.ExcelUtils.loadRow(sheet.getRow(0))
+		List line0 = ExcelUtils.loadRow(sheet.getRow(0))
 		tableName = line0[0]
 		Log.addTrace('tableName : ' +tableName)
 		headersList = line0.subList(1, line0.size())
@@ -42,5 +43,10 @@ public class JDDHeader {
 
 	public String getTableName() {
 		return tableName
+	}
+	
+	
+	public String add(String name) {
+		return headersList.add(name)
 	}
 } //Fin de class

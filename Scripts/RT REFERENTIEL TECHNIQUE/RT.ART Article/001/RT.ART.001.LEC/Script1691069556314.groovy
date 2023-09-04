@@ -1,6 +1,6 @@
 import internal.GlobalVariable
 import tnrJDDManager.JDD
-import tnrJDDManager.JDDFiles
+import tnrJDDManager.JDDFileMapper
 import tnrWebUI.KW
 import tnrWebUI.NAV
 import tnrResultManager.TNRResult
@@ -39,7 +39,7 @@ for (String cdt in myJDD.getCDTList()) {
 		TNRResult.addSTEPBLOCK("FOURNISSEUR NORMALISE")
 		
 			// Lire le JDD spécifique
-			def JDD_ARTFOU = new my.JDD(JDDFiles.getFullnameFromModObj('RT.ART'),'001B',GlobalVariable.CAS_DE_TEST_EN_COURS)
+			def JDD_ARTFOU = new my.JDD(JDDFileMapper.getFullnameFromModObj('RT.ART'),'001B',GlobalVariable.CAS_DE_TEST_EN_COURS)
 			
 				KW.verifyValue(JDD_ARTFOU,"ID_CODFOU")
 			KW.verifyValue(myJDD,"ST_DESID_CODFOU")

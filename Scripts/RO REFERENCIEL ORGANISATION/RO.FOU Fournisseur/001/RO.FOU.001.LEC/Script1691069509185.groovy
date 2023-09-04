@@ -1,11 +1,9 @@
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-
 import internal.GlobalVariable
-import tnrWebUI.KW
-import tnrResultManager.TNRResult
-import tnrWebUI.NAV
 import tnrJDDManager.JDD
-import tnrJDDManager.JDDFiles
+import tnrJDDManager.JDDFileMapper
+import tnrResultManager.TNRResult
+import tnrWebUI.KW
+import tnrWebUI.NAV
 
 
 'Lecture du JDD'
@@ -85,7 +83,7 @@ for (String cdt in myJDD.getCDTList()) {
 		KW.delay(1)
 		
 		
-		KW.verifyElementText(new JDD(JDDFiles.getFullnameFromModObj('RO.FOU'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS),"OL_DOC")
+		KW.verifyElementText(new JDD(JDDFileMapper.getFullnameFromModObj('RO.FOU'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS),"OL_DOC")
 
 	TNRResult.addEndTestCase()
 }

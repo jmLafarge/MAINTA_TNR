@@ -4,9 +4,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 
 
-//PREJDDFiles.insertPREJDDinDB('RO.CAT','001')
-//PREJDDFiles.insertPREJDDinDB('RO.HAB','001') // faut traiter les $VIDE et $DATESYS
-//PREJDDFiles.insertPREJDDinDB('RO.MET','001')
+//PREJDDFilesMapper.insertPREJDDinDB('RO.CAT','001')
+//PREJDDFilesMapper.insertPREJDDinDB('RO.HAB','001') // faut traiter les $VIDE et $DATESYS
+//PREJDDFilesMapper.insertPREJDDinDB('RO.MET','001')
 
 
 

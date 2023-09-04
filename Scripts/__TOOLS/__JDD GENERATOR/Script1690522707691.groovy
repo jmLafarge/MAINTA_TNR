@@ -1,8 +1,8 @@
 
 import tnrJDDManager.JDDGenerator
 import tnrSqlManager.InfoDB
-import tnr.PREJDDFiles
-import tnrJDDManager.JDDFiles
+import tnrPREJDDManager.JDDFilesMapper
+import tnrJDDManager.JDDFileMapper
 import tnrLog.Log
 
 

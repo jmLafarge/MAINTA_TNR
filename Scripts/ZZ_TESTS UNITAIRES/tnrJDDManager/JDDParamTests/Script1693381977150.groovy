@@ -10,16 +10,18 @@ import tnrJDDManager.JDDParam
  * TESTS UNITAIRES
  * 
  * private boolean isParamAllowed(String name)
- * def List<String> getParamListAllowed()
- * def Map<String, String> getAllLOCATOR()
- * def Map<String, String> getAllPREREQUIS()
- * def String getParamFor(String param, String name)
- * def String getPREREQUISFor(String name)
- * def String getFOREIGNKEYFor(String name)
- * def String getSEQUENCEFor(String name)
- * def String getLOCATORFor(String name)
- * def String getINTERNALVALUEFor(String name)
- * def boolean isRADIO(String name)
+ * public List<String> getParamListAllowed()
+ * public Map<String, String> getAllLOCATOR()
+ * public Map<String, String> getAllPREREQUIS()
+ * public String getParamFor(String param, String name)
+ * public String getPREREQUISFor(String name)
+ * public String getFOREIGNKEYFor(String name)
+ * public String getSEQUENCEFor(String name)
+ * public String getLOCATORFor(String name)
+ * public String getINTERNALVALUEFor(String name)
+ * public boolean isRADIO(String name)
+ * public int getLOCATORIndex() {
+ * public int getSize() {
  *
  *
  * @author JM Lafarge
@@ -96,6 +98,12 @@ Log.addAssert(CLASS_FOR_LOG,"myJDDParam.isRADIO('ID_JML')",false,myJDDParam.isRA
 Log.addAssert(CLASS_FOR_LOG,"myJDDParam.isRADIO(null)",false,myJDDParam.isRADIO(null))
 Log.addAssert(CLASS_FOR_LOG,"myJDDParam.isRADIO('')",false,myJDDParam.isRADIO(''))
 Log.addAssert(CLASS_FOR_LOG,"myJDDParam.isRADIO('UNK')",false,myJDDParam.isRADIO('UNK'))
+
+
+Log.addAssert(CLASS_FOR_LOG,"myJDDParam.getLOCATORIndex()",4,myJDDParam.getLOCATORIndex())
+
+Log.addAssert(CLASS_FOR_LOG,"myJDDParam.getSize()",5,myJDDParam.getSize())
+
 
 
 Sheet sheet2 = book.getSheet('002')

@@ -9,7 +9,7 @@
  * 
  * 
 
-
+faire les notes de EQU LEC
 
 
  * 
@@ -83,13 +83,6 @@
  *
  *
 
-
-	Revoir la définition de INTERNAL VALUES
-	
-		Définition : Les INTERNAL VALUES ne sont pas en BD mais codé en dur dans Mainta
-		Ajout dans JDD.GLOBAL dans le but de controler si les valeurs dans les PREJDD et JDD sont corrects --> A FAIRE
-		Pour les SELECT, on utilise la valeur visible à l'écran.
-		Pour les RADIO, on utilise la valeur interne
 	
 	
 
@@ -120,8 +113,6 @@
 	 	
 	 								ID_NUMEMP manque l'emplacement dans PREJDD.EQU EQU.RT.MAT.001.CRE.01.........
 	 								
-	 	
-	 	
 
 	 	ORGANISTION MODIF			--> Contrôle de la valeur  de 'ST_DESORI' KO : la valeur attendue est 'UPD.RO.ORG.001.MAJ.01' et la valeur en BD est  : 'RO.ORG.001.MAJ.01'			--> normal non ?	
 	 	
@@ -140,9 +131,9 @@
 		MP.CPT --> FAIT
 		RT.ART --> FAIT
 		RO.ORG --> FAIT
-		RT.MAT --> Creation, faire la 2eme validation, vérifier si les attributs sont dans le JDD
+		RT.MAT --> FAIT
 		TR.BTR
-		RT.EQU
+		RT.EQU --> en cours 
 		AD.DEP --> Fait
 
 

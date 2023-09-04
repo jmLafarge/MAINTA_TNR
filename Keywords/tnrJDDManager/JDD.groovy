@@ -1,10 +1,15 @@
 package tnrJDDManager
 
+import org.apache.poi.ss.usermodel.CellStyle
+import org.apache.poi.ss.usermodel.FillPatternType
+import org.apache.poi.ss.usermodel.IndexedColors
+import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.transform.CompileStatic
 import internal.GlobalVariable
+import tnrCommon.ExcelUtils
 import tnrCommon.TNRPropertiesReader
 import tnrCommon.Tools
 import tnrLog.Log
@@ -273,7 +278,7 @@ public class JDD {
 					}
 				}
 				/*
-				String paraIV = myJDDParam.getINTERNALVALUEFor(name)
+				 String paraIV = myJDDParam.getINTERNALVALUEFor(name)
 				 if (paraIV) {
 				 ret = myJDDIV.getInternalValueOf(paraIV,ret.toString())
 				 }
@@ -436,6 +441,29 @@ public class JDD {
 		return JDDFullName
 	}
 
+	
+	/**
+	 * Met à jour la valeur d'un locator dans le JDD.
+	 *
+	 * @param name Nom du locator.
+	 * @param val Nouvelle valeur du locator.
+	 */
+	
+	def setLOCATOR(String name, String val) {
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"setLOCATOR",[name:name,val:val])
+
+		CellStyle stylePara = TCSheet.getRow(1).getCell(1).getCellStyle()
+		int locLineNumber = myJDDParam.getLOCATORIndex()+1
+		int colNumber = myJDDHeader.getList().indexOf(name)+1
+		ExcelUtils.writeCell(TCSheet.getRow(locLineNumber),colNumber,val,stylePara)
+		OutputStream JDDfileOut = new FileOutputStream(JDDFullName)
+		book.write(JDDfileOut)
+		//setParamForThisName('LOCATOR', name, val)
+
+		Log.addTraceEND(CLASS_FOR_LOG,"setLOCATOR")
+	}
+	
+
 
 
 	/**
@@ -445,23 +473,23 @@ public class JDD {
 	 * @param nom Nom du nouvel élément.
 	 * @param xpath Xpath du nouvel élément.
 	 */
-	/*
-	 public void addIHMTO(String tab, String nom, String xpath) {
-	 Log.addTraceBEGIN(CLASS_FOR_LOG,"addIHMTO",[tab:tab,nom:nom,xpath:xpath])
-	 if (xpathTO[nom]) {
-	 Log.addDETAILFAIL("IHMTO '${nom}' existe déjà")
-	 } else {
-	 Row newRow = tnrCommon.ExcelUtils.getNextRow(TOSheet)
-	 tnrCommon.ExcelUtils.writeCell(newRow, 0, tab)
-	 tnrCommon.ExcelUtils.writeCell(newRow, 1, nom)
-	 tnrCommon.ExcelUtils.writeCell(newRow, 2, xpath)
-	 OutputStream JDDfileOut = new FileOutputStream(JDDFullName)
-	 book.write(JDDfileOut)
-	 xpathTO.put(nom, xpath)
-	 }
-	 Log.addTraceEND(CLASS_FOR_LOG,"addIHMTO")
-	 }
-	 */
+	
+	public void addIHMTO(String tab, String nom, String xpath) {
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"addIHMTO",[tab:tab,nom:nom,xpath:xpath])
+		if (myJDDXpath.getXPath(nom)) {
+			Log.addDETAILFAIL("IHMTO '${nom}' existe déjà")
+		} else {
+			Row newRow = ExcelUtils.getNextRow(TOSheet)
+			ExcelUtils.writeCell(newRow, 0, tab)
+			ExcelUtils.writeCell(newRow, 1, nom)
+			ExcelUtils.writeCell(newRow, 2, xpath)
+			OutputStream JDDfileOut = new FileOutputStream(JDDFullName)
+			book.write(JDDfileOut)
+			myJDDXpath.add(nom, xpath)
+		}
+		Log.addTraceEND(CLASS_FOR_LOG,"addIHMTO")
+	}
+	
 
 
 	/**
@@ -469,35 +497,34 @@ public class JDD {
 	 *
 	 * @param name Nom de la nouvelle colonne.
 	 */
-	/*
-	 public void addColumn(String name) {
-	 Log.addTraceBEGIN(CLASS_FOR_LOG,"addColumn",[name:name])
-	 if (name in headers) {  // Si la colonne existe déjà
-	 Log.addTrace("\t- La colonne '${name}' existe déjà")
-	 } else {
-	 Log.addTrace("\t- Ajout de la colonne '${name}'")
-	 CellStyle styleChampIHM = book.createCellStyle()
-	 styleChampIHM.cloneStyleFrom(TCSheet.getRow(0).getCell(1).getCellStyle())
-	 styleChampIHM.setFillPattern(FillPatternType.SOLID_FOREGROUND)
-	 styleChampIHM.setFillForegroundColor(IndexedColors.PALE_BLUE.index)
-	 styleChampIHM.setFont(book.createFont())
-	 styleChampIHM.getFont().setColor(IndexedColors.BLACK.getIndex())
-	 styleChampIHM.getFont().setBold(true)
-	 CellStyle stylePara = TCSheet.getRow(1).getCell(1).getCellStyle()
-	 CellStyle styleCdt = TCSheet.getRow(params.size() + 1).getCell(1).getCellStyle()
-	 int numColFct = tnrCommon.ExcelUtils.getLastColumnIndex(TCSheet, 0)
-	 tnrCommon.ExcelUtils.writeCell(TCSheet.getRow(0), numColFct, name, styleChampIHM)
-	 for (int i in 1..params.size()) {
-	 tnrCommon.ExcelUtils.writeCell(TCSheet.getRow(i), numColFct, null, stylePara)
-	 }
-	 tnrCommon.ExcelUtils.writeCell(TCSheet.getRow(params.size() + 1), numColFct, null, styleCdt)
-	 OutputStream JDDfileOut = new FileOutputStream(JDDFullName)
-	 book.write(JDDfileOut)
-	 headers.add(name)
-	 }
-	 Log.addTraceEND(CLASS_FOR_LOG,"addColumn")
-	 }
-	 */
+	public void addColumn(String name) {
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"addColumn",[name:name])
+		if (name in myJDDHeader.getList()) {  // Si la colonne existe déjà
+			Log.addTrace("\t- La colonne '${name}' existe déjà")
+		} else {
+			Log.addTrace("\t- Ajout de la colonne '${name}'")
+			CellStyle styleChampIHM = book.createCellStyle()
+			styleChampIHM.cloneStyleFrom(TCSheet.getRow(0).getCell(1).getCellStyle())
+			styleChampIHM.setFillPattern(FillPatternType.SOLID_FOREGROUND)
+			styleChampIHM.setFillForegroundColor(IndexedColors.PALE_BLUE.index)
+			styleChampIHM.setFont(book.createFont())
+			styleChampIHM.getFont().setColor(IndexedColors.BLACK.getIndex())
+			styleChampIHM.getFont().setBold(true)
+			CellStyle stylePara = TCSheet.getRow(1).getCell(1).getCellStyle()
+			CellStyle styleCdt = TCSheet.getRow(myJDDParam.getSize()).getCell(1).getCellStyle()
+			int numColFct = ExcelUtils.getLastColumnIndex(TCSheet, 0)
+			ExcelUtils.writeCell(TCSheet.getRow(0), numColFct, name, styleChampIHM)
+			for (int i in 1..myJDDParam.getSize()) {
+				ExcelUtils.writeCell(TCSheet.getRow(i), numColFct, null, stylePara)
+			}
+			ExcelUtils.writeCell(TCSheet.getRow(myJDDParam.getSize() + 1), numColFct, null, styleCdt)
+			OutputStream JDDfileOut = new FileOutputStream(JDDFullName)
+			book.write(JDDfileOut)
+			myJDDHeader.add(name)
+		}
+		Log.addTraceEND(CLASS_FOR_LOG,"addColumn")
+	}
+
 
 
 } // Fin de class

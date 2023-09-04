@@ -69,18 +69,18 @@ public class JDDParam {
 	}
 
 
-	def List<String> getParamListAllowed() {
+	public List<String> getParamListAllowed() {
 		return PARAM_LIST_ALLOWED.values().collect { it.toString() }
 	}
 
 
 
-	def Map<String ,String> getAllLOCATOR() {
+	public Map<String ,String> getAllLOCATOR() {
 		return paramsMap[PARAM_LIST_ALLOWED.LOCATOR.name()]
 	}
 
 
-	def Map<String ,String> getAllPREREQUIS() {
+	public Map<String ,String> getAllPREREQUIS() {
 		Map <String ,String> map =[:]
 		if (paramsMap.containsKey(PARAM_LIST_ALLOWED.PREREQUIS.name())) {
 			map = paramsMap[PARAM_LIST_ALLOWED.PREREQUIS.name()]
@@ -91,7 +91,7 @@ public class JDDParam {
 
 
 
-	def String getParamFor(String param,String name) {
+	public String getParamFor(String param,String name) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "getParamFor", [param:param , name:name])
 		String ret = ''
 		if (isParamAllowed(param)){
@@ -108,7 +108,7 @@ public class JDDParam {
 
 
 
-	def String getPREREQUISFor(String name) {
+	public String getPREREQUISFor(String name) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "getPREREQUISFor", [name:name])
 		String ret = ''
 		if (paramsMap.containsKey(PARAM_LIST_ALLOWED.PREREQUIS.name())) {
@@ -120,7 +120,7 @@ public class JDDParam {
 		return ret
 	}
 
-	def String getFOREIGNKEYFor(String name) {
+	public String getFOREIGNKEYFor(String name) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "getFOREIGNKEYFor", [name:name])
 		String ret = ''
 		if (paramsMap.containsKey(PARAM_LIST_ALLOWED.FOREIGNKEY.name())) {
@@ -132,7 +132,7 @@ public class JDDParam {
 		return ret
 	}
 
-	def String getSEQUENCEFor(String name) {
+	public String getSEQUENCEFor(String name) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "getSEQUENCEFor", [name:name])
 		String ret = ''
 		if (paramsMap.containsKey(PARAM_LIST_ALLOWED.SEQUENCE.name())) {
@@ -146,7 +146,7 @@ public class JDDParam {
 
 
 
-	def String getLOCATORFor(String name) {
+	public String getLOCATORFor(String name) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "getLOCATORFor", [name:name])
 		String ret = ''
 		if (paramsMap.containsKey(PARAM_LIST_ALLOWED.LOCATOR.name())) {
@@ -160,7 +160,7 @@ public class JDDParam {
 
 
 
-	def String getINTERNALVALUEFor(String name) {
+	public String getINTERNALVALUEFor(String name) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "getINTERNALVALUEFor", [name:name])
 		String ret = ''
 		if (paramsMap.containsKey(PARAM_LIST_ALLOWED.INTERNALVALUE.name())) {
@@ -174,7 +174,28 @@ public class JDDParam {
 
 
 
-	def boolean isRADIO(String name) {
+	public boolean isRADIO(String name) {
 		return paramsMap[PARAM_LIST_ALLOWED.LOCATOR.name()][name] == 'radio'
 	}
+	
+	
+	
+	public int getLOCATORIndex() {
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "getLOCATORIndex", [:])
+		int ret = -1
+		if (paramsMap.containsKey(PARAM_LIST_ALLOWED.LOCATOR.name())) {
+			ret = paramsMap.keySet().toList().findIndexOf { it == PARAM_LIST_ALLOWED.LOCATOR.name() }
+		}else {
+			ret = -1
+		}
+		Log.addTraceEND(CLASS_FOR_LOG, "getLOCATORIndex" , ret)
+		return ret
+	}
+
+	
+	public int getSize() {
+		return paramsMap.size()
+	}
+	
+	
 } //Fin de class

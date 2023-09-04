@@ -2,28 +2,24 @@
 
 import org.jsoup.Jsoup
 import org.apache.commons.lang3.StringUtils
-
-import tnrSqlManager.InfoDB
 import tnrJDDManager.JDD
-import tnrJDDManager.JDDFiles
-import tnrWebUI.NAV
-import tnr.PREJDDFiles
-import tnr.TCFiles
-
+import tnrJDDManager.JDDFileMapper
 import tnrLog.Log
+import tnrSqlManager.InfoDB
 
 
 // Enregistrer la page html dans C:\Users\A1008045\Documents\IHM
 // Mettre à jour la liste
 
-String testPour ='Organisation'
+String testPour ='Equipement'
 
 Map map = [
 	'Acteur'	: ['RO.ACT','001','Acteur_fichiers//FormE21.htm'],
 	'Matricule'	: ['RT.MAT','001','Matricule_fichiers//FormE50.htm'],
 	'Equipement'	: ['RT.EQU','001','Equipement_fichiers//FormE7.htm'],
 	'Inventaire'	: ['RT.XXX','001','Inventaire_fichiers//FormE50.htm'],
-	'Organisation'	: ['RO.ORG','001','Organisation_fichiers//FormE233.htm']
+	'Organisation'	: ['RO.ORG','001','Organisation_fichiers//FormE233.htm'],
+	'Bon de travail'	: ['TR.BTR','001','xxxxxxxxxxxxxxxx']
 ]
 
 
@@ -32,7 +28,7 @@ String folder = 'C://Users//A1008045//Documents//IHM//'
 Log.addTITLE("Lancement de _TEST CASE CODE GENERATOR ")
 
 
-JDD myJDD = new JDD(JDDFiles.getJDDFullName(map[testPour][0]),map[testPour][1],null,false)
+JDD myJDD = new JDD(JDDFileMapper.getFullnameFromModObj(map[testPour][0]),map[testPour][1],null,false)
 def htmlFile = new File(folder + map[testPour][2])
 
 
@@ -101,15 +97,17 @@ Log.addINFO('')
 Log.addINFO('Mise à jour du JDD :')
 Log.addINFO('')
 
-List headers =myJDD.getHeaders()
+List headers =myJDD.myJDDHeader.getList()
 
-if (myJDD.getHeadersSize() >1) {
+if (headers.size() >1) {
 	
 	Log.addDETAIL('Completer le paramètre LOCATOR')
 	
 	headers.eachWithIndex {name,i ->
 	
-		String loc = myJDD.getParamForThisName('LOCATOR',name)
+		
+		
+		String loc = myJDD.myJDDParam.getLOCATORFor(name)
 		
 		String tag = tagsWithAttributes.find { it.id == name }?.tag
 		String type = tagsWithAttributes.find { it.id == name }?.type
@@ -166,7 +164,7 @@ tagsWithAttributes.each { attribute ->
 		Log.addDETAIL("Ajout de la rubrique '${attribute.id}' (IHM seulement)")
 	}
 	if (attribute.tag == 'input' && attribute.type == 'text' && attribute.readonly && headers.contains(attribute.id)) {
-		String loc = myJDD.getParamForThisName('LOCATOR',attribute.id)
+		String loc = myJDD.myJDDParam.getLOCATORFor(attribute.id)
 		if (!loc) {
 			Log.addDETAIL("Ajout de '${attribute.tag}' pour '${attribute.id}'")
 			myJDD.setLOCATOR(attribute.id, attribute.tag)
@@ -178,9 +176,9 @@ tagsWithAttributes.each { attribute ->
 
 def addAttributeIHMTO (JDD myJDD,String xpathName, String xpath) {
 	
-	if (myJDD.getXpathTO(xpathName)) {
-		if (myJDD.getXpathTO(xpathName) != xpath){
-			Log.addDETAILFAIL("Pour '$xpathName', xpath ihm = '$xpath' et xpath JDD = '${myJDD.getXpathTO(xpathName)}'")
+	if (myJDD.myJDDXpath.getXPath(xpathName)) {
+		if (myJDD.myJDDXpath.getXPath(xpathName) != xpath){
+			Log.addDETAILFAIL("Pour '$xpathName', xpath ihm = '$xpath' et xpath JDD = '${myJDD.myJDDXpath.getXPath(xpathName)}'")
 		}else {
 			Log.addTrace("'$xpathName' existe déjà !")
 		}
@@ -236,7 +234,11 @@ tagsWithAttributes.each { attribute ->
 	}
 	if (attribute.tag == 'input' && attribute.type == 'text') {
 		if (!attribute.readonly) {
-			Log.addB("KW.scrollAndSetText(myJDD, \"${attribute.id}\")")
+			if (InfoDB.isDatetime(myJDD.getDBTableName(),attribute.id)) {
+				Log.addB("KW.scrollAndSetDate(myJDD, \"${attribute.id}\")")
+			}else {
+				Log.addB("KW.scrollAndSetText(myJDD, \"${attribute.id}\")")
+			}
 		}
 		
 	} else if (attribute.tag == 'input' && attribute.type == 'checkbox') {
@@ -304,7 +306,15 @@ tagsWithAttributes.each { attribute ->
 	
 	if (attribute.tag == 'input') {
 		if (attribute.type == 'text') {
-			Log.addB("KW.verifyValue(myJDD, \"${attribute.id}\")")
+			if (InfoDB.isDatetime(myJDD.getDBTableName(),attribute.id)) {
+				if (myJDD.myJDDXpath.getXPath(attribute.id)=='input') {
+					Log.addB("KW.verifyDateValue(myJDD, \"${attribute.id}\") // ou verifyDateText")
+				}else {
+					Log.addB("KW.verifyDateText(myJDD, \"${attribute.id}\")// ou verifyDateValue")
+				}
+			}else {
+				Log.addB("KW.verifyValue(myJDD, \"${attribute.id}\")")
+			}
 		} else if (attribute.type == 'checkbox') {
 			Log.addB("KW.verifyElementCheckedOrNot(myJDD, \"${attribute.id}\", \"O\")")
 			

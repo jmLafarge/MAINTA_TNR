@@ -1,6 +1,6 @@
 import tnrLog.Log
-import tnrJDDManager.JDDFiles
-import tnrJDDManager.PREJDDFiles
+import tnrJDDManager.JDDFileMapper
+import tnrJDDManager.PREJDDFilesMapper
 
 
 
@@ -9,7 +9,7 @@ import tnrJDDManager.PREJDDFiles
 
 List list =[]
 
-JDDFiles.JDDfilemap.each { modObj,fullName ->
+JDDFilesMapper.JDDfilemap.each { modObj,fullName ->
 	
 	def myJDD = new my.JDD(fullName)
 	
@@ -20,7 +20,7 @@ JDDFiles.JDDfilemap.each { modObj,fullName ->
 
 list.eachWithIndex { map,idx ->
 	
-	Log.addTrace(idx + ' : ' + PREJDDFiles.getFullnameFromModObj(map.getAt('PREJDDMODOBJ')))
+	Log.addTrace(idx + ' : ' + PREJDDFilesMapper.getFullnameFromModObj(map.getAt('PREJDDMODOBJ')))
 	
 	map.each { key,val ->
 		Log.addTrace('\t' + key + ' : ' +val)
@@ -35,7 +35,7 @@ list.eachWithIndex { map,idx ->
 
 
 /*
-JDDFiles.JDDfilemap.each { modObj,fullName ->
+JDDFilesMapper.JDDfilemap.each { modObj,fullName ->
 	
 	//println modObj + '            ' +fullName
 	

@@ -232,12 +232,12 @@ class KW {
 
 
 
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 
 	static boolean waitForAlert(int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "waitForAlert", [ timeOut:timeOut , status:status])
@@ -424,7 +424,7 @@ class KW {
 		}
 		Log.addTraceEND(CLASS_FOR_LOG, "verifyElementText",ret)
 		return ret
-	} 
+	}
 
 
 
@@ -448,39 +448,39 @@ class KW {
 		}
 		Log.addTraceEND(CLASS_FOR_LOG, "verifyElementTextContains",ret)
 		return ret
-	} 
+	}
 
 
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	/** attend que l'élément Web soit présent dans le DOM et visible à l'utilisateur
 	 * 
@@ -520,13 +520,14 @@ class KW {
 			TNRResult.addDETAIL(msgTO)
 		}
 		Log.addTraceEND(CLASS_FOR_LOG, "waitForElementVisible",ret)
-	} 
+	}
 
 
 
 
 
 	static void verifyValue(JDD myJDD, String name, String text=null, String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyValue", [myJDD: myJDD.toString(), name: name , text:text , status:status])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			if (text==null) text = myJDD.getStrData(name)
@@ -551,7 +552,8 @@ class KW {
 			TNRResult.addSTEPERROR("Vérifier que la valeur de '$name' = '$text'  impossible")
 			TNRResult.addDETAIL(msgTO)
 		}
-	} 
+		Log.addTraceEND(CLASS_FOR_LOG, "verifyValue")
+	}
 
 
 
@@ -562,6 +564,7 @@ class KW {
 
 
 	static void verifyOptionSelectedByValue(JDD myJDD, String name, String text=null, boolean isRegex = false, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyOptionSelectedByValue", [myJDD: myJDD.toString(), name: name , text:text , isRegex:isRegex , timeOut:timeOut , status:status])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			if (text==null) text = myJDD.getStrData(name)
@@ -580,9 +583,9 @@ class KW {
 					}else {
 						TNRResult.addSTEP("Vérifier que la valeur de l'option '$text' de '${tObj.getObjectId()}' soit '$valIV' KO", status)
 						TNRResult.addDETAIL("La valeur de l'option est '$optionText'")
+						WebUI.verifyOptionSelectedByLabel(null, CLASS_FOR_LOG, false, 0)
 					}
 				}
-
 			}else{
 				TNRResult.addSTEP("Vérifier que l'option '$text' de '${tObj.getObjectId()}' soit sélectionnée KO", status)
 			}
@@ -590,8 +593,28 @@ class KW {
 			TNRResult.addSTEPERROR("Vérifier que l'option '$text' de '$name' soit sélectionnée")
 			TNRResult.addDETAIL(msgTO)
 		}
+		Log.addTraceEND(CLASS_FOR_LOG, "verifyOptionSelectedByValue")
 	}
 
+	
+	
+	static void verifyOptionSelectedByLabel(JDD myJDD, String name, String text=null, boolean isRegex = false, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyOptionSelectedByValue", [myJDD: myJDD.toString(), name: name , text:text , isRegex:isRegex , timeOut:timeOut , status:status])
+		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
+		if (tObj) {
+			if (text==null) text = myJDD.getStrData(name)
+			if (WebUI.verifyOptionSelectedByLabel(tObj, text, isRegex, timeOut)) {
+				TNRResult.addSTEPPASS("Vérifier que l'option '$text' de '${tObj.getObjectId()}' soit sélectionnée")
+			}else{
+				TNRResult.addSTEP("Vérifier que l'option '$text' de '${tObj.getObjectId()}' soit sélectionnée KO", status)
+			}
+		}else {
+			TNRResult.addSTEPERROR("Vérifier que l'option '$text' de '$name' soit sélectionnée")
+			TNRResult.addDETAIL(msgTO)
+		}
+		Log.addTraceEND(CLASS_FOR_LOG, "verifyOptionSelectedByValue")
+	}
+	
 
 
 
@@ -599,11 +622,13 @@ class KW {
 
 
 	static void scrollAndClick(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "scrollAndClick", [myJDD: myJDD.toString(), name: name , timeOut:timeOut , status:status])
 		scrollToElement(myJDD, name, timeOut,status)
 		delay(1)
 		waitForElementVisible(myJDD, name, timeOut,status)
 		click(myJDD, name,status)
-	} 
+		Log.addTraceEND(CLASS_FOR_LOG, "scrollAndClick")
+	}
 
 
 
@@ -615,7 +640,7 @@ class KW {
 		delay(1)
 		waitForElementVisible(myJDD, name, timeOut,status)
 		doubleClick(myJDD, name,status)
-	} 
+	}
 
 
 
@@ -647,13 +672,13 @@ class KW {
 			TNRResult.addSTEPERROR("Scroll et select option '$text' sur '$name'")
 			TNRResult.addDETAIL(msgTO)
 		}
-	} 
-	
-	
-	
-	
-	
-	
+	}
+
+
+
+
+
+
 	static void scrollAndSelectOptionByValue(JDD myJDD, String name, String text=null, boolean isRegex = true, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
@@ -667,14 +692,13 @@ class KW {
 				TNRResult.addSTEP("Scroll et select option '$text' sur '${tObj.getObjectId()}'",status)
 				TNRResult.addDETAIL(ex.getMessage())
 			}
-
 		}else {
 			TNRResult.addSTEPERROR("Scroll et select option '$text' sur '$name'")
 			TNRResult.addDETAIL(msgTO)
 		}
-	} 
-	
-	
+	}
+
+
 
 
 
@@ -700,30 +724,34 @@ class KW {
 			}
 		}
 		Log.addTraceEND(CLASS_FOR_LOG, "scrollAndSetRadio")
-	} 
+	}
 
 
 
 	static void scrollAndSetText(JDD myJDD, String name, String text=null, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		if (text==null) text = myJDD.getStrData(name)
-		if (text != tnrJDDManager.JDDKW.getKW_NULL()) {
-			if (text == tnrJDDManager.JDDKW.getKW_VIDE()) text=''
+		if (tnrJDDManager.JDDKW.isNULL(text) || tnrJDDManager.JDDKW.isNU(text)) {
+			Log.addINFO('Pas de traitement')
+		}else {
+			if (tnrJDDManager.JDDKW.isVIDE(text)) text=''
 			scrollToElement(myJDD, name, timeOut, status)
 			waitForElementVisible(myJDD, name, timeOut, status)
 			setText(myJDD, name, text, status)
 		}
-	} 
+	}
 
 
 
 	static void scrollAndSetDate(JDD myJDD, String name, def val=null,  String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		if (val==null) val = myJDD.getData(name)
-		if (val != tnrJDDManager.JDDKW.getKW_NULL()) {
+		if (tnrJDDManager.JDDKW.isNULL(val) || tnrJDDManager.JDDKW.isNU(val)) {
+			Log.addINFO('Pas de traitement')
+		}else {
 			scrollToElement(myJDD, name, timeOut, status)
 			waitForElementVisible(myJDD, name, timeOut, status)
 			setDate(myJDD, name, val, dateFormat, timeOut,status)
 		}
-	} 
+	}
 
 
 	static boolean waitAndAcceptAlert(int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
@@ -732,7 +760,7 @@ class KW {
 		}else {
 			return false
 		}
-	} 
+	}
 
 
 
@@ -746,7 +774,7 @@ class KW {
 			TNRResult.addSTEPERROR("Saisie du texte '${val.toString()}' sur '$name'")
 			TNRResult.addDETAIL("Erreur de JDD de '$name', la valeur '${val.toString()}' n'est pas une date ! getClass = " + val.getClass())
 		}
-	} 
+	}
 
 
 
@@ -767,7 +795,7 @@ class KW {
 			TNRResult.addSTEPERROR("Vérification du texte '${val.toString()}' sur '$name'")
 			TNRResult.addDETAIL("Erreur de JDD de '$name', la valeur '${val.toString()}' n'est pas une date ! getClass = " + val.getClass())
 		}
-	} 
+	}
 
 
 
@@ -785,7 +813,7 @@ class KW {
 			TNRResult.addSTEPERROR("Vérification du texte '${val.toString()}' sur '$name'")
 			TNRResult.addDETAIL("Erreur de JDD de '$name', la valeur '${val.toString()}' n'est pas une date ! getClass = " + val.getClass())
 		}
-	} 
+	}
 
 
 	static void scrollWaitAndVerifyElementText(JDD myJDD, String name, String text=null, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
@@ -793,8 +821,7 @@ class KW {
 		if (text==null) text = myJDD.getStrData(name)
 		scrollToElement(myJDD, name, timeOut, status)
 		waitAndVerifyElementText(myJDD, name, text,timeOut, status)
-
-	} 
+	}
 
 
 
@@ -807,8 +834,7 @@ class KW {
 		}else {
 			return false
 		}
-
-	} 
+	}
 
 
 
@@ -860,7 +886,7 @@ class KW {
 			TNRResult.addSTEPERROR("Case à cocher '$name'")
 			TNRResult.addDETAIL(msgTO)
 		}
-	} 
+	}
 
 
 
@@ -893,7 +919,6 @@ class KW {
 			TNRResult.addSTEPERROR("Vérifier état case à cocher '$name'")
 			TNRResult.addDETAIL(msgTO)
 		}
-
 	}
 
 
@@ -931,7 +956,6 @@ class KW {
 		}else {
 			TNRResult.addSTEP("Vérifier que la case à cocher (img) '" + name + "' soit cochée", status)
 		}
-
 	}
 
 
@@ -983,7 +1007,6 @@ class KW {
 		if (JDDKW.isNULL(val) || JDDKW.isNU(val)) {
 
 			TNRResult.addSTEP("Pas de recherche pour $name, valeur du JDD = $val")
-
 		}else {
 
 			TNRResult.addSUBSTEP("Saisie de $name en utilisant l'assistant de recherche")
@@ -1015,8 +1038,5 @@ class KW {
 
 			WebUI.switchToWindowIndex('0')
 		}
-
 	}
-
-
 } // Fin de class

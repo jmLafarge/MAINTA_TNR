@@ -2,7 +2,7 @@
 import groovy.sql.Sql
 import internal.GlobalVariable
 import tnrSqlManager.SQL
-import tnr.PREJDDFiles
+import tnrPREJDDManager.JDDFilesMapper
 
 String ID = 'FOUDOC_ID'
 String req = "SELECT IDENT_CURRENT('$ID') as lastID"
@@ -27,7 +27,7 @@ def res2 = SQL.getFirstRow(req)
 
 println ' getFirstRow ' + res2.getAt('nbr')
 
-PREJDDFiles.insertIfNotExist(table, PKwhere, [], [])
+PREJDDFilesMapper.insertIfNotExist(table, PKwhere, [], [])
 
 
 
