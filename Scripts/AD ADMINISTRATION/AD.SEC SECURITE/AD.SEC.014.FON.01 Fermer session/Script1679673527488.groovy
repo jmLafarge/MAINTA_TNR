@@ -19,8 +19,7 @@ for (String cdt in myJDD.getCDTList()) {
 		
 		KW.switchToFrame(myJDD,'frame_Main')
 
-	    KW.scrollToPosition(0, 0)
-	    KW.delay(1)
+	    KW.scrollToPositionAndWait(0, 0,1)
 
 	    KW.click(myJDD,'icon_Logout')
 		
@@ -29,8 +28,7 @@ for (String cdt in myJDD.getCDTList()) {
 	} else {
 		// y a pas de frame_main quand on appelle les url en direct ! 
 		
-		KW.scrollToPosition(0, 0)
-	    KW.delay(1)
+		KW.scrollToPositionAndWait(0, 0,1)
 	
 	    KW.click(myJDD,'icon_Logout')
 

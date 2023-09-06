@@ -8,9 +8,18 @@
  * -----------------------------------------------------------------------------------------------------
  * 
  * 
+ 
+  MAJ si la valuer à l'écran = à la valeur a saisir, pas de siaise --> vérifier 
+  	scrollAndSetText
+  	setDate --> y  a pas de scroll ?
+  
+  continuer 
+		RT.MAT.001.LEC.01 --> Vérifier que la valeur de 'ID_NUMCRI', soit 'CRITICITE01' 	KO  !
+		RT.MAT.001.MAJ.01
 
-faire les notes de EQU LEC
+  faire les notes de EQU LEC
 
+  mettre isOBSOLETE et autre dans JDDParam ? comme isCALCULEE
 
  * 
  * -----------------------------------------------------------------------------------------------------
@@ -138,6 +147,7 @@ faire les notes de EQU LEC
 
 
 
+
  
  * 
  * -----------------------------------------------------------------------------------------------------
@@ -194,7 +204,7 @@ faire les notes de EQU LEC
 
 	XLS
 		ajouter un controle sur open file
-		Verifier si tnrCommon.ExcelUtils.open est pertinant ! car il faut normalement fermer la connexion
+		Verifier si ExcelUtils.open est pertinant ! car il faut normalement fermer la connexion
 		JDD et autre : Ajouter un close() du fichier dans tous les TC --> créer un JDD.close()
 		
 		

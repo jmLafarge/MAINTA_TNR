@@ -1,10 +1,12 @@
-import org.apache.poi.ss.usermodel.Sheet
-import org.apache.poi.ss.usermodel.Workbook
 import java.lang.reflect.Method
 
-import tnrLog.Log
+import org.apache.poi.ss.usermodel.Sheet
+import org.apache.poi.ss.usermodel.Workbook
+
+import tnrCommon.ExcelUtils
 import tnrJDDManager.JDDHeader
 import tnrJDDManager.JDDParam
+import tnrLog.Log
 
 /**
  * TESTS UNITAIRES
@@ -30,13 +32,13 @@ import tnrJDDManager.JDDParam
 
 final String CLASS_FOR_LOG = 'tnrJDDManager.JDDParam'
 
-Workbook  book = tnrCommon.ExcelUtils.open('TNR_JDDTest\\JDD.AA.BBB.xlsx')
+Workbook  book = ExcelUtils.open('TNR_JDDTest\\JDD.AA.BBB.xlsx')
 Sheet sheet = book.getSheet('001')
 
 Map <String, Map<String ,String>> paramsMapTest = [
 	'PREREQUIS':['ID_JML':'RO.CAL*001*ID_CODCAL', 'ST_DES':'', 'ST_INA':'', 'NU_IV':''], 
 	'FOREIGNKEY':['ID_JML':'', 'ST_DES':'ST_DES*GES*ID_CODGES', 'ST_INA':'', 'NU_IV':''], 
-	'SEQUENCE':['ID_JML':'', 'ST_DES':'', 'ST_INA':'JML_ID', 'NU_IV':''], 
+	'SEQUENCE':['ID_JML':'EQUDOC_ID', 'ST_DES':'', 'ST_INA':'JML_ID', 'NU_IV':''], 
 	'INTERNALVALUE':['ID_JML':'', 'ST_DES':'', 'ST_INA':'', 'NU_IV':'MAT.NU_TYP'],
 	'LOCATOR':['ID_JML':'input', 'ST_DES':'radio', 'ST_INA':'checkbox', 'NU_IV':'']]
 	
@@ -50,7 +52,7 @@ Map <String, Map<String ,String>> paramsMapTest2 = [
 
 JDDHeader myJDDHeader = new JDDHeader(sheet)
 
-JDDParam myJDDParam = new JDDParam(sheet,myJDDHeader,'CAS_DE_TEST')
+JDDParam myJDDParam = new JDDParam(sheet,myJDDHeader)
 
 
 Log.addAssert(CLASS_FOR_LOG,"myJDDParam.paramsMap",paramsMapTest,myJDDParam.paramsMap)
@@ -109,7 +111,7 @@ Log.addAssert(CLASS_FOR_LOG,"myJDDParam.getSize()",5,myJDDParam.getSize())
 Sheet sheet2 = book.getSheet('002')
 
 JDDHeader myJDDHeader2 = new JDDHeader(sheet2)
-JDDParam myJDDParam2 = new JDDParam(sheet2,myJDDHeader2,'CAS_DE_TEST')
+JDDParam myJDDParam2 = new JDDParam(sheet2,myJDDHeader2)
 
 Log.addAssert(CLASS_FOR_LOG,"JDDParam2.paramsMap",paramsMapTest2,myJDDParam2.paramsMap)
 

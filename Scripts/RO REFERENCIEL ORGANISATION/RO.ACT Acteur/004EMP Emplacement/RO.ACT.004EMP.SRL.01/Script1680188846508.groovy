@@ -24,7 +24,7 @@ for (String cdt in myJDD.getCDTList()) {
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_CODINT'))
 
 		//KW.scrollAndClick(myJDD,"tab_Zone")
-		KW.click(myJDD,"tab_Zone")
+		KW.scrollAndClick(myJDD,"tab_Zone")
 		KW.waitForElementVisible(myJDD,"tab_ZoneSelected")
 			
 	

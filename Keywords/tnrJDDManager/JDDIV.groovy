@@ -3,11 +3,10 @@ package tnrJDDManager
 
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
-import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.transform.CompileStatic
+import tnrCommon.ExcelUtils
 import tnrCommon.TNRPropertiesReader
-import tnrCommon.Tools
 import tnrLog.Log
 
 
@@ -33,9 +32,9 @@ public class JDDIV {
 		rowIV.next()
 		while(rowIV.hasNext()) {
 			Row row = rowIV.next()
-			String IV_para = tnrCommon.ExcelUtils.getCellValue(row.getCell(0))
-			String IV_intVal = tnrCommon.ExcelUtils.getCellValue(row.getCell(1))
-			String IV_val = tnrCommon.ExcelUtils.getCellValue(row.getCell(2))
+			String IV_para = ExcelUtils.getCellValue(row.getCell(0))
+			String IV_intVal = ExcelUtils.getCellValue(row.getCell(1))
+			String IV_val = ExcelUtils.getCellValue(row.getCell(2))
 			Log.addTrace("IV_para : $IV_para  IV_code : $IV_intVal  IV_val : $IV_val")
 			if (IV_para == '') {
 				break

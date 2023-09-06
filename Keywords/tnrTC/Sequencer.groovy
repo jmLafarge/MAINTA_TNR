@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.transform.CompileStatic
+import tnrCommon.ExcelUtils
 import tnrCommon.TNRPropertiesReader
 import tnrLog.Log
 
@@ -47,7 +48,7 @@ public class Sequencer {
 			Row row = shTNR.getRow(numline)
 
 			// exit if lastRow of CAS_DE_TEST
-			if (!row || tnrCommon.ExcelUtils.getCellValue(row.getCell(0))=='') {
+			if (!row || ExcelUtils.getCellValue(row.getCell(0))=='') {
 				break
 			}
 
@@ -55,7 +56,7 @@ public class Sequencer {
 
 			Log.addTrace('casDeTestPatternFromSequencer = ' + casDeTestPatternFromSequencer)
 
-			String repStr = tnrCommon.ExcelUtils.getCellValue(row.getCell(1)).toString()
+			String repStr = ExcelUtils.getCellValue(row.getCell(1)).toString()
 			int rep = 0
 
 			if (repStr=='') {
@@ -116,7 +117,7 @@ public class Sequencer {
 		String sequencerFilename = TNRPropertiesReader.getMyProperty('SEQUENCER_FILENAME')
 		String sequencerSheetName = TNRPropertiesReader.getMyProperty('SEQUENCER_SHEETNAME')
 
-		XSSFWorkbook book = tnrCommon.ExcelUtils.open(tnrPath + File.separator + sequencerFilename )
+		XSSFWorkbook book = ExcelUtils.open(tnrPath + File.separator + sequencerFilename )
 
 		return book.getSheet(sequencerSheetName)
 

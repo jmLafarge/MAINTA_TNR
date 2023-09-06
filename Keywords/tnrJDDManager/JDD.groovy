@@ -28,7 +28,6 @@ public class JDD {
 	private final String INTERNALVALUE_SHEET_NAME 	= TNRPropertiesReader.getMyProperty('INTERNALVALUE_SHEET_NAME')
 	private final String MODELE_SHEET_NAME			= TNRPropertiesReader.getMyProperty('MODELE_SHEET_NAME')
 
-	private final String START_DATA_WORD			= TNRPropertiesReader.getMyProperty('START_DATA_WORD')
 
 	private final List SKIP_LIST_SHEETNAME		= [
 		VERSION_SHEET_NAME,
@@ -91,7 +90,7 @@ public class JDD {
 		Log.addTrace("Lecture du JDD : " + JDDFullName)
 
 
-		book = tnrCommon.ExcelUtils.open(JDDFullName)
+		book = ExcelUtils.open(JDDFullName)
 
 		// add INTERNALVALUE
 		Sheet IVSheet = book.getSheet(INTERNALVALUE_SHEET_NAME)
@@ -119,9 +118,9 @@ public class JDD {
 
 		myJDDHeader = new JDDHeader(sheet)
 
-		myJDDParam = new JDDParam(sheet,myJDDHeader,START_DATA_WORD)
+		myJDDParam = new JDDParam(sheet,myJDDHeader)
 
-		myJDDData = new JDDData(sheet,myJDDHeader.getList(),START_DATA_WORD)
+		myJDDData = new JDDData(sheet,myJDDHeader.getList(),myJDDHeader.START_DATA_WORD)
 
 		myJDDXpath  = new JDDXpath()
 
@@ -441,14 +440,14 @@ public class JDD {
 		return JDDFullName
 	}
 
-	
+
 	/**
 	 * Met à jour la valeur d'un locator dans le JDD.
 	 *
 	 * @param name Nom du locator.
 	 * @param val Nouvelle valeur du locator.
 	 */
-	
+
 	def setLOCATOR(String name, String val) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"setLOCATOR",[name:name,val:val])
 
@@ -462,7 +461,7 @@ public class JDD {
 
 		Log.addTraceEND(CLASS_FOR_LOG,"setLOCATOR")
 	}
-	
+
 
 
 
@@ -473,7 +472,7 @@ public class JDD {
 	 * @param nom Nom du nouvel élément.
 	 * @param xpath Xpath du nouvel élément.
 	 */
-	
+
 	public void addIHMTO(String tab, String nom, String xpath) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"addIHMTO",[tab:tab,nom:nom,xpath:xpath])
 		if (myJDDXpath.getXPath(nom)) {
@@ -489,7 +488,7 @@ public class JDD {
 		}
 		Log.addTraceEND(CLASS_FOR_LOG,"addIHMTO")
 	}
-	
+
 
 
 	/**

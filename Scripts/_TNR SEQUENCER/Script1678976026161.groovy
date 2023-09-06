@@ -8,11 +8,10 @@ import com.kms.katalon.core.model.FailureHandling
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
-import tnrLog.Log
-import tnrSqlManager.RestoreDB
-import tnrTC.Sequencer
 import tnrCommon.Tools
+import tnrLog.Log
 import tnrResultManager.TNRResult
+import tnrTC.Sequencer
 
  
 Log.addTITLE("Lancement de TNR SEQUENCER")

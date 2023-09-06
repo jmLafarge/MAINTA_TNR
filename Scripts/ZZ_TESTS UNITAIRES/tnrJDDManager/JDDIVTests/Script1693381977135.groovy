@@ -2,6 +2,7 @@
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.Workbook
 
+import tnrCommon.ExcelUtils
 import tnrCommon.TNRPropertiesReader
 import tnrJDDManager.JDDIV
 import tnrLog.Log
@@ -19,7 +20,7 @@ import tnrLog.Log
 
 final String CLASS_FOR_LOG = 'tnrJDDManager.JDDIV'
 
-Workbook  book = tnrCommon.ExcelUtils.open('TNR_JDDTest\\JDD.AA.BBB.xlsx')
+Workbook  book = ExcelUtils.open('TNR_JDDTest\\JDD.AA.BBB.xlsx')
 Sheet IVSheet = book.getSheet(TNRPropertiesReader.getMyProperty('INTERNALVALUE_SHEET_NAME'))
 JDDIV myJDDIV = new JDDIV(IVSheet)
 

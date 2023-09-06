@@ -1,9 +1,10 @@
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.Workbook
 
-import tnrLog.Log
+import tnrCommon.ExcelUtils
 import tnrJDDManager.JDDData
 import tnrJDDManager.JDDHeader
+import tnrLog.Log
 
 /**
  * TESTS UNITAIRES
@@ -21,7 +22,7 @@ import tnrJDDManager.JDDHeader
 
 final String CLASS_FOR_LOG = 'tnrJDDManager.JDDData'
 
-Workbook  book = tnrCommon.ExcelUtils.open('TNR_JDDTest\\JDD.AA.BBB.xlsx')
+Workbook  book = ExcelUtils.open('TNR_JDDTest\\JDD.AA.BBB.xlsx')
 Sheet sheet = book.getSheet('001')
 
 List<Map<String, Map<String, Object>>> datasListTest = [

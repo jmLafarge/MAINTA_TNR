@@ -4,6 +4,7 @@ import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.transform.CompileStatic
+import tnrCommon.ExcelUtils
 import tnrJDDManager.JDD
 import tnrJDDManager.JDDData
 import tnrJDDManager.JDDFileMapper
@@ -25,11 +26,13 @@ public class CheckPrerequis {
 	private static XSSFWorkbook PREJDDBook
 	private static boolean status = true
 
-	static run() {
+	static runForJDD() {
 
-		Log.addTraceBEGIN(CLASS_FORLOG,"run",[:])
+		Log.addTraceBEGIN(CLASS_FORLOG,"runForJDD",[:])
 
-		
+		status = true
+		list =[]
+
 		Log.addSubTITLE('Contrôle des PREREQUIS des JDD')
 		Log.addINFO('Collecte de tous les PREREQUIS des JDD')
 
@@ -41,9 +44,7 @@ public class CheckPrerequis {
 			getAllPrerequis('JDD',fullName)
 		}
 
-
-
-		Log.addINFO('Contrôle')
+		Log.addINFO('Contrôle ...')
 		Log.addINFO('')
 		/*
 		 * Controle si tous les PREREQUIS des JDD sont bien dans les PREJDD
@@ -66,18 +67,28 @@ public class CheckPrerequis {
 		if (status) {
 			Log.addINFO('     ***  OK   ***')
 		}
+		Log.addTraceEND(CLASS_FORLOG,"runForJDD")
+	}
+
+
+
+	
+	
+	
+	static runForPREJDD() {
+
+		Log.addTraceBEGIN(CLASS_FORLOG,"runForPREJDD",[:])
+
 		status = true
-
-
 		list =[]
-		
+
 		Log.addSubTITLE('Contrôle des PREREQUIS des PREJDD')
 		Log.addINFO('Collecte de tous les PREREQUIS des PREJDD')
 
 		PREJDDFileMapper.PREJDDfilemap.each { modObj,fullName ->
 			Log.addDEBUG("Lecture du JDD pour modObj : " + modObj)
 			myJDD = new JDD(JDDFileMapper.getFullnameFromModObj(modObj),null,null,false)
-			PREJDDBook = tnrCommon.ExcelUtils.open(fullName)
+			PREJDDBook = ExcelUtils.open(fullName)
 			getAllPrerequis('PREJDD',fullName)
 		}
 
@@ -104,12 +115,8 @@ public class CheckPrerequis {
 		if (status) {
 			Log.addINFO('     ***  OK   ***')
 		}
-		Log.addTraceEND(CLASS_FORLOG,"run")
+		Log.addTraceEND(CLASS_FORLOG,"runForPREJDD")
 	}
-
-
-
-
 
 
 	/**
@@ -207,31 +214,31 @@ public class CheckPrerequis {
 		if (InfoDB.isTableExist(table)) {
 
 			//if (InfoDB.inTable(table, name)) {
-				List<List<Object>> listAllCDTVAL = []
-				datas.each { outerMap ->
-					outerMap.each { key, innerMap ->
-						listAllCDTVAL << [key, innerMap[name]]
-					}
+			List<List<Object>> listAllCDTVAL = []
+			datas.each { outerMap ->
+				outerMap.each { key, innerMap ->
+					listAllCDTVAL << [key, innerMap[name]]
 				}
-				listAllCDTVAL.each {li ->
-					String cdt = li[0]
-					String val = li[1]
-					if (val!=null && val!='' && !JDDKW.isNU(val) && !JDDKW.isNULL(val) && !JDDKW.isVIDE(val) ) {
-						String cdtVal = "'$cdt' - '$val'"
-						if (cdt.toString().contains('.CRE.') && InfoDB.isPK(table,name)) {
-							Log.addTrace("skip : $cdtVal")
+			}
+			listAllCDTVAL.each {li ->
+				String cdt = li[0]
+				String val = li[1]
+				if (val!=null && val!='' && !JDDKW.isNU(val) && !JDDKW.isNULL(val) && !JDDKW.isVIDE(val) ) {
+					String cdtVal = "'$cdt' - '$val'"
+					if (cdt.toString().contains('.CRE.') && InfoDB.isPK(table,name)) {
+						Log.addTrace("skip : $cdtVal")
+					}else {
+						if (JDDKW.getOldValueOfKW_UPD(val)) {
+							cdtVal= "'$cdt' - '" + JDDKW.getOldValueOfKW_UPD(val) + "'"
+							list.add(cdtVal)
+							Log.addTrace("add $cdtVal \$UPD")
 						}else {
-							if (JDDKW.getOldValueOfKW_UPD(val)) {
-								cdtVal= "'$cdt' - '" + JDDKW.getOldValueOfKW_UPD(val) + "'"
-								list.add(cdtVal)
-								Log.addTrace("add $cdtVal \$UPD")
-							}else {
-								list.add(cdtVal)
-								Log.addTrace("add $cdtVal")
-							}
+							list.add(cdtVal)
+							Log.addTrace("add $cdtVal")
 						}
 					}
 				}
+			}
 			//}else {
 			//	Log.addERROR("La colonne '$name' n'existe pas dans la table '$table'!")
 			//}

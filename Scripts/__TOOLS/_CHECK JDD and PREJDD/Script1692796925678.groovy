@@ -16,7 +16,8 @@ CheckJDD.run()
 
 CheckPREJDD.run()
 
-CheckPrerequis.run()
+CheckPrerequis.runForJDD()
+CheckPrerequis.runForPREJDD()
 
 Check_CAL.run()
 
@@ -29,6 +30,4 @@ Log.writeList('TBDKO','FAIL')
 
 
 Log.addTITLE("Fin des vérification des JDD et des PREJDD")
-
-
 

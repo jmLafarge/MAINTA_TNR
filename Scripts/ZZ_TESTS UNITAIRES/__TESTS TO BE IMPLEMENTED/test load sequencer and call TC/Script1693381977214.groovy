@@ -7,7 +7,7 @@ import internal.GlobalVariable
 import tnrSqlManager.InfoDB
 import tnrResultManager.TNRResult
 import tnr.Sequencer
-import tnrCommon.Tools
+import Tools
 import tnrResult.ResultGenerator as XLSResult
 
 

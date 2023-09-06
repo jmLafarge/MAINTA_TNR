@@ -36,7 +36,9 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.searchWithHelper(myJDD, "ID_CODART","","")
 			KW.searchWithHelper(myJDD, "ID_CODMOY","","")
 			KW.searchWithHelper(myJDD, "ID_CODGES","","")
-			KW.searchWithHelper(myJDD, "ID_NUMCRI","","")
+			
+			KW.searchWithHelper(myJDD, "ID_NUMCRI","","SEARCH_ST_DES",4)
+			
 			KW.searchWithHelper(myJDD, "ID_CODIMP","","")
 			KW.scrollAndSetText(myJDD, "ID_NUMGRO")
 			KW.searchWithHelper(myJDD, "ID_CODCOM","","")
@@ -50,9 +52,9 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.scrollAndClick(myJDD, "tab_Fiche")
 			KW.waitForElementVisible(myJDD, "tab_FicheSelected")
 			
-			KW.searchWithHelper(myJDD, "ID_CODFOUINI","","")
+			KW.searchWithHelper(myJDD, "ID_CODFOUINI","","SEARCH_ID_CODFOU")
 			KW.scrollAndSetText(myJDD, "ST_REFFOU")
-			KW.searchWithHelper(myJDD, "ID_CODCONSTR","","")
+			KW.searchWithHelper(myJDD, "ID_CODCONSTR","","SEARCH_ID_CODFOU")
 			KW.scrollAndSetText(myJDD, "ST_REFCON")
 			KW.setDate(myJDD, "DT_ACH")
 			KW.setDate(myJDD, "DT_FAC")
@@ -62,14 +64,16 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.scrollAndSetText(myJDD, "NU_PRIACT")
 			KW.scrollAndSetText(myJDD, "NU_USAGAR")
 			KW.scrollAndSetText(myJDD, "NU_FINUSA")
+			
 			KW.searchWithHelper(myJDD, "ID_CODCAL","","")
+			
 			KW.searchWithHelper(myJDD, "ID_CODGAR","","")
 			KW.searchWithHelper(myJDD, "ID_REFCOM","","")
 			KW.scrollAndSetText(myJDD, "ST_AFFCOM")
-			KW.searchWithHelper(myJDD, "ID_CODINTPRO","","")
-			KW.searchWithHelper(myJDD, "ID_CODINTGES","","")
-			KW.searchWithHelper(myJDD, "ID_CODINTEXP","","")
-			KW.searchWithHelper(myJDD, "ID_CODINTMAI","","")
+			KW.searchWithHelper(myJDD, "ID_CODINTPRO","","SEARCH_ID_CODINT")
+			KW.searchWithHelper(myJDD, "ID_CODINTGES","","SEARCH_ID_CODINT")
+			KW.searchWithHelper(myJDD, "ID_CODINTEXP","","SEARCH_ID_CODINT")
+			KW.searchWithHelper(myJDD, "ID_CODINTMAI","","SEARCH_ID_CODINT")
 			KW.scrollAndCheckIfNeeded(myJDD, "ST_CONTRA", "O")
 			KW.scrollAndCheckIfNeeded(myJDD, "ST_CONTRABT", "O")
 			KW.scrollAndCheckIfNeeded(myJDD, "ST_PRE", "O")

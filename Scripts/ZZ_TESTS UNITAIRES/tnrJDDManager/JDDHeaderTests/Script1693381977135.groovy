@@ -3,8 +3,9 @@
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.Workbook
 
-import tnrLog.Log
+import tnrCommon.ExcelUtils
 import tnrJDDManager.JDDHeader
+import tnrLog.Log
 
 /**
  * TESTS UNITAIRES
@@ -21,7 +22,7 @@ import tnrJDDManager.JDDHeader
 final String CLASS_FOR_LOG = 'tnrJDDManager.JDDHeader'
 
 
-Workbook  book = tnrCommon.ExcelUtils.open('TNR_JDDTest\\JDD.AA.BBB.xlsx')
+Workbook  book = ExcelUtils.open('TNR_JDDTest\\JDD.AA.BBB.xlsx')
 Sheet sheet = book.getSheet('001')
 List headersListTest = ['ID_JML', 'ST_DES', 'ST_INA', 'NU_IV']
 JDDHeader myJDDHeader = new JDDHeader(sheet)

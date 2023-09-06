@@ -22,7 +22,7 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addSTEPGRP('ONGLET HABILITATION')
 	
 		//KW.scrollAndClick(myJDD,"tab_Habilitation")
-		KW.click(myJDD,"tab_Habilitation")
+		KW.scrollAndClick(myJDD,"tab_Habilitation")
 		KW.waitForElementVisible(myJDD,"tab_HabilitationSelected")
 		
 		'Boucle sur les lignes d\'un même TC'

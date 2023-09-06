@@ -41,16 +41,14 @@ for (String cdt in myJDD.getCDTList()) {
 		//ST_DESGES --> pas d'action en modification
 		KW.scrollAndCheckIfNeeded(myJDD,"ST_GRP","O")
 
-		KW.scrollToPosition(0, 0)
-		KW.delay(1)
+		KW.scrollToPositionAndWait(0, 0,1)
 
 	TNRResult.addSTEPGRP("ONGLET AFFECTATION")
 
 		KW.scrollAndClick(myJDD,"tab_Affectation")
 		KW.waitForElementVisible(myJDD,"tab_AffectationSelected")
 		
-		KW.scrollToPosition(0, 0)
-		KW.delay(1)
+		KW.scrollToPositionAndWait(0, 0,1)
 
 		KW.searchWithHelper(myJDD, "ID_CODGESAFF","","SEARCH_ID_CODGES") //specific
 		//ST_DESID_CODGESAFF --> pas d'action en modification

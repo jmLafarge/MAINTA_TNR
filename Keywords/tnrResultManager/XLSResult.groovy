@@ -12,6 +12,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import groovy.transform.CompileStatic
 import internal.GlobalVariable
+import tnrCommon.ExcelUtils
 import tnrCommon.FileUtils
 import tnrCommon.TNRPropertiesReader
 import tnrCommon.Tools
@@ -109,7 +110,7 @@ public class XLSResult {
 
 			def hyperlink_screenshotFile = CSF.createHelper.createHyperlink(HyperlinkType.FILE)
 			hyperlink_screenshotFile.setAddress('./'+SCREENSHOTSUBFOLDER+ '/' +filename)
-			tnrCommon.ExcelUtils.writeCell(row,11, filename  ,CSF.cellStyle_hyperlink,hyperlink_screenshotFile)
+			ExcelUtils.writeCell(row,11, filename  ,CSF.cellStyle_hyperlink,hyperlink_screenshotFile)
 		}
 
 	}
@@ -140,68 +141,68 @@ public class XLSResult {
 		switch (status) {
 
 			case 'PASS':
-				tnrCommon.ExcelUtils.writeCell(row,0,date.format(DATETIMESTEP_FORMAT),CSF.cellStyle_RESULT_STEP)
-				tnrCommon.ExcelUtils.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPPASS)
-				tnrCommon.ExcelUtils.writeCell(row,2,'PASS',CSF.cellStyle_RESULT_STEPPASS)
+				ExcelUtils.writeCell(row,0,date.format(DATETIMESTEP_FORMAT),CSF.cellStyle_RESULT_STEP)
+				ExcelUtils.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPPASS)
+				ExcelUtils.writeCell(row,2,'PASS',CSF.cellStyle_RESULT_STEPPASS)
 				continueToGroup = true
 				break
 			case 'WARNING':
 				takeScreenshot(row,date,msg,status)
-				tnrCommon.ExcelUtils.writeCell(row,0,date.format(DATETIMESTEP_FORMAT),CSF.cellStyle_RESULT_STEP)
-				tnrCommon.ExcelUtils.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPWARNING)
-				tnrCommon.ExcelUtils.writeCell(row,2,'WARNING',CSF.cellStyle_RESULT_STEPWARNING)
+				ExcelUtils.writeCell(row,0,date.format(DATETIMESTEP_FORMAT),CSF.cellStyle_RESULT_STEP)
+				ExcelUtils.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPWARNING)
+				ExcelUtils.writeCell(row,2,'WARNING',CSF.cellStyle_RESULT_STEPWARNING)
 				continueToGroup = false
 				break
 			case 'FAIL':
 				takeScreenshot(row,date,msg,status)
-				tnrCommon.ExcelUtils.writeCell(row,0,date.format(DATETIMESTEP_FORMAT),CSF.cellStyle_RESULT_STEP)
-				tnrCommon.ExcelUtils.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPFAIL)
-				tnrCommon.ExcelUtils.writeCell(row,2,'FAIL',CSF.cellStyle_RESULT_STEPFAIL)
+				ExcelUtils.writeCell(row,0,date.format(DATETIMESTEP_FORMAT),CSF.cellStyle_RESULT_STEP)
+				ExcelUtils.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPFAIL)
+				ExcelUtils.writeCell(row,2,'FAIL',CSF.cellStyle_RESULT_STEPFAIL)
 				continueToGroup = false
 				break
 			case 'ERROR':
 				takeScreenshot(row,date,msg,status)
-				tnrCommon.ExcelUtils.writeCell(row,0,date.format(DATETIMESTEP_FORMAT),CSF.cellStyle_RESULT_STEP)
-				tnrCommon.ExcelUtils.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPERROR)
-				tnrCommon.ExcelUtils.writeCell(row,2,'ERROR',CSF.cellStyle_RESULT_STEPERROR)
+				ExcelUtils.writeCell(row,0,date.format(DATETIMESTEP_FORMAT),CSF.cellStyle_RESULT_STEP)
+				ExcelUtils.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPERROR)
+				ExcelUtils.writeCell(row,2,'ERROR',CSF.cellStyle_RESULT_STEPERROR)
 				continueToGroup = false
 				break
 			case 'STEPLOOP':
-				tnrCommon.ExcelUtils.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPLOOP)
+				ExcelUtils.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPLOOP)
 				continueToGroup = true
 				break
 			case 'STEPGRP':
-				tnrCommon.ExcelUtils.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPGRP)
-				tnrCommon.ExcelUtils.writeCell(row,2,'',CSF.cellStyle_RESULT_STEPGRP)
+				ExcelUtils.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPGRP)
+				ExcelUtils.writeCell(row,2,'',CSF.cellStyle_RESULT_STEPGRP)
 				continueToGroup = true
 				break
 
 			case 'STEPACTION':
-				tnrCommon.ExcelUtils.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPACTION)
-				tnrCommon.ExcelUtils.writeCell(row,2,'',CSF.cellStyle_RESULT_STEPACTION)
+				ExcelUtils.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPACTION)
+				ExcelUtils.writeCell(row,2,'',CSF.cellStyle_RESULT_STEPACTION)
 				continueToGroup = true
 				break
 
 			case 'STEPBLOCK':
-				tnrCommon.ExcelUtils.writeCell(row,1,(' '+msg+' ').center(70, '-'),CSF.cellStyle_RESULT_STEPBLOCK)
-				tnrCommon.ExcelUtils.writeCell(row,2,'',CSF.cellStyle_RESULT_STEPBLOCK)
+				ExcelUtils.writeCell(row,1,(' '+msg+' ').center(70, '-'),CSF.cellStyle_RESULT_STEPBLOCK)
+				ExcelUtils.writeCell(row,2,'',CSF.cellStyle_RESULT_STEPBLOCK)
 				continueToGroup = true
 				break
 
 			case 'SUBSTEP':
-				tnrCommon.ExcelUtils.writeCell(row,1,msg,CSF.cellStyle_RESULT_SUBSTEP)
+				ExcelUtils.writeCell(row,1,msg,CSF.cellStyle_RESULT_SUBSTEP)
 				continueToGroup = true
 				break
 
 			case 'INFO':
-				tnrCommon.ExcelUtils.writeCell(row,0,date.format(DATETIMESTEP_FORMAT),CSF.cellStyle_RESULT_STEPDETAIL)
-				tnrCommon.ExcelUtils.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPDETAIL)
-				tnrCommon.ExcelUtils.writeCell(row,2,'INFO',CSF.cellStyle_RESULT_STEPDETAIL)
+				ExcelUtils.writeCell(row,0,date.format(DATETIMESTEP_FORMAT),CSF.cellStyle_RESULT_STEPDETAIL)
+				ExcelUtils.writeCell(row,1,msg,CSF.cellStyle_RESULT_STEPDETAIL)
+				ExcelUtils.writeCell(row,2,'INFO',CSF.cellStyle_RESULT_STEPDETAIL)
 				continueToGroup = true
 				break
 
 			case 'DETAIL':
-				tnrCommon.ExcelUtils.writeCell(row,1,' - '+msg,CSF.cellStyle_RESULT_STEPDETAIL)
+				ExcelUtils.writeCell(row,1,' - '+msg,CSF.cellStyle_RESULT_STEPDETAIL)
 
 				break
 			default :
@@ -241,10 +242,10 @@ public class XLSResult {
 
 			Row row = shRESULT.createRow(lineNumberSTART)
 
-		tnrCommon.ExcelUtils.writeCell(row,8,start.format(TIMESTEP_FORMAT),CSF.cellStyle_time)
+		ExcelUtils.writeCell(row,8,start.format(TIMESTEP_FORMAT),CSF.cellStyle_time)
 
 		row = shRESULT.createRow(lineNumberSTART+1)
-		tnrCommon.ExcelUtils.writeCell(row,1,"",CSF.cellStyle_RESULT_STEPDETAIL)
+		ExcelUtils.writeCell(row,1,"",CSF.cellStyle_RESULT_STEPDETAIL)
 
 		write()
 
@@ -278,32 +279,32 @@ public class XLSResult {
 
 		if (status.ERROR !=0 ) {
 
-			tnrCommon.ExcelUtils.writeCell(row,rowResult,'ERROR',CSF.cellStyle_ERROR)
+			ExcelUtils.writeCell(row,rowResult,'ERROR',CSF.cellStyle_ERROR)
 			CSF.cellStyle_RESULT_CDT=CSF.cellStyle_ERROR
 			totalERROR++
 
 		}else if (status.FAIL != 0 ) {
 
-			tnrCommon.ExcelUtils.writeCell(row,rowResult,'FAIL',CSF.cellStyle_FAIL)
+			ExcelUtils.writeCell(row,rowResult,'FAIL',CSF.cellStyle_FAIL)
 			CSF.cellStyle_RESULT_CDT=CSF.cellStyle_FAIL
 			totalFAIL++
 
 		}else if (status.WARNING != 0 ) {
 
-			tnrCommon.ExcelUtils.writeCell(row,rowResult,'WARNING',CSF.cellStyle_WARNING)
+			ExcelUtils.writeCell(row,rowResult,'WARNING',CSF.cellStyle_WARNING)
 			CSF.cellStyle_RESULT_CDT=CSF.cellStyle_WARNING
 			totalWARNING++
 
 		}else {
 
-			tnrCommon.ExcelUtils.writeCell(row,rowResult,'PASS',CSF.cellStyle_PASS)
+			ExcelUtils.writeCell(row,rowResult,'PASS',CSF.cellStyle_PASS)
 			CSF.cellStyle_RESULT_CDT=CSF.cellStyle_PASS
 			collapse = true
 			totalPASS++
 		}
 
-		tnrCommon.ExcelUtils.writeCell(row,0,start.format(DATETIMESTEP_FORMAT),CSF.cellStyle_RESULT_CDT)
-		tnrCommon.ExcelUtils.writeCell(row,1, cdt,CSF.cellStyle_RESULT_CDT)
+		ExcelUtils.writeCell(row,0,start.format(DATETIMESTEP_FORMAT),CSF.cellStyle_RESULT_CDT)
+		ExcelUtils.writeCell(row,1, cdt,CSF.cellStyle_RESULT_CDT)
 
 		int total = status.PASS + status.WARNING + status.FAIL + status.ERROR
 
@@ -312,19 +313,19 @@ public class XLSResult {
 		totalStepFAIL 		+= status.FAIL
 		totalStepERROR 	+= status.ERROR
 
-		tnrCommon.ExcelUtils.writeCell(row,3,total,CSF.cellStyle_RESULT_STEPNBR)
+		ExcelUtils.writeCell(row,3,total,CSF.cellStyle_RESULT_STEPNBR)
 
-		if (status.PASS!=0) 	tnrCommon.ExcelUtils.writeCell(row,4,status.PASS,CSF.cellStyle_RESULT_STEPNBR)
+		if (status.PASS!=0) 	ExcelUtils.writeCell(row,4,status.PASS,CSF.cellStyle_RESULT_STEPNBR)
 
-		if (status.WARNING!=0) 	tnrCommon.ExcelUtils.writeCell(row,5,status.WARNING,CSF.cellStyle_RESULT_STEPNBR)
+		if (status.WARNING!=0) 	ExcelUtils.writeCell(row,5,status.WARNING,CSF.cellStyle_RESULT_STEPNBR)
 
-		if (status.FAIL!=0) 	tnrCommon.ExcelUtils.writeCell(row,6,status.FAIL,CSF.cellStyle_RESULT_STEPNBR)
+		if (status.FAIL!=0) 	ExcelUtils.writeCell(row,6,status.FAIL,CSF.cellStyle_RESULT_STEPNBR)
 
-		if (status.ERROR!=0) 	tnrCommon.ExcelUtils.writeCell(row,7,status.ERROR,CSF.cellStyle_RESULT_STEPNBR)
+		if (status.ERROR!=0) 	ExcelUtils.writeCell(row,7,status.ERROR,CSF.cellStyle_RESULT_STEPNBR)
 
 
-		tnrCommon.ExcelUtils.writeCell(row,9,stop.format(TIMESTEP_FORMAT),CSF.cellStyle_time)
-		tnrCommon.ExcelUtils.writeCell(row,10,tnrCommon.Tools.getDuration(start, stop),CSF.cellStyle_duration)
+		ExcelUtils.writeCell(row,9,stop.format(TIMESTEP_FORMAT),CSF.cellStyle_time)
+		ExcelUtils.writeCell(row,10,Tools.getDuration(start, stop),CSF.cellStyle_duration)
 
 		Log.addTrace("addEndCasDeTest nextLineNumber=$nextLineNumber lineNumberSTART=$lineNumberSTART")
 
@@ -347,8 +348,8 @@ public class XLSResult {
 
 		if (resulFileName) {
 			browserName = browser
-			tnrCommon.ExcelUtils.writeCell(shRESUM.getRow(11),1,browser)
-			tnrCommon.ExcelUtils.writeCell(shRESUM.getRow(12),1,version)
+			ExcelUtils.writeCell(shRESUM.getRow(11),1,browser)
+			ExcelUtils.writeCell(shRESUM.getRow(12),1,version)
 
 			write()
 		}
@@ -363,23 +364,23 @@ public class XLSResult {
 		if (!resulFileName) openResultFile()
 
 
-		tnrCommon.ExcelUtils.writeCell(shRESUM.getRow(1),3,text)
+		ExcelUtils.writeCell(shRESUM.getRow(1),3,text)
 
 		startDateTNR = new Date()
 
 
-		tnrCommon.ExcelUtils.writeCell(shRESUM.getRow(1),1,startDateTNR.format(DATE_FORMAT),CSF.cellStyle_dateResultat)
-		tnrCommon.ExcelUtils.writeCell(shRESUM.getRow(3),1,startDateTNR.format(DATETIME_FORMAT),CSF.cellStyle_date)
+		ExcelUtils.writeCell(shRESUM.getRow(1),1,startDateTNR.format(DATE_FORMAT),CSF.cellStyle_dateResultat)
+		ExcelUtils.writeCell(shRESUM.getRow(3),1,startDateTNR.format(DATETIME_FORMAT),CSF.cellStyle_date)
 
 
-		tnrCommon.ExcelUtils.writeCell(shRESUM.getRow(8),1,System.getProperty("os.name"))
-		tnrCommon.ExcelUtils.writeCell(shRESUM.getRow(9),1,System.getProperty("os.version"))
-		tnrCommon.ExcelUtils.writeCell(shRESUM.getRow(10),1,System.getProperty("os.arch"))
+		ExcelUtils.writeCell(shRESUM.getRow(8),1,System.getProperty("os.name"))
+		ExcelUtils.writeCell(shRESUM.getRow(9),1,System.getProperty("os.version"))
+		ExcelUtils.writeCell(shRESUM.getRow(10),1,System.getProperty("os.arch"))
 
 		maintaVersion = SQL.getMaintaVersion()
-		tnrCommon.ExcelUtils.writeCell(shRESUM.getRow(13),1,maintaVersion)
-		tnrCommon.ExcelUtils.writeCell(shRESUM.getRow(14),1,GlobalVariable.BASE_URL.toString())
-		tnrCommon.ExcelUtils.writeCell(shRESUM.getRow(15),1,SQL.getPathDB())
+		ExcelUtils.writeCell(shRESUM.getRow(13),1,maintaVersion)
+		ExcelUtils.writeCell(shRESUM.getRow(14),1,GlobalVariable.BASE_URL.toString())
+		ExcelUtils.writeCell(shRESUM.getRow(15),1,SQL.getPathDB())
 
 		write()
 	}
@@ -412,7 +413,7 @@ public class XLSResult {
 
 		createFileByCopy()
 
-		book = tnrCommon.ExcelUtils.open(resulFileName)
+		book = ExcelUtils.open(resulFileName)
 
 		shRESUM = book.getSheet(RES_RESUMESHEETNAME)
 		shRESULT = book.getSheet(RES_RESULTSHEETNAME)
@@ -435,25 +436,25 @@ public class XLSResult {
 
 		Date endDate = new Date()
 
-		tnrCommon.ExcelUtils.writeCell(shRESUM.getRow(4),1,endDate.format(DATETIME_FORMAT),CSF.cellStyle_date)
+		ExcelUtils.writeCell(shRESUM.getRow(4),1,endDate.format(DATETIME_FORMAT),CSF.cellStyle_date)
 
-		tnrCommon.ExcelUtils.writeCell(shRESUM.getRow(5),1,tnrCommon.Tools.getDuration(startDateTNR, endDate),CSF.cellStyle_durationResultat)
+		ExcelUtils.writeCell(shRESUM.getRow(5),1,Tools.getDuration(startDateTNR, endDate),CSF.cellStyle_durationResultat)
 
 		Row row = shRESUM.getRow(18)
 
-		tnrCommon.ExcelUtils.writeCell(row,1,totalPASS + totalWARNING + totalFAIL + totalERROR,CSF.cellStyle_TOT)
-		tnrCommon.ExcelUtils.writeCell(row,2,totalPASS,CSF.cellStyle_PASSTOT)
-		tnrCommon.ExcelUtils.writeCell(row,3,totalWARNING,CSF.cellStyle_WARNINGTOT)
-		tnrCommon.ExcelUtils.writeCell(row,4,totalFAIL,CSF.cellStyle_FAILTOT)
-		tnrCommon.ExcelUtils.writeCell(row,5,totalERROR,CSF.cellStyle_ERRORTOT)
+		ExcelUtils.writeCell(row,1,totalPASS + totalWARNING + totalFAIL + totalERROR,CSF.cellStyle_TOT)
+		ExcelUtils.writeCell(row,2,totalPASS,CSF.cellStyle_PASSTOT)
+		ExcelUtils.writeCell(row,3,totalWARNING,CSF.cellStyle_WARNINGTOT)
+		ExcelUtils.writeCell(row,4,totalFAIL,CSF.cellStyle_FAILTOT)
+		ExcelUtils.writeCell(row,5,totalERROR,CSF.cellStyle_ERRORTOT)
 
 		row = shRESUM.getRow(19)
 
-		tnrCommon.ExcelUtils.writeCell(row,1,totalStepPASS + totalStepWARNING + totalStepFAIL + totalStepERROR,CSF.cellStyle_STEPTOT)
-		tnrCommon.ExcelUtils.writeCell(row,2,totalStepPASS,CSF.cellStyle_STEPTOT)
-		tnrCommon.ExcelUtils.writeCell(row,3,totalStepWARNING,CSF.cellStyle_STEPTOT)
-		tnrCommon.ExcelUtils.writeCell(row,4,totalStepFAIL,CSF.cellStyle_STEPTOT)
-		tnrCommon.ExcelUtils.writeCell(row,5,totalStepERROR,CSF.cellStyle_STEPTOT)
+		ExcelUtils.writeCell(row,1,totalStepPASS + totalStepWARNING + totalStepFAIL + totalStepERROR,CSF.cellStyle_STEPTOT)
+		ExcelUtils.writeCell(row,2,totalStepPASS,CSF.cellStyle_STEPTOT)
+		ExcelUtils.writeCell(row,3,totalStepWARNING,CSF.cellStyle_STEPTOT)
+		ExcelUtils.writeCell(row,4,totalStepFAIL,CSF.cellStyle_STEPTOT)
+		ExcelUtils.writeCell(row,5,totalStepERROR,CSF.cellStyle_STEPTOT)
 
 		write()
 

@@ -111,7 +111,7 @@ public class ExcelUtils {
 
 		for (int i = ideb; i < size; i++) {
 			Cell cell = row.getCell(i)
-			def value = tnrCommon.ExcelUtils.getCellValue(cell, nullval)
+			def value = ExcelUtils.getCellValue(cell, nullval)
 			data[i - ideb] = value
 		}
 
@@ -137,7 +137,7 @@ public class ExcelUtils {
 
 		List data = []
 		for (Cell cell : row) {
-			def value = tnrCommon.ExcelUtils.getCellValue(cell)
+			def value = ExcelUtils.getCellValue(cell)
 			if ((size == 0 && cell.getColumnIndex() != 0 && value == '') || (size != 0 && cell.getColumnIndex() >= size)) {
 				break
 			}
@@ -241,7 +241,7 @@ public class ExcelUtils {
 			}
 		}
 		if (ret==-1) {
-			Log.addERROR("tnrCommon.ExcelUtils.getColumnIndexOfColumnName() columnName='${columnName}' numRow='${numRow}' Nom de colonne non trouvé")
+			Log.addERROR("ExcelUtils.getColumnIndexOfColumnName() columnName='${columnName}' numRow='${numRow}' Nom de colonne non trouvé")
 		}
 		Log.addTraceEND(CLASS_FOR_LOG,"getColumnIndexOfColumnName",ret)
 		return ret
@@ -304,7 +304,7 @@ public class ExcelUtils {
 		}
 
 		if (num == -1) {
-			Log.addERROR("tnrCommon.ExcelUtils.getRowNumOfFirstCellFree of ${sheet.getSheetName()}: ${num}")
+			Log.addERROR("ExcelUtils.getRowNumOfFirstCellFree of ${sheet.getSheetName()}: ${num}")
 		}
 		Log.addTraceEND(CLASS_FOR_LOG,"getRowNumOfFirstCellFree",num)
 		return num

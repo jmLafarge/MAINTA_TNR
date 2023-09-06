@@ -1,5 +1,5 @@
-import tnrLog.Log
 import tnrJDDManager.JDDKW
+import tnrLog.Log
 
 /**
  * TESTS UNITAIRES

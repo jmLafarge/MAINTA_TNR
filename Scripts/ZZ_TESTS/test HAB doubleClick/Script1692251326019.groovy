@@ -44,9 +44,7 @@ CustomKeywords.'KW.scrollAndClick'(findTestObject('null'))
 
 KW.delay(1)
 
-KW.scrollToPosition(0, 0)
-
-KW.delay(1)
+KW.scrollToPositionAndWait(0, 0,1)
 
 WebUI.verifyElementPresent(findTestObject('null', [('textHAB') : 'ATEX1']),2)
 

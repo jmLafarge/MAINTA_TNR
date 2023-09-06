@@ -35,7 +35,7 @@ for (String cdt in myJDD.getCDTList()) {
 		KW.verifyValue(myJDD, "ST_DESEQU")
 		KW.verifyValue(myJDD, "ST_CODLON")
 		KW.verifyOptionSelectedByValue(myJDD, "ST_ETA")
-		KW.verifyOptionSelectedByLabel(myJDD, "NU_CRI")
+		KW.verifyOptionSelectedByValue(myJDD, "NU_CRI")
 		KW.verifyElementCheckedOrNot(myJDD, "ST_NIVABS", "O")
 		KW.verifyValue(myJDD, "ID_CODGES")
 		KW.verifyValue(myJDD, "ST_DESGES")
@@ -85,8 +85,7 @@ for (String cdt in myJDD.getCDTList()) {
 		KW.scrollAndClick(myJDD, "tab_Notes")
 		KW.waitForElementVisible(myJDD, "tab_NotesSelected")
 		
-		KW.scrollToPosition(0, 0)
-		KW.delay(1)
+		KW.scrollToPositionAndWait(0, 0,1)
 		
 		
 		KW.verifyElementText(new JDD(JDDFileMapper.getFullnameFromModObj('RT.EQU'),'001C',GlobalVariable.CAS_DE_TEST_EN_COURS),"OL_DOC")

@@ -4,7 +4,6 @@ import java.util.regex.Pattern
 
 import groovy.io.FileType
 import groovy.transform.CompileStatic
-import internal.GlobalVariable
 import tnrCommon.TNRPropertiesReader
 import tnrLog.Log
 

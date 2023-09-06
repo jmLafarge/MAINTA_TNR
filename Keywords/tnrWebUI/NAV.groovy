@@ -32,8 +32,7 @@ class NAV {
 	 */
 	public static verifierCartridge(String txt, int timeOut = GlobalVariable.TIMEOUT) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"verifierCartridge",[txt:txt , timeOut:timeOut])
-		KW.scrollToPosition(0, 0)
-		KW.delay(1)
+		KW.scrollToPositionAndWait(0, 0,1)
 		KW.click(myGlobalJDD,'a_Toggle','WARNING')
 		KW.delay(1)
 		KW.waitAndVerifyElementText(myGlobalJDD, 'Fonction_code', txt,timeOut,'WARNING')
@@ -48,8 +47,7 @@ class NAV {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"verifierEcranGrille",[fct:fct , timeOut:timeOut])
 		if (fct=='') { fct = getFctFromModObj() }
 		String code = "E" + fct
-		KW.scrollToPosition(0, 0)
-		KW.delay(1)
+		KW.scrollToPositionAndWait(0, 0,1)
 		KW.click(myGlobalJDD, 'a_Toggle','WARNING')
 		KW.delay(1)
 		KW.waitAndVerifyElementText(myGlobalJDD, 'Fonction_code', 'E'+ fct, timeOut,'WARNING')
@@ -62,8 +60,7 @@ class NAV {
 	public static verifierEcranResultat(String val,String fct='', String name='Resultat_ID_a', int timeOut = GlobalVariable.TIMEOUT) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"verifierEcranResultat",[val:val , fct:fct , name:name , timeOut:timeOut])
 		if (!fct) fct = getFctFromModObj()
-		KW.scrollToPosition(0, 0)
-		KW.delay(1)
+		KW.scrollToPositionAndWait(0, 0,1)
 		KW.click(myGlobalJDD, 'a_Toggle','WARNING')
 		KW.delay(1)
 		KW.waitAndVerifyElementText(myGlobalJDD, 'Fonction_code', fct,timeOut,'WARNING')
@@ -81,8 +78,7 @@ class NAV {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"verifierEcranCreation",[fct:fct , timeOut:timeOut])
 		if (fct=='') { fct = getFctFromModObj() }
 		String code = fct + " - Création"
-		KW.scrollToPosition(0, 0)
-		KW.delay(1)
+		KW.scrollToPositionAndWait(0, 0,1)
 		KW.click(myGlobalJDD, 'a_Toggle','WARNING')
 		KW.delay(1)
 		KW.waitAndVerifyElementText(myGlobalJDD, 'Fonction_code', code,timeOut,'WARNING')
@@ -96,8 +92,7 @@ class NAV {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"verifierEcranRUD",[ idval:text , fct:fct ,  timeOut:timeOut])
 		if (fct=='') { fct = getFctFromModObj() }
 		String code = fct + " - Consultation ou modification"
-		KW.scrollToPosition(0, 0)
-		KW.delay(1)
+		KW.scrollToPositionAndWait(0, 0,1)
 		KW.waitAndVerifyElementText(myGlobalJDD, 'Selection_ID', text,timeOut,'WARNING')
 		KW.click(myGlobalJDD, 'a_Toggle','WARNING')
 		KW.delay(1)

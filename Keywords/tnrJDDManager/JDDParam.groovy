@@ -4,8 +4,8 @@ import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 
 import groovy.transform.CompileStatic
+import tnrCommon.ExcelUtils
 import tnrLog.Log
-import tnrCommon.Tools
 
 
 @CompileStatic
@@ -30,20 +30,20 @@ public class JDDParam {
 	private Map <String, Map<String ,String>> paramsMap = [:]
 
 
-	JDDParam(Sheet sheet, JDDHeader JDDHeader,String startDataWord) {
+	JDDParam(Sheet sheet, JDDHeader JDDHeader) {
 
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "JDDParams", [sheet:sheet.getSheetName() , JDDHeader:JDDHeader, startDataWord:startDataWord])
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "JDDParams", [sheet:sheet.getSheetName() , JDDHeader:JDDHeader])
 
 		Iterator<Row> rowIt = sheet.rowIterator()
 		rowIt.next()
 		while(rowIt.hasNext()) {
 			Row row = rowIt.next()
-			String param =  tnrCommon.ExcelUtils.getCellValue(row.getCell(0)).toString()
-			if (param ==startDataWord) {
+			String param =  ExcelUtils.getCellValue(row.getCell(0)).toString()
+			if (param ==JDDHeader.START_DATA_WORD) {
 				break
 			}
 			if (isParamAllowed(param)) {
-				List paramLine = tnrCommon.ExcelUtils.loadRow(row,JDDHeader.getSize()+1)
+				List paramLine = ExcelUtils.loadRow(row,JDDHeader.getSize()+1)
 				println "paramLine : $paramLine"
 				def innerMap = [:]
 				JDDHeader.list.eachWithIndex { header, index ->
@@ -177,9 +177,9 @@ public class JDDParam {
 	public boolean isRADIO(String name) {
 		return paramsMap[PARAM_LIST_ALLOWED.LOCATOR.name()][name] == 'radio'
 	}
-	
-	
-	
+
+
+
 	public int getLOCATORIndex() {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "getLOCATORIndex", [:])
 		int ret = -1
@@ -192,9 +192,23 @@ public class JDDParam {
 		return ret
 	}
 
-	
+
 	public int getSize() {
 		return paramsMap.size()
+	}
+	
+	
+	
+
+	
+	
+
+	public boolean isCALCULEE(String name) {
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"isCALCULEE",[name:name])
+		String ret = getPREREQUISFor(name)
+		boolean result = ret ? ret == 'CALCULEE' : false
+		Log.addTraceEND(CLASS_FOR_LOG,"isCALCULEE",result)
+		return result
 	}
 	
 	

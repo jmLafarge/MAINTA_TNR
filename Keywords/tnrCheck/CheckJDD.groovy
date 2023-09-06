@@ -3,7 +3,7 @@ package tnrCheck
 import org.apache.poi.ss.usermodel.*
 
 import groovy.transform.CompileStatic
-import tnrCheck.column.CheckColumn
+import tnrCheck.header.CheckHeader
 import tnrCheck.data.CheckKW
 import tnrCheck.data.CheckPK
 import tnrCheck.data.CheckType
@@ -47,24 +47,19 @@ public class CheckJDD {
 				if (myJDD.isSheetAvailable(JDDsheetName)) {
 
 					Log.addDEBUGDETAIL("Onglet : $JDDsheetName")
-
 					myJDD.loadTCSheet(JDDsheet)
 					String table = myJDD.getDBTableName()
-
-					if (myJDD.myJDDHeader.getSize() >1) {
-						if (table) {
-							status &= CheckColumn.run('JDD',myJDD.myJDDHeader.getList(), table)
-							status &= CheckKW.run('JDD',myJDD.myJDDData.getList(),JDDFullname,JDDsheetName)
+					if (table ) {
+						status &= CheckHeader.run('JDD',myJDD.myJDDHeader.getList(), table)
+						if (myJDD.myJDDHeader.getSize() >1) {
+							status &= CheckKW.run('JDD',myJDD.myJDDData.getList(),myJDD.myJDDParam ,JDDFullname,JDDsheetName)
 							status &= CheckType.run(myJDD.myJDDData.getList(),myJDD, table,JDDFullname)
 							status &= CheckPK.run(myJDD.myJDDData.getList(), InfoDB.getPK(table), JDDFullname, JDDsheetName)
-
-
-
 						}else {
-							Log.addDEBUGDETAIL('Pas de table dans le JDD')
+							Log.addDETAIL("$JDDFullname ($JDDsheetName) : Pas de colonnes dans le JDD")
 						}
 					}else {
-						Log.addDEBUGDETAIL('Pas de colonnes dans le JDD')
+						Log.addDETAIL("$JDDFullname ($JDDsheetName) : Pas de table dans le JDD")
 					}
 				}else {
 					Log.addDEBUGDETAIL("Onglet : $JDDsheetName (skip)")
@@ -76,4 +71,10 @@ public class CheckJDD {
 		}
 		Log.addTraceEND(CLASS_FOR_LOG,"run")
 	}
+
+
+
+
+
+
 }// Fin de class

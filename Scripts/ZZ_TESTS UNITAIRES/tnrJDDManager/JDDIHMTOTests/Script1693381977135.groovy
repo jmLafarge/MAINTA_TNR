@@ -1,7 +1,9 @@
 
 import org.apache.poi.ss.usermodel.Workbook
-import tnrLog.Log
+
+import tnrCommon.ExcelUtils
 import tnrJDDManager.JDDIHMTO
+import tnrLog.Log
 
 /**
  * TESTS UNITAIRES
@@ -35,7 +37,7 @@ Map <String,String> xpathMapTest2 = [
 	'tab_ActeurSelected':'$TABSELECTED$ID_CODINT'
 	]
 
-Workbook  book = tnrCommon.ExcelUtils.open('TNR_JDDTest\\JDD.AA.BBB.xlsx')
+Workbook  book = ExcelUtils.open('TNR_JDDTest\\JDD.AA.BBB.xlsx')
 
 
 JDDIHMTO IHMTO1 = new JDDIHMTO(book.getSheet('IHMTO'),'001')

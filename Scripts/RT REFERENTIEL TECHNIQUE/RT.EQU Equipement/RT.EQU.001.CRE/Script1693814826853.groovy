@@ -42,8 +42,7 @@ for (String cdt in myJDD.getCDTList()) {
 		KW.scrollAndSetText(myJDD, "NU_USA")
 		KW.scrollAndSetText(myJDD, "ID_CODCON")
 		
-		KW.scrollToPosition(0,0)
-		KW.delay(1)
+		KW.scrollToPositionAndWait(0, 0,1)
 		
 	TNRResult.addSTEPGRP("ONGLET FICHE")
 		
@@ -73,8 +72,7 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.scrollAndCheckIfNeeded(myJDD, "ST_CONTRABT", "O")
 			KW.scrollAndCheckIfNeeded(myJDD, "ST_ANA", "O")
 		
-		KW.scrollToPosition(0,0)
-		KW.delay(1)
+		KW.scrollToPositionAndWait(0, 0,1)
 		
 	TNRResult.addSTEPGRP("ONGLET NOTES")
 		

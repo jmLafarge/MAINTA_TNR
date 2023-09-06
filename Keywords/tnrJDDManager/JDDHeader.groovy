@@ -4,6 +4,7 @@ import org.apache.poi.ss.usermodel.Sheet
 
 import groovy.transform.CompileStatic
 import tnrCommon.ExcelUtils
+import tnrCommon.TNRPropertiesReader
 import tnrLog.Log
 
 
@@ -12,7 +13,9 @@ public class JDDHeader {
 
 
 
-	private final String CLASS_FOR_LOG = 'JDDHeaders'
+	private final String CLASS_FOR_LOG 		= 'JDDHeaders'
+	
+	public final String START_DATA_WORD 	= TNRPropertiesReader.getMyProperty('START_DATA_WORD')
 
 	private List <String> headersList = []
 
@@ -44,9 +47,11 @@ public class JDDHeader {
 	public String getTableName() {
 		return tableName
 	}
-	
-	
+
+
 	public String add(String name) {
 		return headersList.add(name)
 	}
+	
+	
 } //Fin de class

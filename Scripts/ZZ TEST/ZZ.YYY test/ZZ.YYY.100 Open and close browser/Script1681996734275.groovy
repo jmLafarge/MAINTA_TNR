@@ -8,7 +8,7 @@ WebUI.openBrowser(GlobalVariable.BASE_URL)
 KW.delay(1)
 
 
-def br=tnrCommon.Tools.getBrowserAndVersion()
+def br=Tools.getBrowserAndVersion()
 
 println br.NAME
 println br.VERSION

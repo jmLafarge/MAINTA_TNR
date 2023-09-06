@@ -7,9 +7,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.io.FileType
 import groovy.transform.CompileStatic
+import tnrCommon.ExcelUtils
 import tnrCommon.TNRPropertiesReader
+import tnrJDDManager.JDD
 import tnrJDDManager.JDDFileMapper
-import tnrJDDManager.JDDIV
 import tnrJDDManager.JDDKW
 import tnrLog.Log
 import tnrSqlManager.InfoDB
@@ -59,10 +60,10 @@ public class PREJDDFileMapper {
 	static insertPREJDDinDB(String modObj, String tabName) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"insertPREJDDinDB",[modObj:modObj,tabName:tabName])
 
-		def myJDD = new tnrJDDManager.JDD(JDDFileMapper.JDDfilemap.getAt(modObj),tabName)
+		JDD myJDD = new JDD(JDDFileMapper.JDDfilemap.getAt(modObj),tabName)
 
 		Log.addINFO("Traitement de : '" + PREJDDfilemap.getAt(modObj)+ " ($tabName)")
-		XSSFWorkbook book = tnrCommon.ExcelUtils.open(PREJDDfilemap.getAt(modObj))
+		XSSFWorkbook book = ExcelUtils.open(PREJDDfilemap.getAt(modObj))
 		// set tab (sheet)
 		Sheet sheet = book.getSheet(tabName)
 		Row row0 = sheet.getRow(0)
@@ -76,7 +77,7 @@ public class PREJDDFileMapper {
 		for (int numline : (1..sheet.getLastRowNum())) {
 			Row row = sheet.getRow(numline)
 			// exit if lastRow
-			String cdt = tnrCommon.ExcelUtils.getCellValue(row.getCell(0))
+			String cdt = ExcelUtils.getCellValue(row.getCell(0))
 			if (!row || cdt =='') {
 				break
 			}
@@ -90,19 +91,17 @@ public class PREJDDFileMapper {
 			for (Cell c in row) {
 
 
-				String fieldName = tnrCommon.ExcelUtils.getCellValue(row0.getCell(c.getColumnIndex()))
+				String fieldName = ExcelUtils.getCellValue(row0.getCell(c.getColumnIndex()))
 				if (fieldName=="") {
 					break
 				}
 
 
-				def valueOfJDD = tnrCommon.ExcelUtils.getCellValue(c)
+				def valueOfJDD = ExcelUtils.getCellValue(c)
 				Log.addTrace("\tCell value = '$valueOfJDD' getClass()=" + valueOfJDD.getClass())
 
-				if (c.getColumnIndex()>0) {
-
-
-
+				if ((c.getColumnIndex()>0) && !myJDD.myJDDParam.isCALCULEE(fieldName)) { 
+					
 					if (!tnrJDDManager.JDDKW.isNU(valueOfJDD.toString()) && !myJDD.isOBSOLETE(fieldName)) {
 						fields.add(fieldName)
 						Log.addTrace("\tAjout fieldName='$fieldName' in req SQL")
@@ -367,6 +366,7 @@ public class PREJDDFileMapper {
 			['RT.ART', '001B'],
 			['RT.ART', '001C'],
 			['RT.MOY', '001'],
+			['RO.CLI', '001'],
 			['RT.EQU', '001'],
 			['RT.EQU', '001A'],
 			['RT.EQU', '001B'],
@@ -376,7 +376,11 @@ public class PREJDDFileMapper {
 			['RT.MAT', '001B'],
 			['RT.MAT', '001C'],
 			['RO.IMP', '001'],
-			['RO.IMP', '001A']
+			['RO.IMP', '001A'],
+			['FA.CSV', '001'],
+			['FA.NSV', '001'],
+			['TR.BT', '001'],
+			['TR.BT', '001A']
 		]
 
 
@@ -396,13 +400,13 @@ public class PREJDDFileMapper {
 
 		PREJDDFileMapper.PREJDDfilemap.each { modObj,fullName ->
 
-			XSSFWorkbook book = tnrCommon.ExcelUtils.open(fullName)
+			XSSFWorkbook book = ExcelUtils.open(fullName)
 			for (Sheet sheet : book ) {
 				String sheetName = sheet.getSheetName()
 				if (!['Version', 'MODELE'].contains(sheetName)) {
 					//println sheet.getSheetName()
 					if (!listPREJDD.contains([modObj, sheetName])) {
-						if (tnrCommon.ExcelUtils.getCellValue(sheet.getRow(1).getCell(0))=='') {
+						if (ExcelUtils.getCellValue(sheet.getRow(1).getCell(0))=='') {
 							Log.addToList('emptyPREJDD',"$fullName ($sheetName) est vide")
 						}else {
 							Log.add('WARNING',"\tManque $fullName ($sheetName)")
@@ -410,7 +414,7 @@ public class PREJDDFileMapper {
 							for (int numline : (1..sheet.getLastRowNum())) {
 								Row row = sheet.getRow(numline)
 								// exit if lastRow
-								String cdt = tnrCommon.ExcelUtils.getCellValue(row.getCell(0))
+								String cdt = ExcelUtils.getCellValue(row.getCell(0))
 								if (!row || cdt =='') {
 									break
 								}else {

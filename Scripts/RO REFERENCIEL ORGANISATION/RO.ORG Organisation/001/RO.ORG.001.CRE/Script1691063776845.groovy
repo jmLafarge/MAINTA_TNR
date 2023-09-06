@@ -31,8 +31,7 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.waitForElementVisible(myJDD, "tab_OrganisationSelected")
 			
 			KW.scrollAndSetRadio(myJDD, "NU_TYP")
-			KW.scrollToPosition(0,0)
-			KW.delay(1)
+			KW.scrollToPositionAndWait(0, 0,1)
 
 			KW.scrollAndSetText(myJDD, "ST_CODCOU")
 			KW.scrollAndSetText(myJDD, "ST_CODPERSGES")

@@ -5,8 +5,8 @@ import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 
 import groovy.transform.CompileStatic
+import tnrCommon.ExcelUtils
 import tnrLog.Log
-import tnrCommon.Tools
 
 /**
  * Manage IHMTO Tab of JDD files
@@ -34,9 +34,9 @@ public class JDDIHMTO {
 		rowIt.next()
 		while(rowIt.hasNext()) {
 			Row row = rowIt.next()
-			String tab = tnrCommon.ExcelUtils.getCellValue(row.getCell(0))
-			String name = tnrCommon.ExcelUtils.getCellValue(row.getCell(1))
-			String xpath = tnrCommon.ExcelUtils.getCellValue(row.getCell(2))
+			String tab = ExcelUtils.getCellValue(row.getCell(0))
+			String name = ExcelUtils.getCellValue(row.getCell(1))
+			String xpath = ExcelUtils.getCellValue(row.getCell(2))
 			Log.addTrace("tab : $tab name : $name xpath : $xpath")
 			if (tab == '') {
 				break

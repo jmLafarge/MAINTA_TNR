@@ -4,10 +4,11 @@ import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.transform.CompileStatic
-import tnrCheck.column.CheckColumn
 import tnrCheck.data.CheckKW
 import tnrCheck.data.CheckPK
 import tnrCheck.data.CheckType
+import tnrCheck.header.CheckHeader
+import tnrCommon.ExcelUtils
 import tnrJDDManager.JDD
 import tnrJDDManager.JDDData
 import tnrJDDManager.JDDFileMapper
@@ -48,7 +49,7 @@ public class CheckPREJDD {
 
 			JDD myJDD = new JDD(JDDFileMapper.JDDfilemap.getAt(modObj),null,null,false)
 
-			XSSFWorkbook PREJDDbook = tnrCommon.ExcelUtils.open(PREJDDfullname)
+			XSSFWorkbook PREJDDbook = ExcelUtils.open(PREJDDfullname)
 
 			for(Sheet PREJDDsheet: PREJDDbook) {
 
@@ -61,20 +62,19 @@ public class CheckPREJDD {
 					myJDD.loadTCSheet(myJDD.getBook().getSheet(PREJDDsheetName))
 					JDDData PREJDDData = new JDDData(PREJDDsheet,PREJDDheader.getList(),'')
 					String table = myJDD.getDBTableName()
-
 					Log.addDEBUGDETAIL("Onglet : $PREJDDsheetName")
 
-					if (PREJDDheader.getSize()>1) {
-						if (table) {
-							status &= CheckColumn.run('PREJDD',PREJDDheader.getList(), table)
-							status &= CheckKW.run('PREJDD',PREJDDData.getList(), PREJDDfullname,PREJDDsheetName)
+					if (table) {
+						status &= CheckHeader.run('PREJDD',PREJDDheader.getList(), table)
+						if (PREJDDheader.getSize()>1) {
+							status &= CheckKW.run('PREJDD',PREJDDData.getList(),myJDD.myJDDParam , PREJDDfullname,PREJDDsheetName)
 							status &= CheckType.run(PREJDDData.getList(),myJDD, table,PREJDDfullname)
 							status &= CheckPK.run(PREJDDData.getList(), InfoDB.getPK(table), PREJDDfullname, PREJDDsheetName)
 						}else {
-							Log.addDETAIL('Pas de table dans le PREJDD')
+							Log.addDETAIL("$PREJDDsheetName ($PREJDDsheetName) : Pas de colonnes dans le PREJDD")
 						}
 					}else {
-						Log.addDETAIL('Pas de colonnes dans le PREJDD')
+						Log.addDETAIL("$PREJDDsheetName ($PREJDDsheetName) : Pas de table dans le JDD ${myJDD.getJDDFullName()}")
 					}
 				}
 			}

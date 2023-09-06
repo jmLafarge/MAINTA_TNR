@@ -8,6 +8,7 @@ import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.transform.CompileStatic
+import tnrCommon.ExcelUtils
 import tnrCommon.FileUtils
 import tnrCommon.InfoPARA
 import tnrCommon.TNRPropertiesReader
@@ -43,11 +44,11 @@ class JDDFileGenerator {
 		if (!JDDFileMapper.getFullnameFromModObj(modObj)) {
 			Log.addINFO("Création du fichier JDD pour $modObj")
 			String fullName = createJDDFileByCopy(table,modObj)
-			JDDbook = tnrCommon.ExcelUtils.open(fullName)
+			JDDbook = ExcelUtils.open(fullName)
 			JDDFileMapper.add(modObj, fullName)
 		}else {
 			Log.addINFO("Le fichier JDD pour $modObj existe déjà : " + JDDFileMapper.getFullnameFromModObj(modObj))
-			JDDbook = tnrCommon.ExcelUtils.open(JDDFileMapper.getFullnameFromModObj(modObj))
+			JDDbook = ExcelUtils.open(JDDFileMapper.getFullnameFromModObj(modObj))
 		}
 
 		String msg=addJDDSheet(JDDbook, table, modObj,fct,listRubriquesIHM)
@@ -67,11 +68,11 @@ class JDDFileGenerator {
 		if (!PREJDDFileMapper.getFullnameFromModObj(modObj)) {
 			Log.addINFO("Création du fichier PREJDD pour $modObj")
 			String fullName = createPREJDDFileByCopy(table,modObj)
-			PREJDDbook = tnrCommon.ExcelUtils.open(fullName)
+			PREJDDbook = ExcelUtils.open(fullName)
 			PREJDDFileMapper.add(modObj, fullName)
 		}else {
 			Log.addINFO("Le fichier PREJDD pour $modObj existe déjà : " + PREJDDFileMapper.getFullnameFromModObj(modObj))
-			PREJDDbook = tnrCommon.ExcelUtils.open(PREJDDFileMapper.getFullnameFromModObj(modObj))
+			PREJDDbook = ExcelUtils.open(PREJDDFileMapper.getFullnameFromModObj(modObj))
 		}
 
 		msg=addPREJDDSheet(PREJDDbook, table, modObj,fct)
@@ -96,7 +97,7 @@ class JDDFileGenerator {
 
 		for (int i = 1; i < row.getLastCellNum(); i++) {
 
-			String cval = tnrCommon.ExcelUtils.getCellValue(row.getCell(i))
+			String cval = ExcelUtils.getCellValue(row.getCell(i))
 
 			if (cval=='') {
 				break
@@ -114,15 +115,15 @@ class JDDFileGenerator {
 					Row rowPara = getRowOfPara(shFCT,para)
 					if (rowPara!=null && InfoPARA.paraMap[cval][icol]) {
 
-						if(tnrCommon.ExcelUtils.getCellValue(rowPara.getCell(i))==''){
+						if(ExcelUtils.getCellValue(rowPara.getCell(i))==''){
 
 							Log.addTrace("$cval : $para = " + InfoPARA.paraMap[cval][icol])
-							tnrCommon.ExcelUtils.writeCell(rowPara,i, InfoPARA.paraMap[cval][icol])
+							ExcelUtils.writeCell(rowPara,i, InfoPARA.paraMap[cval][icol])
 
 							if (!mes) "Mise à jour paramètre"
-						}else if(tnrCommon.ExcelUtils.getCellValue(rowPara.getCell(i))!=InfoPARA.paraMap[cval][icol]){
+						}else if(ExcelUtils.getCellValue(rowPara.getCell(i))!=InfoPARA.paraMap[cval][icol]){
 
-							Log.addDETAILWARNING("\t$cval : $para, valeur du JDD '"+tnrCommon.ExcelUtils.getCellValue(rowPara.getCell(i))+"' différente de InfoPARA '" + InfoPARA.paraMap[cval][icol] + "'")
+							Log.addDETAILWARNING("\t$cval : $para, valeur du JDD '"+ExcelUtils.getCellValue(rowPara.getCell(i))+"' différente de InfoPARA '" + InfoPARA.paraMap[cval][icol] + "'")
 						}
 					}
 					icol+=2
@@ -140,10 +141,10 @@ class JDDFileGenerator {
 		Row row = rowIt.next()
 		while(rowIt.hasNext()) {
 			row = rowIt.next()
-			if (tnrCommon.ExcelUtils.getCellValue(row.getCell(0))==para) {
+			if (ExcelUtils.getCellValue(row.getCell(0))==para) {
 				break
 			}
-			if (tnrCommon.ExcelUtils.getCellValue(row.getCell(0))=='CAS_DE_TEST') {
+			if (ExcelUtils.getCellValue(row.getCell(0))=='CAS_DE_TEST') {
 				row=null
 				break
 			}
@@ -185,22 +186,22 @@ class JDDFileGenerator {
 			Map lib = numEcran ? SQL.getLibelle(table, numEcran) : [:]
 
 			Log.addINFO("Renseigner l'onglet Info")
-			Row rowInfo = tnrCommon.ExcelUtils.getNextRow(shJDDInfo)
+			Row rowInfo = ExcelUtils.getNextRow(shJDDInfo)
 
 			def styleFct = shJDDInfo.getRow(0).getCell(0).getCellStyle()
 			def styleTable = shJDDInfo.getRow(0).getCell(1).getCellStyle()
 
-			tnrCommon.ExcelUtils.writeCell(rowInfo,0,fct,styleFct)
-			tnrCommon.ExcelUtils.writeCell(rowInfo,1,table,styleTable)
-			tnrCommon.ExcelUtils.writeCell(rowInfo,2,'',styleTable)
-			tnrCommon.ExcelUtils.writeCell(rowInfo,3,numEcran,styleFct)
-			tnrCommon.ExcelUtils.writeCell(rowInfo,4,'',styleFct)
-			tnrCommon.ExcelUtils.writeCell(rowInfo,5,'',styleFct)
+			ExcelUtils.writeCell(rowInfo,0,fct,styleFct)
+			ExcelUtils.writeCell(rowInfo,1,table,styleTable)
+			ExcelUtils.writeCell(rowInfo,2,'',styleTable)
+			ExcelUtils.writeCell(rowInfo,3,numEcran,styleFct)
+			ExcelUtils.writeCell(rowInfo,4,'',styleFct)
+			ExcelUtils.writeCell(rowInfo,5,'',styleFct)
 			//rowNumInfo++
 
 
 			Log.addINFO("Renseigner l'onglet $fct")
-			tnrCommon.ExcelUtils.writeCell(shFCT.getRow(0),0,table)
+			ExcelUtils.writeCell(shFCT.getRow(0),0,table)
 
 			setStyle(JDDbook,shMODELE)
 
@@ -215,21 +216,21 @@ class JDDFileGenerator {
 				stylePK.setFont(fontPK)
 
 				if (InfoDB.isPK(table,col)) {
-					tnrCommon.ExcelUtils.writeCell(shFCT.getRow(0),numColFct,col,stylePK)
+					ExcelUtils.writeCell(shFCT.getRow(0),numColFct,col,stylePK)
 				}else {
-					tnrCommon.ExcelUtils.writeCell(shFCT.getRow(0),numColFct,col,styleChamp)
+					ExcelUtils.writeCell(shFCT.getRow(0),numColFct,col,styleChamp)
 				}
 
 				for (int i in 1..4) {
-					tnrCommon.ExcelUtils.writeCell(shFCT.getRow(i),numColFct,null,stylePara)
+					ExcelUtils.writeCell(shFCT.getRow(i),numColFct,null,stylePara)
 				}
-				tnrCommon.ExcelUtils.writeCell(shFCT.getRow(5),numColFct,null,styleCdt)
+				ExcelUtils.writeCell(shFCT.getRow(5),numColFct,null,styleCdt)
 				numColFct++
 
 				// Sheet Info
-				rowInfo = tnrCommon.ExcelUtils.getNextRow(shJDDInfo)
-				tnrCommon.ExcelUtils.writeCell(rowInfo,0,col)
-				tnrCommon.ExcelUtils.writeCell(rowInfo,1,lib.getAt(col))
+				rowInfo = ExcelUtils.getNextRow(shJDDInfo)
+				ExcelUtils.writeCell(rowInfo,0,col)
+				ExcelUtils.writeCell(rowInfo,1,lib.getAt(col))
 				String type = ''
 				if (InfoDB.isVarchar(table,col)) {
 					type = InfoDB.getDATA_TYPE(table, col)+'('+InfoDB.getDATA_MAXCHAR(table, col)+')'
@@ -238,9 +239,9 @@ class JDDFileGenerator {
 				}
 
 				if (InfoDB.isPK(table,col)) {
-					tnrCommon.ExcelUtils.writeCell(rowInfo,2,type,stylePK)
+					ExcelUtils.writeCell(rowInfo,2,type,stylePK)
 				}else {
-					tnrCommon.ExcelUtils.writeCell(rowInfo,2,type)
+					ExcelUtils.writeCell(rowInfo,2,type)
 				}
 			}
 
@@ -278,7 +279,7 @@ class JDDFileGenerator {
 
 		Log.addINFO("Ajouter les rubriques IHM")
 
-		List headers = tnrCommon.ExcelUtils.loadRow(shFCT.getRow(0))
+		List headers = ExcelUtils.loadRow(shFCT.getRow(0))
 		String msg
 		for (rub in listRubriquesIHM) {
 			if (rub in headers) {  // si la rub existe déjà
@@ -286,12 +287,12 @@ class JDDFileGenerator {
 			}else {
 				Log.addINFO("\tAjout de $rub")
 				msg="Ajout des rubriques IHM pour l'onglet " + shFCT.getSheetName()
-				int numColFct = tnrCommon.ExcelUtils.getLastColumnIndex(shFCT,0)
-				tnrCommon.ExcelUtils.writeCell(shFCT.getRow(0),numColFct,rub,styleChampIHM)
+				int numColFct = ExcelUtils.getLastColumnIndex(shFCT,0)
+				ExcelUtils.writeCell(shFCT.getRow(0),numColFct,rub,styleChampIHM)
 				for (int i in 1..4) {
-					tnrCommon.ExcelUtils.writeCell(shFCT.getRow(i),numColFct,null,stylePara)
+					ExcelUtils.writeCell(shFCT.getRow(i),numColFct,null,stylePara)
 				}
-				tnrCommon.ExcelUtils.writeCell(shFCT.getRow(5),numColFct,null,styleCdt)
+				ExcelUtils.writeCell(shFCT.getRow(5),numColFct,null,styleCdt)
 			}
 		}
 
@@ -345,7 +346,7 @@ class JDDFileGenerator {
 
 			Log.addINFO("Renseigner l'onglet $fct")
 
-			tnrCommon.ExcelUtils.writeCell(shFCT.getRow(0),0,"CAS DE TEST ($table)")
+			ExcelUtils.writeCell(shFCT.getRow(0),0,"CAS DE TEST ($table)")
 
 			int numColFct = 1
 
@@ -358,9 +359,9 @@ class JDDFileGenerator {
 					fontPK.setColor(IndexedColors.RED.index)
 					fontPK.setBold(true)
 					stylePK.setFont(fontPK)
-					tnrCommon.ExcelUtils.writeCell(shFCT.getRow(0),numColFct,col,stylePK)
+					ExcelUtils.writeCell(shFCT.getRow(0),numColFct,col,stylePK)
 				}else {
-					tnrCommon.ExcelUtils.writeCell(shFCT.getRow(0),numColFct,col,stylePREJDDChamp)
+					ExcelUtils.writeCell(shFCT.getRow(0),numColFct,col,stylePREJDDChamp)
 				}
 				numColFct++
 			}
@@ -394,13 +395,13 @@ class JDDFileGenerator {
 			Sheet shVersion = book.getSheet('Version')
 			Log.addINFO("Renseigner l'onglet Version")
 
-			Row row = tnrCommon.ExcelUtils.getNextRow(shVersion)
+			Row row = ExcelUtils.getNextRow(shVersion)
 
-			tnrCommon.ExcelUtils.writeCell(row,0,new Date().format('dd/MM/yyyy'),cellStyle_date)
-			tnrCommon.ExcelUtils.writeCell(row,1,auteur,thinBlackBorderStyle)
-			tnrCommon.ExcelUtils.writeCell(row,2,msg,thinBlackBorderStyle)
-			tnrCommon.ExcelUtils.writeCell(row,3,edition,thinBlackBorderStyle)
-			tnrCommon.ExcelUtils.writeCell(row,4,version,thinBlackBorderStyle)
+			ExcelUtils.writeCell(row,0,new Date().format('dd/MM/yyyy'),cellStyle_date)
+			ExcelUtils.writeCell(row,1,auteur,thinBlackBorderStyle)
+			ExcelUtils.writeCell(row,2,msg,thinBlackBorderStyle)
+			ExcelUtils.writeCell(row,3,edition,thinBlackBorderStyle)
+			ExcelUtils.writeCell(row,4,version,thinBlackBorderStyle)
 		}
 	}
 

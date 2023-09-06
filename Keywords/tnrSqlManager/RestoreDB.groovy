@@ -9,7 +9,6 @@ import tnrCommon.FileUtils
 import tnrCommon.TNRPropertiesReader
 import tnrLog.Log
 import tnrPREJDDManager.PREJDDFileMapper
-import tnrWebUI.NAV
 
 @CompileStatic
 public class RestoreDB {

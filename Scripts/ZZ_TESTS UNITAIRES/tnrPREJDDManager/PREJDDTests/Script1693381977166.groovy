@@ -1,12 +1,14 @@
+import java.lang.reflect.Method
+
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.Workbook
 
+import tnrCommon.ExcelUtils
 import tnrCommon.Tools
-import tnrPREJDDManager.PREJDD
 import tnrJDDManager.JDDData
 import tnrJDDManager.JDDHeader
 import tnrLog.Log
-import java.lang.reflect.Method
+import tnrPREJDDManager.PREJDD
 
 
 /**
@@ -47,7 +49,7 @@ List listTests2 = [
 	"'AA.BBB.001.LEC.01' - '5'"
 	]
 
-Workbook  book = tnrCommon.ExcelUtils.open('TNR_JDDTest\\PREJDD.AA.BBB.xlsx')
+Workbook  book = ExcelUtils.open('TNR_JDDTest\\PREJDD.AA.BBB.xlsx')
 Sheet sheet = book.getSheet('001')	
 
 JDDHeader myPREJDDheader = new JDDHeader(sheet)

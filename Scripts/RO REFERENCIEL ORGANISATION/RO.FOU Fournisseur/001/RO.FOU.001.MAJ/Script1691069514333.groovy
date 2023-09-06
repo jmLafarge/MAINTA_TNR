@@ -110,8 +110,7 @@ for (String cdt in myJDD.getCDTList()) {
 		
 		def JDD_Note = new JDD(JDDFileMapper.getFullnameFromModObj('RO.FOU'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS)
 		
-		KW.scrollToPosition(0, 0)
-		KW.delay(1)
+		KW.scrollToPositionAndWait(0, 0,1)
 		
 		KW.scrollAndClick(myJDD,"ModifierNote")
 		KW.delay(1)

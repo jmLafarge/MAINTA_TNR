@@ -79,10 +79,10 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	
 		
-		KW.scrollToPosition(0, 0)
-		KW.delay(1)
+		KW.scrollToPositionAndWait(0, 0,1)
 		
 		
+		KW.verifyElementText(new JDD(JDDFileMapper.getFullnameFromModObj('RT.EQU'),'001C',GlobalVariable.CAS_DE_TEST_EN_COURS),"DOC_Notes",)
 		KW.verifyElementText(new JDD(JDDFileMapper.getFullnameFromModObj('RO.FOU'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS),"OL_DOC")
 
 	TNRResult.addEndTestCase()

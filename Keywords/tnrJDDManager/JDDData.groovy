@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet
 
 import groovy.transform.CompileStatic
+import tnrCommon.ExcelUtils
 import tnrLog.Log
 
 
@@ -52,7 +53,7 @@ public class JDDData {
 		// Skips rows until it finds the start data word or an empty string.
 		while (rowIt.hasNext()) {
 			Row row = rowIt.next()
-			String cellValue = tnrCommon.ExcelUtils.getCellValue(row.getCell(0)).toString()
+			String cellValue = ExcelUtils.getCellValue(row.getCell(0)).toString()
 			if (cellValue == startDataWord || startDataWord == '') {
 				Log.addTrace('- break')
 				break
@@ -72,13 +73,13 @@ public class JDDData {
 		// Processes rows to populate datasList.
 		while (rowIt.hasNext()) {
 			Row row = rowIt.next()
-			String cellValue = tnrCommon.ExcelUtils.getCellValue(row.getCell(0)).toString()
+			String cellValue = ExcelUtils.getCellValue(row.getCell(0)).toString()
 			if (cellValue == '') {
 				Log.addTrace('- break')
 				break
 			}
 
-			List<String> rowValues = tnrCommon.ExcelUtils.loadRow(row, headers.size() + 1)
+			List<String> rowValues = ExcelUtils.loadRow(row, headers.size() + 1)
 			Log.addTrace("- rowValues: $rowValues")
 
 			def fieldMap = [:]

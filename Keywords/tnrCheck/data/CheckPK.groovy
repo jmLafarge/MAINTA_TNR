@@ -18,8 +18,8 @@ public class CheckPK {
 
 
 	static private final String CLASS_FOR_LOG = 'CheckPK'
-	
-	
+
+
 
 	static boolean run(List<Map<String, Map<String, Object>>> datasList, List <String> PKList, String JDDFullName, String sheetName) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "run", ['datasList.size()':datasList.size() , PKList:PKList , JDDFullName:JDDFullName , sheetName:sheetName])
@@ -47,7 +47,7 @@ public class CheckPK {
 				}
 			}
 		}else {
-			Log.addDETAILWARNING("$JDDFullName ($sheetName) : Pas de PRIMARY KEY !")
+			Log.addDETAIL("$JDDFullName ($sheetName) : Pas de PRIMARY KEY !")
 		}
 		Log.addTraceEND(CLASS_FOR_LOG, "run",status)
 		return status

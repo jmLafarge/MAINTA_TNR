@@ -40,9 +40,10 @@ class KW {
 
 
 
-	static void scrollToPosition(int x, int y) {
-		TNRResult.addSTEP("Scroll à la position $x , $y")
+	static void scrollToPositionAndWait(int x, int y, Number second = 0) {
+		TNRResult.addSTEP("Scroll à la position $x , $y et attendre $second seconde(s)")
 		WebUI.scrollToPosition(x, y)
+		WebUI.delay(second)
 	}
 
 
@@ -499,14 +500,13 @@ class KW {
 				if (WebUI.waitForElementVisible(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)) {
 					TNRResult.addSTEPPASS("Vérifier que l'élément '${tObj.getObjectId()}' soit visible")
 					ret = true
-				}else if (WebUI.getAttribute(tObj, 'disabled', FailureHandling.STOP_ON_FAILURE)) {
-					TNRResult.addSTEPPASS("Vérifier que l'élément '${tObj.getObjectId()}' soit visible")
-					TNRResult.addDETAIL("Elément 'disabled'")
-					ret = true
-				}else if (WebUI.getAttribute(tObj, 'readonly', FailureHandling.STOP_ON_FAILURE)) {
-					TNRResult.addSTEPPASS("Vérifier que l'élément '${tObj.getObjectId()}' soit visible")
-					TNRResult.addDETAIL("Elément 'readonly'")
-					ret = true
+					if (WebUI.getAttribute(tObj, 'disabled', FailureHandling.STOP_ON_FAILURE)) {
+						TNRResult.addDETAIL("Elément 'disabled'")
+						ret = false
+					}else if (WebUI.getAttribute(tObj, 'readonly', FailureHandling.STOP_ON_FAILURE)) {
+						TNRResult.addDETAIL("Elément 'readonly'")
+						ret = false
+					}
 				}else {
 					TNRResult.addSTEP("Vérifier que l'élément '${tObj.getObjectId()}' soit visible",status)
 					TNRResult.addDETAIL("KO après $timeOut seconde(s)")
@@ -523,6 +523,11 @@ class KW {
 	}
 
 
+	
+	
+	
+	
+	
 
 
 
@@ -534,8 +539,8 @@ class KW {
 			if (JDDKW.isNU(text)) {
 				TNRResult.addSTEP("Pas de vérification pour $name, valeur du JDD = NU")
 			}else {
-				def val = WebUI.getAttribute(tObj, 'value')
-				Log.addTrace('val.getClass() : ' + val.getClass() + '   ' + val)
+				String val = WebUI.getAttribute(tObj, 'value')
+				Log.addTrace("value=$val")
 				if (val==null) {
 					TNRResult.addSTEPERROR("Vérifier que la valeur de '" + name + "', soit '$text'")
 					TNRResult.addDETAIL("L'attribut 'value' n'existe pas !")
@@ -576,18 +581,18 @@ class KW {
 					String myTOXpath = myTO.getXpath()
 					TestObject optionObj = new TestObject("${name}OPTION")
 					optionObj.setSelectorMethod(SelectorMethod.XPATH)
-					optionObj.setSelectorValue(SelectorMethod.XPATH, "$myTOXpath/option[@value='$text']")
+					optionObj.setSelectorValue(SelectorMethod.XPATH, "$myTOXpath//option[@value='$text']")
 					String optionText = WebUI.getText(optionObj)
 					if (optionText==valIV) {
 						TNRResult.addSTEPPASS("Vérifier que la valeur de l'option '$text' de '${tObj.getObjectId()}' soit '$valIV'")
 					}else {
-						TNRResult.addSTEP("Vérifier que la valeur de l'option '$text' de '${tObj.getObjectId()}' soit '$valIV' KO", status)
+						TNRResult.addSTEP("Vérifier que la valeur de l'option '$text' de '${tObj.getObjectId()}' soit '$valIV'", status)
 						TNRResult.addDETAIL("La valeur de l'option est '$optionText'")
 						WebUI.verifyOptionSelectedByLabel(null, CLASS_FOR_LOG, false, 0)
 					}
 				}
 			}else{
-				TNRResult.addSTEP("Vérifier que l'option '$text' de '${tObj.getObjectId()}' soit sélectionnée KO", status)
+				TNRResult.addSTEP("Vérifier que l'option '$text' de '${tObj.getObjectId()}' soit sélectionnée", status)
 			}
 		}else {
 			TNRResult.addSTEPERROR("Vérifier que l'option '$text' de '$name' soit sélectionnée")
@@ -598,8 +603,8 @@ class KW {
 
 	
 	
-	static void verifyOptionSelectedByLabel(JDD myJDD, String name, String text=null, boolean isRegex = false, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyOptionSelectedByValue", [myJDD: myJDD.toString(), name: name , text:text , isRegex:isRegex , timeOut:timeOut , status:status])
+	private static void verifyOptionSelectedByLabel(JDD myJDD, String name, String text=null, boolean isRegex = false, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyOptionSelectedByLabel", [myJDD: myJDD.toString(), name: name , text:text , isRegex:isRegex , timeOut:timeOut , status:status])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (tObj) {
 			if (text==null) text = myJDD.getStrData(name)
@@ -612,7 +617,7 @@ class KW {
 			TNRResult.addSTEPERROR("Vérifier que l'option '$text' de '$name' soit sélectionnée")
 			TNRResult.addDETAIL(msgTO)
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "verifyOptionSelectedByValue")
+		Log.addTraceEND(CLASS_FOR_LOG, "verifyOptionSelectedByLabel")
 	}
 	
 
@@ -624,9 +629,12 @@ class KW {
 	static void scrollAndClick(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "scrollAndClick", [myJDD: myJDD.toString(), name: name , timeOut:timeOut , status:status])
 		scrollToElement(myJDD, name, timeOut,status)
-		delay(1)
-		waitForElementVisible(myJDD, name, timeOut,status)
-		click(myJDD, name,status)
+		//delay(1)
+		if (waitForElementVisible(myJDD, name, timeOut,status)) {
+			click(myJDD, name,status)
+		}else {
+			TNRResult.addDETAIL("Clic sur '$name' imposible")
+		}
 		Log.addTraceEND(CLASS_FOR_LOG, "scrollAndClick")
 	}
 
@@ -637,9 +645,12 @@ class KW {
 
 	static void scrollAndDoubleClick(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		scrollToElement(myJDD, name, timeOut,status)
-		delay(1)
-		waitForElementVisible(myJDD, name, timeOut,status)
-		doubleClick(myJDD, name,status)
+		//delay(1)
+		if (waitForElementVisible(myJDD, name, timeOut,status)) {
+			doubleClick(myJDD, name,status)
+		}else {
+			TNRResult.addDETAIL("Double click sur '$name' imposible")
+		}
 	}
 
 
@@ -733,10 +744,13 @@ class KW {
 		if (tnrJDDManager.JDDKW.isNULL(text) || tnrJDDManager.JDDKW.isNU(text)) {
 			Log.addINFO('Pas de traitement')
 		}else {
-			if (tnrJDDManager.JDDKW.isVIDE(text)) text=''
+			if (tnrJDDManager.JDDKW.isVIDE(text)) {
+				text=''
+			}
 			scrollToElement(myJDD, name, timeOut, status)
-			waitForElementVisible(myJDD, name, timeOut, status)
-			setText(myJDD, name, text, status)
+			if (waitForElementVisible(myJDD, name, timeOut, status)) {
+				setText(myJDD, name, text, status)
+			}
 		}
 	}
 
@@ -997,46 +1011,74 @@ class KW {
 	}
 
 
+	
+	private static String deleteText(TestObject tObj) {
+		
+		String msg =null
+		try {
+			WebUI.setText(tObj, '', FailureHandling.STOP_ON_FAILURE)
+			Log.addTrace("Effacement du texte sur l'object '${tObj.getObjectId()}'")
+		} catch (Exception ex) {
+			msg = "Effacement du texte : " + ex.getMessage()
+		}
+		return msg
+	}
 
 
+	private static runSearchWithHelper(JDD myJDD, String name , String btnXpath = '' , String inputSearchName = '', int index_td=3 ){
 
-	static void searchWithHelper(JDD myJDD, String name , String btnXpath = '' , String inputSearchName = '' ){
+		String val = myJDD.getStrData(name)
+		if (btnXpath=='') {
+			btnXpath = "//a[@id='Btn$name']/i"
+		}
+		if (inputSearchName=='') {
+			inputSearchName = "SEARCH_$name"
+		}
+		String inputXpath 	= "//input[@name='$inputSearchName']"
+		String tdXpath 		= "//div[@id='v-dbtdhtmlx1']/table/tbody/tr[2]/td[$index_td][text()='$val']"
+		myJDD.myJDDXpath.add(['btnSearch':btnXpath , 'inputSearch':inputXpath , 'tdSearch':tdXpath])
+		scrollAndClick(myJDD,'btnSearch')
+		WebUI.switchToWindowIndex('1')
+		if (waitForElementVisible(myJDD, 'inputSearch')) {
+			setText(myJDD,'inputSearch', myJDD.getStrData(name))
+			'mise à jour dynamique du xpath'
+			scrollWaitAndVerifyElementText(myJDD,'tdSearch', myJDD.getStrData(name))
+			click(myJDD,'tdSearch')
+		}else {
+			TNRResult.addDETAIL("Fermeture de la fenêtre")
+			WebUI.closeWindowIndex('1')
+		}
+		WebUI.switchToWindowIndex('0')
+	}
+	
+
+	static void searchWithHelper(JDD myJDD, String name , String btnXpath = '' , String inputSearchName = '', int index_td=3 ){
 
 		String val = myJDD.getStrData(name)
 
 		if (JDDKW.isNULL(val) || JDDKW.isNU(val)) {
-
 			TNRResult.addSTEP("Pas de recherche pour $name, valeur du JDD = $val")
 		}else {
-
 			TNRResult.addSUBSTEP("Saisie de $name en utilisant l'assistant de recherche")
-
-			if (btnXpath=='') {
-				btnXpath = "//a[@id='Btn$name']/i"
+			scrollToElement(myJDD, name)
+			if (waitForElementVisible(myJDD, name)) {
+				TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
+				String value = WebUI.getAttribute(tObj, 'value')
+				if (value==val){
+					TNRResult.addDETAIL("La valeur est déjà saisie, pas de modification.")
+				}else {
+					String msg = deleteText(tObj)
+					if (msg) {
+						TNRResult.addSTEP("Saisie de $name en utilisant l'assistant de recherche",'FAIL')
+						TNRResult.addDETAIL(msg)
+					}else {
+						runSearchWithHelper(myJDD, name , btnXpath , inputSearchName , index_td)
+					}
+				}
 			}
-
-			if (inputSearchName=='') inputSearchName = "SEARCH_$name"
-
-
-
-			String inputXpath 	= "//input[@name='$inputSearchName']"
-			String tdXpath 		= "//div[@id='v-dbtdhtmlx1']/table/tbody//td[3][text()='$val']"
-
-
-			myJDD.myJDDXpath.add(['btnSearch':btnXpath , 'inputSearch':inputXpath , 'tdSearch':tdXpath])
-
-			scrollAndClick(myJDD,'btnSearch')
-
-			WebUI.switchToWindowIndex('1')
-
-			setText(myJDD,'inputSearch', myJDD.getStrData(name))
-
-			'mise à jour dynamique du xpath'
-			scrollWaitAndVerifyElementText(myJDD,'tdSearch', myJDD.getStrData(name))
-
-			click(myJDD,'tdSearch')
-
-			WebUI.switchToWindowIndex('0')
 		}
 	}
+	
+	
+	
 } // Fin de class

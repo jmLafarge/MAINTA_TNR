@@ -5,11 +5,12 @@ import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.transform.CompileStatic
-import tnrLog.Log
-import tnrSqlManager.SQL
+import tnrCommon.ExcelUtils
 import tnrJDDManager.JDD
 import tnrJDDManager.JDDFileMapper
 import tnrJDDManager.JDDKW
+import tnrLog.Log
+import tnrSqlManager.SQL
 
 
 @CompileStatic
@@ -25,9 +26,10 @@ public class PREJDD {
 
 	static boolean checkPREJDD(Map map){
 
+		status = true
 		PREJDDFullName = PREJDDFileMapper.getFullnameFromModObj(map.getAt('PREJDDMODOBJ').toString())
 
-		XSSFWorkbook book = tnrCommon.ExcelUtils.open(PREJDDFullName)
+		XSSFWorkbook book = ExcelUtils.open(PREJDDFullName)
 
 		Sheet sheet = book.getSheet(map.getAt('PREJDDTAB').toString())
 
@@ -58,7 +60,7 @@ public class PREJDD {
 					savJDDNAME = map.getAt('JDDNAME').toString()
 				}
 
-				
+
 				String cdt = cdtVal.toString().split("'")[1]
 				String val = cdtVal.toString().split("'")[3]
 				String JDDFullName= JDDFileMapper.getFullnameFromModObj(map.getAt('PREJDDMODOBJ').toString())
@@ -67,7 +69,7 @@ public class PREJDD {
 				// vérifier si la valeur n'est  pas déjà en BDD
 				int cpt = SQL.checkIfExist(myJDD.getDBTableName(), map.getAt('JDDID').toString()+"='$val'")
 
-				
+
 				if (cpt==1) {
 					Log.addDEBUGDETAIL(cdtVal.toString()+' trouvé en BDD')
 				}else {
@@ -101,7 +103,7 @@ public class PREJDD {
 
 		List list = []
 		if (sheet) {
-			int idxID  = tnrCommon.ExcelUtils.getColumnIndexOfColumnName(sheet, ID)
+			int idxID  = ExcelUtils.getColumnIndexOfColumnName(sheet, ID)
 
 			if (idxID!=-1) {
 
@@ -110,12 +112,12 @@ public class PREJDD {
 					Row row = sheet.getRow(numLine)
 
 					// exit if lastRow of param
-					if (!row || tnrCommon.ExcelUtils.getCellValue(row.getCell(0))=='') {
+					if (!row || ExcelUtils.getCellValue(row.getCell(0))=='') {
 						break
 					}
 
-					String casDeTest = tnrCommon.ExcelUtils.getCellValue(row.getCell(0))
-					String IDvalue = tnrCommon.ExcelUtils.getCellValue(row.getCell(idxID))
+					String casDeTest = ExcelUtils.getCellValue(row.getCell(0))
+					String IDvalue = ExcelUtils.getCellValue(row.getCell(idxID))
 
 					if (!JDDKW.isAllowedKeyword(IDvalue)) {
 

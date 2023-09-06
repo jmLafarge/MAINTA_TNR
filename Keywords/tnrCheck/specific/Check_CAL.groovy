@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import groovy.transform.CompileStatic
+import tnrCommon.ExcelUtils
 import tnrLog.Log
 import tnrPREJDDManager.PREJDDFileMapper
 
@@ -23,7 +24,7 @@ public class Check_CAL {
 
 		Log.addSubTITLE('Vérification spécifique de CAL/CALDEF')
 
-		XSSFWorkbook book = tnrCommon.ExcelUtils.open(PREJDDFileMapper.PREJDDfilemap['RO.CAL'])
+		XSSFWorkbook book = ExcelUtils.open(PREJDDFileMapper.PREJDDfilemap['RO.CAL'])
 
 		Sheet shCAL = book.getSheet('001')
 		Sheet shCALDEF = book.getSheet('001A')
@@ -56,10 +57,10 @@ public class Check_CAL {
 		Log.addTrace("Chargement de CAL")
 		while(rowIt.hasNext()) {
 			row = rowIt.next()
-			if (tnrCommon.ExcelUtils.getCellValue(row.getCell(0)) == '') {
+			if (ExcelUtils.getCellValue(row.getCell(0)) == '') {
 				break
 			}
-			listCAL.add(tnrCommon.ExcelUtils.getCellValue(row.getCell(0)).toString()+ ' - ' + tnrCommon.ExcelUtils.getCellValue(row.getCell(1)))
+			listCAL.add(ExcelUtils.getCellValue(row.getCell(0)).toString()+ ' - ' + ExcelUtils.getCellValue(row.getCell(1)))
 		}
 		Log.addTraceEND(CLASS_FOR_LOG,"loadListCAL")
 	}
@@ -73,10 +74,10 @@ public class Check_CAL {
 		Log.addTrace("Chargement de CALDEF")
 		while(rowIt.hasNext()) {
 			row = rowIt.next()
-			if (tnrCommon.ExcelUtils.getCellValue(row.getCell(0)) == '') {
+			if (ExcelUtils.getCellValue(row.getCell(0)) == '') {
 				break
 			}
-			listCALDEF.add(tnrCommon.ExcelUtils.getCellValue(row.getCell(0)).toString() + ' - ' + tnrCommon.ExcelUtils.getCellValue(row.getCell(1))+ ' - ' + tnrCommon.ExcelUtils.getCellValue(row.getCell(5)))
+			listCALDEF.add(ExcelUtils.getCellValue(row.getCell(0)).toString() + ' - ' + ExcelUtils.getCellValue(row.getCell(1))+ ' - ' + ExcelUtils.getCellValue(row.getCell(5)))
 		}
 		Log.addTraceEND(CLASS_FOR_LOG,"loadListCALDEF")
 	}

@@ -3,9 +3,9 @@ package tnrResultManager
 
 import groovy.transform.CompileStatic
 import internal.GlobalVariable
+import tnrCommon.Tools
 import tnrLog.Log
 import tnrTC.TCFileMapper
-import tnrCommon.Tools
 
 @CompileStatic
 public class TNRResult {
@@ -189,7 +189,7 @@ public class TNRResult {
 	}
 
 
-
+	
 	public static addBrowserInfo() {
 
 		String browserName = Tools.getBrowserName()
