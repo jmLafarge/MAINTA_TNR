@@ -9,6 +9,7 @@
  * 
  * 
  
+ 
   MAJ si la valuer à l'écran = à la valeur a saisir, pas de siaise --> vérifier 
   	scrollAndSetText
   	setDate --> y  a pas de scroll ?
