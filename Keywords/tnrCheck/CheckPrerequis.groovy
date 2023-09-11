@@ -147,35 +147,40 @@ public class CheckPrerequis {
 				myJDD.loadTCSheet(sheet)
 				String PRInThisSheet =''
 				myJDD.myJDDParam.getAllPREREQUIS().each { name,value ->
-					if (!(value in ['', 'OBSOLETE'])) {
-						PRInThisSheet = PRInThisSheet + name+','
-						Log.addTrace('\tname = ' + name)
-						Log.addTrace('\tvalue = ' + value)
-						Map prerequisMap = [:]
-						prerequisMap.putAt('PREJDDMODOBJ',value.split(/\*/)[0])
-						prerequisMap.putAt('PREJDDTAB',value.split(/\*/)[1])
-						prerequisMap.putAt('PREJDDID',value.split(/\*/)[2])
-						prerequisMap.putAt('JDDNAME',fullName)
-						prerequisMap.putAt('JDDID',name)
-						if (type=='JDD') {
-							prerequisMap.putAt('LISTCDTVAL',getListCDTVAL(myJDD.myJDDData.getList(),myJDD.getDBTableName(),name))
-						}else if (type == 'PREJDD'){
-							Sheet PREJDDsheet = PREJDDBook.getSheet(sheet.getSheetName())
-							if (PREJDDsheet) {
-								JDDHeader PREJDDheader = new JDDHeader(PREJDDsheet)
-								JDDData PREJDDData = new JDDData(PREJDDsheet,PREJDDheader.getList(),'')
-								prerequisMap.putAt('LISTCDTVAL',getListCDTVAL(PREJDDData.getList(),myJDD.getDBTableName(),name))
+					if (!(value in ['', 'OBSOLETE', 'CALCULEE'])) {
+						if (value ==~ /.*\*.{3,}\*.{3,}.*/) {
+							PRInThisSheet = PRInThisSheet + name+','
+							Log.addTrace('\tname = ' + name)
+							Log.addTrace('\tvalue = ' + value)
+							Map prerequisMap = [:]
+							prerequisMap.putAt('PREJDDMODOBJ',value.split(/\*/)[0])
+							prerequisMap.putAt('PREJDDTAB',value.split(/\*/)[1])
+							prerequisMap.putAt('PREJDDID',value.split(/\*/)[2])
+							prerequisMap.putAt('JDDNAME',fullName)
+							prerequisMap.putAt('JDDID',name)
+							if (type=='JDD') {
+								prerequisMap.putAt('LISTCDTVAL',getListCDTVAL(myJDD.myJDDData.getList(),myJDD.getDBTableName(),name))
+							}else if (type == 'PREJDD'){
+								Sheet PREJDDsheet = PREJDDBook.getSheet(sheet.getSheetName())
+								if (PREJDDsheet) {
+									JDDHeader PREJDDheader = new JDDHeader(PREJDDsheet)
+									JDDData PREJDDData = new JDDData(PREJDDsheet,PREJDDheader.getList(),'')
+									prerequisMap.putAt('LISTCDTVAL',getListCDTVAL(PREJDDData.getList(),myJDD.getDBTableName(),name))
+								}else {
+									Log.addTrace('le sheet '+sheet.getSheetName() + " n'existe pas dans ce PREJDD")
+								}
 							}else {
-								Log.addTrace('le sheet '+sheet.getSheetName() + " n'existe pas dans ce PREJDD")
+								Log.addERROR("Type '$type' non connu !")
 							}
+							Log.addTrace('\tPrerequisMap : ')
+							prerequisMap.each { key,val ->
+								Log.addTrace('\t\t'+key + ' : ' +val)
+							}
+							list.add(prerequisMap)
 						}else {
-							Log.addERROR("Type '$type' non connu !")
+							Log.addERROR("$fullName(${sheet.getSheetName()}) paramètre PREREQUIS pour '$name'")
+							Log.addDETAIL("La valeur '$value' n'est pas autorisée !")
 						}
-						Log.addTrace('\tPrerequisMap : ')
-						prerequisMap.each { key,val ->
-							Log.addTrace('\t\t'+key + ' : ' +val)
-						}
-						list.add(prerequisMap)
 					}
 				}
 				//}

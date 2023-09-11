@@ -17,12 +17,12 @@ public class RestoreDB {
 
 	private static final String DBBACKUP_PATH 			= TNRPropertiesReader.getMyProperty('DB_BACKUP_PATH')
 	private static final String MASTERTNR_DBBACKUPPATH 	= TNRPropertiesReader.getMyProperty('MASTERTNR_DBBACKUPPATH')
-	
 
-	
+
+
 	static run(boolean forceFull, boolean withPREJDD) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"run",[forceFull:forceFull , withPREJDD:withPREJDD])
-		
+
 		Log.addTITLE("Restauration de la base de données")
 
 		List <String > backupFileList = FileUtils.getFilesFromFolder('^\\d{8}_\\d{6}-' + SQL.getProfileName() +'_' + SQL.getDatabaseName() + '.*\\.bak$',DBBACKUP_PATH)
@@ -31,7 +31,6 @@ public class RestoreDB {
 			String TNRBackupFilename = backupFileList[0]
 			String destFullname = restoreTNRDB(TNRBackupFilename)
 			deleteFileFromTNRFolder(destFullname)
-			
 		}else {
 			if (forceFull) {
 				Log.addDETAIL(' /!\\ Forcage restauration complete')
@@ -68,8 +67,8 @@ public class RestoreDB {
 		FileUtils.deleteFilesFromFolder('^\\d{8}_\\d{6}-.*\\.bak$',DBBACKUP_PATH)
 		Log.addTraceEND(CLASS_FOR_LOG,"deleteFilesFromBackupFolder")
 	}
-	
-		
+
+
 	private static String saveMasterDB() {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"saveMasterDB",[:])
 		Log.addDETAIL("Sauvegarde de la BDD MASTER_TNR")
@@ -79,7 +78,7 @@ public class RestoreDB {
 		Log.addTraceEND(CLASS_FOR_LOG,"saveMasterDB", backupFilename)
 		return backupFilename
 	}
-	
+
 	private static void moveMasterBackupFileToBackupFolder(String masterBackupFilename) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"moveMasterBackupFileToBackupFolder",[masterBackupFilename:masterBackupFilename])
 		Log.addDETAIL("Déplace le fichier de backup dans le dossier du projet")
@@ -90,9 +89,9 @@ public class RestoreDB {
 		Files.move(Paths.get(originFullname), Paths.get(destFullname), StandardCopyOption.REPLACE_EXISTING)
 		Log.addTraceEND(CLASS_FOR_LOG,"moveMasterBackupFileToBackupFolder")
 	}
-	
-	
-	
+
+
+
 	private static String copyBackupFileToTNRFolder(String backupFilename) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"copyBackupFileToTNRFolder",[backupFilename:backupFilename])
 		Log.addDETAIL("Copie du fichier de backup du projet sur le server de TNR")
@@ -104,8 +103,8 @@ public class RestoreDB {
 		Log.addTraceEND(CLASS_FOR_LOG,"copyBackupFileToTNRFolder",destFullname)
 		return destFullname
 	}
-	
-	
+
+
 	private static String restoreTNRDB(String backupFilename) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"restoreTNRDB",[backupFilename:backupFilename])
 		Log.addDETAIL("Restaure la BDD TNR")
@@ -116,15 +115,15 @@ public class RestoreDB {
 		Log.addTraceEND(CLASS_FOR_LOG,"restoreTNRDB",destFullname)
 		return destFullname
 	}
-	
+
 	private static void deleteFileFromTNRFolder(String destFullname) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"deleteFileFromTNRFolder",[destFullname:destFullname])
 		Log.addDETAIL("Supprime le fichier de backup")
 		FileUtils.deleteFilesFromFolder(destFullname)
 		Log.addTraceEND(CLASS_FOR_LOG,"deleteFileFromTNRFolder")
 	}
-	
-	
+
+
 	private static void createPREJDD() {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"createPREJDD",[:])
 		Log.addDETAIL("Création des PREJDD")
@@ -133,7 +132,7 @@ public class RestoreDB {
 		SQL.close()
 		Log.addTraceEND(CLASS_FOR_LOG,"createPREJDD")
 	}
-	
+
 	private static String saveTNRDB() {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"saveTNRDB",[:])
 		Log.addDETAIL("Sauvegarde de la BDD TNR avec les PREJDD")
@@ -154,5 +153,4 @@ public class RestoreDB {
 		Files.move(Paths.get(originFullname), Paths.get(destFullname), StandardCopyOption.REPLACE_EXISTING)
 		Log.addTraceEND(CLASS_FOR_LOG,"moveTNRBackupFileToBackupFolder")
 	}
-	
 }

@@ -35,7 +35,7 @@ for (String cdt in myJDD.getCDTList()) {
 		KW.verifyValue(myJDD, "ST_DESEQU")
 		KW.verifyValue(myJDD, "ST_CODLON")
 		KW.verifyOptionSelectedByValue(myJDD, "ST_ETA")
-		KW.verifyOptionSelectedByValue(myJDD, "NU_CRI")
+		KW.verifyOptionSelectedByLabel(myJDD, "NU_CRI")
 		KW.verifyElementCheckedOrNot(myJDD, "ST_NIVABS", "O")
 		KW.verifyValue(myJDD, "ID_CODGES")
 		KW.verifyValue(myJDD, "ST_DESGES")
@@ -87,8 +87,14 @@ for (String cdt in myJDD.getCDTList()) {
 		
 		KW.scrollToPositionAndWait(0, 0,1)
 		
+		JDD myJDDnote = new JDD(JDDFileMapper.getFullnameFromModObj('RT.EQU'),'001C',GlobalVariable.CAS_DE_TEST_EN_COURS)
 		
-		KW.verifyElementText(new JDD(JDDFileMapper.getFullnameFromModObj('RT.EQU'),'001C',GlobalVariable.CAS_DE_TEST_EN_COURS),"OL_DOC")
+		String notes = myJDDnote.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC1'))
+		String consignes = myJDDnote.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC2'))
+		
+		KW.verifyElementText(myJDDnote,"DOC_Notes",notes)
+		KW.verifyElementText(myJDDnote,"DOC_Consignes",consignes)
+
 		
 		
 	TNRResult.addSTEPGRP("ONGLET ADRESSE")

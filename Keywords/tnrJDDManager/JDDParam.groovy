@@ -44,7 +44,7 @@ public class JDDParam {
 			}
 			if (isParamAllowed(param)) {
 				List paramLine = ExcelUtils.loadRow(row,JDDHeader.getSize()+1)
-				println "paramLine : $paramLine"
+				Log.addTrace("paramLine : $paramLine")
 				def innerMap = [:]
 				JDDHeader.list.eachWithIndex { header, index ->
 					innerMap[header] = paramLine[index + 1]
@@ -197,6 +197,35 @@ public class JDDParam {
 		return paramsMap.size()
 	}
 	
+	
+
+	/**
+	 * Vérifie si une valeur est une clé étrangère.
+	 *
+	 * @param name Le nom de la valeur à vérifier.
+	 * @return True si la valeur est une clé étrangère, false sinon.
+	 */
+	public boolean isFK(String name) {
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"isFK",[name:name])
+		boolean result = getFOREIGNKEYFor(name)!=''
+		Log.addTraceEND(CLASS_FOR_LOG,"isFK",result)
+		return result
+	}
+	
+	
+	/**
+	 * Vérifie si une valeur est obsolète.
+	 *
+	 * @param name Le nom de la valeur à vérifier.
+	 * @return True si la valeur est obsolète, false sinon.
+	 */
+	public boolean isOBSOLETE(String name) {
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"isOBSOLETE",[name:name])
+		String ret = getPREREQUISFor(name)
+		boolean result = ret ? ret == 'OBSOLETE' : false
+		Log.addTraceEND(CLASS_FOR_LOG,"isOBSOLETE",result)
+		return result
+	}
 	
 	
 

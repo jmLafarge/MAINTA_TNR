@@ -17,13 +17,14 @@ for (String cdt in myJDD.getCDTList()) {
     NAV.goToURL_Grille_and_checkCartridge()
 	
 	'Filtrer la valeur dans la grille'
-    KW.scrollAndSetText(myJDD,'input_Filtre_Grille', myJDD.getStrData())
+    KW.scrollAndSetText(myJDD,'input_Filtre_Grille', myJDD.getStrData('ST_CODCOU'))
 
-	'Attendre que le nombre de record = 1'
-	KW.waitForElementVisible(NAV.myGlobalJDD,'nbrecordsGRID_1')
+	KW.scrollAndClick(myJDD,'button_Selectionner')
+
+	KW.delay(1)
 	
 	'Vérifier que la valeur soit dans la grille filtrée'
-	KW.verifyElementText(myJDD,'td_Grille', myJDD.getStrData())
+	KW.verifyElementText(myJDD,'td_Grille', myJDD.getStrData('ST_CODCOU'))
 
 	
 	TNRResult.addEndTestCase()

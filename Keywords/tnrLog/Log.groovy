@@ -127,8 +127,6 @@ class Log {
 			logDate = new Date()
 			String h = logDate.format(dateTimeFormat)
 			file.append("[$h][$stat]:" +"$msg\n")
-			//println "[my Log][$stat]:" +"$msg"
-			//fileDebug.append("[$h][$stat]:" +"$msg\n")
 			fileDebug.append("[$h][$stat]:" + PREDEBUGTXT + tab +"$msg\n")
 		}
 	}
@@ -148,7 +146,6 @@ class Log {
 			String stat= getStatusFormat(" D$lev ")
 			String h = new Date().format(dateTimeFormat)
 			fileDebug.append("[$h][$stat]:" + PREDEBUGTXT + tab +"$msg\n")
-			println "[my Log][$stat]:" + tab +"$msg"
 		}
 	}
 

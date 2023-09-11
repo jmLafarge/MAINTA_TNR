@@ -40,10 +40,10 @@ myJDD.addColumn('TITI')
 
 
 /*
-println myJDD.isOBSOLETE('ID_CODSIT')
-println myJDD.isOBSOLETE('ID_CODART')
-println myJDD.isOBSOLETE('ID_CODGES')
-println myJDD.isOBSOLETE('DJKD')
+println myJDD.myJDDParam.isOBSOLETE('ID_CODSIT')
+println myJDD.myJDDParam.isOBSOLETE('ID_CODART')
+println myJDD.myJDDParam.isOBSOLETE('ID_CODGES')
+println myJDD.myJDDParam.isOBSOLETE('DJKD')
 */
 
 

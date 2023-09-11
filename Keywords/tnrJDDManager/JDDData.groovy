@@ -6,6 +6,7 @@ import org.apache.poi.ss.usermodel.Sheet
 
 import groovy.transform.CompileStatic
 import tnrCommon.ExcelUtils
+import tnrCommon.Tools
 import tnrLog.Log
 
 
@@ -95,7 +96,7 @@ public class JDDData {
 	}
 
 
-	
+
 	/**
 	 * Obtient la valeur brute d'un champ
 	 * 
@@ -119,7 +120,7 @@ public class JDDData {
 		return ret
 	}
 
-	
+
 
 	/**
 	 * Récupère tous les cas de test (cdts) commençant par la chaine donnée, sans doublons.
@@ -134,12 +135,12 @@ public class JDDData {
 		Log.addTraceEND(CLASS_FOR_LOG, "getCdtsStartsWithStrWithoutDuplicates" , ret)
 		return ret
 	}
-	
-	
-	
 
-	
-	
+
+
+
+
+
 	/**
 	 * Concatène les cdts et les valeurs de certains champs de chaque ligne de données.
 	 * 
@@ -171,7 +172,7 @@ public class JDDData {
 	}
 
 
-	
+
 	/**
 	 * Obtient le nombre de lignes pour un cas de test donné (cdt).
 	 * 
@@ -215,6 +216,20 @@ public class JDDData {
 			matchingCdtList[cdtnum - 1][cdt][name] = value
 		}
 		Log.addTraceEND(CLASS_FOR_LOG, "setValueOf" )
+	}
+	
+	
+	
+	
+	public String getValueOf(String name,String cdt,String whereName, def value) {
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "getValueOf", [name:name , cdt:cdt , whereName:whereName , value:value])
+		String ret = null
+		def resultat = datasList.find { it.containsKey(cdt) && it[cdt]?.get(whereName) == value }
+		if (resultat) {
+			 ret= resultat[cdt]?.get(name)
+		}
+		Log.addTraceEND(CLASS_FOR_LOG, "getValueOf",ret)
+		return ret
 	}
 
 

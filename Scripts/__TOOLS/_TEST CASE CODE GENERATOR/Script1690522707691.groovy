@@ -11,7 +11,7 @@ import tnrSqlManager.InfoDB
 // Enregistrer la page html dans C:\Users\A1008045\Documents\IHM
 // Mettre à jour la liste
 
-String testPour ='Equipement'
+String testPour ='Matricule'
 
 Map map = [
 	'Acteur'	: ['RO.ACT','001','Acteur_fichiers//FormE21.htm'],
@@ -89,7 +89,7 @@ aTags.each { tag ->
 
 // Afficher les résultats
 tagsWithAttributes.each { attribute ->
-	println(attribute)
+	Log.addDEBUG(attribute.toString())
 }
 
 

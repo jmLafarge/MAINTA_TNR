@@ -31,13 +31,14 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.scrollAndSetText(myJDD, "ST_NUMINV")
 			KW.scrollAndCheckIfNeeded(myJDD, "ST_INA", "O")
 			KW.scrollAndSetText(myJDD, "ST_DES")
+			KW.scrollAndSelectOptionByLabel(myJDD, "ST_ETA")
 			KW.scrollAndSelectOptionByLabel(myJDD, "NU_TYP")
 			KW.scrollAndSetText(myJDD, "NU_PRISTO")
 			KW.searchWithHelper(myJDD, "ID_CODART","","")
 			KW.searchWithHelper(myJDD, "ID_CODMOY","","")
 			KW.searchWithHelper(myJDD, "ID_CODGES","","")
 			
-			KW.searchWithHelper(myJDD, "ID_NUMCRI","","SEARCH_ST_DES",4)
+			KW.searchWithHelper(myJDD, "ID_NUMCRI")
 			
 			KW.searchWithHelper(myJDD, "ID_CODIMP","","")
 			KW.scrollAndSetText(myJDD, "ID_NUMGRO")
@@ -56,11 +57,11 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.scrollAndSetText(myJDD, "ST_REFFOU")
 			KW.searchWithHelper(myJDD, "ID_CODCONSTR","","SEARCH_ID_CODFOU")
 			KW.scrollAndSetText(myJDD, "ST_REFCON")
-			KW.setDate(myJDD, "DT_ACH")
-			KW.setDate(myJDD, "DT_FAC")
+			KW.scrollAndSetDate(myJDD, "DT_ACH")
+			KW.scrollAndSetDate(myJDD, "DT_FAC")
 			KW.scrollAndSetText(myJDD, "NU_PRIACH")
-			KW.setDate(myJDD, "DT_FINGAR")
-			KW.setDate(myJDD, "DT_FINVIE")
+			KW.scrollAndSetDate(myJDD, "DT_FINGAR")
+			KW.scrollAndSetDate(myJDD, "DT_FINVIE")
 			KW.scrollAndSetText(myJDD, "NU_PRIACT")
 			KW.scrollAndSetText(myJDD, "NU_USAGAR")
 			KW.scrollAndSetText(myJDD, "NU_FINUSA")
@@ -90,13 +91,14 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.scrollAndClick(myJDD, "tab_Etat")
 			KW.waitForElementVisible(myJDD, "tab_EtatSelected")
 			
+			KW.scrollAndSetRadio(myJDD, "ST_POS")
+			
 			KW.scrollAndSetText(myJDD, "ID_NUMEMP")
 			KW.searchWithHelper(myJDD, "ID_CODMAG","","")
 			KW.searchWithHelper(myJDD, "ID_CODFOU","","")
 			KW.scrollAndSetText(myJDD, "DT_DEP")
 			KW.scrollAndSetText(myJDD, "DT_RET")
-			//KW.scrollAndCheckIfNeeded(myJDD, "NUMMAT2NUMAUTO", "O")
-			//KW.scrollAndCheckIfNeeded(myJDD, "DISABLE_RECTIFSTO", "O")
+
 
 	  
 

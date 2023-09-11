@@ -25,12 +25,13 @@ for (String cdt in myJDD.getCDTList()) {
 	'Suppression'
 	for ( n in 1..3) {
 		TNRResult.addSUBSTEP("Tentative de suppression $n/3" )
-		KW.scrollAndClick(NAV.myGlobalJDD,'button_Supprimer')
-		if (KW.waitAndAcceptAlert(GlobalVariable.TIMEOUT,null)) {
-			KW.delay(1)
-			'Vérification du test case - écran'
-			NAV.verifierEcranGrille()
-			break
+		if (KW.scrollAndClick(NAV.myGlobalJDD,'button_Supprimer')) {
+			if (KW.waitAndAcceptAlert(GlobalVariable.TIMEOUT,null)) {
+				KW.delay(1)
+				'Vérification du test case - écran'
+				NAV.verifierEcranGrille()
+				break
+			}
 		}
 	}
 	

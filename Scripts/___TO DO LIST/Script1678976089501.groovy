@@ -8,19 +8,16 @@
  * -----------------------------------------------------------------------------------------------------
  * 
  * 
- 
- 
-  MAJ si la valuer à l'écran = à la valeur a saisir, pas de siaise --> vérifier 
-  	scrollAndSetText
-  	setDate --> y  a pas de scroll ?
-  
-  continuer 
-		RT.MAT.001.LEC.01 --> Vérifier que la valeur de 'ID_NUMCRI', soit 'CRITICITE01' 	KO  !
-		RT.MAT.001.MAJ.01
 
-  faire les notes de EQU LEC
+revoir selectOptionByValue et selectOptionByLabel 
+	le test objet doit faire reférence au select, pas à l'option
+	WebUI.selectOptionByValue(ObjSelect, 'valeur de l'attribut value' --> IV
+	WebUI.selectOptionByLabel(ObjSelect, 'valeur du texte visible'
+	
+	
+  terminer EQU MAJ
 
-  mettre isOBSOLETE et autre dans JDDParam ? comme isCALCULEE
+ 
 
  * 
  * -----------------------------------------------------------------------------------------------------
@@ -187,9 +184,6 @@
 		 Remplacer les GlobalVariable.CAS_DE_TEST_EN_COURS  et GlobalVariable.CAS_DE_TEST_PATTERN --> voir ou les mettre
 		 voir aussi les autres variables ?
 	
-	CONTROLE
-	
-		Préférer les imports vs appel direct de type my.XLS ....
 	
 	
 	HEADLESS 
@@ -215,7 +209,7 @@
 		Ajouter les controle des PARAM_LIST_ALLOWED dans les controles JDD "CHECK PREREQUIS" plutot que dans le code des tests
 		
 		Ajouter un ctrl sur les valeurs de chaque paramètre ex : 
-			pour PREREQUIS --> OBSOLETE ou ?*?*?
+			pour PREREQUIS --> OBSOLETE ou ?*?*? --> FAIT voir dans getAllPrerequis
 			pour FOREIGNKEY --> ?*?*?
 			pour INTERNALVALUE --> ?*? et la valeur dans l'onglet INTERNALVALUE
 			pour LOCATOR --> c'est déjà fait

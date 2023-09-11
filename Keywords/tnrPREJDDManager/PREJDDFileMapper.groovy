@@ -102,7 +102,7 @@ public class PREJDDFileMapper {
 
 				if ((c.getColumnIndex()>0) && !myJDD.myJDDParam.isCALCULEE(fieldName)) { 
 					
-					if (!tnrJDDManager.JDDKW.isNU(valueOfJDD.toString()) && !myJDD.isOBSOLETE(fieldName)) {
+					if (!tnrJDDManager.JDDKW.isNU(valueOfJDD.toString()) && !myJDD.myJDDParam.isOBSOLETE(fieldName)) {
 						fields.add(fieldName)
 						Log.addTrace("\tAjout fieldName='$fieldName' in req SQL")
 
@@ -228,7 +228,7 @@ public class PREJDDFileMapper {
 
 						if (InfoDB.isImage(myJDD.getDBTableName(), fieldName)) {
 							values.add(getRTFTEXT(valueOfJDD.toString()).getBytes())
-						}else if (!tnrJDDManager.JDDKW.isNU(valueOfJDD.toString()) && !myJDD.isOBSOLETE(fieldName) ) {
+						}else if (!tnrJDDManager.JDDKW.isNU(valueOfJDD.toString()) && !myJDD.myJDDParam.isOBSOLETE(fieldName) ) {
 							values.add(val)
 						}
 
@@ -404,7 +404,7 @@ public class PREJDDFileMapper {
 			for (Sheet sheet : book ) {
 				String sheetName = sheet.getSheetName()
 				if (!['Version', 'MODELE'].contains(sheetName)) {
-					//println sheet.getSheetName()
+					Log.addTrace('sheet.getSheetName() :' + sheet.getSheetName())
 					if (!listPREJDD.contains([modObj, sheetName])) {
 						if (ExcelUtils.getCellValue(sheet.getRow(1).getCell(0))=='') {
 							Log.addToList('emptyPREJDD',"$fullName ($sheetName) est vide")

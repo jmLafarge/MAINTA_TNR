@@ -275,6 +275,8 @@ public class JDD {
 					}else {
 						ret = JDDKW.getOldValueOfKW_UPD(ret)
 					}
+				}else if (JDDKW.isVIDE(ret)) {
+					ret=''
 				}
 				/*
 				 String paraIV = myJDDParam.getINTERNALVALUEFor(name)
@@ -336,41 +338,9 @@ public class JDD {
 
 
 
-	/**
-	 * Vérifie si une valeur est obsolète.
-	 *
-	 * @param name Le nom de la valeur à vérifier.
-	 * @return True si la valeur est obsolète, false sinon.
-	 */
-	public boolean isOBSOLETE(String name) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"isOBSOLETE",[name:name])
-
-		String ret = myJDDParam.getPREREQUISFor(name)
-
-		boolean result = ret ? ret == 'OBSOLETE' : false
-
-		Log.addTraceEND(CLASS_FOR_LOG,"isOBSOLETE",result)
-		return result
-	}
 
 
 
-
-
-	/**
-	 * Vérifie si une valeur est une clé étrangère.
-	 *
-	 * @param name Le nom de la valeur à vérifier.
-	 * @return True si la valeur est une clé étrangère, false sinon.
-	 */
-	public boolean isFK(String name) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"isFK",[name:name])
-
-		boolean result = myJDDParam.getFOREIGNKEYFor(name)!=''
-
-		Log.addTraceEND(CLASS_FOR_LOG,"isFK",result)
-		return result
-	}
 
 
 

@@ -33,7 +33,7 @@ public class CheckType {
 
 				dataMap.each { name,val ->
 
-					if (InfoDB.inTable(table, name) && !myJDD.isFK(name)) {
+					if (InfoDB.inTable(table, name) && !myJDD.myJDDParam.isFK(name)) {
 
 						boolean ctrlVal = true
 
@@ -66,7 +66,7 @@ public class CheckType {
 						 }
 						 */
 
-						if (myJDD.isOBSOLETE(name) || JDDKW.isNU(val)) {
+						if (myJDD.myJDDParam.isOBSOLETE(name) || JDDKW.isNU(val)) {
 							ctrlVal = false
 						}
 

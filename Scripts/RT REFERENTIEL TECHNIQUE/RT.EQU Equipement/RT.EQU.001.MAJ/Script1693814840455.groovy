@@ -1,8 +1,12 @@
+import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
+
+import internal.GlobalVariable
 import tnrJDDManager.JDD
+import tnrJDDManager.JDDFileMapper
+import tnrResultManager.TNRResult
+import tnrSqlManager.SQL
 import tnrWebUI.KW
 import tnrWebUI.NAV
-import tnrSqlManager.SQL
-import tnrResultManager.TNRResult
 
 
 'Lecture du JDD'
@@ -36,12 +40,12 @@ for (String cdt in myJDD.getCDTList()) {
 		KW.scrollAndCheckIfNeeded(myJDD, "ST_INA", "O")
 		KW.scrollAndSetText(myJDD, "ST_DESEQU")
 		KW.scrollAndSelectOptionByLabel(myJDD, "ST_ETA")
-		KW.scrollAndSelectOptionByLabel(myJDD, "NU_CRI")
+		KW.scrollAndSelectOptionByValue(myJDD, "NU_CRI")
 		KW.scrollAndCheckIfNeeded(myJDD, "ST_NIVABS", "O")
 		KW.searchWithHelper(myJDD, "ID_CODGES","","")
-		KW.scrollAndSetText(myJDD, "EMP_CODLON")
+		//KW.scrollAndSetText(myJDD, "EMP_CODLON")
 		KW.searchWithHelper(myJDD, "ID_CODIMP","","")
-		KW.scrollAndSetText(myJDD, "GRO_CODLON")
+		//KW.scrollAndSetText(myJDD, "GRO_CODLON")
 		KW.searchWithHelper(myJDD, "ID_CODCOM","","")
 		KW.scrollAndSetText(myJDD, "NU_USA")
 		KW.searchWithHelper(myJDD, "ID_CODCON","","")
@@ -78,6 +82,53 @@ for (String cdt in myJDD.getCDTList()) {
 		
 		KW.scrollAndClick(myJDD, "tab_Notes")
 		KW.waitForElementVisible(myJDD, "tab_NotesSelected")
+		
+		KW.scrollToPositionAndWait(0, 0,1)
+		
+		JDD myJDDnote = new JDD(JDDFileMapper.getFullnameFromModObj('RT.EQU'),'001C',GlobalVariable.CAS_DE_TEST_EN_COURS)
+		
+		String notes = myJDDnote.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC1'))
+		String consignes = myJDDnote.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC2'))
+	
+		
+		KW.scrollAndClick(myJDD,"ModifierNotes")
+		KW.delay(1)
+		
+		WebUI.switchToWindowIndex('1')
+		
+		if (KW.isElementPresent(myJDD,'frameNote', GlobalVariable.TIMEOUT)) {
+			
+			KW.switchToFrame(myJDD, 'frameNote')
+			
+			KW.setText(myJDD, 'textNote',notes)
+			
+			WebUI.switchToDefaultContent()
+			
+			KW.scrollAndClick(myJDD,"BTN_ValiderEtFermerNote")
+			WebUI.switchToWindowIndex('0')
+		}
+		
+		
+		
+		KW.scrollAndClick(myJDD,"ModifierConsignes")
+		KW.delay(1)
+		
+		WebUI.switchToWindowIndex('1')
+		
+		if (KW.isElementPresent(myJDD,'frameNote', GlobalVariable.TIMEOUT)) {
+			
+			KW.switchToFrame(myJDD, 'frameNote')
+			
+			KW.setText(myJDD, 'textNote',consignes)
+			
+			WebUI.switchToDefaultContent()
+			
+			KW.scrollAndClick(myJDD,"BTN_ValiderEtFermerNote")
+			WebUI.switchToWindowIndex('0')
+		}
+		
+		
+		
 		
 		
 	TNRResult.addSTEPGRP("ONGLET ADRESSE")

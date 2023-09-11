@@ -205,8 +205,8 @@ public class InfoPARA {
 
 
 	public static write(){
-		println paraMap
 		Log.addTrace('update PARA dans InfoPARA')
+		Log.addTrace("paraMap : $paraMap")
 		OutputStream fileOut = new FileOutputStream(fileName)
 		book.write(fileOut);
 	}

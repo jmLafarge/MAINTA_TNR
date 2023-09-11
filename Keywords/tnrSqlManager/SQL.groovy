@@ -288,7 +288,7 @@ public class SQL {
 
 		def valJDD = myJDD.getData(fieldName,casDeTestNum)
 
-		if (myJDD.isOBSOLETE(fieldName)) {
+		if (myJDD.myJDDParam.isOBSOLETE(fieldName)) {
 			Log.addTraceEND(CLASS_FOR_LOG,"checkValue",verifStatus)
 			return verifStatus
 		}

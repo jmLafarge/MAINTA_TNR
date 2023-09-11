@@ -118,7 +118,7 @@ class Tools {
 		}
 	}
 
-	
+
 
 
 } // Fin de class
