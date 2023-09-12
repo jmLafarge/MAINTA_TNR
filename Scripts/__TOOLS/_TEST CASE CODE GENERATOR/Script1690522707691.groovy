@@ -320,7 +320,7 @@ tagsWithAttributes.each { attribute ->
 			
 		}
 	} else if (attribute.tag == 'select') {
-		Log.addB("KW.verifyOptionSelectedByValue(myJDD, \"${attribute.id}\")")
+		Log.addB("KW.verifyOptionSelectedByLabel(myJDD, \"${attribute.id}\")")
 		
 	} else if (attribute.tag == 'a') {
 		Log.addB('')

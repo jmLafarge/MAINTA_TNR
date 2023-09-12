@@ -9,13 +9,9 @@
  * 
  * 
 
-revoir selectOptionByValue et selectOptionByLabel 
-	le test objet doit faire reférence au select, pas à l'option
-	WebUI.selectOptionByValue(ObjSelect, 'valeur de l'attribut value' --> IV
-	WebUI.selectOptionByLabel(ObjSelect, 'valeur du texte visible'
 	
 	
-  terminer EQU MAJ
+  terminer EQU MAJ faire notes
 
  
 

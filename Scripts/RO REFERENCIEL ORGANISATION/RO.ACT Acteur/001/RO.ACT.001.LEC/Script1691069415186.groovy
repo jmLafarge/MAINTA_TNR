@@ -24,7 +24,7 @@ for (String cdt in myJDD.getCDTList()) {
 		KW.scrollAndClick(myJDD,"tab_Acteur")
 		KW.waitForElementVisible(myJDD,"tab_ActeurSelected")
 
-		KW.verifyOptionSelectedByValue(myJDD,"ST_ETA")
+		KW.verifyOptionSelectedByLabel(myJDD,"ST_ETA")
 		KW.verifyElementCheckedOrNot(myJDD,"ST_INA","O")
 		KW.verifyValue(myJDD,"ID_CODINT")
 		KW.verifyValue(myJDD,"ST_NOM")

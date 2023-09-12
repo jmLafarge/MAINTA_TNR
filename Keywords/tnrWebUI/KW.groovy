@@ -51,12 +51,12 @@ class KW {
 		try {
 			WebUI.openBrowser(url, FailureHandling.STOP_ON_FAILURE)
 			TNRResult.addSTEPPASS("Ouverture du navigateur à l'URL :")
-			TNRResult.addDETAIL("URL : $url")
+			TNRResult.addDETAIL(url)
 			TNRResult.addBrowserInfo()
 			waitForPageLoad()
 		} catch (Exception ex) {
 			TNRResult.addSTEPERROR("Ouverture du navigateur à l'URL :")
-			TNRResult.addDETAIL("URL : $url")
+			TNRResult.addDETAIL(url)
 			TNRResult.addDETAIL(ex.getMessage())
 		}
 	}
@@ -70,10 +70,10 @@ class KW {
 			WebUI.navigateToUrl(url, FailureHandling.STOP_ON_FAILURE)
 			waitForPageLoad()
 			TNRResult.addSTEPPASS("Navigation vers l'URL '$nomUrl' :")
-			TNRResult.addDETAIL("URL : $url")
+			TNRResult.addDETAIL(url)
 		} catch (Exception ex) {
 			TNRResult.addSTEPERROR("Navigation vers l'URL '$nomUrl' :")
-			TNRResult.addDETAIL("URL : $url")
+			TNRResult.addDETAIL(url)
 			TNRResult.addDETAIL(ex.getMessage())
 		}
 	}
@@ -110,7 +110,7 @@ class KW {
 	static void switchToFrame(JDD myJDD, String name) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "switchToFrame", [myJDD: myJDD.toString(), name: name])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-		if (tObj) {
+		if (!msgTO) {
 			try {
 				WebUI.switchToFrame(tObj, (int)GlobalVariable.TIMEOUT)
 				TNRResult.addSTEP("Switch to frame '$name'",null)
@@ -131,7 +131,7 @@ class KW {
 	static void setText(JDD myJDD, String name, String text=null, String status = 'FAIL') {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "setText", [myJDD: myJDD.toString(), name: name , text:text , status:status])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-		if (tObj) {
+		if (!msgTO) {
 			if (text==null) text = myJDD.getStrData(name)
 			String objText = WebUI.getText(tObj)
 			if (objText==text){
@@ -160,7 +160,7 @@ class KW {
 	static void setEncryptedText(JDD myJDD, String name, String text=null) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "setEncryptedText", [myJDD: myJDD.toString(), name: name , text:text])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-		if (tObj) {
+		if (!msgTO) {
 			if (text==null) text = myJDD.getStrData(name)
 			try {
 				WebUI.setEncryptedText(tObj, text, FailureHandling.STOP_ON_FAILURE)
@@ -183,7 +183,7 @@ class KW {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "click", [myJDD: myJDD.toString(), name: name, status:status])
 		boolean ret = false
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-		if (tObj) {
+		if (!msgTO) {
 			try {
 				WebUI.click(tObj, FailureHandling.STOP_ON_FAILURE)
 				TNRResult.addSTEPPASS("Clic sur '${tObj.getObjectId()}'")
@@ -204,7 +204,7 @@ class KW {
 	static void doubleClick(JDD myJDD, String name, String status = 'FAIL') {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "doubleClick", [myJDD: myJDD.toString(), name: name , status:status])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-		if (tObj) {
+		if (!msgTO) {
 			try {
 				WebUI.doubleClick(tObj, FailureHandling.STOP_ON_FAILURE)
 				TNRResult.addSTEPPASS("Double click sur '${tObj.getObjectId()}'")
@@ -226,14 +226,16 @@ class KW {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "scrollToElement", [myJDD: myJDD.toString(), name: name , timeOut:timeOut , status:status])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		boolean ret = false
-		if (tObj) {
-			try {
-				WebUI.scrollToElement(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
-				Log.addTrace("Scroll to '${tObj.getObjectId()}' OK")
-				ret = true
-			} catch (Exception ex) {
-				TNRResult.addSTEPERROR("Scroll to '${tObj.getObjectId()}'")
-				TNRResult.addDETAIL(ex.getMessage())
+		if (!msgTO) {
+			if (isElementPresent(myJDD, name, timeOut)) {
+				try {
+					WebUI.scrollToElement(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
+					Log.addTrace("Scroll to '${tObj.getObjectId()}' OK")
+					ret = true
+				} catch (Exception ex) {
+					TNRResult.addSTEPERROR("Scroll to '${tObj.getObjectId()}'")
+					TNRResult.addDETAIL(ex.getMessage())
+				}
 			}
 		}else {
 			TNRResult.addSTEPERROR("Scroll to '$name' impossible")
@@ -293,7 +295,7 @@ class KW {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "sendKeys", [myJDD: myJDD.toString(), name: name , keys:keys, msg:msg , status:status])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		String ret = null
-		if (tObj) {
+		if (!msgTO) {
 			try {
 				WebUI.sendKeys(tObj, keys, FailureHandling.STOP_ON_FAILURE)
 				if (msg) {
@@ -327,7 +329,7 @@ class KW {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyElementNotPresent", [myJDD: myJDD.toString(), name: name , timeOut:timeOut , status:status])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		boolean ret = false
-		if (tObj) {
+		if (!msgTO) {
 			try {
 				WebUI.verifyElementNotPresent(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
 				TNRResult.addSTEPPASS("Vérifier que '${tObj.getObjectId()}' ne soit plus présent")
@@ -360,7 +362,7 @@ class KW {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyElementPresent", [myJDD: myJDD.toString(), name: name , timeOut:timeOut , status:status])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		boolean ret = false
-		if (tObj) {
+		if (!msgTO) {
 			try {
 				WebUI.verifyElementPresent(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)
 				TNRResult.addSTEPPASS("Vérifier que '${tObj.getObjectId()}' soit présent")
@@ -388,17 +390,17 @@ class KW {
 	 * @param timeOut
 	 * @return
 	 */
-	static boolean isElementPresent(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT) {
+	static boolean isElementPresent(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT,String status = 'FAIL') {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "isElementPresent", [myJDD: myJDD.toString(), name: name , timeOut:timeOut])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		boolean ret = false
-		if (tObj) {
+		if (!msgTO) {
 			try {
 				if (WebUI.verifyElementPresent(tObj, timeOut, FailureHandling.OPTIONAL)) {
-					TNRResult.addSTEP("L'élément '${tObj.getObjectId()}' est présent")
+					Log.addINFO("L'élément '${tObj.getObjectId()}' est présent")
 					ret = true
 				}else {
-					TNRResult.addSTEP("L'élément '${tObj.getObjectId()}' n'est pas présent")
+					TNRResult.addSTEP("L'élément '${tObj.getObjectId()}' n'est pas présent",status)
 				}
 			} catch (Exception ex) {
 				TNRResult.addSTEPERROR("Vérifier si l'élément '$name' est présent")
@@ -420,7 +422,7 @@ class KW {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyElementText", [myJDD: myJDD.toString(), name: name , text:text , status:status])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		boolean ret = false
-		if (tObj) {
+		if (!msgTO) {
 			if (text==null) text = myJDD.getStrData(name)
 			String gText = WebUI.getText(tObj)
 
@@ -445,7 +447,7 @@ class KW {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyElementTextContains", [myJDD: myJDD.toString(), name: name , text:text , status:status])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		boolean ret = false
-		if (tObj) {
+		if (!msgTO) {
 			if (text==null) text = myJDD.getStrData(name)
 			String gText = WebUI.getText(tObj)
 			if (gText.contains(text)) {
@@ -507,7 +509,7 @@ class KW {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "waitForElementVisible", [myJDD: myJDD.toString(), name: name , timeOut:timeOut , status:status])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		boolean ret = false
-		if (tObj) {
+		if (!msgTO) {
 			try {
 				if (WebUI.waitForElementVisible(tObj, timeOut, FailureHandling.STOP_ON_FAILURE)) {
 					TNRResult.addSTEPPASS("Vérifier que l'élément '${tObj.getObjectId()}' soit visible")
@@ -546,7 +548,7 @@ class KW {
 	static void verifyValue(JDD myJDD, String name, String text=null, String status = 'FAIL') {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyValue", [myJDD: myJDD.toString(), name: name , text:text , status:status])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-		if (tObj) {
+		if (!msgTO) {
 			if (text==null) text = myJDD.getStrData(name)
 			if (JDDKW.isNU(text)) {
 				TNRResult.addSTEP("Pas de vérification pour $name, valeur du JDD = NU")
@@ -580,50 +582,36 @@ class KW {
 
 
 
-	static void verifyOptionSelectedByValue(JDD myJDD, String name, String text=null, boolean isRegex = false, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyOptionSelectedByValue", [myJDD: myJDD.toString(), name: name , text:text , isRegex:isRegex , timeOut:timeOut , status:status])
-		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-		if (tObj) {
-			if (text==null) text = myJDD.getStrData(name)
-			if (WebUI.verifyOptionSelectedByValue(tObj, text, isRegex, timeOut)) {
-				TNRResult.addSTEPPASS("Vérifier que l'option '$text' de '${tObj.getObjectId()}' soit sélectionnée")
-				String paraIV = myJDD.myJDDParam.getINTERNALVALUEFor(name)
-				String valIV = myJDD.myJDDIV.getValueOf(paraIV, text)
-				if (valIV) {
-					String myTOXpath = myTO.getXpath()
-					TestObject optionObj = new TestObject("${name}OPTION")
-					optionObj.setSelectorMethod(SelectorMethod.XPATH)
-					optionObj.setSelectorValue(SelectorMethod.XPATH, "$myTOXpath//option[@value='$text']")
-					String optionText = WebUI.getText(optionObj)
-					if (optionText==valIV) {
-						TNRResult.addSTEPPASS("Vérifier que la valeur de l'option '$text' de '${tObj.getObjectId()}' soit '$valIV'")
-					}else {
-						TNRResult.addSTEP("Vérifier que la valeur de l'option '$text' de '${tObj.getObjectId()}' soit '$valIV'", status)
-						TNRResult.addDETAIL("La valeur de l'option est '$optionText'")
-						WebUI.verifyOptionSelectedByLabel(null, CLASS_FOR_LOG, false, 0)
-					}
-				}
-			}else{
-				TNRResult.addSTEP("Vérifier que l'option '$text' de '${tObj.getObjectId()}' soit sélectionnée", status)
-			}
-		}else {
-			TNRResult.addSTEPERROR("Vérifier que l'option '$text' de '$name' soit sélectionnée")
-			TNRResult.addDETAIL(msgTO)
-		}
-		Log.addTraceEND(CLASS_FOR_LOG, "verifyOptionSelectedByValue")
-	}
-
-
 
 	private static void verifyOptionSelectedByLabel(JDD myJDD, String name, String text=null, boolean isRegex = false, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyOptionSelectedByLabel", [myJDD: myJDD.toString(), name: name , text:text , isRegex:isRegex , timeOut:timeOut , status:status])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-		if (tObj) {
+		if (!msgTO) {
 			if (text==null) text = myJDD.getStrData(name)
-			if (WebUI.verifyOptionSelectedByLabel(tObj, text, isRegex, timeOut)) {
-				TNRResult.addSTEPPASS("Vérifier que l'option '$text' de '${tObj.getObjectId()}' soit sélectionnée")
-			}else{
-				TNRResult.addSTEP("Vérifier que l'option '$text' de '${tObj.getObjectId()}' soit sélectionnée KO", status)
+
+			String paraIV = myJDD.myJDDParam.getINTERNALVALUEFor(name)
+			if (paraIV) {
+				String valIV = myJDD.myJDDIV.getValueOf(paraIV, text)
+				if (valIV) {
+					try {
+						WebUI.verifyOptionSelectedByLabel(tObj, valIV, isRegex,timeOut, FailureHandling.STOP_ON_FAILURE)
+						TNRResult.addSTEPPASS("Vérifier que l'option '$valIV'($text) de '${tObj.getObjectId()}' soit sélectionnée")
+					} catch (Exception ex) {
+						TNRResult.addSTEP("Vérifier que l'option '$valIV'($text) de '${tObj.getObjectId()}' soit sélectionnée",status)
+						TNRResult.addDETAIL(ex.getMessage())
+					}
+				}else {
+					TNRResult.addSTEP("Vérifier que l'option '?'($text) de '${tObj.getObjectId()}' soit sélectionnée",status)
+					TNRResult.addDETAIL("Pas de valeur trouvée pour l'INTERNALVALUE")
+				}
+			}else {
+				try {
+					WebUI.verifyOptionSelectedByLabel(tObj, text, isRegex,timeOut, FailureHandling.STOP_ON_FAILURE)
+					TNRResult.addSTEPPASS("Vérifier que l'option '$text' de '${tObj.getObjectId()}' soit sélectionnée")
+				} catch (Exception ex) {
+					TNRResult.addSTEP("Vérifier que l'option '$text' de '${tObj.getObjectId()}' soit sélectionnée",status)
+					TNRResult.addDETAIL(ex.getMessage())
+				}
 			}
 		}else {
 			TNRResult.addSTEPERROR("Vérifier que l'option '$text' de '$name' soit sélectionnée")
@@ -674,22 +662,31 @@ class KW {
 
 	static void scrollAndSelectOptionByLabel(JDD myJDD, String name, String text=null, boolean isRegex = true, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-		if (tObj) {
+		if (!msgTO) {
 			if (text==null) text = myJDD.getStrData(name)
 			if (scrollToElement(myJDD, name, timeOut,status)) {
 				if (waitForElementVisible(myJDD, name, timeOut,status)) {
 					String paraIV = myJDD.myJDDParam.getINTERNALVALUEFor(name)
-					String valIV = myJDD.myJDDIV.getValueOf(paraIV, text)
-					if (valIV) {
-						String myTOXpath = myTO.getXpath()
-						TestObject optionObj = new TestObject("${name}OPTION")
-						optionObj.setSelectorMethod(SelectorMethod.XPATH)
-						optionObj.setSelectorValue(SelectorMethod.XPATH, "$myTOXpath/option[@value='$text']")
+					if (paraIV) {
+						String valIV = myJDD.myJDDIV.getValueOf(paraIV, text)
+						if (valIV) {
+							try {
+								WebUI.selectOptionByLabel(tObj, valIV, isRegex,FailureHandling.STOP_ON_FAILURE)
+								TNRResult.addSTEPPASS("Scroll et select option '$valIV'($text) sur '${tObj.getObjectId()}'")
+							} catch (Exception ex) {
+								TNRResult.addSTEP("Scroll et select option '$valIV'($text) sur '${tObj.getObjectId()}'",status)
+								TNRResult.addDETAIL(ex.getMessage())
+							}
+						}else {
+							TNRResult.addSTEP("Scroll et select option '?'($text) sur '${tObj.getObjectId()}'",status)
+							TNRResult.addDETAIL("Pas de valeur trouvée pour l'INTERNALVALUE")
+						}
+					}else {
 						try {
-							WebUI.selectOptionByLabel(tObj, valIV, isRegex,FailureHandling.STOP_ON_FAILURE)
-							TNRResult.addSTEPPASS("Scroll et select option '$valIV' sur '${tObj.getObjectId()}'")
+							WebUI.selectOptionByLabel(tObj, text, isRegex,FailureHandling.STOP_ON_FAILURE)
+							TNRResult.addSTEPPASS("Scroll et select option '$text' sur '${tObj.getObjectId()}'")
 						} catch (Exception ex) {
-							TNRResult.addSTEP("Scroll et select option '$valIV' sur '${tObj.getObjectId()}'",status)
+							TNRResult.addSTEP("Scroll et select option '$text' sur '${tObj.getObjectId()}'",status)
 							TNRResult.addDETAIL(ex.getMessage())
 						}
 					}
@@ -705,10 +702,10 @@ class KW {
 
 
 
-
-	static void scrollAndSelectOptionByValue(JDD myJDD, String name, String text=null, boolean isRegex = true, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
+	// pas utilisé, on utilise scrollAndSelectOptionByLabel
+	private static void scrollAndSelectOptionByValue(JDD myJDD, String name, String text=null, boolean isRegex = true, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-		if (tObj) {
+		if (!msgTO) {
 			if (text==null) text = myJDD.getStrData(name)
 			if (scrollToElement(myJDD, name, timeOut,status)) {
 				if (waitForElementVisible(myJDD, name, timeOut,status)) {
@@ -739,7 +736,7 @@ class KW {
 			if (scrollToElement(myJDD, name, timeOut, status)) {
 				if (waitForElementVisible(myJDD, name, timeOut, status)) {
 					TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-					if (tObj) {
+					if (!msgTO) {
 						try {
 							WebUI.click(tObj, FailureHandling.STOP_ON_FAILURE)
 							TNRResult.addSTEPPASS("Clic sur bouton radio '${tObj.getObjectId()}' (" + myJDD.getStrData(name) + ')')
@@ -880,7 +877,7 @@ class KW {
 
 	static void scrollAndCheckIfNeeded(JDD myJDD, String name, String textTrue, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL')  {
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-		if (tObj) {
+		if (!msgTO) {
 			TO myTOLbl = new TO() ; TestObject tObjLbl  = myTOLbl.make(myJDD,'Lbl'+name) ;String msgLbl = myTOLbl.getMsg()
 			if (tObjLbl) {
 				boolean cond = myJDD.getStrData(name)==textTrue
@@ -941,7 +938,7 @@ class KW {
 
 	static void verifyElementCheckedOrNot(JDD myJDD, String name, String textTrue, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-		if (tObj) {
+		if (!msgTO) {
 			boolean cond = myJDD.getStrData(name)==textTrue
 
 			if (scrollToElement(myJDD, name,timeOut,status)) {
@@ -979,7 +976,7 @@ class KW {
 
 	static boolean getCheckBoxImgStatus(JDD myJDD, String name)  {
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-		if (tObj) {
+		if (!msgTO) {
 			if (WebUI.getAttribute(tObj, 'src').endsWith('133.gif')) {
 				return true
 			}else if (WebUI.getAttribute(tObj, 'src').endsWith('134.gif')) {
@@ -1117,7 +1114,4 @@ class KW {
 			}
 		}
 	}
-
-
-
 } // Fin de class

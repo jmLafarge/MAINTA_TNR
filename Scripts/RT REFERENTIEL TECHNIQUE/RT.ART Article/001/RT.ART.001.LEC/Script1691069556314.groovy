@@ -25,10 +25,10 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.waitForElementVisible(myJDD,"tab_ArticleSelected")
 			
 			KW.verifyValue(myJDD,"ID_CODART")
-			KW.verifyOptionSelectedByValue(myJDD,"ST_ETA")
+			KW.verifyOptionSelectedByLabel(myJDD,"ST_ETA")
 
 			KW.verifyValue(myJDD,"ST_DES")
-			KW.verifyOptionSelectedByValue(myJDD,"ST_TYPART")
+			KW.verifyOptionSelectedByLabel(myJDD,"ST_TYPART")
 			KW.verifyElementCheckedOrNot(myJDD,"ST_INA","O")
 			
 			KW.verifyValue(myJDD,"ID_CODNATART")

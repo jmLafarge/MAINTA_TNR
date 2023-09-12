@@ -31,7 +31,7 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.verifyElementCheckedOrNot(myJDD, "ST_INA", "O")
 			KW.verifyValue(myJDD, "ST_DES")
 			KW.verifyValue(myJDD, "ST_ETA")
-			KW.verifyOptionSelectedByValue(myJDD, "NU_TYP")
+			KW.verifyOptionSelectedByLabel(myJDD, "NU_TYP")
 			KW.verifyValue(myJDD, "NU_PRISTO")
 			KW.verifyValue(myJDD, "ID_CODART")
 			KW.verifyValue(myJDD, "ST_DESID_CODART")

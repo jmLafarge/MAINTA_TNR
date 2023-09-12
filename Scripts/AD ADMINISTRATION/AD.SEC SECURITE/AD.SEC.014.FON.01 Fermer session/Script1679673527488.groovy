@@ -15,7 +15,7 @@ for (String cdt in myJDD.getCDTList()) {
 		
 	TNRResult.addStartTestCase(cdt)
 	
-	if (KW.isElementPresent(myJDD,'frame_Main', GlobalVariable.TIMEOUT)) {
+	if (KW.isElementPresent(myJDD,'frame_Main', GlobalVariable.TIMEOUT,'INFO')) {
 		
 		KW.switchToFrame(myJDD,'frame_Main')
 
