@@ -9,9 +9,12 @@
  * 
  * 
 
+Notes pour RT.EQU.001.CRE.01 --> comment différencier 
+	les notes equipement ID_NUMDOC1
+	les notes consignes ID_NUMDOC2
+	les notes contrat, ID_NUMDOC4 --> je ne sais pas où elles sont ! 
 	
-	
-  terminer EQU MAJ faire notes
+
 
  
 

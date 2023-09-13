@@ -40,12 +40,12 @@ for (String cdt in myJDD.getCDTList()) {
 		KW.scrollAndCheckIfNeeded(myJDD, "ST_INA", "O")
 		KW.scrollAndSetText(myJDD, "ST_DESEQU")
 		KW.scrollAndSelectOptionByLabel(myJDD, "ST_ETA")
-		KW.scrollAndSelectOptionByValue(myJDD, "NU_CRI")
+		KW.scrollAndSelectOptionByLabel(myJDD, "NU_CRI")
 		KW.scrollAndCheckIfNeeded(myJDD, "ST_NIVABS", "O")
 		KW.searchWithHelper(myJDD, "ID_CODGES","","")
-		//KW.scrollAndSetText(myJDD, "EMP_CODLON")
+		KW.searchWithHelper(myJDD, "ID_NUMEMP","//a[@id='BtnEMP_CODLON']/i","SEARCH_ST_CODLON") //EMP_CODLON
 		KW.searchWithHelper(myJDD, "ID_CODIMP","","")
-		//KW.scrollAndSetText(myJDD, "GRO_CODLON")
+		KW.searchWithHelper(myJDD, "ID_NUMGRO","//a[@id='BtnGRO_CODLON']/i","SEARCH_ST_CODLON") // GRO_CODLON		
 		KW.searchWithHelper(myJDD, "ID_CODCOM","","")
 		KW.scrollAndSetText(myJDD, "NU_USA")
 		KW.searchWithHelper(myJDD, "ID_CODCON","","")
@@ -60,11 +60,11 @@ for (String cdt in myJDD.getCDTList()) {
 		KW.scrollAndSetText(myJDD, "NU_PRIACH")
 		KW.scrollAndSetText(myJDD, "ST_NOMCON")
 		KW.scrollAndSetText(myJDD, "ST_REFCON")
-		KW.scrollAndSetText(myJDD, "DT_ACH")
-		KW.scrollAndSetText(myJDD, "DT_SER")
+		KW.scrollAndSetDate(myJDD, "DT_ACH")
+		KW.scrollAndSetDate(myJDD, "DT_SER")
 		KW.scrollAndSetText(myJDD, "NU_PRIACT")
-		KW.scrollAndSetText(myJDD, "DT_FINGAR")
-		KW.scrollAndSetText(myJDD, "DT_FINVIE")
+		KW.scrollAndSetDate(myJDD, "DT_FINGAR")
+		KW.scrollAndSetDate(myJDD, "DT_FINVIE")
 		KW.scrollAndSetText(myJDD, "NU_COUHOR")
 		KW.scrollAndSetText(myJDD, "NU_USAGAR")
 		KW.scrollAndSetText(myJDD, "NU_FINUSA")
@@ -146,7 +146,9 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	    KW.scrollAndClick(NAV.myGlobalJDD,'button_Valider')
 	
-	    NAV.verifierEcranResultat(myJDD.getStrData())
+	    NAV.verifierEcranResultat(myJDD.getStrData('ST_CODCOU'),'', 'Resultat_ID')
+		
+		myJDD.replaceSEQUENCIDInJDD('ID_NUMEQU')
 	
 		SQL.checkJDDWithBD(myJDD)
 	

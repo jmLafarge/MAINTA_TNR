@@ -61,7 +61,7 @@ class NAV {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"verifierEcranResultat",[val:val , fct:fct , name:name , timeOut:timeOut])
 		if (!fct) fct = getFctFromModObj()
 		KW.scrollToPositionAndWait(0, 0,1)
-		KW.click(myGlobalJDD, 'a_Toggle','WARNING')
+		KW.scrollAndClick(myGlobalJDD, 'a_Toggle',1,'WARNING')
 		KW.delay(1)
 		KW.waitAndVerifyElementText(myGlobalJDD, 'Fonction_code', fct,timeOut,'WARNING')
 		KW.waitAndVerifyElementText(myGlobalJDD,name, val,timeOut)

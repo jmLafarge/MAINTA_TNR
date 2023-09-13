@@ -90,7 +90,6 @@ public class TO {
 		}
 		this.to = to
 		Log.addTraceEND(CLASS_FOR_LOG,"make",to)
-
 		return to
 
 	}
@@ -99,7 +98,7 @@ public class TO {
 
 
 	public String getMsg() {
-
+		Log.addTrace("${CLASS_FOR_LOG}.getMsg <--'$msgTO'")
 		return msgTO
 	}
 
