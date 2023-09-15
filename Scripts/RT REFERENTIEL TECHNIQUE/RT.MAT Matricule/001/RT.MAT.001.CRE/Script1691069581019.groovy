@@ -1,14 +1,15 @@
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-
+import internal.GlobalVariable
 import tnrJDDManager.JDD
+import tnrJDDManager.JDDFileMapper
 import tnrJDDManager.JDDKW
-import tnrWebUI.KW
-import tnrWebUI.NAV
-import tnrSqlManager.SQL
 import tnrResultManager.TNRResult
+import tnrSqlManager.SQL
+import tnrWebUI.KW
+import tnrWebUI.Memo
+import tnrWebUI.NAV
 
 'Lecture du JDD'
-def myJDD = new JDD()
+JDD myJDD = new JDD()
 		
 		
 for (String cdt in myJDD.getCDTList()) {
@@ -40,12 +41,10 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.scrollAndSelectOptionByLabel(myJDD, "ST_ETA")
 			KW.scrollAndSelectOptionByLabel(myJDD, "NU_TYP")
 			KW.scrollAndSetText(myJDD, "NU_PRISTO")
-			KW.scrollAndSetText(myJDD, "ID_CODART")
-			
+			KW.scrollAndSetText(myJDD, "ID_CODART")		
 			if(!JDDKW.isNULL(myJDD.getStrData('ID_CODMOY'))) {
 				KW.scrollAndSetText(myJDD, "ID_CODMOY")
 			}
-			
 			KW.scrollAndSetText(myJDD, "ID_CODGES")
 			KW.scrollAndSetText(myJDD, "ID_NUMCRI")
 			KW.scrollAndSetText(myJDD, "ID_CODIMP")
@@ -93,10 +92,14 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.scrollAndClick(myJDD, "tab_Notes")
 			KW.waitForElementVisible(myJDD, "tab_NotesSelected")
 			
-			// A completer
+			def JDD_Note = new JDD(JDDFileMapper.getFullnameFromModObj('RT.MAT'),'001C',GlobalVariable.CAS_DE_TEST_EN_COURS)
+			KW.scrollToPositionAndWait(0, 0,1)
+			Memo.setText(JDD_Note.getStrData("OL_DOC"), 'Notes',false,myJDD,'')
 			
 			
-			// Pas de test avec ONGLET ETAT
+			
+			
+	// Pas de test avec ONGLET ETAT
 			
 				
 	TNRResult.addSTEPACTION('VALIDATION')
@@ -148,8 +151,10 @@ for (String cdt in myJDD.getCDTList()) {
 	    NAV.verifierEcranResultat(myJDD.getStrData())
 		
 		myJDD.replaceSEQUENCIDInJDD('ID_NUMDOC',-1)
+		JDD_Note.replaceSEQUENCIDInJDD('ID_NUMDOC',-1)
 		
 		SQL.checkJDDWithBD(myJDD)
+		SQL.checkJDDWithBD(JDD_Note)
 		
 	TNRResult.addEndTestCase()
 

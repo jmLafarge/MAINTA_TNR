@@ -7,7 +7,7 @@ import tnrWebUI.KW
 import tnrWebUI.NAV
 
 'Lecture du JDD'
-def myJDD = new JDD()
+JDD myJDD = new JDD()
 
 for (String cdt in myJDD.getCDTList()) {
 	
@@ -87,13 +87,13 @@ for (String cdt in myJDD.getCDTList()) {
 		
 		KW.scrollToPositionAndWait(0, 0,1)
 		
-		JDD myJDDnote = new JDD(JDDFileMapper.getFullnameFromModObj('RT.EQU'),'001C',GlobalVariable.CAS_DE_TEST_EN_COURS)
+		JDD JDD_Note = new JDD(JDDFileMapper.getFullnameFromModObj('RT.EQU'),'001C',GlobalVariable.CAS_DE_TEST_EN_COURS)
 		
-		String notes = myJDDnote.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC1'))
-		String consignes = myJDDnote.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC2'))
+		String notes = JDD_Note.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC1'))
+		String consignes = JDD_Note.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC2'))
 		
-		KW.verifyElementText(myJDDnote,"DOC_Notes",notes)
-		KW.verifyElementText(myJDDnote,"DOC_Consignes",consignes)
+		KW.verifyElementText(JDD_Note,"DOC_Notes",notes)
+		KW.verifyElementText(JDD_Note,"DOC_Consignes",consignes)
 
 		
 		

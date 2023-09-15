@@ -1,15 +1,14 @@
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-
 import internal.GlobalVariable
 import tnrJDDManager.JDD
 import tnrJDDManager.JDDFileMapper
 import tnrResultManager.TNRResult
 import tnrSqlManager.SQL
 import tnrWebUI.KW
+import tnrWebUI.Memo
 import tnrWebUI.NAV
 
 'Lecture du JDD'
-def myJDD = new JDD()
+JDD myJDD = new JDD()
 		
 		
 for (String cdt in myJDD.getCDTList()) {
@@ -82,51 +81,12 @@ for (String cdt in myJDD.getCDTList()) {
 		
 		KW.scrollAndClick(myJDD, "tab_Notes")
 		KW.waitForElementVisible(myJDD, "tab_NotesSelected")
+
 		/*
-		
-		KW.scrollToPositionAndWait(0, 0,1)
-		
-		JDD myJDDnote = new JDD(JDDFileMapper.getFullnameFromModObj('RT.EQU'),'001C',GlobalVariable.CAS_DE_TEST_EN_COURS)
-		
-		String notes = myJDDnote.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC1'))
-		String consignes = myJDDnote.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC2'))
-	
-		
-		KW.scrollAndClick(myJDD,"ModifierNotes")
-		KW.delay(1)
-		
-		WebUI.switchToWindowIndex('1')
-		
-		if (KW.isElementPresent(myJDD,'frameNote', GlobalVariable.TIMEOUT)) {
-			
-			KW.switchToFrame(myJDD, 'frameNote')
-			
-			KW.setText(myJDD, 'textNote',notes)
-			
-			WebUI.switchToDefaultContent()
-			
-			KW.scrollAndClick(myJDD,"BTN_ValiderEtFermerNote")
-			WebUI.switchToWindowIndex('0')
-		}
-		
-		
-		
-		KW.scrollAndClick(myJDD,"ModifierConsignes")
-		KW.delay(1)
-		
-		WebUI.switchToWindowIndex('1')
-		
-		if (KW.isElementPresent(myJDD,'frameNote', GlobalVariable.TIMEOUT)) {
-			
-			KW.switchToFrame(myJDD, 'frameNote')
-			
-			KW.setText(myJDD, 'textNote',consignes)
-			
-			WebUI.switchToDefaultContent()
-			
-			KW.scrollAndClick(myJDD,"BTN_ValiderEtFermerNote")
-			WebUI.switchToWindowIndex('0')
-		}
+		Comment différencier
+		 - les notes equipement ID_NUMDOC1
+		 - les notes consignes ID_NUMDOC2
+		 - les notes contrat, ID_NUMDOC4 --> je ne sais pas où elles sont !
 		*/
 		
 	TNRResult.addSTEPGRP("ONGLET ADRESSE")
@@ -134,7 +94,7 @@ for (String cdt in myJDD.getCDTList()) {
 		KW.scrollAndClick(myJDD, "tab_Adresse")
 		KW.waitForElementVisible(myJDD, "tab_AdresseSelected")
 
-	
+
 	
 	
 				

@@ -6,7 +6,7 @@ import tnrResultManager.TNRResult
 
 
 'Lecture du JDD'
-def myJDD = new JDD()
+JDD myJDD = new JDD()
 
 
 for (String cdt in myJDD.getCDTList()) {

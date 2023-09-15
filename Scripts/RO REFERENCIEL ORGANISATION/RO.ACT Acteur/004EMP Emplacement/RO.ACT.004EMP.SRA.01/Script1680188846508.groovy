@@ -6,8 +6,9 @@ import tnrJDDManager.JDDKW
 import tnrResultManager.TNRResult
 
 'Lecture du JDD'
-def myJDD = new JDD()
+JDD myJDD = new JDD()
 
+boolean err = false
 
 for (String cdt in myJDD.getCDTList()) {
 	
@@ -52,6 +53,7 @@ for (String cdt in myJDD.getCDTList()) {
 				myJDD.replaceSEQUENCIDInJDD('ID_NUMZONLIG')
 			}else {
 				TNRResult.addDETAIL("Impossible de remplacer SEQUENCEID par ID_NUMREF dans JDD")
+				err = true
 			}
 
 			
@@ -88,9 +90,13 @@ for (String cdt in myJDD.getCDTList()) {
 	
 		TNRResult.addSTEPACTION('CONTROLE')
 	
+		if (!err) {
 			'Vérification des valeurs en BD'
 			SQL.checkJDDWithBD(myJDD)			
-				
+		}else {
+			TNRResult.addSTEPFAIL("Impossible d'effectuer le contrôle")
+		}
+		
 		TNRResult.addEndTestCase()
 
 } // fin du if

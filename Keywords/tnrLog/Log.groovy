@@ -197,7 +197,7 @@ class Log {
 
 
 
-	public static addTraceBEGIN (String myClass, String myFunction, Map paras) {
+	public static addTraceBEGIN (String myClass, String myFunction, Map paras = [:]) {
 		level++
 		maxLevel = (level>maxLevel) ? level : maxLevel
 		setTraceAllowed(myClass,myFunction,level)
@@ -333,7 +333,7 @@ class Log {
 
 
 	public static writeList(String nomDeLaListe, String status ='', boolean brut = false) {
-		
+
 		def liste = lists.get(nomDeLaListe)
 		if (liste != null) {
 			liste.each { val ->

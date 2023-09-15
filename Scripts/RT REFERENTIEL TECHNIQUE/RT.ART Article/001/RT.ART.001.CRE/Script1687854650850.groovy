@@ -1,13 +1,14 @@
 import internal.GlobalVariable
 import tnrJDDManager.JDD
 import tnrJDDManager.JDDFileMapper
-import tnrWebUI.KW
-import tnrWebUI.NAV
-import tnrSqlManager.SQL
 import tnrResultManager.TNRResult
+import tnrSqlManager.SQL
+import tnrWebUI.KW
+import tnrWebUI.Memo
+import tnrWebUI.NAV
 
 'Lecture du JDD'
-def myJDD = new JDD()
+JDD myJDD = new JDD()
 		
 		
 for (String cdt in myJDD.getCDTList()) {
@@ -37,10 +38,13 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.scrollAndSetText(myJDD,"ID_CODGES")
 			//ST_DESGES --> pas d'action en création
 			
+			JDD JDD_Note = new JDD(JDDFileMapper.getFullnameFromModObj('RT.ART'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS)
+			Memo.setText(JDD_Note.getStrData("OL_DOC"), 'Notes',false,myJDD,'')
+			
 		TNRResult.addSTEPBLOCK("FOURNISSEUR NORMALISE")
 		
 			// Lire le JDD spécifique
-			def JDD_ARTFOU = new my.JDD(JDDFileMapper.getFullnameFromModObj('RT.ART'),'001B',GlobalVariable.CAS_DE_TEST_EN_COURS)
+			JDD JDD_ARTFOU = new JDD(JDDFileMapper.getFullnameFromModObj('RT.ART'),'001B',GlobalVariable.CAS_DE_TEST_EN_COURS)
 			
 				KW.scrollAndSetText(JDD_ARTFOU,"ID_CODFOU")
 				//ST_DESID_CODFOU --> pas d'action en création
@@ -80,27 +84,7 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.scrollAndSetText(myJDD,"ART_MODFAM_OBS")
 			*/
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	////////////////////////////////////////////////////////////////////////////
-	
-	// gestion des Notes
-	
-	//soit
-	KW.scrollAndSetText(myJDD,"Notes",myJDD.getStrData('OL_DOC'))
-	
-	//soit comme fournisseur
+
 	
 	
 			
@@ -108,11 +92,13 @@ for (String cdt in myJDD.getCDTList()) {
 		
 	    KW.scrollAndClick(NAV.myGlobalJDD,'button_Valider')
 	
-	    NAV.verifierEcranResultat(myJDD.getStrData('ID_CODART')) // prendre en compte la valeur de ARTNUM
+	    NAV.verifierEcranResultat(myJDD.getStrData('ID_CODART'))
 		
 		myJDD.replaceSEQUENCIDInJDD('ID_NUMDOC1')
+		JDD_Note.replaceSEQUENCIDInJDD('ID_NUMDOC')
 	
-		SQL.checkJDDWithBD(myJDD) // prendre en compte la valeur de ARTNUM car le where du elect se fait sur ID_CODART
+		SQL.checkJDDWithBD(myJDD) // prendre en compte la valeur de ARTNUM car le where du select se fait sur ID_CODART
+		SQL.checkJDDWithBD(JDD_Note)
 		
 		
 	TNRResult.addEndTestCase()

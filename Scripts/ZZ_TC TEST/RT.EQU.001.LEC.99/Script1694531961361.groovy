@@ -7,7 +7,7 @@ import tnrWebUI.KW
 import tnrWebUI.NAV
 
 'Lecture du JDD'
-def myJDD = new JDD()
+JDD myJDD = new JDD()
 	
 	myJDD.setCasDeTest('RT.EQU.001.LEC.01')
 		

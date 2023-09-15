@@ -408,14 +408,12 @@ public class SQL {
 						if (InfoDB.isImage(myJDD.getDBTableName(), fieldName)) {
 
 							String query = "SELECT cast(cast($fieldName as varbinary(max)) as varchar(max)) FROM " + myJDD.getDBTableName() + getWhereWithAllPK(myJDD,casDeTestNum)
-							Map frow = getFirstRow(query)
-							if (frow ) {
+							def firstVal = getFirstVal(query)
+							if (firstVal ) {
 								def texte = new DefaultStyledDocument()
-
 								def editorKit = new RTFEditorKit()
-								editorKit.read(new StringReader(frow[0].toString()), texte , 0)
-								valDB = texte.getText(0, texte.getLength()-2)
-
+								editorKit.read(new StringReader(firstVal.toString()), texte , 0)
+								valDB=texte.getText(0, texte.getLength()-1) // car il y a un CRLF !?
 							}
 						}
 
@@ -523,6 +521,7 @@ public class SQL {
 	}
 
 
+	
 
 	/**
 	 * 

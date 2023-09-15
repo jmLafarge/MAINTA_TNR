@@ -11,7 +11,7 @@ List list =[]
 
 JDDFilesMapper.JDDfilemap.each { modObj,fullName ->
 	
-	def myJDD = new my.JDD(fullName)
+	JDD myJDD = new JDD(fullName)
 	
 	myJDD.getAllPrerequis(list)
 

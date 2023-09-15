@@ -2,13 +2,13 @@
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
-import InfoPARA
+import tnrCommon.ExcelUtils
+import tnrCommon.InfoPARA
 import tnrJDDManager.JDD
-import tnrJDDManager.JDDFileMapper
 import tnrJDDManager.JDDKW
 import tnrLog.Log
 import tnrPREJDDManager.JDDFilesMapper
-import ExcelUtils
+
 
 
 Log.addTITLE("Lancement de FILL INFOPARA")
@@ -19,7 +19,7 @@ Log.addSubTITLE('Renseigner InfoPARA avec le contenu des JDD')
 JDDFilesMapper.JDDfilemap.each { modObj,fullName ->
 
 	Log.addINFO("")
-	def myJDD = new my.JDD(fullName)
+	JDD myJDD = new JDD(fullName)
 	for(Sheet sheet: myJDD.book) {
 		if (myJDD.isSheetAvailable(sheet.getSheetName())) {
 

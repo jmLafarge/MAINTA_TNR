@@ -1,14 +1,15 @@
 import internal.GlobalVariable
 import tnrJDDManager.JDD
 import tnrJDDManager.JDDFileMapper
-import tnrWebUI.KW
-import tnrWebUI.NAV
-import tnrSqlManager.SQL
 import tnrResultManager.TNRResult
+import tnrSqlManager.SQL
+import tnrWebUI.KW
+import tnrWebUI.Memo
+import tnrWebUI.NAV
 
 
 'Lecture du JDD'
-def myJDD = new JDD()
+JDD myJDD = new JDD()
 
 
 for (String cdt in myJDD.getCDTList()) {
@@ -38,10 +39,14 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.searchWithHelper(myJDD, "ID_CODGES","","")
 			//ST_DESGES --> pas d'action en modification
 			
+			def JDD_Note = new JDD(JDDFileMapper.getFullnameFromModObj('RT.ART'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS)
+			Memo.setText(JDD_Note.getStrData("OL_DOC"), 'Notes',true,myJDD,'')
+			
+			
 		TNRResult.addSTEPBLOCK("FOURNISSEUR NORMALISE")
 		
 		// Lire le JDD spécifique
-		def JDD_ARTFOU = new my.JDD(JDDFileMapper.getFullnameFromModObj('RT.ART'),'001B',GlobalVariable.CAS_DE_TEST_EN_COURS)
+		JDD JDD_ARTFOU = new JDD(JDDFileMapper.getFullnameFromModObj('RT.ART'),'001B',GlobalVariable.CAS_DE_TEST_EN_COURS)
 			
 			KW.searchWithHelper(JDD_ARTFOU, "ID_CODFOU","","")
 			//ST_DESID_CODFOU --> pas d'action en modification
@@ -94,6 +99,7 @@ for (String cdt in myJDD.getCDTList()) {
 	    NAV.verifierEcranResultat(myJDD.getStrData("ID_CODART"))
 	
 		SQL.checkJDDWithBD(myJDD)
+		SQL.checkJDDWithBD(JDD_Note)
 		
 	TNRResult.addEndTestCase()
 	

@@ -196,8 +196,8 @@ public class JDDParam {
 	public int getSize() {
 		return paramsMap.size()
 	}
-	
-	
+
+
 
 	/**
 	 * Vérifie si une valeur est une clé étrangère.
@@ -211,8 +211,8 @@ public class JDDParam {
 		Log.addTraceEND(CLASS_FOR_LOG,"isFK",result)
 		return result
 	}
-	
-	
+
+
 	/**
 	 * Vérifie si une valeur est obsolète.
 	 *
@@ -226,11 +226,11 @@ public class JDDParam {
 		Log.addTraceEND(CLASS_FOR_LOG,"isOBSOLETE",result)
 		return result
 	}
-	
-	
 
-	
-	
+
+
+
+
 
 	public boolean isCALCULEE(String name) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"isCALCULEE",[name:name])
@@ -239,6 +239,4 @@ public class JDDParam {
 		Log.addTraceEND(CLASS_FOR_LOG,"isCALCULEE",result)
 		return result
 	}
-	
-	
 } //Fin de class

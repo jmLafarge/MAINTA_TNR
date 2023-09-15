@@ -7,12 +7,61 @@
  * FAIT
  * -----------------------------------------------------------------------------------------------------
  * 
- * 
+ *  
 
-Notes pour RT.EQU.001.CRE.01 --> comment différencier 
-	les notes equipement ID_NUMDOC1
-	les notes consignes ID_NUMDOC2
-	les notes contrat, ID_NUMDOC4 --> je ne sais pas où elles sont ! 
+
+
+	LOT PROTO + 1A
+	***************
+		AD.SEC --> Fait
+		RO.ACT --> FAIT
+		RO.FOU --> FAIT
+		MP.CPT --> FAIT
+		RT.ART --> FAIT
+		RO.ORG --> FAIT
+		RT.MAT --> FAIT
+		TR.BTR
+		RT.EQU --> FAIT 
+		AD.DEP --> Fait
+		
+		
+	RESULTAT DES TESTS
+	*******************
+	 		
+	 	ACTEUR - AJOUT EMPLACEMENT 	--> Click sur le bouton AJOUTER n'affiche pas la fenetre de recherche des emplacements 	--> ajouter une Zone --> marche pas
+	 	
+	 	FOURNISSEUR SUPPRESSION 	--> pas autoriser à supprimmer cet élément -											--> voir trace voir si memo correctement créé en BDD
+	 	
+	 	COMPTEUR CREATION 			--> la valeur NU_DEL est à 0 à la place de 100000 (JDD)
+	 	
+	 	COMPTEUR LECTURE			--> NU_DEL et NU_VALN sont NULL en BD et 0 à l'écran
+	 	
+	 	
+	 	ARTICLE SUPPRESSION			--> Ce code ne peut pas être supprimé
+	 	ARTICLE						--> NU_PRIPMP est NULL en BD et 0 à l'écran
+	 								--> est-qu'il y a qq chose à faire sur ARTNOM
+	 	
+	 	MATRICULE SUPPRESSION		--> Pas de bouton supprimer !--> revoir les regles de supression du Matricule, la fonction teste si 2 mouvements sinon pas de delete
+	 	
+	 	MATRICULE					--> manque ID_TYPENJ et ID_NUMCRIINV dans les écrans --> Ces deux rubriques sont disponibles dans la sous-fonction INVENTAIRE
+	 	
+	 	MATRICULE CREATION 			--> manque dans les écrans : ST_DESREP, DT_POS, DT_SER, ST_EMPMAG, ST_PAT, ST_SOUINV, ST_SOUASS, DT_INV, DT_INVPRO, 	DT_ASS, 	DT_ASSPRO, 	NU_FREINV, 	NU_FREASS, 	NU_VALINI, 	NU_VALINV, 	NU_VALASS, 	ST_UTIUPD, 	DT_ENT, 	ID_CODMETINV, 	ID_CODETAVIS, 	ST_REMETAVIS, 	ID_CODGESPRO, 	ID_CODGESGES, 	ID_CODGESEXP, 	ID_CODGESMAI, 	ID_TYPENJ, 	ID_NUMCRIINV
+	 	
+	 								ID_NUMEMP manque l'emplacement dans PREJDD.EQU EQU.RT.MAT.001.CRE.01.........
+	 								
+
+	 	ORGANISTION MODIF			--> Contrôle de la valeur  de 'ST_DESORI' KO : la valeur attendue est 'UPD.RO.ORG.001.MAJ.01' et la valeur en BD est  : 'RO.ORG.001.MAJ.01'			--> normal non ?	
+	 	
+	 	EQUIPEMENT					--> qq chose à faire sur RT_EQU ?
+	 																														
+
+
+
+
+
+
+
+
 	
 
 
@@ -43,7 +92,7 @@ Notes pour RT.EQU.001.CRE.01 --> comment différencier
 	UTILISATION de varaible dans une closure de Map
 	
 		L'utilisation de variable dans une boucle d'un map semble poser problème 
-		Par exemple dans checkJDD.run() mettre myJDD = new my.JDD(fullName,null,null,false) --> provoque une erreur
+		Par exemple dans checkJDD.run() mettre myJDD = new JDD(fullName,null,null,false) --> provoque une erreur
 		--> je ne sais pas pourquoi
 		--> peut être parce que .each est une closure
 		
@@ -89,58 +138,14 @@ Notes pour RT.EQU.001.CRE.01 --> comment différencier
  *
  *
 
-	
+	Ajouter 2 tab dans Log.addINFO entre les START TEST CASE et END TEST CASE
 	
 
 	VERIFIER les nom des cas de tests des sous-rubriques
 
 
  
-	RESULTAT DES TESTS
-	
-	 		
-	 	ACTEUR - AJOUT EMPLACEMENT 	--> Click sur le bouton AJOUTER n'affiche pas la fenetre de recherche des emplacements 	--> ajouter une Zone --> marche pas
-	 	
-	 	FOURNISSEUR SUPPRESSION 	--> pas autoriser à supprimmer cet élément -											--> voir trace voir si memo correctement créé en BDD
-	 	
-	 	COMPTEUR CREATION 			--> la valeur NU_DEL est à 0 à la place de 100000 (JDD)
-	 	
-	 	COMPTEUR LECTURE			--> NU_DEL et NU_VALN sont NULL en BD et 0 à l'écran
-	 	
-	 	
-	 	ARTICLE SUPPRESSION			--> Ce code ne peut pas être supprimé
-	 	ARTICLE						--> NU_PRIPMP est NULL en BD et 0 à l'écran
-	 	
-	 	MATRICULE SUPPRESSION		--> Pas de bouton supprimer !--> revoir les regles de supression du Matricule, la fonction teste si 2 mouvements sinon pas de delete
-	 	
-	 	MATRICULE					--> manque ID_TYPENJ et ID_NUMCRIINV dans les écrans --> Ces deux rubriques sont disponibles dans la sous-fonction INVENTAIRE
-	 	
-	 	MATRICULE CREATION 			--> manque dans les écrans : ST_DESREP, DT_POS, DT_SER, ST_EMPMAG, ST_PAT, ST_SOUINV, ST_SOUASS, DT_INV, DT_INVPRO, 	DT_ASS, 	DT_ASSPRO, 	NU_FREINV, 	NU_FREASS, 	NU_VALINI, 	NU_VALINV, 	NU_VALASS, 	ST_UTIUPD, 	DT_ENT, 	ID_CODMETINV, 	ID_CODETAVIS, 	ST_REMETAVIS, 	ID_CODGESPRO, 	ID_CODGESGES, 	ID_CODGESEXP, 	ID_CODGESMAI, 	ID_TYPENJ, 	ID_NUMCRIINV
-	 	
-	 								ID_NUMEMP manque l'emplacement dans PREJDD.EQU EQU.RT.MAT.001.CRE.01.........
-	 								
 
-	 	ORGANISTION MODIF			--> Contrôle de la valeur  de 'ST_DESORI' KO : la valeur attendue est 'UPD.RO.ORG.001.MAJ.01' et la valeur en BD est  : 'RO.ORG.001.MAJ.01'			--> normal non ?	
-	 	
-	 																														
-	 	
-
-	
-	
-	
-	
-	LOT PROTO + 1A
-	***************
-		AD.SEC --> Fait
-		RO.ACT --> FAIT
-		RO.FOU --> FAIT
-		MP.CPT --> FAIT
-		RT.ART --> FAIT
-		RO.ORG --> FAIT
-		RT.MAT --> FAIT
-		TR.BTR
-		RT.EQU --> en cours 
-		AD.DEP --> Fait
 
 
 
@@ -165,6 +170,11 @@ Notes pour RT.EQU.001.CRE.01 --> comment différencier
  * EVOLUTION
  * -----------------------------------------------------------------------------------------------------
  * 
+	WEBWINDOW
+	
+		Ajout une gestion de nom de fenetre (comme addList dans Log) ou passer en non static (pour permettre de gèrer plusieurs fenetre en mm temps)
+		
+	
 	
 	TEST CASE 
 	

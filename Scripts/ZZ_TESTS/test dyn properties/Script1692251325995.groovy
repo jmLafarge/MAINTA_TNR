@@ -79,7 +79,7 @@ class JDD{
 }
 
 
-JDD myJDD = new my.JDD()
+JDD myJDD = new JDD()
 
 println myJDD.ID1.to.getObjectId()
 println myJDD.ID2.to.getObjectId()

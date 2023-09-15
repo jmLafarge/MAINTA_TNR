@@ -7,7 +7,7 @@ import tnrWebUI.NAV
 
 
 'Lecture du JDD'
-def myJDD = new JDD()
+JDD myJDD = new JDD()
 
 for (String cdt in myJDD.getCDTList()) {
 	
@@ -76,11 +76,8 @@ for (String cdt in myJDD.getCDTList()) {
 		
 		KW.scrollAndClick(myJDD,"tab_Notes")
 		KW.waitForElementVisible(myJDD,"tab_NotesSelected")
-	
-	
 		
 		KW.scrollToPositionAndWait(0, 0,1)
-		
 		
 		KW.verifyElementText(new JDD(JDDFileMapper.getFullnameFromModObj('RO.FOU'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS),"OL_DOC")
 

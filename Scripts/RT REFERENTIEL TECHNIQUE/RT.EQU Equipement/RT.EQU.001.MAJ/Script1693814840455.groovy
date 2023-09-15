@@ -6,11 +6,12 @@ import tnrJDDManager.JDDFileMapper
 import tnrResultManager.TNRResult
 import tnrSqlManager.SQL
 import tnrWebUI.KW
+import tnrWebUI.Memo
 import tnrWebUI.NAV
 
 
 'Lecture du JDD'
-def myJDD = new JDD()
+JDD myJDD = new JDD()
 
 
 for (String cdt in myJDD.getCDTList()) {
@@ -79,54 +80,21 @@ for (String cdt in myJDD.getCDTList()) {
 		KW.scrollAndCheckIfNeeded(myJDD, "ST_ANA", "O")
 		
 	TNRResult.addSTEPGRP("ONGLET NOTES")
+	
+		KW.scrollToPositionAndWait(0, 0,1)
 		
 		KW.scrollAndClick(myJDD, "tab_Notes")
 		KW.waitForElementVisible(myJDD, "tab_NotesSelected")
 		
-		KW.scrollToPositionAndWait(0, 0,1)
+		JDD JDD_Note = new JDD(JDDFileMapper.getFullnameFromModObj('RT.EQU'),'001C',GlobalVariable.CAS_DE_TEST_EN_COURS)
 		
-		JDD myJDDnote = new JDD(JDDFileMapper.getFullnameFromModObj('RT.EQU'),'001C',GlobalVariable.CAS_DE_TEST_EN_COURS)
-		
-		String notes = myJDDnote.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC1'))
-		String consignes = myJDDnote.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC2'))
+		String notes = JDD_Note.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC1'))
+		String consignes = JDD_Note.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC2'))
 	
+		Memo.setText(notes, 'Notes',true,myJDD,'Memo_ModifierNotes')
+		Memo.setText(consignes, 'Consignes',true,myJDD,'Memo_ModifierConsignes')
 		
-		KW.scrollAndClick(myJDD,"ModifierNotes")
-		KW.delay(1)
-		
-		WebUI.switchToWindowIndex('1')
-		
-		if (KW.isElementPresent(myJDD,'frameNote', GlobalVariable.TIMEOUT)) {
-			
-			KW.switchToFrame(myJDD, 'frameNote')
-			
-			KW.setText(myJDD, 'textNote',notes)
-			
-			WebUI.switchToDefaultContent()
-			
-			KW.scrollAndClick(myJDD,"BTN_ValiderEtFermerNote")
-			WebUI.switchToWindowIndex('0')
-		}
-		
-		
-		
-		KW.scrollAndClick(myJDD,"ModifierConsignes")
-		KW.delay(1)
-		
-		WebUI.switchToWindowIndex('1')
-		
-		if (KW.isElementPresent(myJDD,'frameNote', GlobalVariable.TIMEOUT)) {
-			
-			KW.switchToFrame(myJDD, 'frameNote')
-			
-			KW.setText(myJDD, 'textNote',consignes)
-			
-			WebUI.switchToDefaultContent()
-			
-			KW.scrollAndClick(myJDD,"BTN_ValiderEtFermerNote")
-			WebUI.switchToWindowIndex('0')
-		}
-		
+
 		
 		
 		

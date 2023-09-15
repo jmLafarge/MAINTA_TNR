@@ -13,9 +13,10 @@ import tnrLog.Log
 import tnrResultManager.TNRResult
 
 /**
- * Personaliser et de regrouper certaines actions WebUI
+ * Personalise les actions WebUI
  * 
  * @author JM LAFARGE
+ * @version 1.0
  *
  */
 
@@ -54,6 +55,7 @@ class KW {
 			TNRResult.addDETAIL(url)
 			TNRResult.addBrowserInfo()
 			waitForPageLoad()
+			WebWindow.storeMainWindowHandle()
 		} catch (Exception ex) {
 			TNRResult.addSTEPERROR("Ouverture du navigateur à l'URL :")
 			TNRResult.addDETAIL(url)
@@ -133,8 +135,10 @@ class KW {
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (!msgTO) {
 			if (text==null) text = myJDD.getStrData(name)
-			String objText = WebUI.getText(tObj)
-			if (objText==text){
+			//String objValt = WebUI.getText(tObj)
+			String objValue = WebUI.getAttribute(tObj, 'value')
+			Log.addTrace("objText:'$objValue'")
+			if (objValue==text){
 				TNRResult.addSTEPPASS("Saisie du texte '$text' sur '${tObj.getObjectId()}'")
 				TNRResult.addDETAIL("La valeur est déjà saisie, pas de modification.")
 			}else {
@@ -222,8 +226,8 @@ class KW {
 
 
 
-	
-	
+
+
 	static boolean waitForAlert(int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "waitForAlert", [ timeOut:timeOut , status:status])
 		boolean ret = false
@@ -256,8 +260,8 @@ class KW {
 		Log.addTraceEND(CLASS_FOR_LOG, "acceptAlert",ret)
 		return ret
 	}
-	
-	
+
+
 	static boolean waitAndAcceptAlert(int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "waitAndAcceptAlert", [ status:status])
 		boolean ret = false
@@ -271,8 +275,8 @@ class KW {
 
 
 
-	
-	
+
+
 
 	static String sendKeys(JDD myJDD, String name, String keys, String msg = '' , String status = 'FAIL') {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "sendKeys", [myJDD: myJDD.toString(), name: name , keys:keys, msg:msg , status:status])
@@ -387,9 +391,9 @@ class KW {
 	}
 
 
-	
-	
-	
+
+
+
 
 	static boolean verifyElementTextContains(JDD myJDD, String name, String text=null, String status = 'FAIL')  {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyElementTextContains", [myJDD: myJDD.toString(), name: name , text:text , status:status])
@@ -460,10 +464,10 @@ class KW {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyOptionSelectedByLabel", [myJDD: myJDD.toString(), name: name , text:text , isRegex:isRegex , timeOut:timeOut , status:status])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (!msgTO) {
-			
+
 			if (goToElement(myJDD, name, timeOut,status)) {
 				if (text==null) text = myJDD.getStrData(name)
-	
+
 				String paraIV = myJDD.myJDDParam.getINTERNALVALUEFor(name)
 				if (paraIV) {
 					String valIV = myJDD.myJDDIV.getValueOf(paraIV, text)
@@ -490,7 +494,7 @@ class KW {
 				}
 			}else {
 				TNRResult.addSTEP("Vérifier l'option '$text' de '$name'",status)
-				TNRResult.addDETAIL("L'élément '$name' n'est pas visble après $timeOut seconde(s)")		
+				TNRResult.addDETAIL("L'élément '$name' n'est pas visble après $timeOut seconde(s)")
 			}
 		}else {
 			TNRResult.addSTEPERROR("Vérifier l'option '$text' de '$name'")
@@ -669,6 +673,7 @@ class KW {
 			TNRResult.addDETAIL(msgTO)
 		}
 		Log.addTraceEND(CLASS_FOR_LOG, "waitForElementVisible",ret)
+		return ret
 	}
 
 
@@ -689,12 +694,12 @@ class KW {
 		boolean ret = false
 		if (goToElement(myJDD, name, timeOut,status)) {
 			//if (waitForElementVisible(myJDD, name, timeOut,status)) {
-				ret = click(myJDD, name,status)
-				/*
-			}else {
-				TNRResult.addDETAIL("Clic sur '$name' impossible")
-			}
-			*/
+			ret = click(myJDD, name,status)
+			/*
+			 }else {
+			 TNRResult.addDETAIL("Clic sur '$name' impossible")
+			 }
+			 */
 		}
 		Log.addTraceEND(CLASS_FOR_LOG, "scrollAndClick",ret)
 		return ret
@@ -708,12 +713,12 @@ class KW {
 	static void scrollAndDoubleClick(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		if (goToElement(myJDD, name, timeOut,status)) {
 			//if (waitForElementVisible(myJDD, name, timeOut,status)) {
-				doubleClick(myJDD, name,status)
-				/*
-			}else {
-				TNRResult.addDETAIL("Double click sur '$name' imposible")
-			}
-			*/
+			doubleClick(myJDD, name,status)
+			/*
+			 }else {
+			 TNRResult.addDETAIL("Double click sur '$name' imposible")
+			 }
+			 */
 		}
 	}
 
@@ -728,30 +733,30 @@ class KW {
 			if (text==null) text = myJDD.getStrData(name)
 			if (goToElement(myJDD, name, timeOut,status)) {
 				//if (waitForElementVisible(myJDD, name, timeOut,status)) {
-					String paraIV = myJDD.myJDDParam.getINTERNALVALUEFor(name)
-					if (paraIV) {
-						String valIV = myJDD.myJDDIV.getValueOf(paraIV, text)
-						if (valIV) {
-							try {
-								WebUI.selectOptionByLabel(tObj, valIV, isRegex,FailureHandling.STOP_ON_FAILURE)
-								TNRResult.addSTEPPASS("Scroll et select option '$valIV'($text) sur '${tObj.getObjectId()}'")
-							} catch (Exception ex) {
-								TNRResult.addSTEP("Scroll et select option '$valIV'($text) sur '${tObj.getObjectId()}'",status)
-								TNRResult.addDETAIL(ex.getMessage())
-							}
-						}else {
-							TNRResult.addSTEP("Scroll et select option '?'($text) sur '${tObj.getObjectId()}'",status)
-							TNRResult.addDETAIL("Pas de valeur trouvée pour l'INTERNALVALUE")
-						}
-					}else {
+				String paraIV = myJDD.myJDDParam.getINTERNALVALUEFor(name)
+				if (paraIV) {
+					String valIV = myJDD.myJDDIV.getValueOf(paraIV, text)
+					if (valIV) {
 						try {
-							WebUI.selectOptionByLabel(tObj, text, isRegex,FailureHandling.STOP_ON_FAILURE)
-							TNRResult.addSTEPPASS("Scroll et select option '$text' sur '${tObj.getObjectId()}'")
+							WebUI.selectOptionByLabel(tObj, valIV, isRegex,FailureHandling.STOP_ON_FAILURE)
+							TNRResult.addSTEPPASS("Scroll et select option '$valIV'($text) sur '${tObj.getObjectId()}'")
 						} catch (Exception ex) {
-							TNRResult.addSTEP("Scroll et select option '$text' sur '${tObj.getObjectId()}'",status)
+							TNRResult.addSTEP("Scroll et select option '$valIV'($text) sur '${tObj.getObjectId()}'",status)
 							TNRResult.addDETAIL(ex.getMessage())
 						}
+					}else {
+						TNRResult.addSTEP("Scroll et select option '?'($text) sur '${tObj.getObjectId()}'",status)
+						TNRResult.addDETAIL("Pas de valeur trouvée pour l'INTERNALVALUE")
 					}
+				}else {
+					try {
+						WebUI.selectOptionByLabel(tObj, text, isRegex,FailureHandling.STOP_ON_FAILURE)
+						TNRResult.addSTEPPASS("Scroll et select option '$text' sur '${tObj.getObjectId()}'")
+					} catch (Exception ex) {
+						TNRResult.addSTEP("Scroll et select option '$text' sur '${tObj.getObjectId()}'",status)
+						TNRResult.addDETAIL(ex.getMessage())
+					}
+				}
 				//}
 			}
 		}else {
@@ -771,13 +776,13 @@ class KW {
 			if (text==null) text = myJDD.getStrData(name)
 			if (goToElement(myJDD, name, timeOut,status)) {
 				//if (waitForElementVisible(myJDD, name, timeOut,status)) {
-					try {
-						WebUI.selectOptionByValue(tObj, text, isRegex,FailureHandling.STOP_ON_FAILURE)
-						TNRResult.addSTEPPASS("Scroll et select option '$text' sur '${tObj.getObjectId()}'")
-					} catch (Exception ex) {
-						TNRResult.addSTEP("Scroll et select option '$text' sur '${tObj.getObjectId()}'",status)
-						TNRResult.addDETAIL(ex.getMessage())
-					}
+				try {
+					WebUI.selectOptionByValue(tObj, text, isRegex,FailureHandling.STOP_ON_FAILURE)
+					TNRResult.addSTEPPASS("Scroll et select option '$text' sur '${tObj.getObjectId()}'")
+				} catch (Exception ex) {
+					TNRResult.addSTEP("Scroll et select option '$text' sur '${tObj.getObjectId()}'",status)
+					TNRResult.addDETAIL(ex.getMessage())
+				}
 				//}
 			}
 		}else {
@@ -797,19 +802,19 @@ class KW {
 			if (text == tnrJDDManager.JDDKW.getKW_VIDE()) text=''
 			if (goToElement(myJDD, name, timeOut, status)) {
 				//if (waitForElementVisible(myJDD, name, timeOut, status)) {
-					TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-					if (!msgTO) {
-						try {
-							WebUI.click(tObj, FailureHandling.STOP_ON_FAILURE)
-							TNRResult.addSTEPPASS("Clic sur bouton radio '${tObj.getObjectId()}' (" + myJDD.getStrData(name) + ')')
-						} catch (Exception ex) {
-							TNRResult.addSTEP("Clic sur bouton radio '${tObj.getObjectId()}' (" + myJDD.getStrData(name) + ')',status)
-							TNRResult.addDETAIL(ex.getMessage())
-						}
-					}else {
-						TNRResult.addSTEPERROR("Clic sur '$name' imposible")
-						TNRResult.addDETAIL(msgTO)
+				TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
+				if (!msgTO) {
+					try {
+						WebUI.click(tObj, FailureHandling.STOP_ON_FAILURE)
+						TNRResult.addSTEPPASS("Clic sur bouton radio '${tObj.getObjectId()}' (" + myJDD.getStrData(name) + ')')
+					} catch (Exception ex) {
+						TNRResult.addSTEP("Clic sur bouton radio '${tObj.getObjectId()}' (" + myJDD.getStrData(name) + ')',status)
+						TNRResult.addDETAIL(ex.getMessage())
 					}
+				}else {
+					TNRResult.addSTEPERROR("Clic sur '$name' imposible")
+					TNRResult.addDETAIL(msgTO)
+				}
 				//}
 			}
 		}
@@ -825,7 +830,7 @@ class KW {
 		}else {
 			if (goToElement(myJDD, name, timeOut, status)) {
 				//if (waitForElementVisible(myJDD, name, timeOut, status)) {
-					setText(myJDD, name, text, status)
+				setText(myJDD, name, text, status)
 				//}
 			}
 		}
@@ -840,7 +845,7 @@ class KW {
 		}else {
 			if (goToElement(myJDD, name, timeOut, status)) {
 				//if (waitForElementVisible(myJDD, name, timeOut, status)) {
-					setDate(myJDD, name, val, dateFormat, timeOut,status)
+				setDate(myJDD, name, val, dateFormat, timeOut,status)
 				//}
 			}
 		}
@@ -1123,23 +1128,32 @@ class KW {
 		String inputXpath 	= "//input[@name='$inputSearchName']"
 		String tdXpath 		= "//div[@id='v-dbtdhtmlx1']/table/tbody/tr[2]/td[$index_td][text()='$val']"
 		myJDD.myJDDXpath.add(['btnSearch':btnXpath , 'inputSearch':inputXpath , 'tdSearch':tdXpath])
+
+		WebWindow.init()
+
 		scrollAndClick(myJDD,'btnSearch')
-		WebUI.switchToWindowIndex('1')
-		if (waitForElementVisible(myJDD, 'inputSearch')) {
-			setText(myJDD,'inputSearch', myJDD.getStrData(name))
-			'mise à jour dynamique du xpath'
-			scrollWaitAndVerifyElementText(myJDD,'tdSearch', myJDD.getStrData(name))
-			click(myJDD,'tdSearch')
+
+		if (WebWindow.waitForNewWindowToOpenAndSwitch()) {
+			if (waitForElementVisible(myJDD, 'inputSearch')) {
+				setText(myJDD,'inputSearch', myJDD.getStrData(name))
+				'mise à jour dynamique du xpath'
+				scrollWaitAndVerifyElementText(myJDD,'tdSearch', myJDD.getStrData(name))
+				click(myJDD,'tdSearch')
+			}
+			delay(1)
+			WebWindow.closeWindowIfOpen()
 		}else {
-			TNRResult.addDETAIL("Fermeture de la fenêtre")
-			WebUI.closeWindowIndex('1')
+			TNRResult.addSTEP("Saisie de $name en utilisant l'assistant de recherche",'FAIL')
+			TNRResult.addDETAIL("La fenetre de recherche ne s'est pas ouverte")
 		}
-		WebUI.switchToWindowIndex('0')
+		
+		WebWindow.switchToMainWindow()
+
 	}
 
 
-	
-	
+
+
 	static void searchWithHelper(JDD myJDD, String name , String btnXpath = '' , String inputSearchName = '', int index_td=3 ){
 
 		String val = myJDD.getStrData(name)
@@ -1150,23 +1164,23 @@ class KW {
 			TNRResult.addSUBSTEP("Saisie de $name en utilisant l'assistant de recherche")
 			if (goToElement(myJDD, name)) {
 				//if (waitForElementVisible(myJDD, name)) {
-					TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-					String value = WebUI.getAttribute(tObj, 'value')
-					if (value==val){
-						TNRResult.addDETAIL("La valeur est déjà saisie, pas de modification.")
+				TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
+				String value = WebUI.getAttribute(tObj, 'value')
+				if (value==val){
+					TNRResult.addDETAIL("La valeur est déjà saisie, pas de modification.")
+				}else {
+					String msg = deleteText(tObj)
+					if (msg) {
+						TNRResult.addSTEP("Saisie de $name en utilisant l'assistant de recherche",'FAIL')
+						TNRResult.addDETAIL(msg)
 					}else {
-						String msg = deleteText(tObj)
-						if (msg) {
-							TNRResult.addSTEP("Saisie de $name en utilisant l'assistant de recherche",'FAIL')
-							TNRResult.addDETAIL(msg)
-						}else {
-							runSearchWithHelper(myJDD, name , btnXpath , inputSearchName , index_td)
-						}
+						runSearchWithHelper(myJDD, name , btnXpath , inputSearchName , index_td)
 					}
+				}
 				//}
 			}
 		}
 	}
-	
-	
+
+
 } // Fin de class

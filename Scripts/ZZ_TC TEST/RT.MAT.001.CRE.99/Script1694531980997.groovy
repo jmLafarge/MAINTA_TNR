@@ -8,7 +8,7 @@ import tnrSqlManager.SQL
 import tnrResultManager.TNRResult
 
 'Lecture du JDD'
-def myJDD = new JDD()
+JDD myJDD = new JDD()
 	
 		
 	TNRResult.addStartTestCase('TEST')

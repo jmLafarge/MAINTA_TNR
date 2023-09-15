@@ -14,7 +14,7 @@ public class JDDHeader {
 
 
 	private final String CLASS_FOR_LOG 		= 'JDDHeaders'
-	
+
 	public final String START_DATA_WORD 	= TNRPropertiesReader.getMyProperty('START_DATA_WORD')
 
 	private List <String> headersList = []
@@ -52,6 +52,4 @@ public class JDDHeader {
 	public String add(String name) {
 		return headersList.add(name)
 	}
-	
-	
 } //Fin de class

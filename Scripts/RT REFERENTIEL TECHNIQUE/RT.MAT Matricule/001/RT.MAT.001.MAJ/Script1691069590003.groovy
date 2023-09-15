@@ -1,12 +1,16 @@
+import internal.GlobalVariable
 import tnrJDDManager.JDD
-import tnrWebUI.KW
-import tnrWebUI.NAV
-import tnrSqlManager.SQL
+import tnrJDDManager.JDDFileMapper
 import tnrResultManager.TNRResult
+import tnrSqlManager.SQL
+import tnrWebUI.KW
+import tnrWebUI.Memo
+import tnrWebUI.NAV
+import tnrWebUI.WebWindow
 
 
 'Lecture du JDD'
-def myJDD = new JDD()
+JDD myJDD = new JDD()
 
 
 for (String cdt in myJDD.getCDTList()) {
@@ -21,8 +25,7 @@ for (String cdt in myJDD.getCDTList()) {
 
 			//Rappel pour ajouter un block dans le fichier Resultat :
 			//TNRResult.addSTEPBLOCK("DU TEXTE")
-
-			
+	
 		TNRResult.addSTEPGRP("ONGLET MATRICULE")
 			
 			KW.scrollAndClick(myJDD, "tab_Matricule")
@@ -37,9 +40,7 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.searchWithHelper(myJDD, "ID_CODART","","")
 			KW.searchWithHelper(myJDD, "ID_CODMOY","","")
 			KW.searchWithHelper(myJDD, "ID_CODGES","","")
-			
 			KW.searchWithHelper(myJDD, "ID_NUMCRI")
-			
 			KW.searchWithHelper(myJDD, "ID_CODIMP","","")
 			KW.scrollAndSetText(myJDD, "ID_NUMGRO")
 			KW.searchWithHelper(myJDD, "ID_CODCOM","","")
@@ -79,11 +80,21 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.scrollAndCheckIfNeeded(myJDD, "ST_CONTRABT", "O")
 			KW.scrollAndCheckIfNeeded(myJDD, "ST_PRE", "O")
 			KW.scrollAndCheckIfNeeded(myJDD, "ST_INS", "O")
-			
+	
 		TNRResult.addSTEPGRP("ONGLET NOTES")
 			
 			KW.scrollAndClick(myJDD, "tab_Notes")
 			KW.waitForElementVisible(myJDD, "tab_NotesSelected")
+			
+			def JDD_Note = new JDD(JDDFileMapper.getFullnameFromModObj('RT.MAT'),'001C',GlobalVariable.CAS_DE_TEST_EN_COURS)
+			
+			KW.scrollToPositionAndWait(0, 0,1)
+			
+			Memo.setText(JDD_Note.getStrData("OL_DOC"), 'Notes',true,myJDD,'')
+			
+
+			
+			
 			
 			
 		TNRResult.addSTEPGRP("ONGLET ETAT")
@@ -107,9 +118,9 @@ for (String cdt in myJDD.getCDTList()) {
 	    KW.scrollAndClick(NAV.myGlobalJDD,'button_Valider')
 	
 	    NAV.verifierEcranResultat(myJDD.getStrData())
-	
+
 		SQL.checkJDDWithBD(myJDD)
-	
+		SQL.checkJDDWithBD(JDD_Note)
 		
 	TNRResult.addEndTestCase()
 } // fin du if

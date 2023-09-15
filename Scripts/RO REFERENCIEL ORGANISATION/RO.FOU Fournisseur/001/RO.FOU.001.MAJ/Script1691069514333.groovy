@@ -1,16 +1,14 @@
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-
 import internal.GlobalVariable
 import tnrJDDManager.JDD
 import tnrJDDManager.JDDFileMapper
-import tnrPREJDDManager.PREJDDFileMapper
 import tnrResultManager.TNRResult
 import tnrSqlManager.SQL
 import tnrWebUI.KW
+import tnrWebUI.Memo
 import tnrWebUI.NAV
 
 'Lecture du JDD'
-def myJDD = new JDD()
+JDD myJDD = new JDD()
 
 
 for (String cdt in myJDD.getCDTList()) {
@@ -40,7 +38,7 @@ for (String cdt in myJDD.getCDTList()) {
 		
 		TNRResult.addSTEPBLOCK("ADRESSE")
 		
-		def JDD_Adr = new my.JDD(JDDFileMapper.getFullnameFromModObj('RO.ADR'),'001',GlobalVariable.CAS_DE_TEST_EN_COURS)
+		JDD JDD_Adr = new JDD(JDDFileMapper.getFullnameFromModObj('RO.ADR'),'001',GlobalVariable.CAS_DE_TEST_EN_COURS)
 		
 		KW.scrollAndClick(myJDD,"TD_Adresse")
 		KW.scrollAndClick(myJDD,"BTN_ModifierAdresse")
@@ -108,27 +106,9 @@ for (String cdt in myJDD.getCDTList()) {
 		KW.scrollAndClick(myJDD,"tab_Notes")
 		KW.waitForElementVisible(myJDD,"tab_NotesSelected")
 		
-		def JDD_Note = new JDD(JDDFileMapper.getFullnameFromModObj('RO.FOU'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS)
-		
+		JDD JDD_Note = new JDD(JDDFileMapper.getFullnameFromModObj('RO.FOU'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS)
 		KW.scrollToPositionAndWait(0, 0,1)
-		
-		KW.scrollAndClick(myJDD,"ModifierNote")
-		KW.delay(1)
-		
-		WebUI.switchToWindowIndex('1')
-		
-		if (KW.isElementPresent(myJDD,'frameNote', GlobalVariable.TIMEOUT)) {
-			
-			KW.switchToFrame(myJDD, 'frameNote')
-			
-			
-			KW.setText(myJDD, 'textNote',JDD_Note.getStrData("OL_DOC"))
-			
-			WebUI.switchToDefaultContent()
-			
-			KW.scrollAndClick(myJDD,"BTN_ValiderEtFermerNote")
-			WebUI.switchToWindowIndex('0')
-		}
+		Memo.setText(JDD_Note.getStrData("OL_DOC"), 'Notes',true,myJDD,'')
 	
 	  		 
 		
@@ -138,8 +118,9 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	    NAV.verifierEcranResultat(myJDD.getStrData())
 	
-		SQL.checkJDDWithBD(myJDD)
 		
+		SQL.checkJDDWithBD(myJDD)
+		SQL.checkJDDWithBD(JDD_Note)
 		SQL.checkJDDWithBD(JDD_Adr)
 	
 	TNRResult.addEndTestCase()

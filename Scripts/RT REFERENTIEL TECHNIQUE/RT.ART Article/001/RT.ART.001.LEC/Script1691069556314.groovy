@@ -7,7 +7,7 @@ import tnrResultManager.TNRResult
 
 
 'Lecture du JDD'
-def myJDD = new JDD()
+JDD myJDD = new JDD()
 
 for (String cdt in myJDD.getCDTList()) {
 	
@@ -36,10 +36,13 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.verifyValue(myJDD,"ID_CODGES")
 			KW.verifyValue(myJDD,"ST_DESGES")
 			
+			KW.verifyElementText(new JDD(JDDFileMapper.getFullnameFromModObj('RT.ART'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS),"OL_DOC")
+			
+			
 		TNRResult.addSTEPBLOCK("FOURNISSEUR NORMALISE")
 		
 			// Lire le JDD spécifique
-			def JDD_ARTFOU = new my.JDD(JDDFileMapper.getFullnameFromModObj('RT.ART'),'001B',GlobalVariable.CAS_DE_TEST_EN_COURS)
+			JDD JDD_ARTFOU = new JDD(JDDFileMapper.getFullnameFromModObj('RT.ART'),'001B',GlobalVariable.CAS_DE_TEST_EN_COURS)
 			
 				KW.verifyValue(JDD_ARTFOU,"ID_CODFOU")
 			KW.verifyValue(myJDD,"ST_DESID_CODFOU")

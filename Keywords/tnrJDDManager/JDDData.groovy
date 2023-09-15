@@ -217,16 +217,16 @@ public class JDDData {
 		}
 		Log.addTraceEND(CLASS_FOR_LOG, "setValueOf" )
 	}
-	
-	
-	
-	
+
+
+
+
 	public String getValueOf(String name,String cdt,String whereName, def value) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "getValueOf", [name:name , cdt:cdt , whereName:whereName , value:value])
 		String ret = null
 		def resultat = datasList.find { it.containsKey(cdt) && it[cdt]?.get(whereName) == value }
 		if (resultat) {
-			 ret= resultat[cdt]?.get(name)
+			ret= resultat[cdt]?.get(name)
 		}
 		Log.addTraceEND(CLASS_FOR_LOG, "getValueOf",ret)
 		return ret

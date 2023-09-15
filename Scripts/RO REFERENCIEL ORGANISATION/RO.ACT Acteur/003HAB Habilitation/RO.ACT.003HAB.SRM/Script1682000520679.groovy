@@ -9,7 +9,7 @@ import tnrResultManager.TNRResult
 
 
 'Lecture du JDD'
-def myJDD = new JDD()
+JDD myJDD = new JDD()
 
 Log.addINFO('CDTList: ' +myJDD.getCDTList().join(' - '))
 

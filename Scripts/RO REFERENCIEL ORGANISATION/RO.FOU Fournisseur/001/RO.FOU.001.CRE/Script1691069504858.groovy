@@ -1,11 +1,14 @@
+import internal.GlobalVariable
 import tnrJDDManager.JDD
-import tnrWebUI.KW
-import tnrWebUI.NAV
-import tnrSqlManager.SQL
+import tnrJDDManager.JDDFileMapper
 import tnrResultManager.TNRResult
+import tnrSqlManager.SQL
+import tnrWebUI.KW
+import tnrWebUI.Memo
+import tnrWebUI.NAV
 
 'Lecture du JDD'
-def myJDD = new JDD()
+JDD myJDD = new JDD()
 		
 		
 for (String cdt in myJDD.getCDTList()) {
@@ -76,8 +79,14 @@ for (String cdt in myJDD.getCDTList()) {
 		
 		KW.scrollAndClick(myJDD,"tab_Notes")
 		KW.waitForElementVisible(myJDD,"tab_NotesSelected")
-
-
+		
+/* Pas de cas de test pour Notes
+ * 
+		def JDD_Note = new JDD(JDDFileMapper.getFullnameFromModObj('RO.FOU'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS)
+		KW.scrollToPositionAndWait(0, 0,1)
+		Memo.setText(JDD_Note.getStrData("OL_DOC"), 'Notes',false,myJDD,'')
+*/		
+	
 				
 	TNRResult.addSTEPACTION('VALIDATION')
 
@@ -86,8 +95,10 @@ for (String cdt in myJDD.getCDTList()) {
 	    NAV.verifierEcranResultat(myJDD.getStrData())
 		
 		myJDD.replaceSEQUENCIDInJDD('ID_NUMDOC',-1)
-
+		//JDD_Note.replaceSEQUENCIDInJDD('ID_NUMDOC',-1)
+		
 		SQL.checkJDDWithBD(myJDD)
+		//SQL.checkJDDWithBD(JDD_Note)
 
 	TNRResult.addEndTestCase()
 } // fin du if

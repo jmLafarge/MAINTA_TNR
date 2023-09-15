@@ -1,10 +1,12 @@
+import internal.GlobalVariable
+import tnrJDDManager.JDD
+import tnrJDDManager.JDDFileMapper
+import tnrResultManager.TNRResult
 import tnrWebUI.KW
 import tnrWebUI.NAV
-import tnrResultManager.TNRResult
-import tnrJDDManager.JDD
 
 'Lecture du JDD'
-def myJDD = new JDD()
+JDD myJDD = new JDD()
 
 for (String cdt in myJDD.getCDTList()) {
 	
@@ -93,6 +95,10 @@ for (String cdt in myJDD.getCDTList()) {
 			
 			KW.scrollAndClick(myJDD, "tab_Notes")
 			KW.waitForElementVisible(myJDD, "tab_NotesSelected")
+			
+			KW.scrollToPositionAndWait(0, 0,1)
+			
+			KW.verifyElementText(new JDD(JDDFileMapper.getFullnameFromModObj('RT.MAT'),'001C',GlobalVariable.CAS_DE_TEST_EN_COURS),"OL_DOC")
 			
 			
 		TNRResult.addSTEPGRP("ONGLET ETAT")

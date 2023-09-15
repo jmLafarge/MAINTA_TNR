@@ -6,7 +6,7 @@ import tnrResultManager.TNRResult
 
 
 'Lecture du JDD'
-def myJDD = new JDD()
+JDD myJDD = new JDD()
 
 
 for (String cdt in myJDD.getCDTList()) {
@@ -35,7 +35,7 @@ for (String cdt in myJDD.getCDTList()) {
 			
 			myJDD.setCasDeTestNum(i)
 	
-	        KW.waitAndVerifyElementText(myJDD,'ID_NUMREF')
+	        KW.scrollAndClick(myJDD,'ID_NUMREF')
 			
 			if (myJDD.getStrData('ST_DEF')=='N' || i==1) {
 		        'Supression'
