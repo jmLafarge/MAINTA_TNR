@@ -11,7 +11,7 @@ import tnrSqlManager.InfoDB
 // Enregistrer la page html dans C:\Users\A1008045\Documents\IHM
 // Mettre à jour la liste
 
-String testPour ='Matricule'
+String testPour ='Bon de travail'
 
 Map map = [
 	'Acteur'	: ['RO.ACT','001','Acteur_fichiers//FormE21.htm'],
@@ -19,7 +19,7 @@ Map map = [
 	'Equipement'	: ['RT.EQU','001','Equipement_fichiers//FormE7.htm'],
 	'Inventaire'	: ['RT.XXX','001','Inventaire_fichiers//FormE50.htm'],
 	'Organisation'	: ['RO.ORG','001','Organisation_fichiers//FormE233.htm'],
-	'Bon de travail'	: ['TR.BTR','001','xxxxxxxxxxxxxxxx']
+	'Bon de travail'	: ['TR.BT','001','BTLEC_fichiers//E39.htm']
 ]
 
 

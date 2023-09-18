@@ -27,8 +27,8 @@ public class WebWindow {
 	private static String newWindowHandle
 	private static String mainWindowHandle
 
-	
-	
+
+
 	/**
 	 * initialise la liste des handles de fenêtre
 	 */
@@ -37,7 +37,7 @@ public class WebWindow {
 		beforeHandles = getWindowHandles()
 		Log.addTraceEND(CLASS_FOR_LOG, "init")
 	}
-	
+
 
 	/**
 	 * Sauvegarde le handle de la fenêtre principale

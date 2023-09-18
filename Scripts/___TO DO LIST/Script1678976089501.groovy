@@ -9,6 +9,9 @@
  * 
  *  
 
+Ajout Ctrl  d'ouverture et fermeture de la div ADR de FOU
+Modif verifyElementInViewport --> ajout d'un vrai delay d'attente (timeout ne correspondant pas à l'attente)
+Ajout de verifyTimeValue
 
 
 	LOT PROTO + 1A
@@ -128,6 +131,8 @@
 		
 		
 	ATTETION, il y a 2 return dans la class SQL.checkValue
+	
+	
 	
 	
 	

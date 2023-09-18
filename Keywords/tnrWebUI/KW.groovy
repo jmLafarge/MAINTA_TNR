@@ -509,15 +509,22 @@ class KW {
 
 
 
-	static boolean verifyElementInViewport(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyElementInViewport", [myJDD: myJDD.toString(), name: name , timeOut:timeOut , status:status])
+	static boolean verifyElementInViewport(JDD myJDD, String name, int timeoutInMilliseconds , String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyElementInViewport", [myJDD: myJDD.toString(), name: name , timeoutInMilliseconds:timeoutInMilliseconds , status:status])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		boolean ret = false
 		if (!msgTO) {
-			if (WebUI.verifyElementInViewport(tObj, timeOut, FailureHandling.OPTIONAL)) {
-				//TNRResult.addSTEPPASS("Vérifier que l'élément '${tObj.getObjectId()}' soit visible")
+			int waitedTime = 0
+			while (waitedTime < timeoutInMilliseconds) {
+				ret = WebUI.verifyElementInViewport(tObj, (int) GlobalVariable.TIMEOUT, FailureHandling.OPTIONAL)
+				if(ret) {
+					break
+				}
+				Thread.sleep(50)
+				waitedTime += 50
+			}
+			if (ret) {
 				Log.addINFO("L'élément '${tObj.getObjectId()}' est visible dans le viewport")
-				ret = true
 			}else {
 				Log.addINFO("L'élément '${tObj.getObjectId()}' n'est pas visible dans le viewport")
 			}
@@ -583,17 +590,23 @@ class KW {
 	}
 
 
+	
 
+	
 
 	static boolean goToElement(JDD myJDD, String name, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "goToElement", [myJDD: myJDD.toString(), name: name , timeOut:timeOut , status:status])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		boolean ret = false
 		if (!msgTO) {
-			if (verifyElementInViewport(myJDD, name, timeOut,status)) {
+			if (verifyElementInViewport(myJDD, name, 0,status)) {
 				ret = true
 			}else if (scrollToElement(myJDD, name, timeOut,status)) {
-				ret = true
+				if (verifyElementInViewport(myJDD, name, 500,status)) {
+					ret = true
+				}else {
+					TNRResult.addSTEP("L'élément '${tObj.getObjectId()}' n'est pas visible dans le viewport",status)
+				}
 			}
 		}else {
 			TNRResult.addSTEPERROR("Go to '$name' impossible")
@@ -650,7 +663,7 @@ class KW {
 			try {
 				if (WebUI.waitForElementVisible(tObj, timeOut, FailureHandling.OPTIONAL)) {
 					//TNRResult.addSTEPPASS("Vérifier que l'élément '${tObj.getObjectId()}' soit visible")
-					ret = verifyElementInViewport(myJDD, name, timeOut,status)
+					ret = verifyElementInViewport(myJDD, name, 100,status)
 					if (WebUI.getAttribute(tObj, 'disabled', FailureHandling.OPTIONAL)) {
 						//TNRResult.addDETAIL("Elément 'disabled'")
 						Log.addINFO("Elément 'disabled'")
@@ -894,7 +907,7 @@ class KW {
 
 	static void verifyDateValue(JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeOut = GlobalVariable.TIMEOUT , String status = 'FAIL')  {
 
-		Log.addTrace("verifyDateFromValue : name='$name' val='${val.toString()} dateFormat='dateFormat' status='$status'")
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyDateValue", [myJDD: myJDD.toString(), name: name , val:val , dateFormat:dateFormat , timeOut:timeOut , status:status])
 
 		if (val==null) val = myJDD.getData(name)
 		if (val == '$VIDE') {
@@ -905,14 +918,36 @@ class KW {
 			TNRResult.addSTEPERROR("Vérification du texte '${val.toString()}' sur '$name'")
 			TNRResult.addDETAIL("Erreur de JDD de '$name', la valeur '${val.toString()}' n'est pas une date ! getClass = " + val.getClass())
 		}
+		Log.addTraceEND(CLASS_FOR_LOG, "verifyDateValue")
 	}
+	
+	
+	static void verifyTimeValue(JDD myJDD, String name, def val=null, String timeFormat = 'HH:mm:ss', int timeOut = GlobalVariable.TIMEOUT , String status = 'FAIL')  {
+
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyTimeValue", [myJDD: myJDD.toString(), name: name , val:val , timeFormat:timeFormat , timeOut:timeOut , status:status])
+
+		if (val==null) val = myJDD.getData(name)
+		if (val == '$VIDE') {
+			verifyValue(myJDD, name, '', status)
+		}else if ( val instanceof Date) {
+			verifyValue(myJDD, name, val.format(timeFormat), status)
+		}else {
+			TNRResult.addSTEPERROR("Vérification du texte '${val.toString()}' sur '$name'")
+			TNRResult.addDETAIL("Erreur de JDD de '$name', la valeur '${val.toString()}' n'est pas une date ! getClass = " + val.getClass())
+		}
+		Log.addTraceEND(CLASS_FOR_LOG, "verifyTimeValue")
+	}
+		
+			
+			
 
 
 	static void scrollWaitAndVerifyElementText(JDD myJDD, String name, String text=null, int timeOut = GlobalVariable.TIMEOUT, String status = 'FAIL') {
 
 		if (text==null) text = myJDD.getStrData(name)
 		if (goToElement(myJDD, name, timeOut, status)) {
-			waitAndVerifyElementText(myJDD, name, text,timeOut, status)
+			//waitAndVerifyElementText(myJDD, name, text,timeOut, status)
+			verifyElementText(myJDD, name, text, status)
 		}
 	}
 
@@ -948,12 +983,14 @@ class KW {
 							TNRResult.addDETAIL("déjà cochée")
 						}else {
 							try {
-								if (waitForElementVisible(myJDD, name, timeOut,status)) {
+								//if (waitForElementVisible(myJDD, name, timeOut,status)) {
 									WebUI.click(tObjLbl, FailureHandling.STOP_ON_FAILURE)
 									TNRResult.addSTEPPASS("Cocher la case à cocher '" + name + "'")
+									/*
 								}else {
 									TNRResult.addSTEP("Cocher la case à cocher '" + name + "'", status)
 								}
+								*/
 							} catch (Exception ex) {
 								TNRResult.addSTEP("Cocher la case à cocher '" + name + "'", status)
 								TNRResult.addDETAIL(ex.getMessage())
@@ -965,12 +1002,14 @@ class KW {
 							TNRResult.addDETAIL("déjà décochée")
 						}else {
 							try {
-								if (waitForElementVisible(myJDD, name, timeOut,status)) {
+								//if (waitForElementVisible(myJDD, name, timeOut,status)) {
 									WebUI.click(tObjLbl, FailureHandling.STOP_ON_FAILURE)
 									TNRResult.addSTEPPASS("Décocher la case à cocher '" + name + "'")
+									/*
 								}else {
 									TNRResult.addSTEP("Décocher la case à cocher '" + name + "'", status)
 								}
+								*/
 							} catch (Exception ex) {
 								TNRResult.addSTEP("Décocher la case à cocher '" + name + "'", status)
 								TNRResult.addDETAIL(ex.getMessage())

@@ -17,7 +17,7 @@ public class TO {
 
 	private TestObject to
 	private String msgTO
-	
+
 
 	public TestObject make(JDD myJDD,String ID) {
 
@@ -104,7 +104,7 @@ public class TO {
 
 
 	public String getXpath() {
-		
+
 		return to.getSelectorCollection().get(SelectorMethod.XPATH)
 	}
 

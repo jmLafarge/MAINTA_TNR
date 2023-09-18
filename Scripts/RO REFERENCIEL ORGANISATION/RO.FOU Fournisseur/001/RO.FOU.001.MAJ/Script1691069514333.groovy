@@ -43,26 +43,34 @@ for (String cdt in myJDD.getCDTList()) {
 		KW.scrollAndClick(myJDD,"TD_Adresse")
 		KW.scrollAndClick(myJDD,"BTN_ModifierAdresse")
 		
-		//WebUI.switchToWindowIndex('1')
+		if (KW.isElementPresent(myJDD, 'ADR_divActive', 2)) {
+			
+			TNRResult.addSTEPPASS("La fenetre de saisie de l'adresse est ouverte")
 		
-		//KW.scrollAndCheckIfNeeded(JDD_Adr,"ST_ADRPAR","O")
-		KW.scrollAndSetText(JDD_Adr, "ST_ADR")
-		KW.scrollAndSetText(JDD_Adr, "ST_ADRCOM")
-		KW.scrollAndSetText(JDD_Adr, "ST_ADRCOM2")
-		KW.scrollAndSetText(JDD_Adr, "ST_MENSPE")
-		KW.scrollAndSetText(JDD_Adr, "ST_CODPOS")
-		KW.scrollAndSetText(JDD_Adr, "ST_VIL")
-		KW.scrollAndSetText(JDD_Adr, "ST_CEDEX")
-		KW.scrollAndSetText(JDD_Adr, "NU_CEDEX")
-		KW.scrollAndSetText(JDD_Adr, "ID_CODPAY")
-		KW.scrollAndSetText(JDD_Adr, "ST_PAY")
-		KW.scrollAndSetText(JDD_Adr, "ST_REFEXT")
-		KW.scrollAndSetText(JDD_Adr, "ST_RELAPA")
-		KW.scrollAndSetText(JDD_Adr, "ST_GPS")
-		
-		KW.scrollAndClick(JDD_Adr,"BTN_Valider")
-		
-		
+			//KW.scrollAndCheckIfNeeded(JDD_Adr,"ST_ADRPAR","O")
+			KW.scrollAndSetText(JDD_Adr, "ST_ADR")
+			KW.scrollAndSetText(JDD_Adr, "ST_ADRCOM")
+			KW.scrollAndSetText(JDD_Adr, "ST_ADRCOM2")
+			KW.scrollAndSetText(JDD_Adr, "ST_MENSPE")
+			KW.scrollAndSetText(JDD_Adr, "ST_CODPOS")
+			KW.scrollAndSetText(JDD_Adr, "ST_VIL")
+			KW.scrollAndSetText(JDD_Adr, "ST_CEDEX")
+			KW.scrollAndSetText(JDD_Adr, "NU_CEDEX")
+			KW.scrollAndSetText(JDD_Adr, "ID_CODPAY")
+			KW.scrollAndSetText(JDD_Adr, "ST_PAY")
+			KW.scrollAndSetText(JDD_Adr, "ST_REFEXT")
+			KW.scrollAndSetText(JDD_Adr, "ST_RELAPA")
+			KW.scrollAndSetText(JDD_Adr, "ST_GPS")
+			
+			KW.scrollAndClick(JDD_Adr,"BTN_Valider")
+			
+			if (KW.isElementPresent(myJDD, 'ADR_divInactive', 2)) {
+				TNRResult.addSTEPPASS("Fermeture de la fenetre de saisie de l'adresse")
+			}else {
+				TNRResult.addSTEPFAIL("Fermeture de la fenetre de saisie de l'adresse")
+			}
+		}
+
 		
 		TNRResult.addSTEPBLOCK("CONTACT")
 		KW.scrollAndSetText(myJDD, "ST_TELPHO")

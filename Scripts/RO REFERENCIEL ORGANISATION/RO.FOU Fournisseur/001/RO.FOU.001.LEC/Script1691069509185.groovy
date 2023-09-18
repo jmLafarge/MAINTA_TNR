@@ -33,7 +33,7 @@ for (String cdt in myJDD.getCDTList()) {
 		KW.verifyValue(myJDD,"ST_CODCOM")
 		KW.verifyValue(myJDD,"ST_DESST_CODCOM")
 		
-		//TNRResult.addSTEPBLOCK("ADRESSE")
+		//TNRResult.addSTEPBLOCK("ADRESSE") pas de test case pour lecture adresse
 		
 		TNRResult.addSTEPBLOCK("CONTACT")
 		KW.verifyValue(myJDD,"ST_TELPHO")
