@@ -44,7 +44,7 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.verifyElementCheckedOrNot(myJDD, "ST_EXT", "O")
 			KW.verifyElementCheckedOrNot(myJDD, "ST_AFF", "O")
 
-			
+			KW.verifyRadioChecked(myJDD, "NU_TYP")
 			
 		
 		TNRResult.addSTEPGRP("ONGLET ADRESSES")

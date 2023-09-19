@@ -115,29 +115,29 @@ for (String cdt in myJDD.getCDTList()) {
 		switch (myJDD.getStrData('SCENARIO')) {
 	
 			case 'C2.1':
-				KW.scrollAndSetRadio(myJDD, "CHOIX")
+				KW.scrollAndSetRadio(myJDD, "LblCHOIX")
 				KW.scrollAndSetText(myJDD, "EQU_CODLON",myJDD.getStrData('ID_NUMEQU'))
 				break;
 	
 			case 'C2.2':
-				KW.scrollAndSetRadio(myJDD, "CHOIX")
-				KW.scrollAndSetRadio(myJDD, "CHOIX2")
+				KW.scrollAndSetRadio(myJDD, "LblCHOIX")
+				KW.scrollAndSetRadio(myJDD, "LblCHOIX2")
 				KW.scrollAndSetText(myJDD, "MATID_CODMAG",myJDD.getStrData('ID_CODMAG'))
 				break;
 	
 			case 'C2.3':
-				KW.scrollAndSetRadio(myJDD, "CHOIX")
-				KW.scrollAndSetRadio(myJDD, "CHOIX2")
+				KW.scrollAndSetRadio(myJDD, "LblCHOIX")
+				KW.scrollAndSetRadio(myJDD, "LblCHOIX2")
 				KW.scrollAndSetText(myJDD, "MATID_CODFOU",myJDD.getStrData('ID_CODFOU'))
 				break;
 			case 'C2.4':
-				KW.scrollAndSetRadio(myJDD, "CHOIX")
-				KW.scrollAndSetRadio(myJDD, "CHOIX2")
+				KW.scrollAndSetRadio(myJDD, "LblCHOIX")
+				KW.scrollAndSetRadio(myJDD, "LblCHOIX2")
 				KW.scrollAndSetText(myJDD, "MATST_AUT",myJDD.getStrData('ST_AUT'))
 				break;
 			case 'C3.2':
-				KW.scrollAndSetRadio(myJDD, "CHOIX")
-				KW.scrollAndSetRadio(myJDD, "CHOIX2")
+				KW.scrollAndSetRadio(myJDD, "LblCHOIX")
+				KW.scrollAndSetRadio(myJDD, "LblCHOIX2")
 				KW.scrollAndSetText(myJDD, "MATST_AUT",myJDD.getStrData('ST_AUT'))
 				break;
 		}

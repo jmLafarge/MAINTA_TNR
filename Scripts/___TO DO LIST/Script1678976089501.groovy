@@ -9,9 +9,8 @@
  * 
  *  
 
-Ajout Ctrl  d'ouverture et fermeture de la div ADR de FOU
-Modif verifyElementInViewport --> ajout d'un vrai delay d'attente (timeout ne correspondant pas à l'attente)
-Ajout de verifyTimeValue
+
+Gestion des input RADIO
 
 
 	LOT PROTO + 1A
@@ -185,10 +184,9 @@ Ajout de verifyTimeValue
 	
 		déterminer le traitement en fonction du type de locator (input, radio, ...)
 			si input --> KW.scrollAndSetText(myJDD, "ST_DES")
-			si radio --> KW.scrollAndSetRadio(myJDD, "NU_TYP")
+			si radio --> KW.scrollAndSetRadio(myJDD, "LblNU_TYP")
 			...
 			
-	
 		voir si on strap certains steps en cas d'erreur (par exemple si une fenetre de recherche ne s'ouvre pas, le reste plante)
 		car ça prend du temps à cause des timeout
 			- soit ne pas faire les steps si FAIL (du coup on n'aura pas le nombre de step habituel)

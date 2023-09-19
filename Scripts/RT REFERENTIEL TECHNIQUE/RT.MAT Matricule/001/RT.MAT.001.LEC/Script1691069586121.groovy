@@ -106,6 +106,8 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.scrollAndClick(myJDD, "tab_Etat")
 			KW.waitForElementVisible(myJDD, "tab_EtatSelected")
 			
+			KW.verifyRadioChecked(myJDD, "ST_POS")
+			
 			KW.verifyValue(myJDD, "ID_NUMEMP")
 			KW.verifyValue(myJDD, "ST_DESEMP")
 			KW.verifyValue(myJDD, "ST_CODLON")

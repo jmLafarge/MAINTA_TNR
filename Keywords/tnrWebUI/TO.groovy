@@ -107,6 +107,12 @@ public class TO {
 
 		return to.getSelectorCollection().get(SelectorMethod.XPATH)
 	}
+	
+	
+	public void setXpath(String xpath) {
+		
+		to.setSelectorValue(SelectorMethod.XPATH, xpath)
+	}
 
 	/**
 	 * Résout un xpath en remplaçant les variables dynamiques par leurs valeurs correspondantes.
@@ -119,6 +125,7 @@ public class TO {
 	private String resolveXpath(JDD myJDD, String name, String xpath, Map binding) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"resolveXpath",[myJDD:myJDD.toString(), name:name,xpath:xpath,binding:binding])
 
+		String nameWithoutLbl = name.substring(3)
 		// Vérifie si c'est un xpath dynamique
 		def matcher = xpath =~ /\$\{(.+?)\}/
 
@@ -145,9 +152,11 @@ public class TO {
 			xpathResolved = engine.createTemplate(xpath).make(binding).toString()
 
 		} else if (myJDD.myJDDParam.isRADIO(name)) {
-			Log.addTrace('radio xpath')
+			Log.addTrace('radio xpath cas du input')
 			xpathResolved = xpath.replaceAll(name, name + myJDD.getStrData(name))
-
+		} else if (name.startsWith('Lbl') && myJDD.myJDDParam.isRADIO(nameWithoutLbl)) {
+			Log.addTrace('radio xpath cas du label')
+			xpathResolved = xpath.replaceAll(nameWithoutLbl, nameWithoutLbl + myJDD.getStrData(nameWithoutLbl))
 		}else {
 			Log.addTrace('normal xpath')
 		}

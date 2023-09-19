@@ -71,8 +71,8 @@ public class JDDXpath {
 					break
 
 				case 'radio' :
-				//xpaths[name, "//input[@id='" + name +"' and @type='radio']")
-					xpaths[name] = "//label[@id='L${name}']".toString()
+					xpaths[name] = "//input[@id='" + name +"' and @type='radio']"
+					xpaths['Lbl'+name] = "//label[@id='L${name}']".toString()
 					break
 
 				case 'input' :
@@ -82,7 +82,6 @@ public class JDDXpath {
 				default:
 					xpaths[name] = "//$loc[@id='$name']".toString()
 					break
-
 			}
 		}else if ((loc[0] != '/') && (loc.toString().split(/\*/).size()>1)) {
 			// balises avec attributs.

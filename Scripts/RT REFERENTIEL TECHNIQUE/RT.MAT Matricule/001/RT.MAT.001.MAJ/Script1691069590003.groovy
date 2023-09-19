@@ -102,7 +102,7 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.scrollAndClick(myJDD, "tab_Etat")
 			KW.waitForElementVisible(myJDD, "tab_EtatSelected")
 			
-			KW.scrollAndSetRadio(myJDD, "ST_POS")
+			KW.scrollAndSetRadio(myJDD, "LblST_POS")
 			
 			KW.scrollAndSetText(myJDD, "ID_NUMEMP")
 			KW.searchWithHelper(myJDD, "ID_CODMAG","","")

@@ -120,5 +120,15 @@ class Tools {
 
 
 
+	static String convertFloatToHH_MM(float hoursFloat,String sep = 'h') {
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"convertFloatToHH_MM",[hoursFloat:hoursFloat , sep:sep])
+		int hours = hoursFloat.intValue()
+		int minutes = ((hoursFloat - hours) * 60).round()
+		String hhmm = hours + sep + addZero(minutes)
+		Log.addTraceEND(CLASS_FOR_LOG,"convertFloatToHH_MM",hhmm)
+		return hhmm
+	}
+	
+	
 
 } // Fin de class

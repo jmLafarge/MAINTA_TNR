@@ -31,6 +31,7 @@ for (String cdt in myJDD.getCDTList()) {
 	//manque bouton radio
 	
 	KW.verifyDateValue(myJDD, "DT_DEM")// ou verifyDateValue
+	
 	KW.verifyDateValue(myJDD, "DT_READEM")// ou verifyDateValue
 	KW.verifyTimeValue(myJDD, "NU_HEUDEM")// ou verifyDateValue --> c'est un datetime au formatheure
 	KW.verifyValue(myJDD, "ID_CODIMP")
@@ -39,8 +40,11 @@ for (String cdt in myJDD.getCDTList()) {
 	KW.verifyValue(myJDD, "ST_DESMAT")
 	KW.verifyValue(myJDD, "ID_CODGES")
 	KW.verifyValue(myJDD, "ST_DESGES")
-	KW.verifyValue(myJDD, "NU_HEUPRE")
-	KW.verifyValue(myJDD, "NU_DURARR")
+	
+	
+	KW.verifyValue(myJDD, "NU_HEUPRE",Tools.convertFloatToHH_MM(myJDD.getData("NU_HEUPRE")))
+	KW.verifyValue(myJDD, "NU_DURARR",Tools.convertFloatToHH_MM(myJDD.getData("NU_DURARR")))
+	
 	KW.verifyValue(myJDD, "ST_TRADEM")
 	
 	KW.verifyElementText(new JDD(JDDFileMapper.getFullnameFromModObj('TR.BTR'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS),"OL_DOC")
@@ -53,6 +57,7 @@ for (String cdt in myJDD.getCDTList()) {
 	KW.verifyValue(myJDD, "ST_DESID_CODPROJET")
 	KW.verifyValue(myJDD, "NU_USA")
 	KW.verifyElementCheckedOrNot(myJDD, "ST_BLO", "O")
+	
 	
 	/*
 	KW.verifyElementCheckedOrNot(myJDD, "TOTALTIME", "O")
