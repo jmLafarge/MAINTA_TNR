@@ -2,7 +2,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
 import tnrJDDManager.JDD
-import tnrWebUI.KW
+import tnrWebUI.*
 import tnrSqlManager.SQL
 import tnrResultManager.TNRResult
 
@@ -15,7 +15,7 @@ for (String cdt in myJDD.getCDTList()) {
 		
 	TNRResult.addStartTestCase(cdt)
 	
-	if (KW.isElementPresent(myJDD,'frame_Main', GlobalVariable.TIMEOUT,'INFO')) {
+	if (KW.isElementPresent(myJDD,'frame_Main', GlobalVariable.TIMEOUT)) {
 		
 		KW.switchToFrame(myJDD,'frame_Main')
 
@@ -34,7 +34,7 @@ for (String cdt in myJDD.getCDTList()) {
 
 	}
 	
-	if (KW.waitForElementVisible(myJDD,'in_passw', GlobalVariable.TIMEOUT)) {
+	if (KW.isElementVisible(myJDD,'in_passw', GlobalVariable.TIMEOUT)) {
 		
 		TNRResult.addSTEP("Déconnexion OK",null)
 		

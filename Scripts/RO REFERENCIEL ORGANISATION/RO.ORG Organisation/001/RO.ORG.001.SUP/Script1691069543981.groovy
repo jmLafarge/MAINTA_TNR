@@ -1,9 +1,9 @@
 import internal.GlobalVariable
 import tnrJDDManager.JDD
-import tnrWebUI.KW
-import tnrWebUI.NAV
-import tnrSqlManager.SQL
 import tnrResultManager.TNRResult
+import tnrSqlManager.SQL
+import tnrWebUI.*
+
 
 
 'Lecture du JDD'
@@ -27,7 +27,7 @@ for (String cdt in myJDD.getCDTList()) {
 	'Suppression'
 	for ( n in 1..3) {
 		TNRResult.addSUBSTEP("Tentative de suppression $n/3" )
-		if (KW.scrollAndClick(NAV.myGlobalJDD,'button_Supprimer')) {
+		if (KW.click(NAV.myGlobalJDD,'button_Supprimer')) {
 			if (KW.waitAndAcceptAlert(GlobalVariable.TIMEOUT,null)) {
 				KW.delay(1)
 				'Vérification du test case - écran'

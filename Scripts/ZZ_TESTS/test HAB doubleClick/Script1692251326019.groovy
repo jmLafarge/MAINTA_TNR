@@ -11,8 +11,8 @@ import com.kms.katalon.core.webui.common.WebUiCommonHelper
 import com.kms.katalon.core.webui.driver.DriverFactory
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
-import tnrWebUI.KW
-import tnrWebUI.KW as GlobalVariable
+import tnrWebUI.*
+import tnrWebUI.* as GlobalVariable
 import tnrResultManager.TNRResult
 
 //click object using Javascript
@@ -38,7 +38,7 @@ if (GlobalVariable.TC_CONNEXION) {
 
 CustomKeywords.'NAV.goToURL_RUD_and_checkCartridge'('acteur', 'RO.ACT.003.HAB.AJT.01')
 
-CustomKeywords.'KW.scrollAndClick'(findTestObject('null'))
+CustomKeywords.'KW.click'(findTestObject('null'))
 
 //clickUsingJS(findTestObject('null'),1)
 
@@ -68,7 +68,7 @@ println '********************'
 
 
 /*
-CustomKeywords.'KW.scrollAndDoubleClick'(findTestObject('null',
+CustomKeywords.'KW.doubleClick'(findTestObject('null',
 		[('textHAB') : 'ATEX1']))
 
 WebUI.waitForElementClickable(findTestObject('null', [('textHAB') : 'ATEX1']),2)

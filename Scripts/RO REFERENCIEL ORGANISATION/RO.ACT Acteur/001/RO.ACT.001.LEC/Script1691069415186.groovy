@@ -1,10 +1,8 @@
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-
-import internal.GlobalVariable
-import tnrWebUI.KW
-import tnrResultManager.TNRResult
-import tnrWebUI.NAV
 import tnrJDDManager.JDD
+import tnrResultManager.TNRResult
+import tnrWebUI.*
+
+
 
 'Lecture du JDD'
 JDD myJDD = new JDD()
@@ -21,11 +19,11 @@ for (String cdt in myJDD.getCDTList()) {
 
 	TNRResult.addSTEPGRP("ONGLET ACTEUR")
 	
-		KW.scrollAndClick(myJDD,"tab_Acteur")
-		KW.waitForElementVisible(myJDD,"tab_ActeurSelected")
+		KW.click(myJDD,"tab_Acteur")
+		KW.isElementVisible(myJDD,"tab_ActeurSelected")
 
 		KW.verifyOptionSelectedByLabel(myJDD,"ST_ETA")
-		KW.verifyElementCheckedOrNot(myJDD,"ST_INA","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_INA","O")
 		KW.verifyValue(myJDD,"ID_CODINT")
 		KW.verifyValue(myJDD,"ST_NOM")
 		KW.verifyValue(myJDD,"ST_PRE")
@@ -37,13 +35,13 @@ for (String cdt in myJDD.getCDTList()) {
 		TNRResult.addSTEPBLOCK("SERVICE")
 		KW.verifyValue(myJDD,"ID_CODGES")
 		KW.verifyValue(myJDD,"ST_DESGES")
-		KW.verifyElementCheckedOrNot(myJDD,"ST_GRP","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_GRP","O")
 
 
 	TNRResult.addSTEPGRP("ONGLET AFFECTATION")
 
-		KW.scrollAndClick(myJDD,"tab_Affectation")
-		KW.waitForElementVisible(myJDD,"tab_AffectationSelected")
+		KW.click(myJDD,"tab_Affectation")
+		KW.isElementVisible(myJDD,"tab_AffectationSelected")
 
 		KW.verifyValue(myJDD,"ID_CODGESAFF")
 		KW.verifyValue(myJDD,"ST_DESID_CODGESAFF")
@@ -60,39 +58,39 @@ for (String cdt in myJDD.getCDTList()) {
 
 	TNRResult.addSTEPGRP("ONGLET ROLE")
 
-		KW.scrollAndClick(myJDD,"tab_Role")
-		KW.waitForElementVisible(myJDD,"tab_RoleSelected")
+		KW.click(myJDD,"tab_Role")
+		KW.isElementVisible(myJDD,"tab_RoleSelected")
 
-		KW.verifyElementCheckedOrNot(myJDD,"ST_GES","O")
-		KW.verifyElementCheckedOrNot(myJDD,"ST_EXP","O")
-		KW.verifyElementCheckedOrNot(myJDD,"ST_MAI","O")
-		KW.verifyElementCheckedOrNot(myJDD,"ST_PRO","O")
-		KW.verifyElementCheckedOrNot(myJDD,"ST_DEM","O")
-		KW.verifyElementCheckedOrNot(myJDD,"ST_INT","O")
-		KW.verifyElementCheckedOrNot(myJDD,"ST_ACH","O")
-		KW.verifyElementCheckedOrNot(myJDD,"ST_REC","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_GES","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_EXP","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_MAI","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_PRO","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_DEM","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_INT","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_ACH","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_REC","O")
 
 		TNRResult.addSTEPBLOCK("ROLE DANS L'ORGANISATION")
-		KW.verifyElementCheckedOrNot(myJDD,"ST_UTI","O")
-		KW.verifyElementCheckedOrNot(myJDD,"ST_UTIMOB","O")
-		KW.verifyElementCheckedOrNot(myJDD,"ST_INVPRE","O")
-		KW.verifyElementCheckedOrNot(myJDD,"ST_INVBT","O")
-		KW.verifyElementCheckedOrNot(myJDD,"ST_INVDA","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_UTI","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_UTIMOB","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_INVPRE","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_INVBT","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_INVDA","O")
 
 	TNRResult.addSTEPGRP("ONGLET PREVENTIF")
 
-		KW.scrollAndClick(myJDD,"tab_Preventif")
-		KW.waitForElementVisible(myJDD,"tab_PreventifSelected")
+		KW.click(myJDD,"tab_Preventif")
+		KW.isElementVisible(myJDD,"tab_PreventifSelected")
 
-		KW.verifyElementCheckedOrNot(myJDD,"ST_PRIPRE","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_PRIPRE","O")
 		KW.verifyValue(myJDD,"NU_TAUPRE")
 		KW.verifyValue(myJDD,"ID_CODCAL")
 		KW.verifyValue(myJDD,"ST_DESID_CODCAL")
 
 	TNRResult.addSTEPGRP("ONGLET ZONE")
 
-		KW.scrollAndClick(myJDD,"tab_Zone")
-		KW.waitForElementVisible(myJDD,"tab_ZoneSelected")
+		KW.click(myJDD,"tab_Zone")
+		KW.isElementVisible(myJDD,"tab_ZoneSelected")
 	
 
 	TNRResult.addEndTestCase()

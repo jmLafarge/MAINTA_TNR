@@ -9,14 +9,19 @@
  * 
  *  
 
+Ajout tabINFO dans Log
+Refonte des action STEP
+modif gestion suppression MAT.SUP --> faire pareil pour tous
+modif timeout de verifyElementInViewport (peut pas descendre en dessous de 1 sec)
 
-Gestion des input RADIO
+
 
 
 	LOT PROTO + 1A
 	***************
 		AD.SEC --> Fait
 		RO.ACT --> FAIT
+			RO.ACT.004EMP.SRA --> la fenetre Modal ne s'ouvre pas
 		RO.FOU --> FAIT
 		MP.CPT --> FAIT
 		RT.ART --> FAIT
@@ -26,47 +31,6 @@ Gestion des input RADIO
 		RT.EQU --> FAIT 
 		AD.DEP --> Fait
 		
-		
-	RESULTAT DES TESTS
-	*******************
-	 		
-	 	ACTEUR - AJOUT EMPLACEMENT 	--> Click sur le bouton AJOUTER n'affiche pas la fenetre de recherche des emplacements 	--> ajouter une Zone --> marche pas
-	 	
-	 	FOURNISSEUR SUPPRESSION 	--> pas autoriser à supprimmer cet élément -											--> voir trace voir si memo correctement créé en BDD
-	 	
-	 	COMPTEUR CREATION 			--> la valeur NU_DEL est à 0 à la place de 100000 (JDD)
-	 	
-	 	COMPTEUR LECTURE			--> NU_DEL et NU_VALN sont NULL en BD et 0 à l'écran
-	 	
-	 	
-	 	ARTICLE SUPPRESSION			--> Ce code ne peut pas être supprimé
-	 	ARTICLE						--> NU_PRIPMP est NULL en BD et 0 à l'écran
-	 								--> est-qu'il y a qq chose à faire sur ARTNOM
-	 	
-	 	MATRICULE SUPPRESSION		--> Pas de bouton supprimer !--> revoir les regles de supression du Matricule, la fonction teste si 2 mouvements sinon pas de delete
-	 	
-	 	MATRICULE					--> manque ID_TYPENJ et ID_NUMCRIINV dans les écrans --> Ces deux rubriques sont disponibles dans la sous-fonction INVENTAIRE
-	 	
-	 	MATRICULE CREATION 			--> manque dans les écrans : ST_DESREP, DT_POS, DT_SER, ST_EMPMAG, ST_PAT, ST_SOUINV, ST_SOUASS, DT_INV, DT_INVPRO, 	DT_ASS, 	DT_ASSPRO, 	NU_FREINV, 	NU_FREASS, 	NU_VALINI, 	NU_VALINV, 	NU_VALASS, 	ST_UTIUPD, 	DT_ENT, 	ID_CODMETINV, 	ID_CODETAVIS, 	ST_REMETAVIS, 	ID_CODGESPRO, 	ID_CODGESGES, 	ID_CODGESEXP, 	ID_CODGESMAI, 	ID_TYPENJ, 	ID_NUMCRIINV
-	 	
-	 								ID_NUMEMP manque l'emplacement dans PREJDD.EQU EQU.RT.MAT.001.CRE.01.........
-	 								
-
-	 	ORGANISTION MODIF			--> Contrôle de la valeur  de 'ST_DESORI' KO : la valeur attendue est 'UPD.RO.ORG.001.MAJ.01' et la valeur en BD est  : 'RO.ORG.001.MAJ.01'			--> normal non ?	
-	 	
-	 	EQUIPEMENT					--> qq chose à faire sur RT_EQU ?
-	 																														
-
-
-
-
-
-
-
-
-	
-
-
  
 
  * 
@@ -142,15 +106,31 @@ Gestion des input RADIO
  *
  *
 
+il y a encore des timeout à 0 
+
+la 1er ajoiut de SRA est KO --> finir isNbRecordsEqualTo, il faut attendre le nb = 1 avant de continuer
+
+Case à cocher de type img, je crois sur EMP ça le fait 3x
+
+modif EMP ?
+Vérifier MAT.ST_PAT dans tous les CDT
+DAns les SUP, quand pas le bouton pas la peine de faire 
+
+
+
+
+
+
+
+
+
+
+
+
 	Ajouter 2 tab dans Log.addINFO entre les START TEST CASE et END TEST CASE
 	
 
 	VERIFIER les nom des cas de tests des sous-rubriques
-
-
- 
-
-
 
 
 
@@ -183,7 +163,7 @@ Gestion des input RADIO
 	TEST CASE 
 	
 		déterminer le traitement en fonction du type de locator (input, radio, ...)
-			si input --> KW.scrollAndSetText(myJDD, "ST_DES")
+			si input --> KW.setText(myJDD, "ST_ fois --> voir Suppr MATDES")
 			si radio --> KW.scrollAndSetRadio(myJDD, "LblNU_TYP")
 			...
 			
@@ -234,7 +214,12 @@ Gestion des input RADIO
 		
 		Ajouter un check PREREQUIS spécifique pour RO.ORG en fonction de la valeur de NU_TYP et ST_AFF
 			- car cela conditionne les créations de SOCIETE SER INTER et UTI
-		  
+		
+		Ajouter un check PREREQUIS spécifique pour ST_TRAUTICRE	ST_TRAUTIUPD	DT_TRACRE	DT_TRAUPD 
+			Vérifier que pour tous les cdt : ST_TRAUTICRE et DT_TRACRE soient renseignées
+			Vérifier que pour tous les cdt LEC : ST_TRAUTIUPD et DT_TRAUPD soient renseignées
+			Vérifier que pour tous les cdt MAJ : ST_TRAUTIUPD et DT_TRAUPD soient $NULL 
+				--> permet de vérifier qu'ils soient bien renseignés après MAJ 
 		  
 	Check_CAL
 	

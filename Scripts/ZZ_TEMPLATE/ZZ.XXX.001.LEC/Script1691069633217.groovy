@@ -1,5 +1,5 @@
 import tnrJDDManager.JDD
-import tnrWebUI.NAV
+
 import tnrResultManager.TNRResult
 
 'Lecture du JDD'

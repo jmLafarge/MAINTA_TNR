@@ -4,9 +4,9 @@ import tnrJDDManager.JDDFileMapper
 import tnrJDDManager.JDDKW
 import tnrResultManager.TNRResult
 import tnrSqlManager.SQL
-import tnrWebUI.KW
-import tnrWebUI.Memo
-import tnrWebUI.NAV
+import tnrWebUI.*
+
+
 
 'Lecture du JDD'
 JDD myJDD = new JDD()
@@ -29,72 +29,73 @@ for (String cdt in myJDD.getCDTList()) {
 			
 		TNRResult.addSTEPGRP("ONGLET MATRICULE")
 			
-			KW.scrollAndClick(myJDD, "tab_Matricule")
-			KW.waitForElementVisible(myJDD, "tab_MatriculeSelected")
+			KW.click(myJDD, "tab_Matricule")
+			KW.isElementVisible(myJDD, "tab_MatriculeSelected")
 			
 			
 
-			KW.scrollAndSetText(myJDD, "ID_NUMMAT")
-			KW.scrollAndSetText(myJDD, "ST_NUMINV")
-			KW.scrollAndCheckIfNeeded(myJDD, "ST_INA", "O")
-			KW.scrollAndSetText(myJDD, "ST_DES")
+			KW.setText(myJDD, "ID_NUMMAT")
+			KW.setText(myJDD, "ST_NUMINV")
+			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_INA", "O")
+			KW.setText(myJDD, "ST_DES")
 			KW.scrollAndSelectOptionByLabel(myJDD, "ST_ETA")
 			KW.scrollAndSelectOptionByLabel(myJDD, "NU_TYP")
-			KW.scrollAndSetText(myJDD, "NU_PRISTO")
-			KW.scrollAndSetText(myJDD, "ID_CODART")		
+			KW.setText(myJDD, "NU_PRISTO")
+			KW.setText(myJDD, "ID_CODART")		
 			if(!JDDKW.isNULL(myJDD.getStrData('ID_CODMOY'))) {
-				KW.scrollAndSetText(myJDD, "ID_CODMOY")
+				KW.setText(myJDD, "ID_CODMOY")
 			}
-			KW.scrollAndSetText(myJDD, "ID_CODGES")
-			KW.scrollAndSetText(myJDD, "ID_NUMCRI")
-			KW.scrollAndSetText(myJDD, "ID_CODIMP")
-			KW.scrollAndSetText(myJDD, "ID_NUMGRO")
-			KW.scrollAndSetText(myJDD, "ID_CODCOM")
-			KW.scrollAndSetText(myJDD, "NU_USA")
-			KW.scrollAndSetText(myJDD, "ID_CODCON")
-			KW.scrollAndCheckIfNeeded(myJDD, "ST_TEC", "O")
-			KW.scrollAndCheckIfNeeded(myJDD, "ST_REP", "O")
+			KW.setText(myJDD, "ID_CODGES")
+			KW.setText(myJDD, "ID_NUMCRI")
+			KW.setText(myJDD, "ID_CODIMP")
+			KW.setText(myJDD, "ID_NUMGRO")
+			KW.setText(myJDD, "ID_CODCOM")
+			KW.setText(myJDD, "NU_USA")
+			KW.setText(myJDD, "ID_CODCON")
+			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_TEC", "O")
+			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_PAT", "O")
+			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_REP", "O")
 			
 		TNRResult.addSTEPGRP("ONGLET FICHE")
 			
-			KW.scrollAndClick(myJDD, "tab_Fiche")
-			KW.waitForElementVisible(myJDD, "tab_FicheSelected")
+			KW.click(myJDD, "tab_Fiche")
+			KW.isElementVisible(myJDD, "tab_FicheSelected")
 			
-			KW.scrollAndSetText(myJDD, "ID_CODFOUINI")
-			KW.scrollAndSetText(myJDD, "ST_REFFOU")
-			KW.scrollAndSetText(myJDD, "ID_CODCONSTR")
-			KW.scrollAndSetText(myJDD, "ST_REFCON")
-			KW.scrollAndSetDate(myJDD, "DT_ACH")
-			KW.scrollAndSetDate(myJDD, "DT_FAC")
-			KW.scrollAndSetText(myJDD, "NU_PRIACH")
-			KW.scrollAndSetDate(myJDD, "DT_FINGAR")
-			KW.scrollAndSetDate(myJDD, "DT_FINVIE")
-			KW.scrollAndSetText(myJDD, "NU_PRIACT")
-			KW.scrollAndSetText(myJDD, "NU_USAGAR")
-			KW.scrollAndSetText(myJDD, "NU_FINUSA")
-			KW.scrollAndSetText(myJDD, "ID_CODCAL")
-			KW.scrollAndSetText(myJDD, "ID_CODGAR")
-			KW.scrollAndSetText(myJDD, "ID_REFCOM") 
-			KW.scrollAndSetText(myJDD, "ST_AFFCOM")
-			KW.scrollAndSetText(myJDD, "ID_CODINTPRO")
-			KW.scrollAndSetText(myJDD, "ID_CODINTGES")
-			KW.scrollAndSetText(myJDD, "ID_CODINTEXP")
-			KW.scrollAndSetText(myJDD, "ID_CODINTMAI")
-			KW.scrollAndCheckIfNeeded(myJDD, "ST_CONTRA", "O")
-			KW.scrollAndCheckIfNeeded(myJDD, "ST_CONTRABT", "O")
-			KW.scrollAndCheckIfNeeded(myJDD, "ST_PRE", "O")
-			KW.scrollAndCheckIfNeeded(myJDD, "ST_INS", "O")
+			KW.setText(myJDD, "ID_CODFOUINI")
+			KW.setText(myJDD, "ST_REFFOU")
+			KW.setText(myJDD, "ID_CODCONSTR")
+			KW.setText(myJDD, "ST_REFCON")
+			KW.setDate(myJDD, "DT_ACH")
+			KW.setDate(myJDD, "DT_FAC")
+			KW.setText(myJDD, "NU_PRIACH")
+			KW.setDate(myJDD, "DT_FINGAR")
+			KW.setDate(myJDD, "DT_FINVIE")
+			KW.setText(myJDD, "NU_PRIACT")
+			KW.setText(myJDD, "NU_USAGAR")
+			KW.setText(myJDD, "NU_FINUSA")
+			KW.setText(myJDD, "ID_CODCAL")
+			KW.setText(myJDD, "ID_CODGAR")
+			KW.setText(myJDD, "ID_REFCOM") 
+			KW.setText(myJDD, "ST_AFFCOM")
+			KW.setText(myJDD, "ID_CODINTPRO")
+			KW.setText(myJDD, "ID_CODINTGES")
+			KW.setText(myJDD, "ID_CODINTEXP")
+			KW.setText(myJDD, "ID_CODINTMAI")
+			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_CONTRA", "O")
+			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_CONTRABT", "O")
+			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_PRE", "O")
+			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_INS", "O")
 			
 
 			
 		TNRResult.addSTEPGRP("ONGLET NOTES")
 			
-			KW.scrollAndClick(myJDD, "tab_Notes")
-			KW.waitForElementVisible(myJDD, "tab_NotesSelected")
+			KW.click(myJDD, "tab_Notes")
+			KW.isElementVisible(myJDD, "tab_NotesSelected")
 			
 			def JDD_Note = new JDD(JDDFileMapper.getFullnameFromModObj('RT.MAT'),'001C',GlobalVariable.CAS_DE_TEST_EN_COURS)
 			KW.scrollToPositionAndWait(0, 0,1)
-			Memo.setText(JDD_Note.getStrData("OL_DOC"), 'Notes',false,myJDD,'')
+			KWMemo.setText(JDD_Note.getStrData("OL_DOC"), 'Notes',false,myJDD,'')
 			
 			
 			
@@ -104,7 +105,7 @@ for (String cdt in myJDD.getCDTList()) {
 				
 	TNRResult.addSTEPACTION('VALIDATION')
 		
-	    KW.scrollAndClick(NAV.myGlobalJDD,'button_Valider')
+	    KW.click(NAV.myGlobalJDD,'button_Valider')
 		
 		//Vérifier que l’écran de mouvement technique est affiché et saisir:
 		
@@ -116,29 +117,29 @@ for (String cdt in myJDD.getCDTList()) {
 	
 			case 'C2.1':
 				KW.scrollAndSetRadio(myJDD, "LblCHOIX")
-				KW.scrollAndSetText(myJDD, "EQU_CODLON",myJDD.getStrData('ID_NUMEQU'))
+				KW.setText(myJDD, "EQU_CODLON",myJDD.getStrData('ID_NUMEQU'))
 				break;
 	
 			case 'C2.2':
 				KW.scrollAndSetRadio(myJDD, "LblCHOIX")
 				KW.scrollAndSetRadio(myJDD, "LblCHOIX2")
-				KW.scrollAndSetText(myJDD, "MATID_CODMAG",myJDD.getStrData('ID_CODMAG'))
+				KW.setText(myJDD, "MATID_CODMAG",myJDD.getStrData('ID_CODMAG'))
 				break;
 	
 			case 'C2.3':
 				KW.scrollAndSetRadio(myJDD, "LblCHOIX")
 				KW.scrollAndSetRadio(myJDD, "LblCHOIX2")
-				KW.scrollAndSetText(myJDD, "MATID_CODFOU",myJDD.getStrData('ID_CODFOU'))
+				KW.setText(myJDD, "MATID_CODFOU",myJDD.getStrData('ID_CODFOU'))
 				break;
 			case 'C2.4':
 				KW.scrollAndSetRadio(myJDD, "LblCHOIX")
 				KW.scrollAndSetRadio(myJDD, "LblCHOIX2")
-				KW.scrollAndSetText(myJDD, "MATST_AUT",myJDD.getStrData('ST_AUT'))
+				KW.setText(myJDD, "MATST_AUT",myJDD.getStrData('ST_AUT'))
 				break;
 			case 'C3.2':
 				KW.scrollAndSetRadio(myJDD, "LblCHOIX")
 				KW.scrollAndSetRadio(myJDD, "LblCHOIX2")
-				KW.scrollAndSetText(myJDD, "MATST_AUT",myJDD.getStrData('ST_AUT'))
+				KW.setText(myJDD, "MATST_AUT",myJDD.getStrData('ST_AUT'))
 				break;
 		}
 			
@@ -146,7 +147,7 @@ for (String cdt in myJDD.getCDTList()) {
 		
 		//2eme validation
 		
-		KW.scrollAndClick(myJDD,'button_Valider2')
+		KW.click(myJDD,'button_Valider2')
 	
 	    NAV.verifierEcranResultat(myJDD.getStrData())
 		

@@ -1,8 +1,10 @@
 import tnrJDDManager.JDD
-import tnrWebUI.KW
-import tnrWebUI.NAV
-import tnrSqlManager.SQL
 import tnrResultManager.TNRResult
+import tnrSqlManager.SQL
+import tnrWebUI.*
+
+
+
 
 
 'Lecture du JDD'
@@ -27,37 +29,37 @@ for (String cdt in myJDD.getCDTList()) {
 			
 		TNRResult.addSTEPGRP("ONGLET ORGANISATION")
 			
-			KW.scrollAndClick(myJDD, "tab_Organisation")
-			KW.waitForElementVisible(myJDD, "tab_OrganisationSelected")
+			KW.click(myJDD, "tab_Organisation")
+			KW.isElementVisible(myJDD, "tab_OrganisationSelected")
 			
 			KW.scrollAndSetRadio(myJDD, "LblNU_TYP")
 			
-			KW.scrollAndSetText(myJDD, "ST_CODCOU",myJDD.getStrData("ST_CODCOU", null,true))
-			KW.scrollAndSetText(myJDD, "ST_CODPERSGES")
-			KW.scrollAndCheckIfNeeded(myJDD, "ST_INA", "O")
-			KW.scrollAndSetText(myJDD, "ST_DES")
-			KW.searchWithHelper(myJDD, "ID_CODIMP","","")
-			KW.searchWithHelper(myJDD, "ID_CODCAL","","")
-			KW.searchWithHelper(myJDD, "ID_GESNIV","","")
-			KW.scrollAndCheckIfNeeded(myJDD, "ST_EXT", "O")
-			KW.scrollAndCheckIfNeeded(myJDD, "ST_AFF", "O")
+			KW.setText(myJDD, "ST_CODCOU",myJDD.getStrData("ST_CODCOU", null,true))
+			KW.setText(myJDD, "ST_CODPERSGES")
+			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_INA", "O")
+			KW.setText(myJDD, "ST_DES")
+			KWSearchHelper.launch(myJDD, "ID_CODIMP","","")
+			KWSearchHelper.launch(myJDD, "ID_CODCAL","","")
+			KWSearchHelper.launch(myJDD, "ID_GESNIV","","")
+			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_EXT", "O")
+			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_AFF", "O")
 			
-			KW.scrollAndSetText(myJDD, "NU_EFF")
+			KW.setText(myJDD, "NU_EFF")
 			
 			
 			
 		TNRResult.addSTEPGRP("ONGLET ADRESSES")
 		
-			KW.scrollAndClick(myJDD, "tab_Adresses")
-			KW.waitForElementVisible(myJDD, "tab_AdressesSelected")
+			KW.click(myJDD, "tab_Adresses")
+			KW.isElementVisible(myJDD, "tab_AdressesSelected")
 			
 			
-			KW.scrollAndCheckIfNeeded(myJDD, "ST_RAT", "O")
+			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_RAT", "O")
 	  
 
 	TNRResult.addSTEPACTION('VALIDATION')
 
-		KW.scrollAndClick(NAV.myGlobalJDD,'button_Valider')
+		KW.click(NAV.myGlobalJDD,'button_Valider')
 	
 	    NAV.verifierEcranResultat(myJDD.getStrData("ST_CODCOU", null , true),'','Resultat_ID')
 	

@@ -2,8 +2,8 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import tnrJDDManager.JDD
 import tnrJDDManager.JDDKW
-import tnrWebUI.KW
-import tnrWebUI.NAV
+import tnrWebUI.*
+
 import tnrSqlManager.SQL
 import tnrResultManager.TNRResult
 

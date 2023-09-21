@@ -1,13 +1,8 @@
-import static com.kms.katalon.core.testcase.TestCaseFactory.findTestCase
-
-import com.kms.katalon.core.util.KeywordUtil
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-
-import internal.GlobalVariable
-import tnrWebUI.KW
-import tnrWebUI.NAV
-import tnrResultManager.TNRResult
 import tnrJDDManager.JDD
+import tnrResultManager.TNRResult
+import tnrWebUI.*
+
+
 
 
 'Lecture du JDD'
@@ -23,10 +18,11 @@ for (String cdt in myJDD.getCDTList()) {
 	'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_CODINT'))
 
-		//KW.scrollAndClick(myJDD,"tab_Zone")
-		KW.scrollAndClick(myJDD,"tab_Zone")
-		KW.waitForElementVisible(myJDD,"tab_ZoneSelected")
+		//KW.click(myJDD,"tab_Zone")
+		KW.click(myJDD,"tab_Zone")
+		KW.isElementVisible(myJDD,"tab_ZoneSelected")
 			
+		KW.scrollToPositionAndWait(0, 0,1)
 	
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -37,11 +33,11 @@ for (String cdt in myJDD.getCDTList()) {
 			
 			myJDD.setCasDeTestNum(i)
 			
-	        KW.waitAndVerifyElementText(myJDD,'ID_NUMREF')
+	        KW.verifyText(myJDD,'ID_NUMREF')
 			
-			KW.verifyImgCheckedOrNot(myJDD,'ST_DEF','O')
+			KWCheckbox.verifyImgCheckedOrNot(myJDD,'ST_DEF','O')
 			
-			KW.verifyImg(myJDD,'span_ST_TYP_emp',myJDD.getStrData('ST_TYP')=='EMP')
+			KWCheckbox.verifyImg(myJDD,'span_ST_TYP_emp',myJDD.getStrData('ST_TYP')=='EMP')
 	
 			KW.verifyDateText(myJDD,'td_DateDebut', myJDD.getData('DT_DATDEB'))
 				

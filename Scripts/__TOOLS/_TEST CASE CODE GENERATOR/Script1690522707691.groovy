@@ -235,14 +235,14 @@ tagsWithAttributes.each { attribute ->
 	if (attribute.tag == 'input' && attribute.type == 'text') {
 		if (!attribute.readonly) {
 			if (InfoDB.isDatetime(myJDD.getDBTableName(),attribute.id)) {
-				Log.addB("KW.scrollAndSetDate(myJDD, \"${attribute.id}\")")
+				Log.addB("KW.setDate(myJDD, \"${attribute.id}\")")
 			}else {
-				Log.addB("KW.scrollAndSetText(myJDD, \"${attribute.id}\")")
+				Log.addB("KW.setText(myJDD, \"${attribute.id}\")")
 			}
 		}
 		
 	} else if (attribute.tag == 'input' && attribute.type == 'checkbox') {
-		Log.addB("KW.scrollAndCheckIfNeeded(myJDD, \"${attribute.id}\", \"O\")")
+		Log.addB("KWCheckbox.scrollAndCheckIfNeeded(myJDD, \"${attribute.id}\", \"O\")")
 		
 	} else if (attribute.tag == 'select') {
 		Log.addB("KW.scrollAndSelectOptionByLabel(myJDD, \"${attribute.id}\")")
@@ -251,8 +251,8 @@ tagsWithAttributes.each { attribute ->
 		Log.addB('')
 		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attribute.text.toUpperCase()}\")")
 		Log.addB('')
-		Log.addB("KW.scrollAndClick(myJDD, \"tab_${attribute.text}\")")
-		Log.addB("KW.waitForElementVisible(myJDD, \"tab_${attribute.text}Selected\")")
+		Log.addB("KW.click(myJDD, \"tab_${attribute.text}\")")
+		Log.addB("KW.isElementVisible(myJDD, \"tab_${attribute.text}Selected\")")
 		Log.addB('')
 	}
 }
@@ -271,20 +271,20 @@ tagsWithAttributes.each { attribute ->
 	}
 	if (attribute.tag == 'input' && attribute.type == 'text' && !InfoDB.isPK(myJDD.getDBTableName(),attribute.id)) {
 		if (attribute.id.startsWith('ID_')) {
-			Log.addB("KW.searchWithHelper(myJDD, \"${attribute.id}\",\"\",\"\")")
+			Log.addB("KWSearchHelper.launch(myJDD, \"${attribute.id}\",\"\",\"\")")
 		}else if (!attribute.readonly) {
-			Log.addB("KW.scrollAndSetText(myJDD, \"${attribute.id}\")")
+			Log.addB("KW.setText(myJDD, \"${attribute.id}\")")
 		}
 	} else if (attribute.tag == 'input' && attribute.type == 'checkbox') {
-		Log.addB("KW.scrollAndCheckIfNeeded(myJDD, \"${attribute.id}\", \"O\")")
+		Log.addB("KWCheckbox.scrollAndCheckIfNeeded(myJDD, \"${attribute.id}\", \"O\")")
 	} else if (attribute.tag == 'select') {
 		Log.addB("KW.scrollAndSelectOptionByLabel(myJDD, \"${attribute.id}\")")
 	} else if (attribute.tag == 'a') {
 		Log.addB('')
 		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attribute.text.toUpperCase()}\")")
 		Log.addB('')
-		Log.addB("KW.scrollAndClick(myJDD, \"tab_${attribute.text}\")")
-		Log.addB("KW.waitForElementVisible(myJDD, \"tab_${attribute.text}Selected\")")
+		Log.addB("KW.click(myJDD, \"tab_${attribute.text}\")")
+		Log.addB("KW.isElementVisible(myJDD, \"tab_${attribute.text}Selected\")")
 		Log.addB('')
 	}
 }
@@ -316,7 +316,7 @@ tagsWithAttributes.each { attribute ->
 				Log.addB("KW.verifyValue(myJDD, \"${attribute.id}\")")
 			}
 		} else if (attribute.type == 'checkbox') {
-			Log.addB("KW.verifyElementCheckedOrNot(myJDD, \"${attribute.id}\", \"O\")")
+			Log.addB("KWCheckbox.verifyElementCheckedOrNot(myJDD, \"${attribute.id}\", \"O\")")
 			
 		}
 	} else if (attribute.tag == 'select') {
@@ -326,8 +326,8 @@ tagsWithAttributes.each { attribute ->
 		Log.addB('')
 		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attribute.text.toUpperCase()}\")")
 		Log.addB('')
-		Log.addB("KW.scrollAndClick(myJDD, \"tab_${attribute.text}\")")
-		Log.addB("KW.waitForElementVisible(myJDD, \"tab_${attribute.text}Selected\")")
+		Log.addB("KW.click(myJDD, \"tab_${attribute.text}\")")
+		Log.addB("KW.isElementVisible(myJDD, \"tab_${attribute.text}Selected\")")
 		Log.addB('')
 	}
 

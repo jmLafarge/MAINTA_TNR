@@ -1,8 +1,8 @@
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
-import tnrWebUI.KW
+import tnrWebUI.*
 import tnrResultManager.TNRResult
-import tnrWebUI.NAV
+
 import tnrJDDManager.JDD
 
 'Lecture du JDD'
@@ -20,19 +20,19 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	TNRResult.addSTEPGRP("ONGLET COMPTEUR")
 		
-		KW.scrollAndClick(myJDD,"tab_Compteur")
-		KW.waitForElementVisible(myJDD,"tab_CompteurSelected")
+		KW.click(myJDD,"tab_Compteur")
+		KW.isElementVisible(myJDD,"tab_CompteurSelected")
 		
-		KW.verifyElementCheckedOrNot(myJDD,"ST_INA","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_INA","O")
 		KW.verifyValue(myJDD,"ID_CODCOM")
 		KW.verifyValue(myJDD,"ST_DES")
 		KW.verifyValue(myJDD,"ID_CODUNI")
 		KW.verifyValue(myJDD,"ID_CODGES")
 		KW.verifyValue(myJDD,"ST_DESGES")
-		KW.verifyElementCheckedOrNot(myJDD,"ST_MAJDEL","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_MAJDEL","O")
 		KW.verifyValue(myJDD,"NU_DEL")
-		KW.verifyElementCheckedOrNot(myJDD,"ST_MPH","O")
-		KW.verifyElementCheckedOrNot(myJDD,"ST_TELE","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_MPH","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_TELE","O")
 		
 		TNRResult.addSTEPBLOCK("INDICATION ACTUELLE")
 		KW.verifyValue(myJDD,"DT_MAJN")
@@ -44,8 +44,8 @@ for (String cdt in myJDD.getCDTList()) {
 		
 		/* pas de test pour l'instant sur cette partie
 		TNRResult.addSTEPBLOCK("SAISIR UNE NOUVELLE VALEUR")
-		KW.verifyElementCheckedOrNot(myJDD,"ST_MAJDEL","O")
-		KW.verifyElementCheckedOrNot(myJDD,"ST_DELTA","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_MAJDEL","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_DELTA","O")
 		KW.verifyValue(myJDD,"DATE")
 		KW.verifyValue(myJDD,"HEURE")
 		KW.verifyValue(myJDD,"INDICATION")
@@ -56,9 +56,9 @@ for (String cdt in myJDD.getCDTList()) {
 		KW.verifyValue(myJDD,"ST_DESID_CODCOMPRI")
 		
 		TNRResult.addSTEPBLOCK("OPTION DE MISE A JOUR DES CODES COMPTEUR")
-		KW.verifyElementCheckedOrNot(myJDD,"ST_COMMAJEQU","O")
-		KW.verifyElementCheckedOrNot(myJDD,"ST_COMMAJMAT","O")
-		KW.verifyElementCheckedOrNot(myJDD,"ST_COMNOTMAJ","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_COMMAJEQU","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_COMMAJMAT","O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_COMNOTMAJ","O")
 		KW.verifyValue(myJDD,"NU_DELPRC")
 		KW.verifyValue(myJDD,"NU_DELVAL")
 		
@@ -66,25 +66,25 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addSTEPGRP("ONGLET EQUIPEMENT")
 	
 		KW.scrollToPositionAndWait(0, 0,1)
-		KW.scrollAndClick(myJDD,"tab_Equipement")
-		KW.waitForElementVisible(myJDD,"tab_EquipementSelected")
+		KW.click(myJDD,"tab_Equipement")
+		KW.isElementVisible(myJDD,"tab_EquipementSelected")
 		
 	TNRResult.addSTEPGRP("ONGLET MATRICULE")
 		
-		KW.scrollAndClick(myJDD,"tab_Matricule")
-		KW.waitForElementVisible(myJDD,"tab_MatriculeSelected")
+		KW.click(myJDD,"tab_Matricule")
+		KW.isElementVisible(myJDD,"tab_MatriculeSelected")
 		
 		
 	TNRResult.addSTEPGRP("ONGLET HISTORIQUE")
 		
-		KW.scrollAndClick(myJDD,"tab_Historique")
-		KW.waitForElementVisible(myJDD,"tab_HistoriqueSelected")
+		KW.click(myJDD,"tab_Historique")
+		KW.isElementVisible(myJDD,"tab_HistoriqueSelected")
 		
 		
 	TNRResult.addSTEPGRP("ONGLET COMPTEUR AUXILIAIRE")
 		
-		KW.scrollAndClick(myJDD,"tab_CompteurAux")
-		KW.waitForElementVisible(myJDD,"tab_CompteurAuxSelected")
+		KW.click(myJDD,"tab_CompteurAux")
+		KW.isElementVisible(myJDD,"tab_CompteurAuxSelected")
 		*/
 
 

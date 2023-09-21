@@ -1,7 +1,8 @@
-import tnrWebUI.KW
-import tnrWebUI.NAV
-import tnrResultManager.TNRResult
 import tnrJDDManager.JDD
+import tnrResultManager.TNRResult
+import tnrWebUI.*
+
+
 
 'Lecture du JDD'
 JDD myJDD = new JDD()
@@ -23,12 +24,12 @@ for (String cdt in myJDD.getCDTList()) {
 	
 		TNRResult.addSTEPGRP("ONGLET ORGANISATION")
 		
-			KW.scrollAndClick(myJDD, "tab_Organisation")
-			KW.waitForElementVisible(myJDD, "tab_OrganisationSelected")
+			KW.click(myJDD, "tab_Organisation")
+			KW.isElementVisible(myJDD, "tab_OrganisationSelected")
 		
 			KW.verifyValue(myJDD, "ST_CODCOU")
 			KW.verifyValue(myJDD, "ST_CODPERSGES")
-			KW.verifyElementCheckedOrNot(myJDD, "ST_INA", "O")
+			KWCheckbox.verifyElementCheckedOrNot(myJDD, "ST_INA", "O")
 			KW.verifyValue(myJDD, "ST_DES")
 			KW.verifyValue(myJDD, "ID_CODGES")
 			KW.verifyValue(myJDD, "ST_DESGES")
@@ -41,18 +42,18 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.verifyValue(myJDD, "ST_CODZON")
 			KW.verifyValue(myJDD, "ST_DESID_NUMZON")
 			KW.verifyValue(myJDD, "NU_EFF")
-			KW.verifyElementCheckedOrNot(myJDD, "ST_EXT", "O")
-			KW.verifyElementCheckedOrNot(myJDD, "ST_AFF", "O")
+			KWCheckbox.verifyElementCheckedOrNot(myJDD, "ST_EXT", "O")
+			KWCheckbox.verifyElementCheckedOrNot(myJDD, "ST_AFF", "O")
 
 			KW.verifyRadioChecked(myJDD, "NU_TYP")
 			
 		
 		TNRResult.addSTEPGRP("ONGLET ADRESSES")
 		
-			KW.scrollAndClick(myJDD, "tab_Adresses")
-			KW.waitForElementVisible(myJDD, "tab_AdressesSelected")
+			KW.click(myJDD, "tab_Adresses")
+			KW.isElementVisible(myJDD, "tab_AdressesSelected")
 			
-			KW.verifyElementCheckedOrNot(myJDD, "ST_RAT", "O")
+			KWCheckbox.verifyElementCheckedOrNot(myJDD, "ST_RAT", "O")
 	
 	
 	TNRResult.addEndTestCase()

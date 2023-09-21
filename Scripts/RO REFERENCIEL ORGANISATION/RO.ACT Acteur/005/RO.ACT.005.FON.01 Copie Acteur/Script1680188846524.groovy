@@ -1,9 +1,9 @@
 import internal.GlobalVariable
 import tnrJDDManager.JDD
-import tnrWebUI.KW
-import tnrWebUI.NAV
-import tnrSqlManager.SQL
 import tnrResultManager.TNRResult
+import tnrSqlManager.SQL
+import tnrWebUI.*
+
 
 'Lecture du JDD'
 JDD myJDD = new JDD()
@@ -26,17 +26,17 @@ for (String cdt in myJDD.getCDTList()) {
 	NAV.verifierCartridge('Copy')
 	
 		
-    KW.scrollAndSetText(myJDD,'input_ID_COD', myJDD.getStrData('ID_CODINT'))
+    KW.setText(myJDD,'input_ID_COD', myJDD.getStrData('ID_CODINT'))
 
-    KW.scrollAndSetText(myJDD,'input_ST_NOMNEW', myJDD.getStrData('ST_NOM'))
+    KW.setText(myJDD,'input_ST_NOMNEW', myJDD.getStrData('ST_NOM'))
 
-    KW.scrollAndSetText(myJDD,'input_ST_PRENEW', myJDD.getStrData('ST_PRE'))
+    KW.setText(myJDD,'input_ST_PRENEW', myJDD.getStrData('ST_PRE'))
 			
 	
 	TNRResult.addSTEPACTION('VALIDATION')
 		
     'Validation de la saisie'
-    KW.scrollAndClick(myJDD,'button_ValiderCopie')
+    KW.click(myJDD,'button_ValiderCopie')
 
     'Vérification du test case - écran résulat'
     NAV.verifierEcranRUD(myJDD.getData('ID_CODINT'))

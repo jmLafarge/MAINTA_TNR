@@ -12,6 +12,9 @@ import tnrCommon.Tools
 import tnrLog.Log
 import tnrResultManager.TNRResult
 import tnrTC.Sequencer
+import tnrWebUI.NAV
+
+
 
  
 Log.addTITLE("Lancement de TNR SEQUENCER")
@@ -21,6 +24,8 @@ Log.addTITLE("Lancement de TNR SEQUENCER")
 TNRResult.addStartInfo('TNR SEQUENCEUR')
 
 Tools.addInfoContext()
+
+NAV.myGlobalJDD
 
 Sequencer.testCasesList.each { TCMap ->
 	

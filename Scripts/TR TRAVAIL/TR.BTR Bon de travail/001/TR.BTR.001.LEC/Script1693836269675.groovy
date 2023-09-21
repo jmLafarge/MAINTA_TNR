@@ -4,7 +4,7 @@ import tnrCommon.Tools
 import tnrJDDManager.JDD
 import tnrJDDManager.JDDFileMapper
 import tnrResultManager.TNRResult
-import tnrWebUI.KW
+import tnrWebUI.*
 
 'Lecture du JDD'
 JDD myJDD = new JDD()
@@ -47,7 +47,7 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	KW.verifyValue(myJDD, "ST_TRADEM")
 	
-	KW.verifyElementText(new JDD(JDDFileMapper.getFullnameFromModObj('TR.BTR'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS),"OL_DOC")
+	KW.verifyText(new JDD(JDDFileMapper.getFullnameFromModObj('TR.BTR'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS),"OL_DOC")
 	
 	KW.verifyValue(myJDD, "ID_CODCONTRA")
 	KW.verifyValue(myJDD, "ST_DESID_CODCONTRA")
@@ -56,14 +56,14 @@ for (String cdt in myJDD.getCDTList()) {
 	KW.verifyValue(myJDD, "ID_CODPROJET")
 	KW.verifyValue(myJDD, "ST_DESID_CODPROJET")
 	KW.verifyValue(myJDD, "NU_USA")
-	KW.verifyElementCheckedOrNot(myJDD, "ST_BLO", "O")
+	KWCheckbox.verifyElementCheckedOrNot(myJDD, "ST_BLO", "O")
 	
 	
 	/*
-	KW.verifyElementCheckedOrNot(myJDD, "TOTALTIME", "O")
-	KW.verifyElementCheckedOrNot(myJDD, "TOTALSTOP", "O")
-	KW.verifyElementCheckedOrNot(myJDD, "MOS_AUTOAPPLINEAIRE", "O")
-	KW.verifyElementCheckedOrNot(myJDD, "PREV2REA", "O")
+	KWCheckbox.verifyElementCheckedOrNot(myJDD, "TOTALTIME", "O")
+	KWCheckbox.verifyElementCheckedOrNot(myJDD, "TOTALSTOP", "O")
+	KWCheckbox.verifyElementCheckedOrNot(myJDD, "MOS_AUTOAPPLINEAIRE", "O")
+	KWCheckbox.verifyElementCheckedOrNot(myJDD, "PREV2REA", "O")
 	*/
 	
 	TNRResult.addEndTestCase()

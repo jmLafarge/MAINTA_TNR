@@ -1,9 +1,10 @@
-import tnrWebUI.KW
-import tnrWebUI.NAV
-import tnrSqlManager.SQL
 import tnrJDDManager.JDD
 import tnrJDDManager.JDDKW
 import tnrResultManager.TNRResult
+import tnrSqlManager.SQL
+import tnrWebUI.*
+
+
 
 'Lecture du JDD'
 JDD myJDD = new JDD()
@@ -20,10 +21,11 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	TNRResult.addSTEPGRP("ONGLET HABILITATION")
 
-		//KW.scrollAndClick(myJDD,"tab_Habilitation")
-		KW.scrollAndClick(myJDD,"tab_Habilitation")
-		KW.waitForElementVisible(myJDD,"tab_HabilitationSelected")
+		//KW.click(myJDD,"tab_Habilitation")
+		KW.click(myJDD,"tab_Habilitation")
+		KW.isElementVisible(myJDD,"tab_HabilitationSelected")
 		
+		KW.scrollToPositionAndWait(0, 0,1)
 	
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -35,49 +37,41 @@ for (String cdt in myJDD.getCDTList()) {
 			myJDD.setCasDeTestNum(i)
 	
 			'Ajout'
-	        KW.scrollAndClick(myJDD,'a_AjouterHabilitation')
+	        KW.click(myJDD,'a_AjouterHabilitation')
 	
-	        KW.delay(1)
+	        if (KWDivModal.isOpened()) {
 	
-	        KW.scrollAndSetText(myJDD,'SelectionHabilitation_input_Filtre', myJDD.getStrData('ID_CODHAB'))
-	
-	        //KW.delay(1)
-	
-	        KW.scrollAndClick(myJDD,'SelectionHabilitation_td')
-	
-	        KW.scrollAndClick(myJDD,'SelectionHabilitation_button_Ajouter')
-			
-			KW.delay(1)
-	
-	        KW.waitAndVerifyElementText(myJDD,'ID_CODHAB')
-			
-			if (!JDDKW.isNULL(myJDD.getData('DT_DATDEB'))) {
-			
-		        KW.scrollAndDoubleClick(myJDD,'td_DateDebut')
-		
-		        KW.delay(1)
+		        KW.setText(myJDD,'SelectionHabilitation_input_Filtre', myJDD.getStrData('ID_CODHAB'))
+				if (KWDivModal.isNbRecordsEqualTo(1)) {
+			        KW.click(myJDD,'SelectionHabilitation_td')
+			        KW.click(myJDD,'SelectionHabilitation_button_Ajouter')
+					if (KWDivModal.isClosed()) {
+				        KW.verifyText(myJDD,'ID_CODHAB')
+						
+						if (!JDDKW.isNULL(myJDD.getData('DT_DATDEB'))) {
+						
+					        KW.doubleClick(myJDD,'td_DateDebut')	
+							//
+							// Le double Clic ne fonctionne pas sur Firefox --> F2 non plus :-(
+							//
+							KW.setDate(myJDD,'DT_DATDEB')
+								
+						}
 				
-				//
-				// Le double Clic ne fonctionne pas sur Firefox --> voir pour le remplacer par Sélection puis F2
-				//
-				//
-	
-				KW.setDate(myJDD,'DT_DATDEB')
-			}
-	
-			if (!JDDKW.isNULL(myJDD.getData('DT_DATFIN'))) {
-				
-		        KW.scrollAndClick(myJDD,'SelectionHabilitation_td')
-		
-		        KW.scrollAndDoubleClick(myJDD,'td_DateFin')
-		
-		        //WebUI.doubleClick(myJDD,'1 - RO/ACTEUR/Page_Fiche Acteur/Tab_Habilitation/td_DateFin', [('textHAB') : myJDD.getData('ID_CODHAB]))
-		        //KW.delay(1)
-	
-		        KW.setDate(myJDD,'DT_DATFIN')
-	
-				KW.scrollAndClick(myJDD,'ID_CODHAB')
-			}
+						if (!JDDKW.isNULL(myJDD.getData('DT_DATFIN'))) {
+							
+					        KW.click(myJDD,'SelectionHabilitation_td')
+					        KW.doubleClick(myJDD,'td_DateFin')
+							//
+							// Le double Clic ne fonctionne pas sur Firefox --> F2 non plus :-(
+							//
+					        KW.setDate(myJDD,'DT_DATFIN')
+							KW.click(myJDD,'ID_CODHAB')
+						}
+					}
+				}
+	        }
+			
 	    }// fin du for
 	
 	

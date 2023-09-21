@@ -31,7 +31,7 @@ public class TNRResult {
 		if (testCaseStarted) {
 			addStepInResult(msg,'DETAIL')
 		}
-		Log.addINFO(PREDETAILTXT+ msg)
+		Log.add('',PREDETAILTXT+ msg)
 	}
 
 
@@ -40,7 +40,7 @@ public class TNRResult {
 		switch (status) {
 			case null :
 			case 'INFO' :
-				Log.addINFO(PRESTEPTXT+ msg)
+				Log.add('',PRESTEPTXT+ msg)
 				addStepInResult(msg,'INFO')
 				break
 			case 'PASS':
@@ -64,31 +64,31 @@ public class TNRResult {
 
 
 	public static addSUBSTEP (String msg) {
-		Log.addINFO(PRESUBSTEPTXT+ msg)
+		Log.add('',PRESUBSTEPTXT+ msg)
 		addStepInResult(msg,'SUBSTEP')
 	}
 
 
 	public static addSTEPACTION (String msg) {
-		Log.addINFO('\t'+ msg.padRight(90, '_'))
+		Log.add('','\t'+ msg.padRight(90, '_'))
 		addStepInResult(msg,'STEPACTION')
 	}
 
 
 	public static addSTEPGRP (String msg) {
-		Log.addINFO('\t'+ msg.padRight(90, '_'))
+		Log.add('','\t'+ msg.padRight(90, '_'))
 		addStepInResult(msg,'STEPGRP')
 	}
 
 	public static addSTEPBLOCK (String msg) {
-		Log.addINFO('\t'+ msg.center(70, '-'))
+		Log.add('','\t'+ msg.center(70, '-'))
 		addStepInResult(msg,'STEPBLOCK')
 	}
 
 
 
 	public static addSTEPLOOP (String msg) {
-		Log.addINFO('\t'+ msg.padRight(40, '.'))
+		Log.add('','\t'+ msg.padRight(40, '.'))
 		addStepInResult(msg,'STEPLOOP')
 	}
 
@@ -152,8 +152,9 @@ public class TNRResult {
 		status.FAIL = 0
 		status.PASS = 0
 		status.ERROR = 0
-		Log.addINFO('')
-		Log.addINFO("START TEST CASE : $cdt" )
+		Log.add('','')
+		Log.add('',"START TEST CASE : $cdt" )
+		Log.setTabINFO(PRESUBSTEPTXT)
 		start = Log.logDate
 		XLSResult.addStartCasDeTest( start)
 	}
@@ -169,7 +170,7 @@ public class TNRResult {
 			Date stop = new Date()
 
 			XLSResult.addEndCasDeTest(status, start , stop,cdt)
-
+			Log.setTabINFO('')
 			if (status.ERROR !=0) {
 				Log.addERROR('END TEST CASE : ' + cdt.padRight(100, '.') +  ' Duration : ' + Tools.getDuration(start,stop))
 			} else if (status.FAIL !=0) {
@@ -204,8 +205,8 @@ public class TNRResult {
 
 	public static close(String text) {
 
-		Log.addINFO('')
-		Log.addINFO("************  FIN  du test : $text ************")
+		Log.add('','')
+		Log.add('',"************  FIN  du test : $text ************")
 
 		XLSResult.close()
 	}

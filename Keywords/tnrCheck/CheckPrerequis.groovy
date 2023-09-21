@@ -40,7 +40,7 @@ public class CheckPrerequis {
 		//Récupére la liste de tous les PREREQUIS de tous les JDD
 		JDDFileMapper.JDDfilemap.each { modObj,fullName ->
 			Log.addDEBUG("Lecture du JDD : " + fullName)
-			myJDD = new JDD(fullName,null,null,false)
+			myJDD = new JDD(fullName,null,null)
 			getAllPrerequis('JDD',fullName)
 		}
 
@@ -87,7 +87,7 @@ public class CheckPrerequis {
 
 		PREJDDFileMapper.PREJDDfilemap.each { modObj,fullName ->
 			Log.addDEBUG("Lecture du JDD pour modObj : " + modObj)
-			myJDD = new JDD(JDDFileMapper.getFullnameFromModObj(modObj),null,null,false)
+			myJDD = new JDD(JDDFileMapper.getFullnameFromModObj(modObj),null,null)
 			PREJDDBook = ExcelUtils.open(fullName)
 			getAllPrerequis('PREJDD',fullName)
 		}

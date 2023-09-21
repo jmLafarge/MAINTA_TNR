@@ -1,9 +1,10 @@
-import tnrWebUI.KW
-import tnrWebUI.NAV
-import tnrSqlManager.SQL
 import tnrJDDManager.JDD
 import tnrJDDManager.JDDKW
 import tnrResultManager.TNRResult
+import tnrSqlManager.SQL
+import tnrWebUI.*
+
+
 
 'Lecture du JDD'
 JDD myJDD = new JDD()
@@ -21,71 +22,71 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	TNRResult.addSTEPGRP('ONGLET ZONE')
 	
-		//KW.scrollAndClick(myJDD,"tab_Zone")
-		KW.scrollAndClick(myJDD,"tab_Zone")
-		KW.waitForElementVisible(myJDD,"tab_ZoneSelected")
+		//KW.click(myJDD,"tab_Zone")
+		KW.click(myJDD,"tab_Zone")
+		KW.isElementVisible(myJDD,"tab_ZoneSelected")
+		
+		KW.scrollToPositionAndWait(0, 0,1)
 
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
+			
 			
 			if (myJDD.getNbrLigneCasDeTest()>1) {
 				TNRResult.addSTEPLOOP("Ajout $i / " + myJDD.getNbrLigneCasDeTest())
 			}
 			
-			'Ajout'
-			KW.scrollAndClick(myJDD,'a_AjouterEmplacement')
-	
-			KW.delay(1)
-			
 			myJDD.setCasDeTestNum(i)
-	
-	        KW.scrollAndSetText(myJDD,'SelectionEmplacement_input_Filtre', myJDD.getStrData('ID_NUMREF'))
-	
-	        KW.scrollAndClick(myJDD,'SelectionEmplacement_td')
-	
-	        KW.scrollAndClick(myJDD,'SelectionEmplacement_button_Ajouter')
 			
-			KW.scrollAndClick(myJDD,'SelectionEmplacement_button_Fermer')
-			
-			KW.delay(1)
+			'Ajout'
+			KW.click(myJDD,'a_AjouterEmplacement')
 	
-	        if (KW.waitAndVerifyElementText(myJDD,'ID_NUMREF')) {
-				myJDD.replaceSEQUENCIDInJDD('ID_NUMZONLIG')
+			if (KWDivModal.isOpened()) {
+
+		        KW.setText(myJDD,'SelectionEmplacement_input_Filtre', myJDD.getStrData('ID_NUMREF'))
+				if (KWDivModal.isNbRecordsEqualTo(1)) {
+			        KW.click(myJDD,'SelectionEmplacement_td')
+			        KW.click(myJDD,'SelectionEmplacement_button_Ajouter')
+					KW.click(myJDD,'SelectionEmplacement_button_Fermer')
+					
+					if (KWDivModal.isClosed()) {
+			
+				        if (KW.verifyText(myJDD,'ID_NUMREF')) {
+							myJDD.replaceSEQUENCIDInJDD('ID_NUMZONLIG')
+						}else {
+							TNRResult.addDETAIL("Impossible de remplacer SEQUENCEID par ID_NUMREF dans JDD")
+							err = true
+						}
+			
+						
+						if (!JDDKW.isNULL(myJDD.getData('DT_DATDEB'))) {
+						
+					        KW.doubleClick(myJDD,'td_DateDebut')
+							//
+							// Le double Clic ne fonctionne pas sur Firefox --> F2 non plus :-(
+							//
+							KW.setDate(myJDD,'DT_DATDEB')
+						}
+				
+						if (!JDDKW.isNULL(myJDD.getData('DT_DATFIN'))) {
+							
+					        KW.click(myJDD,'SelectionEmplacement_td')
+					        KW.doubleClick(myJDD,'td_DateFin')
+							//
+							// Le double Clic ne fonctionne pas sur Firefox --> F2 non plus :-(
+							//
+					        KW.setDate(myJDD,'DT_DATFIN')
+							KW.click(myJDD,'ID_NUMREF')
+						}
+					}else {
+						err=true
+					}
+				}else {
+					err=true
+				}
 			}else {
-				TNRResult.addDETAIL("Impossible de remplacer SEQUENCEID par ID_NUMREF dans JDD")
-				err = true
+				err=true
 			}
-
-			
-			if (!JDDKW.isNULL(myJDD.getData('DT_DATDEB'))) {
-			
-		        KW.scrollAndDoubleClick(myJDD,'td_DateDebut')
-		
-		        KW.delay(1)
-				
-				//
-				// Le double Clic ne fonctionne pas sur Firefox --> voir pour le remplacer par Sélection puis F2
-				//
-				//
-	
-				KW.setDate(myJDD,'DT_DATDEB')
-			}
-	
-			if (!JDDKW.isNULL(myJDD.getData('DT_DATFIN'))) {
-				
-		        KW.scrollAndClick(myJDD,'SelectionEmplacement_td')
-		
-		        KW.scrollAndDoubleClick(myJDD,'td_DateFin')
-		
-		        //WebUI.doubleClick(myJDD,'1 - RO/ACTEUR/Page_Fiche Acteur/Tab_Habilitation/td_DateFin', [('textHAB') : myJDD.getData('ID_CODHAB]))
-		        //KW.delay(1)
-	
-		        KW.setDate(myJDD,'DT_DATFIN')
-	
-				KW.scrollAndClick(myJDD,'ID_NUMREF')
-			}
-			
-
 	    }// fin du for
 	
 		TNRResult.addSTEPACTION('CONTROLE')

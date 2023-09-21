@@ -64,7 +64,7 @@ public class PREJDD {
 				String cdt = cdtVal.toString().split("'")[1]
 				String val = cdtVal.toString().split("'")[3]
 				String JDDFullName= JDDFileMapper.getFullnameFromModObj(map.getAt('PREJDDMODOBJ').toString())
-				tnrJDDManager.JDD myJDD = new JDD(JDDFullName,'001',null,false)
+				tnrJDDManager.JDD myJDD = new JDD(JDDFullName,'001',null)
 
 				// vérifier si la valeur n'est  pas déjà en BDD
 				int cpt = SQL.checkIfExist(myJDD.getDBTableName(), map.getAt('JDDID').toString()+"='$val'")

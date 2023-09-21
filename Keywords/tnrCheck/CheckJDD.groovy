@@ -35,7 +35,7 @@ public class CheckJDD {
 
 		JDDFileMapper.JDDfilemap.each { modObj,JDDFullname ->
 
-			JDD myJDD = new JDD(JDDFullname,null,null,false)
+			JDD myJDD = new JDD(JDDFullname,null,null)
 
 			Log.addDEBUG("")
 			Log.addDEBUG("Controle de $JDDFullname")

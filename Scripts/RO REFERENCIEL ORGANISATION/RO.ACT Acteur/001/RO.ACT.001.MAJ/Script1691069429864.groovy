@@ -1,10 +1,10 @@
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-
 import tnrJDDManager.JDD
-import tnrWebUI.KW
-import tnrWebUI.NAV
-import tnrSqlManager.SQL
 import tnrResultManager.TNRResult
+import tnrSqlManager.SQL
+import tnrWebUI.*
+
+
+
 
 
 'Lecture du JDD'
@@ -23,87 +23,87 @@ for (String cdt in myJDD.getCDTList()) {
 		
 	TNRResult.addSTEPGRP("ONGLET ACTEUR")
 	
-		KW.scrollAndClick(myJDD,"tab_Acteur")
-		KW.waitForElementVisible(myJDD,"tab_ActeurSelected")
+		KW.click(myJDD,"tab_Acteur")
+		KW.isElementVisible(myJDD,"tab_ActeurSelected")
 
 		KW.scrollAndSelectOptionByLabel(myJDD,"ST_ETA")
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_INA","O")
-		//KW.scrollAndSetText(myJDD, "ID_CODINT") 
-		KW.scrollAndSetText(myJDD, "ST_NOM")
-		KW.scrollAndSetText(myJDD, "ST_PRE")
-		KW.scrollAndSetText(myJDD, "ST_MAIL")
-		KW.scrollAndSetText(myJDD, "ST_TELPHO")
-		KW.scrollAndSetText(myJDD, "ST_TELMOB")
-		KW.scrollAndSetText(myJDD, "ST_TELCOP")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_INA","O")
+		//KW.setText(myJDD, "ID_CODINT") 
+		KW.setText(myJDD, "ST_NOM")
+		KW.setText(myJDD, "ST_PRE")
+		KW.setText(myJDD, "ST_MAIL")
+		KW.setText(myJDD, "ST_TELPHO")
+		KW.setText(myJDD, "ST_TELMOB")
+		KW.setText(myJDD, "ST_TELCOP")
 
 		TNRResult.addSTEPBLOCK("SERVICE")
-		KW.searchWithHelper(myJDD, "ID_CODGES","","")
+		KWSearchHelper.launch(myJDD, "ID_CODGES","","")
 		//ST_DESGES --> pas d'action en modification
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_GRP","O")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_GRP","O")
 
 		KW.scrollToPositionAndWait(0, 0,1)
 
 	TNRResult.addSTEPGRP("ONGLET AFFECTATION")
 
-		KW.scrollAndClick(myJDD,"tab_Affectation")
-		KW.waitForElementVisible(myJDD,"tab_AffectationSelected")
+		KW.click(myJDD,"tab_Affectation")
+		KW.isElementVisible(myJDD,"tab_AffectationSelected")
 		
 		KW.scrollToPositionAndWait(0, 0,1)
 
-		KW.searchWithHelper(myJDD, "ID_CODGESAFF","","SEARCH_ID_CODGES") //specific
+		KWSearchHelper.launch(myJDD, "ID_CODGESAFF","","SEARCH_ID_CODGES") //specific
 		//ST_DESID_CODGESAFF --> pas d'action en modification
-		KW.scrollAndSetText(myJDD, "ST_MAT")
-		KW.scrollAndSetText(myJDD, "ST_FAM")
-		KW.scrollAndSetText(myJDD, "ST_GRO")
-		KW.scrollAndSetText(myJDD, "ST_DES")
+		KW.setText(myJDD, "ST_MAT")
+		KW.setText(myJDD, "ST_FAM")
+		KW.setText(myJDD, "ST_GRO")
+		KW.setText(myJDD, "ST_DES")
 
 		TNRResult.addSTEPBLOCK("CATEGORIE")
-		KW.searchWithHelper(myJDD, "ID_CODCAT","","")
+		KWSearchHelper.launch(myJDD, "ID_CODCAT","","")
 		//ST_DESID_CODCAT --> pas d'action en modification
-		KW.scrollAndSetText(myJDD, "NU_COUHOR")
+		KW.setText(myJDD, "NU_COUHOR")
 
 
 	TNRResult.addSTEPGRP("ONGLET ROLE")
 
-		KW.scrollAndClick(myJDD,"tab_Role")
-		KW.waitForElementVisible(myJDD,"tab_RoleSelected")
+		KW.click(myJDD,"tab_Role")
+		KW.isElementVisible(myJDD,"tab_RoleSelected")
 
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_GES","O")
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_EXP","O")
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_MAI","O")
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_PRO","O")
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_DEM","O")
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_INT","O")
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_ACH","O")
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_REC","O")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_GES","O")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_EXP","O")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_MAI","O")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_PRO","O")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_DEM","O")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_INT","O")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_ACH","O")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_REC","O")
 
 		TNRResult.addSTEPBLOCK("ROLE DANS L'ORGANISATION")
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_UTI","O")
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_UTIMOB","O")
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_INVPRE","O")
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_INVBT","O")
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_INVDA","O")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_UTI","O")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_UTIMOB","O")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_INVPRE","O")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_INVBT","O")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_INVDA","O")
 
 	TNRResult.addSTEPGRP("ONGLET PREVENTIF")
 
-		KW.scrollAndClick(myJDD,"tab_Preventif")
-		KW.waitForElementVisible(myJDD,"tab_PreventifSelected")
+		KW.click(myJDD,"tab_Preventif")
+		KW.isElementVisible(myJDD,"tab_PreventifSelected")
 
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_PRIPRE","O")
-		KW.scrollAndSetText(myJDD, "NU_TAUPRE")
-		KW.searchWithHelper(myJDD, "ID_CODCAL","","")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_PRIPRE","O")
+		KW.setText(myJDD, "NU_TAUPRE")
+		KWSearchHelper.launch(myJDD, "ID_CODCAL","","")
 		//ST_DESID_CODCAL --> pas d'action en modification
 
 	TNRResult.addSTEPGRP("ONGLET ZONE")
 
-		KW.scrollAndClick(myJDD,"tab_Zone")
-		KW.waitForElementVisible(myJDD,"tab_ZoneSelected")	
+		KW.click(myJDD,"tab_Zone")
+		KW.isElementVisible(myJDD,"tab_ZoneSelected")	
 
 
 
 	TNRResult.addSTEPACTION('VALIDATION')
 
-		KW.scrollAndClick(myJDD,'button_Valider')
+		KW.click(myJDD,'button_Valider')
 	
 		NAV.verifierEcranResultat(myJDD.getStrData())
 	

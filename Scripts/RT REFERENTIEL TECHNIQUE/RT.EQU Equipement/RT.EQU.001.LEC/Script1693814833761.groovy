@@ -3,8 +3,8 @@ import tnrJDDManager.JDDFileMapper
 
 import tnrJDDManager.JDD
 import tnrResultManager.TNRResult
-import tnrWebUI.KW
-import tnrWebUI.NAV
+import tnrWebUI.*
+
 
 'Lecture du JDD'
 JDD myJDD = new JDD()
@@ -26,17 +26,17 @@ for (String cdt in myJDD.getCDTList()) {
 		
 	TNRResult.addSTEPGRP("ONGLET EQUIPEMENT")
 		
-		KW.scrollAndClick(myJDD, "tab_Equipement")
-		KW.waitForElementVisible(myJDD, "tab_EquipementSelected")
+		KW.click(myJDD, "tab_Equipement")
+		KW.isElementVisible(myJDD, "tab_EquipementSelected")
 		
 		KW.verifyValue(myJDD, "ST_CODCOU")
 		KW.verifyValue(myJDD, "ST_CODPERS")
-		KW.verifyElementCheckedOrNot(myJDD, "ST_INA", "O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD, "ST_INA", "O")
 		KW.verifyValue(myJDD, "ST_DESEQU")
 		KW.verifyValue(myJDD, "ST_CODLON")
 		KW.verifyOptionSelectedByLabel(myJDD, "ST_ETA")
 		KW.verifyOptionSelectedByLabel(myJDD, "NU_CRI")
-		KW.verifyElementCheckedOrNot(myJDD, "ST_NIVABS", "O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD, "ST_NIVABS", "O")
 		KW.verifyValue(myJDD, "ID_CODGES")
 		KW.verifyValue(myJDD, "ST_DESGES")
 		//KW.verifyValue(myJDD, "EMP_CODLON")
@@ -52,8 +52,8 @@ for (String cdt in myJDD.getCDTList()) {
 		
 	TNRResult.addSTEPGRP("ONGLET FICHE")
 		
-		KW.scrollAndClick(myJDD, "tab_Fiche")
-		KW.waitForElementVisible(myJDD, "tab_FicheSelected")
+		KW.click(myJDD, "tab_Fiche")
+		KW.isElementVisible(myJDD, "tab_FicheSelected")
 		
 		KW.verifyValue(myJDD, "ST_NOMFOU")
 		KW.verifyValue(myJDD, "ST_REFFOU")
@@ -75,15 +75,15 @@ for (String cdt in myJDD.getCDTList()) {
 		KW.verifyValue(myJDD, "ST_DESID_CODCAL")
 		KW.verifyValue(myJDD, "ID_CODCONTRA")
 		KW.verifyValue(myJDD, "ST_DESID_CODCONTRA")
-		KW.verifyElementCheckedOrNot(myJDD, "ST_COM", "O")
-		KW.verifyElementCheckedOrNot(myJDD, "ST_MAT", "O")
-		KW.verifyElementCheckedOrNot(myJDD, "ST_CONTRABT", "O")
-		KW.verifyElementCheckedOrNot(myJDD, "ST_ANA", "O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD, "ST_COM", "O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD, "ST_MAT", "O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD, "ST_CONTRABT", "O")
+		KWCheckbox.verifyElementCheckedOrNot(myJDD, "ST_ANA", "O")
 		
 	TNRResult.addSTEPGRP("ONGLET NOTES")
 		
-		KW.scrollAndClick(myJDD, "tab_Notes")
-		KW.waitForElementVisible(myJDD, "tab_NotesSelected")
+		KW.click(myJDD, "tab_Notes")
+		KW.isElementVisible(myJDD, "tab_NotesSelected")
 		
 		KW.scrollToPositionAndWait(0, 0,1)
 		
@@ -92,15 +92,15 @@ for (String cdt in myJDD.getCDTList()) {
 		String notes = JDD_Note.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC1'))
 		String consignes = JDD_Note.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC2'))
 		
-		KW.verifyElementText(JDD_Note,"DOC_Notes",notes)
-		KW.verifyElementText(JDD_Note,"DOC_Consignes",consignes)
+		KW.verifyText(JDD_Note,"DOC_Notes",notes)
+		KW.verifyText(JDD_Note,"DOC_Consignes",consignes)
 
 		
 		
 	TNRResult.addSTEPGRP("ONGLET ADRESSE")
 		
-		KW.scrollAndClick(myJDD, "tab_Adresse")
-		KW.waitForElementVisible(myJDD, "tab_AdresseSelected")
+		KW.click(myJDD, "tab_Adresse")
+		KW.isElementVisible(myJDD, "tab_AdresseSelected")
 	
 	
 	TNRResult.addEndTestCase()

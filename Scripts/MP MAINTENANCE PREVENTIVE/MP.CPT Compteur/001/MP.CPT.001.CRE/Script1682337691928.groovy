@@ -1,6 +1,6 @@
 import tnrJDDManager.JDD
-import tnrWebUI.KW
-import tnrWebUI.NAV
+import tnrWebUI.*
+
 import tnrSqlManager.SQL
 import tnrResultManager.TNRResult
 
@@ -23,71 +23,71 @@ for (String cdt in myJDD.getCDTList()) {
 
 	TNRResult.addSTEPGRP("ONGLET COMPTEUR")
 		
-		KW.scrollAndClick(myJDD,"tab_Compteur")
-		KW.waitForElementVisible(myJDD,"tab_CompteurSelected")
+		KW.click(myJDD,"tab_Compteur")
+		KW.isElementVisible(myJDD,"tab_CompteurSelected")
 		
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_INA","O")
-		KW.scrollAndSetText(myJDD,"ID_CODCOM")
-		KW.scrollAndSetText(myJDD,"ST_DES")
-		KW.scrollAndSetText(myJDD,"ID_CODUNI")
-		KW.scrollAndSetText(myJDD,"ID_CODGES")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_INA","O")
+		KW.setText(myJDD,"ID_CODCOM")
+		KW.setText(myJDD,"ST_DES")
+		KW.setText(myJDD,"ID_CODUNI")
+		KW.setText(myJDD,"ID_CODGES")
 		//ST_DESGES --> pas d'action en création
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_MAJDEL","O")
-		KW.scrollAndSetText(myJDD,"NU_DEL")
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_MPH","O")
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_TELE","O")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_MAJDEL","O")
+		KW.setText(myJDD,"NU_DEL")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_MPH","O")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_TELE","O")
 				
 		TNRResult.addSTEPBLOCK("INDICATION ACTUELLE")
-		KW.scrollAndSetText(myJDD,"DT_MAJN")
-		//KW.scrollAndSetText(myJDD,"DT_DATREF")
-		KW.scrollAndSetDate(myJDD,"DT_DATREF")
+		KW.setText(myJDD,"DT_MAJN")
+		//KW.setText(myJDD,"DT_DATREF")
+		KW.setDate(myJDD,"DT_DATREF")
 		
-		KW.scrollAndSetText(myJDD,"NU_VALN")
+		KW.setText(myJDD,"NU_VALN")
 		
 		/* pas de test pour l'instant sur cette partie
 		TNRResult.addSTEPBLOCK("SAISIR UNE NOUVELLE VALEUR")
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_MAJDEL","O")
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_DELTA","O")
-		KW.scrollAndSetText(myJDD,"DATE")
-		KW.scrollAndSetText(myJDD,"HEURE")
-		KW.scrollAndSetText(myJDD,"INDICATION")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_MAJDEL","O")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_DELTA","O")
+		KW.setText(myJDD,"DATE")
+		KW.setText(myJDD,"HEURE")
+		KW.setText(myJDD,"INDICATION")
 		*/
 		
 		TNRResult.addSTEPBLOCK("COMPTEUR PRINCIPAL")
-		KW.scrollAndSetText(myJDD,"ID_CODCOMPRI")
+		KW.setText(myJDD,"ID_CODCOMPRI")
 		//ST_DESID_CODCOMPRI --> pas d'action en création
 		
 		TNRResult.addSTEPBLOCK("OPTION DE MISE A JOUR DES CODES COMPTEUR")
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_COMMAJEQU","O")
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_COMMAJMAT","O")
-		KW.scrollAndCheckIfNeeded(myJDD,"ST_COMNOTMAJ","O")
-		KW.scrollAndSetText(myJDD,"NU_DELPRC")
-		KW.scrollAndSetText(myJDD,"NU_DELVAL")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_COMMAJEQU","O")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_COMMAJMAT","O")
+		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_COMNOTMAJ","O")
+		KW.setText(myJDD,"NU_DELPRC")
+		KW.setText(myJDD,"NU_DELVAL")
 		
 		
 		/* pas de test pour l'instant sur cette partie
 	TNRResult.addSTEPGRP("ONGLET EQUIPEMENT")
 	
 		KW.scrollToPositionAndWait(0, 0,1)
-		KW.scrollAndClick(myJDD,"tab_Equipement")
-		KW.waitForElementVisible(myJDD,"tab_EquipementSelected")
+		KW.click(myJDD,"tab_Equipement")
+		KW.isElementVisible(myJDD,"tab_EquipementSelected")
 		
 	TNRResult.addSTEPGRP("ONGLET MATRICULE")
 		
-		KW.scrollAndClick(myJDD,"tab_Matricule")
-		KW.waitForElementVisible(myJDD,"tab_MatriculeSelected")
+		KW.click(myJDD,"tab_Matricule")
+		KW.isElementVisible(myJDD,"tab_MatriculeSelected")
 		
 		
 	TNRResult.addSTEPGRP("ONGLET HISTORIQUE")
 		
-		KW.scrollAndClick(myJDD,"tab_Historique")
-		KW.waitForElementVisible(myJDD,"tab_HistoriqueSelected")
+		KW.click(myJDD,"tab_Historique")
+		KW.isElementVisible(myJDD,"tab_HistoriqueSelected")
 		
 		
 	TNRResult.addSTEPGRP("ONGLET COMPTEUR AUXILIAIRE")
 		
-		KW.scrollAndClick(myJDD,"tab_CompteurAux")
-		KW.waitForElementVisible(myJDD,"tab_CompteurAuxSelected")
+		KW.click(myJDD,"tab_CompteurAux")
+		KW.isElementVisible(myJDD,"tab_CompteurAuxSelected")
 		*/
 	
 	
@@ -95,7 +95,7 @@ for (String cdt in myJDD.getCDTList()) {
 				
 	TNRResult.addSTEPACTION('VALIDATION')
 		
-	    KW.scrollAndClick(NAV.myGlobalJDD,'button_Valider')
+	    KW.click(NAV.myGlobalJDD,'button_Valider')
 	
 	    NAV.verifierEcranResultat(myJDD.getStrData())
 	

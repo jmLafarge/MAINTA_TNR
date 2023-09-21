@@ -1,9 +1,9 @@
 import internal.GlobalVariable
 import tnrJDDManager.JDD
-import tnrWebUI.KW
-import tnrWebUI.NAV
-import tnrSqlManager.SQL
 import tnrResultManager.TNRResult
+import tnrSqlManager.SQL
+import tnrWebUI.*
+
 
 
 'Lecture du JDD'
@@ -21,9 +21,11 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	TNRResult.addSTEPGRP('ONGLET HABILITATION')
 	
-		//KW.scrollAndClick(myJDD,"tab_Habilitation")
-		KW.scrollAndClick(myJDD,"tab_Habilitation")
-		KW.waitForElementVisible(myJDD,"tab_HabilitationSelected")
+		//KW.click(myJDD,"tab_Habilitation")
+		KW.click(myJDD,"tab_Habilitation")
+		KW.isElementVisible(myJDD,"tab_HabilitationSelected")
+		
+		KW.scrollToPositionAndWait(0, 0,1)
 		
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -34,12 +36,12 @@ for (String cdt in myJDD.getCDTList()) {
 			
 			myJDD.setCasDeTestNum(i)
 	
-	        KW.waitAndVerifyElementText(myJDD,'ID_CODHAB')
+	        KW.verifyText(myJDD,'ID_CODHAB')
 		        
 			'Suppression'
 			for ( n in 1..3) {
 				TNRResult.addSUBSTEP("Tentative de suppression $n/3" )
-				KW.scrollAndClick(myJDD,'span_Supprime_Habilitation')
+				KW.click(myJDD,'span_Supprime_Habilitation')
 				if (KW.waitAndAcceptAlert(GlobalVariable.TIMEOUT,null)) {	
 					KW.delay(1)	
 					KW.verifyElementNotPresent(myJDD,'ID_CODHAB')

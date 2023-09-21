@@ -4,8 +4,8 @@ import tnrJDDManager.JDDFileMapper
 import tnrJDDManager.JDDKW
 import tnrResultManager.TNRResult
 import tnrSqlManager.SQL
-import tnrWebUI.KW
-import tnrWebUI.NAV
+import tnrWebUI.*
+
 
 'Lecture du JDD'
 JDD myJDD = new JDD()

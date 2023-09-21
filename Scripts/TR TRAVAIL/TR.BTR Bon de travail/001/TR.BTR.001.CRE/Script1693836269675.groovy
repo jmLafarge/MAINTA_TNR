@@ -1,6 +1,6 @@
 import tnrJDDManager.JDD
-import tnrWebUI.KW
-import tnrWebUI.NAV
+import tnrWebUI.*
+
 import tnrSqlManager.SQL
 import tnrResultManager.TNRResult
 
@@ -26,7 +26,7 @@ for (String cdt in myJDD.getCDTList()) {
 				
 	TNRResult.addSTEPACTION('VALIDATION')
 		
-	    KW.scrollAndClick(NAV.myGlobalJDD,'button_Valider')
+	    KW.click(NAV.myGlobalJDD,'button_Valider')
 	
 	    NAV.verifierEcranResultat(myJDD.getStrData())
 	

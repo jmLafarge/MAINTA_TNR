@@ -1,8 +1,8 @@
 import tnrJDDManager.JDD
-import tnrWebUI.KW
-import tnrWebUI.NAV
-import tnrSqlManager.SQL
 import tnrResultManager.TNRResult
+import tnrSqlManager.SQL
+import tnrWebUI.*
+
 
 
 'Lecture du JDD'
@@ -17,13 +17,13 @@ for (String cdt in myJDD.getCDTList()) {
 
 	'Naviguer vers la bonne url et controle des infos du cartouche'
 	NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_CODINT'))
-	
+
 	TNRResult.addSTEPGRP('ONGLET ZONE')
 	
-		//KW.scrollAndClick(myJDD,"tab_Zone")
-		KW.scrollAndClick(myJDD,"tab_Zone")
-		KW.waitForElementVisible(myJDD,"tab_ZoneSelected")
+		KW.click(myJDD,"tab_Zone")
+		KW.isElementVisible(myJDD,"tab_ZoneSelected")
 
+		KW.scrollToPositionAndWait(0, 0,1)
 		
 		'Boucle sur les lignes d\'un même TC'
 	    //for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -34,16 +34,18 @@ for (String cdt in myJDD.getCDTList()) {
 			}
 			
 			myJDD.setCasDeTestNum(i)
-	
-	        KW.scrollAndClick(myJDD,'ID_NUMREF')
+
+	        //KW.click(myJDD,'ID_NUMREF')
 			
-			if (myJDD.getStrData('ST_DEF')=='N' || i==1) {
-		        'Supression'
-				KW.scrollAndClick(myJDD,'span_Supprime_Emplacement')
-				KW.delay(1)	
+			if (myJDD.getStrData('ST_DEF')=='N' || i==1) {				
+				'Suppression'
+				KW.click(myJDD,'span_Supprime_Emplacement')
+				//KW.delay(1)	
 				KW.verifyElementNotPresent(myJDD,'ID_NUMREF')
+				
 			}
 	    }
+
 		
 	TNRResult.addSTEPACTION('CONTROLE')
 	'Vérification en BD que l\'objet n\'existe plus'

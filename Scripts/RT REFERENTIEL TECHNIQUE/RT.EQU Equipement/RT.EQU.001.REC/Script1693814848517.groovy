@@ -1,6 +1,6 @@
 import tnrJDDManager.JDD
-import tnrWebUI.KW
-import tnrWebUI.NAV
+import tnrWebUI.*
+
 import tnrResultManager.TNRResult
 
 'Lecture du JDD'
@@ -17,14 +17,14 @@ for (String cdt in myJDD.getCDTList()) {
     NAV.goToURL_Grille_and_checkCartridge()
 	
 	'Filtrer la valeur dans la grille'
-    KW.scrollAndSetText(myJDD,'input_Filtre_Grille', myJDD.getStrData('ST_CODCOU'))
+    KW.setText(myJDD,'input_Filtre_Grille', myJDD.getStrData('ST_CODCOU'))
 
-	KW.scrollAndClick(myJDD,'button_Selectionner')
+	KW.click(myJDD,'button_Selectionner')
 
 	KW.delay(1)
 	
 	'Vérifier que la valeur soit dans la grille filtrée'
-	KW.verifyElementText(myJDD,'td_Grille', myJDD.getStrData('ST_CODCOU'))
+	KW.verifyText(myJDD,'td_Grille', myJDD.getStrData('ST_CODCOU'))
 
 	
 	TNRResult.addEndTestCase()

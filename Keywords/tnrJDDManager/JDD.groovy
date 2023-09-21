@@ -70,9 +70,9 @@ public class JDD {
 	 * @param casDeTest
 	 * @param step
 	 */
-	JDD(String fullname = null, String tabName = null,String cdt = null,boolean step=true) {
+	JDD(String fullname = null, String tabName = null,String cdt = null) {
 
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"JDD",[fullname:fullname,tabName:tabName,cdt:cdt,step:step])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"JDD",[fullname:fullname,tabName:tabName,cdt:cdt])
 
 		Log.addTrace("SKIP_LIST_SHEETNAME:$SKIP_LIST_SHEETNAME")
 		Log.addTrace("GlobalVariable.CAS_DE_TEST_PATTERN : "+GlobalVariable.CAS_DE_TEST_PATTERN)
@@ -128,7 +128,7 @@ public class JDD {
 
 
 		String cdtPattern = casDeTest ? casDeTest : GlobalVariable.CAS_DE_TEST_PATTERN
-		Log.addTrace("cdtPattern:$cdtPattern)")
+		Log.addTrace("cdtPattern:$cdtPattern")
 
 		setCDTListAccordingThisPattern(cdtPattern)
 
@@ -151,19 +151,20 @@ public class JDD {
 		Log.addTraceBEGIN(CLASS_FOR_LOG, "setCDTListAccordingThisPattern", [cdtPattern:cdtPattern])
 		//Liste des cas de test qui répondent au pattern, sans doublons (les doublons sont des casDeTestNum)
 		List <String> cdtli = myJDDData.getCdtsStartsWithStrWithoutDuplicates(cdtPattern)
-
+		Log.addTrace("cdtli.size():"+cdtli.size())
 		if(cdtli.size()==1) {
+			Log.addTrace("cdtli.size()==1")
 			CDTList = cdtli
 		}else {
-			//supprimer de la liste les cas de test traités par un autre Test Case
+			Log.addTrace('Supprimer de la liste les cas de test traités par un autre Test Case')
 			CDTList = cdtli.findAll { cdt ->
-				Log.addTrace("cdt:$cdt)")
+				Log.addTrace("cdt:$cdt")
 				!TCFileMapper.isTCNameExist(cdt)
 			}
 		}
 
 		if (CDTList.size()==0 && cdtPattern){
-			Log.addINFO('Pas de cas de test défini pour '+ cdtPattern)
+			Log.addINFO("Pas de cas de test défini pour $JDDFullName ($cdtPattern)")
 		}
 		Log.addTraceEND(CLASS_FOR_LOG, "setCDTListAccordingThisPattern" , CDTList)
 	}
@@ -257,7 +258,7 @@ public class JDD {
 	 * @param casDeTestNum Le numéro du cas de test (valeur par défaut : numéro de cas de test courant).
 	 * @return La donnée correspondant au nom et au numéro de cas de test donnés, ou null si le numéro de cas de test ou le nom est invalide.
 	 */
-	public getData(String name, def cdtnum=null, boolean UPD = false) {
+	public def getData(String name, def cdtnum=null, boolean UPD = false) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"getData",[name:name , cdtnum:cdtnum , UPD:UPD])
 		cdtnum = (cdtnum?:casDeTestNum) as int
 		def ret

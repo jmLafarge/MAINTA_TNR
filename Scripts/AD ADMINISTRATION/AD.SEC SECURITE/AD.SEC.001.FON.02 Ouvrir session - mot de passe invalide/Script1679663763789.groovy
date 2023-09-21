@@ -1,6 +1,6 @@
 import internal.GlobalVariable
 import tnrJDDManager.JDD
-import tnrWebUI.KW
+import tnrWebUI.*
 import tnrSqlManager.SQL
 import tnrResultManager.TNRResult
 
@@ -18,7 +18,7 @@ for (String cdt in myJDD.getCDTList()) {
 
 	KW.maximizeWindow()
 	
-	KW.scrollAndSetText(myJDD,'in_user')
+	KW.setText(myJDD,'in_user')
 	
 	KW.setEncryptedText(myJDD,'in_passw')
 
@@ -28,7 +28,7 @@ for (String cdt in myJDD.getCDTList()) {
 			
 		TNRResult.addSTEP("Connexion invalide OK")
 		
-		KW.verifyElementText(myJDD, 'span_error')
+		KW.verifyText(myJDD, 'span_error')
 		
 		'Vérification des valeurs en BD'
 		SQL.checkJDDWithBD(myJDD,[:],"SELECT *FROM UTILOG ORDER bY DT_LOG DESC")

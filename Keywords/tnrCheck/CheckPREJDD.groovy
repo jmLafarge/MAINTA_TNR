@@ -47,7 +47,7 @@ public class CheckPREJDD {
 			Log.addDEBUG("")
 			Log.addDEBUG("Controle de $PREJDDfullname")
 
-			JDD myJDD = new JDD(JDDFileMapper.JDDfilemap.getAt(modObj),null,null,false)
+			JDD myJDD = new JDD(JDDFileMapper.JDDfilemap.getAt(modObj),null,null)
 
 			XSSFWorkbook PREJDDbook = ExcelUtils.open(PREJDDfullname)
 

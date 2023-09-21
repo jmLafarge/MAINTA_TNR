@@ -1,11 +1,11 @@
 import org.openqa.selenium.Keys
 
 import tnrJDDManager.JDD
-import tnrWebUI.KW
 import tnrLog.Log
-import tnrWebUI.NAV
-import tnrSqlManager.SQL
 import tnrResultManager.TNRResult
+import tnrSqlManager.SQL
+import tnrWebUI.*
+
 
 
 'Lecture du JDD'
@@ -24,9 +24,11 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	TNRResult.addSTEPGRP('ONGLET HABILITATION')
 	
-		//KW.scrollAndClick(myJDD,"tab_Habilitation")
-		KW.scrollAndClick(myJDD,"tab_Habilitation")
-		KW.waitForElementVisible(myJDD,"tab_HabilitationSelected")
+		//KW.click(myJDD,"tab_Habilitation")
+		KW.click(myJDD,"tab_Habilitation")
+		KW.isElementVisible(myJDD,"tab_HabilitationSelected")
+		
+		KW.scrollToPositionAndWait(0, 0,1)
 		
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -37,14 +39,14 @@ for (String cdt in myJDD.getCDTList()) {
 			
 			myJDD.setCasDeTestNum(i)
 			
-	        KW.scrollAndDoubleClick(myJDD,'td_DateDebut')
-			KW.waitForElementVisible(myJDD,'DT_DATDEB')
+	        KW.doubleClick(myJDD,'td_DateDebut')
+			KW.isElementVisible(myJDD,'DT_DATDEB')
 	        KW.setDate(myJDD,'DT_DATDEB')
 			KW.sendKeys(myJDD,'DT_DATDEB', Keys.chord(Keys.RETURN),"Envoie de la touche ENTREE pour valider la date")
 			KW.delay(1)
 			
-	        KW.scrollAndDoubleClick(myJDD,'td_DateFin')
-			KW.waitForElementVisible(myJDD,'DT_DATFIN')
+	        KW.doubleClick(myJDD,'td_DateFin')
+			KW.isElementVisible(myJDD,'DT_DATFIN')
 	        KW.setDate(myJDD,'DT_DATFIN')
 			KW.sendKeys(myJDD,'DT_DATFIN', Keys.chord(Keys.RETURN),"Envoie de la touche ENTREE pour valider la date")
 			KW.delay(1)

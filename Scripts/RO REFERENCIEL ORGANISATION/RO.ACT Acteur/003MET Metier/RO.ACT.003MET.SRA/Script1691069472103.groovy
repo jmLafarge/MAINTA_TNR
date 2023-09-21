@@ -1,9 +1,10 @@
-import tnrWebUI.KW
-import tnrWebUI.NAV
-import tnrSqlManager.SQL
 import tnrJDDManager.JDD
 import tnrJDDManager.JDDKW
 import tnrResultManager.TNRResult
+import tnrSqlManager.SQL
+import tnrWebUI.*
+
+
 
 
 'Lecture du JDD'
@@ -21,14 +22,16 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	TNRResult.addSTEPGRP('ONGLET METIER')
 	
-		//KW.scrollAndClick(myJDD,"Tab_Metier")
-		KW.scrollAndClick(myJDD,"Tab_Metier")
-		KW.waitForElementVisible(myJDD,"Tab_MetierSelected")
+		//KW.click(myJDD,"Tab_Metier")
+		KW.click(myJDD,"Tab_Metier")
+		KW.isElementVisible(myJDD,"Tab_MetierSelected")
+		
+		KW.scrollToPositionAndWait(0, 0,1)
 	
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
 			
-			KW.scrollToPositionAndWait(0,0,1)
+			//KW.scrollToPositionAndWait(0,0,1)
 			
 			if (myJDD.getNbrLigneCasDeTest()>1) {
 				TNRResult.addSTEPLOOP("Ajout $i / " + myJDD.getNbrLigneCasDeTest())
@@ -37,51 +40,40 @@ for (String cdt in myJDD.getCDTList()) {
 			myJDD.setCasDeTestNum(i)
 	
 			'Ajout'
-	        KW.scrollAndClick(myJDD,'a_AjouterMetier')
-	
-	        KW.delay(1)
-	
-	        KW.scrollAndSetText(myJDD,'SelectionMetier_input_Filtre', myJDD.getStrData('ID_CODMET'))
-	
-	        KW.delay(1)
-	
-	        KW.scrollAndClick(myJDD,'SelectionMetier_td')
+	        KW.click(myJDD,'a_AjouterMetier')
 			
-			KW.scrollAndSetText(myJDD,'SelectionMetier_input_ST_NIV', myJDD.getStrData('ST_NIV'))
+			if (KWDivModal.isOpened()) {
 	
-	        KW.scrollAndClick(myJDD,'SelectionMetier_button_Ajouter')
-			
-			KW.delay(1)
-	
-	        KW.waitAndVerifyElementText(myJDD,'ID_CODMET')
-			
-			if (!JDDKW.isNULL(myJDD.getData('DT_DATDEB'))) {
-			
-		        KW.scrollAndDoubleClick(myJDD,'td_DateDebut')
-		
-		        KW.delay(1)
+		        KW.setText(myJDD,'SelectionMetier_input_Filtre', myJDD.getStrData('ID_CODMET'))
+				if (KWDivModal.isNbRecordsEqualTo(1)) {
+			        KW.click(myJDD,'SelectionMetier_td')
+					KW.setText(myJDD,'SelectionMetier_input_ST_NIV', myJDD.getStrData('ST_NIV'))
+			        KW.click(myJDD,'SelectionMetier_button_Ajouter')
+					
+					if (KWDivModal.isClosed()) {
+				        KW.verifyText(myJDD,'ID_CODMET')
+						
+						if (!JDDKW.isNULL(myJDD.getData('DT_DATDEB'))) {
+					        KW.doubleClick(myJDD,'td_DateDebut')
+							//
+							// Le double Clic ne fonctionne pas sur Firefox --> F2 non plus :-(
+							//
+							KW.setDate(myJDD,'DT_DATDEB')
+						}
 				
-				//
-				// Le double Clic ne fonctionne pas sur Firefox --> voir pour le remplacer par Sélection puis F2
-				//
-				//
-	
-				KW.setDate(myJDD,'DT_DATDEB')
-			}
-	
-			if (!JDDKW.isNULL(myJDD.getData('DT_DATFIN'))) {
-				
-		        KW.scrollAndClick(myJDD,'SelectionMetier_td')
-		
-		        KW.scrollAndDoubleClick(myJDD,'td_DateFin')
-		
-		        //WebUI.doubleClick(myJDD,'1 - RO/ACTEUR/Page_Fiche Acteur/Tab_Habilitation/td_DateFin', [('textHAB') : myJDD.getData('ID_CODHAB]))
-		        //KW.delay(1)
-	
-		        KW.setDate(myJDD,'DT_DATFIN')
-	
-				KW.scrollAndClick(myJDD,'ID_CODMET')
-			}
+						if (!JDDKW.isNULL(myJDD.getData('DT_DATFIN'))) {
+							
+					        KW.click(myJDD,'SelectionMetier_td')
+					        KW.doubleClick(myJDD,'td_DateFin')
+							//
+							// Le double Clic ne fonctionne pas sur Firefox --> F2 non plus :-(
+							//
+					        KW.setDate(myJDD,'DT_DATFIN')
+							KW.click(myJDD,'ID_CODMET')
+						}
+					}
+				}
+	    	}
 	    }// fin du for
 	
 	

@@ -39,6 +39,7 @@ class Log {
 	private static int traceLevel = 0
 	private static int level = 0
 	private static int maxLevel = 0
+	private static String tabINFO = ''
 
 	private static List <String> traceClassesExcluded = []
 	private static List <String> traceClassesAdded = []
@@ -261,7 +262,7 @@ class Log {
 		if (traceMode) {
 			addTrace(msg)
 		}else {
-			add('',msg)
+			add('',tabINFO+msg)
 		}
 	}
 
@@ -402,7 +403,9 @@ class Log {
 		}
 	}
 
-
+	public static setTabINFO(String tab){
+		tabINFO=tab
+	}
 
 
 }// Fin de class

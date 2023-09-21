@@ -1,13 +1,7 @@
-import static com.kms.katalon.core.testcase.TestCaseFactory.findTestCase
-
-import com.kms.katalon.core.util.KeywordUtil
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-
-import internal.GlobalVariable
-import tnrWebUI.KW
-import tnrWebUI.NAV
-import tnrResultManager.TNRResult
 import tnrJDDManager.JDD
+import tnrResultManager.TNRResult
+import tnrWebUI.*
+
 
 
 'Lecture du JDD'
@@ -25,9 +19,11 @@ for (String cdt in myJDD.getCDTList()) {
 
 	TNRResult.addSTEPGRP("ONGLET HABILITATION")
 
-		//KW.scrollAndClick(myJDD,"tab_Habilitation")
-		KW.scrollAndClick(myJDD,"tab_Habilitation")
-		KW.waitForElementVisible(myJDD,"tab_HabilitationSelected")
+		//KW.click(myJDD,"tab_Habilitation")
+		KW.click(myJDD,"tab_Habilitation")
+		KW.isElementVisible(myJDD,"tab_HabilitationSelected")
+		
+		KW.scrollToPositionAndWait(0, 0,1)
 	
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -38,7 +34,7 @@ for (String cdt in myJDD.getCDTList()) {
 			
 			myJDD.setCasDeTestNum(i)
 			
-	        KW.waitAndVerifyElementText(myJDD,'ID_CODHAB')
+	        KW.verifyText(myJDD,'ID_CODHAB')
 	
 	
 			KW.verifyDateText(myJDD,'td_DateDebut', myJDD.getData('DT_DATDEB'))

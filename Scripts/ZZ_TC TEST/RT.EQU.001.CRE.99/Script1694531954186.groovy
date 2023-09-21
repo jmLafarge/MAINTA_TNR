@@ -1,6 +1,6 @@
 import tnrJDDManager.JDD
-import tnrWebUI.KW
-import tnrWebUI.NAV
+import tnrWebUI.*
+
 import tnrSqlManager.SQL
 import tnrResultManager.TNRResult
 

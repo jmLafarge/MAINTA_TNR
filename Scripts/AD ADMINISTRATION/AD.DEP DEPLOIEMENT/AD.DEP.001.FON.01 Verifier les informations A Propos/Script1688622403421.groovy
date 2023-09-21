@@ -1,6 +1,6 @@
 import internal.GlobalVariable
 import tnrJDDManager.JDD
-import tnrWebUI.KW
+import tnrWebUI.*
 import tnrSqlManager.SQL
 import tnrResultManager.TNRResult
 
@@ -22,21 +22,21 @@ for (String cdt in myJDD.getCDTList()) {
 		
 		TNRResult.addSTEPBLOCK("Controle des versions à l'écran")
 		
-			KW.verifyElementTextContains(myJDD, 'VER_BDD')
+			KW.verifyTextContains(myJDD, 'VER_BDD')
 			
 			List text = []
 			
 			text = myJDD.getStrData('VER_MOS_XML').split(' ')
-			KW.verifyElementTextContains(myJDD, 'VER_MOS_XML', text[0])
-			KW.verifyElementTextContains(myJDD, 'VER_MOS_XML', text[1])
+			KW.verifyTextContains(myJDD, 'VER_MOS_XML', text[0])
+			KW.verifyTextContains(myJDD, 'VER_MOS_XML', text[1])
 	
 			text = myJDD.getStrData('VER_MOSIWS').split(' ')
-			KW.verifyElementTextContains(myJDD, 'VER_MOSIWS', text[0])
-			KW.verifyElementTextContains(myJDD, 'VER_MOSIWS', text[1])
+			KW.verifyTextContains(myJDD, 'VER_MOSIWS', text[0])
+			KW.verifyTextContains(myJDD, 'VER_MOSIWS', text[1])
 			
 			text = myJDD.getStrData('VER_MOS_XMLI').split(' ')
-			KW.verifyElementTextContains(myJDD, 'VER_MOS_XMLI', text[0])
-			KW.verifyElementTextContains(myJDD, 'VER_MOS_XMLI', text[1])
+			KW.verifyTextContains(myJDD, 'VER_MOS_XMLI', text[0])
+			KW.verifyTextContains(myJDD, 'VER_MOS_XMLI', text[1])
 
 
 		TNRResult.addSTEPBLOCK("Controle en BDD")

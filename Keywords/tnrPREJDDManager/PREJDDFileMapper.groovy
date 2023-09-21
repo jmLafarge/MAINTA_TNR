@@ -379,8 +379,8 @@ public class PREJDDFileMapper {
 			['RO.IMP', '001A'],
 			['FA.CSV', '001'],
 			['FA.NSV', '001'],
-			['TR.BT', '001'],
-			['TR.BT', '001A']
+			['TR.BTR', '001'],
+			['TR.BTR', '001A']
 		]
 
 

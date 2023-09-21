@@ -3,8 +3,8 @@ import tnrJDDManager.JDDFileMapper
 
 import tnrJDDManager.JDD
 import tnrResultManager.TNRResult
-import tnrWebUI.KW
-import tnrWebUI.NAV
+import tnrWebUI.*
+
 
 'Lecture du JDD'
 JDD myJDD = new JDD()
