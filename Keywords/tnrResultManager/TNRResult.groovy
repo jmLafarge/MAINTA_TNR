@@ -15,9 +15,10 @@ public class TNRResult {
 
 
 
-	private static String PRESTEPTXT 	= '\tSTEP : '
-	private static String PRESUBSTEPTXT	= '\t\t'
-	private static String PREDETAILTXT	= '\t\t- '
+	private static String PRESTEPTXT 		= '\tSTEP : '
+	private static String PRESUBSTEPTXT		= '\t\t'
+	private static String PREDETAILTXT		= '\t\t- '
+	private static String PREINFOSTEPTXT	= '\t\t'
 
 
 
@@ -35,25 +36,24 @@ public class TNRResult {
 	}
 
 
-	public static addSTEP (String msg, String status = 'INFO') {
+	public static addSTEP (String stepID, String msg, String status = 'INFO') {
 
 		switch (status) {
 			case null :
 			case 'INFO' :
-				Log.add('',PRESTEPTXT+ msg)
-				addStepInResult(msg,'INFO')
+				addSTEPINFO(msg)
 				break
 			case 'PASS':
-				addSTEPPASS(msg)
+				addSTEPPASS(stepID, msg)
 				break
 			case 'WARNING':
-				addSTEPWARNING(msg)
+				addSTEPWARNING(stepID, msg)
 				break
 			case 'FAIL':
-				addSTEPFAIL(msg)
+				addSTEPFAIL(stepID, msg)
 				break
 			case 'ERROR':
-				addSTEPERROR(msg)
+				addSTEPERROR(stepID, msg)
 				break
 			default :
 				Log.add(status,PRESTEPTXT+ msg)
@@ -61,7 +61,12 @@ public class TNRResult {
 		}
 	}
 
-
+	/*
+	private static String formatStepIDAndMsg(String stepID, String msg) {
+		
+		return '(' + Tools.addZero(stepID, 3) + ') ' + msg
+	}
+	*/
 
 	public static addSUBSTEP (String msg) {
 		Log.add('',PRESUBSTEPTXT+ msg)
@@ -92,44 +97,48 @@ public class TNRResult {
 		addStepInResult(msg,'STEPLOOP')
 	}
 
-
-	public static addSTEPPASS (String msg) {
+	public static addSTEPINFO (String msg) {
+		Log.add('',PREINFOSTEPTXT+ msg)
+		addStepInResult(msg,'INFO')
+	}
+	
+	public static addSTEPPASS (String stepID, String msg) {
 		Log.add('PASS',PRESTEPTXT+ msg)
 		status.PASS++
-		addStepInResult(msg,'PASS')
+		addStepInResult("($stepID) $msg",'PASS')
 	}
 
 
-	public static addSTEPFAIL (String msg) {
+	public static addSTEPFAIL (String stepID, String msg) {
 		Log.add('FAIL',PRESTEPTXT+ msg)
 		status.FAIL++
-		addStepInResult(msg,'FAIL')
+		addStepInResult("($stepID) $msg",'FAIL')
 	}
 
 
-	public static addSTEPWARNING (String msg) {
+	public static addSTEPWARNING (String stepID, String msg) {
 		Log.add('WARNING',PRESTEPTXT+ msg)
 		status.WARNING++
-		addStepInResult(msg,'WARNING')
+		addStepInResult("($stepID) $msg",'WARNING')
 	}
 
 
-	public static addSTEPERROR (String msg) {
+	public static addSTEPERROR (String stepID, String msg) {
 		Log.addERROR(PRESTEPTXT+ msg)
 		status.ERROR++
-		addStepInResult(msg,'ERROR')
+		addStepInResult("($stepID) $msg",'ERROR')
 	}
 
 
 
 	public static addBeginBlock (String msg,String status='INFO') {
-		addSTEP(msg,status)
+		addSTEP('',msg,status)
 		XLSResult.beginBlock()
 	}
 
 
 	public static addEndBlock (String msg,String status) {
-		addSTEP(msg,status)
+		addSTEP('',msg,status)
 		XLSResult.endBlock()
 	}
 

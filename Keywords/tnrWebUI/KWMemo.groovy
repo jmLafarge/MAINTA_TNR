@@ -6,6 +6,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import groovy.transform.CompileStatic
 import internal.GlobalVariable
+import tnrJDDManager.GlobalJDD
 import tnrJDDManager.JDD
 import tnrLog.Log
 import tnrResultManager.TNRResult
@@ -46,29 +47,29 @@ public class KWMemo {
 		KWWindow.init()
 		// Cas où le nom du bouton modifier est différent
 		if (modifierNom) {
-			KW.click(myJDD,modifierNom)
+			STEP.click(0, myJDD,modifierNom)
 		}else {
-			KW.click(NAV.myGlobalJDD,"Memo_Modifier")
+			STEP.click(0, GlobalJDD.myGlobalJDD,"Memo_Modifier")
 		}
 		if (KWWindow.waitForNewWindowToOpenAndSwitch()) {
-			if (KW.isElementPresent(NAV.myGlobalJDD,'Memo_Frame', (int)GlobalVariable.TIMEOUT)) {
-				//KW.switchToFrame(NAV.myGlobalJDD, 'Memo_Frame')
+			if (KW.isElementPresent(GlobalJDD.myGlobalJDD,'Memo_Frame', (int)GlobalVariable.TIMEOUT)) {
+				//STEP.switchToFrame(GlobalJDD.myGlobalJDD, 'Memo_Frame')
 				if (maj) {
-					KW.sendKeys(NAV.myGlobalJDD, 'Memo_Texte', Keys.chord(Keys.CONTROL, "a"))
-					KW.sendKeys(NAV.myGlobalJDD, 'Memo_Texte', Keys.chord(Keys.DELETE))
-					KW.sendKeys(NAV.myGlobalJDD, 'Memo_Texte', Keys.chord(Keys.SHIFT, Keys.TAB))
+					KW.sendKeys(GlobalJDD.myGlobalJDD, 'Memo_Texte', Keys.chord(Keys.CONTROL, "a"))
+					KW.sendKeys(GlobalJDD.myGlobalJDD, 'Memo_Texte', Keys.chord(Keys.DELETE))
+					KW.sendKeys(GlobalJDD.myGlobalJDD, 'Memo_Texte', Keys.chord(Keys.SHIFT, Keys.TAB))
 				}
 
-				KW.setText(NAV.myGlobalJDD, 'Memo_Texte',newText)
+				STEP.setText(0, GlobalJDD.myGlobalJDD, 'Memo_Texte',newText)
 
 				WebUI.switchToDefaultContent()
 
-				KW.click(NAV.myGlobalJDD,"Memo_Valider")
+				STEP.click(0, GlobalJDD.myGlobalJDD,"Memo_Valider")
 			}else {
 				TNRResult.addSTEPFAIL("Saisie de $newText dans mémo '$memoName'")
 				TNRResult.addDETAIL("'Memo_Frame' n'est pas présent")
 			}
-			KW.delay(1)
+			STEP.delay(1)
 			KWWindow.closeWindowIfOpen()
 		}else {
 			TNRResult.addSTEPFAIL("Saisie de $newText dans mémo '$memoName'")

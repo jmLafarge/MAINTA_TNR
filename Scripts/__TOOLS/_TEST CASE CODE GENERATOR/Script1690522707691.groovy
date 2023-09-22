@@ -237,7 +237,7 @@ tagsWithAttributes.each { attribute ->
 			if (InfoDB.isDatetime(myJDD.getDBTableName(),attribute.id)) {
 				Log.addB("KW.setDate(myJDD, \"${attribute.id}\")")
 			}else {
-				Log.addB("KW.setText(myJDD, \"${attribute.id}\")")
+				Log.addB("STEP.setText(0, myJDD, \"${attribute.id}\")")
 			}
 		}
 		
@@ -251,8 +251,8 @@ tagsWithAttributes.each { attribute ->
 		Log.addB('')
 		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attribute.text.toUpperCase()}\")")
 		Log.addB('')
-		Log.addB("KW.click(myJDD, \"tab_${attribute.text}\")")
-		Log.addB("KW.isElementVisible(myJDD, \"tab_${attribute.text}Selected\")")
+		Log.addB("STEP.click(0, myJDD, \"tab_${attribute.text}\")")
+		Log.addB("STEP.verifyElementVisible(0, myJDD, \"tab_${attribute.text}Selected\")")
 		Log.addB('')
 	}
 }
@@ -273,7 +273,7 @@ tagsWithAttributes.each { attribute ->
 		if (attribute.id.startsWith('ID_')) {
 			Log.addB("KWSearchHelper.launch(myJDD, \"${attribute.id}\",\"\",\"\")")
 		}else if (!attribute.readonly) {
-			Log.addB("KW.setText(myJDD, \"${attribute.id}\")")
+			Log.addB("STEP.setText(0, myJDD, \"${attribute.id}\")")
 		}
 	} else if (attribute.tag == 'input' && attribute.type == 'checkbox') {
 		Log.addB("KWCheckbox.scrollAndCheckIfNeeded(myJDD, \"${attribute.id}\", \"O\")")
@@ -283,8 +283,8 @@ tagsWithAttributes.each { attribute ->
 		Log.addB('')
 		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attribute.text.toUpperCase()}\")")
 		Log.addB('')
-		Log.addB("KW.click(myJDD, \"tab_${attribute.text}\")")
-		Log.addB("KW.isElementVisible(myJDD, \"tab_${attribute.text}Selected\")")
+		Log.addB("STEP.click(0, myJDD, \"tab_${attribute.text}\")")
+		Log.addB("STEP.verifyElementVisible(0, myJDD, \"tab_${attribute.text}Selected\")")
 		Log.addB('')
 	}
 }
@@ -326,8 +326,8 @@ tagsWithAttributes.each { attribute ->
 		Log.addB('')
 		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attribute.text.toUpperCase()}\")")
 		Log.addB('')
-		Log.addB("KW.click(myJDD, \"tab_${attribute.text}\")")
-		Log.addB("KW.isElementVisible(myJDD, \"tab_${attribute.text}Selected\")")
+		Log.addB("STEP.click(0, myJDD, \"tab_${attribute.text}\")")
+		Log.addB("STEP.verifyElementVisible(0, myJDD, \"tab_${attribute.text}Selected\")")
 		Log.addB('')
 	}
 

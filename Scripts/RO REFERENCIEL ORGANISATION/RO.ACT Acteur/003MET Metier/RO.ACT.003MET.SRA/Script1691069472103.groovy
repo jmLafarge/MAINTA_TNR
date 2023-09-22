@@ -22,16 +22,16 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	TNRResult.addSTEPGRP('ONGLET METIER')
 	
-		//KW.click(myJDD,"Tab_Metier")
-		KW.click(myJDD,"Tab_Metier")
-		KW.isElementVisible(myJDD,"Tab_MetierSelected")
+		//STEP.click(0, myJDD,"Tab_Metier")
+		STEP.click(0, myJDD,"Tab_Metier")
+		STEP.verifyElementVisible(0, myJDD,"Tab_MetierSelected")
 		
-		KW.scrollToPositionAndWait(0, 0,1)
+		STEP.scrollToPosition(0, 0)
 	
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
 			
-			//KW.scrollToPositionAndWait(0,0,1)
+			//STEP.scrollToPosition(0,0,1)
 			
 			if (myJDD.getNbrLigneCasDeTest()>1) {
 				TNRResult.addSTEPLOOP("Ajout $i / " + myJDD.getNbrLigneCasDeTest())
@@ -40,18 +40,18 @@ for (String cdt in myJDD.getCDTList()) {
 			myJDD.setCasDeTestNum(i)
 	
 			'Ajout'
-	        KW.click(myJDD,'a_AjouterMetier')
+	        STEP.click(0, myJDD,'a_AjouterMetier')
 			
 			if (KWDivModal.isOpened()) {
 	
-		        KW.setText(myJDD,'SelectionMetier_input_Filtre', myJDD.getStrData('ID_CODMET'))
+		        STEP.setText(0, myJDD,'SelectionMetier_input_Filtre', myJDD.getStrData('ID_CODMET'))
 				if (KWDivModal.isNbRecordsEqualTo(1)) {
-			        KW.click(myJDD,'SelectionMetier_td')
-					KW.setText(myJDD,'SelectionMetier_input_ST_NIV', myJDD.getStrData('ST_NIV'))
-			        KW.click(myJDD,'SelectionMetier_button_Ajouter')
+			        STEP.click(0, myJDD,'SelectionMetier_td')
+					STEP.setText(0, myJDD,'SelectionMetier_input_ST_NIV', myJDD.getStrData('ST_NIV'))
+			        STEP.click(0, myJDD,'SelectionMetier_button_Ajouter')
 					
 					if (KWDivModal.isClosed()) {
-				        KW.verifyText(myJDD,'ID_CODMET')
+				        STEP.verifyText(0, myJDD,'ID_CODMET')
 						
 						if (!JDDKW.isNULL(myJDD.getData('DT_DATDEB'))) {
 					        KW.doubleClick(myJDD,'td_DateDebut')
@@ -63,13 +63,13 @@ for (String cdt in myJDD.getCDTList()) {
 				
 						if (!JDDKW.isNULL(myJDD.getData('DT_DATFIN'))) {
 							
-					        KW.click(myJDD,'SelectionMetier_td')
+					        STEP.click(0, myJDD,'SelectionMetier_td')
 					        KW.doubleClick(myJDD,'td_DateFin')
 							//
 							// Le double Clic ne fonctionne pas sur Firefox --> F2 non plus :-(
 							//
 					        KW.setDate(myJDD,'DT_DATFIN')
-							KW.click(myJDD,'ID_CODMET')
+							STEP.click(0, myJDD,'ID_CODMET')
 						}
 					}
 				}

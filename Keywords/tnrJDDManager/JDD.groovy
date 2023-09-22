@@ -311,7 +311,8 @@ public class JDD {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"getStrData",[name:name,cdtnum:cdtnum , UPD:UPD])
 		cdtnum = (cdtnum?:casDeTestNum) as int
 		name = name?:myJDDHeader.list[0]
-		String ret = getData(name, casDeTestNum,UPD).toString()
+		def  data = getData(name, casDeTestNum,UPD)
+		String ret = (data==null)?"":data.toString()
 		Log.addTraceEND(CLASS_FOR_LOG,"getStrData",ret)
 		return ret
 	}

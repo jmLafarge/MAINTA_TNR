@@ -16,40 +16,33 @@ for (String cdt in myJDD.getCDTList()) {
 	
     'Naviguer vers la bonne url'
 	String url = GlobalVariable.BASE_URL + myJDD.getData('URL')
-	KW.navigateToUrl(url,'A propos de Mainta')
+	STEP.navigateToUrl(1, url,'A propos de Mainta')
 	
-	if (KW.verifyElementPresent(myJDD,'tab_APropos', GlobalVariable.TIMEOUT)) {
+	if (STEP.verifyElementPresent(2, myJDD,'tab_APropos', GlobalVariable.TIMEOUT)) {
 		
 		TNRResult.addSTEPBLOCK("Controle des versions à l'écran")
 		
-			KW.verifyTextContains(myJDD, 'VER_BDD')
+			STEP.verifyTextContains(3, myJDD, 'VER_BDD')
 			
 			List text = []
 			
 			text = myJDD.getStrData('VER_MOS_XML').split(' ')
-			KW.verifyTextContains(myJDD, 'VER_MOS_XML', text[0])
-			KW.verifyTextContains(myJDD, 'VER_MOS_XML', text[1])
+			STEP.verifyTextContains(4, myJDD, 'VER_MOS_XML', text[0])
+			STEP.verifyTextContains(5, myJDD, 'VER_MOS_XML', text[1])
 	
 			text = myJDD.getStrData('VER_MOSIWS').split(' ')
-			KW.verifyTextContains(myJDD, 'VER_MOSIWS', text[0])
-			KW.verifyTextContains(myJDD, 'VER_MOSIWS', text[1])
+			STEP.verifyTextContains(6, myJDD, 'VER_MOSIWS', text[0])
+			STEP.verifyTextContains(7, myJDD, 'VER_MOSIWS', text[1])
 			
 			text = myJDD.getStrData('VER_MOS_XMLI').split(' ')
-			KW.verifyTextContains(myJDD, 'VER_MOS_XMLI', text[0])
-			KW.verifyTextContains(myJDD, 'VER_MOS_XMLI', text[1])
+			STEP.verifyTextContains(8, myJDD, 'VER_MOS_XMLI', text[0])
+			STEP.verifyTextContains(9, myJDD, 'VER_MOS_XMLI', text[1])
 
 
 		TNRResult.addSTEPBLOCK("Controle en BDD")
-		
-			String verBDD = SQL.getMaintaVersion()
-			String verJDD = myJDD.getStrData('VER_BDD')
 			
-			if (verBDD == verJDD) {
-				TNRResult.addSTEPPASS("Controle de la version $verJDD en BDD")
-			}else {
-				TNRResult.addSTEPFAIL("Controle de la version $verJDD en BDD")
-				TNRResult.addDETAIL("La valeur en BDD est $verBDD")
-			}
+			STEP.verifyMaintaVersion(9,myJDD.getStrData('VER_BDD'))
+			
 			
 		
 	}

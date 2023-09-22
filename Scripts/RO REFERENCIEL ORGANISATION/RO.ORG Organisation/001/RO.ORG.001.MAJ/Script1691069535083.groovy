@@ -29,29 +29,29 @@ for (String cdt in myJDD.getCDTList()) {
 			
 		TNRResult.addSTEPGRP("ONGLET ORGANISATION")
 			
-			KW.click(myJDD, "tab_Organisation")
-			KW.isElementVisible(myJDD, "tab_OrganisationSelected")
+			STEP.click(0, myJDD, "tab_Organisation")
+			STEP.verifyElementVisible(0, myJDD, "tab_OrganisationSelected")
 			
 			KW.scrollAndSetRadio(myJDD, "LblNU_TYP")
 			
-			KW.setText(myJDD, "ST_CODCOU",myJDD.getStrData("ST_CODCOU", null,true))
-			KW.setText(myJDD, "ST_CODPERSGES")
+			STEP.setText(0, myJDD, "ST_CODCOU",myJDD.getStrData("ST_CODCOU", null,true))
+			STEP.setText(0, myJDD, "ST_CODPERSGES")
 			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_INA", "O")
-			KW.setText(myJDD, "ST_DES")
+			STEP.setText(0, myJDD, "ST_DES")
 			KWSearchHelper.launch(myJDD, "ID_CODIMP","","")
 			KWSearchHelper.launch(myJDD, "ID_CODCAL","","")
 			KWSearchHelper.launch(myJDD, "ID_GESNIV","","")
 			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_EXT", "O")
 			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_AFF", "O")
 			
-			KW.setText(myJDD, "NU_EFF")
+			STEP.setText(0, myJDD, "NU_EFF")
 			
 			
 			
 		TNRResult.addSTEPGRP("ONGLET ADRESSES")
 		
-			KW.click(myJDD, "tab_Adresses")
-			KW.isElementVisible(myJDD, "tab_AdressesSelected")
+			STEP.click(0, myJDD, "tab_Adresses")
+			STEP.verifyElementVisible(0, myJDD, "tab_AdressesSelected")
 			
 			
 			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_RAT", "O")
@@ -59,7 +59,7 @@ for (String cdt in myJDD.getCDTList()) {
 
 	TNRResult.addSTEPACTION('VALIDATION')
 
-		KW.click(NAV.myGlobalJDD,'button_Valider')
+		STEP.click(0, GlobalJDD.myGlobalJDD,'button_Valider')
 	
 	    NAV.verifierEcranResultat(myJDD.getStrData("ST_CODCOU", null , true),'','Resultat_ID')
 	

@@ -24,11 +24,11 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	TNRResult.addSTEPGRP('ONGLET ZONE')
 	
-		//KW.click(myJDD,"tab_Zone")
-		KW.click(myJDD,"tab_Zone")
-		KW.isElementVisible(myJDD,"tab_ZoneSelected")
+		//STEP.click(0, myJDD,"tab_Zone")
+		STEP.click(0, myJDD,"tab_Zone")
+		STEP.verifyElementVisible(0, myJDD,"tab_ZoneSelected")
 		
-		KW.scrollToPositionAndWait(0, 0)
+		STEP.scrollToPosition(0, 0)
 		
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -39,8 +39,8 @@ for (String cdt in myJDD.getCDTList()) {
 			
 			myJDD.setCasDeTestNum(i)
 	
-	        if (KW.verifyText(myJDD,'ID_NUMREF')) {
-				KW.verifyText(myJDD, 'ID_NUMREF')
+	        if (STEP.verifyText(0, myJDD,'ID_NUMREF')) {
+				STEP.verifyText(0, myJDD, 'ID_NUMREF')
 			
 				def etat_ST_DEF = KWCheckbox.getCheckBoxImgStatus(myJDD,'ST_DEF')
 				
@@ -49,9 +49,9 @@ for (String cdt in myJDD.getCDTList()) {
 						'Mettre par défaut'
 						for ( n in 1..3) {
 							TNRResult.addSTEP("Tentative pour cocher la valeur par défaut $n/3" )
-							KW.click(myJDD,'ST_DEF')
+							STEP.click(0, myJDD,'ST_DEF')
 							if (KW.waitAndAcceptAlert(GlobalVariable.TIMEOUT,null)) {
-								KW.delay(1)
+								STEP.delay(1)
 								KWCheckbox.verifyCheckBoxImgChecked(myJDD,'ST_DEF')
 							}
 						}
@@ -68,19 +68,19 @@ for (String cdt in myJDD.getCDTList()) {
 				}
 				
 		        KW.doubleClick(myJDD,'td_DateDebut')
-				//KW.click(myJDD,'td_DateDebut'))
+				//STEP.click(0, myJDD,'td_DateDebut'))
 				//KW.sendKeys(myJDD,'td_DateDebut'), Keys.chord(Keys.F2),"Envoie de la touche F2 pour saisir la date")
 				
-				//KW.isElementVisible(myJDD,'DT_DATDEB')
+				//STEP.verifyElementVisible(0, myJDD,'DT_DATDEB')
 		
 		        KW.setDate(myJDD,'DT_DATDEB')
 				KW.sendKeys(myJDD,'DT_DATDEB', Keys.chord(Keys.RETURN),"Envoie de la touche ENTREE pour valider la date")
 		
 		        KW.doubleClick(myJDD,'td_DateFin')
-				//KW.click(myJDD,'td_DateFin'))
+				//STEP.click(0, myJDD,'td_DateFin'))
 				//KW.sendKeys(myJDD,'td_DateFin'), Keys.chord(Keys.F2),"Envoie de la touche F2 pour saisir la date")
 				
-				//KW.isElementVisible(myJDD,'DT_DATFIN')
+				//STEP.verifyElementVisible(0, myJDD,'DT_DATFIN')
 		
 		        KW.setDate(myJDD,'DT_DATFIN')
 				KW.sendKeys(myJDD,'DT_DATFIN', Keys.chord(Keys.RETURN),"Envoie de la touche ENTREE pour valider la date")

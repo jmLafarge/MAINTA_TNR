@@ -19,8 +19,8 @@ for (String cdt in myJDD.getCDTList()) {
 
 	TNRResult.addSTEPGRP("ONGLET ACTEUR")
 	
-		KW.click(myJDD,"tab_Acteur")
-		KW.isElementVisible(myJDD,"tab_ActeurSelected")
+		STEP.click(0, myJDD,"tab_Acteur")
+		STEP.verifyElementVisible(0, myJDD,"tab_ActeurSelected")
 
 		KW.verifyOptionSelectedByLabel(myJDD,"ST_ETA")
 		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_INA","O")
@@ -40,8 +40,8 @@ for (String cdt in myJDD.getCDTList()) {
 
 	TNRResult.addSTEPGRP("ONGLET AFFECTATION")
 
-		KW.click(myJDD,"tab_Affectation")
-		KW.isElementVisible(myJDD,"tab_AffectationSelected")
+		STEP.click(0, myJDD,"tab_Affectation")
+		STEP.verifyElementVisible(0, myJDD,"tab_AffectationSelected")
 
 		KW.verifyValue(myJDD,"ID_CODGESAFF")
 		KW.verifyValue(myJDD,"ST_DESID_CODGESAFF")
@@ -58,8 +58,8 @@ for (String cdt in myJDD.getCDTList()) {
 
 	TNRResult.addSTEPGRP("ONGLET ROLE")
 
-		KW.click(myJDD,"tab_Role")
-		KW.isElementVisible(myJDD,"tab_RoleSelected")
+		STEP.click(0, myJDD,"tab_Role")
+		STEP.verifyElementVisible(0, myJDD,"tab_RoleSelected")
 
 		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_GES","O")
 		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_EXP","O")
@@ -79,8 +79,8 @@ for (String cdt in myJDD.getCDTList()) {
 
 	TNRResult.addSTEPGRP("ONGLET PREVENTIF")
 
-		KW.click(myJDD,"tab_Preventif")
-		KW.isElementVisible(myJDD,"tab_PreventifSelected")
+		STEP.click(0, myJDD,"tab_Preventif")
+		STEP.verifyElementVisible(0, myJDD,"tab_PreventifSelected")
 
 		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_PRIPRE","O")
 		KW.verifyValue(myJDD,"NU_TAUPRE")
@@ -89,8 +89,8 @@ for (String cdt in myJDD.getCDTList()) {
 
 	TNRResult.addSTEPGRP("ONGLET ZONE")
 
-		KW.click(myJDD,"tab_Zone")
-		KW.isElementVisible(myJDD,"tab_ZoneSelected")
+		STEP.click(0, myJDD,"tab_Zone")
+		STEP.verifyElementVisible(0, myJDD,"tab_ZoneSelected")
 	
 
 	TNRResult.addEndTestCase()

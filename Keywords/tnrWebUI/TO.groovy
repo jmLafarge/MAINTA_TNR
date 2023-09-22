@@ -5,7 +5,7 @@ import com.kms.katalon.core.testobject.TestObject
 
 import groovy.text.SimpleTemplateEngine
 import groovy.transform.CompileStatic
-import tnrWebUI.NAV
+import tnrJDDManager.GlobalJDD
 import tnrJDDManager.JDD
 import tnrLog.Log
 
@@ -45,17 +45,17 @@ public class TO {
 
 					case "TAB":
 						binding['tabname']=xpath.split('\\$')[2]
-						xpath = NAV.myGlobalJDD.myJDDXpath.getXPath('TAB')
+						xpath = GlobalJDD.myGlobalJDD.myJDDXpath.getXPath('TAB')
 						break
 
 					case "TABSELECTED":
 						binding['tabname']=xpath.split('\\$')[2]
-						xpath = NAV.myGlobalJDD.myJDDXpath.getXPath('TABSELECTED')
+						xpath = GlobalJDD.myGlobalJDD.myJDDXpath.getXPath('TABSELECTED')
 						break
 
 					case "FILTREGRILLE":
 						binding['idname']=xpath.split('\\$')[2]
-						xpath = NAV.myGlobalJDD.myJDDXpath.getXPath('FILTREGRILLE')
+						xpath = GlobalJDD.myGlobalJDD.myJDDXpath.getXPath('FILTREGRILLE')
 						break
 
 					case "TDGRILLE":
@@ -67,7 +67,7 @@ public class TO {
 					//////
 						binding['numTD']=xpath.split('\\$')[2]
 						binding['idnameval']=myJDD.getData(xpath.split('\\$')[3])
-						xpath = NAV.myGlobalJDD.myJDDXpath.getXPath('TDGRILLE')
+						xpath = GlobalJDD.myGlobalJDD.myJDDXpath.getXPath('TDGRILLE')
 						break
 
 					default:

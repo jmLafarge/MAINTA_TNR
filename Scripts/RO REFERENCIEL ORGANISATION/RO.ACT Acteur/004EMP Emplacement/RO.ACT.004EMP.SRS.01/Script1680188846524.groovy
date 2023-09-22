@@ -20,10 +20,10 @@ for (String cdt in myJDD.getCDTList()) {
 
 	TNRResult.addSTEPGRP('ONGLET ZONE')
 	
-		KW.click(myJDD,"tab_Zone")
-		KW.isElementVisible(myJDD,"tab_ZoneSelected")
+		STEP.click(0, myJDD,"tab_Zone")
+		STEP.verifyElementVisible(0, myJDD,"tab_ZoneSelected")
 
-		KW.scrollToPositionAndWait(0, 0,1)
+		STEP.scrollToPosition(0, 0)
 		
 		'Boucle sur les lignes d\'un même TC'
 	    //for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -35,12 +35,12 @@ for (String cdt in myJDD.getCDTList()) {
 			
 			myJDD.setCasDeTestNum(i)
 
-	        //KW.click(myJDD,'ID_NUMREF')
+	        //STEP.click(0, myJDD,'ID_NUMREF')
 			
 			if (myJDD.getStrData('ST_DEF')=='N' || i==1) {				
 				'Suppression'
-				KW.click(myJDD,'span_Supprime_Emplacement')
-				//KW.delay(1)	
+				STEP.click(0, myJDD,'span_Supprime_Emplacement')
+				//STEP.delay(1)	
 				KW.verifyElementNotPresent(myJDD,'ID_NUMREF')
 				
 			}

@@ -38,16 +38,16 @@ public class KWSearchHelper {
 
 		KWWindow.init()
 
-		KW.click(myJDD,'btnSearch')
+		STEP.click(0, myJDD,'btnSearch')
 
 		if (KWWindow.waitForNewWindowToOpenAndSwitch()) {
-			if (KW.isElementVisible(myJDD, 'inputSearch')) {
-				KW.setText(myJDD,'inputSearch', myJDD.getStrData(name))
+			if (STEP.verifyElementVisible(0, myJDD, 'inputSearch')) {
+				STEP.setText(0, myJDD,'inputSearch', myJDD.getStrData(name))
 				'mise à jour dynamique du xpath'
-				KW.verifyText(myJDD,'tdSearch', myJDD.getStrData(name))
-				KW.click(myJDD,'tdSearch')
+				STEP.verifyText(0, myJDD,'tdSearch', myJDD.getStrData(name))
+				STEP.click(0, myJDD,'tdSearch')
 			}
-			KW.delay(1)
+			STEP.delay(1)
 			KWWindow.closeWindowIfOpen()
 		}else {
 			TNRResult.addSTEP("Saisie de $name en utilisant l'assistant de recherche",'FAIL')
@@ -70,7 +70,7 @@ public class KWSearchHelper {
 		}else {
 			TNRResult.addSUBSTEP("Saisie de $name en utilisant l'assistant de recherche")
 			TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-			String errMsg = KWElement.goToElement(tObj, name)
+			String errMsg = KWElement.goToElementByObj(tObj, name)
 			if (!errMsg) {
 				String value = WebUI.getAttribute(tObj, 'value')
 				if (value==val){
@@ -91,9 +91,4 @@ public class KWSearchHelper {
 		}
 		Log.addTraceEND(CLASS_FOR_LOG, "launch")
 	}
-
-
-
-
-
 } // end of class

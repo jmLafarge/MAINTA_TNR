@@ -33,7 +33,7 @@ public class KWCheckbox {
 			if (tObjLbl) {
 				boolean cond = myJDD.getStrData(name)==textTrue
 
-				String errMsg = KWElement.goToElement(tObj, name, timeout, status)
+				String errMsg = KWElement.goToElementByObj(tObj, name, timeout, status)
 				if (!errMsg) {
 					if (cond) {
 						if (WebUI.verifyElementChecked(tObj,timeout, FailureHandling.OPTIONAL)) {
@@ -97,7 +97,7 @@ public class KWCheckbox {
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (!msgTO) {
 			boolean cond = myJDD.getStrData(name)==textTrue
-			String errMsg = KWElement.goToElement(tObj, name, timeout, status)
+			String errMsg = KWElement.goToElementByObj(tObj, name, timeout, status)
 			if (!errMsg) {
 				if (cond) {
 					if (WebUI.verifyElementChecked(tObj,timeout, FailureHandling.OPTIONAL)) {
@@ -196,7 +196,7 @@ public class KWCheckbox {
 
 	static void verifyImg(JDD myJDD, String name, boolean cond, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		if (cond) {
-			KW.verifyElementPresent(myJDD, name, timeout, status)
+			STEP.verifyElementPresent(0, myJDD, name, timeout, status)
 		}
 	}
 	

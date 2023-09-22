@@ -29,7 +29,7 @@ for (String cdt in myJDD.getCDTList()) {
 
 	TNRResult.addSTEPACTION('VALIDATION')
 	
-	    KW.click(NAV.myGlobalJDD,'button_Valider')
+	    STEP.click(0, GlobalJDD.myGlobalJDD,'button_Valider')
 	
 	    NAV.verifierEcranResultat(myJDD.getStrData())
 	

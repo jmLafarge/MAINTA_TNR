@@ -84,14 +84,32 @@ class Tools {
 	}
 
 
-	public static String addZero(int val) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"addZero",[val:val])
-		String val0 = (val>=0 && val<=9)?"0$val":"$val"
+	public static String addZero(int val, int n = 2) {
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"addZero",[val:val , n:n])
+		String val0 = ''
+		if (val>=0) {
+			val0 = val.toString().padLeft(n,'0')
+		}else {
+			val0 = val.toString()
+		}
 		Log.addTraceEND(CLASS_FOR_LOG,"addZero",val0)
 		return val0
 	}
 
-
+	
+	public static String formatStrStepID(String code,int stepID,int NBCAR_STEPID) {
+		code = code ?: ""
+		int stepIDlen = NBCAR_STEPID - code.length()
+		String strStepID = ''
+		if (stepIDlen>0) {
+			strStepID = code + addZero(stepID, stepIDlen)
+		}else {
+			strStepID = code + stepID
+		}
+		return strStepID
+	}
+	
+	
 
 	static String cleanStr(String str) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"cleanStr",[str:str])
@@ -128,7 +146,7 @@ class Tools {
 		Log.addTraceEND(CLASS_FOR_LOG,"convertFloatToHH_MM",hhmm)
 		return hhmm
 	}
-	
-	
+
+
 
 } // Fin de class

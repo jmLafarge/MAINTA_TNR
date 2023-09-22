@@ -31,9 +31,9 @@ for (String cdt in myJDD.getCDTList()) {
 	'Suppression'
 	for ( n in 1..3) {
 		TNRResult.addSUBSTEP("Tentative de suppression $n/3" )
-		KW.click(myJDD,'button_Supprimer')
+		STEP.click(0, myJDD,'button_Supprimer')
 		if (KW.waitAndAcceptAlert(GlobalVariable.TIMEOUT,null)) {
-			KW.delay(1)
+			STEP.delay(1)
 			'Vérification du test case - écran'
 			NAV.verifierEcranGrille()
 			break

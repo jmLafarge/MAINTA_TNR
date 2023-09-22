@@ -22,8 +22,8 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	TNRResult.addSTEPGRP("ONGLET FOURNISSEUR")
 	
-		KW.click(myJDD,"tab_Fournisseur")
-		KW.isElementVisible(myJDD,"tab_FournisseurSelected")
+		STEP.click(0, myJDD,"tab_Fournisseur")
+		STEP.verifyElementVisible(0, myJDD,"tab_FournisseurSelected")
 		
 		KW.verifyValue(myJDD,"ID_CODFOU")
 		KW.verifyValue(myJDD,"ST_NOM")
@@ -46,8 +46,8 @@ for (String cdt in myJDD.getCDTList()) {
 		
 	TNRResult.addSTEPGRP("ONGLET COMMANDE")
 		
-		KW.click(myJDD,"tab_Commande")
-		KW.isElementVisible(myJDD,"tab_CommandeSelected")
+		STEP.click(0, myJDD,"tab_Commande")
+		STEP.verifyElementVisible(0, myJDD,"tab_CommandeSelected")
 		
 		KW.verifyValue(myJDD,"ST_PRIDEL")
 		KW.verifyValue(myJDD,"ID_CODPAI")
@@ -75,12 +75,12 @@ for (String cdt in myJDD.getCDTList()) {
 		
 	TNRResult.addSTEPGRP("ONGLET NOTES")
 		
-		KW.click(myJDD,"tab_Notes")
-		KW.isElementVisible(myJDD,"tab_NotesSelected")
+		STEP.click(0, myJDD,"tab_Notes")
+		STEP.verifyElementVisible(0, myJDD,"tab_NotesSelected")
 		
-		KW.scrollToPositionAndWait(0, 0,1)
+		STEP.scrollToPosition(0, 0)
 		
-		KW.verifyText(new JDD(JDDFileMapper.getFullnameFromModObj('RO.FOU'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS),"OL_DOC")
+		STEP.verifyText(0, new JDD(JDDFileMapper.getFullnameFromModObj('RO.FOU'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS),"OL_DOC")
 
 	TNRResult.addEndTestCase()
 }

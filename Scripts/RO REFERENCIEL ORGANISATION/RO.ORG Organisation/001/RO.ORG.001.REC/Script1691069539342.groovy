@@ -17,14 +17,14 @@ for (String cdt in myJDD.getCDTList()) {
     NAV.goToURL_Grille_and_checkCartridge()
 	
 	'Filtrer la valeur dans la grille'
-	KW.setText(myJDD,'input_Filtre_Grille', myJDD.getStrData())
+	STEP.setText(0, myJDD,'input_Filtre_Grille', myJDD.getStrData())
 	
-	KW.click(myJDD,'button_Selectionner')
+	STEP.click(0, myJDD,'button_Selectionner')
 
-	KW.delay(1)
+	STEP.delay(1)
 	
 	'Vérifier que la valeur soit dans la grille filtrée'
-	KW.verifyText(myJDD,'td_Grille', myJDD.getStrData())
+	STEP.verifyText(0, myJDD,'td_Grille', myJDD.getStrData())
 	
 	TNRResult.addEndTestCase()
 } // fin du if

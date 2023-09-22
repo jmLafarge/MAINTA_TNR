@@ -146,7 +146,7 @@ if (JDD_list.size() > 0) {
 */
 	
 	
-    KW.delay(1)
+    STEP.delay(1)
 	
 }
 

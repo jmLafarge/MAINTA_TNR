@@ -21,11 +21,11 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	TNRResult.addSTEPGRP('ONGLET METIER')
 	
-		//KW.click(myJDD,"Tab_Metier")
-		KW.click(myJDD,"Tab_Metier")
-		KW.isElementVisible(myJDD,"Tab_MetierSelected")
+		//STEP.click(0, myJDD,"Tab_Metier")
+		STEP.click(0, myJDD,"Tab_Metier")
+		STEP.verifyElementVisible(0, myJDD,"Tab_MetierSelected")
 
-		KW.scrollToPositionAndWait(0, 0,1)
+		STEP.scrollToPosition(0, 0)
 		
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -37,16 +37,16 @@ for (String cdt in myJDD.getCDTList()) {
 			myJDD.setCasDeTestNum(i)
 			
 	        KW.doubleClick(myJDD,'td_DateDebut')
-			KW.isElementVisible(myJDD,'DT_DATDEB')
+			STEP.verifyElementVisible(0, myJDD,'DT_DATDEB')
 	        KW.setDate(myJDD,'DT_DATDEB')
 			KW.sendKeys(myJDD,'DT_DATDEB', Keys.chord(Keys.RETURN),"Envoie de la touche ENTREE pour valider la date")
-			KW.delay(1)
+			STEP.delay(1)
 			
 	        KW.doubleClick(myJDD,'td_DateFin')
-			KW.isElementVisible(myJDD,'DT_DATFIN')
+			STEP.verifyElementVisible(0, myJDD,'DT_DATFIN')
 	        KW.setDate(myJDD,'DT_DATFIN')
 			KW.sendKeys(myJDD,'DT_DATFIN', Keys.chord(Keys.RETURN),"Envoie de la touche ENTREE pour valider la date")
-			KW.delay(1)
+			STEP.delay(1)
 			
 	    }// fin du for
 		

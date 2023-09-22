@@ -13,20 +13,20 @@ JDD myJDD = new JDD()
 		
 	TNRResult.addStartTestCase('TEST')
 	
-	NAV.goToURL_Creation('50')
+	STEP_NAV.goToURL_Creation(1, '50')
 	
 
 			KW.scrollAndSelectOptionByLabel(myJDD, "NU_TYP",'2')
-			KW.delay(2)
+			STEP.delay(2)
 			KW.scrollAndSelectOptionByLabel(myJDD, "NU_TYP",'0')
-			KW.delay(2)
+			STEP.delay(2)
 			KW.scrollAndSelectOptionByLabel(myJDD, "NU_TYP",'1')
-			KW.delay(2)
+			STEP.delay(2)
 			
 			KW.scrollAndSelectOptionByValue(myJDD, "NU_TYP",'2')
-			KW.delay(2)
+			STEP.delay(2)
 			KW.scrollAndSelectOptionByValue(myJDD, "NU_TYP",'0')
-			KW.delay(2)
+			STEP.delay(2)
 			KW.scrollAndSelectOptionByValue(myJDD, "NU_TYP",'1')
 			
 		

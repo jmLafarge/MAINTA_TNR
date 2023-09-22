@@ -15,67 +15,67 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_Creation_and_checkCartridge()
+    STEP_NAV.goToURL_Creation_and_checkCartridge(1)
 	
 
 	
 	TNRResult.addSTEPGRP("ONGLET FOURNISSEUR")
 	
-		KW.click(myJDD,"tab_Fournisseur")
-		KW.isElementVisible(myJDD,"tab_FournisseurSelected")
+		STEP.click(0, myJDD,"tab_Fournisseur")
+		STEP.verifyElementVisible(0, myJDD,"tab_FournisseurSelected")
 		
-		KW.setText(myJDD,"ID_CODFOU")
-		KW.setText(myJDD,"ST_NOM")
-		KW.setText(myJDD,"ID_CODGES")
+		STEP.setText(0, myJDD,"ID_CODFOU")
+		STEP.setText(0, myJDD,"ST_NOM")
+		STEP.setText(0, myJDD,"ID_CODGES")
 		//ST_DESGES --> pas d'action en création
 		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_CONSTR","O")
 		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_INA","O")
-		KW.setText(myJDD,"ST_CODCOM")
+		STEP.setText(0, myJDD,"ST_CODCOM")
 		//ST_DESST_CODCOM --> pas d'action en création
 		
 		//TNRResult.addSTEPBLOCK("ADRESSE")
 		
 		TNRResult.addSTEPBLOCK("CONTACT")
-		KW.setText(myJDD,"ST_TELPHO")
-		KW.setText(myJDD,"ST_CON")
-		KW.setText(myJDD,"ST_TELMOB")
-		KW.setText(myJDD,"ST_EMA")
-		KW.setText(myJDD,"ST_TELCOP")
-		KW.setText(myJDD,"ST_TELEX")
+		STEP.setText(0, myJDD,"ST_TELPHO")
+		STEP.setText(0, myJDD,"ST_CON")
+		STEP.setText(0, myJDD,"ST_TELMOB")
+		STEP.setText(0, myJDD,"ST_EMA")
+		STEP.setText(0, myJDD,"ST_TELCOP")
+		STEP.setText(0, myJDD,"ST_TELEX")
 		
 	TNRResult.addSTEPGRP("ONGLET COMMANDE")
 		
-		KW.click(myJDD,"tab_Commande")
-		KW.isElementVisible(myJDD,"tab_CommandeSelected")
+		STEP.click(0, myJDD,"tab_Commande")
+		STEP.verifyElementVisible(0, myJDD,"tab_CommandeSelected")
 		
-		KW.setText(myJDD,"ST_PRIDEL")
-		KW.setText(myJDD,"ID_CODPAI")
+		STEP.setText(0, myJDD,"ST_PRIDEL")
+		STEP.setText(0, myJDD,"ID_CODPAI")
 		//ST_DESID_CODPAI --> pas d'action en création
-		KW.setText(myJDD,"ST_NOTPRO")
-		KW.setText(myJDD,"ID_CODMOD")
+		STEP.setText(0, myJDD,"ST_NOTPRO")
+		STEP.setText(0, myJDD,"ID_CODMOD")
 		//ST_DESID_CODMOD --> pas d'action en création
-		KW.setText(myJDD,"ID_CODDEV")
+		STEP.setText(0, myJDD,"ID_CODDEV")
 		//ST_DESID_CODDEV --> pas d'action en création
-		KW.setText(myJDD,"ID_CODPOR")
+		STEP.setText(0, myJDD,"ID_CODPOR")
 		//ST_DESID_CODPOR --> pas d'action en création
-		KW.setText(myJDD,"ID_CODEMB")
+		STEP.setText(0, myJDD,"ID_CODEMB")
 		//ST_DESID_CODEMB --> pas d'action en création
-		KW.setText(myJDD,"ST_REL")
+		STEP.setText(0, myJDD,"ST_REL")
 		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_FIGCAT","O")
 		
 		TNRResult.addSTEPBLOCK("TEXTES COMMANDE")
-		KW.setText(myJDD,"ST_TXTBAS1")
-		KW.setText(myJDD,"ST_TXTBAS2")
-		KW.setText(myJDD,"ST_TXTBAS3")
-		KW.setText(myJDD,"ST_TXTBAS4")
-		KW.setText(myJDD,"ST_TXTBAS5")
-		KW.setText(myJDD,"ST_TXTBAS6")
+		STEP.setText(0, myJDD,"ST_TXTBAS1")
+		STEP.setText(0, myJDD,"ST_TXTBAS2")
+		STEP.setText(0, myJDD,"ST_TXTBAS3")
+		STEP.setText(0, myJDD,"ST_TXTBAS4")
+		STEP.setText(0, myJDD,"ST_TXTBAS5")
+		STEP.setText(0, myJDD,"ST_TXTBAS6")
 		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_FIGCDE","O")
 		
 	TNRResult.addSTEPGRP("ONGLET NOTES")
 		
-		KW.click(myJDD,"tab_Notes")
-		KW.isElementVisible(myJDD,"tab_NotesSelected")
+		STEP.click(0, myJDD,"tab_Notes")
+		STEP.verifyElementVisible(0, myJDD,"tab_NotesSelected")
 		
 		// Pas de cas de test pour Notes
 	
@@ -83,7 +83,7 @@ for (String cdt in myJDD.getCDTList()) {
 				
 	TNRResult.addSTEPACTION('VALIDATION')
 
-	    KW.click(NAV.myGlobalJDD,'button_Valider')
+	    STEP.click(0, GlobalJDD.myGlobalJDD,'button_Valider')
 	
 	    NAV.verifierEcranResultat(myJDD.getStrData())
 		

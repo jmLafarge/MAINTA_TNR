@@ -27,8 +27,8 @@ public class KWElement {
 
 	
 	
-	public static String goToElement(TestObject tObj , String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "goToElement", [tObj: tObj, name: name])
+	public static String goToElementByObj(TestObject tObj , String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_FOR_LOG, "goToElementByObj", [tObj: tObj, name: name])
 
 		String errMsg = MSG_OK
 		boolean ret = false
@@ -43,7 +43,7 @@ public class KWElement {
 			}
 		}
 
-		Log.addTraceEND(CLASS_FOR_LOG, "goToElement",errMsg)
+		Log.addTraceEND(CLASS_FOR_LOG, "goToElementByObj",errMsg)
 		return errMsg
 	}
 

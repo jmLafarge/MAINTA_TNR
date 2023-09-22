@@ -11,14 +11,14 @@ myJDD.setCasDeTest('RT.EQU.001.MAJ.01')
 	
 	TNRResult.addStartTestCase('TEST')
 	
-	NAV.goToURL_Creation('7')
+	STEP_NAV.goToURL_Creation(1, '7')
 	
 		
 		KW.scrollAndSelectOptionByLabel(myJDD, "NU_CRI")
 		/*
-		KW.delay(2)
+		STEP.delay(2)
 		KW.scrollAndSelectOptionByValue(myJDD, "NU_CRI")
-		KW.delay(2)
+		STEP.delay(2)
 		KW.scrollAndSelectOptionByValue(myJDD, "NU_CRI")
 		*/
 		

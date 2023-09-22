@@ -9,9 +9,9 @@ import tnr.TCFiles
 
 
 
-//println NAV.myGlobalJDD.internalValues.join('\t')
+//println GlobalJDD.myGlobalJDD.internalValues.join('\t')
 
-println NAV.myGlobalJDD.DBTableName
+println GlobalJDD.myGlobalJDD.DBTableName
 
 
 

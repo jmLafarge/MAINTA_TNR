@@ -20,23 +20,23 @@ for (String cdt in myJDD.getCDTList()) {
 
 	'Naviguer vers l url Copy'
 	String url = GlobalVariable.BASE_URL + "CopyIdent?IDSOURCE=" + myJDD.getData('ID_CODINT_SRC') + "&TABLE=" + myJDD.getDBTableName()
-	KW.navigateToUrl(url,'Copie')
+	STEP.navigateToUrl(0, url,'Copie')
 	
 	"Vérifier l'écran"
 	NAV.verifierCartridge('Copy')
 	
 		
-    KW.setText(myJDD,'input_ID_COD', myJDD.getStrData('ID_CODINT'))
+    STEP.setText(0, myJDD,'input_ID_COD', myJDD.getStrData('ID_CODINT'))
 
-    KW.setText(myJDD,'input_ST_NOMNEW', myJDD.getStrData('ST_NOM'))
+    STEP.setText(0, myJDD,'input_ST_NOMNEW', myJDD.getStrData('ST_NOM'))
 
-    KW.setText(myJDD,'input_ST_PRENEW', myJDD.getStrData('ST_PRE'))
+    STEP.setText(0, myJDD,'input_ST_PRENEW', myJDD.getStrData('ST_PRE'))
 			
 	
 	TNRResult.addSTEPACTION('VALIDATION')
 		
     'Validation de la saisie'
-    KW.click(myJDD,'button_ValiderCopie')
+    STEP.click(0, myJDD,'button_ValiderCopie')
 
     'Vérification du test case - écran résulat'
     NAV.verifierEcranRUD(myJDD.getData('ID_CODINT'))

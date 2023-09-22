@@ -1,7 +1,57 @@
 
-//
 
 /*
+*
+* -----------------------------------------------------------------------------------------------------
+* A FAIRE EN PRIORITE
+* -----------------------------------------------------------------------------------------------------
+*
+
+   Trouver une solution pour RestoreDB.run()
+   
+	   Apres une restauration il faut recycler, comment le faire par script ?
+
+
+
+
+ 
+*
+* -----------------------------------------------------------------------------------------------------
+* EN COURS
+* -----------------------------------------------------------------------------------------------------
+*
+*
+
+
+
+la 1er ajoiut de SRA est KO --> finir isNbRecordsEqualTo, il faut attendre le nb = 1 avant de continuer
+
+Case à cocher de type img, je crois sur EMP ça le fait 3x
+
+modif EMP ?
+Vérifier MAT.ST_PAT dans tous les CDT
+DAns les SUP, quand pas le bouton pas la peine de faire
+
+
+
+
+
+
+
+
+
+
+
+
+   Ajouter 2 tab dans Log.addINFO entre les START TEST CASE et END TEST CASE
+   
+
+   VERIFIER les nom des cas de tests des sous-rubriques
+
+
+   
+
+
  * 
  * -----------------------------------------------------------------------------------------------------
  * FAIT
@@ -9,10 +59,7 @@
  * 
  *  
 
-Ajout tabINFO dans Log
-Refonte des action STEP
-modif gestion suppression MAT.SUP --> faire pareil pour tous
-modif timeout de verifyElementInViewport (peut pas descendre en dessous de 1 sec)
+
 
 
 
@@ -31,6 +78,9 @@ modif timeout de verifyElementInViewport (peut pas descendre en dessous de 1 sec
 		RT.EQU --> FAIT 
 		AD.DEP --> Fait
 		
+
+
+
  
 
  * 
@@ -98,53 +148,6 @@ modif timeout de verifyElementInViewport (peut pas descendre en dessous de 1 sec
 	
 	
 	
-	
- *
- * -----------------------------------------------------------------------------------------------------
- * EN COURS
- * -----------------------------------------------------------------------------------------------------
- *
- *
-
-il y a encore des timeout à 0 
-
-la 1er ajoiut de SRA est KO --> finir isNbRecordsEqualTo, il faut attendre le nb = 1 avant de continuer
-
-Case à cocher de type img, je crois sur EMP ça le fait 3x
-
-modif EMP ?
-Vérifier MAT.ST_PAT dans tous les CDT
-DAns les SUP, quand pas le bouton pas la peine de faire 
-
-
-
-
-
-
-
-
-
-
-
-
-	Ajouter 2 tab dans Log.addINFO entre les START TEST CASE et END TEST CASE
-	
-
-	VERIFIER les nom des cas de tests des sous-rubriques
-
-
-
- 
- * 
- * -----------------------------------------------------------------------------------------------------
- * A FAIRE EN PRIORITE
- * -----------------------------------------------------------------------------------------------------
- * 
-
-	Trouver une solution pour RestoreDB.run() 
-	
-		Apres une restauration il faut recycler, comment le faire par script ?
-
 
 
 
@@ -163,7 +166,7 @@ DAns les SUP, quand pas le bouton pas la peine de faire
 	TEST CASE 
 	
 		déterminer le traitement en fonction du type de locator (input, radio, ...)
-			si input --> KW.setText(myJDD, "ST_ fois --> voir Suppr MATDES")
+			si input --> STEP.setText(0, myJDD, "ST_ fois --> voir Suppr MATDES")
 			si radio --> KW.scrollAndSetRadio(myJDD, "LblNU_TYP")
 			...
 			

@@ -22,11 +22,11 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	TNRResult.addSTEPGRP('ONGLET ZONE')
 	
-		//KW.click(myJDD,"tab_Zone")
-		KW.click(myJDD,"tab_Zone")
-		KW.isElementVisible(myJDD,"tab_ZoneSelected")
+		//STEP.click(0, myJDD,"tab_Zone")
+		STEP.click(0, myJDD,"tab_Zone")
+		STEP.verifyElementVisible(0, myJDD,"tab_ZoneSelected")
 		
-		KW.scrollToPositionAndWait(0, 0,1)
+		STEP.scrollToPosition(0, 0)
 
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -39,19 +39,19 @@ for (String cdt in myJDD.getCDTList()) {
 			myJDD.setCasDeTestNum(i)
 			
 			'Ajout'
-			KW.click(myJDD,'a_AjouterEmplacement')
+			STEP.click(0, myJDD,'a_AjouterEmplacement')
 	
 			if (KWDivModal.isOpened()) {
 
-		        KW.setText(myJDD,'SelectionEmplacement_input_Filtre', myJDD.getStrData('ID_NUMREF'))
+		        STEP.setText(0, myJDD,'SelectionEmplacement_input_Filtre', myJDD.getStrData('ID_NUMREF'))
 				if (KWDivModal.isNbRecordsEqualTo(1)) {
-			        KW.click(myJDD,'SelectionEmplacement_td')
-			        KW.click(myJDD,'SelectionEmplacement_button_Ajouter')
-					KW.click(myJDD,'SelectionEmplacement_button_Fermer')
+			        STEP.click(0, myJDD,'SelectionEmplacement_td')
+			        STEP.click(0, myJDD,'SelectionEmplacement_button_Ajouter')
+					STEP.click(0, myJDD,'SelectionEmplacement_button_Fermer')
 					
 					if (KWDivModal.isClosed()) {
 			
-				        if (KW.verifyText(myJDD,'ID_NUMREF')) {
+				        if (STEP.verifyText(0, myJDD,'ID_NUMREF')) {
 							myJDD.replaceSEQUENCIDInJDD('ID_NUMZONLIG')
 						}else {
 							TNRResult.addDETAIL("Impossible de remplacer SEQUENCEID par ID_NUMREF dans JDD")
@@ -70,13 +70,13 @@ for (String cdt in myJDD.getCDTList()) {
 				
 						if (!JDDKW.isNULL(myJDD.getData('DT_DATFIN'))) {
 							
-					        KW.click(myJDD,'SelectionEmplacement_td')
+					        STEP.click(0, myJDD,'SelectionEmplacement_td')
 					        KW.doubleClick(myJDD,'td_DateFin')
 							//
 							// Le double Clic ne fonctionne pas sur Firefox --> F2 non plus :-(
 							//
 					        KW.setDate(myJDD,'DT_DATFIN')
-							KW.click(myJDD,'ID_NUMREF')
+							STEP.click(0, myJDD,'ID_NUMREF')
 						}
 					}else {
 						err=true

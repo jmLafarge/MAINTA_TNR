@@ -19,7 +19,7 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_Creation_and_checkCartridge('','SEL=0&OPERATION=NEW_SON')
+    STEP_NAV.goToURL_Creation_and_checkCartridge(1,'','SEL=0&OPERATION=NEW_SON')
 	
 
 		//Rappel pour ajouter un block dans le fichier Resultat :
@@ -28,21 +28,21 @@ for (String cdt in myJDD.getCDTList()) {
 		
 		TNRResult.addSTEPGRP("ONGLET ORGANISATION")
 		
-			KW.click(myJDD, "tab_Organisation")
-			KW.isElementVisible(myJDD, "tab_OrganisationSelected")
+			STEP.click(0, myJDD, "tab_Organisation")
+			STEP.verifyElementVisible(0, myJDD, "tab_OrganisationSelected")
 			
 			KW.scrollAndSetRadio(myJDD, "LblNU_TYP")
-			KW.scrollToPositionAndWait(0, 0,1)
+			STEP.scrollToPosition(0, 0)
 
-			KW.setText(myJDD, "ST_CODCOU")
-			KW.setText(myJDD, "ST_CODPERSGES")
+			STEP.setText(0, myJDD, "ST_CODCOU")
+			STEP.setText(0, myJDD, "ST_CODPERSGES")
 			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_INA", "O")
-			KW.setText(myJDD, "ST_DES")
-			KW.setText(myJDD, "ID_CODIMP")
-			KW.setText(myJDD, "ID_CODCAL")
-			KW.setText(myJDD, "ID_GESNIV")
+			STEP.setText(0, myJDD, "ST_DES")
+			STEP.setText(0, myJDD, "ID_CODIMP")
+			STEP.setText(0, myJDD, "ID_CODCAL")
+			STEP.setText(0, myJDD, "ID_GESNIV")
 			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_EXT", "O")
-			KW.setText(myJDD, "NU_EFF")
+			STEP.setText(0, myJDD, "NU_EFF")
 			
 			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_AFF", "O")
 			
@@ -50,8 +50,8 @@ for (String cdt in myJDD.getCDTList()) {
 			
 		TNRResult.addSTEPGRP("ONGLET ADRESSES")
 		
-			KW.click(myJDD, "tab_Adresses")
-			KW.isElementVisible(myJDD, "tab_AdressesSelected")
+			STEP.click(0, myJDD, "tab_Adresses")
+			STEP.verifyElementVisible(0, myJDD, "tab_AdressesSelected")
 			
 			
 			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_RAT", "O")
@@ -77,7 +77,7 @@ for (String cdt in myJDD.getCDTList()) {
 				
 	TNRResult.addSTEPACTION('VALIDATION')
 		
-	    KW.click(NAV.myGlobalJDD,'button_Valider')
+	    STEP.click(0, GlobalJDD.myGlobalJDD,'button_Valider')
 	
 	    NAV.verifierEcranResultat(myJDD.getStrData(),'','Resultat_ID')
 		

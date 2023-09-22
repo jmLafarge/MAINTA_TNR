@@ -12,7 +12,7 @@ import tnrJDDManager.JDD
 import tnrJDDManager.JDDKW
 import tnrLog.Log
 import tnrResultManager.TNRResult
-import tnrWebUI.KW
+import tnrWebUI.*
 
 
 @CompileStatic
@@ -207,7 +207,7 @@ public class SQL {
 	static checkJDDWithBD(JDD myJDD,Map specificValueMap=[:],String sql =''){
 
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"checkJDDWithBD",[:])
-		KW.delay(1)
+		STEP.delay(1)
 
 		String verifStatus = 'PASS'
 
@@ -493,7 +493,7 @@ public class SQL {
 
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"checkIDNotInBD",[myJDD:myJDD.toString()])
 
-		KW.delay(1)
+		STEP.delay(1)
 		//boolean pass = true
 		String status = 'PASS'
 		int nbrLigneCasDeTest =myJDD.getNbrLigneCasDeTest()

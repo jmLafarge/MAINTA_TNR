@@ -21,11 +21,11 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	TNRResult.addSTEPGRP('ONGLET METIER')
 	
-		//KW.click(myJDD,"Tab_Metier")
-		KW.click(myJDD,"Tab_Metier")
-		KW.isElementVisible(myJDD,"Tab_MetierSelected")
+		//STEP.click(0, myJDD,"Tab_Metier")
+		STEP.click(0, myJDD,"Tab_Metier")
+		STEP.verifyElementVisible(0, myJDD,"Tab_MetierSelected")
 		
-		KW.scrollToPositionAndWait(0, 0,1)
+		STEP.scrollToPosition(0, 0)
 		
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -36,14 +36,14 @@ for (String cdt in myJDD.getCDTList()) {
 			
 			myJDD.setCasDeTestNum(i)
 	
-	        KW.verifyText(myJDD,'ID_CODMET')
+	        STEP.verifyText(0, myJDD,'ID_CODMET')
 		
 			'Suppression'
 			for ( n in 1..3) {
 				TNRResult.addSUBSTEP("Tentative de suppression $n/3" )
-				KW.click(myJDD,'span_Supprime_Metier')
+				STEP.click(0, myJDD,'span_Supprime_Metier')
 				if (KW.waitAndAcceptAlert(GlobalVariable.TIMEOUT,null)) {	
-					KW.delay(1)	
+					STEP.delay(1)	
 					KW.verifyElementNotPresent(myJDD,'ID_CODMET')
 					break
 				}

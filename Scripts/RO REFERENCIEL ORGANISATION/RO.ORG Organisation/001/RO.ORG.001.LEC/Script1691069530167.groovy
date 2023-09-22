@@ -24,8 +24,8 @@ for (String cdt in myJDD.getCDTList()) {
 	
 		TNRResult.addSTEPGRP("ONGLET ORGANISATION")
 		
-			KW.click(myJDD, "tab_Organisation")
-			KW.isElementVisible(myJDD, "tab_OrganisationSelected")
+			STEP.click(0, myJDD, "tab_Organisation")
+			STEP.verifyElementVisible(0, myJDD, "tab_OrganisationSelected")
 		
 			KW.verifyValue(myJDD, "ST_CODCOU")
 			KW.verifyValue(myJDD, "ST_CODPERSGES")
@@ -50,8 +50,8 @@ for (String cdt in myJDD.getCDTList()) {
 		
 		TNRResult.addSTEPGRP("ONGLET ADRESSES")
 		
-			KW.click(myJDD, "tab_Adresses")
-			KW.isElementVisible(myJDD, "tab_AdressesSelected")
+			STEP.click(0, myJDD, "tab_Adresses")
+			STEP.verifyElementVisible(0, myJDD, "tab_AdressesSelected")
 			
 			KWCheckbox.verifyElementCheckedOrNot(myJDD, "ST_RAT", "O")
 	

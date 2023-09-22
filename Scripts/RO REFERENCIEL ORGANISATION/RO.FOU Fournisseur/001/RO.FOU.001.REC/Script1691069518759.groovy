@@ -18,13 +18,13 @@ for (String cdt in myJDD.getCDTList()) {
     NAV.goToURL_Grille_and_checkCartridge()
 	
 	'Filtrer la valeur dans la grille'
-    KW.setText(myJDD,'input_Filtre_Grille', myJDD.getStrData())
+    STEP.setText(0, myJDD,'input_Filtre_Grille', myJDD.getStrData())
 
 	'Attendre que le nombre de record = 1'
-	KW.isElementVisible(NAV.myGlobalJDD,'nbrecordsGRID_1')
+	STEP.verifyElementVisible(0, GlobalJDD.myGlobalJDD,'nbrecordsGRID_1')
 	
 	'Vérifier que la valeur soit dans la grille filtrée'
-	KW.verifyText(myJDD,'td_Grille', myJDD.getStrData())
+	STEP.verifyText(0, myJDD,'td_Grille', myJDD.getStrData())
 
 	TNRResult.addEndTestCase()
 } // fin du if

@@ -21,8 +21,8 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	TNRResult.addSTEPGRP("ONGLET ARTICLE")
 			
-			KW.click(myJDD,"tab_Article")
-			KW.isElementVisible(myJDD,"tab_ArticleSelected")
+			STEP.click(0, myJDD,"tab_Article")
+			STEP.verifyElementVisible(0, myJDD,"tab_ArticleSelected")
 			
 			KW.verifyValue(myJDD,"ID_CODART")
 			KW.verifyOptionSelectedByLabel(myJDD,"ST_ETA")
@@ -36,7 +36,7 @@ for (String cdt in myJDD.getCDTList()) {
 			KW.verifyValue(myJDD,"ID_CODGES")
 			KW.verifyValue(myJDD,"ST_DESGES")
 			
-			KW.verifyText(new JDD(JDDFileMapper.getFullnameFromModObj('RT.ART'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS),"OL_DOC")
+			STEP.verifyText(0, new JDD(JDDFileMapper.getFullnameFromModObj('RT.ART'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS),"OL_DOC")
 			
 			
 		TNRResult.addSTEPBLOCK("FOURNISSEUR NORMALISE")

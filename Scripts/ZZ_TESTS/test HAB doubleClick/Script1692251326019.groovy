@@ -42,19 +42,19 @@ CustomKeywords.'KW.click'(findTestObject('null'))
 
 //clickUsingJS(findTestObject('null'),1)
 
-KW.delay(1)
+STEP.delay(1)
 
-KW.scrollToPositionAndWait(0, 0,1)
+STEP.scrollToPosition(0, 0)
 
 WebUI.verifyElementPresent(findTestObject('null', [('textHAB') : 'ATEX1']),2)
 
-KW.delay(1)
+STEP.delay(1)
 
 //WebUI.setText(findTestObject('null', [('textHAB') : 'ATEX1']),'01/01/2022')
 
 //WebUI.doubleClick(findTestObject('null', [('textHAB') : 'ATEX1']))
 //WebUI.click(findTestObject('null', [('textHAB') : 'ATEX1']))
-//KW.delay(1)
+//STEP.delay(1)
 WebUI.sendKeys(findTestObject('null', [('textHAB') : 'ATEX1']), Keys.chord(
 	Keys.F2))
 
@@ -80,7 +80,7 @@ WebUI.click(findTestObject('null', [('textHAB') : 'ATEX1']))
 WebUI.sendKeys(findTestObject('null', [('textHAB') : 'ATEX1']), Keys.chord(
 	Keys.F2))
 
-KW.delay(1)
+STEP.delay(1)
 
 WebUI.setText(findTestObject('null', [('textHAB') : 'ATEX1']),
 	'12/01/2023')

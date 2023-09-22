@@ -21,11 +21,11 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	TNRResult.addSTEPGRP("ONGLET HABILITATION")
 
-		//KW.click(myJDD,"tab_Habilitation")
-		KW.click(myJDD,"tab_Habilitation")
-		KW.isElementVisible(myJDD,"tab_HabilitationSelected")
+		//STEP.click(0, myJDD,"tab_Habilitation")
+		STEP.click(0, myJDD,"tab_Habilitation")
+		STEP.verifyElementVisible(0, myJDD,"tab_HabilitationSelected")
 		
-		KW.scrollToPositionAndWait(0, 0,1)
+		STEP.scrollToPosition(0, 0)
 	
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -37,16 +37,16 @@ for (String cdt in myJDD.getCDTList()) {
 			myJDD.setCasDeTestNum(i)
 	
 			'Ajout'
-	        KW.click(myJDD,'a_AjouterHabilitation')
+	        STEP.click(0, myJDD,'a_AjouterHabilitation')
 	
 	        if (KWDivModal.isOpened()) {
 	
-		        KW.setText(myJDD,'SelectionHabilitation_input_Filtre', myJDD.getStrData('ID_CODHAB'))
+		        STEP.setText(0, myJDD,'SelectionHabilitation_input_Filtre', myJDD.getStrData('ID_CODHAB'))
 				if (KWDivModal.isNbRecordsEqualTo(1)) {
-			        KW.click(myJDD,'SelectionHabilitation_td')
-			        KW.click(myJDD,'SelectionHabilitation_button_Ajouter')
+			        STEP.click(0, myJDD,'SelectionHabilitation_td')
+			        STEP.click(0, myJDD,'SelectionHabilitation_button_Ajouter')
 					if (KWDivModal.isClosed()) {
-				        KW.verifyText(myJDD,'ID_CODHAB')
+				        STEP.verifyText(0, myJDD,'ID_CODHAB')
 						
 						if (!JDDKW.isNULL(myJDD.getData('DT_DATDEB'))) {
 						
@@ -60,13 +60,13 @@ for (String cdt in myJDD.getCDTList()) {
 				
 						if (!JDDKW.isNULL(myJDD.getData('DT_DATFIN'))) {
 							
-					        KW.click(myJDD,'SelectionHabilitation_td')
+					        STEP.click(0, myJDD,'SelectionHabilitation_td')
 					        KW.doubleClick(myJDD,'td_DateFin')
 							//
 							// Le double Clic ne fonctionne pas sur Firefox --> F2 non plus :-(
 							//
 					        KW.setDate(myJDD,'DT_DATFIN')
-							KW.click(myJDD,'ID_CODHAB')
+							STEP.click(0, myJDD,'ID_CODHAB')
 						}
 					}
 				}

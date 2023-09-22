@@ -26,8 +26,8 @@ for (String cdt in myJDD.getCDTList()) {
 		
 	TNRResult.addSTEPGRP("ONGLET EQUIPEMENT")
 		
-		KW.click(myJDD, "tab_Equipement")
-		KW.isElementVisible(myJDD, "tab_EquipementSelected")
+		STEP.click(0, myJDD, "tab_Equipement")
+		STEP.verifyElementVisible(0, myJDD, "tab_EquipementSelected")
 		
 		KW.verifyValue(myJDD, "ST_CODCOU")
 		KW.verifyValue(myJDD, "ST_CODPERS")
@@ -52,8 +52,8 @@ for (String cdt in myJDD.getCDTList()) {
 		
 	TNRResult.addSTEPGRP("ONGLET FICHE")
 		
-		KW.click(myJDD, "tab_Fiche")
-		KW.isElementVisible(myJDD, "tab_FicheSelected")
+		STEP.click(0, myJDD, "tab_Fiche")
+		STEP.verifyElementVisible(0, myJDD, "tab_FicheSelected")
 		
 		KW.verifyValue(myJDD, "ST_NOMFOU")
 		KW.verifyValue(myJDD, "ST_REFFOU")
@@ -82,25 +82,25 @@ for (String cdt in myJDD.getCDTList()) {
 		
 	TNRResult.addSTEPGRP("ONGLET NOTES")
 		
-		KW.click(myJDD, "tab_Notes")
-		KW.isElementVisible(myJDD, "tab_NotesSelected")
+		STEP.click(0, myJDD, "tab_Notes")
+		STEP.verifyElementVisible(0, myJDD, "tab_NotesSelected")
 		
-		KW.scrollToPositionAndWait(0, 0,1)
+		STEP.scrollToPosition(0, 0)
 		
 		JDD JDD_Note = new JDD(JDDFileMapper.getFullnameFromModObj('RT.EQU'),'001C',GlobalVariable.CAS_DE_TEST_EN_COURS)
 		
 		String notes = JDD_Note.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC1'))
 		String consignes = JDD_Note.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC2'))
 		
-		KW.verifyText(JDD_Note,"DOC_Notes",notes)
-		KW.verifyText(JDD_Note,"DOC_Consignes",consignes)
+		STEP.verifyText(0, JDD_Note,"DOC_Notes",notes)
+		STEP.verifyText(0, JDD_Note,"DOC_Consignes",consignes)
 
 		
 		
 	TNRResult.addSTEPGRP("ONGLET ADRESSE")
 		
-		KW.click(myJDD, "tab_Adresse")
-		KW.isElementVisible(myJDD, "tab_AdresseSelected")
+		STEP.click(0, myJDD, "tab_Adresse")
+		STEP.verifyElementVisible(0, myJDD, "tab_AdresseSelected")
 	
 	
 	TNRResult.addEndTestCase()

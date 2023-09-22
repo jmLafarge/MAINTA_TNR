@@ -14,26 +14,26 @@ for (String cdt in myJDD.getCDTList()) {
 		
 	TNRResult.addStartTestCase(cdt)
 	
-	KW.openBrowser(GlobalVariable.BASE_URL)
+	STEP.openBrowser(1,GlobalVariable.BASE_URL)
 
-	KW.maximizeWindow()
+	STEP.maximizeWindow(2)
 	
-	KW.setText(myJDD,'in_user')
+	STEP.setText(3,myJDD,'in_user')
 	
-	KW.setEncryptedText(myJDD,'in_passw')
+	STEP.setEncryptedText(4,myJDD,'in_passw')
 
-	KW.click(myJDD,'button_Connexion')
+	STEP.click(5,myJDD,'button_Connexion')
 
-	if (KW.verifyElementPresent(myJDD,'frame_Main', GlobalVariable.TIMEOUT)) {
+	if (STEP.verifyElementPresent(6,myJDD,'frame_Main', GlobalVariable.TIMEOUT)) {
 			
-		TNRResult.addSTEP("Connexion OK")
+		TNRResult.addSTEPINFO("Connexion OK")
 		
 		'Vérification des valeurs en BD'
 		SQL.checkJDDWithBD(myJDD,[:],"SELECT * FROM UTILOG ORDER bY DT_LOG DESC")
 			
 	} else {
 		
-		TNRResult.addSTEP("Connexion KO")
+		TNRResult.addSTEPINFO("Connexion KO")
 		
 	}
 	

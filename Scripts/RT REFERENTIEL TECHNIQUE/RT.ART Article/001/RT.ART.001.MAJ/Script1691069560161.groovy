@@ -24,13 +24,13 @@ for (String cdt in myJDD.getCDTList()) {
 
 	TNRResult.addSTEPGRP("ONGLET ARTICLE")
 			
-			KW.click(myJDD,"tab_Article")
-			KW.isElementVisible(myJDD,"tab_ArticleSelected")
+			STEP.click(0, myJDD,"tab_Article")
+			STEP.verifyElementVisible(0, myJDD,"tab_ArticleSelected")
 			
-			//KW.setText(myJDD, "ID_CODART")
+			//STEP.setText(0, myJDD, "ID_CODART")
 			KW.scrollAndSelectOptionByLabel(myJDD,"ST_ETA")
 			//KWCheckbox.scrollAndCheckIfNeeded(myJDD,"CODARTAUTO","O")
-			KW.setText(myJDD, "ST_DES")
+			STEP.setText(0, myJDD, "ST_DES")
 			KW.scrollAndSelectOptionByLabel(myJDD,"ST_TYPART")
 			KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_INA","O")
 			
@@ -50,19 +50,19 @@ for (String cdt in myJDD.getCDTList()) {
 			
 			KWSearchHelper.launch(JDD_ARTFOU, "ID_CODFOU","","")
 			//ST_DESID_CODFOU --> pas d'action en modification
-			KW.setText(JDD_ARTFOU, "ST_DES")
-			KW.setText(JDD_ARTFOU, "ST_REFFOU")
+			STEP.setText(0, JDD_ARTFOU, "ST_DES")
+			STEP.setText(0, JDD_ARTFOU, "ST_REFFOU")
 			
 		TNRResult.addSTEPBLOCK("STOCK")
 			
 			KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_MAT","O")
 			KWSearchHelper.launch(myJDD, "ID_CODUNI","","")
-			KW.setText(myJDD, "NU_PRIPMP")
+			STEP.setText(0, myJDD, "NU_PRIPMP")
 			
 		TNRResult.addSTEPBLOCK("ACHATS")
 			
 			KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_CONOBL","O")
-			KW.setText(myJDD, "ST_TXTCDE")
+			STEP.setText(0, myJDD, "ST_TXTCDE")
 			KWSearchHelper.launch(myJDD, "ST_CODCOM","","SEARCH_ID_CODCMP")
 			//ST_DESST_CODCOM --> pas d'action en modification
 			KWSearchHelper.launch(myJDD, "ID_CODTVA","","")
@@ -75,15 +75,15 @@ for (String cdt in myJDD.getCDTList()) {
 			KWCheckbox.scrollAndCheckIfNeeded(myJDD,"MAJ_EQU","O")
 			KWSearchHelper.launch(myJDD, "EQU_CODLON","","")
 			//ST_DESEQU --> pas d'action en modification
-			KW.setText(myJDD, "ART_EQU_QTE")
-			KW.setText(myJDD, "ART_EQU_OBS")
+			STEP.setText(0, myJDD, "ART_EQU_QTE")
+			STEP.setText(0, myJDD, "ART_EQU_OBS")
 			
 			KWCheckbox.scrollAndCheckIfNeeded(myJDD,"MAJ_MODFAM","O")
 			KWSearchHelper.launch(myJDD, "ID_CODFAM","","")
 			//ST_DESID_CODFAM --> pas d'action en modification
-			KW.setText(myJDD, "MODFAM_CODLON")
-			KW.setText(myJDD, "ART_MODFAM_QTE")
-			KW.setText(myJDD, "ART_MODFAM_OBS")
+			STEP.setText(0, myJDD, "MODFAM_CODLON")
+			STEP.setText(0, myJDD, "ART_MODFAM_QTE")
+			STEP.setText(0, myJDD, "ART_MODFAM_OBS")
 			*/
 	  
 	  
@@ -94,7 +94,7 @@ for (String cdt in myJDD.getCDTList()) {
 
 	TNRResult.addSTEPACTION('VALIDATION')
 	
-	    KW.click(NAV.myGlobalJDD,'button_Valider')
+	    STEP.click(0, GlobalJDD.myGlobalJDD,'button_Valider')
 	
 	    NAV.verifierEcranResultat(myJDD.getStrData("ID_CODART"))
 	

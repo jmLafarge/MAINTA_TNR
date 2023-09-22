@@ -20,8 +20,8 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	TNRResult.addSTEPGRP("ONGLET COMPTEUR")
 		
-		KW.click(myJDD,"tab_Compteur")
-		KW.isElementVisible(myJDD,"tab_CompteurSelected")
+		STEP.click(0, myJDD,"tab_Compteur")
+		STEP.verifyElementVisible(0, myJDD,"tab_CompteurSelected")
 		
 		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_INA","O")
 		KW.verifyValue(myJDD,"ID_CODCOM")
@@ -65,26 +65,26 @@ for (String cdt in myJDD.getCDTList()) {
 		/* pas de test pour l'instant sur cette partie
 	TNRResult.addSTEPGRP("ONGLET EQUIPEMENT")
 	
-		KW.scrollToPositionAndWait(0, 0,1)
-		KW.click(myJDD,"tab_Equipement")
-		KW.isElementVisible(myJDD,"tab_EquipementSelected")
+		STEP.scrollToPosition(0, 0)
+		STEP.click(0, myJDD,"tab_Equipement")
+		STEP.verifyElementVisible(0, myJDD,"tab_EquipementSelected")
 		
 	TNRResult.addSTEPGRP("ONGLET MATRICULE")
 		
-		KW.click(myJDD,"tab_Matricule")
-		KW.isElementVisible(myJDD,"tab_MatriculeSelected")
+		STEP.click(0, myJDD,"tab_Matricule")
+		STEP.verifyElementVisible(0, myJDD,"tab_MatriculeSelected")
 		
 		
 	TNRResult.addSTEPGRP("ONGLET HISTORIQUE")
 		
-		KW.click(myJDD,"tab_Historique")
-		KW.isElementVisible(myJDD,"tab_HistoriqueSelected")
+		STEP.click(0, myJDD,"tab_Historique")
+		STEP.verifyElementVisible(0, myJDD,"tab_HistoriqueSelected")
 		
 		
 	TNRResult.addSTEPGRP("ONGLET COMPTEUR AUXILIAIRE")
 		
-		KW.click(myJDD,"tab_CompteurAux")
-		KW.isElementVisible(myJDD,"tab_CompteurAuxSelected")
+		STEP.click(0, myJDD,"tab_CompteurAux")
+		STEP.verifyElementVisible(0, myJDD,"tab_CompteurAuxSelected")
 		*/
 
 

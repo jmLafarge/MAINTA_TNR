@@ -9,10 +9,10 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
 import tnrCommon.Tools
+import tnrJDDManager.GlobalJDD
 import tnrLog.Log
 import tnrResultManager.TNRResult
 import tnrTC.Sequencer
-import tnrWebUI.NAV
 
 
 
@@ -25,7 +25,7 @@ TNRResult.addStartInfo('TNR SEQUENCEUR')
 
 Tools.addInfoContext()
 
-NAV.myGlobalJDD
+GlobalJDD.myGlobalJDD
 
 Sequencer.testCasesList.each { TCMap ->
 	
@@ -40,16 +40,16 @@ Sequencer.testCasesList.each { TCMap ->
 			WebUI.callTestCase(findTestCase(TCMap.TCFULLNAME), ['MYNAME':'JML'], FailureHandling.STOP_ON_FAILURE)
 
 		} catch (StepErrorException  ex) {
-			TNRResult.addSTEPERROR("Erreur d'exécution du TestCase")
+			TNRResult.addSTEPERROR(0,"Erreur d'exécution du TestCase")
 			TNRResult.addDETAIL(ex.getMessage())
 		} catch (Exception e) {
-			TNRResult.addSTEPERROR("Erreur TestCase")
+			TNRResult.addSTEPERROR(0,"Erreur TestCase")
 			TNRResult.addDETAIL(e.getMessage())
 		} catch (StepFailedException exx) {
-			TNRResult.addSTEPERROR("StepFailedException")
+			TNRResult.addSTEPERROR(0,"StepFailedException")
 			TNRResult.addDETAIL(exx.getMessage())
 		} catch (KatalonRuntimeException ke) {
-			TNRResult.addSTEPERROR("KatalonRuntimeException")
+			TNRResult.addSTEPERROR(0,"KatalonRuntimeException")
 			TNRResult.addDETAIL(ke.getMessage())
 		}
 		

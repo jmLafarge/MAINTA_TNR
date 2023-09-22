@@ -25,8 +25,8 @@ for (String cdt in myJDD.getCDTList()) {
 			
 		TNRResult.addSTEPGRP("ONGLET MATRICULE")
 			
-			KW.click(myJDD, "tab_Matricule")
-			KW.isElementVisible(myJDD, "tab_MatriculeSelected")
+			STEP.click(0, myJDD, "tab_Matricule")
+			STEP.verifyElementVisible(0, myJDD, "tab_MatriculeSelected")
 			
 			KW.verifyValue(myJDD, "ID_NUMMAT")
 			KW.verifyValue(myJDD, "ST_NUMINV")
@@ -56,8 +56,8 @@ for (String cdt in myJDD.getCDTList()) {
 			
 		TNRResult.addSTEPGRP("ONGLET FICHE")
 			
-			KW.click(myJDD, "tab_Fiche")
-			KW.isElementVisible(myJDD, "tab_FicheSelected")
+			STEP.click(0, myJDD, "tab_Fiche")
+			STEP.verifyElementVisible(0, myJDD, "tab_FicheSelected")
 			
 			KW.verifyValue(myJDD, "ID_CODFOUINI")
 			KW.verifyValue(myJDD, "ST_REFFOU")
@@ -93,18 +93,18 @@ for (String cdt in myJDD.getCDTList()) {
 			
 		TNRResult.addSTEPGRP("ONGLET NOTES")
 			
-			KW.click(myJDD, "tab_Notes")
-			KW.isElementVisible(myJDD, "tab_NotesSelected")
+			STEP.click(0, myJDD, "tab_Notes")
+			STEP.verifyElementVisible(0, myJDD, "tab_NotesSelected")
 			
-			KW.scrollToPositionAndWait(0, 0,1)
+			STEP.scrollToPosition(0, 0)
 			
-			KW.verifyText(new JDD(JDDFileMapper.getFullnameFromModObj('RT.MAT'),'001C',GlobalVariable.CAS_DE_TEST_EN_COURS),"OL_DOC")
+			STEP.verifyText(0, new JDD(JDDFileMapper.getFullnameFromModObj('RT.MAT'),'001C',GlobalVariable.CAS_DE_TEST_EN_COURS),"OL_DOC")
 			
 			
 		TNRResult.addSTEPGRP("ONGLET ETAT")
 			
-			KW.click(myJDD, "tab_Etat")
-			KW.isElementVisible(myJDD, "tab_EtatSelected")
+			STEP.click(0, myJDD, "tab_Etat")
+			STEP.verifyElementVisible(0, myJDD, "tab_EtatSelected")
 			
 			KW.verifyRadioChecked(myJDD, "ST_POS")
 			

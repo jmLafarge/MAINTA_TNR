@@ -17,11 +17,11 @@ for (String cdt in myJDD.getCDTList()) {
 	'Naviguer vers la bonne url et controle des infos du cartouche'
     NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_CODINT'))
 
-		//KW.click(myJDD,"Tab_Metier")
-		KW.click(myJDD,"Tab_Metier")
-		KW.isElementVisible(myJDD,"Tab_MetierSelected")
+		//STEP.click(0, myJDD,"Tab_Metier")
+		STEP.click(0, myJDD,"Tab_Metier")
+		STEP.verifyElementVisible(0, myJDD,"Tab_MetierSelected")
 		
-		KW.scrollToPositionAndWait(0, 0,1)
+		STEP.scrollToPosition(0, 0)
 
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -32,9 +32,9 @@ for (String cdt in myJDD.getCDTList()) {
 			
 			myJDD.setCasDeTestNum(i)
 			
-	        KW.verifyText(myJDD,'ID_CODMET')
+	        STEP.verifyText(0, myJDD,'ID_CODMET')
 	
-			KW.verifyText(myJDD,'ST_NIV')
+			STEP.verifyText(0, myJDD,'ST_NIV')
 			
 			KW.verifyDateText(myJDD,'td_DateDebut', myJDD.getData('DT_DATDEB'))
 				

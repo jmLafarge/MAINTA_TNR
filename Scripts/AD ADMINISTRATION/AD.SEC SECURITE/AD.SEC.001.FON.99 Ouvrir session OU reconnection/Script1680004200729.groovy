@@ -14,42 +14,42 @@ for (String cdt in myJDD.getCDTList()) {
 		
 	TNRResult.addStartTestCase(cdt)
 
-	KW.openBrowser(GlobalVariable.BASE_URL)
+	STEP.openBrowser(0, GlobalVariable.BASE_URL)
 
-	KW.maximizeWindow()
+	STEP.maximizeWindow(1)
 
-	KW.setText(myJDD,'in_user')
+	STEP.setText(2, myJDD,'in_user')
 
-	KW.setEncryptedText(myJDD,'in_passw')
+	STEP.setEncryptedText(3, myJDD,'in_passw')
 
-	KW.click(myJDD,'button_Connexion')
+	STEP.click(4, myJDD,'button_Connexion')
 
-	if (KW.verifyElementPresent(myJDD,'frame_Main', GlobalVariable.TIMEOUT,null)) {
+	if (STEP.verifyElementPresent(5, myJDD,'frame_Main', GlobalVariable.TIMEOUT,null)) {
 
-		TNRResult.addSTEP("Connexion OK")
+		TNRResult.addSTEPINFO("Connexion OK")
 
 		'Vérification des valeurs en BD'
 		SQL.checkJDDWithBD(myJDD,[:],"SELECT * FROM UTILOG ORDER bY DT_LOG DESC")
 
-	} else if (KW.verifyElementPresent(myJDD,'input_Oui', GlobalVariable.TIMEOUT,null)) {
+	} else if (STEP.verifyElementPresent(6, myJDD,'input_Oui', GlobalVariable.TIMEOUT,null)) {
 
-		KW.click(myJDD,'input_Oui')
+		STEP.click(0, myJDD,'input_Oui')
 
-		if (KW.verifyElementPresent(myJDD,'frame_Main', GlobalVariable.TIMEOUT)) {
+		if (STEP.verifyElementPresent(7, myJDD,'frame_Main', GlobalVariable.TIMEOUT)) {
 
-			TNRResult.addSTEP("Reconnexion OK")
+			TNRResult.addSTEPINFO("Reconnexion OK")
 
 			'Vérification des valeurs en BD'
 			SQL.checkJDDWithBD(myJDD,[:],"SELECT * FROM UTILOG ORDER bY DT_LOG DESC")
 
 		} else {
 
-			TNRResult.addSTEP("Reconnexion KO")
+			TNRResult.addSTEPINFO("Reconnexion KO")
 		}
 
 	} else {
 
-		TNRResult.addSTEPFAIL("Connexion KO")
+		TNRResult.addSTEPINFO("Connexion KO")
 
 	}
 	TNRResult.addEndTestCase()

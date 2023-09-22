@@ -18,7 +18,7 @@ for (String cdt in myJDD.getCDTList()) {
     'Naviguer vers la bonne url et controle des infos du cartouche'
 	String fct = TNRPropertiesReader.getMyProperty('CODESCREEN_TR.BTR')
 	String url = GlobalVariable.BASE_URL.toString() + "E" + fct + "?ID1="+ myJDD.getStrData('ID_NUMBT') 
-	KW.navigateToUrl(url,'Consultation')
+	STEP.navigateToUrl(0, url,'Consultation')
 
 	
 	KW.verifyValue(myJDD, "ID_NUMEQU")
@@ -47,7 +47,7 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	KW.verifyValue(myJDD, "ST_TRADEM")
 	
-	KW.verifyText(new JDD(JDDFileMapper.getFullnameFromModObj('TR.BTR'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS),"OL_DOC")
+	STEP.verifyText(0, new JDD(JDDFileMapper.getFullnameFromModObj('TR.BTR'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS),"OL_DOC")
 	
 	KW.verifyValue(myJDD, "ID_CODCONTRA")
 	KW.verifyValue(myJDD, "ST_DESID_CODCONTRA")

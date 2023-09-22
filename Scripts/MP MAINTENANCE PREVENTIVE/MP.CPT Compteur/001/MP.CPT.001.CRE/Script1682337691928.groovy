@@ -1,8 +1,8 @@
+import tnrJDDManager.GlobalJDD
 import tnrJDDManager.JDD
-import tnrWebUI.*
-
-import tnrSqlManager.SQL
 import tnrResultManager.TNRResult
+import tnrSqlManager.SQL
+import tnrWebUI.*
 
 'Lecture du JDD'
 JDD myJDD = new JDD()
@@ -17,77 +17,78 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_Creation_and_checkCartridge()
+    STEP_NAV.goToURL_Creation_and_checkCartridge(1)
+	
 	
 
 
 	TNRResult.addSTEPGRP("ONGLET COMPTEUR")
 		
-		KW.click(myJDD,"tab_Compteur")
-		KW.isElementVisible(myJDD,"tab_CompteurSelected")
+		STEP.click(0, myJDD,"tab_Compteur")
+		STEP.verifyElementVisible(0, myJDD,"tab_CompteurSelected")
 		
 		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_INA","O")
-		KW.setText(myJDD,"ID_CODCOM")
-		KW.setText(myJDD,"ST_DES")
-		KW.setText(myJDD,"ID_CODUNI")
-		KW.setText(myJDD,"ID_CODGES")
+		STEP.setText(0, myJDD,"ID_CODCOM")
+		STEP.setText(0, myJDD,"ST_DES")
+		STEP.setText(0, myJDD,"ID_CODUNI")
+		STEP.setText(0, myJDD,"ID_CODGES")
 		//ST_DESGES --> pas d'action en création
 		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_MAJDEL","O")
-		KW.setText(myJDD,"NU_DEL")
+		STEP.setText(0, myJDD,"NU_DEL")
 		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_MPH","O")
 		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_TELE","O")
 				
 		TNRResult.addSTEPBLOCK("INDICATION ACTUELLE")
-		KW.setText(myJDD,"DT_MAJN")
-		//KW.setText(myJDD,"DT_DATREF")
+		STEP.setText(0, myJDD,"DT_MAJN")
+		//STEP.setText(0, myJDD,"DT_DATREF")
 		KW.setDate(myJDD,"DT_DATREF")
 		
-		KW.setText(myJDD,"NU_VALN")
+		STEP.setText(0, myJDD,"NU_VALN")
 		
 		/* pas de test pour l'instant sur cette partie
 		TNRResult.addSTEPBLOCK("SAISIR UNE NOUVELLE VALEUR")
 		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_MAJDEL","O")
 		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_DELTA","O")
-		KW.setText(myJDD,"DATE")
-		KW.setText(myJDD,"HEURE")
-		KW.setText(myJDD,"INDICATION")
+		STEP.setText(0, myJDD,"DATE")
+		STEP.setText(0, myJDD,"HEURE")
+		STEP.setText(0, myJDD,"INDICATION")
 		*/
 		
 		TNRResult.addSTEPBLOCK("COMPTEUR PRINCIPAL")
-		KW.setText(myJDD,"ID_CODCOMPRI")
+		STEP.setText(0, myJDD,"ID_CODCOMPRI")
 		//ST_DESID_CODCOMPRI --> pas d'action en création
 		
 		TNRResult.addSTEPBLOCK("OPTION DE MISE A JOUR DES CODES COMPTEUR")
 		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_COMMAJEQU","O")
 		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_COMMAJMAT","O")
 		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_COMNOTMAJ","O")
-		KW.setText(myJDD,"NU_DELPRC")
-		KW.setText(myJDD,"NU_DELVAL")
+		STEP.setText(0, myJDD,"NU_DELPRC")
+		STEP.setText(0, myJDD,"NU_DELVAL")
 		
 		
 		/* pas de test pour l'instant sur cette partie
 	TNRResult.addSTEPGRP("ONGLET EQUIPEMENT")
 	
-		KW.scrollToPositionAndWait(0, 0,1)
-		KW.click(myJDD,"tab_Equipement")
-		KW.isElementVisible(myJDD,"tab_EquipementSelected")
+		STEP.scrollToPosition(0, 0)
+		STEP.click(0, myJDD,"tab_Equipement")
+		STEP.verifyElementVisible(0, myJDD,"tab_EquipementSelected")
 		
 	TNRResult.addSTEPGRP("ONGLET MATRICULE")
 		
-		KW.click(myJDD,"tab_Matricule")
-		KW.isElementVisible(myJDD,"tab_MatriculeSelected")
+		STEP.click(0, myJDD,"tab_Matricule")
+		STEP.verifyElementVisible(0, myJDD,"tab_MatriculeSelected")
 		
 		
 	TNRResult.addSTEPGRP("ONGLET HISTORIQUE")
 		
-		KW.click(myJDD,"tab_Historique")
-		KW.isElementVisible(myJDD,"tab_HistoriqueSelected")
+		STEP.click(0, myJDD,"tab_Historique")
+		STEP.verifyElementVisible(0, myJDD,"tab_HistoriqueSelected")
 		
 		
 	TNRResult.addSTEPGRP("ONGLET COMPTEUR AUXILIAIRE")
 		
-		KW.click(myJDD,"tab_CompteurAux")
-		KW.isElementVisible(myJDD,"tab_CompteurAuxSelected")
+		STEP.click(0, myJDD,"tab_CompteurAux")
+		STEP.verifyElementVisible(0, myJDD,"tab_CompteurAuxSelected")
 		*/
 	
 	
@@ -95,7 +96,7 @@ for (String cdt in myJDD.getCDTList()) {
 				
 	TNRResult.addSTEPACTION('VALIDATION')
 		
-	    KW.click(NAV.myGlobalJDD,'button_Valider')
+	    STEP.click(0, GlobalJDD.myGlobalJDD,'button_Valider')
 	
 	    NAV.verifierEcranResultat(myJDD.getStrData())
 	

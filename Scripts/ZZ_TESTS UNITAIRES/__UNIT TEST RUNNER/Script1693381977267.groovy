@@ -25,7 +25,7 @@ import tnrLog.Log
  * Dans les Log.txt, les tests OK apparissent avec un status :), les tests KO apparaissent avec un status KO.
  * --> ce qui permet de différencier les FAIL(Log potentiellemnt normal suivant les tests éffectués), des tests KO.
  * 
- * Les tests unitaires ne contrôlent que le résultat de la fonction testée. Les éventuels traces dans les Log sont à contrôles visuellement.
+ * Les tests unitaires ne contrôlent que le résultat de la fonction testée. Les éventuels traces dans les Log sont à contrôler visuellement.
  * 
  * 
  * Pour tester 

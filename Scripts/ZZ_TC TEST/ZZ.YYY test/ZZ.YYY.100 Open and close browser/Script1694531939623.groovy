@@ -5,7 +5,7 @@ import internal.GlobalVariable
 import tnrWebUI.*
 
 WebUI.openBrowser(GlobalVariable.BASE_URL)
-KW.delay(1)
+STEP.delay(1)
 
 
 def br=Tools.getBrowserAndVersion()
