@@ -1,4 +1,4 @@
-import tnrJDDManager.JDDFileMapper
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDFileMapper
 import tnrLog.Log
 
 /**

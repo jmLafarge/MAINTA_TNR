@@ -1,6 +1,6 @@
 import org.openqa.selenium.Keys
 
-import tnrJDDManager.JDD
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
 import tnrLog.Log
 import tnrResultManager.TNRResult
 import tnrSqlManager.SQL
@@ -20,15 +20,15 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 	
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-	NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_CODINT'))
+	STEP.goToURLReadUpdateDelete(1,myJDD.getStrData('ID_CODINT'));STEP.checkReadUpdateDeleteScreen(2,myJDD.getStrData('ID_CODINT'))
 	
 	TNRResult.addSTEPGRP('ONGLET HABILITATION')
 	
-		//STEP.click(0, myJDD,"tab_Habilitation")
-		STEP.click(0, myJDD,"tab_Habilitation")
+		//STEP.simpleClick(0, myJDD,"tab_Habilitation")
+		STEP.simpleClick(0, myJDD,"tab_Habilitation")
 		STEP.verifyElementVisible(0, myJDD,"tab_HabilitationSelected")
 		
-		STEP.scrollToPosition(0, 0)
+		STEP.scrollToPosition('', 0, 0)
 		
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -39,17 +39,17 @@ for (String cdt in myJDD.getCDTList()) {
 			
 			myJDD.setCasDeTestNum(i)
 			
-	        KW.doubleClick(myJDD,'td_DateDebut')
+	        STEP.doubleClick(0, myJDD,'td_DateDebut')
 			STEP.verifyElementVisible(0, myJDD,'DT_DATDEB')
-	        KW.setDate(myJDD,'DT_DATDEB')
-			KW.sendKeys(myJDD,'DT_DATDEB', Keys.chord(Keys.RETURN),"Envoie de la touche ENTREE pour valider la date")
-			STEP.delay(1)
+	        STEP.setDate(0, myJDD,'DT_DATDEB')
+			STEP.sendKeys(0, myJDD,'DT_DATDEB', Keys.chord(Keys.RETURN),"Envoie de la touche ENTREE pour valider la date")
+			WUI.delay( 1000)
 			
-	        KW.doubleClick(myJDD,'td_DateFin')
+	        STEP.doubleClick(0, myJDD,'td_DateFin')
 			STEP.verifyElementVisible(0, myJDD,'DT_DATFIN')
-	        KW.setDate(myJDD,'DT_DATFIN')
-			KW.sendKeys(myJDD,'DT_DATFIN', Keys.chord(Keys.RETURN),"Envoie de la touche ENTREE pour valider la date")
-			STEP.delay(1)
+	        STEP.setDate(0, myJDD,'DT_DATFIN')
+			STEP.sendKeys(0, myJDD,'DT_DATFIN', Keys.chord(Keys.RETURN),"Envoie de la touche ENTREE pour valider la date")
+			WUI.delay( 1000)
 			
 	    }// fin du for
 		
@@ -57,7 +57,7 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addSTEPACTION('CONTROLE')
 
 		'Vérification des valeurs en BD'
-		SQL.checkJDDWithBD(myJDD)
+		STEP.checkJDDWithBD(0, myJDD)
 		
 		
 	TNRResult.addEndTestCase()

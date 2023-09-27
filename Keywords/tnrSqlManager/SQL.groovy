@@ -195,96 +195,17 @@ public class SQL {
 
 
 
-	/**
-	 * Vérification à la fin des insertions, donc dans le cas de 2 insertions, il faut boucler sur le nombre d'insertions
-	 *
-	 * @param
-	 * @return
-	 *
-	 *
-	 *
-	 */
-	static checkJDDWithBD(JDD myJDD,Map specificValueMap=[:],String sql =''){
-
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"checkJDDWithBD",[:])
-		STEP.delay(1)
-
-		String verifStatus = 'PASS'
-
-		//TNRResult.addSTEP("Début de la vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
-		TNRResult.addBeginBlock("Début de la vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
-
-		int nbrLigneCasDeTest =myJDD.getNbrLigneCasDeTest()
-
-
-		for (casDeTestNum in 1..nbrLigneCasDeTest) {
-			myJDD.setCasDeTestNum(casDeTestNum)
-			if (nbrLigneCasDeTest>1) {
-				TNRResult.addSUBSTEP("Contrôle cas de test $casDeTestNum / $nbrLigneCasDeTest")
-			}
-
-			def rows
-			def row
-
-			String query =''
-			if (sql) {
-				query = sql
-				try {
-					row = sqlInstance.firstRow(query)
-				} catch(Exception ex) {
-					TNRResult.addDETAIL("Erreur d'execution de sqlInstance.firstRow($query) : ")
-					TNRResult.addDETAIL(ex.getMessage())
-					verifStatus = 'ERROR'
-				}
-			}else {
-
-				query = "SELECT * FROM " + myJDD.getDBTableName() + getWhereWithAllPK(myJDD,casDeTestNum)
-
-				Log.addTrace("query =  $query")
-				try {
-					rows = sqlInstance.rows(query)
-					if (rows.size() == 0) {
-						TNRResult.addDETAIL("Pas de résultat pour la requête : $query")
-						verifStatus = 'FAIL'
-					}else if (rows.size() > 1){
-						TNRResult.addDETAIL(rows.size() + "résultats pour la requête : $query")
-						verifStatus = 'FAIL'
-					}else {
-						row=rows[0]
-					}
-				}
-				catch(Exception ex) {
-					verifStatus = 'ERROR'
-					TNRResult.addDETAIL("Erreur d'execution de sql.rows($query) : ")
-					TNRResult.addDETAIL(ex.getMessage())
-				}
-			}
-
-
-
-			if (verifStatus =='PASS') {
-
-				row.each{fieldName,val ->
-					verifStatus = checkValue(myJDD,fieldName.toString(), val,verifStatus, specificValueMap,casDeTestNum)
-				}//row
-
-			}//pass
-		}//for
-
-		TNRResult.addEndBlock("Fin de la vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')',verifStatus)
-		Log.addTraceEND(CLASS_FOR_LOG,"checkJDDWithBD")
-
-	}
 
 
 
 
 
-	private static String checkValue(tnrJDDManager.JDD myJDD, String fieldName, def valDB,String verifStatus, Map specificValueMap, int casDeTestNum) {
+
+	public static String checkValue(tnrJDDManager.JDD myJDD, String fieldName, def valDB,String verifStatus, Map specificValueMap, int casDeTestNum) {
 
 
 
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"checkValue",[myJDD:myJDD.toString() , fieldName:fieldName , val:valDB , verifStatus:verifStatus,specificValueMap:specificValueMap,casDeTestNum:casDeTestNum])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"checkValue",[myJDD:myJDD , fieldName:fieldName , val:valDB , verifStatus:verifStatus,specificValueMap:specificValueMap,casDeTestNum:casDeTestNum])
 
 		def valJDD = myJDD.getData(fieldName,casDeTestNum)
 
@@ -462,7 +383,7 @@ public class SQL {
 
 	private static boolean checkForeignKey(JDD myJDD, String fieldName, def valDB) {
 
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"checkForeignKey",[myJDD:myJDD.toString(),fieldName:fieldName,val:valDB])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"checkForeignKey",[myJDD:myJDD,fieldName:fieldName,val:valDB])
 
 		boolean pass = false
 		String query = myJDD.getSqlForForeignKey(fieldName)
@@ -482,46 +403,10 @@ public class SQL {
 
 
 
-	/**
-	 * Dans le cas d'une vérif 	à la fin des insertions, donc dans le cas de 2 insertions, il faut boucler sur le nombre d'insertions
-	 * @param myJDD
-	 * 
-	 * @return
-	 */
-
-	static checkIDNotInBD(JDD myJDD){
-
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"checkIDNotInBD",[myJDD:myJDD.toString()])
-
-		STEP.delay(1)
-		//boolean pass = true
-		String status = 'PASS'
-		int nbrLigneCasDeTest =myJDD.getNbrLigneCasDeTest()
-
-		TNRResult.addBeginBlock("Début de la vérification de la suppression des valeurs en Base de Données")
-
-		for (casDeTestNum in 1..nbrLigneCasDeTest) {
-			myJDD.setCasDeTestNum(casDeTestNum)
-			if (nbrLigneCasDeTest>1) {
-				TNRResult.addSUBSTEP("Contrôle de la suppression du cas de test $casDeTestNum / $nbrLigneCasDeTest")
-			}
-
-			def fval =this.getFirstVal("SELECT count(*) FROM " + myJDD.getDBTableName() + getWhereWithAllPK(myJDD,casDeTestNum))
-			int ret = (fval) ? fval as int: 0
-			if (ret>0) {
-				TNRResult.addDETAIL("Supression KO")
-				//pass = false
-				status = 'FAIL'
-			}
-
-		}
-
-		TNRResult.addEndBlock("Fin de la  vérification de la suppression des valeurs en Base de Données",status)
-		Log.addTraceEND(CLASS_FOR_LOG,"checkIDNotInBD")
-	}
 
 
-	
+
+
 
 	/**
 	 * 
@@ -529,9 +414,9 @@ public class SQL {
 	 * @param casDeTestNum
 	 * @return
 	 */
-	private static String getWhereWithAllPK(JDD myJDD,int casDeTestNum) {
+	public static String getWhereWithAllPK(JDD myJDD,int casDeTestNum) {
 
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getWhereWithAllPK",[myJDD:myJDD.toString(),casDeTestNum:casDeTestNum])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getWhereWithAllPK",[myJDD:myJDD,casDeTestNum:casDeTestNum])
 
 		List <String> PKList = InfoDB.getPK(myJDD.getDBTableName())
 		String ret =''
@@ -637,6 +522,11 @@ public class SQL {
 
 	static String close() {
 		return sqlInstance.close()
+	}
+
+
+	static List getRows(String query) {
+		return sqlInstance.rows(query)
 	}
 
 

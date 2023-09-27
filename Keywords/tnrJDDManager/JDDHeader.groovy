@@ -13,7 +13,7 @@ public class JDDHeader {
 
 
 
-	private final String CLASS_FOR_LOG 		= 'JDDHeaders'
+	private final String CLASS_FOR_LOG  		= 'JDDHeaders'
 
 	public final String START_DATA_WORD 	= TNRPropertiesReader.getMyProperty('START_DATA_WORD')
 

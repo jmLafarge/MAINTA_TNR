@@ -2,8 +2,8 @@
 
 import org.jsoup.Jsoup
 import org.apache.commons.lang3.StringUtils
-import tnrJDDManager.JDD
-import tnrJDDManager.JDDFileMapper
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDFileMapper
 import tnrLog.Log
 import tnrSqlManager.InfoDB
 
@@ -235,23 +235,23 @@ tagsWithAttributes.each { attribute ->
 	if (attribute.tag == 'input' && attribute.type == 'text') {
 		if (!attribute.readonly) {
 			if (InfoDB.isDatetime(myJDD.getDBTableName(),attribute.id)) {
-				Log.addB("KW.setDate(myJDD, \"${attribute.id}\")")
+				Log.addB("STEP.setDate(0, myJDD, \"${attribute.id}\")")
 			}else {
 				Log.addB("STEP.setText(0, myJDD, \"${attribute.id}\")")
 			}
 		}
 		
 	} else if (attribute.tag == 'input' && attribute.type == 'checkbox') {
-		Log.addB("KWCheckbox.scrollAndCheckIfNeeded(myJDD, \"${attribute.id}\", \"O\")")
+		Log.addB("STEP.scrollAndCheckIfNeeded(0, myJDD, \"${attribute.id}\", \"O\")")
 		
 	} else if (attribute.tag == 'select') {
-		Log.addB("KW.scrollAndSelectOptionByLabel(myJDD, \"${attribute.id}\")")
+		Log.addB("STEP.scrollAndSelectOptionByLabel(0, myJDD, \"${attribute.id}\")")
 		
 	} else if (attribute.tag == 'a') {
 		Log.addB('')
 		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attribute.text.toUpperCase()}\")")
 		Log.addB('')
-		Log.addB("STEP.click(0, myJDD, \"tab_${attribute.text}\")")
+		Log.addB("STEP.simpleClick(0, myJDD, \"tab_${attribute.text}\")")
 		Log.addB("STEP.verifyElementVisible(0, myJDD, \"tab_${attribute.text}Selected\")")
 		Log.addB('')
 	}
@@ -271,19 +271,19 @@ tagsWithAttributes.each { attribute ->
 	}
 	if (attribute.tag == 'input' && attribute.type == 'text' && !InfoDB.isPK(myJDD.getDBTableName(),attribute.id)) {
 		if (attribute.id.startsWith('ID_')) {
-			Log.addB("KWSearchHelper.launch(myJDD, \"${attribute.id}\",\"\",\"\")")
+			Log.addB("STEP.searchWithHelper(0, myJDD, \"${attribute.id}\",\"\",\"\")")
 		}else if (!attribute.readonly) {
 			Log.addB("STEP.setText(0, myJDD, \"${attribute.id}\")")
 		}
 	} else if (attribute.tag == 'input' && attribute.type == 'checkbox') {
-		Log.addB("KWCheckbox.scrollAndCheckIfNeeded(myJDD, \"${attribute.id}\", \"O\")")
+		Log.addB("STEP.scrollAndCheckIfNeeded(0, myJDD, \"${attribute.id}\", \"O\")")
 	} else if (attribute.tag == 'select') {
-		Log.addB("KW.scrollAndSelectOptionByLabel(myJDD, \"${attribute.id}\")")
+		Log.addB("STEP.scrollAndSelectOptionByLabel(0, myJDD, \"${attribute.id}\")")
 	} else if (attribute.tag == 'a') {
 		Log.addB('')
 		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attribute.text.toUpperCase()}\")")
 		Log.addB('')
-		Log.addB("STEP.click(0, myJDD, \"tab_${attribute.text}\")")
+		Log.addB("STEP.simpleClick(0, myJDD, \"tab_${attribute.text}\")")
 		Log.addB("STEP.verifyElementVisible(0, myJDD, \"tab_${attribute.text}Selected\")")
 		Log.addB('')
 	}
@@ -308,25 +308,25 @@ tagsWithAttributes.each { attribute ->
 		if (attribute.type == 'text') {
 			if (InfoDB.isDatetime(myJDD.getDBTableName(),attribute.id)) {
 				if (myJDD.myJDDXpath.getXPath(attribute.id)=='input') {
-					Log.addB("KW.verifyDateValue(myJDD, \"${attribute.id}\") // ou verifyDateText")
+					Log.addB("STEP.verifyDateValue(0, myJDD, \"${attribute.id}\") // ou verifyDateText")
 				}else {
 					Log.addB("KW.verifyDateText(myJDD, \"${attribute.id}\")// ou verifyDateValue")
 				}
 			}else {
-				Log.addB("KW.verifyValue(myJDD, \"${attribute.id}\")")
+				Log.addB("STEP.verifyValue(0, myJDD, \"${attribute.id}\")")
 			}
 		} else if (attribute.type == 'checkbox') {
-			Log.addB("KWCheckbox.verifyElementCheckedOrNot(myJDD, \"${attribute.id}\", \"O\")")
+			Log.addB("STEP.verifyElementCheckedOrNot(0, myJDD, \"${attribute.id}\", \"O\")")
 			
 		}
 	} else if (attribute.tag == 'select') {
-		Log.addB("KW.verifyOptionSelectedByLabel(myJDD, \"${attribute.id}\")")
+		Log.addB("STEP.verifyOptionSelectedByLabel(0, myJDD, \"${attribute.id}\")")
 		
 	} else if (attribute.tag == 'a') {
 		Log.addB('')
 		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attribute.text.toUpperCase()}\")")
 		Log.addB('')
-		Log.addB("STEP.click(0, myJDD, \"tab_${attribute.text}\")")
+		Log.addB("STEP.simpleClick(0, myJDD, \"tab_${attribute.text}\")")
 		Log.addB("STEP.verifyElementVisible(0, myJDD, \"tab_${attribute.text}Selected\")")
 		Log.addB('')
 	}

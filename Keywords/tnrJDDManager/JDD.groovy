@@ -19,7 +19,7 @@ import tnrTC.TCFileMapper
 @CompileStatic
 public class JDD {
 
-	private final String CLASS_FOR_LOG = 'JDD'
+	private final String CLASS_FOR_LOG  = 'JDD'
 
 
 	private final String VERSION_SHEET_NAME			= TNRPropertiesReader.getMyProperty('VERSION_SHEET_NAME')
@@ -312,7 +312,7 @@ public class JDD {
 		cdtnum = (cdtnum?:casDeTestNum) as int
 		name = name?:myJDDHeader.list[0]
 		def  data = getData(name, casDeTestNum,UPD)
-		String ret = (data==null)?"":data.toString()
+		String ret = data ?: data.toString()
 		Log.addTraceEND(CLASS_FOR_LOG,"getStrData",ret)
 		return ret
 	}

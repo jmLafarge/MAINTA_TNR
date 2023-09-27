@@ -12,7 +12,7 @@ import tnrLog.Log
 public class JDDParam {
 
 
-	private final String CLASS_FOR_LOG = 'JDDParams'
+	private final String CLASS_FOR_LOG  = 'JDDParams'
 
 
 	private final enum PARAM_LIST_ALLOWED {

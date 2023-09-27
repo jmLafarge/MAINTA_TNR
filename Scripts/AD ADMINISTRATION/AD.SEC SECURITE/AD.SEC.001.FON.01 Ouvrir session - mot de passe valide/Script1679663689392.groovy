@@ -1,5 +1,5 @@
 import internal.GlobalVariable
-import tnrJDDManager.JDD
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
 import tnrWebUI.*
 import tnrSqlManager.SQL
 import tnrResultManager.TNRResult
@@ -22,18 +22,18 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	STEP.setEncryptedText(4,myJDD,'in_passw')
 
-	STEP.click(5,myJDD,'button_Connexion')
+	STEP.simpleClick(5,myJDD,'button_Connexion')
 
 	if (STEP.verifyElementPresent(6,myJDD,'frame_Main', GlobalVariable.TIMEOUT)) {
 			
-		TNRResult.addSTEPINFO("Connexion OK")
+		TNRResult.addSTEPINFO('', "Connexion OK")
 		
 		'Vérification des valeurs en BD'
-		SQL.checkJDDWithBD(myJDD,[:],"SELECT * FROM UTILOG ORDER bY DT_LOG DESC")
+		STEP.checkJDDWithBD(0, myJDD,[:],"SELECT * FROM UTILOG ORDER bY DT_LOG DESC")
 			
 	} else {
 		
-		TNRResult.addSTEPINFO("Connexion KO")
+		TNRResult.addSTEPINFO('', "Connexion KO")
 		
 	}
 	

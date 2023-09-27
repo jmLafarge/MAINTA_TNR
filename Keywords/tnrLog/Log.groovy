@@ -331,6 +331,12 @@ class Log {
 		}
 		liste.add(valeurDeLaListe)
 	}
+	
+	
+	// à vérifier --> serait utile pour détecter la non unicité de stepID
+	public static List<String> getList(String nomDeLaListe) {
+		return lists[nomDeLaListe]
+	}
 
 
 	public static writeList(String nomDeLaListe, String status ='', boolean brut = false) {
@@ -368,6 +374,9 @@ class Log {
 			fileDebug.append("Nombre de tests unitaires KO : $nbrAssertKO / $nbrAssert\n")
 			writeList('assertKO','',true)
 		}
+		
+		//writeList('fullStepID','',true)
+		
 		traceEnd=true
 		Date stop = new Date()
 		fileDebug.append("Max Level = $maxLevel\n")

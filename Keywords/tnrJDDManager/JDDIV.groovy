@@ -17,7 +17,7 @@ import tnrLog.Log
 @CompileStatic
 public class JDDIV {
 
-	private final String CLASS_FOR_LOG = 'JDDIV'
+	private final String CLASS_FOR_LOG  = 'JDDIV'
 
 	private final String INTERNALVALUE_SHEET_NAME	= TNRPropertiesReader.getMyProperty('INTERNALVALUE_SHEET_NAME')
 	private final String JDDGLOBAL_FULLNAME 		= TNRPropertiesReader.getMyProperty('JDD_PATH') + File.separator + TNRPropertiesReader.getMyProperty('JDDGLOBAL_FILENAME')

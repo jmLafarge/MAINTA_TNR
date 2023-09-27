@@ -1,4 +1,4 @@
-import tnrJDDManager.JDD
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
 import tnrResultManager.TNRResult
 import tnrWebUI.*
 
@@ -16,13 +16,13 @@ for (String cdt in myJDD.getCDTList()) {
 
 
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_CODINT'))
+    STEP.goToURLReadUpdateDelete(1,myJDD.getStrData('ID_CODINT'));STEP.checkReadUpdateDeleteScreen(2,myJDD.getStrData('ID_CODINT'))
 
-		//STEP.click(0, myJDD,"tab_Zone")
-		STEP.click(0, myJDD,"tab_Zone")
+		//STEP.simpleClick(0, myJDD,"tab_Zone")
+		STEP.simpleClick(0, myJDD,"tab_Zone")
 		STEP.verifyElementVisible(0, myJDD,"tab_ZoneSelected")
 			
-		STEP.scrollToPosition(0, 0)
+		STEP.scrollToPosition('', 0, 0)
 	
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -35,9 +35,9 @@ for (String cdt in myJDD.getCDTList()) {
 			
 	        STEP.verifyText(0, myJDD,'ID_NUMREF')
 			
-			KWCheckbox.verifyImgCheckedOrNot(myJDD,'ST_DEF','O')
+			STEP.verifyImgCheckedOrNot(myJDD,'ST_DEF','O')
 			
-			KWCheckbox.verifyImg(myJDD,'span_ST_TYP_emp',myJDD.getStrData('ST_TYP')=='EMP')
+			STEP.verifyImg(myJDD,'span_ST_TYP_emp',myJDD.getStrData('ST_TYP')=='EMP')
 	
 			KW.verifyDateText(myJDD,'td_DateDebut', myJDD.getData('DT_DATDEB'))
 				

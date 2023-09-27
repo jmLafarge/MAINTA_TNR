@@ -114,7 +114,7 @@ if (JDD_list.size() > 0) {
 
     organisation = JDD.ID_CODGES.padRight(6, '.')
 
-    CustomKeywords.'NAV.goToURL_RUD'(FCTCODE, JDD.ID_CODINT)
+    CustomKeywords.'NAV.goToURL_ReadUpdateDelete'(FCTCODE, JDD.ID_CODINT)
 	
 
 
@@ -146,7 +146,7 @@ if (JDD_list.size() > 0) {
 */
 	
 	
-    STEP.delay(1)
+    WUI.delay( 1000)
 	
 }
 

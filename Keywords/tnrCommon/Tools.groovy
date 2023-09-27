@@ -25,6 +25,13 @@ class Tools {
 		return ret
 	}
 
+	public static String getFctFromModObj() {
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"getFctFromModObj",[:])
+		String ret = TNRPropertiesReader.getMyProperty('CODESCREEN_' + Tools.getMobObj(GlobalVariable.CAS_DE_TEST_EN_COURS.toString()))
+		Log.addTraceEND(CLASS_FOR_LOG,"getFctFromModObj")
+		return ret
+	}
+
 
 	public static getBrowserAndVersion() {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"getBrowserAndVersion",[:])
@@ -96,20 +103,10 @@ class Tools {
 		return val0
 	}
 
-	
-	public static String formatStrStepID(String code,int stepID,int NBCAR_STEPID) {
-		code = code ?: ""
-		int stepIDlen = NBCAR_STEPID - code.length()
-		String strStepID = ''
-		if (stepIDlen>0) {
-			strStepID = code + addZero(stepID, stepIDlen)
-		}else {
-			strStepID = code + stepID
-		}
-		return strStepID
-	}
-	
-	
+
+
+
+
 
 	static String cleanStr(String str) {
 		Log.addTraceBEGIN(CLASS_FOR_LOG,"cleanStr",[str:str])

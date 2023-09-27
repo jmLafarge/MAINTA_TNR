@@ -1,5 +1,5 @@
 import internal.GlobalVariable
-import tnrJDDManager.JDD
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
 import tnrWebUI.*
 import tnrSqlManager.SQL
 import tnrResultManager.TNRResult
@@ -16,37 +16,37 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	STEP.closeBrowser(1)
 	
-	STEP.delay(1)
+	WUI.delay(1000)
 	
-	STEP.openBrowser(2, GlobalVariable.BASE_URL)
+	STEP.openBrowser(3, GlobalVariable.BASE_URL)
 
-	STEP.maximizeWindow(3)
+	STEP.maximizeWindow(4)
 	
-	STEP.setText(4, myJDD,'in_user')
+	STEP.setText(5, myJDD,'in_user')
 	
-	STEP.setEncryptedText(5, myJDD,'in_passw')
+	STEP.setEncryptedText(6, myJDD,'in_passw')
 
-	STEP.click(6, myJDD,'button_Connexion')
+	STEP.simpleClick(7, myJDD,'button_Connexion')
 	
-	if (STEP.verifyElementPresent(7, myJDD,'input_Oui', GlobalVariable.TIMEOUT,null)) {
+	if (STEP.verifyElementPresent(8, myJDD,'input_Oui', GlobalVariable.TIMEOUT,null)) {
 		
-			STEP.click(8, myJDD,'input_Oui')
+			STEP.simpleClick(9, myJDD,'input_Oui')
 			
-			if (STEP.verifyElementPresent(9, myJDD,'frame_Main', GlobalVariable.TIMEOUT)) {
+			if (STEP.verifyElementPresent(10, myJDD,'frame_Main', GlobalVariable.TIMEOUT)) {
 					
-				TNRResult.addSTEPINFO("Reconnexion OK")
+				TNRResult.addSTEPINFO('', "Reconnexion OK")
 				
 				'Vérification des valeurs en BD'
-				SQL.checkJDDWithBD(myJDD,[:],"SELECT * FROM UTILOG ORDER bY DT_LOG DESC")
+				STEP.checkJDDWithBD(0, myJDD,[:],"SELECT * FROM UTILOG ORDER bY DT_LOG DESC")
 					
 			} else {
 				
-				TNRResult.addSTEPINFO("Reconnexion KO")
+				TNRResult.addSTEPINFO('', "Reconnexion KO")
 				
 			}
 	}else {
 		
-		TNRResult.addSTEPINFO("Reconnexion KO")
+		TNRResult.addSTEPINFO('', "Reconnexion KO")
 	}
 	TNRResult.addEndTestCase()
 }

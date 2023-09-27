@@ -1,336 +1,343 @@
 package tnrWebUI
 
-import com.kms.katalon.core.model.FailureHandling
-import com.kms.katalon.core.testobject.SelectorMethod
-import com.kms.katalon.core.testobject.TestObject
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-
+import groovy.transform.CompileStatic
 import internal.GlobalVariable
-import tnrCommon.Tools
 import tnrJDDManager.JDD
-import tnrLog.Log
 import tnrResultManager.TNRResult
+import tnrSqlManager.CheckInDB
 
 
+
+
+
+/**
+ * 
+ *
+ * @author JM LAFARGE
+ * @version 1.0
+ *
+ */
+
+@CompileStatic
 public class STEP {
-	
-	
+
+
 	private static final String CLASS_FOR_LOG = 'STEP'
-	
-	private static final int NBCAR_STEPID = 6 
-	
-	static void navigateToUrl(int stepID, String url,String urlName){
-		String strStepID = Tools.formatStrStepID('NTU',stepID,NBCAR_STEPID)
-		STEP_NAV.navigateToUrl(strStepID,  url, urlName)
-	}
-	
-	static void openBrowser(int stepID, String url){
-		String strStepID = Tools.formatStrStepID('OB',stepID,NBCAR_STEPID)
-		STEP_NAV.openBrowser(strStepID, url)
-	}
-	
-	static void closeBrowser(int stepID){
-		String strStepID = Tools.formatStrStepID('CB',stepID,NBCAR_STEPID)
-		STEP_NAV.closeBrowser(strStepID)
-	}
-	
-	static void maximizeWindow(int stepID){
-		String strStepID = Tools.formatStrStepID('MW',stepID,NBCAR_STEPID)
-		STEP_NAV.maximizeWindow(strStepID)
-	}
-
-	
-	static String verifyMaintaVersion(int stepID, String maintaVersion) {
-		String strStepID = Tools.formatStrStepID('VMV',stepID,NBCAR_STEPID)
-		STEP_SQL.verifyMaintaVersion(strStepID, maintaVersion)
-	}
-	
-	static void delay(Number seconds) {
-		try {
-			WebUI.delay(seconds,FailureHandling.STOP_ON_FAILURE)
-			TNRResult.addSTEPINFO("Attente de $seconds seconde(s)")
-		} catch (Exception ex) {
-			TNRResult.addSTEPERROR('-1',"Attente de $seconds seconde(s)")
-			TNRResult.addDETAIL(ex.getMessage())
-		}
-	}
-	
-	
-	
-	static void scrollToPosition(int x, int y) {
-		try {
-			WebUI.scrollToPosition(x, y, FailureHandling.STOP_ON_FAILURE)
-			TNRResult.addSTEPINFO("Scroll à la position $x , $y")
-		} catch (Exception ex) {
-			TNRResult.addSTEPERROR('-1',"Scroll à la position $x , $y")
-			TNRResult.addDETAIL(ex.getMessage())
-		}
-	}
-
-	
-	static void switchToDefaultContent() {
-		try {
-			WebUI.switchToDefaultContent(FailureHandling.STOP_ON_FAILURE)
-			TNRResult.addSTEPINFO("switchToDefaultContent")
-		} catch (Exception ex) {
-			TNRResult.addSTEPERROR('-1',"switchToDefaultContent")
-			TNRResult.addDETAIL(ex.getMessage())
-		}
-	}
-	
 
 
-	
-	static void switchToFrame(JDD myJDD, String name) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "switchToFrame", [myJDD: myJDD.toString(), name: name])
-		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-		if (!msgTO) {
-			try {
-				WebUI.switchToFrame(tObj, (int)GlobalVariable.TIMEOUT)
-				Log.addINFO("Switch to frame '$name'")
-			} catch (Exception ex) {
-				TNRResult.addSTEPERROR('-1',"Switch to frame '$name'")
-				TNRResult.addDETAIL(ex.getMessage())
-			}
-		}else {
-			TNRResult.addSTEPERROR('-1',"Switch to frame '$name' impossible")
-			TNRResult.addDETAIL(msgTO)
-		}
-		Log.addTraceEND(CLASS_FOR_LOG, "switchToFrame")
+
+
+	/*
+	 * ************************** Navigate
+	 */
+
+	public static void openBrowser(def stepID, String url){
+		Navigate.openBrowser(stepID, url)
 	}
 
-	
 
-	
-	
-	
-
-
-	
-	
-
-	
-	
-	
-
-
-	
-
-	static void setText(int stepID, JDD myJDD, String name, String text=null , int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "setText", [stepID:stepID , myJDD: myJDD.toString(), name: name , text:text , timeout:timeout , status:status])
-		String strStepID = Tools.formatStrStepID('ST',stepID,NBCAR_STEPID)
-		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-		if (!msgTO) {
-			if (text==null) {
-				text = myJDD.getStrData(name)
-			}
-			if (tnrJDDManager.JDDKW.isNU(text)) {
-				TNRResult.addSTEPINFO("Valeur '\$NU', pas de saisie de texte sur '${tObj.getObjectId()}'")
-			}else {
-				String objValue = WebUI.getAttribute(tObj, 'value')
-				Log.addTrace("objText:'$objValue'")
-				if (objValue==text){
-					TNRResult.addSTEPPASS(strStepID,"Saisie du texte '$text' sur '${tObj.getObjectId()}'")
-					TNRResult.addDETAIL("La valeur est déjà saisie, pas de modification.")
-				}else {
-					String errMsg = KWElement.goToElementByObj(tObj, name, timeout, status)
-					if (!errMsg) {
-						try {
-							WebUI.setText(tObj, text, FailureHandling.STOP_ON_FAILURE)
-							TNRResult.addSTEPPASS(strStepID,"Saisie du texte '$text' sur '${tObj.getObjectId()}'")
-						} catch (Exception ex) {
-							TNRResult.addSTEP(strStepID,"Saisie du texte '$text' sur '${tObj.getObjectId()}'", status)
-							TNRResult.addDETAIL(ex.getMessage())
-							Log.addTrace('')
-						}
-					}else {
-						TNRResult.addSTEP(strStepID,"Saisie du texte sur '${tObj.getObjectId()}'",status)
-						TNRResult.addDETAIL(errMsg)
-					}
-				}
-			}
-		}else {
-			TNRResult.addSTEPERROR(strStepID,"Saisie du texte '$text' sur '$name' impossible")
-			TNRResult.addDETAIL(msgTO)
-		}
-		Log.addTraceEND(CLASS_FOR_LOG, "setText")
-	}
-	
-	
-	
-
-	static void setEncryptedText(int stepID, JDD myJDD, String name, String text=null,int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "setEncryptedText", [stepID:stepID , myJDD: myJDD.toString(), name: name , text:text , timeout:timeout , status:status])
-		String strStepID = Tools.formatStrStepID('SET',stepID,NBCAR_STEPID)
-		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-		if (!msgTO) {
-			if (text==null) {
-				text = myJDD.getStrData(name)
-			}
-			String errMsg = KWElement.goToElementByObj(tObj, name, timeout, status)
-			if (!errMsg) {
-				try {
-					WebUI.setEncryptedText(tObj, text, FailureHandling.STOP_ON_FAILURE)
-					TNRResult.addSTEPPASS(strStepID,"Saisie du mot de passe sur '${tObj.getObjectId()}'")
-				} catch (Exception ex) {
-					TNRResult.addSTEP(strStepID,"Saisie du mot de passe sur '${tObj.getObjectId()}'",status)
-					TNRResult.addDETAIL(ex.getMessage())
-				}
-			}else {
-				TNRResult.addSTEP(strStepID,"Saisie du mot de passe sur '${tObj.getObjectId()}'",status)
-				TNRResult.addDETAIL(errMsg)
-			}
-		}else {
-			TNRResult.addSTEPERROR(strStepID,"Saisie du mot de passe sur '$name' impossible")
-			TNRResult.addDETAIL(msgTO)
-		}
-		Log.addTraceEND(CLASS_FOR_LOG, "setEncryptedText")
+	public static void navigateToUrl(def stepID, String url,String nomUrl){
+		Navigate.navigateToUrl(stepID, url, nomUrl)
 	}
 
-	
-	
-	static boolean click(int stepID,JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "click", [stepID:stepID , myJDD: myJDD.toString(), name: name, timeout:timeout , status:status])
-		String strStepID = Tools.formatStrStepID('C',stepID,NBCAR_STEPID)
-		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-		boolean ret = false
-		if (!msgTO) {
-			String errMsg = KWElement.goToElementByObj(tObj, name, timeout, status)
-			if (!errMsg) {
-				try {
-					WebUI.click(tObj, FailureHandling.STOP_ON_FAILURE)
-					TNRResult.addSTEPPASS(strStepID,"Clic sur '${tObj.getObjectId()}'")
-					ret= true
-				} catch (Exception ex) {
-					TNRResult.addSTEP(strStepID,"Clic sur '${tObj.getObjectId()}'",status)
-					TNRResult.addDETAIL(ex.getMessage())
-				}
-			}else {
-				TNRResult.addSTEP(strStepID,"Clic sur '${tObj.getObjectId()}'",status)
-				TNRResult.addDETAIL(errMsg)
-			}
-		}else {
-			TNRResult.addSTEPERROR(strStepID,"Clic sur '$name' imposible")
-			TNRResult.addDETAIL(msgTO)
-		}
-		Log.addTraceEND(CLASS_FOR_LOG, "click",ret)
-		return ret
-	}
-	
-	
-	
-	
-	
-	static boolean verifyElementPresent(int stepID, JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyElementPresent", [stepID:stepID , myJDD: myJDD.toString(), name: name , timeout:timeout , status:status])
-		String strStepID = Tools.formatStrStepID('VEP',stepID,NBCAR_STEPID)
-		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-		boolean ret = false
-		if (!msgTO) {
-			try {
-				WebUI.verifyElementPresent(tObj, timeout, FailureHandling.STOP_ON_FAILURE)
-				TNRResult.addSTEPPASS(strStepID,"Vérifier que '${tObj.getObjectId()}' soit présent")
-				ret = true
-			}catch (Exception ex) {
-				TNRResult.addSTEP(strStepID,"Vérifier que '${tObj.getObjectId()}' soit présent", status)
-				TNRResult.addDETAIL(ex.getMessage())
-				TNRResult.addDETAIL("XPATH = "+tObj.getSelectorCollection().get(SelectorMethod.XPATH))
-			}
-		}else {
-			TNRResult.addSTEPERROR(strStepID,"Vérifier que '$name' soit présent impossible")
-			TNRResult.addDETAIL(msgTO)
-		}
-		Log.addTraceEND(CLASS_FOR_LOG, "verifyElementPresent",ret)
-		return ret
-	}
-	
-	
-	
-	static boolean verifyText(int stepID,JDD myJDD, String name, String text=null, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyText", [stepID:stepID , myJDD: myJDD.toString(), name: name , text:text , timeout:timeout , status:status])
-		String strStepID = Tools.formatStrStepID('VT',stepID,NBCAR_STEPID)
-		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-		boolean ret = false
-		if (!msgTO) {
-			if (text==null) {
-				text = myJDD.getStrData(name)
-			}
-			String errMsg = KWElement.goToElementByObj(tObj, name, timeout, status)
-			if (!errMsg) {
-				String gText = KW.getTextByObj(tObj)
-				if (WebUI.verifyElementText(tObj, text,FailureHandling.OPTIONAL)) {
-					TNRResult.addSTEPPASS(strStepID,"Vérification du texte '$text' sur '${tObj.getObjectId()}'")
-					ret = true
-				} else {
-					TNRResult.addSTEP(strStepID,"Vérification du texte '$text' sur '${tObj.getObjectId()}'",status)
-					TNRResult.addDETAIL("la valeur est '$gText' !")
-				}
-			}else {
-				TNRResult.addSTEP(strStepID,"Vérification du texte '$text' sur '${tObj.getObjectId()}'",status)
-				TNRResult.addDETAIL(errMsg)
-			}
-		}else {
-			TNRResult.addSTEPERROR(strStepID,"Vérification du texte '$text' sur '$name' impossible")
-			TNRResult.addDETAIL(msgTO)
-		}
-		Log.addTraceEND(CLASS_FOR_LOG, "verifyText",ret)
-		return ret
-	}
-	
-	
-	
-	static boolean verifyTextContains(int stepID,JDD myJDD, String name, String text=null, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyTextContains", [stepID:stepID , myJDD: myJDD.toString(), name: name , text:text , timeout:timeout , status:status])
-		String strStepID = Tools.formatStrStepID('STC',stepID,NBCAR_STEPID)
-		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-		boolean ret = false
-		if (!msgTO) {
-			if (text==null) text = myJDD.getStrData(name)
-			String gText = WebUI.getText(tObj)
-			String errMsg = KWElement.goToElementByObj(tObj, name, timeout, status)
-			if (!errMsg) {
-				if (gText.contains(text)) {
-					TNRResult.addSTEPPASS(strStepID,"Vérification que le texte '$gText' contient '$text' sur '${tObj.getObjectId()}'")
-					ret = true
-				} else {
-					TNRResult.addSTEP(strStepID,"Vérification que le texte '$gText' contient '$text' sur '${tObj.getObjectId()}'",status)
-					TNRResult.addDETAIL("la valeur est '$gText' !")
-				}
-			}else {
-				TNRResult.addSTEP(strStepID,"Vérification que le texte '$gText' contient '$text' sur '${tObj.getObjectId()}'",status)
-				TNRResult.addDETAIL(errMsg)
-			}
-		}else {
-			TNRResult.addSTEPERROR(strStepID,"Vérification que le texte '?' contient '$text' sur '$name' impossible")
-			TNRResult.addDETAIL(msgTO)
-		}
-		Log.addTraceEND(CLASS_FOR_LOG, "verifyTextContains",ret)
-		return ret
+
+	public static void closeBrowser(def stepID){
+		Navigate.closeBrowser(stepID)
 	}
 
-	
-	
-	
-	static boolean verifyElementVisible(int stepID, JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyElementVisible", [stepID:stepID , myJDD: myJDD.toString(), name: name , timeout:timeout , status:status])
-		String strStepID = Tools.formatStrStepID('VEV',stepID,NBCAR_STEPID)
-		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-		boolean ret = false
-		if (!msgTO) {
-			String errMsg = KWElement.goToElementByObj(tObj, name, timeout, status)
-			if (!errMsg) {
-				TNRResult.addSTEPPASS(strStepID,"Vérifier que l'élément '${tObj.getObjectId()}' soit visible ")
-				ret = true
-			}else {
-				TNRResult.addSTEP(strStepID,"Vérifier que l'élément '${tObj.getObjectId()}' soit visible ",status)
-				TNRResult.addDETAIL(errMsg)
-			}
-		}else {
-			TNRResult.addSTEPERROR(strStepID,"Vérifier que l'élément '$name' soit visible impossible")
-			TNRResult.addDETAIL(msgTO)
-		}
-		Log.addTraceEND(CLASS_FOR_LOG, "verifyElementVisible",ret)
-		return ret
+
+	public static void maximizeWindow(def stepID){
+		Navigate.maximizeWindow(stepID)
 	}
 
-}
+	public static void scrollToPosition(def stepID, int x, int y) {
+		Navigate.scrollToPosition(stepID, x, y)
+	}
+
+
+	public static void switchToDefaultContent(def stepID) {
+		Navigate.switchToDefaultContent(stepID)
+	}
+
+
+	public static goToURLCreate(def stepID,String fct='', String attr='') {
+		Navigate.goToURLCreate(stepID, fct, attr)
+	}
+
+	public static goToURLReadUpdateDelete(def stepID, String idval, String fct='') {
+		Navigate.goToURLReadUpdateDelete(stepID, idval, fct)
+	}
+
+	public static goToGridURL(def stepID, String fct='') {
+		Navigate.goToGridURL(stepID, fct)
+	}
+
+
+
+
+	/*
+	 * ************************** Screen
+	 */
+
+	public static checkCreateScreen(def stepID,String fct='', int timeout = GlobalVariable.TIMEOUT) {
+		Screen.checkCreateScreen(stepID, fct, timeout)
+	}
+
+	public static checkGridScreen(def stepID, String fct='', int timeout = GlobalVariable.TIMEOUT) {
+		Screen.checkGridScreen(stepID, fct, timeout)
+	}
+
+	public static checkResultScreen(def stepID, String val,String fct='', String name='Resultat_ID_a', int timeout = GlobalVariable.TIMEOUT) {
+		Screen.checkResultScreen(stepID, val, fct, name, timeout)
+	}
+
+	public static checkReadUpdateDeleteScreen(def stepID, String text, String fct='' , int timeout = GlobalVariable.TIMEOUT) {
+		Screen.checkReadUpdateDeleteScreen(stepID, text, fct, timeout)
+	}
+
+
+	public static checkCartridge(def stepID, String txt, int timeout = GlobalVariable.TIMEOUT) {
+		Screen.checkCartridge(stepID, txt, timeout)
+	}
+
+
+
+
+
+
+
+
+
+	/*
+	 * ************************** CheckInDB
+	 */
+
+
+	public static void verifyMaintaVersion(def stepID, String maintaVersion) {
+		CheckInDB.verifyMaintaVersion(stepID, maintaVersion)
+	}
+
+	public static void checkIDNotInBD(def stepID, JDD myJDD){
+		CheckInDB.checkIDNotInBD(stepID, myJDD)
+	}
+
+
+	public static void checkJDDWithBD(def stepID, JDD myJDD,Map specificValueMap=[:],String sql =''){
+		CheckInDB.checkJDDWithBD(stepID, myJDD, specificValueMap, sql)
+	}
+
+
+
+
+	/*
+	 * ************************** Text
+	 */
+
+	public static void verifyValue(def stepID, JDD myJDD, String name, String text=null, int timeout  = (int) GlobalVariable.TIMEOUT , String status = 'FAIL') {
+		Text.verifyValue(stepID, myJDD, name, text, timeout, status)
+	}
+
+
+	public static void setDate(def stepID, JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Text.setDate(stepID, myJDD, name, val, dateFormat, timeout, status)
+	}
+
+
+	public static void verifyDateText(def stepID, JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
+		Text.verifyDateText(stepID, myJDD, name, val, dateFormat, timeout, status)
+	}
+
+
+	public static void verifyDateValue(def stepID, JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
+		Text.verifyDateValue(stepID, myJDD, name, val, dateFormat, timeout, status)
+	}
+
+
+	public static void verifyTimeValue(def stepID, JDD myJDD, String name, def val=null, String timeFormat = 'HH:mm:ss', int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
+		Text.verifyTimeValue(stepID, myJDD, name, val, timeFormat, timeout, status)
+	}
+
+
+	public static void setText(def stepID, JDD myJDD, String name, String text=null , int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
+		Text.setText(stepID, myJDD, name, text, timeout, status)
+	}
+
+
+	public static void setEncryptedText(def stepID, JDD myJDD, String name, String text=null,int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
+		Text.setEncryptedText(stepID, myJDD, name, text, timeout, status)
+	}
+
+
+	public static boolean verifyText(def stepID,JDD myJDD, String name, String text=null, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
+		return Text.verifyText(stepID, myJDD, name, text, timeout, status)
+	}
+
+
+	public static boolean verifyTextContains(def stepID,JDD myJDD, String name, String text=null, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
+		return Text.verifyTextContains(stepID, myJDD, name, text, timeout, status)
+	}
+
+
+
+
+
+
+
+
+	/*
+	 * ************************** Checkbox
+	 */
+
+
+	public static void scrollAndCheckIfNeeded(def stepID, JDD myJDD, String name, String textTrue, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL')  {
+		Checkbox.scrollAndCheckIfNeeded(stepID, myJDD, name, textTrue, timeout, status)
+	}
+
+
+	public static void verifyElementCheckedOrNot(def stepID, JDD myJDD, String name, String textTrue, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Checkbox.verifyElementCheckedOrNot(stepID, myJDD, name, textTrue, timeout, status)
+	}
+
+
+	public static void verifyCheckBoxImgChecked(String stepID, JDD myJDD, String name, String status = 'FAIL')  {
+		Checkbox.verifyCheckBoxImgChecked(stepID, myJDD, name, status)
+	}
+
+
+
+	public static void verifyImgCheckedOrNot(String stepID, JDD myJDD, String name, String textTrue, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Checkbox.verifyImgCheckedOrNot(stepID, myJDD, name, textTrue)
+	}
+
+
+
+	public static void verifyImg(String stepID, JDD myJDD, String name, boolean cond, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Checkbox.verifyImg(stepID, myJDD, name, cond, timeout, status)
+	}
+
+
+
+	public static boolean getCheckBoxImgStatus(JDD myJDD, String name)  {
+		Checkbox.getCheckBoxImgStatus(myJDD, name)
+	}
+
+
+
+
+
+
+
+	/*
+	 * ************************** Click
+	 */
+
+	public static boolean simpleClick(def stepID,JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
+		return Click.simpleClick(stepID, myJDD, name, timeout, status)
+	}
+
+	public static boolean doubleClick(def stepID, JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
+		return Click.doubleClick(stepID, myJDD, name, timeout, status)
+	}
+
+
+
+
+	/*
+	 * ************************** Element
+	 */
+
+
+	public static boolean verifyElementPresent(def stepID, JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		return Element.verifyElementPresent(stepID, myJDD, name, timeout, status)
+	}
+
+	public static boolean verifyElementVisible(def stepID, JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		return Element.verifyElementVisible(stepID, myJDD, name, timeout, status)
+	}
+
+	public static boolean verifyElementNotPresent(def stepID, JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		return Element.verifyElementNotPresent(stepID, myJDD, name, timeout, status)
+	}
+
+
+	/*
+	 * ************************** SearchWithHelper
+	 */
+
+
+	public static void searchWithHelper(def stepID, JDD myJDD, String name , String btnXpath = '' , String inputSearchName = '', int index_td=3 ){
+		SearchWithHelper.searchWithHelper(stepID, myJDD, name, btnXpath, inputSearchName, index_td)
+	}
+
+
+
+
+
+	/*
+	 * ************************** Alert
+	 */
+
+	public static boolean waitAndAcceptAlert(def stepID, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Alert.waitAndAcceptAlert(stepID, timeout, status)
+	}
+
+
+	/*
+	 * ************************** Select
+	 */
+
+	public static void verifyOptionSelectedByLabel(def stepID, JDD myJDD, String name, String text=null, boolean isRegex = false, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Select.verifyOptionSelectedByLabel(stepID, myJDD, name, text, isRegex, timeout, status)
+	}
+
+
+	public static void scrollAndSelectOptionByLabel(def stepID, JDD myJDD, String name, String text=null, boolean isRegex = true, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Select.scrollAndSelectOptionByLabel(stepID, myJDD, name, text, isRegex, timeout, status)
+	}
+
+
+	/*
+	 * ************************** Key
+	 */
+
+	public static String sendKeys(def stepID, JDD myJDD, String name, String keys, String msg = '' , String status = 'FAIL') {
+		Key.sendKeys(stepID, myJDD, name, keys, msg, status)
+	}
+
+
+
+	/*
+	 * ************************** Radio
+	 */
+
+	static void verifyRadioChecked(def stepID, JDD myJDD, String name,  int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
+		Radio.verifyRadioChecked(stepID, myJDD, name, timeout, status)
+	}
+
+	static void scrollAndSetRadio(def stepID, JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Radio.scrollAndSetRadio(stepID, myJDD, name, timeout, status)
+	}
+
+
+	/*
+	 * ************************** Memo
+	 */
+
+	public static void setMemoText(def stepID, String newText, String memoName, boolean maj, JDD myJDD,String modifierNom) {
+		Memo.setMemoText(stepID, newText, memoName, maj, myJDD, modifierNom)
+	}
+
+
+	/*
+	 * ************************** DivModal
+	 */
+
+
+	static boolean isDivModalOpened(def stepID, int timeout=(int)GlobalVariable.TIMEOUT) {
+		Div.isDivModalOpened(stepID, timeout)
+	}
+
+	static boolean isDivModalClosed(def stepID, int timeout=(int)GlobalVariable.TIMEOUT) {
+		Div.isDivModalClosed(stepID, timeout)
+	}
+} // end of class

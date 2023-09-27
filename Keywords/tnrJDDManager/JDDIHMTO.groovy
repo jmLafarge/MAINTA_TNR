@@ -20,7 +20,7 @@ import tnrLog.Log
 @CompileStatic
 public class JDDIHMTO {
 
-	private final String CLASS_FOR_LOG = 'JDDIHMTO'
+	private final String CLASS_FOR_LOG  = 'JDDIHMTO'
 
 
 	private Map <String,String> xpathMap  = [:]

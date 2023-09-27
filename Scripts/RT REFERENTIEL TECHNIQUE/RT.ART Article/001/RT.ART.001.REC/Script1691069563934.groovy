@@ -1,7 +1,7 @@
 import tnrWebUI.*
 
 import tnrResultManager.TNRResult
-import tnrJDDManager.JDD
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
 
 
 'Lecture du JDD'
@@ -15,7 +15,7 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_Grille_and_checkCartridge()
+   STEP.goToGridURL(1);STEP.checkGridScreen(2)
 	
 	'Filtrer la valeur dans la grille'
     STEP.setText(0, myJDD,'input_Filtre_Grille', myJDD.getStrData('ID_CODART'))

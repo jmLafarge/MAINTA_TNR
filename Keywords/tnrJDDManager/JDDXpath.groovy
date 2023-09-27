@@ -18,7 +18,7 @@ import tnrLog.Log
 public class JDDXpath {
 
 
-	private final String CLASS_FOR_LOG = 'JDDXpaths'
+	private final String CLASS_FOR_LOG  = 'JDDXpaths'
 
 
 	private final List TAG_LIST_ALLOWED			= ['input', 'select', 'textarea', 'td', 'checkbox', 'radio']

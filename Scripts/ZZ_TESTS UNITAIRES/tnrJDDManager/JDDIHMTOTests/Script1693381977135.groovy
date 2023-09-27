@@ -2,7 +2,7 @@
 import org.apache.poi.ss.usermodel.Workbook
 
 import tnrCommon.ExcelUtils
-import tnrJDDManager.JDDIHMTO
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDIHMTO
 import tnrLog.Log
 
 /**

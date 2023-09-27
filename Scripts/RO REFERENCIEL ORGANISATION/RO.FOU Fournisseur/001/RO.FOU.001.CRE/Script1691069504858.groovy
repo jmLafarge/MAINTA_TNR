@@ -1,4 +1,4 @@
-import tnrJDDManager.JDD
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
 import tnrResultManager.TNRResult
 import tnrSqlManager.SQL
 import tnrWebUI.*
@@ -15,21 +15,21 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
-    STEP_NAV.goToURL_Creation_and_checkCartridge(1)
+    STEP.goToURLCreate(1); STEP.checkCreateScreen(2)
 	
 
 	
 	TNRResult.addSTEPGRP("ONGLET FOURNISSEUR")
 	
-		STEP.click(0, myJDD,"tab_Fournisseur")
+		STEP.simpleClick(0, myJDD,"tab_Fournisseur")
 		STEP.verifyElementVisible(0, myJDD,"tab_FournisseurSelected")
 		
 		STEP.setText(0, myJDD,"ID_CODFOU")
 		STEP.setText(0, myJDD,"ST_NOM")
 		STEP.setText(0, myJDD,"ID_CODGES")
 		//ST_DESGES --> pas d'action en création
-		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_CONSTR","O")
-		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_INA","O")
+		STEP.scrollAndCheckIfNeeded(0, myJDD,"ST_CONSTR","O")
+		STEP.scrollAndCheckIfNeeded(0, myJDD,"ST_INA","O")
 		STEP.setText(0, myJDD,"ST_CODCOM")
 		//ST_DESST_CODCOM --> pas d'action en création
 		
@@ -45,7 +45,7 @@ for (String cdt in myJDD.getCDTList()) {
 		
 	TNRResult.addSTEPGRP("ONGLET COMMANDE")
 		
-		STEP.click(0, myJDD,"tab_Commande")
+		STEP.simpleClick(0, myJDD,"tab_Commande")
 		STEP.verifyElementVisible(0, myJDD,"tab_CommandeSelected")
 		
 		STEP.setText(0, myJDD,"ST_PRIDEL")
@@ -61,7 +61,7 @@ for (String cdt in myJDD.getCDTList()) {
 		STEP.setText(0, myJDD,"ID_CODEMB")
 		//ST_DESID_CODEMB --> pas d'action en création
 		STEP.setText(0, myJDD,"ST_REL")
-		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_FIGCAT","O")
+		STEP.scrollAndCheckIfNeeded(0, myJDD,"ST_FIGCAT","O")
 		
 		TNRResult.addSTEPBLOCK("TEXTES COMMANDE")
 		STEP.setText(0, myJDD,"ST_TXTBAS1")
@@ -70,11 +70,11 @@ for (String cdt in myJDD.getCDTList()) {
 		STEP.setText(0, myJDD,"ST_TXTBAS4")
 		STEP.setText(0, myJDD,"ST_TXTBAS5")
 		STEP.setText(0, myJDD,"ST_TXTBAS6")
-		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_FIGCDE","O")
+		STEP.scrollAndCheckIfNeeded(0, myJDD,"ST_FIGCDE","O")
 		
 	TNRResult.addSTEPGRP("ONGLET NOTES")
 		
-		STEP.click(0, myJDD,"tab_Notes")
+		STEP.simpleClick(0, myJDD,"tab_Notes")
 		STEP.verifyElementVisible(0, myJDD,"tab_NotesSelected")
 		
 		// Pas de cas de test pour Notes
@@ -83,15 +83,15 @@ for (String cdt in myJDD.getCDTList()) {
 				
 	TNRResult.addSTEPACTION('VALIDATION')
 
-	    STEP.click(0, GlobalJDD.myGlobalJDD,'button_Valider')
+	    STEP.simpleClick(0, GlobalJDD.myGlobalJDD,'button_Valider')
 	
-	    NAV.verifierEcranResultat(myJDD.getStrData())
+	    STEP.checkResultScreen(0, myJDD.getStrData())
 		
 		myJDD.replaceSEQUENCIDInJDD('ID_NUMDOC',-1)
 		//JDD_Note.replaceSEQUENCIDInJDD('ID_NUMDOC',-1)
 		
-		SQL.checkJDDWithBD(myJDD)
-		//SQL.checkJDDWithBD(JDD_Note)
+		STEP.checkJDDWithBD(0, myJDD)
+		//STEP.checkJDDWithBD(0, JDD_Note)
 
 	TNRResult.addEndTestCase()
 } // fin du if

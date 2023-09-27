@@ -1,5 +1,5 @@
 import tnrLog.Log
-import tnrJDDManager.JDDFileMapper
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDFileMapper
 import tnrJDDManager.PREJDDFilesMapper
 
 

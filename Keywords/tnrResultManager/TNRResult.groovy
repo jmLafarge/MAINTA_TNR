@@ -41,7 +41,7 @@ public class TNRResult {
 		switch (status) {
 			case null :
 			case 'INFO' :
-				addSTEPINFO(msg)
+				addSTEPINFO(stepID, msg)
 				break
 			case 'PASS':
 				addSTEPPASS(stepID, msg)
@@ -97,36 +97,41 @@ public class TNRResult {
 		addStepInResult(msg,'STEPLOOP')
 	}
 
-	public static addSTEPINFO (String msg) {
+	public static addSTEPINFO (String stepID, String msg) {
+		msg = addStepIDInMsg(stepID, msg)
 		Log.add('',PREINFOSTEPTXT+ msg)
 		addStepInResult(msg,'INFO')
 	}
 	
 	public static addSTEPPASS (String stepID, String msg) {
+		msg = addStepIDInMsg(stepID, msg)
 		Log.add('PASS',PRESTEPTXT+ msg)
 		status.PASS++
-		addStepInResult("($stepID) $msg",'PASS')
+		addStepInResult(msg,'PASS')
 	}
 
 
 	public static addSTEPFAIL (String stepID, String msg) {
+		msg = addStepIDInMsg(stepID, msg)
 		Log.add('FAIL',PRESTEPTXT+ msg)
 		status.FAIL++
-		addStepInResult("($stepID) $msg",'FAIL')
+		addStepInResult(msg,'FAIL')
 	}
 
 
 	public static addSTEPWARNING (String stepID, String msg) {
+		msg = addStepIDInMsg(stepID, msg)
 		Log.add('WARNING',PRESTEPTXT+ msg)
 		status.WARNING++
-		addStepInResult("($stepID) $msg",'WARNING')
+		addStepInResult(msg,'WARNING')
 	}
 
 
 	public static addSTEPERROR (String stepID, String msg) {
+		msg = addStepIDInMsg(stepID, msg)
 		Log.addERROR(PRESTEPTXT+ msg)
 		status.ERROR++
-		addStepInResult("($stepID) $msg",'ERROR')
+		addStepInResult(msg,'ERROR')
 	}
 
 
@@ -145,8 +150,16 @@ public class TNRResult {
 
 
 	private static addStepInResult(String msg, String status) {
-
 		XLSResult.addStep(Log.logDate,msg,status)
+	}
+	
+	
+	private static String addStepIDInMsg(String stepID, String msg) {
+		if (stepID) {
+			return "($stepID) $msg"
+		}else{
+			return msg
+		}
 	}
 
 

@@ -1,6 +1,6 @@
 
 import tnrLog.Log
-import tnrJDDManager.JDDXpath
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDXpath
 
 /**
  * TESTS UNITAIRES

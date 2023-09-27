@@ -1,6 +1,6 @@
 import internal.GlobalVariable
-import tnrJDDManager.JDD
-import tnrJDDManager.JDDFileMapper
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDFileMapper
 import tnrWebUI.*
 
 import tnrResultManager.TNRResult
@@ -16,25 +16,25 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_CODART'))
+    NAV.goToURL_ReadUpdateDelete_and_checkCartridge(myJDD.getStrData('ID_CODART'))
 
 	
 	TNRResult.addSTEPGRP("ONGLET ARTICLE")
 			
-			STEP.click(0, myJDD,"tab_Article")
+			STEP.simpleClick(0, myJDD,"tab_Article")
 			STEP.verifyElementVisible(0, myJDD,"tab_ArticleSelected")
 			
-			KW.verifyValue(myJDD,"ID_CODART")
-			KW.verifyOptionSelectedByLabel(myJDD,"ST_ETA")
+			STEP.verifyValue(0, myJDD,"ID_CODART")
+			STEP.verifyOptionSelectedByLabel(0, myJDD,"ST_ETA")
 
-			KW.verifyValue(myJDD,"ST_DES")
-			KW.verifyOptionSelectedByLabel(myJDD,"ST_TYPART")
-			KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_INA","O")
+			STEP.verifyValue(0, myJDD,"ST_DES")
+			STEP.verifyOptionSelectedByLabel(0, myJDD,"ST_TYPART")
+			STEP.verifyElementCheckedOrNot(0, myJDD,"ST_INA","O")
 			
-			KW.verifyValue(myJDD,"ID_CODNATART")
-			KW.verifyValue(myJDD,"ST_DESID_CODNATART")
-			KW.verifyValue(myJDD,"ID_CODGES")
-			KW.verifyValue(myJDD,"ST_DESGES")
+			STEP.verifyValue(0, myJDD,"ID_CODNATART")
+			STEP.verifyValue(0, myJDD,"ST_DESID_CODNATART")
+			STEP.verifyValue(0, myJDD,"ID_CODGES")
+			STEP.verifyValue(0, myJDD,"ST_DESGES")
 			
 			STEP.verifyText(0, new JDD(JDDFileMapper.getFullnameFromModObj('RT.ART'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS),"OL_DOC")
 			
@@ -44,42 +44,42 @@ for (String cdt in myJDD.getCDTList()) {
 			// Lire le JDD spécifique
 			JDD JDD_ARTFOU = new JDD(JDDFileMapper.getFullnameFromModObj('RT.ART'),'001B',GlobalVariable.CAS_DE_TEST_EN_COURS)
 			
-				KW.verifyValue(JDD_ARTFOU,"ID_CODFOU")
-			KW.verifyValue(myJDD,"ST_DESID_CODFOU")
-				KW.verifyValue(JDD_ARTFOU,"ST_DES")
-				KW.verifyValue(JDD_ARTFOU,"ST_REFFOU")
+				STEP.verifyValue(JDD_ARTFOU,"ID_CODFOU")
+			STEP.verifyValue(0, myJDD,"ST_DESID_CODFOU")
+				STEP.verifyValue(JDD_ARTFOU,"ST_DES")
+				STEP.verifyValue(JDD_ARTFOU,"ST_REFFOU")
 			
 		TNRResult.addSTEPBLOCK("STOCK")
 			
-			KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_MAT","O")
-			KW.verifyValue(myJDD,"ID_CODUNI")
-			KW.verifyValue(myJDD,"NU_PRIPMP")
+			STEP.verifyElementCheckedOrNot(0, myJDD,"ST_MAT","O")
+			STEP.verifyValue(0, myJDD,"ID_CODUNI")
+			STEP.verifyValue(0, myJDD,"NU_PRIPMP")
 			
 		TNRResult.addSTEPBLOCK("ACHATS")
 			
-			KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_CONOBL","O")
-			KW.verifyValue(myJDD,"ST_TXTCDE")
-			KW.verifyValue(myJDD,"ST_CODCOM")
-			KW.verifyValue(myJDD,"ST_DESST_CODCOM")
-			KW.verifyValue(myJDD,"ID_CODTVA")
+			STEP.verifyElementCheckedOrNot(0, myJDD,"ST_CONOBL","O")
+			STEP.verifyValue(0, myJDD,"ST_TXTCDE")
+			STEP.verifyValue(0, myJDD,"ST_CODCOM")
+			STEP.verifyValue(0, myJDD,"ST_DESST_CODCOM")
+			STEP.verifyValue(0, myJDD,"ID_CODTVA")
 			
 			/*
-			KWCheckbox.verifyElementCheckedOrNot(myJDD,"MAJ_NOM","O")
-			KW.verifyValue(myJDD,"NOM_CODLON")
-			KW.verifyValue(myJDD,"ST_DESNOM")
+			STEP.verifyElementCheckedOrNot(0, myJDD,"MAJ_NOM","O")
+			STEP.verifyValue(0, myJDD,"NOM_CODLON")
+			STEP.verifyValue(0, myJDD,"ST_DESNOM")
 			
-			KWCheckbox.verifyElementCheckedOrNot(myJDD,"MAJ_EQU","O")
-			KW.verifyValue(myJDD,"EQU_CODLON")
-			KW.verifyValue(myJDD,"ST_DESEQU")
-			KW.verifyValue(myJDD,"ART_EQU_QTE")
-			KW.verifyValue(myJDD,"ART_EQU_OBS")
+			STEP.verifyElementCheckedOrNot(0, myJDD,"MAJ_EQU","O")
+			STEP.verifyValue(0, myJDD,"EQU_CODLON")
+			STEP.verifyValue(0, myJDD,"ST_DESEQU")
+			STEP.verifyValue(0, myJDD,"ART_EQU_QTE")
+			STEP.verifyValue(0, myJDD,"ART_EQU_OBS")
 			
-			KWCheckbox.verifyElementCheckedOrNot(myJDD,"MAJ_MODFAM","O")
-			KW.verifyValue(myJDD,"ID_CODFAM")
-			KW.verifyValue(myJDD,"ST_DESID_CODFAM")
-			KW.verifyValue(myJDD,"MODFAM_CODLON")
-			KW.verifyValue(myJDD,"ART_MODFAM_QTE")
-			KW.verifyValue(myJDD,"ART_MODFAM_OBS")
+			STEP.verifyElementCheckedOrNot(0, myJDD,"MAJ_MODFAM","O")
+			STEP.verifyValue(0, myJDD,"ID_CODFAM")
+			STEP.verifyValue(0, myJDD,"ST_DESID_CODFAM")
+			STEP.verifyValue(0, myJDD,"MODFAM_CODLON")
+			STEP.verifyValue(0, myJDD,"ART_MODFAM_QTE")
+			STEP.verifyValue(0, myJDD,"ART_MODFAM_OBS")
 
 			*/
 

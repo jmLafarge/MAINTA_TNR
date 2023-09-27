@@ -7,9 +7,14 @@
 * -----------------------------------------------------------------------------------------------------
 *
 
-   Trouver une solution pour RestoreDB.run()
-   
-	   Apres une restauration il faut recycler, comment le faire par script ?
+	stepID
+		tenir compte des boucles de suppression n/3
+		tenir compte des getNbrLigneCasDeTest, par ex RO.ACT.003HAB.SRA
+		tenir compte des répétitions dans SEQUENCER
+		Vérifier les addSTEPERROR('-1'
+	
+	Recyclage
+		Trouver une solution pour RestoreDB.run(), apres une restauration il faut recycler, comment le faire par script ?
 
 
 
@@ -21,6 +26,9 @@
 * -----------------------------------------------------------------------------------------------------
 *
 *
+
+RO.ACT.003HAB.SRA
+
 
 
 
@@ -88,6 +96,11 @@ DAns les SUP, quand pas le bouton pas la peine de faire
  * NOTE
  * -----------------------------------------------------------------------------------------------------
  * 
+	
+	KATALON 
+	
+		Action > Advenced search : Pour rechercher WUI.delay(*,* avec 'regular expression' :; WUI\.delay\(.*,\.*
+ 
 	
 	
 	NE PAS OUBLIER DE CHANGER LE BD OWNER APRES UNE RESTAURATION 
@@ -167,7 +180,7 @@ DAns les SUP, quand pas le bouton pas la peine de faire
 	
 		déterminer le traitement en fonction du type de locator (input, radio, ...)
 			si input --> STEP.setText(0, myJDD, "ST_ fois --> voir Suppr MATDES")
-			si radio --> KW.scrollAndSetRadio(myJDD, "LblNU_TYP")
+			si radio --> STEP.scrollAndSetRadio(0, myJDD, "LblNU_TYP")
 			...
 			
 		voir si on strap certains steps en cas d'erreur (par exemple si une fenetre de recherche ne s'ouvre pas, le reste plante)

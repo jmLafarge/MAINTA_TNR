@@ -17,7 +17,7 @@ import tnrSqlManager.InfoDB
 public class CheckPK {
 
 
-	static private final String CLASS_FOR_LOG = 'CheckPK'
+	static private final String CLASS_FOR_LOG  = 'CheckPK'
 
 
 

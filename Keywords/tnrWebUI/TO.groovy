@@ -21,7 +21,7 @@ public class TO {
 
 	public TestObject make(JDD myJDD,String ID) {
 
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"make",[myJDD:myJDD.toString(),ID:ID])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"make",[myJDD:myJDD,ID:ID])
 
 		TestObject to = null
 
@@ -123,7 +123,7 @@ public class TO {
 	 * @return L'xpath résolu.
 	 */
 	private String resolveXpath(JDD myJDD, String name, String xpath, Map binding) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"resolveXpath",[myJDD:myJDD.toString(), name:name,xpath:xpath,binding:binding])
+		Log.addTraceBEGIN(CLASS_FOR_LOG,"resolveXpath",[myJDD:myJDD, name:name,xpath:xpath,binding:binding])
 
 		String nameWithoutLbl = name.substring(3)
 		// Vérifie si c'est un xpath dynamique

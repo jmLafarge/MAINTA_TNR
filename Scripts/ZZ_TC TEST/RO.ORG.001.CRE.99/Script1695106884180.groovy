@@ -1,7 +1,7 @@
 import internal.GlobalVariable
-import tnrJDDManager.JDD
-import tnrJDDManager.JDDFileMapper
-import tnrJDDManager.JDDKW
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDFileMapper
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDKW
 import tnrResultManager.TNRResult
 import tnrSqlManager.SQL
 import tnrWebUI.*
@@ -18,18 +18,18 @@ myJDD.setCasDeTest('RO.ORG.001.CRE.99')
 	STEP_NAV.goToURL_Creation(1, '233')
 	
 
-	KW.verifyRadioChecked(myJDD, "NU_TYP")
+	STEP.verifyRadioChecked(0, myJDD, "NU_TYP")
 	
 	
-	KW.scrollAndSetRadio(myJDD, "LblNU_TYP")
-	KW.verifyRadioChecked(myJDD, "NU_TYP")
+	STEP.scrollAndSetRadio(0, myJDD, "LblNU_TYP")
+	STEP.verifyRadioChecked(0, myJDD, "NU_TYP")
 	
 	myJDD.myJDDData.setValueOf('NU_TYP', 0, 'RO.ORG.001.CRE.99', 1)
 	
-	STEP.delay(1)
+	WUI.delay( 1000)
 	
-	KW.scrollAndSetRadio(myJDD, "LblNU_TYP")
-	KW.verifyRadioChecked(myJDD, "NU_TYP")
+	STEP.scrollAndSetRadio(0, myJDD, "LblNU_TYP")
+	STEP.verifyRadioChecked(0, myJDD, "NU_TYP")
 
 	
 	TNRResult.addEndTestCase()

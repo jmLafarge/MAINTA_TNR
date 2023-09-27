@@ -1,4 +1,4 @@
-import tnrJDDManager.JDD
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
 import tnrResultManager.TNRResult
 import tnrSqlManager.SQL
 import tnrWebUI.*
@@ -18,8 +18,8 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 	
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_RUD(myJDD.getStrData('ID_NUMGES'))
-	NAV.verifierEcranRUD(myJDD.getStrData())
+    STEP.goToURLReadUpdateDelete(1,myJDD.getStrData('ID_NUMGES'))
+	STEP.checkReadUpdateDeleteScreen(2, myJDD.getStrData())
 
 
 
@@ -29,20 +29,20 @@ for (String cdt in myJDD.getCDTList()) {
 			
 		TNRResult.addSTEPGRP("ONGLET ORGANISATION")
 			
-			STEP.click(0, myJDD, "tab_Organisation")
+			STEP.simpleClick(0, myJDD, "tab_Organisation")
 			STEP.verifyElementVisible(0, myJDD, "tab_OrganisationSelected")
 			
-			KW.scrollAndSetRadio(myJDD, "LblNU_TYP")
+			STEP.scrollAndSetRadio(0, myJDD, "LblNU_TYP")
 			
 			STEP.setText(0, myJDD, "ST_CODCOU",myJDD.getStrData("ST_CODCOU", null,true))
 			STEP.setText(0, myJDD, "ST_CODPERSGES")
-			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_INA", "O")
+			STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_INA", "O")
 			STEP.setText(0, myJDD, "ST_DES")
-			KWSearchHelper.launch(myJDD, "ID_CODIMP","","")
-			KWSearchHelper.launch(myJDD, "ID_CODCAL","","")
-			KWSearchHelper.launch(myJDD, "ID_GESNIV","","")
-			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_EXT", "O")
-			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_AFF", "O")
+			STEP.searchWithHelper(0, myJDD, "ID_CODIMP","","")
+			STEP.searchWithHelper(0, myJDD, "ID_CODCAL","","")
+			STEP.searchWithHelper(0, myJDD, "ID_GESNIV","","")
+			STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_EXT", "O")
+			STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_AFF", "O")
 			
 			STEP.setText(0, myJDD, "NU_EFF")
 			
@@ -50,20 +50,20 @@ for (String cdt in myJDD.getCDTList()) {
 			
 		TNRResult.addSTEPGRP("ONGLET ADRESSES")
 		
-			STEP.click(0, myJDD, "tab_Adresses")
+			STEP.simpleClick(0, myJDD, "tab_Adresses")
 			STEP.verifyElementVisible(0, myJDD, "tab_AdressesSelected")
 			
 			
-			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_RAT", "O")
+			STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_RAT", "O")
 	  
 
 	TNRResult.addSTEPACTION('VALIDATION')
 
-		STEP.click(0, GlobalJDD.myGlobalJDD,'button_Valider')
+		STEP.simpleClick(0, GlobalJDD.myGlobalJDD,'button_Valider')
 	
-	    NAV.verifierEcranResultat(myJDD.getStrData("ST_CODCOU", null , true),'','Resultat_ID')
+	    STEP.checkResultScreen(0, myJDD.getStrData("ST_CODCOU", null , true),'','Resultat_ID')
 	
-		SQL.checkJDDWithBD(myJDD)
+		STEP.checkJDDWithBD(0, myJDD)
 	
 		
 	TNRResult.addEndTestCase()

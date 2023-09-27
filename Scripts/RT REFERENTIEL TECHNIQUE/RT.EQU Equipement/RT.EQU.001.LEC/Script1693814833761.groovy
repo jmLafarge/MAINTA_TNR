@@ -1,7 +1,7 @@
 import internal.GlobalVariable
-import tnrJDDManager.JDDFileMapper
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDFileMapper
 
-import tnrJDDManager.JDD
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
 import tnrResultManager.TNRResult
 import tnrWebUI.*
 
@@ -16,8 +16,8 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_RUD(myJDD.getStrData())
-	NAV.verifierEcranRUD(myJDD.getStrData('ST_CODCOU'))
+    NAV.goToURL_ReadUpdateDelete(myJDD.getStrData())
+	NAV.checkReadUpdateDeleteScreen(myJDD.getStrData('ST_CODCOU'))
 
 	
 		//Rappel pour ajouter un block dans le fichier Resultat :
@@ -26,66 +26,66 @@ for (String cdt in myJDD.getCDTList()) {
 		
 	TNRResult.addSTEPGRP("ONGLET EQUIPEMENT")
 		
-		STEP.click(0, myJDD, "tab_Equipement")
+		STEP.simpleClick(0, myJDD, "tab_Equipement")
 		STEP.verifyElementVisible(0, myJDD, "tab_EquipementSelected")
 		
-		KW.verifyValue(myJDD, "ST_CODCOU")
-		KW.verifyValue(myJDD, "ST_CODPERS")
-		KWCheckbox.verifyElementCheckedOrNot(myJDD, "ST_INA", "O")
-		KW.verifyValue(myJDD, "ST_DESEQU")
-		KW.verifyValue(myJDD, "ST_CODLON")
-		KW.verifyOptionSelectedByLabel(myJDD, "ST_ETA")
-		KW.verifyOptionSelectedByLabel(myJDD, "NU_CRI")
-		KWCheckbox.verifyElementCheckedOrNot(myJDD, "ST_NIVABS", "O")
-		KW.verifyValue(myJDD, "ID_CODGES")
-		KW.verifyValue(myJDD, "ST_DESGES")
-		//KW.verifyValue(myJDD, "EMP_CODLON")
-		KW.verifyValue(myJDD, "ST_DESEMP")
-		KW.verifyValue(myJDD, "ID_CODIMP")
-		KW.verifyValue(myJDD, "ST_DESIMP")
-		//KW.verifyValue(myJDD, "GRO_CODLON")
-		KW.verifyValue(myJDD, "ST_DESGRO")
-		KW.verifyValue(myJDD, "ID_CODCOM")
-		KW.verifyValue(myJDD, "ST_DESID_CODCOM")
-		KW.verifyValue(myJDD, "NU_USA")
-		KW.verifyValue(myJDD, "ID_CODCON")
+		STEP.verifyValue(0, myJDD, "ST_CODCOU")
+		STEP.verifyValue(0, myJDD, "ST_CODPERS")
+		STEP.verifyElementCheckedOrNot(0, myJDD, "ST_INA", "O")
+		STEP.verifyValue(0, myJDD, "ST_DESEQU")
+		STEP.verifyValue(0, myJDD, "ST_CODLON")
+		STEP.verifyOptionSelectedByLabel(0, myJDD, "ST_ETA")
+		STEP.verifyOptionSelectedByLabel(0, myJDD, "NU_CRI")
+		STEP.verifyElementCheckedOrNot(0, myJDD, "ST_NIVABS", "O")
+		STEP.verifyValue(0, myJDD, "ID_CODGES")
+		STEP.verifyValue(0, myJDD, "ST_DESGES")
+		//STEP.verifyValue(0, myJDD, "EMP_CODLON")
+		STEP.verifyValue(0, myJDD, "ST_DESEMP")
+		STEP.verifyValue(0, myJDD, "ID_CODIMP")
+		STEP.verifyValue(0, myJDD, "ST_DESIMP")
+		//STEP.verifyValue(0, myJDD, "GRO_CODLON")
+		STEP.verifyValue(0, myJDD, "ST_DESGRO")
+		STEP.verifyValue(0, myJDD, "ID_CODCOM")
+		STEP.verifyValue(0, myJDD, "ST_DESID_CODCOM")
+		STEP.verifyValue(0, myJDD, "NU_USA")
+		STEP.verifyValue(0, myJDD, "ID_CODCON")
 		
 	TNRResult.addSTEPGRP("ONGLET FICHE")
 		
-		STEP.click(0, myJDD, "tab_Fiche")
+		STEP.simpleClick(0, myJDD, "tab_Fiche")
 		STEP.verifyElementVisible(0, myJDD, "tab_FicheSelected")
 		
-		KW.verifyValue(myJDD, "ST_NOMFOU")
-		KW.verifyValue(myJDD, "ST_REFFOU")
-		KW.verifyValue(myJDD, "NU_PRIACH")
-		KW.verifyValue(myJDD, "ST_NOMCON")
-		KW.verifyValue(myJDD, "ST_REFCON")
-		KW.verifyDateValue(myJDD, "DT_ACH")
-		KW.verifyDateValue(myJDD, "DT_SER")
-		KW.verifyValue(myJDD, "NU_PRIACT")
-		KW.verifyDateValue(myJDD, "DT_FINGAR")
-		KW.verifyDateValue(myJDD, "DT_FINVIE")
-		KW.verifyValue(myJDD, "NU_COUHOR")
-		KW.verifyValue(myJDD, "NU_USAGAR")
-		KW.verifyValue(myJDD, "NU_FINUSA")
-		KW.verifyValue(myJDD, "NU_COUARR")
-		KW.verifyValue(myJDD, "ST_NUMINV")
-		KW.verifyValue(myJDD, "ST_OBS")
-		KW.verifyValue(myJDD, "ID_CODCAL")
-		KW.verifyValue(myJDD, "ST_DESID_CODCAL")
-		KW.verifyValue(myJDD, "ID_CODCONTRA")
-		KW.verifyValue(myJDD, "ST_DESID_CODCONTRA")
-		KWCheckbox.verifyElementCheckedOrNot(myJDD, "ST_COM", "O")
-		KWCheckbox.verifyElementCheckedOrNot(myJDD, "ST_MAT", "O")
-		KWCheckbox.verifyElementCheckedOrNot(myJDD, "ST_CONTRABT", "O")
-		KWCheckbox.verifyElementCheckedOrNot(myJDD, "ST_ANA", "O")
+		STEP.verifyValue(0, myJDD, "ST_NOMFOU")
+		STEP.verifyValue(0, myJDD, "ST_REFFOU")
+		STEP.verifyValue(0, myJDD, "NU_PRIACH")
+		STEP.verifyValue(0, myJDD, "ST_NOMCON")
+		STEP.verifyValue(0, myJDD, "ST_REFCON")
+		STEP.verifyDateValue(0, myJDD, "DT_ACH")
+		STEP.verifyDateValue(0, myJDD, "DT_SER")
+		STEP.verifyValue(0, myJDD, "NU_PRIACT")
+		STEP.verifyDateValue(0, myJDD, "DT_FINGAR")
+		STEP.verifyDateValue(0, myJDD, "DT_FINVIE")
+		STEP.verifyValue(0, myJDD, "NU_COUHOR")
+		STEP.verifyValue(0, myJDD, "NU_USAGAR")
+		STEP.verifyValue(0, myJDD, "NU_FINUSA")
+		STEP.verifyValue(0, myJDD, "NU_COUARR")
+		STEP.verifyValue(0, myJDD, "ST_NUMINV")
+		STEP.verifyValue(0, myJDD, "ST_OBS")
+		STEP.verifyValue(0, myJDD, "ID_CODCAL")
+		STEP.verifyValue(0, myJDD, "ST_DESID_CODCAL")
+		STEP.verifyValue(0, myJDD, "ID_CODCONTRA")
+		STEP.verifyValue(0, myJDD, "ST_DESID_CODCONTRA")
+		STEP.verifyElementCheckedOrNot(0, myJDD, "ST_COM", "O")
+		STEP.verifyElementCheckedOrNot(0, myJDD, "ST_MAT", "O")
+		STEP.verifyElementCheckedOrNot(0, myJDD, "ST_CONTRABT", "O")
+		STEP.verifyElementCheckedOrNot(0, myJDD, "ST_ANA", "O")
 		
 	TNRResult.addSTEPGRP("ONGLET NOTES")
 		
-		STEP.click(0, myJDD, "tab_Notes")
+		STEP.simpleClick(0, myJDD, "tab_Notes")
 		STEP.verifyElementVisible(0, myJDD, "tab_NotesSelected")
 		
-		STEP.scrollToPosition(0, 0)
+		STEP.scrollToPosition('', 0, 0)
 		
 		JDD JDD_Note = new JDD(JDDFileMapper.getFullnameFromModObj('RT.EQU'),'001C',GlobalVariable.CAS_DE_TEST_EN_COURS)
 		
@@ -99,7 +99,7 @@ for (String cdt in myJDD.getCDTList()) {
 		
 	TNRResult.addSTEPGRP("ONGLET ADRESSE")
 		
-		STEP.click(0, myJDD, "tab_Adresse")
+		STEP.simpleClick(0, myJDD, "tab_Adresse")
 		STEP.verifyElementVisible(0, myJDD, "tab_AdresseSelected")
 	
 	

@@ -1,5 +1,5 @@
 import internal.GlobalVariable
-import tnrJDDManager.JDD
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
 import tnrWebUI.*
 import tnrSqlManager.SQL
 import tnrResultManager.TNRResult

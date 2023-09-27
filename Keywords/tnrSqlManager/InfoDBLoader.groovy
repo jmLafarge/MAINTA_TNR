@@ -20,7 +20,7 @@ import tnrLog.Log
 @CompileStatic
 public class InfoDBLoader {
 
-	private final String CLASS_FOR_LOG = 'InfoDBLoader'
+	private final String CLASS_FOR_LOG  = 'InfoDBLoader'
 
 
 	/*

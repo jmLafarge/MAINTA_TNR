@@ -1,5 +1,5 @@
 import internal.GlobalVariable
-import tnrJDDManager.JDD
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
 import tnrResultManager.TNRResult
 import tnrSqlManager.SQL
 import tnrWebUI.*
@@ -17,7 +17,8 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 	
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData())
+    STEP.goToURLReadUpdateDelete(1,myJDD.getStrData())
+	STEP.checkReadUpdateDeleteScreen(2,myJDD.getStrData())
 
 
 	/*
@@ -31,18 +32,18 @@ for (String cdt in myJDD.getCDTList()) {
 	'Suppression'
 	for ( n in 1..3) {
 		TNRResult.addSUBSTEP("Tentative de suppression $n/3" )
-		STEP.click(0, myJDD,'button_Supprimer')
-		if (KW.waitAndAcceptAlert(GlobalVariable.TIMEOUT,null)) {
-			STEP.delay(1)
+		STEP.simpleClick(3, myJDD,'button_Supprimer')
+		if (STEP.waitAndAcceptAlert(4, GlobalVariable.TIMEOUT,null)) {
+			WUI.delay( 1000)
 			'Vérification du test case - écran'
-			NAV.verifierEcranGrille()
+			STEP.checkGridScreen(5)
 			break
 		}
 	}
 	
 	
 	'Vérification en BD que l\'objet n\'existe plus'
-	SQL.checkIDNotInBD(myJDD)
+	STEP.checkIDNotInBD(90, myJDD)
 	
 	TNRResult.addEndTestCase()
 	

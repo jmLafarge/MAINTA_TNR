@@ -1,7 +1,7 @@
 
 import internal.GlobalVariable
 import tnrResultManager.TNRResult
-import tnrJDDManager.JDD
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
 import tnrLog.Log
 
 'Lecture du JDD'

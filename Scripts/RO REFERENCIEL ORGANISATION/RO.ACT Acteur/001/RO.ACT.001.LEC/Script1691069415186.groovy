@@ -1,4 +1,4 @@
-import tnrJDDManager.JDD
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
 import tnrResultManager.TNRResult
 import tnrWebUI.*
 
@@ -14,83 +14,84 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData())
+    STEP.goToURLReadUpdateDelete(1,myJDD.getStrData())
+	STEP.checkReadUpdateDeleteScreen(2,myJDD.getStrData())
 	
 
 	TNRResult.addSTEPGRP("ONGLET ACTEUR")
 	
-		STEP.click(0, myJDD,"tab_Acteur")
-		STEP.verifyElementVisible(0, myJDD,"tab_ActeurSelected")
+		STEP.simpleClick(3, myJDD,"tab_Acteur")
+		STEP.verifyElementVisible(4, myJDD,"tab_ActeurSelected")
 
-		KW.verifyOptionSelectedByLabel(myJDD,"ST_ETA")
-		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_INA","O")
-		KW.verifyValue(myJDD,"ID_CODINT")
-		KW.verifyValue(myJDD,"ST_NOM")
-		KW.verifyValue(myJDD,"ST_PRE")
-		KW.verifyValue(myJDD,"ST_MAIL")
-		KW.verifyValue(myJDD,"ST_TELPHO")
-		KW.verifyValue(myJDD,"ST_TELMOB")
-		KW.verifyValue(myJDD,"ST_TELCOP")
+		STEP.verifyOptionSelectedByLabel(5, myJDD,"ST_ETA")
+		STEP.verifyElementCheckedOrNot(0, myJDD,"ST_INA","O")
+		STEP.verifyValue(7, myJDD,"ID_CODINT")
+		STEP.verifyValue(8, myJDD,"ST_NOM")
+		STEP.verifyValue(9, myJDD,"ST_PRE")
+		STEP.verifyValue(10, myJDD,"ST_MAIL")
+		STEP.verifyValue(11, myJDD,"ST_TELPHO")
+		STEP.verifyValue(12, myJDD,"ST_TELMOB")
+		STEP.verifyValue(13, myJDD,"ST_TELCOP")
 
 		TNRResult.addSTEPBLOCK("SERVICE")
-		KW.verifyValue(myJDD,"ID_CODGES")
-		KW.verifyValue(myJDD,"ST_DESGES")
-		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_GRP","O")
+		STEP.verifyValue(14, myJDD,"ID_CODGES")
+		STEP.verifyValue(15, myJDD,"ST_DESGES")
+		STEP.verifyElementCheckedOrNot(0, myJDD,"ST_GRP","O")
 
 
 	TNRResult.addSTEPGRP("ONGLET AFFECTATION")
 
-		STEP.click(0, myJDD,"tab_Affectation")
-		STEP.verifyElementVisible(0, myJDD,"tab_AffectationSelected")
+		STEP.simpleClick(17, myJDD,"tab_Affectation")
+		STEP.verifyElementVisible(18, myJDD,"tab_AffectationSelected")
 
-		KW.verifyValue(myJDD,"ID_CODGESAFF")
-		KW.verifyValue(myJDD,"ST_DESID_CODGESAFF")
-		KW.verifyValue(myJDD,"ST_MAT")
-		KW.verifyValue(myJDD,"ST_FAM")
-		KW.verifyValue(myJDD,"ST_GRO")
-		KW.verifyValue(myJDD,"ST_DES")
+		STEP.verifyValue(20, myJDD,"ID_CODGESAFF")
+		STEP.verifyValue(21, myJDD,"ST_DESID_CODGESAFF")
+		STEP.verifyValue(22, myJDD,"ST_MAT")
+		STEP.verifyValue(23, myJDD,"ST_FAM")
+		STEP.verifyValue(24, myJDD,"ST_GRO")
+		STEP.verifyValue(25, myJDD,"ST_DES")
 
 		TNRResult.addSTEPBLOCK("CATEGORIE")
-		KW.verifyValue(myJDD,"ID_CODCAT")
-		KW.verifyValue(myJDD,"ST_DESID_CODCAT")
-		KW.verifyValue(myJDD,"NU_COUHOR")
+		STEP.verifyValue(26, myJDD,"ID_CODCAT")
+		STEP.verifyValue(27, myJDD,"ST_DESID_CODCAT")
+		STEP.verifyValue(28, myJDD,"NU_COUHOR")
 
 
 	TNRResult.addSTEPGRP("ONGLET ROLE")
 
-		STEP.click(0, myJDD,"tab_Role")
-		STEP.verifyElementVisible(0, myJDD,"tab_RoleSelected")
+		STEP.simpleClick(29, myJDD,"tab_Role")
+		STEP.verifyElementVisible(30, myJDD,"tab_RoleSelected")
 
-		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_GES","O")
-		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_EXP","O")
-		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_MAI","O")
-		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_PRO","O")
-		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_DEM","O")
-		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_INT","O")
-		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_ACH","O")
-		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_REC","O")
+		STEP.verifyElementCheckedOrNot(31, myJDD,"ST_GES","O")
+		STEP.verifyElementCheckedOrNot(32, myJDD,"ST_EXP","O")
+		STEP.verifyElementCheckedOrNot(33, myJDD,"ST_MAI","O")
+		STEP.verifyElementCheckedOrNot(34, myJDD,"ST_PRO","O")
+		STEP.verifyElementCheckedOrNot(35, myJDD,"ST_DEM","O")
+		STEP.verifyElementCheckedOrNot(36, myJDD,"ST_INT","O")
+		STEP.verifyElementCheckedOrNot(37, myJDD,"ST_ACH","O")
+		STEP.verifyElementCheckedOrNot(38, myJDD,"ST_REC","O")
 
 		TNRResult.addSTEPBLOCK("ROLE DANS L'ORGANISATION")
-		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_UTI","O")
-		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_UTIMOB","O")
-		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_INVPRE","O")
-		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_INVBT","O")
-		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_INVDA","O")
+		STEP.verifyElementCheckedOrNot(40, myJDD,"ST_UTI","O")
+		STEP.verifyElementCheckedOrNot(41, myJDD,"ST_UTIMOB","O")
+		STEP.verifyElementCheckedOrNot(42, myJDD,"ST_INVPRE","O")
+		STEP.verifyElementCheckedOrNot(43, myJDD,"ST_INVBT","O")
+		STEP.verifyElementCheckedOrNot(44, myJDD,"ST_INVDA","O")
 
 	TNRResult.addSTEPGRP("ONGLET PREVENTIF")
 
-		STEP.click(0, myJDD,"tab_Preventif")
-		STEP.verifyElementVisible(0, myJDD,"tab_PreventifSelected")
+		STEP.simpleClick(50, myJDD,"tab_Preventif")
+		STEP.verifyElementVisible(51, myJDD,"tab_PreventifSelected")
 
-		KWCheckbox.verifyElementCheckedOrNot(myJDD,"ST_PRIPRE","O")
-		KW.verifyValue(myJDD,"NU_TAUPRE")
-		KW.verifyValue(myJDD,"ID_CODCAL")
-		KW.verifyValue(myJDD,"ST_DESID_CODCAL")
+		STEP.verifyElementCheckedOrNot(52, myJDD,"ST_PRIPRE","O")
+		STEP.verifyValue(53, myJDD,"NU_TAUPRE")
+		STEP.verifyValue(54, myJDD,"ID_CODCAL")
+		STEP.verifyValue(55, myJDD,"ST_DESID_CODCAL")
 
 	TNRResult.addSTEPGRP("ONGLET ZONE")
 
-		STEP.click(0, myJDD,"tab_Zone")
-		STEP.verifyElementVisible(0, myJDD,"tab_ZoneSelected")
+		STEP.simpleClick(60, myJDD,"tab_Zone")
+		STEP.verifyElementVisible(61, myJDD,"tab_ZoneSelected")
 	
 
 	TNRResult.addEndTestCase()

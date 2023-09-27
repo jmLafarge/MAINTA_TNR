@@ -1,6 +1,6 @@
 import internal.GlobalVariable
-import tnrJDDManager.JDD
-import tnrJDDManager.JDDFileMapper
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDFileMapper
 import tnrResultManager.TNRResult
 import tnrSqlManager.SQL
 import tnrWebUI.*
@@ -21,21 +21,21 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 	
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData())
+    STEP.goToURLReadUpdateDelete(1,myJDD.getStrData()); STEP.checkReadUpdateDeleteScreen(2,myJDD.getStrData())
 
 
 	TNRResult.addSTEPGRP("ONGLET FOURNISSEUR")
 	
-		STEP.click(0, myJDD,"tab_Fournisseur")
+		STEP.simpleClick(0, myJDD,"tab_Fournisseur")
 		STEP.verifyElementVisible(0, myJDD,"tab_FournisseurSelected")
 		
 		//STEP.setText(0, myJDD, "ID_CODFOU")
 		STEP.setText(0, myJDD, "ST_NOM")
-		KWSearchHelper.launch(myJDD, "ID_CODGES","","")
+		STEP.searchWithHelper(0, myJDD, "ID_CODGES","","")
 		//ST_DESGES --> pas d'action en modification
-		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_CONSTR","O")
-		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_INA","O")
-		KWSearchHelper.launch(myJDD, "ST_CODCOM","","SEARCH_ID_CODCMP") //specific
+		STEP.scrollAndCheckIfNeeded(0, myJDD,"ST_CONSTR","O")
+		STEP.scrollAndCheckIfNeeded(0, myJDD,"ST_INA","O")
+		STEP.searchWithHelper(0, myJDD, "ST_CODCOM","","SEARCH_ID_CODCMP") //specific
 		//ST_DESST_CODCOM --> pas d'action en modification
 	
 		
@@ -43,12 +43,12 @@ for (String cdt in myJDD.getCDTList()) {
 		
 		JDD JDD_Adr = new JDD(JDDFileMapper.getFullnameFromModObj('RO.ADR'),'001',GlobalVariable.CAS_DE_TEST_EN_COURS)
 		
-		STEP.click(0, myJDD,"TD_Adresse")
-		STEP.click(0, myJDD,"BTN_ModifierAdresse")
+		STEP.simpleClick(0, myJDD,"TD_Adresse")
+		STEP.simpleClick(0, myJDD,"BTN_ModifierAdresse")
 		
-		if (KWDivModal.isOpened()) {
+		if (STEP.isDivModalOpened(0)) {
 		
-			//KWCheckbox.scrollAndCheckIfNeeded(JDD_Adr,"ST_ADRPAR","O")
+			//STEP.scrollAndCheckIfNeeded(0, JDD_Adr,"ST_ADRPAR","O")
 			STEP.setText(0, JDD_Adr, "ST_ADR")
 			STEP.setText(0, JDD_Adr, "ST_ADRCOM")
 			STEP.setText(0, JDD_Adr, "ST_ADRCOM2")
@@ -63,9 +63,9 @@ for (String cdt in myJDD.getCDTList()) {
 			STEP.setText(0, JDD_Adr, "ST_RELAPA")
 			STEP.setText(0, JDD_Adr, "ST_GPS")
 			
-			STEP.click(0, JDD_Adr,"BTN_Valider")
+			STEP.simpleClick(0, JDD_Adr,"BTN_Valider")
 			
-			KWDivModal.isClosed()
+			STEP.isDivModalClosed(0)
 		}
 		
 		TNRResult.addSTEPBLOCK("CONTACT")
@@ -78,23 +78,23 @@ for (String cdt in myJDD.getCDTList()) {
 		
 	TNRResult.addSTEPGRP("ONGLET COMMANDE")
 		
-		STEP.click(0, myJDD,"tab_Commande")
+		STEP.simpleClick(0, myJDD,"tab_Commande")
 		STEP.verifyElementVisible(0, myJDD,"tab_CommandeSelected")
 		
 		STEP.setText(0, myJDD, "ST_PRIDEL")
-		KWSearchHelper.launch(myJDD, "ID_CODPAI","","")
+		STEP.searchWithHelper(0, myJDD, "ID_CODPAI","","")
 		//ST_DESID_CODPAI --> pas d'action en modification
 		STEP.setText(0, myJDD, "ST_NOTPRO")
-		KWSearchHelper.launch(myJDD, "ID_CODMOD","","")
+		STEP.searchWithHelper(0, myJDD, "ID_CODMOD","","")
 		//ST_DESID_CODMOD --> pas d'action en modification
-		KWSearchHelper.launch(myJDD, "ID_CODDEV","","")
+		STEP.searchWithHelper(0, myJDD, "ID_CODDEV","","")
 		//ST_DESID_CODDEV --> pas d'action en modification
-		KWSearchHelper.launch(myJDD, "ID_CODPOR","","")
+		STEP.searchWithHelper(0, myJDD, "ID_CODPOR","","")
 		//ST_DESID_CODPOR --> pas d'action en modification
-		KWSearchHelper.launch(myJDD, "ID_CODEMB","","")
+		STEP.searchWithHelper(0, myJDD, "ID_CODEMB","","")
 		//ST_DESID_CODEMB --> pas d'action en modification
 		STEP.setText(0, myJDD, "ST_REL")
-		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_FIGCAT","O")
+		STEP.scrollAndCheckIfNeeded(0, myJDD,"ST_FIGCAT","O")
 		
 		TNRResult.addSTEPBLOCK("TEXTES COMMANDE")
 		STEP.setText(0, myJDD, "ST_TXTBAS1")
@@ -103,29 +103,29 @@ for (String cdt in myJDD.getCDTList()) {
 		STEP.setText(0, myJDD, "ST_TXTBAS4")
 		STEP.setText(0, myJDD, "ST_TXTBAS5")
 		STEP.setText(0, myJDD, "ST_TXTBAS6")
-		KWCheckbox.scrollAndCheckIfNeeded(myJDD,"ST_FIGCDE","O")
+		STEP.scrollAndCheckIfNeeded(0, myJDD,"ST_FIGCDE","O")
 	
 	TNRResult.addSTEPGRP("ONGLET NOTES")
 	
-		STEP.click(0, myJDD,"tab_Notes")
+		STEP.simpleClick(0, myJDD,"tab_Notes")
 		STEP.verifyElementVisible(0, myJDD,"tab_NotesSelected")
 		
 		JDD JDD_Note = new JDD(JDDFileMapper.getFullnameFromModObj('RO.FOU'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS)
-		STEP.scrollToPosition(0, 0)
-		KWMemo.setText(JDD_Note.getStrData("OL_DOC"), 'Notes',true,myJDD,'')
+		STEP.scrollToPosition('', 0, 0)
+		STEP.setMemoText(0, JDD_Note.getStrData("OL_DOC"), 'Notes',true,myJDD,'')
 	
 	  		 
 		
 	TNRResult.addSTEPACTION('VALIDATION')
 	
-	    STEP.click(0, GlobalJDD.myGlobalJDD,'button_Valider')
+	    STEP.simpleClick(0, GlobalJDD.myGlobalJDD,'button_Valider')
 	
-	    NAV.verifierEcranResultat(myJDD.getStrData())
+	    STEP.checkResultScreen(0, myJDD.getStrData())
 	
 		
-		SQL.checkJDDWithBD(myJDD)
-		SQL.checkJDDWithBD(JDD_Note)
-		SQL.checkJDDWithBD(JDD_Adr)
+		STEP.checkJDDWithBD(0, myJDD)
+		STEP.checkJDDWithBD(0, JDD_Note)
+		STEP.checkJDDWithBD(0, JDD_Adr)
 	
 	TNRResult.addEndTestCase()
 } // fin du if

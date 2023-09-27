@@ -4,7 +4,7 @@ import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.Workbook
 
 import tnrCommon.ExcelUtils
-import tnrJDDManager.JDDHeader
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDHeader
 import tnrLog.Log
 
 /**

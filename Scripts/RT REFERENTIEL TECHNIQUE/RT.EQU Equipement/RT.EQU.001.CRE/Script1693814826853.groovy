@@ -1,6 +1,6 @@
 import internal.GlobalVariable
-import tnrJDDManager.JDD
-import tnrJDDManager.JDDFileMapper
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDFileMapper
 import tnrResultManager.TNRResult
 import tnrSqlManager.SQL
 import tnrWebUI.*
@@ -27,16 +27,16 @@ for (String cdt in myJDD.getCDTList()) {
 		
 	TNRResult.addSTEPGRP("ONGLET EQUIPEMENT")
 		
-		STEP.click(0, myJDD, "tab_Equipement")
+		STEP.simpleClick(0, myJDD, "tab_Equipement")
 		STEP.verifyElementVisible(0, myJDD, "tab_EquipementSelected")
 		
 		STEP.setText(0, myJDD, "ST_CODCOU")
 		STEP.setText(0, myJDD, "ST_CODPERS")
-		KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_INA", "O")
+		STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_INA", "O")
 		STEP.setText(0, myJDD, "ST_DESEQU")
-		KW.scrollAndSelectOptionByLabel(myJDD, "ST_ETA")
-		KW.scrollAndSelectOptionByLabel(myJDD, "NU_CRI")
-		KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_NIVABS", "O")
+		STEP.scrollAndSelectOptionByLabel(0, myJDD, "ST_ETA")
+		STEP.scrollAndSelectOptionByLabel(0, myJDD, "NU_CRI")
+		STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_NIVABS", "O")
 		STEP.setText(0, myJDD, "ID_CODGES")
 		STEP.setText(0, myJDD, "ID_NUMEMP") //EMP_CODLON
 		STEP.setText(0, myJDD, "ID_CODIMP")
@@ -45,11 +45,11 @@ for (String cdt in myJDD.getCDTList()) {
 		STEP.setText(0, myJDD, "NU_USA")
 		STEP.setText(0, myJDD, "ID_CODCON")
 		
-		STEP.scrollToPosition(0, 0)
+		STEP.scrollToPosition('', 0, 0)
 		
 	TNRResult.addSTEPGRP("ONGLET FICHE")
 		
-		STEP.click(0, myJDD, "tab_Fiche")
+		STEP.simpleClick(0, myJDD, "tab_Fiche")
 		STEP.verifyElementVisible(0, myJDD, "tab_FicheSelected")
 		
 		STEP.setText(0, myJDD, "ST_NOMFOU")
@@ -57,11 +57,11 @@ for (String cdt in myJDD.getCDTList()) {
 			STEP.setText(0, myJDD, "NU_PRIACH")
 			STEP.setText(0, myJDD, "ST_NOMCON")
 			STEP.setText(0, myJDD, "ST_REFCON")
-			KW.setDate(myJDD, "DT_ACH")
-			KW.setDate(myJDD, "DT_SER")
+			STEP.setDate(0, myJDD, "DT_ACH")
+			STEP.setDate(0, myJDD, "DT_SER")
 			STEP.setText(0, myJDD, "NU_PRIACT")
-			KW.setDate(myJDD, "DT_FINGAR")
-			KW.setDate(myJDD, "DT_FINVIE")
+			STEP.setDate(0, myJDD, "DT_FINGAR")
+			STEP.setDate(0, myJDD, "DT_FINVIE")
 			STEP.setText(0, myJDD, "NU_COUHOR")
 			STEP.setText(0, myJDD, "NU_USAGAR")
 			STEP.setText(0, myJDD, "NU_FINUSA")
@@ -70,16 +70,16 @@ for (String cdt in myJDD.getCDTList()) {
 			STEP.setText(0, myJDD, "ST_OBS")
 			STEP.setText(0, myJDD, "ID_CODCAL")
 			STEP.setText(0, myJDD, "ID_CODCONTRA")
-			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_COM", "O")
-			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_MAT", "O")
-			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_CONTRABT", "O")
-			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_ANA", "O")
+			STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_COM", "O")
+			STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_MAT", "O")
+			STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_CONTRABT", "O")
+			STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_ANA", "O")
 		
-		STEP.scrollToPosition(0, 0)
+		STEP.scrollToPosition('', 0, 0)
 		
 	TNRResult.addSTEPGRP("ONGLET NOTES")
 		
-		STEP.click(0, myJDD, "tab_Notes")
+		STEP.simpleClick(0, myJDD, "tab_Notes")
 		STEP.verifyElementVisible(0, myJDD, "tab_NotesSelected")
 
 		/*
@@ -90,7 +90,7 @@ for (String cdt in myJDD.getCDTList()) {
 		
 	TNRResult.addSTEPGRP("ONGLET ADRESSE")
 		
-		STEP.click(0, myJDD, "tab_Adresse")
+		STEP.simpleClick(0, myJDD, "tab_Adresse")
 		STEP.verifyElementVisible(0, myJDD, "tab_AdresseSelected")
 
 
@@ -99,13 +99,13 @@ for (String cdt in myJDD.getCDTList()) {
 				
 	TNRResult.addSTEPACTION('VALIDATION')
 		
-	    STEP.click(0, GlobalJDD.myGlobalJDD,'button_Valider')
+	    STEP.simpleClick(0, GlobalJDD.myGlobalJDD,'button_Valider')
 		
-		NAV.verifierEcranResultat(myJDD.getStrData('ST_CODCOU'),'', 'Resultat_ID')
+		STEP.checkResultScreen(0, myJDD.getStrData('ST_CODCOU'),'', 'Resultat_ID')
 		
 		myJDD.replaceSEQUENCIDInJDD('ID_NUMEQU')
 	
-		SQL.checkJDDWithBD(myJDD)
+		STEP.checkJDDWithBD(0, myJDD)
 		
 	TNRResult.addEndTestCase()
 

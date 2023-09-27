@@ -1,6 +1,6 @@
 import internal.GlobalVariable
-import tnrJDDManager.JDD
-import tnrJDDManager.JDDFileMapper
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDFileMapper
 import tnrResultManager.TNRResult
 import tnrSqlManager.SQL
 import tnrWebUI.*
@@ -21,7 +21,7 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 	
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData())
+    STEP.goToURLReadUpdateDelete(1,myJDD.getStrData()); STEP.checkReadUpdateDeleteScreen(2,myJDD.getStrData())
 
 
 			//Rappel pour ajouter un block dans le fichier Resultat :
@@ -29,69 +29,69 @@ for (String cdt in myJDD.getCDTList()) {
 	
 		TNRResult.addSTEPGRP("ONGLET MATRICULE")
 			
-			STEP.click(0, myJDD, "tab_Matricule")
+			STEP.simpleClick(0, myJDD, "tab_Matricule")
 			STEP.verifyElementVisible(0, myJDD, "tab_MatriculeSelected")
 			
 			STEP.setText(0, myJDD, "ST_NUMINV")
-			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_INA", "O")
+			STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_INA", "O")
 			STEP.setText(0, myJDD, "ST_DES")
-			KW.scrollAndSelectOptionByLabel(myJDD, "ST_ETA")
-			KW.scrollAndSelectOptionByLabel(myJDD, "NU_TYP")
+			STEP.scrollAndSelectOptionByLabel(0, myJDD, "ST_ETA")
+			STEP.scrollAndSelectOptionByLabel(0, myJDD, "NU_TYP")
 			STEP.setText(0, myJDD, "NU_PRISTO")
-			KWSearchHelper.launch(myJDD, "ID_CODART","","")
-			KWSearchHelper.launch(myJDD, "ID_CODMOY","","")
-			KWSearchHelper.launch(myJDD, "ID_CODGES","","")
-			KWSearchHelper.launch(myJDD, "ID_NUMCRI")
-			KWSearchHelper.launch(myJDD, "ID_CODIMP","","")
+			STEP.searchWithHelper(0, myJDD, "ID_CODART","","")
+			STEP.searchWithHelper(0, myJDD, "ID_CODMOY","","")
+			STEP.searchWithHelper(0, myJDD, "ID_CODGES","","")
+			STEP.searchWithHelper(0, myJDD, "ID_NUMCRI")
+			STEP.searchWithHelper(0, myJDD, "ID_CODIMP","","")
 			STEP.setText(0, myJDD, "ID_NUMGRO")
-			KWSearchHelper.launch(myJDD, "ID_CODCOM","","")
+			STEP.searchWithHelper(0, myJDD, "ID_CODCOM","","")
 			STEP.setText(0, myJDD, "NU_USA")
-			KWSearchHelper.launch(myJDD, "ID_CODCON","","")
-			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_TEC", "O")
-			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_REP", "O")
+			STEP.searchWithHelper(0, myJDD, "ID_CODCON","","")
+			STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_TEC", "O")
+			STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_REP", "O")
 			
 		TNRResult.addSTEPGRP("ONGLET FICHE")
 			
-			STEP.click(0, myJDD, "tab_Fiche")
+			STEP.simpleClick(0, myJDD, "tab_Fiche")
 			STEP.verifyElementVisible(0, myJDD, "tab_FicheSelected")
 			
-			KWSearchHelper.launch(myJDD, "ID_CODFOUINI","","SEARCH_ID_CODFOU")
+			STEP.searchWithHelper(0, myJDD, "ID_CODFOUINI","","SEARCH_ID_CODFOU")
 			STEP.setText(0, myJDD, "ST_REFFOU")
-			KWSearchHelper.launch(myJDD, "ID_CODCONSTR","","SEARCH_ID_CODFOU")
+			STEP.searchWithHelper(0, myJDD, "ID_CODCONSTR","","SEARCH_ID_CODFOU")
 			STEP.setText(0, myJDD, "ST_REFCON")
-			KW.setDate(myJDD, "DT_ACH")
-			KW.setDate(myJDD, "DT_FAC")
+			STEP.setDate(0, myJDD, "DT_ACH")
+			STEP.setDate(0, myJDD, "DT_FAC")
 			STEP.setText(0, myJDD, "NU_PRIACH")
-			KW.setDate(myJDD, "DT_FINGAR")
-			KW.setDate(myJDD, "DT_FINVIE")
+			STEP.setDate(0, myJDD, "DT_FINGAR")
+			STEP.setDate(0, myJDD, "DT_FINVIE")
 			STEP.setText(0, myJDD, "NU_PRIACT")
 			STEP.setText(0, myJDD, "NU_USAGAR")
 			STEP.setText(0, myJDD, "NU_FINUSA")
 			
-			KWSearchHelper.launch(myJDD, "ID_CODCAL","","")
+			STEP.searchWithHelper(0, myJDD, "ID_CODCAL","","")
 			
-			KWSearchHelper.launch(myJDD, "ID_CODGAR","","")
-			KWSearchHelper.launch(myJDD, "ID_REFCOM","","")
+			STEP.searchWithHelper(0, myJDD, "ID_CODGAR","","")
+			STEP.searchWithHelper(0, myJDD, "ID_REFCOM","","")
 			STEP.setText(0, myJDD, "ST_AFFCOM")
-			KWSearchHelper.launch(myJDD, "ID_CODINTPRO","","SEARCH_ID_CODINT")
-			KWSearchHelper.launch(myJDD, "ID_CODINTGES","","SEARCH_ID_CODINT")
-			KWSearchHelper.launch(myJDD, "ID_CODINTEXP","","SEARCH_ID_CODINT")
-			KWSearchHelper.launch(myJDD, "ID_CODINTMAI","","SEARCH_ID_CODINT")
-			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_CONTRA", "O")
-			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_CONTRABT", "O")
-			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_PRE", "O")
-			KWCheckbox.scrollAndCheckIfNeeded(myJDD, "ST_INS", "O")
+			STEP.searchWithHelper(0, myJDD, "ID_CODINTPRO","","SEARCH_ID_CODINT")
+			STEP.searchWithHelper(0, myJDD, "ID_CODINTGES","","SEARCH_ID_CODINT")
+			STEP.searchWithHelper(0, myJDD, "ID_CODINTEXP","","SEARCH_ID_CODINT")
+			STEP.searchWithHelper(0, myJDD, "ID_CODINTMAI","","SEARCH_ID_CODINT")
+			STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_CONTRA", "O")
+			STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_CONTRABT", "O")
+			STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_PRE", "O")
+			STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_INS", "O")
 	
 		TNRResult.addSTEPGRP("ONGLET NOTES")
 			
-			STEP.click(0, myJDD, "tab_Notes")
+			STEP.simpleClick(0, myJDD, "tab_Notes")
 			STEP.verifyElementVisible(0, myJDD, "tab_NotesSelected")
 			
 			def JDD_Note = new JDD(JDDFileMapper.getFullnameFromModObj('RT.MAT'),'001C',GlobalVariable.CAS_DE_TEST_EN_COURS)
 			
-			STEP.scrollToPosition(0, 0)
+			STEP.scrollToPosition('', 0, 0)
 			
-			KWMemo.setText(JDD_Note.getStrData("OL_DOC"), 'Notes',true,myJDD,'')
+			STEP.setMemoText(0, JDD_Note.getStrData("OL_DOC"), 'Notes',true,myJDD,'')
 			
 
 			
@@ -100,14 +100,14 @@ for (String cdt in myJDD.getCDTList()) {
 			
 		TNRResult.addSTEPGRP("ONGLET ETAT")
 			
-			STEP.click(0, myJDD, "tab_Etat")
+			STEP.simpleClick(0, myJDD, "tab_Etat")
 			STEP.verifyElementVisible(0, myJDD, "tab_EtatSelected")
 			
-			KW.scrollAndSetRadio(myJDD, "LblST_POS")
+			STEP.scrollAndSetRadio(0, myJDD, "LblST_POS")
 			
 			STEP.setText(0, myJDD, "ID_NUMEMP")
-			KWSearchHelper.launch(myJDD, "ID_CODMAG","","")
-			KWSearchHelper.launch(myJDD, "ID_CODFOU","","")
+			STEP.searchWithHelper(0, myJDD, "ID_CODMAG","","")
+			STEP.searchWithHelper(0, myJDD, "ID_CODFOU","","")
 			STEP.setText(0, myJDD, "DT_DEP")
 			STEP.setText(0, myJDD, "DT_RET")
 
@@ -116,12 +116,12 @@ for (String cdt in myJDD.getCDTList()) {
 
 	TNRResult.addSTEPACTION('VALIDATION')
 	
-	    STEP.click(0, GlobalJDD.myGlobalJDD,'button_Valider')
+	    STEP.simpleClick(0, GlobalJDD.myGlobalJDD,'button_Valider')
 	
-	    NAV.verifierEcranResultat(myJDD.getStrData())
+	    STEP.checkResultScreen(0, myJDD.getStrData())
 
-		SQL.checkJDDWithBD(myJDD)
-		SQL.checkJDDWithBD(JDD_Note)
+		STEP.checkJDDWithBD(0, myJDD)
+		STEP.checkJDDWithBD(0, JDD_Note)
 		
 	TNRResult.addEndTestCase()
 } // fin du if

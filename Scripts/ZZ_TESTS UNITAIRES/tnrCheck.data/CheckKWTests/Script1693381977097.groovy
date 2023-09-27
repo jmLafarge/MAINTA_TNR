@@ -5,8 +5,8 @@ import org.apache.poi.ss.usermodel.Workbook
 
 import tnrCheck.data.CheckKW
 import tnrCommon.ExcelUtils
-import tnrJDDManager.JDDHeader
-import tnrJDDManager.JDDParam
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDHeader
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDParam
 import tnrLog.Log
 
 

@@ -18,10 +18,10 @@ import tnrLog.Log
  * 
  */
 @CompileStatic
-public class KWWindow {
+public class WUIWindow {
 
 
-	private static final String CLASS_FOR_LOG = 'KWWindow'
+	private static final String CLASS_FOR_LOG = 'WUIWindow'
 
 	private static Set<String> beforeHandles
 	private static String newWindowHandle

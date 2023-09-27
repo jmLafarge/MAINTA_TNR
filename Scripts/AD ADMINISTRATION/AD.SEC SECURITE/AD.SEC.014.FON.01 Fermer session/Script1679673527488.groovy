@@ -1,7 +1,7 @@
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
-import tnrJDDManager.JDD
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
 import tnrResultManager.TNRResult
 import tnrSqlManager.SQL
 import tnrWebUI.*
@@ -15,37 +15,37 @@ for (String cdt in myJDD.getCDTList()) {
 		
 	TNRResult.addStartTestCase(cdt)
 	
-	if (KW.isElementPresent(myJDD,'frame_Main', GlobalVariable.TIMEOUT)) {
+	if (WUI.isElementPresent(myJDD,'frame_Main', GlobalVariable.TIMEOUT)) {
 		
-		STEP.switchToFrame(myJDD,'frame_Main')
+		WUI.switchToFrame(myJDD,'frame_Main')
 
-	    STEP.scrollToPosition(0, 0)
+	    STEP.scrollToPosition(2,0, 0)
 
-	    STEP.click(1, myJDD,'icon_Logout')
+	    STEP.simpleClick(3,, myJDD,'icon_Logout')
 		
-		STEP.switchToDefaultContent()
+		STEP.switchToDefaultContent(4)
 		
 	} else {
 		// y a pas de frame_main quand on appelle les url en direct ! 
 		
-		STEP.scrollToPosition(0, 0)
+		STEP.scrollToPosition(5, 0, 0)
 	
-	    STEP.click(2, myJDD,'icon_Logout')
+	    STEP.simpleClick(6, myJDD,'icon_Logout')
 
 	}
 	
-	if (STEP.verifyElementVisible(0, myJDD,'in_passw', GlobalVariable.TIMEOUT)) {
+	if (STEP.verifyElementVisible(7, myJDD,'in_passw', GlobalVariable.TIMEOUT)) {
 		
-		TNRResult.addSTEPINFO("Déconnexion OK")
+		TNRResult.addSTEPINFO('', "Déconnexion OK")
 		
 		'Vérification des valeurs en BD'
-		SQL.checkJDDWithBD(myJDD,[:],"SELECT * FROM UTILOG ORDER bY DT_LOG DESC")
+		STEP.checkJDDWithBD(0, myJDD,[:],"SELECT * FROM UTILOG ORDER bY DT_LOG DESC")
 		
 	}else {
-		TNRResult.addSTEPINFO("Déconnexion KO")
+		TNRResult.addSTEPINFO('', "Déconnexion KO")
 	}
 	
-	STEP.closeBrowser(7)
+	STEP.closeBrowser(8)
 	TNRResult.addEndTestCase()
 
 }

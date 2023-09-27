@@ -1,5 +1,5 @@
-import tnrJDDManager.JDD
-import tnrJDDManager.JDDKW
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDKW
 import tnrResultManager.TNRResult
 import tnrSqlManager.SQL
 import tnrWebUI.*
@@ -18,15 +18,15 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_CODINT'))
+    STEP.goToURLReadUpdateDelete(1,myJDD.getStrData('ID_CODINT'));STEP.checkReadUpdateDeleteScreen(2,myJDD.getStrData('ID_CODINT'))
 	
 	TNRResult.addSTEPGRP('ONGLET ZONE')
 	
-		//STEP.click(0, myJDD,"tab_Zone")
-		STEP.click(0, myJDD,"tab_Zone")
+		//STEP.simpleClick(0, myJDD,"tab_Zone")
+		STEP.simpleClick(0, myJDD,"tab_Zone")
 		STEP.verifyElementVisible(0, myJDD,"tab_ZoneSelected")
 		
-		STEP.scrollToPosition(0, 0)
+		STEP.scrollToPosition('', 0, 0)
 
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -39,17 +39,17 @@ for (String cdt in myJDD.getCDTList()) {
 			myJDD.setCasDeTestNum(i)
 			
 			'Ajout'
-			STEP.click(0, myJDD,'a_AjouterEmplacement')
+			STEP.simpleClick(0, myJDD,'a_AjouterEmplacement')
 	
-			if (KWDivModal.isOpened()) {
+			if (STEP.isDivModalOpened(0)) {
 
 		        STEP.setText(0, myJDD,'SelectionEmplacement_input_Filtre', myJDD.getStrData('ID_NUMREF'))
-				if (KWDivModal.isNbRecordsEqualTo(1)) {
-			        STEP.click(0, myJDD,'SelectionEmplacement_td')
-			        STEP.click(0, myJDD,'SelectionEmplacement_button_Ajouter')
-					STEP.click(0, myJDD,'SelectionEmplacement_button_Fermer')
+				if (STEP.verifyElementVisible(10, GlobalJDD.myGlobalJDD,'nbrecordsGRID_1')) {
+			        STEP.simpleClick(0, myJDD,'SelectionEmplacement_td')
+			        STEP.simpleClick(0, myJDD,'SelectionEmplacement_button_Ajouter')
+					STEP.simpleClick(0, myJDD,'SelectionEmplacement_button_Fermer')
 					
-					if (KWDivModal.isClosed()) {
+					if (STEP.isDivModalClosed(0)) {
 			
 				        if (STEP.verifyText(0, myJDD,'ID_NUMREF')) {
 							myJDD.replaceSEQUENCIDInJDD('ID_NUMZONLIG')
@@ -61,22 +61,22 @@ for (String cdt in myJDD.getCDTList()) {
 						
 						if (!JDDKW.isNULL(myJDD.getData('DT_DATDEB'))) {
 						
-					        KW.doubleClick(myJDD,'td_DateDebut')
+					        STEP.doubleClick(0, myJDD,'td_DateDebut')
 							//
 							// Le double Clic ne fonctionne pas sur Firefox --> F2 non plus :-(
 							//
-							KW.setDate(myJDD,'DT_DATDEB')
+							STEP.setDate(0, myJDD,'DT_DATDEB')
 						}
 				
 						if (!JDDKW.isNULL(myJDD.getData('DT_DATFIN'))) {
 							
-					        STEP.click(0, myJDD,'SelectionEmplacement_td')
-					        KW.doubleClick(myJDD,'td_DateFin')
+					        STEP.simpleClick(0, myJDD,'SelectionEmplacement_td')
+					        STEP.doubleClick(0, myJDD,'td_DateFin')
 							//
 							// Le double Clic ne fonctionne pas sur Firefox --> F2 non plus :-(
 							//
-					        KW.setDate(myJDD,'DT_DATFIN')
-							STEP.click(0, myJDD,'ID_NUMREF')
+					        STEP.setDate(0, myJDD,'DT_DATFIN')
+							STEP.simpleClick(0, myJDD,'ID_NUMREF')
 						}
 					}else {
 						err=true
@@ -93,7 +93,7 @@ for (String cdt in myJDD.getCDTList()) {
 	
 		if (!err) {
 			'Vérification des valeurs en BD'
-			SQL.checkJDDWithBD(myJDD)			
+			STEP.checkJDDWithBD(0, myJDD)			
 		}else {
 			TNRResult.addSTEPFAIL("Impossible d'effectuer le contrôle")
 		}

@@ -9,7 +9,7 @@ import tnrLog.Log
  * TESTS UNITAIRES
  * 
  * public static String addZero(int val, int n = 2) {
- * public static String formatStrStepID(String code,int stepID,int NBCAR_STEPID) {
+ * public static String getStrStepID(String code,int stepID,int NBCAR_STEPID) {
  *
  * @author JM Lafarge
  * @version 1.0
@@ -38,10 +38,10 @@ Log.addAssert(CLASS_FOR_LOG,"Tools.addZero(-1,1)",'-1',Tools.addZero(-1,1))
 Log.addAssert(CLASS_FOR_LOG,"Tools.addZero(-1,2)",'-1',Tools.addZero(-1,2))
 Log.addAssert(CLASS_FOR_LOG,"Tools.addZero(-1,2)",'-1',Tools.addZero(-1,3))
 
-Log.addAssert(CLASS_FOR_LOG,"Tools.formatStrStepID('JML',7,6)",'JML007',Tools.formatStrStepID('JML',7,6))
-Log.addAssert(CLASS_FOR_LOG,"Tools.formatStrStepID('JML',7,2)",'JML7',Tools.formatStrStepID('JML',7,2))
-Log.addAssert(CLASS_FOR_LOG,"Tools.formatStrStepID('JML',7,0)",'JML7',Tools.formatStrStepID('JML',7,0))
-Log.addAssert(CLASS_FOR_LOG,"Tools.formatStrStepID('JML',7,-1)",'JML7',Tools.formatStrStepID('JML',7,-1))
-Log.addAssert(CLASS_FOR_LOG,"Tools.formatStrStepID('',7,6)",'000007',Tools.formatStrStepID('',7,6))
-Log.addAssert(CLASS_FOR_LOG,"Tools.formatStrStepID(null,7,6)",'000007',Tools.formatStrStepID(null,7,6))
+Log.addAssert(CLASS_FOR_LOG,"Tools.getStrStepID(CLASS_CODE, 'JML',7,6)",'JML007',Tools.getStrStepID(CLASS_CODE, 'JML',7,6))
+Log.addAssert(CLASS_FOR_LOG,"Tools.getStrStepID(CLASS_CODE, 'JML',7,2)",'JML7',Tools.getStrStepID(CLASS_CODE, 'JML',7,2))
+Log.addAssert(CLASS_FOR_LOG,"Tools.getStrStepID(CLASS_CODE, 'JML',7,0)",'JML7',Tools.getStrStepID(CLASS_CODE, 'JML',7,0))
+Log.addAssert(CLASS_FOR_LOG,"Tools.getStrStepID(CLASS_CODE, 'JML',7,-1)",'JML7',Tools.getStrStepID(CLASS_CODE, 'JML',7,-1))
+Log.addAssert(CLASS_FOR_LOG,"Tools.getStrStepID(CLASS_CODE, '',7,6)",'000007',Tools.getStrStepID(CLASS_CODE, '',7,6))
+Log.addAssert(CLASS_FOR_LOG,"Tools.getStrStepID(CLASS_CODE, null,7,6)",'000007',Tools.getStrStepID(CLASS_CODE, null,7,6))
 

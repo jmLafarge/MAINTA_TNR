@@ -1,4 +1,4 @@
-import tnrJDDManager.JDD
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
 import tnrResultManager.TNRResult
 import tnrWebUI.*
 
@@ -15,15 +15,16 @@ for (String cdt in myJDD.getCDTList()) {
 
 
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData('ID_CODINT'))
+    STEP.goToURLReadUpdateDelete(1,myJDD.getStrData('ID_CODINT'))
+	STEP.checkReadUpdateDeleteScreen(2,myJDD.getStrData('ID_CODINT'))
 
 	TNRResult.addSTEPGRP("ONGLET HABILITATION")
 
-		//STEP.click(0, myJDD,"tab_Habilitation")
-		STEP.click(0, myJDD,"tab_Habilitation")
+		//STEP.simpleClick(0, myJDD,"tab_Habilitation")
+		STEP.simpleClick(0, myJDD,"tab_Habilitation")
 		STEP.verifyElementVisible(0, myJDD,"tab_HabilitationSelected")
 		
-		STEP.scrollToPosition(0, 0)
+		STEP.scrollToPosition('', 0, 0)
 	
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {

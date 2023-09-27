@@ -1,7 +1,7 @@
 
 import internal.GlobalVariable
 import tnrSqlManager.InfoDB
-import tnrJDDManager.JDDFileMapper
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDFileMapper
 
 import tnr.TCFiles
 

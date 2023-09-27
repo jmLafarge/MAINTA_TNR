@@ -4,7 +4,7 @@ import org.apache.poi.ss.usermodel.Workbook
 
 import tnrCommon.ExcelUtils
 import tnrCommon.TNRPropertiesReader
-import tnrJDDManager.JDDIV
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDIV
 import tnrLog.Log
 
 

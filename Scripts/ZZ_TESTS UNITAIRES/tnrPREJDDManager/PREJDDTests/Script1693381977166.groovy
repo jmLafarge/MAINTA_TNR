@@ -5,8 +5,8 @@ import org.apache.poi.ss.usermodel.Workbook
 
 import tnrCommon.ExcelUtils
 import tnrCommon.Tools
-import tnrJDDManager.JDDData
-import tnrJDDManager.JDDHeader
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDData
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDHeader
 import tnrLog.Log
 import tnrPREJDDManager.PREJDD
 

@@ -1,4 +1,4 @@
-import tnrJDDManager.JDD
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
 import tnrWebUI.*
 
 import tnrResultManager.TNRResult
@@ -14,14 +14,14 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_Grille_and_checkCartridge()
+   STEP.goToGridURL(1);STEP.checkGridScreen(2)
 	
 	'Filtrer la valeur dans la grille'
     STEP.setText(0, myJDD,'input_Filtre_Grille', myJDD.getStrData('ST_CODCOU'))
 
-	STEP.click(0, myJDD,'button_Selectionner')
+	STEP.simpleClick(0, myJDD,'button_Selectionner')
 
-	STEP.delay(1)
+	WUI.delay( 1000)
 	
 	'Vérifier que la valeur soit dans la grille filtrée'
 	STEP.verifyText(0, myJDD,'td_Grille', myJDD.getStrData('ST_CODCOU'))

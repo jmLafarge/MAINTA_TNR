@@ -1,7 +1,7 @@
 import internal.GlobalVariable
-import tnrJDDManager.JDDFileMapper
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDFileMapper
 
-import tnrJDDManager.JDD
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
 import tnrResultManager.TNRResult
 import tnrWebUI.*
 
@@ -13,13 +13,13 @@ JDD myJDD = new JDD()
 		
 	TNRResult.addStartTestCase('TEST')
 	
-    NAV.goToURL_RUD(myJDD.getStrData(),'7')
+    NAV.goToURL_ReadUpdateDelete(myJDD.getStrData(),'7')
 
 
-		KW.verifyOptionSelectedByLabel(myJDD, "ST_ETA")
-		//KW.verifyOptionSelectedByLabel(myJDD, "ST_ETA")
+		STEP.verifyOptionSelectedByLabel(0, myJDD, "ST_ETA")
+		//STEP.verifyOptionSelectedByLabel(0, myJDD, "ST_ETA")
 		
-		KW.verifyOptionSelectedByLabel(myJDD, "NU_CRI")
+		STEP.verifyOptionSelectedByLabel(0, myJDD, "NU_CRI")
 		
 		
 

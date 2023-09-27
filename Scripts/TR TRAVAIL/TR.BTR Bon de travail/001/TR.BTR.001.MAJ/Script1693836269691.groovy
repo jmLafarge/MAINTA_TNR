@@ -1,4 +1,4 @@
-import tnrJDDManager.JDD
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
 import tnrWebUI.*
 
 import tnrSqlManager.SQL
@@ -16,7 +16,7 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 	
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_RUD_and_checkCartridge(myJDD.getStrData())
+    STEP.goToURLReadUpdateDelete(1,myJDD.getStrData()); STEP.checkReadUpdateDeleteScreen(2,myJDD.getStrData())
 
 
 
@@ -29,11 +29,11 @@ for (String cdt in myJDD.getCDTList()) {
 
 	TNRResult.addSTEPACTION('VALIDATION')
 	
-	    STEP.click(0, GlobalJDD.myGlobalJDD,'button_Valider')
+	    STEP.simpleClick(0, GlobalJDD.myGlobalJDD,'button_Valider')
 	
-	    NAV.verifierEcranResultat(myJDD.getStrData())
+	    STEP.checkResultScreen(0, myJDD.getStrData())
 	
-		SQL.checkJDDWithBD(myJDD)
+		STEP.checkJDDWithBD(0, myJDD)
 	
 		
 	TNRResult.addEndTestCase()

@@ -14,7 +14,7 @@ import tnrLog.Log
 public class JDDData {
 
 
-	private final String CLASS_FOR_LOG = 'JDDDatas'
+	private final String CLASS_FOR_LOG  = 'JDDDatas'
 
 	// Liste des lignes de données du JDD/PREJDD
 	private List<Map<String, Map<String, Object>>> datasList = []

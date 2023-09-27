@@ -1,4 +1,4 @@
-import tnrJDDManager.JDDKW
+import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDKW
 import tnrLog.Log
 
 /**
