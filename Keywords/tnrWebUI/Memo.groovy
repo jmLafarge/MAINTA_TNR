@@ -24,9 +24,7 @@ public class Memo {
 
 
 
-	private static final String CLASS_FOR_LOG = 'Memo'
-
-	private static final String CLASS_CODE = 'MEM'
+	private static final String CLASS_NAME = 'Memo'
 
 	/**
 	 * Gère la mise à jour du texte des Mémos (Notes)
@@ -43,30 +41,30 @@ public class Memo {
 	 * pour les cas de test MAJ : STEP.setMemoText(0, JDD_Note.getStrData("OL_DOC"), 'Notes',true,myJDD,'')
 	 * 
 	 */
-	public static void setMemoText(def stepID, String newText, String memoName, boolean maj, JDD myJDD,String modifierNom) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "setMemoText",[stepID:stepID , newTexte:newText , memoName:memoName , maj:maj ])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '01',stepID)
+	public static void setMemoText( String newText, String memoName, boolean maj, JDD myJDD,String modifierNom) {
+		Log.addTraceBEGIN(CLASS_NAME, "setMemoText",[ newTexte:newText , memoName:memoName , maj:maj ])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'setMemoText'+ myJDD.toString() + memoName)
 		WUIWindow.init()
 		// Cas où le nom du bouton modifier est différent
 		if (modifierNom) {
-			STEP.simpleClick(StepID.addSubStep(strStepID,1), myJDD,modifierNom)
+			STEP.simpleClick( myJDD,modifierNom)
 		}else {
-			STEP.simpleClick(StepID.addSubStep(strStepID,2), GlobalJDD.myGlobalJDD,"Memo_Modifier")
+			STEP.simpleClick( GlobalJDD.myGlobalJDD,"Memo_Modifier")
 		}
 		if (WUIWindow.waitForNewWindowToOpenAndSwitch()) {
 			if (WUI.isElementPresent(GlobalJDD.myGlobalJDD,'Memo_Frame', (int)GlobalVariable.TIMEOUT)) {
 				//STEP.switchToFrame(GlobalJDD.myGlobalJDD, 'Memo_Frame')
 				if (maj) {
-					STEP.sendKeys('', GlobalJDD.myGlobalJDD, 'Memo_Texte', Keys.chord(Keys.CONTROL, "a"))
-					STEP.sendKeys('', GlobalJDD.myGlobalJDD, 'Memo_Texte', Keys.chord(Keys.DELETE))
-					STEP.sendKeys('', GlobalJDD.myGlobalJDD, 'Memo_Texte', Keys.chord(Keys.SHIFT, Keys.TAB))
+					STEP.sendKeys( GlobalJDD.myGlobalJDD, 'Memo_Texte', Keys.chord(Keys.CONTROL, "a"))
+					STEP.sendKeys( GlobalJDD.myGlobalJDD, 'Memo_Texte', Keys.chord(Keys.DELETE))
+					STEP.sendKeys( GlobalJDD.myGlobalJDD, 'Memo_Texte', Keys.chord(Keys.SHIFT, Keys.TAB))
 				}
 
-				STEP.setText(StepID.addSubStep(strStepID,3), GlobalJDD.myGlobalJDD, 'Memo_Texte',newText)
+				STEP.setText( GlobalJDD.myGlobalJDD, 'Memo_Texte',newText)
 
 				WebUI.switchToDefaultContent()
 
-				STEP.simpleClick(StepID.addSubStep(strStepID,4), GlobalJDD.myGlobalJDD,"Memo_Valider")
+				STEP.simpleClick( GlobalJDD.myGlobalJDD,"Memo_Valider")
 			}else {
 				TNRResult.addSTEPFAIL(strStepID, "Saisie de $newText dans mémo '$memoName'")
 				TNRResult.addDETAIL("'Memo_Frame' n'est pas présent")
@@ -79,7 +77,7 @@ public class Memo {
 		}
 
 		WUIWindow.switchToMainWindow()
-		Log.addTraceEND(CLASS_FOR_LOG, "setMemoText")
+		Log.addTraceEND(CLASS_NAME, "setMemoText")
 	}
 
 

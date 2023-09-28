@@ -21,7 +21,7 @@ import tnrLog.Log
 public class WUIWindow {
 
 
-	private static final String CLASS_FOR_LOG = 'WUIWindow'
+	private static final String CLASS_NAME = 'WUIWindow'
 
 	private static Set<String> beforeHandles
 	private static String newWindowHandle
@@ -33,9 +33,9 @@ public class WUIWindow {
 	 * initialise la liste des handles de fenêtre
 	 */
 	public static void init() {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "init")
+		Log.addTraceBEGIN(CLASS_NAME, "init")
 		beforeHandles = getWindowHandles()
-		Log.addTraceEND(CLASS_FOR_LOG, "init")
+		Log.addTraceEND(CLASS_NAME, "init")
 	}
 
 
@@ -64,10 +64,10 @@ public class WUIWindow {
 	 * @return Set de strings représentant les handles de fenêtre.
 	 */
 	private static Set<String> getWindowHandles() {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "getWindowHandles")
+		Log.addTraceBEGIN(CLASS_NAME, "getWindowHandles")
 		Set<String> ret
 		ret = DriverFactory.getWebDriver().getWindowHandles()
-		Log.addTraceEND(CLASS_FOR_LOG, "getWindowHandles", ret)
+		Log.addTraceEND(CLASS_NAME, "getWindowHandles", ret)
 		return ret
 	}
 
@@ -79,7 +79,7 @@ public class WUIWindow {
 	 * @return le handle de la nouvelle fenêtre, ou null si aucune nouvelle fenêtre n'a été trouvée.
 	 */
 	private static String getNewWindowHandle() {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "getNewWindowHandle")
+		Log.addTraceBEGIN(CLASS_NAME, "getNewWindowHandle")
 		String ret
 		Set<String> afterHandles = getWindowHandles()
 		afterHandles.removeAll(beforeHandles)
@@ -87,7 +87,7 @@ public class WUIWindow {
 			newWindowHandle = afterHandles.iterator().next()
 			ret =  newWindowHandle
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "getNewWindowHandle", ret)
+		Log.addTraceEND(CLASS_NAME, "getNewWindowHandle", ret)
 		return ret
 	}
 
@@ -110,7 +110,7 @@ public class WUIWindow {
 	 * @return Un booléen indiquant si l'opération a réussi ou non.
 	 */
 	public static boolean waitForNewWindowToOpenAndSwitch(int timeoutInMilliseconds = 2000) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "waitForNewWindowToOpenAndSwitch",[timeoutInMilliseconds:timeoutInMilliseconds])
+		Log.addTraceBEGIN(CLASS_NAME, "waitForNewWindowToOpenAndSwitch",[timeoutInMilliseconds:timeoutInMilliseconds])
 		boolean ret = false
 		int waitedTime = 0
 		while (waitedTime < timeoutInMilliseconds) {
@@ -123,7 +123,7 @@ public class WUIWindow {
 			Thread.sleep(100)  // Pause pour 100 millisecondes
 			waitedTime += 100
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "waitForNewWindowToOpenAndSwitch", ret)
+		Log.addTraceEND(CLASS_NAME, "waitForNewWindowToOpenAndSwitch", ret)
 		return ret
 	}
 
@@ -135,12 +135,12 @@ public class WUIWindow {
 	 * Méthode pour fermer la nouvelle fenêtre si elle est encore ouverte.
 	 */
 	public static void closeWindowIfOpen() {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "closeWindowIfOpen")
+		Log.addTraceBEGIN(CLASS_NAME, "closeWindowIfOpen")
 		if (newWindowHandle && getWindowHandles().contains(newWindowHandle)) {
 			Log.addINFO("closeWindow '$newWindowHandle'")
 			WebUI.closeWindowIndex(newWindowHandle,FailureHandling.OPTIONAL)
 			newWindowHandle = null
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "closeWindowIfOpen")
+		Log.addTraceEND(CLASS_NAME, "closeWindowIfOpen")
 	}
 } // end of class

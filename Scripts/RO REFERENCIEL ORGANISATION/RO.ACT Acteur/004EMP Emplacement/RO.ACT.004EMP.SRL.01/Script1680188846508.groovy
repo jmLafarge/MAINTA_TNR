@@ -16,13 +16,13 @@ for (String cdt in myJDD.getCDTList()) {
 
 
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-    STEP.goToURLReadUpdateDelete(1,myJDD.getStrData('ID_CODINT'));STEP.checkReadUpdateDeleteScreen(2,myJDD.getStrData('ID_CODINT'))
+    STEP.goToURLReadUpdateDelete(myJDD.getStrData('ID_CODINT'));STEP.checkReadUpdateDeleteScreen(myJDD.getStrData('ID_CODINT'))
 
-		//STEP.simpleClick(0, myJDD,"tab_Zone")
-		STEP.simpleClick(0, myJDD,"tab_Zone")
-		STEP.verifyElementVisible(0, myJDD,"tab_ZoneSelected")
+		//STEP.simpleClick(myJDD,"tab_Zone")
+		STEP.simpleClick(myJDD,"tab_Zone")
+		STEP.verifyElementVisible(myJDD,"tab_ZoneSelected")
 			
-		STEP.scrollToPosition('', 0, 0)
+		STEP.scrollToPosition( 0, 0)
 	
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -33,15 +33,17 @@ for (String cdt in myJDD.getCDTList()) {
 			
 			myJDD.setCasDeTestNum(i)
 			
-	        STEP.verifyText(0, myJDD,'ID_NUMREF')
+	        STEP.verifyText(myJDD,'ID_NUMREF')
 			
 			STEP.verifyImgCheckedOrNot(myJDD,'ST_DEF','O')
 			
-			STEP.verifyImg(myJDD,'span_ST_TYP_emp',myJDD.getStrData('ST_TYP')=='EMP')
+			if (myJDD.getStrData('ST_TYP')=='EMP'){
+				STEP.verifyElementPresent(myJDD,'span_ST_TYP_emp')
+			}
 	
-			KW.verifyDateText(myJDD,'td_DateDebut', myJDD.getData('DT_DATDEB'))
+			STEP.verifyDateText(myJDD,'td_DateDebut', myJDD.getData('DT_DATDEB'))
 				
-			KW.verifyDateText(myJDD,'td_DateFin', myJDD.getData('DT_DATFIN'))
+			STEP.verifyDateText(myJDD,'td_DateFin', myJDD.getData('DT_DATFIN'))
 				
 			
 	    }// fin du for

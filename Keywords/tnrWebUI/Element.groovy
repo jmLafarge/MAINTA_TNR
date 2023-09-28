@@ -21,15 +21,13 @@ import tnrResultManager.TNRResult
 @CompileStatic
 public class Element {
 
-	private static final String CLASS_FOR_LOG = 'Element'
-
-	private static final String CLASS_CODE = 'ELT'
+	private static final String CLASS_NAME = 'Element'
 
 
 
-	static boolean verifyElementPresent(def stepID, JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyElementPresent", [stepID:stepID , myJDD: myJDD, name: name , timeout:timeout , status:status])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '01',stepID)
+	static boolean verifyElementPresent( JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_NAME, "verifyElementPresent", [ myJDD:myJDD.toString() , name: name , timeout:timeout , status:status])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'verifyElementPresent'+ myJDD.toString() + name)
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		boolean ret = false
 		if (!msgTO) {
@@ -46,16 +44,16 @@ public class Element {
 			TNRResult.addSTEPERROR(strStepID,"Vérifier que '$name' soit présent impossible")
 			TNRResult.addDETAIL(msgTO)
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "verifyElementPresent",ret)
+		Log.addTraceEND(CLASS_NAME, "verifyElementPresent",ret)
 		return ret
 	}
 
 
 
 
-	static boolean verifyElementVisible(def stepID, JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyElementVisible", [stepID:stepID , myJDD: myJDD, name: name , timeout:timeout , status:status])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '02',stepID)
+	static boolean verifyElementVisible( JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_NAME, "verifyElementVisible", [ myJDD:myJDD.toString() , name: name , timeout:timeout , status:status])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'verifyElementVisible'+ myJDD.toString() + name)
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		boolean ret = false
 		if (!msgTO) {
@@ -71,14 +69,14 @@ public class Element {
 			TNRResult.addSTEPERROR(strStepID,"Vérifier que l'élément '$name' soit visible impossible")
 			TNRResult.addDETAIL(msgTO)
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "verifyElementVisible",ret)
+		Log.addTraceEND(CLASS_NAME, "verifyElementVisible",ret)
 		return ret
 	}
-	
-	
-	static boolean verifyElementNotPresent(def stepID, JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyElementNotPresent", [stepID:stepID , myJDD: myJDD, name: name , timeout:timeout , status:status])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '03',stepID)
+
+
+	static boolean verifyElementNotPresent( JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_NAME, "verifyElementNotPresent", [ myJDD:myJDD.toString() , name: name , timeout:timeout , status:status])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'verifyElementNotPresent'+ myJDD.toString() + name)
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		boolean ret = false
 		if (!msgTO) {
@@ -94,9 +92,7 @@ public class Element {
 			TNRResult.addSTEPERROR(strStepID, "Vérifier que '$name' ne soit plus présent impossible")
 			TNRResult.addDETAIL(msgTO)
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "verifyElementNotPresent",ret)
+		Log.addTraceEND(CLASS_NAME, "verifyElementNotPresent",ret)
 		return ret
 	}
-	
-	
 }

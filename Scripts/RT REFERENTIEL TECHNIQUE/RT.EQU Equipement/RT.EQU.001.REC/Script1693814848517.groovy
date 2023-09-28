@@ -14,17 +14,17 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-   STEP.goToGridURL(1);STEP.checkGridScreen(2)
+   STEP.goToGridURL();STEP.checkGridScreen()
 	
 	'Filtrer la valeur dans la grille'
-    STEP.setText(0, myJDD,'input_Filtre_Grille', myJDD.getStrData('ST_CODCOU'))
+    STEP.setText(myJDD,'input_Filtre_Grille', myJDD.getStrData('ST_CODCOU'))
 
-	STEP.simpleClick(0, myJDD,'button_Selectionner')
+	STEP.simpleClick(myJDD,'button_Selectionner')
 
-	WUI.delay( 1000)
+	WUI.delay(1000)
 	
 	'Vérifier que la valeur soit dans la grille filtrée'
-	STEP.verifyText(0, myJDD,'td_Grille', myJDD.getStrData('ST_CODCOU'))
+	STEP.verifyText(myJDD,'td_Grille', myJDD.getStrData('ST_CODCOU'))
 
 	
 	TNRResult.addEndTestCase()

@@ -12,7 +12,7 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
-    STEP.goToURLReadUpdateDelete(1,myJDD.getStrData()); STEP.checkReadUpdateDeleteScreen(2,myJDD.getStrData())
+    STEP.goToURLReadUpdateDelete(myJDD.getStrData()); STEP.checkReadUpdateDeleteScreen(myJDD.getStrData())
 
 	
 

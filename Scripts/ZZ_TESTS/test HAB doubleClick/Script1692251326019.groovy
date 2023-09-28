@@ -36,25 +36,25 @@ if (GlobalVariable.TC_CONNEXION) {
 	WebUI.callTestCase(findTestCase('AD ADMINISTRATION/AD.SEC SECURITE/AD.SEC.001.FON.01 Ouvrir session - mot de passe valide'), [:])
 }
 
-CustomKeywords.'NAV.goToURL_ReadUpdateDelete_and_checkCartridge'('acteur', 'RO.ACT.003.HAB.AJT.01')
+CustomKeywords.'STEP.goToURLReadUpdateDelete_and_checkCartridge'('acteur', 'RO.ACT.003.HAB.AJT.01')
 
 CustomKeywords.'KW.click'(findTestObject('null'))
 
 //clickUsingJS(findTestObject('null'),1)
 
-WUI.delay( 1000)
+WUI.delay(1000)
 
-STEP.scrollToPosition('', 0, 0)
+STEP.scrollToPosition( 0, 0)
 
 WebUI.verifyElementPresent(findTestObject('null', [('textHAB') : 'ATEX1']),2)
 
-WUI.delay( 1000)
+WUI.delay(1000)
 
 //WebUI.setText(findTestObject('null', [('textHAB') : 'ATEX1']),'01/01/2022')
 
 //WebUI.doubleClick(findTestObject('null', [('textHAB') : 'ATEX1']))
 //WebUI.click(findTestObject('null', [('textHAB') : 'ATEX1']))
-//WUI.delay( 1000)
+//WUI.delay(1000)
 WebUI.sendKeys(findTestObject('null', [('textHAB') : 'ATEX1']), Keys.chord(
 	Keys.F2))
 
@@ -80,7 +80,7 @@ WebUI.click(findTestObject('null', [('textHAB') : 'ATEX1']))
 WebUI.sendKeys(findTestObject('null', [('textHAB') : 'ATEX1']), Keys.chord(
 	Keys.F2))
 
-WUI.delay( 1000)
+WUI.delay(1000)
 
 WebUI.setText(findTestObject('null', [('textHAB') : 'ATEX1']),
 	'12/01/2023')

@@ -18,7 +18,8 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 	
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_ReadUpdateDelete_and_checkCartridge(myJDD.getStrData('ID_CODART'))
+	STEP.goToURLReadUpdateDelete(myJDD.getStrData('ID_CODINT'))
+	STEP.checkReadUpdateDeleteScreen(myJDD.getStrData('ID_CODINT'))
 
 
 
@@ -26,9 +27,9 @@ for (String cdt in myJDD.getCDTList()) {
 	'Suppression'
 	for ( n in 1..3) {
 		TNRResult.addSUBSTEP("Tentative de suppression $n/3" )
-		if (STEP.simpleClick(0, GlobalJDD.myGlobalJDD,'button_Supprimer')) {
-			if (STEP.waitAndAcceptAlert(0, GlobalVariable.TIMEOUT,null)) {
-				WUI.delay( 1000)
+		if (STEP.simpleClick(GlobalJDD.myGlobalJDD,'button_Supprimer')) {
+			if (STEP.waitAndAcceptAlert(GlobalVariable.TIMEOUT,null)) {
+				WUI.delay(1000)
 				'Vérification du test case - écran'
 				STEP.checkGridScreen()
 				break
@@ -38,7 +39,7 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	
 	'Vérification en BD que l\'objet n\'existe plus'
-	STEP.checkIDNotInBD(0, myJDD)
+	STEP.checkIDNotInBD(myJDD)
 	
 	TNRResult.addEndTestCase()
 } // fin du if

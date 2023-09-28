@@ -20,7 +20,7 @@ import tnrLog.Log
 @CompileStatic
 public class InfoDBLoader {
 
-	private final String CLASS_FOR_LOG  = 'InfoDBLoader'
+	private final String CLASS_NAME  = 'InfoDBLoader'
 
 
 	/*
@@ -59,7 +59,7 @@ public class InfoDBLoader {
 	 * Constructeur : charge les données à partir du fichier Excel
 	 */
 	InfoDBLoader (){
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"InfoDBLoader",[:])
+		Log.addTraceBEGIN(CLASS_NAME,"InfoDBLoader",[:])
 
 		infoDBFilename = getInfoDBFilename()
 
@@ -74,7 +74,7 @@ public class InfoDBLoader {
 
 		populateDatas(sheet, headers)
 
-		Log.addTraceEND(CLASS_FOR_LOG,"InfoDBLoader")
+		Log.addTraceEND(CLASS_NAME,"InfoDBLoader")
 	}
 
 

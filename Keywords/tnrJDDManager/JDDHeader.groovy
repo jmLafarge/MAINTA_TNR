@@ -13,7 +13,7 @@ public class JDDHeader {
 
 
 
-	private final String CLASS_FOR_LOG  		= 'JDDHeaders'
+	private final String CLASS_NAME  		= 'JDDHeaders'
 
 	public final String START_DATA_WORD 	= TNRPropertiesReader.getMyProperty('START_DATA_WORD')
 
@@ -24,7 +24,7 @@ public class JDDHeader {
 
 
 	JDDHeader(Sheet sheet) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "JDDHeaders", [sheet:sheet.getSheetName()])
+		Log.addTraceBEGIN(CLASS_NAME, "JDDHeaders", [sheet:sheet.getSheetName()])
 
 		List line0 = ExcelUtils.loadRow(sheet.getRow(0))
 		tableName = line0[0]
@@ -32,7 +32,7 @@ public class JDDHeader {
 		headersList = line0.subList(1, line0.size())
 		Log.addTrace('headers : ' +headersList)
 
-		Log.addTraceEND(CLASS_FOR_LOG, "JDDHeaders")
+		Log.addTraceEND(CLASS_NAME, "JDDHeaders")
 	}
 
 

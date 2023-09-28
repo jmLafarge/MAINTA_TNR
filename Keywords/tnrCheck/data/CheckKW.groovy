@@ -18,7 +18,7 @@ import tnrSqlManager.InfoDB
 @CompileStatic
 public class CheckKW {
 
-	private static final String CLASS_FOR_LOG = 'CheckKW'
+	private static final String CLASS_NAME = 'CheckKW'
 
 
 	/**
@@ -32,7 +32,7 @@ public class CheckKW {
 	 * @return             Le statut après vérification (false si FAIL, sinon true).
 	 */
 	static boolean run(String typeFile,List <Map<String, Map<String, Object>>> datasList, JDDParam myJDDParam, String JDDFullName, String sheetName) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"run",[typeFile:typeFile , 'datasList.size()':datasList.size() , JDDFullName:JDDFullName , sheetName:sheetName ])
+		Log.addTraceBEGIN(CLASS_NAME,"run",[typeFile:typeFile , 'datasList.size()':datasList.size() , JDDFullName:JDDFullName , sheetName:sheetName ])
 		Log.addDEBUGDETAIL("Contrôle des mots clés dans les DATA")
 		boolean status =true
 		List <String> namesWithSEQUENCEID = []
@@ -54,7 +54,7 @@ public class CheckKW {
 			}
 		}
 		status &= checkSEQUENCE(namesWithSEQUENCEID.unique(), myJDDParam, JDDFullName, sheetName)
-		Log.addTraceEND(CLASS_FOR_LOG,"run",status)
+		Log.addTraceEND(CLASS_NAME,"run",status)
 		return status
 	}
 
@@ -72,7 +72,7 @@ public class CheckKW {
 	 *
 	 */
 	static private boolean checkSEQUENCE(List <String> namesWithSEQUENCEID, JDDParam myJDDParam,String JDDFullName, String sheetName) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"checkSEQUENCE",[namesWithSEQUENCEID:namesWithSEQUENCEID , myJDDParam:myJDDParam , JDDFullName:JDDFullName , sheetName:sheetName ])
+		Log.addTraceBEGIN(CLASS_NAME,"checkSEQUENCE",[namesWithSEQUENCEID:namesWithSEQUENCEID , myJDDParam:myJDDParam , JDDFullName:JDDFullName , sheetName:sheetName ])
 		boolean status =true
 		namesWithSEQUENCEID.each { name ->
 			String tableSEQUENCE = myJDDParam.getSEQUENCEFor(name)
@@ -84,7 +84,7 @@ public class CheckKW {
 				status=false
 			}
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"checkSEQUENCE",status)
+		Log.addTraceEND(CLASS_NAME,"checkSEQUENCE",status)
 		return status
 	}
 

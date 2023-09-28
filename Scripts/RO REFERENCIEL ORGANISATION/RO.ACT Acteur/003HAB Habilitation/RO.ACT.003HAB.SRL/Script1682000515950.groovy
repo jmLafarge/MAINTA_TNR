@@ -15,16 +15,16 @@ for (String cdt in myJDD.getCDTList()) {
 
 
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-    STEP.goToURLReadUpdateDelete(1,myJDD.getStrData('ID_CODINT'))
-	STEP.checkReadUpdateDeleteScreen(2,myJDD.getStrData('ID_CODINT'))
+    STEP.goToURLReadUpdateDelete(myJDD.getStrData('ID_CODINT'))
+	STEP.checkReadUpdateDeleteScreen(myJDD.getStrData('ID_CODINT'))
 
 	TNRResult.addSTEPGRP("ONGLET HABILITATION")
 
-		//STEP.simpleClick(0, myJDD,"tab_Habilitation")
-		STEP.simpleClick(0, myJDD,"tab_Habilitation")
-		STEP.verifyElementVisible(0, myJDD,"tab_HabilitationSelected")
+		//STEP.simpleClick(myJDD,"tab_Habilitation")
+		STEP.simpleClick(myJDD,"tab_Habilitation")
+		STEP.verifyElementVisible(myJDD,"tab_HabilitationSelected")
 		
-		STEP.scrollToPosition('', 0, 0)
+		STEP.scrollToPosition( 0, 0)
 	
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -35,12 +35,12 @@ for (String cdt in myJDD.getCDTList()) {
 			
 			myJDD.setCasDeTestNum(i)
 			
-	        STEP.verifyText(0, myJDD,'ID_CODHAB')
+	        STEP.verifyText(myJDD,'ID_CODHAB')
 	
 	
-			KW.verifyDateText(myJDD,'td_DateDebut', myJDD.getData('DT_DATDEB'))
+			STEP.verifyDateText(myJDD,'td_DateDebut', myJDD.getData('DT_DATDEB'))
 				
-			KW.verifyDateText(myJDD,'td_DateFin', myJDD.getData('DT_DATFIN'))
+			STEP.verifyDateText(myJDD,'td_DateFin', myJDD.getData('DT_DATFIN'))
 				
 			
 			

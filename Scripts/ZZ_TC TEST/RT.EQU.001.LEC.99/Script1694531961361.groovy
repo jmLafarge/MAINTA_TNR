@@ -13,7 +13,7 @@ JDD myJDD = new JDD()
 		
 	TNRResult.addStartTestCase('TEST')
 	
-    NAV.goToURL_ReadUpdateDelete(myJDD.getStrData(),'7')
+    STEP.goToURLReadUpdateDelete(myJDD.getStrData(),'7')
 
 
 		STEP.verifyOptionSelectedByLabel(0, myJDD, "ST_ETA")

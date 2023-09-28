@@ -40,16 +40,16 @@ Sequencer.testCasesList.each { TCMap ->
 			WebUI.callTestCase(findTestCase(TCMap.TCFULLNAME), ['MYNAME':'JML'], FailureHandling.STOP_ON_FAILURE)
 
 		} catch (StepErrorException  ex) {
-			TNRResult.addSTEPERROR(0,"Erreur d'exécution du TestCase")
+			TNRResult.addSTEPERROR('',"Erreur d'exécution du TestCase")
 			TNRResult.addDETAIL(ex.getMessage())
 		} catch (Exception e) {
-			TNRResult.addSTEPERROR(0,"Erreur TestCase")
+			TNRResult.addSTEPERROR('',"Erreur TestCase")
 			TNRResult.addDETAIL(e.getMessage())
 		} catch (StepFailedException exx) {
-			TNRResult.addSTEPERROR(0,"StepFailedException")
+			TNRResult.addSTEPERROR('',"StepFailedException")
 			TNRResult.addDETAIL(exx.getMessage())
 		} catch (KatalonRuntimeException ke) {
-			TNRResult.addSTEPERROR(0,"KatalonRuntimeException")
+			TNRResult.addSTEPERROR('',"KatalonRuntimeException")
 			TNRResult.addDETAIL(ke.getMessage())
 		}
 		

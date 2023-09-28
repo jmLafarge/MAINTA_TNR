@@ -16,27 +16,28 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_ReadUpdateDelete_and_checkCartridge(myJDD.getStrData('ID_CODART'))
+    STEP.goToURLReadUpdateDelete(myJDD.getStrData('ID_CODART'))
+	STEP.checkReadUpdateDeleteScreen(myJDD.getStrData('ID_CODART'))
 
 	
 	TNRResult.addSTEPGRP("ONGLET ARTICLE")
 			
-			STEP.simpleClick(0, myJDD,"tab_Article")
-			STEP.verifyElementVisible(0, myJDD,"tab_ArticleSelected")
+			STEP.simpleClick(myJDD,"tab_Article")
+			STEP.verifyElementVisible(myJDD,"tab_ArticleSelected")
 			
-			STEP.verifyValue(0, myJDD,"ID_CODART")
+			STEP.verifyValue(myJDD,"ID_CODART")
 			STEP.verifyOptionSelectedByLabel(0, myJDD,"ST_ETA")
 
-			STEP.verifyValue(0, myJDD,"ST_DES")
+			STEP.verifyValue(myJDD,"ST_DES")
 			STEP.verifyOptionSelectedByLabel(0, myJDD,"ST_TYPART")
-			STEP.verifyElementCheckedOrNot(0, myJDD,"ST_INA","O")
+			STEP.verifyBoxCheckedOrNot(myJDD,"ST_INA","O")
 			
-			STEP.verifyValue(0, myJDD,"ID_CODNATART")
-			STEP.verifyValue(0, myJDD,"ST_DESID_CODNATART")
-			STEP.verifyValue(0, myJDD,"ID_CODGES")
-			STEP.verifyValue(0, myJDD,"ST_DESGES")
+			STEP.verifyValue(myJDD,"ID_CODNATART")
+			STEP.verifyValue(myJDD,"ST_DESID_CODNATART")
+			STEP.verifyValue(myJDD,"ID_CODGES")
+			STEP.verifyValue(myJDD,"ST_DESGES")
 			
-			STEP.verifyText(0, new JDD(JDDFileMapper.getFullnameFromModObj('RT.ART'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS),"OL_DOC")
+			STEP.verifyText(new JDD(JDDFileMapper.getFullnameFromModObj('RT.ART'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS),"OL_DOC")
 			
 			
 		TNRResult.addSTEPBLOCK("FOURNISSEUR NORMALISE")
@@ -45,41 +46,41 @@ for (String cdt in myJDD.getCDTList()) {
 			JDD JDD_ARTFOU = new JDD(JDDFileMapper.getFullnameFromModObj('RT.ART'),'001B',GlobalVariable.CAS_DE_TEST_EN_COURS)
 			
 				STEP.verifyValue(JDD_ARTFOU,"ID_CODFOU")
-			STEP.verifyValue(0, myJDD,"ST_DESID_CODFOU")
+			STEP.verifyValue(myJDD,"ST_DESID_CODFOU")
 				STEP.verifyValue(JDD_ARTFOU,"ST_DES")
 				STEP.verifyValue(JDD_ARTFOU,"ST_REFFOU")
 			
 		TNRResult.addSTEPBLOCK("STOCK")
 			
-			STEP.verifyElementCheckedOrNot(0, myJDD,"ST_MAT","O")
-			STEP.verifyValue(0, myJDD,"ID_CODUNI")
-			STEP.verifyValue(0, myJDD,"NU_PRIPMP")
+			STEP.verifyBoxCheckedOrNot(myJDD,"ST_MAT","O")
+			STEP.verifyValue(myJDD,"ID_CODUNI")
+			STEP.verifyValue(myJDD,"NU_PRIPMP")
 			
 		TNRResult.addSTEPBLOCK("ACHATS")
 			
-			STEP.verifyElementCheckedOrNot(0, myJDD,"ST_CONOBL","O")
-			STEP.verifyValue(0, myJDD,"ST_TXTCDE")
-			STEP.verifyValue(0, myJDD,"ST_CODCOM")
-			STEP.verifyValue(0, myJDD,"ST_DESST_CODCOM")
-			STEP.verifyValue(0, myJDD,"ID_CODTVA")
+			STEP.verifyBoxCheckedOrNot(myJDD,"ST_CONOBL","O")
+			STEP.verifyValue(myJDD,"ST_TXTCDE")
+			STEP.verifyValue(myJDD,"ST_CODCOM")
+			STEP.verifyValue(myJDD,"ST_DESST_CODCOM")
+			STEP.verifyValue(myJDD,"ID_CODTVA")
 			
 			/*
-			STEP.verifyElementCheckedOrNot(0, myJDD,"MAJ_NOM","O")
-			STEP.verifyValue(0, myJDD,"NOM_CODLON")
-			STEP.verifyValue(0, myJDD,"ST_DESNOM")
+			STEP.verifyBoxCheckedOrNot(myJDD,"MAJ_NOM","O")
+			STEP.verifyValue(myJDD,"NOM_CODLON")
+			STEP.verifyValue(myJDD,"ST_DESNOM")
 			
-			STEP.verifyElementCheckedOrNot(0, myJDD,"MAJ_EQU","O")
-			STEP.verifyValue(0, myJDD,"EQU_CODLON")
-			STEP.verifyValue(0, myJDD,"ST_DESEQU")
-			STEP.verifyValue(0, myJDD,"ART_EQU_QTE")
-			STEP.verifyValue(0, myJDD,"ART_EQU_OBS")
+			STEP.verifyBoxCheckedOrNot(myJDD,"MAJ_EQU","O")
+			STEP.verifyValue(myJDD,"EQU_CODLON")
+			STEP.verifyValue(myJDD,"ST_DESEQU")
+			STEP.verifyValue(myJDD,"ART_EQU_QTE")
+			STEP.verifyValue(myJDD,"ART_EQU_OBS")
 			
-			STEP.verifyElementCheckedOrNot(0, myJDD,"MAJ_MODFAM","O")
-			STEP.verifyValue(0, myJDD,"ID_CODFAM")
-			STEP.verifyValue(0, myJDD,"ST_DESID_CODFAM")
-			STEP.verifyValue(0, myJDD,"MODFAM_CODLON")
-			STEP.verifyValue(0, myJDD,"ART_MODFAM_QTE")
-			STEP.verifyValue(0, myJDD,"ART_MODFAM_OBS")
+			STEP.verifyBoxCheckedOrNot(myJDD,"MAJ_MODFAM","O")
+			STEP.verifyValue(myJDD,"ID_CODFAM")
+			STEP.verifyValue(myJDD,"ST_DESID_CODFAM")
+			STEP.verifyValue(myJDD,"MODFAM_CODLON")
+			STEP.verifyValue(myJDD,"ART_MODFAM_QTE")
+			STEP.verifyValue(myJDD,"ART_MODFAM_OBS")
 
 			*/
 

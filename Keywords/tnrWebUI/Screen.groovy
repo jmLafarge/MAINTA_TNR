@@ -17,69 +17,63 @@ import tnrLog.Log
 @CompileStatic
 public class Screen {
 
-	private static final String CLASS_FOR_LOG = 'Screen'
+	private static final String CLASS_NAME = 'Screen'
 
-	private static final String CLASS_CODE = 'SCR'
 
-	public static checkGridScreen(def stepID, String fct='', int timeout = GlobalVariable.TIMEOUT) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"checkGridScreen",[fct:fct , timeout:timeout])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '01',stepID)
+	public static checkGridScreen( String fct='', int timeout = GlobalVariable.TIMEOUT) {
+		Log.addTraceBEGIN(CLASS_NAME,"checkGridScreen",[fct:fct , timeout:timeout])
 		fct = fct ?: Tools.getFctFromModObj()
 		String code = "E" + fct
-		STEP.scrollToPosition('', 0, 0)
-		STEP.simpleClick(StepID.addSubStep(strStepID,2), GlobalJDD.myGlobalJDD, 'a_Toggle',timeout,'WARNING')
-		STEP.verifyText(StepID.addSubStep(strStepID,3), GlobalJDD.myGlobalJDD, 'Fonction_code', 'E'+ fct, timeout,'WARNING')
-		Log.addTraceEND(CLASS_FOR_LOG,"checkGridScreen")
+		STEP.scrollToPosition( 0, 0)
+		STEP.simpleClick( GlobalJDD.myGlobalJDD, 'a_Toggle',timeout,'WARNING')
+		STEP.verifyText( GlobalJDD.myGlobalJDD, 'Fonction_code', 'E'+ fct, timeout,'WARNING')
+		Log.addTraceEND(CLASS_NAME,"checkGridScreen")
 	}
 
 
 
-	public static checkResultScreen(def stepID, String val,String fct='', String name='Resultat_ID_a', int timeout = GlobalVariable.TIMEOUT) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"checkResultScreen",[val:val , fct:fct , name:name , timeout:timeout])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '02',stepID)
+	public static checkResultScreen( String val,String fct='', String name='Resultat_ID_a', int timeout = GlobalVariable.TIMEOUT) {
+		Log.addTraceBEGIN(CLASS_NAME,"checkResultScreen",[val:val , fct:fct , name:name , timeout:timeout])
 		fct = fct ?: Tools.getFctFromModObj()
-		STEP.scrollToPosition('', 0, 0)
+		STEP.scrollToPosition( 0, 0)
 		WUI.delay(500)
-		STEP.simpleClick(StepID.addSubStep(strStepID,3), GlobalJDD.myGlobalJDD, 'a_Toggle',1,'WARNING')
+		STEP.simpleClick( GlobalJDD.myGlobalJDD, 'a_Toggle',1,'WARNING')
 		WUI.delay(500)
-		STEP.verifyText(StepID.addSubStep(strStepID,5), GlobalJDD.myGlobalJDD, 'Fonction_code', fct,timeout,'WARNING')
-		STEP.verifyText(StepID.addSubStep(strStepID,6), GlobalJDD.myGlobalJDD,name, val,timeout)
-		Log.addTraceEND(CLASS_FOR_LOG,"checkResultScreen")
+		STEP.verifyText( GlobalJDD.myGlobalJDD, 'Fonction_code', fct,timeout,'WARNING')
+		STEP.verifyText( GlobalJDD.myGlobalJDD,name, val,timeout)
+		Log.addTraceEND(CLASS_NAME,"checkResultScreen")
 	}
 
 
-	public static checkReadUpdateDeleteScreen(def stepID, String text, String fct='' , int timeout = GlobalVariable.TIMEOUT) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"checkReadUpdateDeleteScreen",[ idval:text , fct:fct ,  timeout:timeout])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '03',stepID)
+	public static checkReadUpdateDeleteScreen( String text, String fct='' , int timeout = GlobalVariable.TIMEOUT) {
+		Log.addTraceBEGIN(CLASS_NAME,"checkReadUpdateDeleteScreen",[ idval:text , fct:fct ,  timeout:timeout])
 		fct = fct ?: Tools.getFctFromModObj()
 		String code = fct + " - Consultation ou modification"
-		STEP.scrollToPosition('', 0, 0)
-		STEP.verifyText(StepID.addSubStep(strStepID,2), GlobalJDD.myGlobalJDD, 'Selection_ID', text,timeout,'WARNING')
-		STEP.simpleClick(StepID.addSubStep(strStepID,3), GlobalJDD.myGlobalJDD, 'a_Toggle',timeout,'WARNING')
-		STEP.verifyText(StepID.addSubStep(strStepID,4), GlobalJDD.myGlobalJDD, 'Fonction_code', code,timeout,'WARNING')
-		Log.addTraceEND(CLASS_FOR_LOG,"checkReadUpdateDeleteScreen")
+		STEP.scrollToPosition( 0, 0)
+		STEP.verifyText( GlobalJDD.myGlobalJDD, 'Selection_ID', text,timeout,'WARNING')
+		STEP.simpleClick( GlobalJDD.myGlobalJDD, 'a_Toggle',timeout,'WARNING')
+		STEP.verifyText( GlobalJDD.myGlobalJDD, 'Fonction_code', code,timeout,'WARNING')
+		Log.addTraceEND(CLASS_NAME,"checkReadUpdateDeleteScreen")
 	}
 
 
 
-	public static checkCreateScreen(def stepID, String fct='', int timeout = GlobalVariable.TIMEOUT) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"checkCreateScreen",[stepID:stepID , fct:fct , timeout:timeout])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '04',stepID)
+	public static checkCreateScreen( String fct='', int timeout = GlobalVariable.TIMEOUT) {
+		Log.addTraceBEGIN(CLASS_NAME,"checkCreateScreen",[ fct:fct , timeout:timeout])
 		fct = fct ?: Tools.getFctFromModObj()
 		String code = fct + " - Création"
-		STEP.scrollToPosition('',0, 0)
-		STEP.simpleClick(StepID.addSubStep(strStepID,3), GlobalJDD.myGlobalJDD, 'a_Toggle',timeout,'WARNING')
-		STEP.verifyText(StepID.addSubStep(strStepID,5), GlobalJDD.myGlobalJDD, 'Fonction_code', code,timeout,'WARNING')
-		Log.addTraceEND(CLASS_FOR_LOG,"checkCreateScreen")
+		STEP.scrollToPosition(0, 0)
+		STEP.simpleClick( GlobalJDD.myGlobalJDD, 'a_Toggle',timeout,'WARNING')
+		STEP.verifyText( GlobalJDD.myGlobalJDD, 'Fonction_code', code,timeout,'WARNING')
+		Log.addTraceEND(CLASS_NAME,"checkCreateScreen")
 	}
 
 
-	public static checkCartridge(def stepID, String txt, int timeout = GlobalVariable.TIMEOUT) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"checkCartridge",[txt:txt , timeout:timeout])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '05',stepID)
-		STEP.scrollToPosition('', 0, 0)
-		STEP.simpleClick(StepID.addSubStep(strStepID,2), GlobalJDD.myGlobalJDD,'a_Toggle',timeout,'WARNING')
-		STEP.verifyText(StepID.addSubStep(strStepID,3), GlobalJDD.myGlobalJDD, 'Fonction_code', txt,timeout,'WARNING')
-		Log.addTraceEND(CLASS_FOR_LOG,"checkCartridge")
+	public static checkCartridge( String txt, int timeout = GlobalVariable.TIMEOUT) {
+		Log.addTraceBEGIN(CLASS_NAME,"checkCartridge",[txt:txt , timeout:timeout])
+		STEP.scrollToPosition( 0, 0)
+		STEP.simpleClick( GlobalJDD.myGlobalJDD,'a_Toggle',timeout,'WARNING')
+		STEP.verifyText( GlobalJDD.myGlobalJDD, 'Fonction_code', txt,timeout,'WARNING')
+		Log.addTraceEND(CLASS_NAME,"checkCartridge")
 	}
 }

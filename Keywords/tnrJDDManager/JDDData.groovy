@@ -14,7 +14,7 @@ import tnrLog.Log
 public class JDDData {
 
 
-	private final String CLASS_FOR_LOG  = 'JDDDatas'
+	private final String CLASS_NAME  = 'JDDDatas'
 
 	// Liste des lignes de données du JDD/PREJDD
 	private List<Map<String, Map<String, Object>>> datasList = []
@@ -30,7 +30,7 @@ public class JDDData {
 	 */
 	JDDData(Sheet sheet, List <String> headers,String startDataWord) {
 
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "JDDDatas", [sheet:sheet.getSheetName() , JDDHeader:JDDHeader, startDataWord:startDataWord])
+		Log.addTraceBEGIN(CLASS_NAME, "JDDDatas", [sheet:sheet.getSheetName() , JDDHeader:JDDHeader, startDataWord:startDataWord])
 
 		this.headers = headers
 
@@ -39,7 +39,7 @@ public class JDDData {
 		skipToStartDataWord(rowIt, startDataWord)
 		processData(rowIt)
 
-		Log.addTraceEND(CLASS_FOR_LOG, "JDDDatas")
+		Log.addTraceEND(CLASS_NAME, "JDDDatas")
 	}
 
 
@@ -106,7 +106,7 @@ public class JDDData {
 	 * @return La valeur brute du champ spécifié
 	 */
 	public getRawData(String name, String cdt, int cdtnum ) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "getRawData", [name:name , cdt:cdt, cdtnum:cdtnum])
+		Log.addTraceBEGIN(CLASS_NAME, "getRawData", [name:name , cdt:cdt, cdtnum:cdtnum])
 		// Filtrer les éléments qui ont la clé 'cdt'
 		List<Map<String, Map<String, Object>>> filtered = datasList.findAll { it.containsKey(cdt) }
 		def ret
@@ -116,7 +116,7 @@ public class JDDData {
 			ret = filtered[cdtnum - 1][cdt][name]
 		}
 
-		Log.addTraceEND(CLASS_FOR_LOG, "getRawData" , ret)
+		Log.addTraceEND(CLASS_NAME, "getRawData" , ret)
 		return ret
 	}
 
@@ -129,10 +129,10 @@ public class JDDData {
 	 * @return Liste des cdts commençant par la chaine, sans doublons
 	 */
 	public List<String> getCdtsStartsWithStrWithoutDuplicates(String str) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "getCdtsStartsWithStrWithoutDuplicates", [str:str])
+		Log.addTraceBEGIN(CLASS_NAME, "getCdtsStartsWithStrWithoutDuplicates", [str:str])
 		// Rechercher les cdt qui commence pour Stre
 		List<String> ret = datasList.collect { it.keySet().find { k -> k.startsWith(str) } }.findAll { it != null }.unique()
-		Log.addTraceEND(CLASS_FOR_LOG, "getCdtsStartsWithStrWithoutDuplicates" , ret)
+		Log.addTraceEND(CLASS_NAME, "getCdtsStartsWithStrWithoutDuplicates" , ret)
 		return ret
 	}
 
@@ -149,7 +149,7 @@ public class JDDData {
 	 * @return Liste des chaînes concaténées
 	 */
 	public List<String> concatenateCdtsAndValues(List<Map<String, Map<String, Object>>> JDDDatas, List<String> namesToConcat) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "concatenateCdtsAndValues", ['JDDDatas.size()':JDDDatas.size() , namesToConcat:namesToConcat])
+		Log.addTraceBEGIN(CLASS_NAME, "concatenateCdtsAndValues", ['JDDDatas.size()':JDDDatas.size() , namesToConcat:namesToConcat])
 		List<String> list =[]
 		List namesNonExistantInHeaders = namesToConcat.findAll { !(it in headers) }
 		if (namesNonExistantInHeaders.isEmpty()) {
@@ -167,7 +167,7 @@ public class JDDData {
 				Log.addERROR("concatenateCdtsAndValues() : $unkName n'est pas une colonne du JDD")
 			}
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "concatenateCdtsAndValues" , list)
+		Log.addTraceEND(CLASS_NAME, "concatenateCdtsAndValues" , list)
 		return list
 	}
 
@@ -180,10 +180,10 @@ public class JDDData {
 	 * @return Le nombre de lignes pour le cdt spécifié
 	 */
 	public int getNbrLigneCasDeTest(String cdt) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "getNbrLigneCasDeTest", [cdt:cdt])
+		Log.addTraceBEGIN(CLASS_NAME, "getNbrLigneCasDeTest", [cdt:cdt])
 		// Compter les occurrences du cdt
 		int ret = (int)datasList.count { it.containsKey(cdt) }
-		Log.addTraceEND(CLASS_FOR_LOG, "getNbrLigneCasDeTest" , ret)
+		Log.addTraceEND(CLASS_NAME, "getNbrLigneCasDeTest" , ret)
 		return  ret
 
 	}
@@ -207,7 +207,7 @@ public class JDDData {
 	 * @param cdtnum Le numéro d'occurrence du cdt
 	 */
 	public void setValueOf(String name, def value, String cdt, int cdtnum) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "setValueOf", [name:name , value:value , cdt:cdt, cdtnum:cdtnum])
+		Log.addTraceBEGIN(CLASS_NAME, "setValueOf", [name:name , value:value , cdt:cdt, cdtnum:cdtnum])
 		// Filtrer les entrées qui correspondent au cdt spécifié
 		List<Map<String, Map<String, Object>>> matchingCdtList = datasList.findAll { it.containsKey(cdt) }
 		// Vérifier si l'occurrence spécifiée est valide
@@ -215,20 +215,20 @@ public class JDDData {
 			// Mettre à jour la valeur de la clé 'name'
 			matchingCdtList[cdtnum - 1][cdt][name] = value
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "setValueOf" )
+		Log.addTraceEND(CLASS_NAME, "setValueOf" )
 	}
 
 
 
 
 	public String getValueOf(String name,String cdt,String whereName, def value) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "getValueOf", [name:name , cdt:cdt , whereName:whereName , value:value])
+		Log.addTraceBEGIN(CLASS_NAME, "getValueOf", [name:name , cdt:cdt , whereName:whereName , value:value])
 		String ret = null
 		def resultat = datasList.find { it.containsKey(cdt) && it[cdt]?.get(whereName) == value }
 		if (resultat) {
 			ret= resultat[cdt]?.get(name)
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "getValueOf",ret)
+		Log.addTraceEND(CLASS_NAME, "getValueOf",ret)
 		return ret
 	}
 

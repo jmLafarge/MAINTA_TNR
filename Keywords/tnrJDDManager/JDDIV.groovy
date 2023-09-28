@@ -17,7 +17,7 @@ import tnrLog.Log
 @CompileStatic
 public class JDDIV {
 
-	private final String CLASS_FOR_LOG  = 'JDDIV'
+	private final String CLASS_NAME  = 'JDDIV'
 
 	private final String INTERNALVALUE_SHEET_NAME	= TNRPropertiesReader.getMyProperty('INTERNALVALUE_SHEET_NAME')
 	private final String JDDGLOBAL_FULLNAME 		= TNRPropertiesReader.getMyProperty('JDD_PATH') + File.separator + TNRPropertiesReader.getMyProperty('JDDGLOBAL_FILENAME')
@@ -27,7 +27,7 @@ public class JDDIV {
 
 
 	JDDIV(Sheet sheet){
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "JDDIV", [sheet:sheet.getSheetName()])
+		Log.addTraceBEGIN(CLASS_NAME, "JDDIV", [sheet:sheet.getSheetName()])
 		Iterator<Row> rowIV = sheet.rowIterator()
 		rowIV.next()
 		while(rowIV.hasNext()) {
@@ -44,7 +44,7 @@ public class JDDIV {
 			}
 		}
 		Log.addTrace("internalValues = " + list.toString())
-		Log.addTraceEND(CLASS_FOR_LOG, "JDDIV")
+		Log.addTraceEND(CLASS_NAME, "JDDIV")
 	}
 
 
@@ -61,13 +61,13 @@ public class JDDIV {
 	 * @return La valeur interne correspondante, ou null si aucune valeur n'est trouvée.
 	 */
 	public String getValueOf(String para, String intVal) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "getValueOf", [para: para, intVal: intVal])
+		Log.addTraceBEGIN(CLASS_NAME, "getValueOf", [para: para, intVal: intVal])
 		Log.addTrace("internalValues = " + list.toString())
 		String value = list.find { it['param'] == para && it['internalValue'] == intVal }?.get('value')
 		if (!value) {
 			Log.addERROR("Pas de valeur trouvée pour l'INTERNALVALUE '$intVal'")
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "getValueOf", value)
+		Log.addTraceEND(CLASS_NAME, "getValueOf", value)
 		return value
 	}
 }

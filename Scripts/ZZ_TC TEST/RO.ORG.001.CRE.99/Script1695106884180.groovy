@@ -15,20 +15,20 @@ myJDD.setCasDeTest('RO.ORG.001.CRE.99')
 	
 	TNRResult.addStartTestCase('TEST')
 	
-	STEP_NAV.goToURL_Creation(1, '233')
+	STEP.goToURLCreate('233')
 	
 
 	STEP.verifyRadioChecked(0, myJDD, "NU_TYP")
 	
 	
-	STEP.scrollAndSetRadio(0, myJDD, "LblNU_TYP")
+	STEP.setRadio(myJDD, "LblNU_TYP")
 	STEP.verifyRadioChecked(0, myJDD, "NU_TYP")
 	
 	myJDD.myJDDData.setValueOf('NU_TYP', 0, 'RO.ORG.001.CRE.99', 1)
 	
-	WUI.delay( 1000)
+	WUI.delay(1000)
 	
-	STEP.scrollAndSetRadio(0, myJDD, "LblNU_TYP")
+	STEP.setRadio(myJDD, "LblNU_TYP")
 	STEP.verifyRadioChecked(0, myJDD, "NU_TYP")
 
 	

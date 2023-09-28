@@ -16,14 +16,12 @@ import tnrWebUI.StepID
 @CompileStatic
 public class CheckInDB {
 	
-	private static final String CLASS_FOR_LOG = 'CheckInDB'
+	private static final String CLASS_NAME = 'CheckInDB'
+		
 	
-	private static final String CLASS_CODE = 'CBD'
-	
-	
-	public static void verifyMaintaVersion(def stepID, String maintaVersion) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"verifyMaintaVersion",[stepID:stepID , maintaVersion:maintaVersion])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '01',stepID)
+	public static void verifyMaintaVersion( String maintaVersion) {
+		Log.addTraceBEGIN(CLASS_NAME,"verifyMaintaVersion",[ maintaVersion:maintaVersion])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'verifyMaintaVersion')
 		String verBDD = SQL.getMaintaVersion()
 		if (verBDD == maintaVersion) {
 			TNRResult.addSTEPPASS(strStepID,"Controle de la version $maintaVersion en BDD")
@@ -31,7 +29,7 @@ public class CheckInDB {
 			TNRResult.addSTEPFAIL(strStepID,"Controle de la version $maintaVersion en BDD")
 			TNRResult.addDETAIL("La valeur en BDD est $verBDD")
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"verifyMaintaVersion")
+		Log.addTraceEND(CLASS_NAME,"verifyMaintaVersion")
 	}
 	
 	
@@ -39,10 +37,10 @@ public class CheckInDB {
 	
 
 
-	static void checkIDNotInBD(def stepID, JDD myJDD){
+	static void checkIDNotInBD( JDD myJDD){
 
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"checkIDNotInBD",[myJDD:myJDD])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '02',stepID)
+		Log.addTraceBEGIN(CLASS_NAME,"checkIDNotInBD",[myJDD:myJDD.toString()])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'checkIDNotInBD' + myJDD.toString())
 		Thread.sleep(500)
 		//boolean pass = true
 		String status = 'PASS'
@@ -66,7 +64,7 @@ public class CheckInDB {
 		}
 
 		TNRResult.addEndBlock("Fin de la  vérification de la suppression des valeurs en Base de Données",status)
-		Log.addTraceEND(CLASS_FOR_LOG,"checkIDNotInBD")
+		Log.addTraceEND(CLASS_NAME,"checkIDNotInBD")
 	}
 
 	
@@ -81,10 +79,10 @@ public class CheckInDB {
 	 *
 	 *
 	 */
-	static void checkJDDWithBD(def stepID, JDD myJDD,Map specificValueMap=[:],String sql =''){
+	static void checkJDDWithBD( JDD myJDD,Map specificValueMap=[:],String sql =''){
 
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"checkJDDWithBD",[stepID:stepID , myJDD:myJDD , specificValueMap:specificValueMap , sql:sql])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '03',stepID)
+		Log.addTraceBEGIN(CLASS_NAME,"checkJDDWithBD",[ myJDD:myJDD.toString() , specificValueMap:specificValueMap , sql:sql])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'checkJDDWithBD' + myJDD.toString())
 		
 		Thread.sleep(500)
 
@@ -145,7 +143,7 @@ public class CheckInDB {
 		}//for
 
 		TNRResult.addEndBlock("Fin de la vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')',verifStatus)
-		Log.addTraceEND(CLASS_FOR_LOG,"checkJDDWithBD")
+		Log.addTraceEND(CLASS_NAME,"checkJDDWithBD")
 
 	}
 	

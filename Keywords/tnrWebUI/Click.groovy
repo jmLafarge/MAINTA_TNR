@@ -20,14 +20,14 @@ import tnrResultManager.TNRResult
 @CompileStatic
 public class Click {
 
-	private static final String CLASS_FOR_LOG = 'Click'
-
-	private static final String CLASS_CODE = 'CLK'
+	private static final String CLASS_NAME = 'Click'
 
 
-	static boolean simpleClick(def stepID,JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "simpleClick", [stepID:stepID , myJDD: myJDD, name: name, timeout:timeout , status:status])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '01',stepID)
+
+
+	static boolean simpleClick(JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_NAME, "simpleClick", [ myJDD:myJDD.toString() , name: name, timeout:timeout , status:status])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'simpleClick'+ myJDD.toString() + name)
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		boolean ret = false
 		if (!msgTO) {
@@ -49,15 +49,15 @@ public class Click {
 			TNRResult.addSTEPERROR(strStepID,"Clic sur '$name' imposible")
 			TNRResult.addDETAIL(msgTO)
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "simpleClick",ret)
+		Log.addTraceEND(CLASS_NAME, "simpleClick",ret)
 		return ret
 	}
-	
-	
-	
-	static boolean doubleClick(def stepID, JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "doubleClick", [stepID:stepID , myJDD: myJDD, name: name, timeout:timeout , status:status])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '02',stepID)
+
+
+
+	static boolean doubleClick( JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_NAME, "doubleClick", [ myJDD:myJDD.toString() , name: name, timeout:timeout , status:status])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'doubleClick'+ myJDD.toString() + name)
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		boolean ret = false
 		if (!msgTO) {
@@ -79,9 +79,8 @@ public class Click {
 			TNRResult.addSTEPERROR(strStepID, "Double click sur '$name' impossible")
 			TNRResult.addDETAIL(msgTO)
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "doubleClick",ret)
+		Log.addTraceEND(CLASS_NAME, "doubleClick",ret)
 		return ret
 	}
 	
-	
-}
+} // end of class

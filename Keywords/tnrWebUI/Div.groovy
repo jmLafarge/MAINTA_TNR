@@ -19,14 +19,14 @@ import tnrResultManager.TNRResult
 @CompileStatic
 public class Div {
 
-	private static final String CLASS_FOR_LOG = 'Div'
-
-	private static final String CLASS_CODE = 'Div'
+	private static final String CLASS_NAME = 'Div'
 
 
-	static boolean isDivModalOpened(def stepID, int timeout=(int)GlobalVariable.TIMEOUT) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "isDivModalOpened", [stepID:stepID , timeout:timeout])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '01',stepID)
+
+
+	static boolean isDivModalOpened(String name, int timeout=(int)GlobalVariable.TIMEOUT) {
+		Log.addTraceBEGIN(CLASS_NAME, "isDivModalOpened", [ name:name , timeout:timeout])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'isDivModalOpened' + name)
 		boolean ret = false
 		if (WUI.isElementPresent(GlobalJDD.myGlobalJDD, 'divModalActive', 2)) {
 			TNRResult.addSTEPPASS(strStepID, "Ouverture de la fenetre de saisie ")
@@ -34,14 +34,14 @@ public class Div {
 		}else {
 			TNRResult.addDETAIL("La fenetre de saisie ne s'est pas ouverte")
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "isDivModalOpened",ret)
+		Log.addTraceEND(CLASS_NAME, "isDivModalOpened",ret)
 		return ret
 	}
 
 
-	static boolean isDivModalClosed(def stepID, int timeout=(int)GlobalVariable.TIMEOUT) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "isDivModalClosed", [stepID:stepID , timeout:timeout])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '01',stepID)
+	static boolean isDivModalClosed(String name, int timeout=(int)GlobalVariable.TIMEOUT) {
+		Log.addTraceBEGIN(CLASS_NAME, "isDivModalClosed", [name:name , timeout:timeout])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'isDivModalClosed' + name)
 		boolean ret = false
 		if (WUI.isElementPresent(GlobalJDD.myGlobalJDD, 'divModalInactive', 2)) {
 			TNRResult.addSTEPPASS(strStepID, "Fermeture de la fenetre de saisie")
@@ -49,60 +49,7 @@ public class Div {
 		}else {
 			TNRResult.addDETAIL("La fenetre de saisie ne s'est pas fermée")
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "isDivModalClosed",ret)
+		Log.addTraceEND(CLASS_NAME, "isDivModalClosed",ret)
 		return ret
 	}
-
-
-/*
-
-	static boolean isNbRecordsEqualTo(int nbRecords, int timeout=(int)GlobalVariable.TIMEOUT,String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "isNbRecordsEqualTo", [nbRecords:nbRecords , timeout:timeout , status:status])
-		String divModalNbRecords='divModalNbRecords'
-		TO myTO = new TO() ; TestObject tObj  = myTO.make(GlobalJDD.myGlobalJDD,divModalNbRecords) ;String msgTO = myTO.getMsg()
-		String gText =''
-		boolean ret = false
-		long ms = 0
-		long timeoutms = timeout*1000
-		if (!msgTO) {
-			if (WUI.isElementPresentByObj(tObj, timeout)) {
-				while (ms < timeoutms) {
-					try {
-						gText = KW.getTextByObj(tObj)
-					} catch (Exception ex) {
-						Log.addINFO("Lecture du texte sur '$divModalNbRecords' KO")
-						Log.addDETAIL(ex.getMessage())
-					}
-					if (gText==nbRecords.toString()) {
-						ret=true
-						break
-					}
-					Thread.sleep(100)
-					ms+=100
-				}
-			}
-		}
-
-
-
-
-		while (ms < timeoutms) {
-			gText = KW.getText(GlobalJDD.myGlobalJDD, 'divModalNbRecords',timeout)
-			if (gText==nbRecords.toString()) {
-				ret=true
-				break
-			}
-			Thread.sleep(100)
-			ms+=100
-		}
-		if (ret) {
-			Log.addINFO("Nombre de records attendu '$nbRecords' obtenu en $ms ms")
-		}else {
-			Log.addINFO("Nombre de records attendu '$nbRecords' KO après $ms ms")
-		}
-		Log.addTraceEND(CLASS_FOR_LOG, "isNbRecordsEqualTo",ret)
-		return ret
-	}
-	
-	*/
-}
+} //end of class

@@ -20,15 +20,14 @@ import tnrResultManager.TNRResult
 @CompileStatic
 public class Alert {
 
-	private static final String CLASS_FOR_LOG = 'Alert'
-
-	private static final String CLASS_CODE = 'ALE'
+	private static final String CLASS_NAME = 'Alert'
 
 
 
-	private static boolean waitForAlert( def stepID, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "waitForAlert", [ stepID:stepID , timeout:timeout , status:status])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '01',stepID)
+
+	private static boolean waitForAlert(int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_NAME, "waitForAlert", [  timeout:timeout , status:status])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'waitForAlert')
 		boolean ret = false
 		try {
 			WebUI.waitForAlert(timeout, FailureHandling.STOP_ON_FAILURE)
@@ -38,16 +37,16 @@ public class Alert {
 			TNRResult.addSTEP(strStepID, "Attendre la fenetre de confirmation",status)
 			TNRResult.addDETAIL(ex.getMessage())
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "waitForAlert",ret)
+		Log.addTraceEND(CLASS_NAME, "waitForAlert",ret)
 		return ret
 	}
 
 
 
 
-	private static boolean acceptAlert(def stepID, String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "acceptAlert", [ stepID:stepID , status:status])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '02',stepID)
+	private static boolean acceptAlert( String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_NAME, "acceptAlert", [  status:status])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'acceptAlert')
 		boolean ret = false
 		try {
 			WebUI.acceptAlert(FailureHandling.STOP_ON_FAILURE)
@@ -57,20 +56,20 @@ public class Alert {
 			TNRResult.addSTEP(strStepID, "Accepter la demande de confirmation", status)
 			TNRResult.addDETAIL(ex.getMessage())
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "acceptAlert",ret)
+		Log.addTraceEND(CLASS_NAME, "acceptAlert",ret)
 		return ret
 	}
 
 
 
 
-	public static boolean waitAndAcceptAlert(def stepID, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "waitAndAcceptAlert", [ stepID:stepID , status:status])
+	public static boolean waitAndAcceptAlert( int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_NAME, "waitAndAcceptAlert", [  status:status])
 		boolean ret = false
-		if (waitForAlert(stepID,timeout, status)) {
-			ret = acceptAlert(stepID,status)
+		if (waitForAlert(timeout, status)) {
+			ret = acceptAlert(status)
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "waitAndAcceptAlert",ret)
+		Log.addTraceEND(CLASS_NAME, "waitAndAcceptAlert",ret)
 		return ret
 	}
 }

@@ -22,7 +22,7 @@ import tnrLog.Log
 @CompileStatic
 public class InfoDB {
 
-	private static final String CLASS_FOR_LOG = 'InfoDB'
+	private static final String CLASS_NAME = 'InfoDB'
 
 	/*
 	 * Structure des données pour stocker les informations
@@ -45,12 +45,12 @@ public class InfoDB {
 	 * Constructeur : lit le fichier et charget le map 'datas'
 	 */
 	static {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"static",[:])
+		Log.addTraceBEGIN(CLASS_NAME,"static",[:])
 
 		InfoDBLoader infoDB = new InfoDBLoader()
 		datas = infoDB.getDatas()
 
-		Log.addTraceEND(CLASS_FOR_LOG,"static")
+		Log.addTraceEND(CLASS_NAME,"static")
 	}
 
 
@@ -62,9 +62,9 @@ public class InfoDB {
 	 * @return vrai si la table existe, faux sinon.
 	 */
 	public static boolean isTableExist(String table) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"isTableExist",[table:table])
+		Log.addTraceBEGIN(CLASS_NAME,"isTableExist",[table:table])
 		boolean ret = datas.containsKey(table)
-		Log.addTraceEND(CLASS_FOR_LOG,"isTableExist",ret)
+		Log.addTraceEND(CLASS_NAME,"isTableExist",ret)
 		return ret
 	}
 
@@ -77,12 +77,12 @@ public class InfoDB {
 	 * @return vrai si le nom est présent, faux sinon.
 	 */
 	public static boolean inTable(String table, String name) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"inTable",[table:table,name:name])
+		Log.addTraceBEGIN(CLASS_NAME,"inTable",[table:table,name:name])
 		boolean ret = false
 		if (isTableExist(table)) {
 			ret = datas[table].containsKey(name)
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"inTable",ret)
+		Log.addTraceEND(CLASS_NAME,"inTable",ret)
 		return ret
 	}
 
@@ -94,12 +94,12 @@ public class InfoDB {
 	 * @return Une liste de clés primaires.
 	 */
 	public static List getPK(String table) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getPK",[table:table])
+		Log.addTraceBEGIN(CLASS_NAME,"getPK",[table:table])
 		List list= []
 		if (isTableExist(table)) {
 			list= datas[table].findAll { entry -> entry.value.CONSTRAINT_NAME != 'NULL'}.keySet().toList()
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"getPK",list)
+		Log.addTraceEND(CLASS_NAME,"getPK",list)
 		return list
 	}
 
@@ -113,12 +113,12 @@ public class InfoDB {
 	 * @return vrai si le nom est une clé primaire, faux sinon.
 	 */
 	public static boolean isPK(String table, String name) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"isPK",[table:table,name:name])
+		Log.addTraceBEGIN(CLASS_NAME,"isPK",[table:table,name:name])
 		boolean ret = false
 		if (isTableExist(table) && inTable(table,name)) {
 			ret= datas[table][name]['CONSTRAINT_NAME'] !='NULL'
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"isPK",ret)
+		Log.addTraceEND(CLASS_NAME,"isPK",ret)
 		return ret
 	}
 
@@ -132,12 +132,12 @@ public class InfoDB {
 	 * @return Le type de données du nom.
 	 */
 	public static String getDATA_TYPE(String table, String name) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getDATA_TYPE",[table:table,name:name])
+		Log.addTraceBEGIN(CLASS_NAME,"getDATA_TYPE",[table:table,name:name])
 		String ret = null
 		if (isTableExist(table) && inTable(table,name)) {
 			ret = datas[table][name]['DATA_TYPE']
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"getDATA_TYPE",ret)
+		Log.addTraceEND(CLASS_NAME,"getDATA_TYPE",ret)
 		return ret
 	}
 
@@ -151,7 +151,7 @@ public class InfoDB {
 	 * @return Le nombre maximal de caractères pour la colonne, ou 0 si la table ou la colonne n'existe pas
 	 */
 	public static int getDATA_MAXCHAR(String table, String name) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getDATA_MAXCHAR",[table:table,name:name])
+		Log.addTraceBEGIN(CLASS_NAME,"getDATA_MAXCHAR",[table:table,name:name])
 		int ret = 0
 		if (isTableExist(table) && inTable(table,name)) {
 			def val = datas[table][name]['MAXCHAR']
@@ -159,7 +159,7 @@ public class InfoDB {
 				ret = (int) val
 			}
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"getDATA_MAXCHAR",ret)
+		Log.addTraceEND(CLASS_NAME,"getDATA_MAXCHAR",ret)
 		return ret
 	}
 
@@ -173,7 +173,7 @@ public class InfoDB {
 	 * @return La position ordinale de la colonne, ou 0 si la table ou la colonne n'existe pas
 	 */
 	public static int getORDINAL_POSITION(String table, String name) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getORDINAL_POSITION",[table:table,name:name])
+		Log.addTraceBEGIN(CLASS_NAME,"getORDINAL_POSITION",[table:table,name:name])
 		int ret = 0
 		if (isTableExist(table) && inTable(table,name)) {
 			def val = datas[table][name]['ORDINAL_POSITION']
@@ -181,7 +181,7 @@ public class InfoDB {
 				ret = (int) val
 			}
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"getORDINAL_POSITION",ret)
+		Log.addTraceEND(CLASS_NAME,"getORDINAL_POSITION",ret)
 		return ret
 	}
 
@@ -195,12 +195,12 @@ public class InfoDB {
 	 * @return true si la colonne est de type numérique, false sinon
 	 */
 	public static boolean isNumeric(String table, String name) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"isNumeric",[table:table,name:name])
+		Log.addTraceBEGIN(CLASS_NAME,"isNumeric",[table:table,name:name])
 		boolean ret = false
 		if (isTableExist(table) && inTable(table,name)) {
 			ret = datas[table][name]['DATA_TYPE']=='numeric'
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"isNumeric",ret)
+		Log.addTraceEND(CLASS_NAME,"isNumeric",ret)
 		return ret
 	}
 
@@ -213,12 +213,12 @@ public class InfoDB {
 	 * @return true si la colonne est de type image, false sinon
 	 */
 	public static boolean isImage(String table, String name) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"isImage",[table:table,name:name])
+		Log.addTraceBEGIN(CLASS_NAME,"isImage",[table:table,name:name])
 		boolean ret = false
 		if (isTableExist(table) && inTable(table,name)) {
 			ret = datas[table][name]['DATA_TYPE']=='image'
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"isImage",ret)
+		Log.addTraceEND(CLASS_NAME,"isImage",ret)
 		return ret
 	}
 
@@ -232,12 +232,12 @@ public class InfoDB {
 	 * @return true si la colonne est de type varchar, false sinon
 	 */
 	public static boolean isVarchar(String table, String name) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"isImage",[table:table,name:name])
+		Log.addTraceBEGIN(CLASS_NAME,"isImage",[table:table,name:name])
 		boolean ret = false
 		if (isTableExist(table) && inTable(table,name)) {
 			ret = datas[table][name]['DATA_TYPE']=='varchar'
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"isImage",ret)
+		Log.addTraceEND(CLASS_NAME,"isImage",ret)
 		return ret
 	}
 
@@ -250,12 +250,12 @@ public class InfoDB {
 	 * @return true si la colonne est de type datetime, false sinon
 	 */
 	public static boolean isDatetime(String table, String name) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"isDatetime",[table:table,name:name])
+		Log.addTraceBEGIN(CLASS_NAME,"isDatetime",[table:table,name:name])
 		boolean ret = false
 		if (isTableExist(table) && inTable(table,name)) {
 			ret = datas[table][name]['DATA_TYPE']=='datetime'
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"isDatetime",ret)
+		Log.addTraceEND(CLASS_NAME,"isDatetime",ret)
 		return ret
 	}
 
@@ -269,12 +269,12 @@ public class InfoDB {
 	 * @return true si la colonne est de type booléen, false sinon
 	 */
 	public static boolean isBoolean(String table, String name) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"isBoolean",[table:table,name:name])
+		Log.addTraceBEGIN(CLASS_NAME,"isBoolean",[table:table,name:name])
 		boolean ret = false
 		if (isTableExist(table) && inTable(table,name)) {
 			ret = datas[table][name]['DOMAIN_NAME']=='T_BOOLEEN'
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"isBoolean",ret)
+		Log.addTraceEND(CLASS_NAME,"isBoolean",ret)
 		return ret
 	}
 
@@ -289,14 +289,14 @@ public class InfoDB {
 	 * @return La valeur convertie
 	 */
 	public static castJDDVal(String table, String name, def val) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"castJDDVal",[table:table,name:name,val:val])
+		Log.addTraceBEGIN(CLASS_NAME,"castJDDVal",[table:table,name:name,val:val])
 		def ret
 		if (isVarchar(table,name)) {
 			ret = val.toString()
 		}else {
 			ret = val
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"castJDDVal",ret)
+		Log.addTraceEND(CLASS_NAME,"castJDDVal",ret)
 		return ret
 	}
 
@@ -309,12 +309,12 @@ public class InfoDB {
 	 * @return Un Map contenant les détails des colonnes pour la table donnée
 	 */
 	public static Map<String, Map <String , Object>> getDatasForTable(String table) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getDatasForTable",[table:table])
+		Log.addTraceBEGIN(CLASS_NAME,"getDatasForTable",[table:table])
 		Map<String, Map <String , Object>> ret =[:]
 		if (isTableExist(table)) {
 			ret = datas[table]
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"getDatasForTable",ret)
+		Log.addTraceEND(CLASS_NAME,"getDatasForTable",ret)
 		return ret
 	}
 }// Fin de class

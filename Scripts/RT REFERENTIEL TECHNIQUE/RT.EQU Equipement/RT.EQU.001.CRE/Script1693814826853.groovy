@@ -18,7 +18,8 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
-	STEP_NAV.goToURL_Creation_and_checkCartridge(1,'','SEL=0&OPERATION=NEW_SON')
+	STEP.goToURLCreate('','SEL=0&OPERATION=NEW_SON')
+	STEP.checkCreateScreen()
 	
 
 		//Rappel pour ajouter un block dans le fichier Resultat :
@@ -27,60 +28,60 @@ for (String cdt in myJDD.getCDTList()) {
 		
 	TNRResult.addSTEPGRP("ONGLET EQUIPEMENT")
 		
-		STEP.simpleClick(0, myJDD, "tab_Equipement")
-		STEP.verifyElementVisible(0, myJDD, "tab_EquipementSelected")
+		STEP.simpleClick(myJDD, "tab_Equipement")
+		STEP.verifyElementVisible(myJDD, "tab_EquipementSelected")
 		
-		STEP.setText(0, myJDD, "ST_CODCOU")
-		STEP.setText(0, myJDD, "ST_CODPERS")
-		STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_INA", "O")
-		STEP.setText(0, myJDD, "ST_DESEQU")
-		STEP.scrollAndSelectOptionByLabel(0, myJDD, "ST_ETA")
-		STEP.scrollAndSelectOptionByLabel(0, myJDD, "NU_CRI")
-		STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_NIVABS", "O")
-		STEP.setText(0, myJDD, "ID_CODGES")
-		STEP.setText(0, myJDD, "ID_NUMEMP") //EMP_CODLON
-		STEP.setText(0, myJDD, "ID_CODIMP")
-		STEP.setText(0, myJDD, "ID_NUMGRO") // GRO_CODLON
-		STEP.setText(0, myJDD, "ID_CODCOM")
-		STEP.setText(0, myJDD, "NU_USA")
-		STEP.setText(0, myJDD, "ID_CODCON")
+		STEP.setText(myJDD, "ST_CODCOU")
+		STEP.setText(myJDD, "ST_CODPERS")
+		STEP.clickCheckboxIfNeeded(myJDD, "ST_INA", "O")
+		STEP.setText(myJDD, "ST_DESEQU")
+		STEP.selectOptionByLabel(myJDD, "ST_ETA")
+		STEP.selectOptionByLabel(myJDD, "NU_CRI")
+		STEP.clickCheckboxIfNeeded(myJDD, "ST_NIVABS", "O")
+		STEP.setText(myJDD, "ID_CODGES")
+		STEP.setText(myJDD, "ID_NUMEMP") //EMP_CODLON
+		STEP.setText(myJDD, "ID_CODIMP")
+		STEP.setText(myJDD, "ID_NUMGRO") // GRO_CODLON
+		STEP.setText(myJDD, "ID_CODCOM")
+		STEP.setText(myJDD, "NU_USA")
+		STEP.setText(myJDD, "ID_CODCON")
 		
-		STEP.scrollToPosition('', 0, 0)
+		STEP.scrollToPosition( 0, 0)
 		
 	TNRResult.addSTEPGRP("ONGLET FICHE")
 		
-		STEP.simpleClick(0, myJDD, "tab_Fiche")
-		STEP.verifyElementVisible(0, myJDD, "tab_FicheSelected")
+		STEP.simpleClick(myJDD, "tab_Fiche")
+		STEP.verifyElementVisible(myJDD, "tab_FicheSelected")
 		
-		STEP.setText(0, myJDD, "ST_NOMFOU")
-			STEP.setText(0, myJDD, "ST_REFFOU")
-			STEP.setText(0, myJDD, "NU_PRIACH")
-			STEP.setText(0, myJDD, "ST_NOMCON")
-			STEP.setText(0, myJDD, "ST_REFCON")
-			STEP.setDate(0, myJDD, "DT_ACH")
-			STEP.setDate(0, myJDD, "DT_SER")
-			STEP.setText(0, myJDD, "NU_PRIACT")
-			STEP.setDate(0, myJDD, "DT_FINGAR")
-			STEP.setDate(0, myJDD, "DT_FINVIE")
-			STEP.setText(0, myJDD, "NU_COUHOR")
-			STEP.setText(0, myJDD, "NU_USAGAR")
-			STEP.setText(0, myJDD, "NU_FINUSA")
-			STEP.setText(0, myJDD, "NU_COUARR")
-			STEP.setText(0, myJDD, "ST_NUMINV")
-			STEP.setText(0, myJDD, "ST_OBS")
-			STEP.setText(0, myJDD, "ID_CODCAL")
-			STEP.setText(0, myJDD, "ID_CODCONTRA")
-			STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_COM", "O")
-			STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_MAT", "O")
-			STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_CONTRABT", "O")
-			STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_ANA", "O")
+		STEP.setText(myJDD, "ST_NOMFOU")
+			STEP.setText(myJDD, "ST_REFFOU")
+			STEP.setText(myJDD, "NU_PRIACH")
+			STEP.setText(myJDD, "ST_NOMCON")
+			STEP.setText(myJDD, "ST_REFCON")
+			STEP.setDate(myJDD, "DT_ACH")
+			STEP.setDate(myJDD, "DT_SER")
+			STEP.setText(myJDD, "NU_PRIACT")
+			STEP.setDate(myJDD, "DT_FINGAR")
+			STEP.setDate(myJDD, "DT_FINVIE")
+			STEP.setText(myJDD, "NU_COUHOR")
+			STEP.setText(myJDD, "NU_USAGAR")
+			STEP.setText(myJDD, "NU_FINUSA")
+			STEP.setText(myJDD, "NU_COUARR")
+			STEP.setText(myJDD, "ST_NUMINV")
+			STEP.setText(myJDD, "ST_OBS")
+			STEP.setText(myJDD, "ID_CODCAL")
+			STEP.setText(myJDD, "ID_CODCONTRA")
+			STEP.clickCheckboxIfNeeded(myJDD, "ST_COM", "O")
+			STEP.clickCheckboxIfNeeded(myJDD, "ST_MAT", "O")
+			STEP.clickCheckboxIfNeeded(myJDD, "ST_CONTRABT", "O")
+			STEP.clickCheckboxIfNeeded(myJDD, "ST_ANA", "O")
 		
-		STEP.scrollToPosition('', 0, 0)
+		STEP.scrollToPosition( 0, 0)
 		
 	TNRResult.addSTEPGRP("ONGLET NOTES")
 		
-		STEP.simpleClick(0, myJDD, "tab_Notes")
-		STEP.verifyElementVisible(0, myJDD, "tab_NotesSelected")
+		STEP.simpleClick(myJDD, "tab_Notes")
+		STEP.verifyElementVisible(myJDD, "tab_NotesSelected")
 
 		/*
 		Comment différencier --> en rajoutant un ecolonne dans 001C avec le ID_NUMDOC1, ID_NUMDOC2
@@ -90,8 +91,8 @@ for (String cdt in myJDD.getCDTList()) {
 		
 	TNRResult.addSTEPGRP("ONGLET ADRESSE")
 		
-		STEP.simpleClick(0, myJDD, "tab_Adresse")
-		STEP.verifyElementVisible(0, myJDD, "tab_AdresseSelected")
+		STEP.simpleClick(myJDD, "tab_Adresse")
+		STEP.verifyElementVisible(myJDD, "tab_AdresseSelected")
 
 
 	
@@ -99,13 +100,13 @@ for (String cdt in myJDD.getCDTList()) {
 				
 	TNRResult.addSTEPACTION('VALIDATION')
 		
-	    STEP.simpleClick(0, GlobalJDD.myGlobalJDD,'button_Valider')
+	    STEP.simpleClick(GlobalJDD.myGlobalJDD,'button_Valider')
 		
-		STEP.checkResultScreen(0, myJDD.getStrData('ST_CODCOU'),'', 'Resultat_ID')
+		STEP.checkResultScreen(myJDD.getStrData('ST_CODCOU'),'', 'Resultat_ID')
 		
 		myJDD.replaceSEQUENCIDInJDD('ID_NUMEQU')
 	
-		STEP.checkJDDWithBD(0, myJDD)
+		STEP.checkJDDWithBD(myJDD)
 		
 	TNRResult.addEndTestCase()
 

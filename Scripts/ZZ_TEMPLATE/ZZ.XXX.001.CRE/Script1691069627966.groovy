@@ -15,7 +15,7 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
-    STEP.goToURLCreate(1); STEP.checkCreateScreen(2)
+    STEP.goToURLCreate(); STEP.checkCreateScreen()
 	
 
 
@@ -26,11 +26,11 @@ for (String cdt in myJDD.getCDTList()) {
 				
 	TNRResult.addSTEPACTION('VALIDATION')
 		
-	    STEP.simpleClick(0, GlobalJDD.myGlobalJDD,'button_Valider')
+	    STEP.simpleClick(GlobalJDD.myGlobalJDD,'button_Valider')
 	
-	    STEP.checkResultScreen(0, myJDD.getStrData())
+	    STEP.checkResultScreen(myJDD.getStrData())
 	
-		STEP.checkJDDWithBD(0, myJDD)
+		STEP.checkJDDWithBD(myJDD)
 		
 	TNRResult.addEndTestCase()
 

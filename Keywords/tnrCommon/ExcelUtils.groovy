@@ -22,7 +22,7 @@ import groovy.transform.CompileStatic
 @CompileStatic
 public class ExcelUtils {
 
-	private static final String CLASS_FOR_LOG = 'ExcelUtils'
+	private static final String CLASS_NAME = 'ExcelUtils'
 
 
 
@@ -33,7 +33,7 @@ public class ExcelUtils {
 	 * @return Le classeur Excel (XSSFWorkbook) ou null en cas d'erreur.
 	 */
 	static XSSFWorkbook open(String fullname) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"open",[fullname:fullname])
+		Log.addTraceBEGIN(CLASS_NAME,"open",[fullname:fullname])
 		XSSFWorkbook ret
 		try {
 			File sourceExcel = new File(fullname)
@@ -47,7 +47,7 @@ public class ExcelUtils {
 			Log.addERROR("Erreur d'entrée/sortie lors de l'ouverture du fichier : ${e.message}")
 			e.printStackTrace()
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"open",ret.getAllNames())
+		Log.addTraceEND(CLASS_NAME,"open",ret.getAllNames())
 		return ret
 	}
 
@@ -65,7 +65,7 @@ public class ExcelUtils {
 	 * @param hyperlink Hyperlien de la cellule (facultatif, valeur par défaut = null).
 	 */
 	static writeCell(Row row, int colIdx, def val, CellStyle cellStyle = null, Hyperlink hyperlink = null) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"writeCell",[rowNum:row.getRowNum(), colIdx:colIdx, val:val, cellStyle:cellStyle, hyperlink:hyperlink])
+		Log.addTraceBEGIN(CLASS_NAME,"writeCell",[rowNum:row.getRowNum(), colIdx:colIdx, val:val, cellStyle:cellStyle, hyperlink:hyperlink])
 
 		if (row == null) {
 			Log.addERROR("row is NULL")
@@ -88,7 +88,7 @@ public class ExcelUtils {
 			if (cellStyle) cell.setCellStyle(cellStyle)
 		}
 
-		Log.addTraceEND(CLASS_FOR_LOG,"writeCell")
+		Log.addTraceEND(CLASS_NAME,"writeCell")
 	}
 
 
@@ -103,7 +103,7 @@ public class ExcelUtils {
 	 * @return Liste contenant les valeurs de la ligne.
 	 */
 	static List loadRow2(Row row, int ideb = 0, int size = 0, String nullval = '') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"loadRow2",[rowNum:row.getRowNum(),ideb:ideb,size:size,nullval:nullval])
+		Log.addTraceBEGIN(CLASS_NAME,"loadRow2",[rowNum:row.getRowNum(),ideb:ideb,size:size,nullval:nullval])
 
 		List data = []
 		if (size == 0) size = row.getLastCellNum()
@@ -115,7 +115,7 @@ public class ExcelUtils {
 			data[i - ideb] = value
 		}
 
-		Log.addTraceEND(CLASS_FOR_LOG,"loadRow2",data)
+		Log.addTraceEND(CLASS_NAME,"loadRow2",data)
 
 		return data
 	}
@@ -133,7 +133,7 @@ public class ExcelUtils {
 	 * @return Liste des données de la ligne.
 	 */
 	static List loadRow(Row row, int size = 0) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"loadRow",[rowNum:row.getRowNum(),size:size])
+		Log.addTraceBEGIN(CLASS_NAME,"loadRow",[rowNum:row.getRowNum(),size:size])
 
 		List data = []
 		for (Cell cell : row) {
@@ -144,7 +144,7 @@ public class ExcelUtils {
 			data[cell.getColumnIndex()] = value
 		}
 
-		Log.addTraceEND(CLASS_FOR_LOG,"loadRow",data)
+		Log.addTraceEND(CLASS_NAME,"loadRow",data)
 		return data
 	}
 
@@ -161,7 +161,7 @@ public class ExcelUtils {
 	 * @return Valeur de la cellule formatée en tant que chaîne de caractères.
 	 */
 	public static def getCellValue(Cell cell, String nullval = '') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getCellValue",[cell:cell,nullval:nullval])
+		Log.addTraceBEGIN(CLASS_NAME,"getCellValue",[cell:cell,nullval:nullval])
 
 		def CellData = null
 
@@ -211,7 +211,7 @@ public class ExcelUtils {
 			}
 		}
 
-		Log.addTraceEND(CLASS_FOR_LOG,"getCellValue",CellData)
+		Log.addTraceEND(CLASS_NAME,"getCellValue",CellData)
 		return CellData
 	}
 
@@ -232,7 +232,7 @@ public class ExcelUtils {
 	 * @return Index de la colonne contenant le nom de colonne, ou -1 si le nom de colonne n'a pas été trouvé.
 	 */
 	static int getColumnIndexOfColumnName(Sheet sheet, String columnName, int numRow = 0) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getColumnIndexOfColumnName",[sheet:sheet.getSheetName(),columnName:columnName,numRow:numRow])
+		Log.addTraceBEGIN(CLASS_NAME,"getColumnIndexOfColumnName",[sheet:sheet.getSheetName(),columnName:columnName,numRow:numRow])
 		int ret = -1
 		for (Cell cell : sheet.getRow(numRow)) {
 			if (getCellValue(cell) == columnName) {
@@ -243,7 +243,7 @@ public class ExcelUtils {
 		if (ret==-1) {
 			Log.addERROR("ExcelUtils.getColumnIndexOfColumnName() columnName='${columnName}' numRow='${numRow}' Nom de colonne non trouvé")
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"getColumnIndexOfColumnName",ret)
+		Log.addTraceEND(CLASS_NAME,"getColumnIndexOfColumnName",ret)
 		return ret
 	}
 
@@ -255,7 +255,7 @@ public class ExcelUtils {
 
 
 	static int getLastColumnIndex(Sheet sheet, int numRow) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getLastColumnIndex",[sheet:sheet.getSheetName(),numRow:numRow])
+		Log.addTraceBEGIN(CLASS_NAME,"getLastColumnIndex",[sheet:sheet.getSheetName(),numRow:numRow])
 
 		int lastCellNum = sheet.getRow(numRow).getLastCellNum()
 		int ret = -1
@@ -267,7 +267,7 @@ public class ExcelUtils {
 			}
 		}
 
-		Log.addTraceEND(CLASS_FOR_LOG,"getLastColumnIndex",ret)
+		Log.addTraceEND(CLASS_NAME,"getLastColumnIndex",ret)
 		return ret
 	}
 
@@ -288,7 +288,7 @@ public class ExcelUtils {
 	 * @return Numéro de la première ligne où la cellule est vide ou nulle, ou -1 si aucune ligne n'est trouvée.
 	 */
 	static int getRowNumOfFirstCellFree(Sheet sheet, int col = 0) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getRowNumOfFirstCellFree",[sheet:sheet.getSheetName(),col:col])
+		Log.addTraceBEGIN(CLASS_NAME,"getRowNumOfFirstCellFree",[sheet:sheet.getSheetName(),col:col])
 
 		int num = -1
 		for (int numLine : (0..sheet.getLastRowNum())) {
@@ -306,7 +306,7 @@ public class ExcelUtils {
 		if (num == -1) {
 			Log.addERROR("ExcelUtils.getRowNumOfFirstCellFree of ${sheet.getSheetName()}: ${num}")
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"getRowNumOfFirstCellFree",num)
+		Log.addTraceEND(CLASS_NAME,"getRowNumOfFirstCellFree",num)
 		return num
 	}
 
@@ -322,7 +322,7 @@ public class ExcelUtils {
 	 * @return L'objet Row correspondant à la ligne spécifiée.
 	 */
 	static Row getNewRow(Sheet sheet, int numRow) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getNewRow",[sheet:sheet.getSheetName(),numRow:numRow])
+		Log.addTraceBEGIN(CLASS_NAME,"getNewRow",[sheet:sheet.getSheetName(),numRow:numRow])
 
 		Row row
 		if (sheet.getRow(numRow) == null) {
@@ -331,7 +331,7 @@ public class ExcelUtils {
 			row = sheet.getRow(numRow)
 		}
 
-		Log.addTraceEND(CLASS_FOR_LOG,"getNewRow",row.getRowNum())
+		Log.addTraceEND(CLASS_NAME,"getNewRow",row.getRowNum())
 		return row
 	}
 
@@ -344,12 +344,12 @@ public class ExcelUtils {
 	 * @return L'objet Row correspondant à la prochaine ligne libre.
 	 */
 	static Row getNextRow(Sheet sheet, int col = 0) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getNextRow",[sheet:sheet.getSheetName(),col:col])
+		Log.addTraceBEGIN(CLASS_NAME,"getNextRow",[sheet:sheet.getSheetName(),col:col])
 
 		int rowNum = getRowNumOfFirstCellFree(sheet, col)
 		Row row = getNewRow(sheet, rowNum)
 
-		Log.addTraceEND(CLASS_FOR_LOG,"getNextRow",row.getRowNum())
+		Log.addTraceEND(CLASS_NAME,"getNextRow",row.getRowNum())
 		return row
 	}
 

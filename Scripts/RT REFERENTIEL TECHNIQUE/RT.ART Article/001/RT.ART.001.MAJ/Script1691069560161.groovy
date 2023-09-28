@@ -19,28 +19,29 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 	
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_ReadUpdateDelete_and_checkCartridge(myJDD.getStrData("ID_CODART"))
+	STEP.goToURLReadUpdateDelete(myJDD.getStrData('ID_CODINT'))
+	STEP.checkReadUpdateDeleteScreen(myJDD.getStrData('ID_CODINT'))
 
 
 	TNRResult.addSTEPGRP("ONGLET ARTICLE")
 			
-			STEP.simpleClick(0, myJDD,"tab_Article")
-			STEP.verifyElementVisible(0, myJDD,"tab_ArticleSelected")
+			STEP.simpleClick(myJDD,"tab_Article")
+			STEP.verifyElementVisible(myJDD,"tab_ArticleSelected")
 			
-			//STEP.setText(0, myJDD, "ID_CODART")
-			STEP.scrollAndSelectOptionByLabel(0, myJDD,"ST_ETA")
-			//STEP.scrollAndCheckIfNeeded(0, myJDD,"CODARTAUTO","O")
-			STEP.setText(0, myJDD, "ST_DES")
-			STEP.scrollAndSelectOptionByLabel(0, myJDD,"ST_TYPART")
-			STEP.scrollAndCheckIfNeeded(0, myJDD,"ST_INA","O")
+			//STEP.setText(myJDD, "ID_CODART")
+			STEP.selectOptionByLabel(myJDD,"ST_ETA")
+			//STEP.clickCheckboxIfNeeded(myJDD,"CODARTAUTO","O")
+			STEP.setText(myJDD, "ST_DES")
+			STEP.selectOptionByLabel(myJDD,"ST_TYPART")
+			STEP.clickCheckboxIfNeeded(myJDD,"ST_INA","O")
 			
-			STEP.searchWithHelper(0, myJDD, "ID_CODNATART","","")
+			STEP.searchWithHelper(myJDD, "ID_CODNATART","","")
 			//ST_DESID_CODNATART --> pas d'action en modification
-			STEP.searchWithHelper(0, myJDD, "ID_CODGES","","")
+			STEP.searchWithHelper(myJDD, "ID_CODGES","","")
 			//ST_DESGES --> pas d'action en modification
 			
 			def JDD_Note = new JDD(JDDFileMapper.getFullnameFromModObj('RT.ART'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS)
-			STEP.setMemoText(0, JDD_Note.getStrData("OL_DOC"), 'Notes',true,myJDD,'')
+			STEP.setMemoText(JDD_Note.getStrData("OL_DOC"), 'Notes',true,myJDD,'')
 			
 			
 		TNRResult.addSTEPBLOCK("FOURNISSEUR NORMALISE")
@@ -48,42 +49,42 @@ for (String cdt in myJDD.getCDTList()) {
 		// Lire le JDD spécifique
 		JDD JDD_ARTFOU = new JDD(JDDFileMapper.getFullnameFromModObj('RT.ART'),'001B',GlobalVariable.CAS_DE_TEST_EN_COURS)
 			
-			STEP.searchWithHelper(0, JDD_ARTFOU, "ID_CODFOU","","")
+			STEP.searchWithHelper(JDD_ARTFOU, "ID_CODFOU","","")
 			//ST_DESID_CODFOU --> pas d'action en modification
-			STEP.setText(0, JDD_ARTFOU, "ST_DES")
-			STEP.setText(0, JDD_ARTFOU, "ST_REFFOU")
+			STEP.setText(JDD_ARTFOU, "ST_DES")
+			STEP.setText(JDD_ARTFOU, "ST_REFFOU")
 			
 		TNRResult.addSTEPBLOCK("STOCK")
 			
-			STEP.scrollAndCheckIfNeeded(0, myJDD,"ST_MAT","O")
-			STEP.searchWithHelper(0, myJDD, "ID_CODUNI","","")
-			STEP.setText(0, myJDD, "NU_PRIPMP")
+			STEP.clickCheckboxIfNeeded(myJDD,"ST_MAT","O")
+			STEP.searchWithHelper(myJDD, "ID_CODUNI","","")
+			STEP.setText(myJDD, "NU_PRIPMP")
 			
 		TNRResult.addSTEPBLOCK("ACHATS")
 			
-			STEP.scrollAndCheckIfNeeded(0, myJDD,"ST_CONOBL","O")
-			STEP.setText(0, myJDD, "ST_TXTCDE")
-			STEP.searchWithHelper(0, myJDD, "ST_CODCOM","","SEARCH_ID_CODCMP")
+			STEP.clickCheckboxIfNeeded(myJDD,"ST_CONOBL","O")
+			STEP.setText(myJDD, "ST_TXTCDE")
+			STEP.searchWithHelper(myJDD, "ST_CODCOM","","SEARCH_ID_CODCMP")
 			//ST_DESST_CODCOM --> pas d'action en modification
-			STEP.searchWithHelper(0, myJDD, "ID_CODTVA","","")
+			STEP.searchWithHelper(myJDD, "ID_CODTVA","","")
 			
 			/*
-			STEP.scrollAndCheckIfNeeded(0, myJDD,"MAJ_NOM","O")
-			STEP.searchWithHelper(0, myJDD, "NOM_CODLON","","")
+			STEP.clickCheckboxIfNeeded(myJDD,"MAJ_NOM","O")
+			STEP.searchWithHelper(myJDD, "NOM_CODLON","","")
 			//ST_DESNOM --> pas d'action en modification
 			
-			STEP.scrollAndCheckIfNeeded(0, myJDD,"MAJ_EQU","O")
-			STEP.searchWithHelper(0, myJDD, "EQU_CODLON","","")
+			STEP.clickCheckboxIfNeeded(myJDD,"MAJ_EQU","O")
+			STEP.searchWithHelper(myJDD, "EQU_CODLON","","")
 			//ST_DESEQU --> pas d'action en modification
-			STEP.setText(0, myJDD, "ART_EQU_QTE")
-			STEP.setText(0, myJDD, "ART_EQU_OBS")
+			STEP.setText(myJDD, "ART_EQU_QTE")
+			STEP.setText(myJDD, "ART_EQU_OBS")
 			
-			STEP.scrollAndCheckIfNeeded(0, myJDD,"MAJ_MODFAM","O")
-			STEP.searchWithHelper(0, myJDD, "ID_CODFAM","","")
+			STEP.clickCheckboxIfNeeded(myJDD,"MAJ_MODFAM","O")
+			STEP.searchWithHelper(myJDD, "ID_CODFAM","","")
 			//ST_DESID_CODFAM --> pas d'action en modification
-			STEP.setText(0, myJDD, "MODFAM_CODLON")
-			STEP.setText(0, myJDD, "ART_MODFAM_QTE")
-			STEP.setText(0, myJDD, "ART_MODFAM_OBS")
+			STEP.setText(myJDD, "MODFAM_CODLON")
+			STEP.setText(myJDD, "ART_MODFAM_QTE")
+			STEP.setText(myJDD, "ART_MODFAM_OBS")
 			*/
 	  
 	  
@@ -94,12 +95,12 @@ for (String cdt in myJDD.getCDTList()) {
 
 	TNRResult.addSTEPACTION('VALIDATION')
 	
-	    STEP.simpleClick(0, GlobalJDD.myGlobalJDD,'button_Valider')
+	    STEP.simpleClick(GlobalJDD.myGlobalJDD,'button_Valider')
 	
-	    STEP.checkResultScreen(0, myJDD.getStrData("ID_CODART"))
+	    STEP.checkResultScreen(myJDD.getStrData("ID_CODART"))
 	
-		STEP.checkJDDWithBD(0, myJDD)
-		STEP.checkJDDWithBD(0, JDD_Note)
+		STEP.checkJDDWithBD(myJDD)
+		STEP.checkJDDWithBD(JDD_Note)
 		
 	TNRResult.addEndTestCase()
 	

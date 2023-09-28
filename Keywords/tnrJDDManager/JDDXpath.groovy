@@ -18,7 +18,7 @@ import tnrLog.Log
 public class JDDXpath {
 
 
-	private final String CLASS_FOR_LOG  = 'JDDXpaths'
+	private final String CLASS_NAME  = 'JDDXpaths'
 
 
 	private final List TAG_LIST_ALLOWED			= ['input', 'select', 'textarea', 'td', 'checkbox', 'radio']
@@ -45,20 +45,20 @@ public class JDDXpath {
 
 
 	public void add(Map <String,String> map) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"add",[map:map])
+		Log.addTraceBEGIN(CLASS_NAME,"add",[map:map])
 		map.each { name,loc ->
 			if (xpaths.containsKey(name)) {
 				Log.addTrace("Le xpath pour '$name' existe déjà, on met à jour")
 			}
 			add(name,loc)
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"add")
+		Log.addTraceEND(CLASS_NAME,"add")
 	}
 
 
 
 	public void add(String name, String loc) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"add",[name:name , loc:loc])
+		Log.addTraceBEGIN(CLASS_NAME,"add",[name:name , loc:loc])
 
 		if (!loc) {
 			Log.addTrace("Pas de locator pour $name")
@@ -99,7 +99,7 @@ public class JDDXpath {
 		}
 
 		Log.addTrace("xpaths $xpaths")
-		Log.addTraceEND(CLASS_FOR_LOG,"add")
+		Log.addTraceEND(CLASS_NAME,"add")
 	}
 
 

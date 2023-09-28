@@ -20,17 +20,16 @@ import tnrResultManager.TNRResult
  */
 @CompileStatic
 public class Radio {
-	
-	
-	private static final String CLASS_FOR_LOG = 'Radio'
-	
-	private static final String CLASS_CODE = 'RAD'
-	
-	
-	
-	static void verifyRadioChecked(def stepID, JDD myJDD, String name,  int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyRadioChecked", [stepID:stepID , myJDD: myJDD, name: name , timeout:timeout , status:status])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '01',stepID)
+
+
+	private static final String CLASS_NAME = 'Radio'
+
+
+
+
+	static void verifyRadioChecked( JDD myJDD, String name,  int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_NAME, "verifyRadioChecked", [ myJDD:myJDD.toString() , name: name , timeout:timeout , status:status])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'verifyRadioChecked'+ myJDD.toString() + name)
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (!msgTO) {
 			if (JDDKW.isNU(myJDD.getStrData(name))) {
@@ -58,13 +57,13 @@ public class Radio {
 			TNRResult.addSTEPERROR(strStepID, "Vérifier que le bouton radio '$name', soit sélectionné impossible")
 			TNRResult.addDETAIL(msgTO)
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "verifyRadioChecked")
+		Log.addTraceEND(CLASS_NAME, "verifyRadioChecked")
 	}
 
 
-	static void scrollAndSetRadio(def stepID, JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "scrollAndSetRadio", [stepID:stepID , myJDD: myJDD, name: name , timeout:timeout , status:status])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '02',stepID)
+	static void setRadio( JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_NAME, "setRadio", [ myJDD:myJDD.toString() , name: name , timeout:timeout , status:status])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'setRadio'+ myJDD.toString() + name)
 		//Création du TO label en tenant compte de la valeur --> voir resolveXpath
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		String nameWithoutLbl = name.substring(3)
@@ -86,8 +85,8 @@ public class Radio {
 			TNRResult.addSTEPERROR(strStepID, "Clic sur '$nameWithoutLbl' imposible")
 			TNRResult.addDETAIL(msgTO)
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "scrollAndSetRadio")
+		Log.addTraceEND(CLASS_NAME, "setRadio")
 	}
-	
-	
+
+
 }

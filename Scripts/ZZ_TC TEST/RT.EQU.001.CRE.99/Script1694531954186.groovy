@@ -14,11 +14,11 @@ myJDD.setCasDeTest('RT.EQU.001.MAJ.01')
 	STEP_NAV.goToURL_Creation(1, '7')
 	
 		
-		STEP.scrollAndSelectOptionByLabel(0, myJDD, "NU_CRI")
+		STEP.selectOptionByLabel(myJDD, "NU_CRI")
 		/*
-		WUI.delay( 2)
+		WUI.delay(2)
 		KW.scrollAndSelectOptionByValue(myJDD, "NU_CRI")
-		WUI.delay( 2)
+		WUI.delay(2)
 		KW.scrollAndSelectOptionByValue(myJDD, "NU_CRI")
 		*/
 		

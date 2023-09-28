@@ -20,15 +20,13 @@ import tnrResultManager.TNRResult
 public class Key {
 
 
-	private static final String CLASS_FOR_LOG = 'Key'
-
-	private static final String CLASS_CODE = 'KEY'
+	private static final String CLASS_NAME = 'Key'
 
 
 
-	static String sendKeys(def stepID, JDD myJDD, String name, String keys, String msg = '' , String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "sendKeys", [stepID:stepID , myJDD: myJDD, name: name , keys:keys, msg:msg , status:status])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '01',stepID)
+	static String sendKeys( JDD myJDD, String name, String keys, String msg = '' , String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_NAME, "sendKeys", [ myJDD:myJDD.toString() , name: name , keys:keys, msg:msg , status:status])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'sendKeys'+ myJDD.toString() + name + keys)
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		String ret = null
 		if (!msgTO) {
@@ -50,7 +48,7 @@ public class Key {
 			TNRResult.addSTEPERROR(strStepID, "Envoie touche(s) clavier '$keys' sur '$name' impossible")
 			TNRResult.addDETAIL(msgTO)
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "sendKeys",ret)
+		Log.addTraceEND(CLASS_NAME, "sendKeys",ret)
 		return ret
 	}
 }

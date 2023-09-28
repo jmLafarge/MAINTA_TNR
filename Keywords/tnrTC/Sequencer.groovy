@@ -13,7 +13,7 @@ import tnrLog.Log
 @CompileStatic
 public class Sequencer {
 
-	private static final String CLASS_FOR_LOG = 'Sequencer'
+	private static final String CLASS_NAME = 'Sequencer'
 
 
 	public static List testCasesList = []
@@ -33,7 +33,7 @@ public class Sequencer {
 
 
 	static {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"static",[:])
+		Log.addTraceBEGIN(CLASS_NAME,"static",[:])
 		Log.addSubTITLE('Load testCasesList from TNR sequencer file','-',120)
 		Log.addINFO("\t" + 'CDTPATTERN'.padRight(24) + 'TCFULLNAME'.padRight(90) + 'REP')
 		Log.addINFO("")
@@ -89,7 +89,7 @@ public class Sequencer {
 			}
 
 		} // end of for each data line
-		Log.addTraceEND(CLASS_FOR_LOG,"static")
+		Log.addTraceEND(CLASS_NAME,"static")
 	}
 
 

@@ -12,7 +12,7 @@ import tnrLog.Log
 public class JDDFileMapper {
 
 
-	private static final String CLASS_FOR_LOG = 'JDDFileMapper'
+	private static final String CLASS_NAME = 'JDDFileMapper'
 
 
 	public static Map <String,String> JDDfilemap = [:]
@@ -34,7 +34,7 @@ public class JDDFileMapper {
 
 
 	static {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"static",[:])
+		Log.addTraceBEGIN(CLASS_NAME,"static",[:])
 
 		Log.addTrace("Load JDDfileList")
 		Log.addTrace("")
@@ -52,7 +52,7 @@ public class JDDFileMapper {
 				Log.addDEBUG('\t' + modObj.padRight(16) + file.getPath())
 			}
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"static")
+		Log.addTraceEND(CLASS_NAME,"static")
 	}
 
 
@@ -63,9 +63,9 @@ public class JDDFileMapper {
 	 * @return le nom complet du fichier JDD correspondant, ou null si aucun fichier JDD ne correspond.
 	 */
 	static String getFullnameFromCasDeTest(String casDeTest) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getFullnameFromCasDeTest",[casDeTest:casDeTest])
+		Log.addTraceBEGIN(CLASS_NAME,"getFullnameFromCasDeTest",[casDeTest:casDeTest])
 		def modObj = Tools.getMobObj(casDeTest)
-		Log.addTraceEND(CLASS_FOR_LOG,"getFullnameFromCasDeTest",JDDfilemap[modObj])
+		Log.addTraceEND(CLASS_NAME,"getFullnameFromCasDeTest",JDDfilemap[modObj])
 		return JDDfilemap[modObj]
 	}
 
@@ -76,8 +76,8 @@ public class JDDFileMapper {
 	 * @return
 	 */
 	static String getFullnameFromModObj(String modObj) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getFullname",[modObj:modObj])
-		Log.addTraceEND(CLASS_FOR_LOG,"getFullname",JDDfilemap[modObj])
+		Log.addTraceBEGIN(CLASS_NAME,"getFullname",[modObj:modObj])
+		Log.addTraceEND(CLASS_NAME,"getFullname",JDDfilemap[modObj])
 		return JDDfilemap[modObj]
 	}
 
@@ -89,9 +89,9 @@ public class JDDFileMapper {
 	 * @return
 	 */
 	static void add(String modObj,String fullName) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"add",[modObj:modObj , fullName:fullName])
+		Log.addTraceBEGIN(CLASS_NAME,"add",[modObj:modObj , fullName:fullName])
 		JDDfilemap.put(modObj,fullName)
-		Log.addTraceEND(CLASS_FOR_LOG,"add")
+		Log.addTraceEND(CLASS_NAME,"add")
 	}
 
 } // Fin de class

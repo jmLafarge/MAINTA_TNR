@@ -24,25 +24,14 @@ import tnrResultManager.TNRResult
 class KW {
 
 
-	private static final String CLASS_FOR_LOG = 'KW'
-
-
-
-
-
-
-
-
-
-
-
+	private static final String CLASS_NAME = 'KW'
 
 
 
 
 
 	static String getText(JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT )  {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "getText", [myJDD: myJDD, name: name , timeout:timeout ])
+		Log.addTraceBEGIN(CLASS_NAME, "getText", [myJDD:myJDD.toString() , name: name , timeout:timeout ])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		String gText = ''
 		if (!msgTO) {
@@ -53,13 +42,13 @@ class KW {
 			TNRResult.addSTEPERROR('-1', "Lecture du texte sur '${tObj.getObjectId()}' impossible")
 			TNRResult.addDETAIL(msgTO)
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "getText",gText)
+		Log.addTraceEND(CLASS_NAME, "getText",gText)
 		return gText
 	}
 
 
 	static String getTextByObj(TestObject tObj )  {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "getTextByObj", [tObj:tObj ])
+		Log.addTraceBEGIN(CLASS_NAME, "getTextByObj", [tObj:tObj ])
 		String gText = ''
 		try {
 			gText = WebUI.getText(tObj,FailureHandling.STOP_ON_FAILURE)
@@ -68,18 +57,7 @@ class KW {
 			TNRResult.addSTEPERROR('-1',"Lecture du texte sur '${tObj.getObjectId()}' KO")
 			TNRResult.addDETAIL(ex.getMessage())
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "getTextByObj",gText)
+		Log.addTraceEND(CLASS_NAME, "getTextByObj",gText)
 		return gText
 	}
-
-
-
-
-
-
-
-
-
-	
-	
 } // Fin de class

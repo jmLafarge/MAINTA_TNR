@@ -17,16 +17,15 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-    STEP.goToURLReadUpdateDelete(1,myJDD.getStrData('ID_CODINT'))
-	STEP.checkReadUpdateDeleteScreen(2,myJDD.getStrData('ID_CODINT'))
+    STEP.goToURLReadUpdateDelete(myJDD.getStrData('ID_CODINT'))
+	STEP.checkReadUpdateDeleteScreen(myJDD.getStrData('ID_CODINT'))
 	
 	TNRResult.addSTEPGRP("ONGLET HABILITATION")
 
-		//STEP.simpleClick(0, myJDD,"tab_Habilitation")
-		STEP.simpleClick(3, myJDD,"tab_Habilitation")
-		STEP.verifyElementVisible(4, myJDD,"tab_HabilitationSelected")
+		STEP.simpleClick(myJDD,"tab_Habilitation")
+		STEP.verifyElementVisible(myJDD,"tab_HabilitationSelected")
 		
-		STEP.scrollToPosition('', 0, 0)
+		STEP.scrollToPosition( 0, 0)
 	
 		'Boucle sur les lignes d\'un même TC'
 	    for (int i : (1..myJDD.getNbrLigneCasDeTest())) {
@@ -38,36 +37,40 @@ for (String cdt in myJDD.getCDTList()) {
 			myJDD.setCasDeTestNum(i)
 	
 			'Ajout'
-	        STEP.simpleClick(5, myJDD,'a_AjouterHabilitation')
+	        STEP.simpleClick(myJDD,'a_AjouterHabilitation')
 	
-	        if (STEP.isDivModalOpened(6)) {
+	        if (STEP.isDivModalOpened('Habilitation')) {
 	
-		        STEP.setText(7, myJDD,'SelectionHabilitation_input_Filtre', myJDD.getStrData('ID_CODHAB'))
-				if (STEP.verifyElementVisible(10, GlobalJDD.myGlobalJDD,'nbrecordsGRID_1')) {
-			        STEP.simpleClick(11, myJDD,'SelectionHabilitation_td')
-			        STEP.simpleClick(12, myJDD,'SelectionHabilitation_button_Ajouter')
-					if (STEP.isDivModalClosed(13)) {
-				        STEP.verifyText(14, myJDD,'ID_CODHAB')
+		        STEP.setText(myJDD,'SelectionHabilitation_input_Filtre', myJDD.getStrData('ID_CODHAB'))
+				
+				if (STEP.verifyElementVisible(GlobalJDD.myGlobalJDD,'nbrecordsGRID_1')) {
+					
+			        STEP.simpleClick(myJDD,'SelectionHabilitation_td')
+			        STEP.simpleClick(myJDD,'SelectionHabilitation_button_Ajouter')
+					
+					if (STEP.isDivModalClosed('Habilitation')) {
+						
+				        STEP.verifyText(myJDD,'ID_CODHAB')
 						
 						if (!JDDKW.isNULL(myJDD.getData('DT_DATDEB'))) {
 						
-					        STEP.doubleClick(15, myJDD,'td_DateDebut')	
+					        STEP.doubleClick(myJDD,'td_DateDebut')	
 							//
 							// Le double Clic ne fonctionne pas sur Firefox --> F2 non plus :-(
 							//
-							STEP.setDate(16, myJDD,'DT_DATDEB')
+							STEP.setDate(myJDD,'DT_DATDEB')
 								
 						}
 				
 						if (!JDDKW.isNULL(myJDD.getData('DT_DATFIN'))) {
 							
-					        STEP.simpleClick(17, myJDD,'SelectionHabilitation_td')
-					        STEP.doubleClick(18, myJDD,'td_DateFin')
+					        STEP.simpleClick(myJDD,'SelectionHabilitation_td')
+					        STEP.doubleClick(myJDD,'td_DateFin')
 							//
 							// Le double Clic ne fonctionne pas sur Firefox --> F2 non plus :-(
 							//
-					        STEP.setDate(19, myJDD,'DT_DATFIN')
-							STEP.simpleClick(20, myJDD,'ID_CODHAB')
+					        STEP.setDate(myJDD,'DT_DATFIN')
+							STEP.simpleClick(myJDD,'ID_CODHAB')
 						}
 					}
 				}
@@ -79,7 +82,7 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addSTEPACTION('CONTROLE')
 
 		'Vérification des valeurs en BD'
-		STEP.checkJDDWithBD(90, myJDD)		
+		STEP.checkJDDWithBD(myJDD)		
 		
 	TNRResult.addEndTestCase()
 } // fin du if

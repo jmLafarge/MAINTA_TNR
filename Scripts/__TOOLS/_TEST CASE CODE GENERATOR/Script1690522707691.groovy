@@ -235,24 +235,24 @@ tagsWithAttributes.each { attribute ->
 	if (attribute.tag == 'input' && attribute.type == 'text') {
 		if (!attribute.readonly) {
 			if (InfoDB.isDatetime(myJDD.getDBTableName(),attribute.id)) {
-				Log.addB("STEP.setDate(0, myJDD, \"${attribute.id}\")")
+				Log.addB("STEP.setDate(myJDD, \"${attribute.id}\")")
 			}else {
-				Log.addB("STEP.setText(0, myJDD, \"${attribute.id}\")")
+				Log.addB("STEP.setText(myJDD, \"${attribute.id}\")")
 			}
 		}
 		
 	} else if (attribute.tag == 'input' && attribute.type == 'checkbox') {
-		Log.addB("STEP.scrollAndCheckIfNeeded(0, myJDD, \"${attribute.id}\", \"O\")")
+		Log.addB("STEP.clickCheckboxIfNeeded(myJDD, \"${attribute.id}\", \"O\")")
 		
 	} else if (attribute.tag == 'select') {
-		Log.addB("STEP.scrollAndSelectOptionByLabel(0, myJDD, \"${attribute.id}\")")
+		Log.addB("STEP.selectOptionByLabel(myJDD, \"${attribute.id}\")")
 		
 	} else if (attribute.tag == 'a') {
 		Log.addB('')
 		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attribute.text.toUpperCase()}\")")
 		Log.addB('')
-		Log.addB("STEP.simpleClick(0, myJDD, \"tab_${attribute.text}\")")
-		Log.addB("STEP.verifyElementVisible(0, myJDD, \"tab_${attribute.text}Selected\")")
+		Log.addB("STEP.simpleClick(myJDD, \"tab_${attribute.text}\")")
+		Log.addB("STEP.verifyElementVisible(myJDD, \"tab_${attribute.text}Selected\")")
 		Log.addB('')
 	}
 }
@@ -271,20 +271,20 @@ tagsWithAttributes.each { attribute ->
 	}
 	if (attribute.tag == 'input' && attribute.type == 'text' && !InfoDB.isPK(myJDD.getDBTableName(),attribute.id)) {
 		if (attribute.id.startsWith('ID_')) {
-			Log.addB("STEP.searchWithHelper(0, myJDD, \"${attribute.id}\",\"\",\"\")")
+			Log.addB("STEP.searchWithHelper(myJDD, \"${attribute.id}\",\"\",\"\")")
 		}else if (!attribute.readonly) {
-			Log.addB("STEP.setText(0, myJDD, \"${attribute.id}\")")
+			Log.addB("STEP.setText(myJDD, \"${attribute.id}\")")
 		}
 	} else if (attribute.tag == 'input' && attribute.type == 'checkbox') {
-		Log.addB("STEP.scrollAndCheckIfNeeded(0, myJDD, \"${attribute.id}\", \"O\")")
+		Log.addB("STEP.clickCheckboxIfNeeded(myJDD, \"${attribute.id}\", \"O\")")
 	} else if (attribute.tag == 'select') {
-		Log.addB("STEP.scrollAndSelectOptionByLabel(0, myJDD, \"${attribute.id}\")")
+		Log.addB("STEP.selectOptionByLabel(myJDD, \"${attribute.id}\")")
 	} else if (attribute.tag == 'a') {
 		Log.addB('')
 		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attribute.text.toUpperCase()}\")")
 		Log.addB('')
-		Log.addB("STEP.simpleClick(0, myJDD, \"tab_${attribute.text}\")")
-		Log.addB("STEP.verifyElementVisible(0, myJDD, \"tab_${attribute.text}Selected\")")
+		Log.addB("STEP.simpleClick(myJDD, \"tab_${attribute.text}\")")
+		Log.addB("STEP.verifyElementVisible(myJDD, \"tab_${attribute.text}Selected\")")
 		Log.addB('')
 	}
 }
@@ -310,13 +310,13 @@ tagsWithAttributes.each { attribute ->
 				if (myJDD.myJDDXpath.getXPath(attribute.id)=='input') {
 					Log.addB("STEP.verifyDateValue(0, myJDD, \"${attribute.id}\") // ou verifyDateText")
 				}else {
-					Log.addB("KW.verifyDateText(myJDD, \"${attribute.id}\")// ou verifyDateValue")
+					Log.addB("STEP.verifyDateText(myJDD, \"${attribute.id}\")// ou verifyDateValue")
 				}
 			}else {
-				Log.addB("STEP.verifyValue(0, myJDD, \"${attribute.id}\")")
+				Log.addB("STEP.verifyValue(myJDD, \"${attribute.id}\")")
 			}
 		} else if (attribute.type == 'checkbox') {
-			Log.addB("STEP.verifyElementCheckedOrNot(0, myJDD, \"${attribute.id}\", \"O\")")
+			Log.addB("STEP.verifyBoxCheckedOrNot(myJDD, \"${attribute.id}\", \"O\")")
 			
 		}
 	} else if (attribute.tag == 'select') {
@@ -326,8 +326,8 @@ tagsWithAttributes.each { attribute ->
 		Log.addB('')
 		Log.addB("TNRResult.addSTEPGRP(\"ONGLET ${attribute.text.toUpperCase()}\")")
 		Log.addB('')
-		Log.addB("STEP.simpleClick(0, myJDD, \"tab_${attribute.text}\")")
-		Log.addB("STEP.verifyElementVisible(0, myJDD, \"tab_${attribute.text}Selected\")")
+		Log.addB("STEP.simpleClick(myJDD, \"tab_${attribute.text}\")")
+		Log.addB("STEP.verifyElementVisible(myJDD, \"tab_${attribute.text}Selected\")")
 		Log.addB('')
 	}
 

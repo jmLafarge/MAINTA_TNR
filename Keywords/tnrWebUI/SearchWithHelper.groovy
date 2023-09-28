@@ -20,13 +20,12 @@ import tnrResultManager.TNRResult
 public class SearchWithHelper {
 
 
-	private static final String CLASS_FOR_LOG = 'SearchWithHelper'
-	
-	private static final String CLASS_CODE = 'SWH'
+	private static final String CLASS_NAME = 'SearchWithHelper'
+
 
 
 	private static runSearchWithHelper(String strStepID, JDD myJDD, String name , String btnXpath = '' , String inputSearchName = '', int index_td=3 ){
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "runSearchWithHelper",[ myJDD:myJDD , name:name , btnXpath:btnXpath , inputSearchName:inputSearchName , index_td:index_td])
+		Log.addTraceBEGIN(CLASS_NAME, "runSearchWithHelper",[ myJDD:myJDD.toString() , name:name , btnXpath:btnXpath , inputSearchName:inputSearchName , index_td:index_td])
 		String val = myJDD.getStrData(name)
 		if (btnXpath=='') {
 			btnXpath = "//a[@id='Btn$name']/i"
@@ -40,14 +39,14 @@ public class SearchWithHelper {
 
 		WUIWindow.init()
 
-		STEP.simpleClick(StepID.addSubStep(strStepID,1), myJDD,'btnSearch')
+		STEP.simpleClick( myJDD,'btnSearch')
 
 		if (WUIWindow.waitForNewWindowToOpenAndSwitch()) {
-			if (STEP.verifyElementVisible(StepID.addSubStep(strStepID,2), myJDD, 'inputSearch')) {
-				STEP.setText(StepID.addSubStep(strStepID,3), myJDD,'inputSearch', myJDD.getStrData(name))
+			if (STEP.verifyElementVisible( myJDD, 'inputSearch')) {
+				STEP.setText( myJDD,'inputSearch', myJDD.getStrData(name))
 				'mise à jour dynamique du xpath'
-				STEP.verifyText(StepID.addSubStep(strStepID,4), myJDD,'tdSearch', myJDD.getStrData(name))
-				STEP.simpleClick(StepID.addSubStep(strStepID,5), myJDD,'tdSearch')
+				STEP.verifyText( myJDD,'tdSearch', myJDD.getStrData(name))
+				STEP.simpleClick( myJDD,'tdSearch')
 			}
 			WUI.delay(500)
 			WUIWindow.closeWindowIfOpen()
@@ -57,15 +56,15 @@ public class SearchWithHelper {
 		}
 
 		WUIWindow.switchToMainWindow()
-		Log.addTraceEND(CLASS_FOR_LOG, "runSearchWithHelper")
+		Log.addTraceEND(CLASS_NAME, "runSearchWithHelper")
 	}
 
 
 
 
-	static void searchWithHelper(def stepID, JDD myJDD, String name , String btnXpath = '' , String inputSearchName = '', int index_td=3 ){
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "searchWithHelper",[ myJDD:myJDD , name:name , btnXpath:btnXpath , inputSearchName:inputSearchName , index_td:index_td])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '01',stepID)
+	static void searchWithHelper( JDD myJDD, String name , String btnXpath = '' , String inputSearchName = '', int index_td=3 ){
+		Log.addTraceBEGIN(CLASS_NAME, "searchWithHelper",[ myJDD:myJDD.toString() , name:name , btnXpath:btnXpath , inputSearchName:inputSearchName , index_td:index_td])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'searchWithHelper'+ myJDD.toString() + name)
 		String val = myJDD.getStrData(name)
 
 		if (JDDKW.isNULL(val) || JDDKW.isNU(val)) {
@@ -92,10 +91,6 @@ public class SearchWithHelper {
 				TNRResult.addDETAIL(errMsg)
 			}
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "searchWithHelper")
+		Log.addTraceEND(CLASS_NAME, "searchWithHelper")
 	}
-	
-	
-	
-	
 } // end of class

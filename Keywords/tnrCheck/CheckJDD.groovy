@@ -15,7 +15,7 @@ import tnrSqlManager.InfoDB
 @CompileStatic
 public class CheckJDD {
 
-	private static final String CLASS_FOR_LOG = 'CheckJDD'
+	private static final String CLASS_NAME = 'CheckJDD'
 
 
 	/**
@@ -27,7 +27,7 @@ public class CheckJDD {
 	 */
 	static run() {
 
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"run",[:])
+		Log.addTraceBEGIN(CLASS_NAME,"run",[:])
 
 		Log.addSubTITLE('Vérification des JDD')
 
@@ -69,7 +69,7 @@ public class CheckJDD {
 		if (status) {
 			Log.addINFO('     ***  OK   ***')
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"run")
+		Log.addTraceEND(CLASS_NAME,"run")
 	}
 
 

@@ -23,12 +23,11 @@ import tnrResultManager.TNRResult
 public class Navigate {
 
 
-	private static final String CLASS_FOR_LOG = 'Navigate'
+	private static final String CLASS_NAME = 'Navigate'
 
-	private static final String CLASS_CODE = 'NAV'
 
-	public static void openBrowser(def stepID, String url){
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '01',stepID)
+	public static void openBrowser( String url){
+		String strStepID = StepID.getStrStepID(CLASS_NAME +'openBrowser')
 		try {
 			WebUI.openBrowser(url, FailureHandling.STOP_ON_FAILURE)
 			TNRResult.addSTEPPASS(strStepID,"Ouverture du navigateur à l'URL :")
@@ -44,8 +43,8 @@ public class Navigate {
 	}
 
 
-	public static void navigateToUrl(def stepID, String url,String nomUrl){
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '02',stepID)
+	public static void navigateToUrl( String url,String nomUrl){
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'navigateToUrl' + nomUrl)
 		try {
 			WebUI.navigateToUrl(url, FailureHandling.STOP_ON_FAILURE)
 			TNRResult.addSTEPPASS(strStepID,"Navigation vers l'URL '$nomUrl' :")
@@ -59,8 +58,8 @@ public class Navigate {
 	}
 
 
-	public static void closeBrowser(def stepID){
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '03',stepID)
+	public static void closeBrowser(){
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'closeBrowser')
 		try {
 			WebUI.closeBrowser(FailureHandling.STOP_ON_FAILURE)
 			TNRResult.addSTEPPASS(strStepID,"Fermeture du navigateur")
@@ -71,8 +70,8 @@ public class Navigate {
 	}
 
 
-	public static void maximizeWindow(def stepID){
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '04',stepID)
+	public static void maximizeWindow(){
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'maximizeWindow')
 		try {
 			WebUI.maximizeWindow(FailureHandling.STOP_ON_FAILURE)
 			TNRResult.addSTEPPASS(strStepID,"Maximise la fenêtre")
@@ -84,13 +83,13 @@ public class Navigate {
 
 
 
-	public static void scrollToPosition(def stepID, int x, int y) {
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '05',stepID)
+	public static void scrollToPosition( int x, int y) {
+		String strStepID = '' //StepID.getStrStepID(CLASS_NAME + 'scrollToPosition')
 		try {
 			WebUI.scrollToPosition(x, y, FailureHandling.STOP_ON_FAILURE)
-			TNRResult.addSTEPINFO(strStepID, "Scroll à la position $x , $y")
+			TNRResult.addSTEPINFO("Scroll à la position $x , $y")
 		} catch (Exception ex) {
-			TNRResult.addSTEPERROR('-1',"Scroll à la position $x , $y")
+			TNRResult.addSTEPERROR(strStepID,"Scroll à la position $x , $y")
 			TNRResult.addDETAIL(ex.getMessage())
 		}
 	}
@@ -99,50 +98,45 @@ public class Navigate {
 
 
 
-	static void switchToDefaultContent(def stepID) {
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '06',stepID)
+	static void switchToDefaultContent() {
+		String strStepID = '' // StepID.getStrStepID(CLASS_NAME + 'switchToDefaultContent')
 		try {
 			WebUI.switchToDefaultContent(FailureHandling.STOP_ON_FAILURE)
-			TNRResult.addSTEPINFO(strStepID, "switchToDefaultContent")
+			TNRResult.addSTEPINFO("switchToDefaultContent")
 		} catch (Exception ex) {
-			TNRResult.addSTEPERROR('-1',"switchToDefaultContent")
+			TNRResult.addSTEPERROR(strStepID,"switchToDefaultContent")
 			TNRResult.addDETAIL(ex.getMessage())
 		}
 	}
 
 
-	public static goToURLReadUpdateDelete(def stepID, String idval, String fct='') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"goToURLReadUpdateDelete",[idval:idval , fct:fct])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '10',stepID)
-		if (fct=='') {
-			fct = Tools.getFctFromModObj()
-		}
+	public static goToURLReadUpdateDelete( String idval, String fct='') {
+		Log.addTraceBEGIN(CLASS_NAME,"goToURLReadUpdateDelete",[idval:idval , fct:fct])
+		fct = fct ?: Tools.getFctFromModObj()
 		String url = GlobalVariable.BASE_URL.toString() + "FormE" + fct + "?" + "ID1=" + idval
-		navigateToUrl(StepID.addSubStep(strStepID,1), url,'Consultation ou modification')
-		Log.addTraceEND(CLASS_FOR_LOG,"goToURLReadUpdateDelete")
+		navigateToUrl( url,'Consultation ou modification')
+		Log.addTraceEND(CLASS_NAME,"goToURLReadUpdateDelete")
 	}
 
 
 
 
 
-	public static goToGridURL(def stepID, String fct='') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"goToURL_Grille",[fct:fct])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '11',stepID)
+	public static goToGridURL( String fct='') {
+		Log.addTraceBEGIN(CLASS_NAME,"goToGridURL",[fct:fct])
 		fct = fct ?: Tools.getFctFromModObj()
 		String url = GlobalVariable.BASE_URL.toString() + "E" + fct + "?"
-		navigateToUrl(StepID.addSubStep(strStepID,1), url,'Grille')
-		Log.addTraceEND(CLASS_FOR_LOG,"goToURL_Grille")
+		navigateToUrl( url,'Grille')
+		Log.addTraceEND(CLASS_NAME,"goToGridURL")
 	}
 
 
 
-	public static goToURLCreate(def stepID, String fct='',String attr='') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"goToURLCreate",[stepID:stepID , fct:fct , attr:attr])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '12',stepID)
+	public static goToURLCreate( String fct='',String attr='') {
+		Log.addTraceBEGIN(CLASS_NAME,"goToURLCreate",[ fct:fct , attr:attr])
 		fct = fct ?: Tools.getFctFromModObj()
 		String url = GlobalVariable.BASE_URL.toString() + "FormE" + fct + "?" + attr
-		navigateToUrl(StepID.addSubStep(strStepID,1), url,'Création')
-		Log.addTraceEND(CLASS_FOR_LOG,"goToURLCreate")
+		navigateToUrl( url,'Création')
+		Log.addTraceEND(CLASS_NAME,"goToURLCreate")
 	}
 }

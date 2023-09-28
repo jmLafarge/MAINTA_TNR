@@ -25,7 +25,7 @@ import tnrLog.Log
 @CompileStatic
 public class TCFileMapper {
 
-	private static final String CLASS_FOR_LOG = 'TCFileMapper'
+	private static final String CLASS_NAME = 'TCFileMapper'
 
 
 	// mapping between tcName and tcFullname [ tcName : tcFullname ]
@@ -33,7 +33,7 @@ public class TCFileMapper {
 
 
 	static {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"static",[:])
+		Log.addTraceBEGIN(CLASS_NAME,"static",[:])
 		Log.addSubTITLE("Load TC file List",'-',120,true)
 		Log.addTrace("\t" + 'TCNAME'.padRight(24) + 'TCFULLNAME')
 		Log.addTrace("")
@@ -50,7 +50,7 @@ public class TCFileMapper {
 				Log.addTrace('\t'+ tcName.padRight(24) + tcFullname)
 			}
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"static")
+		Log.addTraceEND(CLASS_NAME,"static")
 	}
 
 
@@ -61,28 +61,28 @@ public class TCFileMapper {
 
 
 	public static Map<String,String>  getValuesWhereTCNameStartsWith(String substr) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getValuesWhereTCNameStartsWith",[substr:substr])
+		Log.addTraceBEGIN(CLASS_NAME,"getValuesWhereTCNameStartsWith",[substr:substr])
 		Map<String,String> map = [:]
 		if (substr) {
 			map = tcFileMap.findAll { it.key.startsWith(substr) }
 		}else {
 			Log.addTrace("substr vide ou null")
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"getValuesWhereTCNameStartsWith",map)
+		Log.addTraceEND(CLASS_NAME,"getValuesWhereTCNameStartsWith",map)
 		return map
 	}
 
 
 
 	public static String  getTCNameWhereTxtStartingWithTCName(String txt) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getTCNameWhereTxtStartingWithTCName",[txt:txt])
+		Log.addTraceBEGIN(CLASS_NAME,"getTCNameWhereTxtStartingWithTCName",[txt:txt])
 		String tcName =''
 		if (txt) {
 			tcName = tcFileMap.keySet().find { txt.startsWith(it) }
 		}else {
 			Log.addTrace("txt vide ou null")
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"getTCNameWhereTxtStartingWithTCName",tcName)
+		Log.addTraceEND(CLASS_NAME,"getTCNameWhereTxtStartingWithTCName",tcName)
 		return tcName
 	}
 
@@ -90,35 +90,35 @@ public class TCFileMapper {
 
 
 	public static String  getTCFullname(String tcName) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getTCFullname",[tcName:tcName])
+		Log.addTraceBEGIN(CLASS_NAME,"getTCFullname",[tcName:tcName])
 		String tcFullname =''
 		if (tcName) {
 			tcFullname = tcFileMap[tcName]
 		}else {
 			Log.addTrace("tcName vide ou null")
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"getTCFullname",tcFullname)
+		Log.addTraceEND(CLASS_NAME,"getTCFullname",tcFullname)
 		return tcFullname
 	}
 
 
 
 	public static boolean isTCNameExist(String tcName) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"isTCNameExist",[tcName:tcName])
+		Log.addTraceBEGIN(CLASS_NAME,"isTCNameExist",[tcName:tcName])
 		boolean tcNameExist = false
 		if (tcName) {
 			tcNameExist = tcFileMap.containsKey(tcName)
 		}else {
 			Log.addTrace("tcName vide ou null")
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"isTCNameExist",tcNameExist)
+		Log.addTraceEND(CLASS_NAME,"isTCNameExist",tcNameExist)
 		return tcNameExist
 	}
 
 
 
 	public static String getTitle(String cdt) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getTitle",[cdt:cdt])
+		Log.addTraceBEGIN(CLASS_NAME,"getTitle",[cdt:cdt])
 		String ret = 'UNKNOWN TITLE'
 		String TCName = getTCNameWhereTxtStartingWithTCName(cdt)
 		if (TCName) {
@@ -150,7 +150,7 @@ public class TCFileMapper {
 				}
 			}
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"getTitle", ret)
+		Log.addTraceEND(CLASS_NAME,"getTitle", ret)
 		return ret
 	}
 
@@ -162,7 +162,7 @@ public class TCFileMapper {
 
 
 	private static String getAutoTitle(String obj, String sr, String code) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getAutoTitle",[obj:obj , sr:sr , code:code])
+		Log.addTraceBEGIN(CLASS_NAME,"getAutoTitle",[obj:obj , sr:sr , code:code])
 		String ret = ''
 		switch (code) {
 			case "CRE" :
@@ -195,7 +195,7 @@ public class TCFileMapper {
 			default :
 				ret = '--'
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"getAutoTitle", ret)
+		Log.addTraceEND(CLASS_NAME,"getAutoTitle", ret)
 		return ret
 	}
 

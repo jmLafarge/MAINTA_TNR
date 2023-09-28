@@ -19,7 +19,7 @@ import tnrLog.Log
  * @version 1.0
  */
 
-final String CLASS_FOR_LOG = 'tnrJDDManager.JDDHeader'
+final String CLASS_NAME = 'tnrJDDManager.JDDHeader'
 
 
 Workbook  book = ExcelUtils.open('TNR_JDDTest\\JDD.AA.BBB.xlsx')
@@ -28,12 +28,12 @@ List headersListTest = ['ID_JML', 'ST_DES', 'ST_INA', 'NU_IV']
 JDDHeader myJDDHeader = new JDDHeader(sheet)
 
 
-Log.addAssert(CLASS_FOR_LOG,"JDDHeader.getSize()",4,myJDDHeader.getSize())
-Log.addAssert(CLASS_FOR_LOG,"JDDHeader.getList()",headersListTest,myJDDHeader.getList())
-Log.addAssert(CLASS_FOR_LOG,"JDDHeader.tableName",'JMLTABLE',myJDDHeader.tableName)
+Log.addAssert(CLASS_NAME,"JDDHeader.getSize()",4,myJDDHeader.getSize())
+Log.addAssert(CLASS_NAME,"JDDHeader.getList()",headersListTest,myJDDHeader.getList())
+Log.addAssert(CLASS_NAME,"JDDHeader.tableName",'JMLTABLE',myJDDHeader.tableName)
 
 myJDDHeader.add('ID_ADDED')
-Log.addAssert(CLASS_FOR_LOG,"JDDHeader.add('ID_ADDED')",['ID_JML', 'ST_DES', 'ST_INA', 'NU_IV','ID_ADDED'],myJDDHeader.getList())
+Log.addAssert(CLASS_NAME,"JDDHeader.add('ID_ADDED')",['ID_JML', 'ST_DES', 'ST_INA', 'NU_IV','ID_ADDED'],myJDDHeader.getList())
 
 
 

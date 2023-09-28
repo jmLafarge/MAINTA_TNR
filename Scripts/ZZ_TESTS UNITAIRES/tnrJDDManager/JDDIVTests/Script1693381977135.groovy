@@ -18,7 +18,7 @@ import tnrLog.Log
  * @version 1.0
  */
 
-final String CLASS_FOR_LOG = 'tnrJDDManager.JDDIV'
+final String CLASS_NAME = 'tnrJDDManager.JDDIV'
 
 Workbook  book = ExcelUtils.open('TNR_JDDTest\\JDD.AA.BBB.xlsx')
 Sheet IVSheet = book.getSheet(TNRPropertiesReader.getMyProperty('INTERNALVALUE_SHEET_NAME'))
@@ -40,14 +40,14 @@ List<Map<String, Object>> listTest = [
 ]
 
 
-Log.addAssert(CLASS_FOR_LOG,"myJDDIV.list",listTest,myJDDIV.list)
+Log.addAssert(CLASS_NAME,"myJDDIV.list",listTest,myJDDIV.list)
 
-Log.addAssert(CLASS_FOR_LOG,"myJDDIV.getValueOf('COM.NU_MET','\$NULL')",'Non utilisé',myJDDIV.getValueOf('COM.NU_MET','$NULL'))
-Log.addAssert(CLASS_FOR_LOG,"myJDDIV.getValueOf('MAT.NU_TYP','1')",'Suivi en Stock',myJDDIV.getValueOf('MAT.NU_TYP','1'))
+Log.addAssert(CLASS_NAME,"myJDDIV.getValueOf('COM.NU_MET','\$NULL')",'Non utilisé',myJDDIV.getValueOf('COM.NU_MET','$NULL'))
+Log.addAssert(CLASS_NAME,"myJDDIV.getValueOf('MAT.NU_TYP','1')",'Suivi en Stock',myJDDIV.getValueOf('MAT.NU_TYP','1'))
 
-Log.addAssert(CLASS_FOR_LOG,"myJDDIV.getValueOf('UNKNOWN','1')",null,myJDDIV.getValueOf('UNKNOWN','1'))
-Log.addAssert(CLASS_FOR_LOG,"myJDDIV.getValueOf('MAT.NU_TYP','UNKNOWN')",null,myJDDIV.getValueOf('MAT.NU_TYP','UNKNOWN'))
-Log.addAssert(CLASS_FOR_LOG,"myJDDIV.getValueOf('UNKNOWN','UNKNOWN')",null,myJDDIV.getValueOf('UNKNOWN','UNKNOWN'))
+Log.addAssert(CLASS_NAME,"myJDDIV.getValueOf('UNKNOWN','1')",null,myJDDIV.getValueOf('UNKNOWN','1'))
+Log.addAssert(CLASS_NAME,"myJDDIV.getValueOf('MAT.NU_TYP','UNKNOWN')",null,myJDDIV.getValueOf('MAT.NU_TYP','UNKNOWN'))
+Log.addAssert(CLASS_NAME,"myJDDIV.getValueOf('UNKNOWN','UNKNOWN')",null,myJDDIV.getValueOf('UNKNOWN','UNKNOWN'))
 
 
 

@@ -21,7 +21,7 @@ import tnrLog.Log
  * @version 1.0
  */
 
-final String CLASS_FOR_LOG = 'tnrJDDManager.JDDData'
+final String CLASS_NAME = 'tnrJDDManager.JDDData'
 
 Workbook  book = ExcelUtils.open('TNR_JDDTest\\JDD.AA.BBB.xlsx')
 Sheet sheet = book.getSheet('001')
@@ -52,24 +52,24 @@ List <String> listCDTWithoutDuplicates = [
 	
 JDDHeader myJDDHeader = new JDDHeader(sheet)
 JDDData myJDDData = new JDDData(sheet,myJDDHeader.getList(),'CAS_DE_TEST')
-Log.addAssert(CLASS_FOR_LOG,"myJDDData.datasList",datasListTest,myJDDData.datasList)
+Log.addAssert(CLASS_NAME,"myJDDData.datasList",datasListTest,myJDDData.datasList)
 
 
-Log.addAssert(CLASS_FOR_LOG,"myJDDData.getRawData('ST_INA', 'AA.BBB.001.LEC.01', 2)",'JMLLEC12_INA',myJDDData.getRawData('ST_INA', 'AA.BBB.001.LEC.01', 2))
-Log.addAssert(CLASS_FOR_LOG,"myJDDData.getRawData('ST_DES', 'AA.BBB.001.MAJ.01',1 )",'DESJMLMAJ01',myJDDData.getRawData('ST_DES', 'AA.BBB.001.MAJ.01',1 ))
-Log.addAssert(CLASS_FOR_LOG,"myJDDData.getRawData('ST_DES', 'AA.BBB.001.MAJ.01',1 )",'DESJMLMAJ01',myJDDData.getRawData('ST_DES', 'AA.BBB.001.MAJ.01',1 ))
-Log.addAssert(CLASS_FOR_LOG,"myJDDData.getRawData('ST_DES', 'AA.BBB.001.MAJ.01',2 )",null,myJDDData.getRawData('ST_DES', 'AA.BBB.001.MAJ.01',2 ))
-Log.addAssert(CLASS_FOR_LOG,"myJDDData.getRawData('UNKNOWN', 'AA.BBB.001.MAJ.01',1)",null,myJDDData.getRawData('UNKNOWN', 'AA.BBB.001.MAJ.01',1 ))
-Log.addAssert(CLASS_FOR_LOG,"myJDDData.getRawData('ST_DES', 'AA.BBB.001.UNK.01',1 )",null,myJDDData.getRawData('ST_DES', 'AA.BBB.001.UNK.01',1 ))
+Log.addAssert(CLASS_NAME,"myJDDData.getRawData('ST_INA', 'AA.BBB.001.LEC.01', 2)",'JMLLEC12_INA',myJDDData.getRawData('ST_INA', 'AA.BBB.001.LEC.01', 2))
+Log.addAssert(CLASS_NAME,"myJDDData.getRawData('ST_DES', 'AA.BBB.001.MAJ.01',1 )",'DESJMLMAJ01',myJDDData.getRawData('ST_DES', 'AA.BBB.001.MAJ.01',1 ))
+Log.addAssert(CLASS_NAME,"myJDDData.getRawData('ST_DES', 'AA.BBB.001.MAJ.01',1 )",'DESJMLMAJ01',myJDDData.getRawData('ST_DES', 'AA.BBB.001.MAJ.01',1 ))
+Log.addAssert(CLASS_NAME,"myJDDData.getRawData('ST_DES', 'AA.BBB.001.MAJ.01',2 )",null,myJDDData.getRawData('ST_DES', 'AA.BBB.001.MAJ.01',2 ))
+Log.addAssert(CLASS_NAME,"myJDDData.getRawData('UNKNOWN', 'AA.BBB.001.MAJ.01',1)",null,myJDDData.getRawData('UNKNOWN', 'AA.BBB.001.MAJ.01',1 ))
+Log.addAssert(CLASS_NAME,"myJDDData.getRawData('ST_DES', 'AA.BBB.001.UNK.01',1 )",null,myJDDData.getRawData('ST_DES', 'AA.BBB.001.UNK.01',1 ))
 
 
 
 
-Log.addAssert(CLASS_FOR_LOG,"myJDDData.getCdtsStartsWithStrWithoutDuplicates('AA.BBB' )",listCDTWithoutDuplicates,myJDDData.getCdtsStartsWithStrWithoutDuplicates('AA.BBB' ))
-Log.addAssert(CLASS_FOR_LOG,"myJDDData.getCdtsStartsWithStrWithoutDuplicates('AA.BBB.001.LEC' )",['AA.BBB.001.LEC.01'],myJDDData.getCdtsStartsWithStrWithoutDuplicates('AA.BBB.001.LEC' ))
-Log.addAssert(CLASS_FOR_LOG,"myJDDData.getCdtsStartsWithStrWithoutDuplicates('AA.BBB.001.LEC.01' )",['AA.BBB.001.LEC.01'],myJDDData.getCdtsStartsWithStrWithoutDuplicates('AA.BBB.001.LEC.01' ))
-Log.addAssert(CLASS_FOR_LOG,"myJDDData.getCdtsStartsWithStrWithoutDuplicates('AA.BBB.001.UNK.01' )",[],myJDDData.getCdtsStartsWithStrWithoutDuplicates('AA.BBB.001.UNK.01' ))
-Log.addAssert(CLASS_FOR_LOG,"myJDDData.getCdtsStartsWithStrWithoutDuplicates('BBB.001' )",[],myJDDData.getCdtsStartsWithStrWithoutDuplicates('BBB.001' ))
+Log.addAssert(CLASS_NAME,"myJDDData.getCdtsStartsWithStrWithoutDuplicates('AA.BBB' )",listCDTWithoutDuplicates,myJDDData.getCdtsStartsWithStrWithoutDuplicates('AA.BBB' ))
+Log.addAssert(CLASS_NAME,"myJDDData.getCdtsStartsWithStrWithoutDuplicates('AA.BBB.001.LEC' )",['AA.BBB.001.LEC.01'],myJDDData.getCdtsStartsWithStrWithoutDuplicates('AA.BBB.001.LEC' ))
+Log.addAssert(CLASS_NAME,"myJDDData.getCdtsStartsWithStrWithoutDuplicates('AA.BBB.001.LEC.01' )",['AA.BBB.001.LEC.01'],myJDDData.getCdtsStartsWithStrWithoutDuplicates('AA.BBB.001.LEC.01' ))
+Log.addAssert(CLASS_NAME,"myJDDData.getCdtsStartsWithStrWithoutDuplicates('AA.BBB.001.UNK.01' )",[],myJDDData.getCdtsStartsWithStrWithoutDuplicates('AA.BBB.001.UNK.01' ))
+Log.addAssert(CLASS_NAME,"myJDDData.getCdtsStartsWithStrWithoutDuplicates('BBB.001' )",[],myJDDData.getCdtsStartsWithStrWithoutDuplicates('BBB.001' ))
 
 
 
@@ -82,7 +82,7 @@ List<String> resultList1 =[
 	'AA.BBB.001.LEC.01-JMLLEC13',
 	'AA.BBB.001.MAJ.01-JMLMAJ01',
 	'AA.BBB.001.SUP.01-JMLMAJ02']
-Log.addAssert(CLASS_FOR_LOG,"concatenateCdtsAndValues(datasListTest, ['ID_JML']",resultList1,myJDDData.concatenateCdtsAndValues(datasListTest, ['ID_JML']))
+Log.addAssert(CLASS_NAME,"concatenateCdtsAndValues(datasListTest, ['ID_JML']",resultList1,myJDDData.concatenateCdtsAndValues(datasListTest, ['ID_JML']))
 
 List<String> resultList2 =[
 	'AA.BBB.001.CRE.01-JMLCRE01-JMLCRE01_INA',
@@ -93,29 +93,29 @@ List<String> resultList2 =[
 	'AA.BBB.001.LEC.01-JMLLEC13-JMLLEC13_INA',
 	'AA.BBB.001.MAJ.01-JMLMAJ01-JMLMAJ01_INA',
 	'AA.BBB.001.SUP.01-JMLMAJ02-JMLMAJ02_INA']
-Log.addAssert(CLASS_FOR_LOG,"concatenateCdtsAndValues(datasListTest, ['ID_JML','ST_INA']",resultList2,myJDDData.concatenateCdtsAndValues(datasListTest, ['ID_JML','ST_INA']))
-Log.addAssert(CLASS_FOR_LOG,"concatenateCdtsAndValues(datasListTest, ['UNK']",[],myJDDData.concatenateCdtsAndValues(datasListTest, ['UNK']))
+Log.addAssert(CLASS_NAME,"concatenateCdtsAndValues(datasListTest, ['ID_JML','ST_INA']",resultList2,myJDDData.concatenateCdtsAndValues(datasListTest, ['ID_JML','ST_INA']))
+Log.addAssert(CLASS_NAME,"concatenateCdtsAndValues(datasListTest, ['UNK']",[],myJDDData.concatenateCdtsAndValues(datasListTest, ['UNK']))
 
 
 
-Log.addAssert(CLASS_FOR_LOG,"myJDDData.getNbrLigneCasDeTest('AA.BBB.001.MAJ.01')",1, myJDDData.getNbrLigneCasDeTest('AA.BBB.001.MAJ.01'))
-Log.addAssert(CLASS_FOR_LOG,"myJDDData.getNbrLigneCasDeTest('AA.BBB.001.LEC.01')",3, myJDDData.getNbrLigneCasDeTest('AA.BBB.001.LEC.01'))
-Log.addAssert(CLASS_FOR_LOG,"myJDDData.getNbrLigneCasDeTest('AA.BBB.001.UNK.01')",0, myJDDData.getNbrLigneCasDeTest('AA.BBB.001.UNK.01'))
+Log.addAssert(CLASS_NAME,"myJDDData.getNbrLigneCasDeTest('AA.BBB.001.MAJ.01')",1, myJDDData.getNbrLigneCasDeTest('AA.BBB.001.MAJ.01'))
+Log.addAssert(CLASS_NAME,"myJDDData.getNbrLigneCasDeTest('AA.BBB.001.LEC.01')",3, myJDDData.getNbrLigneCasDeTest('AA.BBB.001.LEC.01'))
+Log.addAssert(CLASS_NAME,"myJDDData.getNbrLigneCasDeTest('AA.BBB.001.UNK.01')",0, myJDDData.getNbrLigneCasDeTest('AA.BBB.001.UNK.01'))
 
-Log.addAssert(CLASS_FOR_LOG,"myJDDData.setValueOf('ST_DES','UPD_DESMAJ01','AA.BBB.001.MAJ.01',1)",null,myJDDData.setValueOf('ST_DES','UPD_DESMAJ01','AA.BBB.001.MAJ.01',1))
-Log.addAssert(CLASS_FOR_LOG,"myJDDData.getRawData('ST_DES', 'AA.BBB.001.MAJ.01',1 )",'UPD_DESMAJ01',myJDDData.getRawData('ST_DES', 'AA.BBB.001.MAJ.01' ,1))
+Log.addAssert(CLASS_NAME,"myJDDData.setValueOf('ST_DES','UPD_DESMAJ01','AA.BBB.001.MAJ.01',1)",null,myJDDData.setValueOf('ST_DES','UPD_DESMAJ01','AA.BBB.001.MAJ.01',1))
+Log.addAssert(CLASS_NAME,"myJDDData.getRawData('ST_DES', 'AA.BBB.001.MAJ.01',1 )",'UPD_DESMAJ01',myJDDData.getRawData('ST_DES', 'AA.BBB.001.MAJ.01' ,1))
 
 
 
-Log.addAssert(CLASS_FOR_LOG, "myJDDData.getValueOf('ST_DES','AA.BBB.001.LEC.01','ID_JML','JMLLEC12')",'DESJMLLEC12',myJDDData.getValueOf('ST_DES','AA.BBB.001.LEC.01','ID_JML','JMLLEC12'))
-Log.addAssert(CLASS_FOR_LOG, "myJDDData.getValueOf('UNK','AA.BBB.001.LEC.01','ID_JML','JMLLEC12')",null,myJDDData.getValueOf('UNK','AA.BBB.001.LEC.01','ID_JML','JMLLEC12'))
-Log.addAssert(CLASS_FOR_LOG, "myJDDData.getValueOf('ST_DES','AA.BBB.001.LEC.01','ID_JML','UNK')",null,myJDDData.getValueOf('ST_DES','AA.BBB.001.LEC.01','ID_JML','UNK'))
-Log.addAssert(CLASS_FOR_LOG, "myJDDData.getValueOf('ST_DES','AA.BBB.001.LEC.01','UNK','JMLLEC12')",null,myJDDData.getValueOf('ST_DES','AA.BBB.001.LEC.01','UNK','JMLLEC12'))
-Log.addAssert(CLASS_FOR_LOG, "myJDDData.getValueOf('ST_DES','UNK','ID_JML','JMLLEC12')",null,myJDDData.getValueOf('ST_DES','UNK','ID_JML','JMLLEC12'))
-Log.addAssert(CLASS_FOR_LOG, "myJDDData.getValueOf('','AA.BBB.001.LEC.01','ID_JML','JMLLEC12')",null,myJDDData.getValueOf('','AA.BBB.001.LEC.01','ID_JML','JMLLEC12'))
-Log.addAssert(CLASS_FOR_LOG, "myJDDData.getValueOf('ST_DES','AA.BBB.001.LEC.01','ID_JML','')",null,myJDDData.getValueOf('ST_DES','AA.BBB.001.LEC.01','ID_JML',''))
-Log.addAssert(CLASS_FOR_LOG, "myJDDData.getValueOf('ST_DES','AA.BBB.001.LEC.01','','JMLLEC12')",null,myJDDData.getValueOf('ST_DES','AA.BBB.001.LEC.01','','JMLLEC12'))
-Log.addAssert(CLASS_FOR_LOG, "myJDDData.getValueOf('ST_DES','','ID_JML','JMLLEC12')",null,myJDDData.getValueOf('ST_DES','','ID_JML','JMLLEC12'))
+Log.addAssert(CLASS_NAME, "myJDDData.getValueOf('ST_DES','AA.BBB.001.LEC.01','ID_JML','JMLLEC12')",'DESJMLLEC12',myJDDData.getValueOf('ST_DES','AA.BBB.001.LEC.01','ID_JML','JMLLEC12'))
+Log.addAssert(CLASS_NAME, "myJDDData.getValueOf('UNK','AA.BBB.001.LEC.01','ID_JML','JMLLEC12')",null,myJDDData.getValueOf('UNK','AA.BBB.001.LEC.01','ID_JML','JMLLEC12'))
+Log.addAssert(CLASS_NAME, "myJDDData.getValueOf('ST_DES','AA.BBB.001.LEC.01','ID_JML','UNK')",null,myJDDData.getValueOf('ST_DES','AA.BBB.001.LEC.01','ID_JML','UNK'))
+Log.addAssert(CLASS_NAME, "myJDDData.getValueOf('ST_DES','AA.BBB.001.LEC.01','UNK','JMLLEC12')",null,myJDDData.getValueOf('ST_DES','AA.BBB.001.LEC.01','UNK','JMLLEC12'))
+Log.addAssert(CLASS_NAME, "myJDDData.getValueOf('ST_DES','UNK','ID_JML','JMLLEC12')",null,myJDDData.getValueOf('ST_DES','UNK','ID_JML','JMLLEC12'))
+Log.addAssert(CLASS_NAME, "myJDDData.getValueOf('','AA.BBB.001.LEC.01','ID_JML','JMLLEC12')",null,myJDDData.getValueOf('','AA.BBB.001.LEC.01','ID_JML','JMLLEC12'))
+Log.addAssert(CLASS_NAME, "myJDDData.getValueOf('ST_DES','AA.BBB.001.LEC.01','ID_JML','')",null,myJDDData.getValueOf('ST_DES','AA.BBB.001.LEC.01','ID_JML',''))
+Log.addAssert(CLASS_NAME, "myJDDData.getValueOf('ST_DES','AA.BBB.001.LEC.01','','JMLLEC12')",null,myJDDData.getValueOf('ST_DES','AA.BBB.001.LEC.01','','JMLLEC12'))
+Log.addAssert(CLASS_NAME, "myJDDData.getValueOf('ST_DES','','ID_JML','JMLLEC12')",null,myJDDData.getValueOf('ST_DES','','ID_JML','JMLLEC12'))
 
 
 

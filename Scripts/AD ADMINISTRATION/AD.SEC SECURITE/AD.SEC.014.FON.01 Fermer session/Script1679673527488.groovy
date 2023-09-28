@@ -19,33 +19,33 @@ for (String cdt in myJDD.getCDTList()) {
 		
 		WUI.switchToFrame(myJDD,'frame_Main')
 
-	    STEP.scrollToPosition(2,0, 0)
+	    STEP.scrollToPosition(0, 0)
 
-	    STEP.simpleClick(3,, myJDD,'icon_Logout')
+	    STEP.simpleClick(myJDD,'icon_Logout')
 		
-		STEP.switchToDefaultContent(4)
+		STEP.switchToDefaultContent()
 		
 	} else {
 		// y a pas de frame_main quand on appelle les url en direct ! 
 		
-		STEP.scrollToPosition(5, 0, 0)
+		STEP.scrollToPosition(0, 0)
 	
-	    STEP.simpleClick(6, myJDD,'icon_Logout')
+	    STEP.simpleClick(myJDD,'icon_Logout')
 
 	}
 	
-	if (STEP.verifyElementVisible(7, myJDD,'in_passw', GlobalVariable.TIMEOUT)) {
+	if (STEP.verifyElementVisible(myJDD,'in_passw', GlobalVariable.TIMEOUT)) {
 		
-		TNRResult.addSTEPINFO('', "Déconnexion OK")
+		TNRResult.addSTEPINFO("Déconnexion OK")
 		
 		'Vérification des valeurs en BD'
-		STEP.checkJDDWithBD(0, myJDD,[:],"SELECT * FROM UTILOG ORDER bY DT_LOG DESC")
+		STEP.checkJDDWithBD(myJDD,[:],"SELECT * FROM UTILOG ORDER bY DT_LOG DESC")
 		
 	}else {
-		TNRResult.addSTEPINFO('', "Déconnexion KO")
+		TNRResult.addSTEPINFO("Déconnexion KO")
 	}
 	
-	STEP.closeBrowser(8)
+	STEP.closeBrowser()
 	TNRResult.addEndTestCase()
 
 }

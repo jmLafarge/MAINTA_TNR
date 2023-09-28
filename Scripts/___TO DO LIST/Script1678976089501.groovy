@@ -6,6 +6,17 @@
 * A FAIRE EN PRIORITE
 * -----------------------------------------------------------------------------------------------------
 *
+	
+	Terminer CheckboxImg recherche getAttribut
+	
+	revoir myJDD.ToString dans stepID
+	
+	KW --> à mettre dans WUI
+	
+	
+	RO.ACT.004EMP.SRM
+		CheckBox de type Img --> revoir le fonctionnement
+		getCheckBoxImgStatus est pourri, ça renvoie un boolean mais il y a un return null !
 
 	stepID
 		tenir compte des boucles de suppression n/3
@@ -17,7 +28,11 @@
 		Trouver une solution pour RestoreDB.run(), apres une restauration il faut recycler, comment le faire par script ?
 
 
-
+	Revoir la class TO 
+	
+		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
+		en fait on pourrait avoir TestObject tObj  = TO.make(myJDD,name) ;String msgTO = TO.getMsg() avec TO comme class static
+		
 
  
 *
@@ -27,16 +42,11 @@
 *
 *
 
-RO.ACT.003HAB.SRA
+Pas faire de doubleClick si la valeur est bonne
+--> faire une fonction pour gerer les modif dans les tableaus ?
+--> Voir la différence avec SRA !?
 
 
-
-
-la 1er ajoiut de SRA est KO --> finir isNbRecordsEqualTo, il faut attendre le nb = 1 avant de continuer
-
-Case à cocher de type img, je crois sur EMP ça le fait 3x
-
-modif EMP ?
 Vérifier MAT.ST_PAT dans tous les CDT
 DAns les SUP, quand pas le bouton pas la peine de faire
 
@@ -67,7 +77,14 @@ DAns les SUP, quand pas le bouton pas la peine de faire
  * 
  *  
 
-
+Ajout d'une colonne dans Result pour stepID
+Reprise XLSResult
+Correction de goToElementByObj
+Ajout de waitElementInViewport
+Simplification des SRM
+Override de JDD.toString()
+Correction de Log.addTraceBEGIN avec myjDD:myJDD.toString()
+Correction de StepID.getStrStepID avec myjDD:myJDD.toString()
 
 
 
@@ -159,7 +176,9 @@ DAns les SUP, quand pas le bouton pas la peine de faire
 	ATTETION, il y a 2 return dans la class SQL.checkValue
 	
 	
+	BUG KATALON
 	
+		La fonction WebUI.verifyElementInViewport(tObj, timeout, FailureHandling.CONTINUE_ON_FAILURE) semble ne pas toujours attendre le timeout !
 	
 
 
@@ -179,8 +198,8 @@ DAns les SUP, quand pas le bouton pas la peine de faire
 	TEST CASE 
 	
 		déterminer le traitement en fonction du type de locator (input, radio, ...)
-			si input --> STEP.setText(0, myJDD, "ST_ fois --> voir Suppr MATDES")
-			si radio --> STEP.scrollAndSetRadio(0, myJDD, "LblNU_TYP")
+			si input --> STEP.setText(myJDD, "ST_ fois --> voir Suppr MATDES")
+			si radio --> STEP.setRadio(myJDD, "LblNU_TYP")
 			...
 			
 		voir si on strap certains steps en cas d'erreur (par exemple si une fenetre de recherche ne s'ouvre pas, le reste plante)

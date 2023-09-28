@@ -16,7 +16,7 @@ import tnrLog.Log
  */
 
 
-final String CLASS_FOR_LOG = 'tnrJDDManager.JDDIHMTO'
+final String CLASS_NAME = 'tnrJDDManager.JDDIHMTO'
 
 Map <String,String> xpathMapTest1 = [
 	'button_Valider':"//button[@id='ValidE39']", 
@@ -41,8 +41,8 @@ Workbook  book = ExcelUtils.open('TNR_JDDTest\\JDD.AA.BBB.xlsx')
 
 
 JDDIHMTO IHMTO1 = new JDDIHMTO(book.getSheet('IHMTO'),'001')
-Log.addAssert(CLASS_FOR_LOG,"IHMTO1.getXpaths()",xpathMapTest1,IHMTO1.getXpaths())
+Log.addAssert(CLASS_NAME,"IHMTO1.getXpaths()",xpathMapTest1,IHMTO1.getXpaths())
 
 JDDIHMTO IHMTO2 = new JDDIHMTO(book.getSheet('IHMTO'),'003HAB')
-Log.addAssert(CLASS_FOR_LOG,"IHMTO2.getXpaths()",xpathMapTest2,IHMTO2.getXpaths())
+Log.addAssert(CLASS_NAME,"IHMTO2.getXpaths()",xpathMapTest2,IHMTO2.getXpaths())
 

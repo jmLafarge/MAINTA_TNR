@@ -12,7 +12,7 @@ import tnrLog.Log
 public class JDDParam {
 
 
-	private final String CLASS_FOR_LOG  = 'JDDParams'
+	private final String CLASS_NAME  = 'JDDParams'
 
 
 	private final enum PARAM_LIST_ALLOWED {
@@ -32,7 +32,7 @@ public class JDDParam {
 
 	JDDParam(Sheet sheet, JDDHeader JDDHeader) {
 
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "JDDParams", [sheet:sheet.getSheetName() , JDDHeader:JDDHeader])
+		Log.addTraceBEGIN(CLASS_NAME, "JDDParams", [sheet:sheet.getSheetName() , JDDHeader:JDDHeader])
 
 		Iterator<Row> rowIt = sheet.rowIterator()
 		rowIt.next()
@@ -56,7 +56,7 @@ public class JDDParam {
 		}
 		Log.addTrace('- params : ' + paramsMap)
 
-		Log.addTraceEND(CLASS_FOR_LOG, "JDDParams")
+		Log.addTraceEND(CLASS_NAME, "JDDParams")
 	}
 
 
@@ -92,7 +92,7 @@ public class JDDParam {
 
 
 	public String getParamFor(String param,String name) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "getParamFor", [param:param , name:name])
+		Log.addTraceBEGIN(CLASS_NAME, "getParamFor", [param:param , name:name])
 		String ret = ''
 		if (isParamAllowed(param)){
 			if (paramsMap.containsKey(param)) {
@@ -101,7 +101,7 @@ public class JDDParam {
 				ret = ''
 			}
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "getParamFor" , ret)
+		Log.addTraceEND(CLASS_NAME, "getParamFor" , ret)
 		return ret
 	}
 
@@ -109,66 +109,66 @@ public class JDDParam {
 
 
 	public String getPREREQUISFor(String name) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "getPREREQUISFor", [name:name])
+		Log.addTraceBEGIN(CLASS_NAME, "getPREREQUISFor", [name:name])
 		String ret = ''
 		if (paramsMap.containsKey(PARAM_LIST_ALLOWED.PREREQUIS.name())) {
 			ret=  paramsMap[PARAM_LIST_ALLOWED.PREREQUIS.name()][name]
 		}else {
 			ret = ''
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "getPREREQUISFor" , ret)
+		Log.addTraceEND(CLASS_NAME, "getPREREQUISFor" , ret)
 		return ret
 	}
 
 	public String getFOREIGNKEYFor(String name) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "getFOREIGNKEYFor", [name:name])
+		Log.addTraceBEGIN(CLASS_NAME, "getFOREIGNKEYFor", [name:name])
 		String ret = ''
 		if (paramsMap.containsKey(PARAM_LIST_ALLOWED.FOREIGNKEY.name())) {
 			ret=  paramsMap[PARAM_LIST_ALLOWED.FOREIGNKEY.name()][name]
 		}else {
 			ret = ''
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "getFOREIGNKEYFor" , ret)
+		Log.addTraceEND(CLASS_NAME, "getFOREIGNKEYFor" , ret)
 		return ret
 	}
 
 	public String getSEQUENCEFor(String name) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "getSEQUENCEFor", [name:name])
+		Log.addTraceBEGIN(CLASS_NAME, "getSEQUENCEFor", [name:name])
 		String ret = ''
 		if (paramsMap.containsKey(PARAM_LIST_ALLOWED.SEQUENCE.name())) {
 			ret=  paramsMap[PARAM_LIST_ALLOWED.SEQUENCE.name()][name]
 		}else {
 			ret = ''
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "getSEQUENCEFor" , ret)
+		Log.addTraceEND(CLASS_NAME, "getSEQUENCEFor" , ret)
 		return ret
 	}
 
 
 
 	public String getLOCATORFor(String name) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "getLOCATORFor", [name:name])
+		Log.addTraceBEGIN(CLASS_NAME, "getLOCATORFor", [name:name])
 		String ret = ''
 		if (paramsMap.containsKey(PARAM_LIST_ALLOWED.LOCATOR.name())) {
 			ret=  paramsMap[PARAM_LIST_ALLOWED.LOCATOR.name()][name]
 		}else {
 			ret = ''
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "getLOCATORFor" , ret)
+		Log.addTraceEND(CLASS_NAME, "getLOCATORFor" , ret)
 		return ret
 	}
 
 
 
 	public String getINTERNALVALUEFor(String name) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "getINTERNALVALUEFor", [name:name])
+		Log.addTraceBEGIN(CLASS_NAME, "getINTERNALVALUEFor", [name:name])
 		String ret = ''
 		if (paramsMap.containsKey(PARAM_LIST_ALLOWED.INTERNALVALUE.name())) {
 			ret=  paramsMap[PARAM_LIST_ALLOWED.INTERNALVALUE.name()][name]
 		}else {
 			ret = ''
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "getINTERNALVALUEFor" , ret)
+		Log.addTraceEND(CLASS_NAME, "getINTERNALVALUEFor" , ret)
 		return ret
 	}
 
@@ -181,14 +181,14 @@ public class JDDParam {
 
 
 	public int getLOCATORIndex() {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "getLOCATORIndex", [:])
+		Log.addTraceBEGIN(CLASS_NAME, "getLOCATORIndex", [:])
 		int ret = -1
 		if (paramsMap.containsKey(PARAM_LIST_ALLOWED.LOCATOR.name())) {
 			ret = paramsMap.keySet().toList().findIndexOf { it == PARAM_LIST_ALLOWED.LOCATOR.name() }
 		}else {
 			ret = -1
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "getLOCATORIndex" , ret)
+		Log.addTraceEND(CLASS_NAME, "getLOCATORIndex" , ret)
 		return ret
 	}
 
@@ -206,9 +206,9 @@ public class JDDParam {
 	 * @return True si la valeur est une clé étrangère, false sinon.
 	 */
 	public boolean isFK(String name) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"isFK",[name:name])
+		Log.addTraceBEGIN(CLASS_NAME,"isFK",[name:name])
 		boolean result = getFOREIGNKEYFor(name)!=''
-		Log.addTraceEND(CLASS_FOR_LOG,"isFK",result)
+		Log.addTraceEND(CLASS_NAME,"isFK",result)
 		return result
 	}
 
@@ -220,10 +220,10 @@ public class JDDParam {
 	 * @return True si la valeur est obsolète, false sinon.
 	 */
 	public boolean isOBSOLETE(String name) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"isOBSOLETE",[name:name])
+		Log.addTraceBEGIN(CLASS_NAME,"isOBSOLETE",[name:name])
 		String ret = getPREREQUISFor(name)
 		boolean result = ret ? ret == 'OBSOLETE' : false
-		Log.addTraceEND(CLASS_FOR_LOG,"isOBSOLETE",result)
+		Log.addTraceEND(CLASS_NAME,"isOBSOLETE",result)
 		return result
 	}
 
@@ -233,10 +233,10 @@ public class JDDParam {
 
 
 	public boolean isCALCULEE(String name) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"isCALCULEE",[name:name])
+		Log.addTraceBEGIN(CLASS_NAME,"isCALCULEE",[name:name])
 		String ret = getPREREQUISFor(name)
 		boolean result = ret ? ret == 'CALCULEE' : false
-		Log.addTraceEND(CLASS_FOR_LOG,"isCALCULEE",result)
+		Log.addTraceEND(CLASS_NAME,"isCALCULEE",result)
 		return result
 	}
 } //Fin de class

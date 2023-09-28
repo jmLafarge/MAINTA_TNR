@@ -12,7 +12,7 @@ import tnrPREJDDManager.PREJDDFileMapper
 @CompileStatic
 public class Check_CAL {
 
-	private static final String CLASS_FOR_LOG = 'Check_CAL'
+	private static final String CLASS_NAME = 'Check_CAL'
 
 	private static List listCAL =[]
 	private static List listCALDEF=[]
@@ -20,7 +20,7 @@ public class Check_CAL {
 
 	static run() {
 
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"run",[:])
+		Log.addTraceBEGIN(CLASS_NAME,"run",[:])
 
 		Log.addSubTITLE('Vérification spécifique de CAL/CALDEF')
 
@@ -44,14 +44,14 @@ public class Check_CAL {
 		if (status) {
 			Log.addINFO('     ***  OK   ***')
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"run")
+		Log.addTraceEND(CLASS_NAME,"run")
 	}
 
 
 
 
 	private static loadListCAL(Sheet sheet) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"loadListCAL",[sheet:sheet.getSheetName()])
+		Log.addTraceBEGIN(CLASS_NAME,"loadListCAL",[sheet:sheet.getSheetName()])
 		Iterator<Row> rowIt = sheet.rowIterator()
 		Row row = rowIt.next()
 		Log.addTrace("Chargement de CAL")
@@ -62,13 +62,13 @@ public class Check_CAL {
 			}
 			listCAL.add(ExcelUtils.getCellValue(row.getCell(0)).toString()+ ' - ' + ExcelUtils.getCellValue(row.getCell(1)))
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"loadListCAL")
+		Log.addTraceEND(CLASS_NAME,"loadListCAL")
 	}
 
 
 
 	private static loadListCALDEF(Sheet sheet) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"loadListCALDEF",[sheet:sheet.getSheetName()])
+		Log.addTraceBEGIN(CLASS_NAME,"loadListCALDEF",[sheet:sheet.getSheetName()])
 		Iterator<Row> rowIt = sheet.rowIterator()
 		Row row = rowIt.next()
 		Log.addTrace("Chargement de CALDEF")
@@ -79,6 +79,6 @@ public class Check_CAL {
 			}
 			listCALDEF.add(ExcelUtils.getCellValue(row.getCell(0)).toString() + ' - ' + ExcelUtils.getCellValue(row.getCell(1))+ ' - ' + ExcelUtils.getCellValue(row.getCell(5)))
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"loadListCALDEF")
+		Log.addTraceEND(CLASS_NAME,"loadListCALDEF")
 	}
 }

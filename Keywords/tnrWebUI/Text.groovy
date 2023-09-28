@@ -22,15 +22,15 @@ import tnrResultManager.TNRResult
 @CompileStatic
 public class Text {
 
-	private static final String CLASS_FOR_LOG = 'Text'
+	private static final String CLASS_NAME = 'Text'
 
 
-	private static final String CLASS_CODE = 'TXT'
 
 
-	static void verifyValue(def stepID, JDD myJDD, String name, String text=null, int timeout  = (int) GlobalVariable.TIMEOUT , String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyValue", [stepID:stepID , myJDD: myJDD, name: name , text:text , timeout:timeout , status:status])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '01',stepID)
+
+	static void verifyValue( JDD myJDD, String name, String text=null, int timeout  = (int) GlobalVariable.TIMEOUT , String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_NAME, "verifyValue", [ myJDD:myJDD.toString() , name: name , text:text , timeout:timeout , status:status])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'verifyValue'+ myJDD.toString() + name)
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (!msgTO) {
 			if (text==null) text = myJDD.getStrData(name)
@@ -50,7 +50,7 @@ public class Text {
 						TNRResult.addSTEPPASS(strStepID, "Vérifier que la valeur de '" + name + "', soit Null ou Vide")
 					}else {
 						TNRResult.addSTEP(strStepID, "Vérifier que la valeur de '" + name + "', soit '$text'",status)
-						TNRResult.addDETAIL("La valeur du champ est '" + WebUI.getAttribute(tObj, 'value') + "' !")
+						TNRResult.addDETAIL("La valeur du champ est '$val' !")
 					}
 				}else {
 					TNRResult.addSTEP(strStepID, "Vérifier que la valeur de '" + name + "', soit '$text'",status)
@@ -61,7 +61,7 @@ public class Text {
 			TNRResult.addSTEPERROR(strStepID, "Vérifier que la valeur de '$name' = '$text'  impossible")
 			TNRResult.addDETAIL(msgTO)
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "verifyValue")
+		Log.addTraceEND(CLASS_NAME, "verifyValue")
 	}
 
 
@@ -69,36 +69,36 @@ public class Text {
 
 
 
-	static void setDate(def stepID, JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "setDate", [stepID:stepID , myJDD: myJDD, name: name , val:val , dateFormat:dateFormat , timeout:timeout , status:status])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '02',stepID)
+	static void setDate( JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_NAME, "setDate", [ myJDD:myJDD.toString() , name: name , val:val , dateFormat:dateFormat , timeout:timeout , status:status])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'setDate'+ myJDD.toString() + name)
 		val = val ?: myJDD.getData(name)
 		if (JDDKW.isNULL(val) || JDDKW.isNU(val)) {
-			TNRResult.addSTEPINFO(strStepID, "Pas de saisie de texte sur '$name', valeur du JDD = $val")
+			TNRResult.addSTEPINFO("Pas de saisie de texte sur '$name', valeur du JDD = $val")
 		}else if ( val instanceof Date) {
-			setText(strStepID, myJDD, name, val.format(dateFormat), timeout,status)
+			setText( myJDD, name, val.format(dateFormat), timeout,status)
 		}else {
 			TNRResult.addSTEPERROR(strStepID, "Saisie du texte '${val.toString()}' sur '$name'")
 			TNRResult.addDETAIL("Erreur de JDD de '$name', la valeur '${val.toString()}' n'est pas une date ! getClass = " + val.getClass())
 		}
 
-		Log.addTraceEND(CLASS_FOR_LOG, "setDate")
+		Log.addTraceEND(CLASS_NAME, "setDate")
 	}
 
 
 
 
 
-	static void verifyDateText(def stepID, JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
+	static void verifyDateText( JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
 		Log.addTrace("verifyDateText : name='$name' val='${val.toString()} dateFormat='dateFormat' status='$status'")
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '03',stepID)
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'verifyDateText'+ myJDD.toString() + name)
 		if (val==null) val = myJDD.getData(name)
 
 		if (val == '$VIDE') {
-			verifyText(strStepID, myJDD, name, '', timeout, status)
+			verifyText( myJDD, name, '', timeout, status)
 		}else if ( val instanceof Date) {
 			Log.addTrace('val.format(dateFormat) :' +val.format(dateFormat))
-			verifyText(strStepID, myJDD, name, val.format(dateFormat), timeout,status)
+			verifyText(myJDD, name, val.format(dateFormat), timeout,status)
 		}else {
 			TNRResult.addSTEPERROR(strStepID, "Vérification du texte '${val.toString()}' sur '$name'")
 			TNRResult.addDETAIL("Erreur de JDD de '$name', la valeur '${val.toString()}' n'est pas une date ! getClass = " + val.getClass())
@@ -108,52 +108,52 @@ public class Text {
 
 
 
-	static void verifyDateValue(def stepID, JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
+	static void verifyDateValue( JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
 
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyDateValue", [stepID:stepID , myJDD: myJDD, name: name , val:val , dateFormat:dateFormat , timeout:timeout , status:status])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '04',stepID)
+		Log.addTraceBEGIN(CLASS_NAME, "verifyDateValue", [ myJDD:myJDD.toString() , name: name , val:val , dateFormat:dateFormat , timeout:timeout , status:status])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'verifyDateValue'+ myJDD.toString() + name)
 		if (val==null) val = myJDD.getData(name)
 		if (val == '$VIDE') {
-			verifyValue(strStepID, myJDD, name, '', timeout,status)
+			verifyValue(myJDD, name, '', timeout,status)
 		}else if ( val instanceof Date) {
-			verifyValue(strStepID, myJDD, name, val.format(dateFormat),timeout, status)
+			verifyValue(myJDD, name, val.format(dateFormat),timeout, status)
 		}else {
 			TNRResult.addSTEPERROR(strStepID, "Vérification du texte '${val.toString()}' sur '$name'")
 			TNRResult.addDETAIL("Erreur de JDD de '$name', la valeur '${val.toString()}' n'est pas une date ! getClass = " + val.getClass())
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "verifyDateValue")
+		Log.addTraceEND(CLASS_NAME, "verifyDateValue")
 	}
 
 
 
 
-	static void verifyTimeValue(def stepID, JDD myJDD, String name, def val=null, String timeFormat = 'HH:mm:ss', int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
+	static void verifyTimeValue( JDD myJDD, String name, def val=null, String timeFormat = 'HH:mm:ss', int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
 
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyTimeValue", [stepID:stepID , myJDD: myJDD, name: name , val:val , timeFormat:timeFormat , timeout:timeout , status:status])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '05',stepID)
+		Log.addTraceBEGIN(CLASS_NAME, "verifyTimeValue", [ myJDD:myJDD.toString() , name: name , val:val , timeFormat:timeFormat , timeout:timeout , status:status])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'verifyTimeValue'+ myJDD.toString() + name)
 		if (val==null) val = myJDD.getData(name)
 		if (val == '$VIDE') {
-			verifyValue(strStepID, myJDD, name, '', timeout,status)
+			verifyValue(myJDD, name, '', timeout,status)
 		}else if ( val instanceof Date) {
-			verifyValue(strStepID, myJDD, name, val.format(timeFormat), timeout,status)
+			verifyValue(myJDD, name, val.format(timeFormat), timeout,status)
 		}else {
 			TNRResult.addSTEPERROR(strStepID, "Vérification du texte '${val.toString()}' sur '$name'")
 			TNRResult.addDETAIL("Erreur de JDD de '$name', la valeur '${val.toString()}' n'est pas une date ! getClass = " + val.getClass())
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "verifyTimeValue")
+		Log.addTraceEND(CLASS_NAME, "verifyTimeValue")
 	}
 
 
-	static void setText(def stepID, JDD myJDD, String name, String text=null , int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "setText", [stepID:stepID , myJDD: myJDD, name: name , text:text , timeout:timeout , status:status])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '06',stepID)
+	static void setText( JDD myJDD, String name, String text=null , int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_NAME, "setText", [ myJDD:myJDD.toString() , name: name , text:text , timeout:timeout , status:status])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'setText'+ myJDD.toString() + name)
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (!msgTO) {
 			if (text==null) {
 				text = myJDD.getStrData(name)
 			}
 			if (JDDKW.isNULL(text) || JDDKW.isNU(text)) {
-				TNRResult.addSTEPINFO(strStepID, "Pas de saisie de texte sur '${tObj.getObjectId()}', valeur du JDD = $text")
+				TNRResult.addSTEPINFO("Pas de saisie de texte sur '${tObj.getObjectId()}', valeur du JDD = $text")
 			}else {
 				String objValue = WebUI.getAttribute(tObj, 'value')
 				Log.addTrace("objText:'$objValue'")
@@ -181,15 +181,15 @@ public class Text {
 			TNRResult.addSTEPERROR(strStepID,"Saisie du texte '$text' sur '$name' impossible")
 			TNRResult.addDETAIL(msgTO)
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "setText")
+		Log.addTraceEND(CLASS_NAME, "setText")
 	}
 
 
 
 
-	static void setEncryptedText(def stepID, JDD myJDD, String name, String text=null,int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "setEncryptedText", [stepID:stepID , myJDD: myJDD, name: name , text:text , timeout:timeout , status:status])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '07',stepID)
+	static void setEncryptedText( JDD myJDD, String name, String text=null,int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
+		Log.addTraceBEGIN(CLASS_NAME, "setEncryptedText", [ myJDD:myJDD.toString() , name: name , text:text , timeout:timeout , status:status])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'setEncryptedText'+ myJDD.toString() + name)
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (!msgTO) {
 			if (text==null) {
@@ -212,13 +212,13 @@ public class Text {
 			TNRResult.addSTEPERROR(strStepID,"Saisie du mot de passe sur '$name' impossible")
 			TNRResult.addDETAIL(msgTO)
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "setEncryptedText")
+		Log.addTraceEND(CLASS_NAME, "setEncryptedText")
 	}
 
 
-	static boolean verifyText(def stepID,JDD myJDD, String name, String text=null, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyText", [stepID:stepID , myJDD: myJDD, name: name , text:text , timeout:timeout , status:status])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '08',stepID)
+	static boolean verifyText(JDD myJDD, String name, String text=null, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
+		Log.addTraceBEGIN(CLASS_NAME, "verifyText", [ myJDD:myJDD.toString() , name: name , text:text , timeout:timeout , status:status])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'verifyText'+ myJDD.toString() + name)
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		boolean ret = false
 		if (!msgTO) {
@@ -243,15 +243,15 @@ public class Text {
 			TNRResult.addSTEPERROR(strStepID,"Vérification du texte '$text' sur '$name' impossible")
 			TNRResult.addDETAIL(msgTO)
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "verifyText",ret)
+		Log.addTraceEND(CLASS_NAME, "verifyText",ret)
 		return ret
 	}
 
 
 
-	static boolean verifyTextContains(def stepID,JDD myJDD, String name, String text=null, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "verifyTextContains", [stepID:stepID , myJDD: myJDD, name: name , text:text , timeout:timeout , status:status])
-		String strStepID = StepID.getStrStepID(CLASS_CODE, '09',stepID)
+	static boolean verifyTextContains(JDD myJDD, String name, String text=null, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
+		Log.addTraceBEGIN(CLASS_NAME, "verifyTextContains", [ myJDD:myJDD.toString() , name: name , text:text , timeout:timeout , status:status])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'verifyTextContains'+ myJDD.toString() + name)
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		boolean ret = false
 		if (!msgTO) {
@@ -274,7 +274,7 @@ public class Text {
 			TNRResult.addSTEPERROR(strStepID,"Vérification que le texte '?' contient '$text' sur '$name' impossible")
 			TNRResult.addDETAIL(msgTO)
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "verifyTextContains",ret)
+		Log.addTraceEND(CLASS_NAME, "verifyTextContains",ret)
 		return ret
 	}
 
@@ -284,7 +284,7 @@ public class Text {
 
 
 	public static String deleteText(TestObject tObj) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "deleteText", [tObj: tObj.getObjectId()])
+		Log.addTraceBEGIN(CLASS_NAME, "deleteText", [tObj: tObj.getObjectId()])
 		String msg =null
 		try {
 			WebUI.setText(tObj, '', FailureHandling.STOP_ON_FAILURE)
@@ -292,7 +292,7 @@ public class Text {
 		} catch (Exception ex) {
 			msg = "Effacement du texte : " + ex.getMessage()
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "deleteText",msg)
+		Log.addTraceEND(CLASS_NAME, "deleteText",msg)
 		return msg
 	}
 }

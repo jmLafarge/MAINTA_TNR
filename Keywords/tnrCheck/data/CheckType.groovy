@@ -18,12 +18,12 @@ import tnrSqlManager.InfoDB
 @CompileStatic
 public class CheckType {
 
-	private static final String CLASS_FOR_LOG = 'CheckType'
+	private static final String CLASS_NAME = 'CheckType'
 
 
 
 	public static boolean run(List<Map<String, Map<String, Object>>> datasList, JDD myJDD, String table, String filename) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"run",['datasList.size()':datasList.size() , myJDD:myJDD , table:table , filename:filename ])
+		Log.addTraceBEGIN(CLASS_NAME,"run",['datasList.size()':datasList.size() , myJDD:myJDD.toString() , table:table , filename:filename ])
 
 		Log.addDEBUGDETAIL("Contrôle des types dans les DATA")
 		boolean status = true
@@ -123,7 +123,7 @@ public class CheckType {
 				}
 			}
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"run", status)
+		Log.addTraceEND(CLASS_NAME,"run", status)
 		return status
 	}
 

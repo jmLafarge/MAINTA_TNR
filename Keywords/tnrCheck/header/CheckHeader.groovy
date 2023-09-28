@@ -15,7 +15,7 @@ import tnrSqlManager.InfoDB
 @CompileStatic
 public class CheckHeader {
 
-	private static final String CLASS_FOR_LOG = 'CheckHeader'
+	private static final String CLASS_NAME = 'CheckHeader'
 
 
 
@@ -28,7 +28,7 @@ public class CheckHeader {
 	 * @return             Le statut après vérification (true si pas de FAIL, sinon false )
 	 */
 	public static boolean run(String typeFile, List <String> headersList, String tableName) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"run",[typeFile:typeFile , headersList:headersList , table:tableName ])
+		Log.addTraceBEGIN(CLASS_NAME,"run",[typeFile:typeFile , headersList:headersList , table:tableName ])
 
 		Log.addDEBUGDETAIL("Contrôle de la table")
 		boolean status = true
@@ -57,7 +57,7 @@ public class CheckHeader {
 			Log.addDETAILFAIL("La table '$tableName' n'existe pas !")
 			status=false
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"run",status)
+		Log.addTraceEND(CLASS_NAME,"run",status)
 		return status
 	}
 

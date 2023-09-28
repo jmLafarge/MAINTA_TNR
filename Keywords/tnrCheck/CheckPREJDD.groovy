@@ -22,7 +22,7 @@ import tnrSqlManager.InfoDB
 public class CheckPREJDD {
 
 
-	private static final String CLASS_FOR_LOG = 'CheckPREJDD'
+	private static final String CLASS_NAME = 'CheckPREJDD'
 
 
 	/**
@@ -36,7 +36,7 @@ public class CheckPREJDD {
 	 */
 	static run() {
 
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"run",[:])
+		Log.addTraceBEGIN(CLASS_NAME,"run",[:])
 
 		Log.addSubTITLE('Vérification des PREJDD')
 
@@ -82,6 +82,6 @@ public class CheckPREJDD {
 		if (status) {
 			Log.addINFO('     ***  OK   ***')
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"run")
+		Log.addTraceEND(CLASS_NAME,"run")
 	}
 }

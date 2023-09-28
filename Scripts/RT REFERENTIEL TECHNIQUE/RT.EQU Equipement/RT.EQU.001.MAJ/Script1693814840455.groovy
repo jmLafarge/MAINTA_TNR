@@ -21,7 +21,7 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 	
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-    NAV.goToURL_ReadUpdateDelete(myJDD.getStrData())
+    STEP.goToURLReadUpdateDelete(myJDD.getStrData())
 	NAV.checkReadUpdateDeleteScreen(myJDD.getStrData('ST_CODCOU'))
 
 
@@ -33,66 +33,66 @@ for (String cdt in myJDD.getCDTList()) {
 		
 	TNRResult.addSTEPGRP("ONGLET EQUIPEMENT")
 		
-		STEP.simpleClick(0, myJDD, "tab_Equipement")
-		STEP.verifyElementVisible(0, myJDD, "tab_EquipementSelected")
+		STEP.simpleClick(myJDD, "tab_Equipement")
+		STEP.verifyElementVisible(myJDD, "tab_EquipementSelected")
 		
-		STEP.setText(0, myJDD, "ST_CODCOU")
-		STEP.setText(0, myJDD, "ST_CODPERS")
-		STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_INA", "O")
-		STEP.setText(0, myJDD, "ST_DESEQU")
-		STEP.scrollAndSelectOptionByLabel(0, myJDD, "ST_ETA")
-		STEP.scrollAndSelectOptionByLabel(0, myJDD, "NU_CRI")
-		STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_NIVABS", "O")
-		STEP.searchWithHelper(0, myJDD, "ID_CODGES","","")
-		STEP.searchWithHelper(0, myJDD, "ID_NUMEMP","//a[@id='BtnEMP_CODLON']/i","SEARCH_ST_CODLON") //EMP_CODLON
-		STEP.searchWithHelper(0, myJDD, "ID_CODIMP","","")
-		STEP.searchWithHelper(0, myJDD, "ID_NUMGRO","//a[@id='BtnGRO_CODLON']/i","SEARCH_ST_CODLON") // GRO_CODLON		
-		STEP.searchWithHelper(0, myJDD, "ID_CODCOM","","")
-		STEP.setText(0, myJDD, "NU_USA")
-		STEP.searchWithHelper(0, myJDD, "ID_CODCON","","")
+		STEP.setText(myJDD, "ST_CODCOU")
+		STEP.setText(myJDD, "ST_CODPERS")
+		STEP.clickCheckboxIfNeeded(myJDD, "ST_INA", "O")
+		STEP.setText(myJDD, "ST_DESEQU")
+		STEP.selectOptionByLabel(myJDD, "ST_ETA")
+		STEP.selectOptionByLabel(myJDD, "NU_CRI")
+		STEP.clickCheckboxIfNeeded(myJDD, "ST_NIVABS", "O")
+		STEP.searchWithHelper(myJDD, "ID_CODGES","","")
+		STEP.searchWithHelper(myJDD, "ID_NUMEMP","//a[@id='BtnEMP_CODLON']/i","SEARCH_ST_CODLON") //EMP_CODLON
+		STEP.searchWithHelper(myJDD, "ID_CODIMP","","")
+		STEP.searchWithHelper(myJDD, "ID_NUMGRO","//a[@id='BtnGRO_CODLON']/i","SEARCH_ST_CODLON") // GRO_CODLON		
+		STEP.searchWithHelper(myJDD, "ID_CODCOM","","")
+		STEP.setText(myJDD, "NU_USA")
+		STEP.searchWithHelper(myJDD, "ID_CODCON","","")
 		
 	TNRResult.addSTEPGRP("ONGLET FICHE")
 		
-		STEP.simpleClick(0, myJDD, "tab_Fiche")
-		STEP.verifyElementVisible(0, myJDD, "tab_FicheSelected")
+		STEP.simpleClick(myJDD, "tab_Fiche")
+		STEP.verifyElementVisible(myJDD, "tab_FicheSelected")
 		
-		STEP.setText(0, myJDD, "ST_NOMFOU")
-		STEP.setText(0, myJDD, "ST_REFFOU")
-		STEP.setText(0, myJDD, "NU_PRIACH")
-		STEP.setText(0, myJDD, "ST_NOMCON")
-		STEP.setText(0, myJDD, "ST_REFCON")
-		STEP.setDate(0, myJDD, "DT_ACH")
-		STEP.setDate(0, myJDD, "DT_SER")
-		STEP.setText(0, myJDD, "NU_PRIACT")
-		STEP.setDate(0, myJDD, "DT_FINGAR")
-		STEP.setDate(0, myJDD, "DT_FINVIE")
-		STEP.setText(0, myJDD, "NU_COUHOR")
-		STEP.setText(0, myJDD, "NU_USAGAR")
-		STEP.setText(0, myJDD, "NU_FINUSA")
-		STEP.setText(0, myJDD, "NU_COUARR")
-		STEP.setText(0, myJDD, "ST_NUMINV")
-		STEP.setText(0, myJDD, "ST_OBS")
-		STEP.searchWithHelper(0, myJDD, "ID_CODCAL","","")
-		STEP.searchWithHelper(0, myJDD, "ID_CODCONTRA","","")
-		STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_COM", "O")
-		STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_MAT", "O")
-		STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_CONTRABT", "O")
-		STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_ANA", "O")
+		STEP.setText(myJDD, "ST_NOMFOU")
+		STEP.setText(myJDD, "ST_REFFOU")
+		STEP.setText(myJDD, "NU_PRIACH")
+		STEP.setText(myJDD, "ST_NOMCON")
+		STEP.setText(myJDD, "ST_REFCON")
+		STEP.setDate(myJDD, "DT_ACH")
+		STEP.setDate(myJDD, "DT_SER")
+		STEP.setText(myJDD, "NU_PRIACT")
+		STEP.setDate(myJDD, "DT_FINGAR")
+		STEP.setDate(myJDD, "DT_FINVIE")
+		STEP.setText(myJDD, "NU_COUHOR")
+		STEP.setText(myJDD, "NU_USAGAR")
+		STEP.setText(myJDD, "NU_FINUSA")
+		STEP.setText(myJDD, "NU_COUARR")
+		STEP.setText(myJDD, "ST_NUMINV")
+		STEP.setText(myJDD, "ST_OBS")
+		STEP.searchWithHelper(myJDD, "ID_CODCAL","","")
+		STEP.searchWithHelper(myJDD, "ID_CODCONTRA","","")
+		STEP.clickCheckboxIfNeeded(myJDD, "ST_COM", "O")
+		STEP.clickCheckboxIfNeeded(myJDD, "ST_MAT", "O")
+		STEP.clickCheckboxIfNeeded(myJDD, "ST_CONTRABT", "O")
+		STEP.clickCheckboxIfNeeded(myJDD, "ST_ANA", "O")
 		
 	TNRResult.addSTEPGRP("ONGLET NOTES")
 	
-		STEP.scrollToPosition('', 0, 0)
+		STEP.scrollToPosition( 0, 0)
 		
-		STEP.simpleClick(0, myJDD, "tab_Notes")
-		STEP.verifyElementVisible(0, myJDD, "tab_NotesSelected")
+		STEP.simpleClick(myJDD, "tab_Notes")
+		STEP.verifyElementVisible(myJDD, "tab_NotesSelected")
 		
 		JDD JDD_Note = new JDD(JDDFileMapper.getFullnameFromModObj('RT.EQU'),'001C',GlobalVariable.CAS_DE_TEST_EN_COURS)
 		
 		String notes = JDD_Note.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC1'))
 		String consignes = JDD_Note.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC2'))
 	
-		STEP.setMemoText(0, notes, 'Notes',true,myJDD,'Memo_ModifierNotes')
-		STEP.setMemoText(0, consignes, 'Consignes',true,myJDD,'Memo_ModifierConsignes')
+		STEP.setMemoText(notes, 'Notes',true,myJDD,'Memo_ModifierNotes')
+		STEP.setMemoText(consignes, 'Consignes',true,myJDD,'Memo_ModifierConsignes')
 		
 
 		
@@ -101,8 +101,8 @@ for (String cdt in myJDD.getCDTList()) {
 		
 	TNRResult.addSTEPGRP("ONGLET ADRESSE")
 		
-		STEP.simpleClick(0, myJDD, "tab_Adresse")
-		STEP.verifyElementVisible(0, myJDD, "tab_AdresseSelected")
+		STEP.simpleClick(myJDD, "tab_Adresse")
+		STEP.verifyElementVisible(myJDD, "tab_AdresseSelected")
 	
 
 	  
@@ -112,13 +112,13 @@ for (String cdt in myJDD.getCDTList()) {
 
 	TNRResult.addSTEPACTION('VALIDATION')
 	
-	    STEP.simpleClick(0, GlobalJDD.myGlobalJDD,'button_Valider')
+	    STEP.simpleClick(GlobalJDD.myGlobalJDD,'button_Valider')
 	
-	    STEP.checkResultScreen(0, myJDD.getStrData('ST_CODCOU'),'', 'Resultat_ID')
+	    STEP.checkResultScreen(myJDD.getStrData('ST_CODCOU'),'', 'Resultat_ID')
 		
 		myJDD.replaceSEQUENCIDInJDD('ID_NUMEQU')
 	
-		STEP.checkJDDWithBD(0, myJDD)
+		STEP.checkJDDWithBD(myJDD)
 	
 		
 	TNRResult.addEndTestCase()

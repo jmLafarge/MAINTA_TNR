@@ -17,12 +17,12 @@ import tnrSqlManager.InfoDB
 public class CheckPK {
 
 
-	static private final String CLASS_FOR_LOG  = 'CheckPK'
+	static private final String CLASS_NAME  = 'CheckPK'
 
 
 
 	static boolean run(List<Map<String, Map<String, Object>>> datasList, List <String> PKList, String JDDFullName, String sheetName) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "run", ['datasList.size()':datasList.size() , PKList:PKList , JDDFullName:JDDFullName , sheetName:sheetName])
+		Log.addTraceBEGIN(CLASS_NAME, "run", ['datasList.size()':datasList.size() , PKList:PKList , JDDFullName:JDDFullName , sheetName:sheetName])
 		boolean status = true
 		if (PKList) {
 			Log.addDEBUGDETAIL("Contrôle absence de doublon sur PRIMARY KEY : " +  PKList.join(' , '))
@@ -49,14 +49,14 @@ public class CheckPK {
 		}else {
 			Log.addDETAIL("$JDDFullName ($sheetName) : Pas de PRIMARY KEY !")
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "run",status)
+		Log.addTraceEND(CLASS_NAME, "run",status)
 		return status
 	}
 
 
 
 	private static String concatPKVal(Map<String, Object> datas,List<String>PKList) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "concatPKVal", [datas:datas.size() , PKList:PKList])
+		Log.addTraceBEGIN(CLASS_NAME, "concatPKVal", [datas:datas.size() , PKList:PKList])
 		List concatenedPKVals = []
 		datas.each{name,val ->
 			if (name in PKList) {
@@ -73,7 +73,7 @@ public class CheckPK {
 		if (concatenedPKVal.contains(JDDKW.getKW_SEQUENCEID()) || concatenedPKVal.contains(JDDKW.getKW_ORDRE())) {
 			concatenedPKVal = ''
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "concatPKVal",concatenedPKVal)
+		Log.addTraceEND(CLASS_NAME, "concatPKVal",concatenedPKVal)
 		return concatenedPKVal
 	}
 } // end of class

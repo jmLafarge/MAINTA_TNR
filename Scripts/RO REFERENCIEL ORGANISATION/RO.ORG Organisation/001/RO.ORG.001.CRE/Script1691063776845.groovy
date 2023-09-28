@@ -1,9 +1,9 @@
 import internal.GlobalVariable
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDFileMapper
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDKW
+import tnrJDDManager.GlobalJDD
+import tnrJDDManager.JDD; 
+import tnrJDDManager.JDDFileMapper
+import tnrJDDManager.JDDKW
 import tnrResultManager.TNRResult
-import tnrSqlManager.SQL
 import tnrWebUI.*
 
 
@@ -19,8 +19,8 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
-    STEP_NAV.goToURL_Creation_and_checkCartridge(1,'','SEL=0&OPERATION=NEW_SON')
-	
+	STEP.goToURLCreate('','SEL=0&OPERATION=NEW_SON')
+	STEP.checkCreateScreen()
 
 		//Rappel pour ajouter un block dans le fichier Resultat :
 		//TNRResult.addSTEPBLOCK("DU TEXTE")
@@ -28,33 +28,33 @@ for (String cdt in myJDD.getCDTList()) {
 		
 		TNRResult.addSTEPGRP("ONGLET ORGANISATION")
 		
-			STEP.simpleClick(0, myJDD, "tab_Organisation")
-			STEP.verifyElementVisible(0, myJDD, "tab_OrganisationSelected")
+			STEP.simpleClick(myJDD, "tab_Organisation")
+			STEP.verifyElementVisible(myJDD, "tab_OrganisationSelected")
 			
-			STEP.scrollAndSetRadio(0, myJDD, "LblNU_TYP")
-			STEP.scrollToPosition('', 0, 0)
+			STEP.setRadio(myJDD, "LblNU_TYP")
+			STEP.scrollToPosition( 0, 0)
 
-			STEP.setText(0, myJDD, "ST_CODCOU")
-			STEP.setText(0, myJDD, "ST_CODPERSGES")
-			STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_INA", "O")
-			STEP.setText(0, myJDD, "ST_DES")
-			STEP.setText(0, myJDD, "ID_CODIMP")
-			STEP.setText(0, myJDD, "ID_CODCAL")
-			STEP.setText(0, myJDD, "ID_GESNIV")
-			STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_EXT", "O")
-			STEP.setText(0, myJDD, "NU_EFF")
+			STEP.setText(myJDD, "ST_CODCOU")
+			STEP.setText(myJDD, "ST_CODPERSGES")
+			STEP.clickCheckboxIfNeeded(myJDD, "ST_INA", "O")
+			STEP.setText(myJDD, "ST_DES")
+			STEP.setText(myJDD, "ID_CODIMP")
+			STEP.setText(myJDD, "ID_CODCAL")
+			STEP.setText(myJDD, "ID_GESNIV")
+			STEP.clickCheckboxIfNeeded(myJDD, "ST_EXT", "O")
+			STEP.setText(myJDD, "NU_EFF")
 			
-			STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_AFF", "O")
+			STEP.clickCheckboxIfNeeded(myJDD, "ST_AFF", "O")
 			
 
 			
 		TNRResult.addSTEPGRP("ONGLET ADRESSES")
 		
-			STEP.simpleClick(0, myJDD, "tab_Adresses")
-			STEP.verifyElementVisible(0, myJDD, "tab_AdressesSelected")
+			STEP.simpleClick(myJDD, "tab_Adresses")
+			STEP.verifyElementVisible(myJDD, "tab_AdressesSelected")
 			
 			
-			STEP.scrollAndCheckIfNeeded(0, myJDD, "ST_RAT", "O")
+			STEP.clickCheckboxIfNeeded(myJDD, "ST_RAT", "O")
 			
 			
 
@@ -77,13 +77,13 @@ for (String cdt in myJDD.getCDTList()) {
 				
 	TNRResult.addSTEPACTION('VALIDATION')
 		
-	    STEP.simpleClick(0, GlobalJDD.myGlobalJDD,'button_Valider')
+	    STEP.simpleClick(GlobalJDD.myGlobalJDD,'button_Valider')
 	
-	    STEP.checkResultScreen(0, myJDD.getStrData(),'','Resultat_ID')
+	    STEP.checkResultScreen(myJDD.getStrData(),'','Resultat_ID')
 		
 		myJDD.replaceSEQUENCIDInJDD('ID_NUMGES',0)
 	
-		STEP.checkJDDWithBD(0, myJDD)
+		STEP.checkJDDWithBD(myJDD)
 		
 		if (!JDDKW.isNU(myJDD.getStrData('ID_CODSER')) && !JDDKW.isNULL(myJDD.getStrData('ID_CODSER'))) {
 			
@@ -92,7 +92,7 @@ for (String cdt in myJDD.getCDTList()) {
 			JDDSER.replaceSEQUENCIDInJDD('ID_CODSER',0)
 			JDDSER.replaceSEQUENCIDInJDD('ID_NUMGES',0)
 			
-			STEP.checkJDDWithBD(0, JDDSER)
+			STEP.checkJDDWithBD(JDDSER)
 		}
 		
 	TNRResult.addEndTestCase()

@@ -7,7 +7,7 @@ import tnrSqlManager.SQL.AllowedDBProfilNames
 
 //my.JDD myJDD = new my.JDD(filename,'003MET','RO.ACT.003MET.SRM.01')
 //my.JDD myJDD = new my.JDD(filename,'001','RO.ACT.001.MAJ.01')
-//STEP.checkJDDWithBD(0, myJDD)
+//STEP.checkJDDWithBD(myJDD)
 println SQL.getPathDB()
 
 SQL.setNewInstance(AllowedDBProfilNames.MASTERTNR)

@@ -16,17 +16,17 @@ JDD myJDD = new JDD()
 	STEP_NAV.goToURL_Creation(1, '50')
 	
 
-			STEP.scrollAndSelectOptionByLabel(0, myJDD, "NU_TYP",'2')
-			WUI.delay( 2)
-			STEP.scrollAndSelectOptionByLabel(0, myJDD, "NU_TYP",'0')
-			WUI.delay( 2)
-			STEP.scrollAndSelectOptionByLabel(0, myJDD, "NU_TYP",'1')
-			WUI.delay( 2)
+			STEP.selectOptionByLabel(myJDD, "NU_TYP",'2')
+			WUI.delay(2)
+			STEP.selectOptionByLabel(myJDD, "NU_TYP",'0')
+			WUI.delay(2)
+			STEP.selectOptionByLabel(myJDD, "NU_TYP",'1')
+			WUI.delay(2)
 			
 			KW.scrollAndSelectOptionByValue(myJDD, "NU_TYP",'2')
-			WUI.delay( 2)
+			WUI.delay(2)
 			KW.scrollAndSelectOptionByValue(myJDD, "NU_TYP",'0')
-			WUI.delay( 2)
+			WUI.delay(2)
 			KW.scrollAndSelectOptionByValue(myJDD, "NU_TYP",'1')
 			
 		

@@ -22,7 +22,7 @@ import tnrSqlManager.CheckInDB
 public class STEP {
 
 
-	private static final String CLASS_FOR_LOG = 'STEP'
+	private static final String CLASS_NAME = 'STEP'
 
 
 
@@ -31,45 +31,45 @@ public class STEP {
 	 * ************************** Navigate
 	 */
 
-	public static void openBrowser(def stepID, String url){
-		Navigate.openBrowser(stepID, url)
+	public static void openBrowser( String url){
+		Navigate.openBrowser( url)
 	}
 
 
-	public static void navigateToUrl(def stepID, String url,String nomUrl){
-		Navigate.navigateToUrl(stepID, url, nomUrl)
+	public static void navigateToUrl( String url,String nomUrl){
+		Navigate.navigateToUrl( url, nomUrl)
 	}
 
 
-	public static void closeBrowser(def stepID){
-		Navigate.closeBrowser(stepID)
+	public static void closeBrowser(){
+		Navigate.closeBrowser()
 	}
 
 
-	public static void maximizeWindow(def stepID){
-		Navigate.maximizeWindow(stepID)
+	public static void maximizeWindow(){
+		Navigate.maximizeWindow()
 	}
 
-	public static void scrollToPosition(def stepID, int x, int y) {
-		Navigate.scrollToPosition(stepID, x, y)
-	}
-
-
-	public static void switchToDefaultContent(def stepID) {
-		Navigate.switchToDefaultContent(stepID)
+	public static void scrollToPosition( int x, int y) {
+		Navigate.scrollToPosition( x, y)
 	}
 
 
-	public static goToURLCreate(def stepID,String fct='', String attr='') {
-		Navigate.goToURLCreate(stepID, fct, attr)
+	public static void switchToDefaultContent() {
+		Navigate.switchToDefaultContent()
 	}
 
-	public static goToURLReadUpdateDelete(def stepID, String idval, String fct='') {
-		Navigate.goToURLReadUpdateDelete(stepID, idval, fct)
+
+	public static goToURLCreate(String fct='', String attr='') {
+		Navigate.goToURLCreate( fct, attr)
 	}
 
-	public static goToGridURL(def stepID, String fct='') {
-		Navigate.goToGridURL(stepID, fct)
+	public static goToURLReadUpdateDelete( String idval, String fct='') {
+		Navigate.goToURLReadUpdateDelete( idval, fct)
+	}
+
+	public static goToGridURL( String fct='') {
+		Navigate.goToGridURL( fct)
 	}
 
 
@@ -79,25 +79,25 @@ public class STEP {
 	 * ************************** Screen
 	 */
 
-	public static checkCreateScreen(def stepID,String fct='', int timeout = GlobalVariable.TIMEOUT) {
-		Screen.checkCreateScreen(stepID, fct, timeout)
+	public static checkCreateScreen(String fct='', int timeout = GlobalVariable.TIMEOUT) {
+		Screen.checkCreateScreen( fct, timeout)
 	}
 
-	public static checkGridScreen(def stepID, String fct='', int timeout = GlobalVariable.TIMEOUT) {
-		Screen.checkGridScreen(stepID, fct, timeout)
+	public static checkGridScreen( String fct='', int timeout = GlobalVariable.TIMEOUT) {
+		Screen.checkGridScreen( fct, timeout)
 	}
 
-	public static checkResultScreen(def stepID, String val,String fct='', String name='Resultat_ID_a', int timeout = GlobalVariable.TIMEOUT) {
-		Screen.checkResultScreen(stepID, val, fct, name, timeout)
+	public static checkResultScreen( String val,String fct='', String name='Resultat_ID_a', int timeout = GlobalVariable.TIMEOUT) {
+		Screen.checkResultScreen( val, fct, name, timeout)
 	}
 
-	public static checkReadUpdateDeleteScreen(def stepID, String text, String fct='' , int timeout = GlobalVariable.TIMEOUT) {
-		Screen.checkReadUpdateDeleteScreen(stepID, text, fct, timeout)
+	public static checkReadUpdateDeleteScreen( String text, String fct='' , int timeout = GlobalVariable.TIMEOUT) {
+		Screen.checkReadUpdateDeleteScreen( text, fct, timeout)
 	}
 
 
-	public static checkCartridge(def stepID, String txt, int timeout = GlobalVariable.TIMEOUT) {
-		Screen.checkCartridge(stepID, txt, timeout)
+	public static checkCartridge( String txt, int timeout = GlobalVariable.TIMEOUT) {
+		Screen.checkCartridge( txt, timeout)
 	}
 
 
@@ -113,17 +113,17 @@ public class STEP {
 	 */
 
 
-	public static void verifyMaintaVersion(def stepID, String maintaVersion) {
-		CheckInDB.verifyMaintaVersion(stepID, maintaVersion)
+	public static void verifyMaintaVersion( String maintaVersion) {
+		CheckInDB.verifyMaintaVersion( maintaVersion)
 	}
 
-	public static void checkIDNotInBD(def stepID, JDD myJDD){
-		CheckInDB.checkIDNotInBD(stepID, myJDD)
+	public static void checkIDNotInBD( JDD myJDD){
+		CheckInDB.checkIDNotInBD( myJDD)
 	}
 
 
-	public static void checkJDDWithBD(def stepID, JDD myJDD,Map specificValueMap=[:],String sql =''){
-		CheckInDB.checkJDDWithBD(stepID, myJDD, specificValueMap, sql)
+	public static void checkJDDWithBD( JDD myJDD,Map specificValueMap=[:],String sql =''){
+		CheckInDB.checkJDDWithBD( myJDD, specificValueMap, sql)
 	}
 
 
@@ -133,48 +133,48 @@ public class STEP {
 	 * ************************** Text
 	 */
 
-	public static void verifyValue(def stepID, JDD myJDD, String name, String text=null, int timeout  = (int) GlobalVariable.TIMEOUT , String status = 'FAIL') {
-		Text.verifyValue(stepID, myJDD, name, text, timeout, status)
+	public static void verifyValue( JDD myJDD, String name, String text=null, int timeout  = (int) GlobalVariable.TIMEOUT , String status = 'FAIL') {
+		Text.verifyValue( myJDD, name, text, timeout, status)
 	}
 
 
-	public static void setDate(def stepID, JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Text.setDate(stepID, myJDD, name, val, dateFormat, timeout, status)
+	public static void setDate( JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Text.setDate( myJDD, name, val, dateFormat, timeout, status)
 	}
 
 
-	public static void verifyDateText(def stepID, JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
-		Text.verifyDateText(stepID, myJDD, name, val, dateFormat, timeout, status)
+	public static void verifyDateText( JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
+		Text.verifyDateText( myJDD, name, val, dateFormat, timeout, status)
 	}
 
 
-	public static void verifyDateValue(def stepID, JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
-		Text.verifyDateValue(stepID, myJDD, name, val, dateFormat, timeout, status)
+	public static void verifyDateValue( JDD myJDD, String name, def val=null, String dateFormat = 'dd/MM/yyyy', int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
+		Text.verifyDateValue( myJDD, name, val, dateFormat, timeout, status)
 	}
 
 
-	public static void verifyTimeValue(def stepID, JDD myJDD, String name, def val=null, String timeFormat = 'HH:mm:ss', int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
-		Text.verifyTimeValue(stepID, myJDD, name, val, timeFormat, timeout, status)
+	public static void verifyTimeValue( JDD myJDD, String name, def val=null, String timeFormat = 'HH:mm:ss', int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
+		Text.verifyTimeValue( myJDD, name, val, timeFormat, timeout, status)
 	}
 
 
-	public static void setText(def stepID, JDD myJDD, String name, String text=null , int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
-		Text.setText(stepID, myJDD, name, text, timeout, status)
+	public static void setText( JDD myJDD, String name, String text=null , int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
+		Text.setText( myJDD, name, text, timeout, status)
 	}
 
 
-	public static void setEncryptedText(def stepID, JDD myJDD, String name, String text=null,int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
-		Text.setEncryptedText(stepID, myJDD, name, text, timeout, status)
+	public static void setEncryptedText( JDD myJDD, String name, String text=null,int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
+		Text.setEncryptedText( myJDD, name, text, timeout, status)
 	}
 
 
-	public static boolean verifyText(def stepID,JDD myJDD, String name, String text=null, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
-		return Text.verifyText(stepID, myJDD, name, text, timeout, status)
+	public static boolean verifyText(JDD myJDD, String name, String text=null, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
+		return Text.verifyText( myJDD, name, text, timeout, status)
 	}
 
 
-	public static boolean verifyTextContains(def stepID,JDD myJDD, String name, String text=null, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
-		return Text.verifyTextContains(stepID, myJDD, name, text, timeout, status)
+	public static boolean verifyTextContains(JDD myJDD, String name, String text=null, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
+		return Text.verifyTextContains( myJDD, name, text, timeout, status)
 	}
 
 
@@ -189,54 +189,43 @@ public class STEP {
 	 */
 
 
-	public static void scrollAndCheckIfNeeded(def stepID, JDD myJDD, String name, String textTrue, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL')  {
-		Checkbox.scrollAndCheckIfNeeded(stepID, myJDD, name, textTrue, timeout, status)
+	public static void clickCheckboxIfNeeded( JDD myJDD, String name, String textTrue, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL')  {
+		Checkbox.clickCheckboxIfNeeded( myJDD, name, textTrue, timeout, status)
 	}
 
 
-	public static void verifyElementCheckedOrNot(def stepID, JDD myJDD, String name, String textTrue, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Checkbox.verifyElementCheckedOrNot(stepID, myJDD, name, textTrue, timeout, status)
+	public static void verifyBoxCheckedOrNot( JDD myJDD, String name, String textTrue, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Checkbox.verifyBoxCheckedOrNot( myJDD, name, textTrue, timeout, status)
 	}
 
+	
 
-	public static void verifyCheckBoxImgChecked(String stepID, JDD myJDD, String name, String status = 'FAIL')  {
-		Checkbox.verifyCheckBoxImgChecked(stepID, myJDD, name, status)
+
+
+	/*
+	 * ************************** CheckboxImg
+	 */
+
+	public static void clickImgboxIfNeeded( JDD myJDD, String name, String textTrue, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL')  {
+		CheckboxImg.clickImgboxIfNeeded(myJDD, name, textTrue, timeout, status)
 	}
 
-
-
-	public static void verifyImgCheckedOrNot(String stepID, JDD myJDD, String name, String textTrue, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Checkbox.verifyImgCheckedOrNot(stepID, myJDD, name, textTrue)
+	public static void verifyImgCheckedOrNot( JDD myJDD, String name, String textTrue, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		CheckboxImg.verifyImgCheckedOrNot(myJDD, name, textTrue, timeout, status)
 	}
-
-
-
-	public static void verifyImg(String stepID, JDD myJDD, String name, boolean cond, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Checkbox.verifyImg(stepID, myJDD, name, cond, timeout, status)
-	}
-
-
-
-	public static boolean getCheckBoxImgStatus(JDD myJDD, String name)  {
-		Checkbox.getCheckBoxImgStatus(myJDD, name)
-	}
-
-
-
-
-
+	
 
 
 	/*
 	 * ************************** Click
 	 */
 
-	public static boolean simpleClick(def stepID,JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
-		return Click.simpleClick(stepID, myJDD, name, timeout, status)
+	public static boolean simpleClick(JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
+		return Click.simpleClick( myJDD, name, timeout, status)
 	}
 
-	public static boolean doubleClick(def stepID, JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
-		return Click.doubleClick(stepID, myJDD, name, timeout, status)
+	public static boolean doubleClick( JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
+		return Click.doubleClick( myJDD, name, timeout, status)
 	}
 
 
@@ -247,16 +236,16 @@ public class STEP {
 	 */
 
 
-	public static boolean verifyElementPresent(def stepID, JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		return Element.verifyElementPresent(stepID, myJDD, name, timeout, status)
+	public static boolean verifyElementPresent( JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		return Element.verifyElementPresent( myJDD, name, timeout, status)
 	}
 
-	public static boolean verifyElementVisible(def stepID, JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		return Element.verifyElementVisible(stepID, myJDD, name, timeout, status)
+	public static boolean verifyElementVisible( JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		return Element.verifyElementVisible( myJDD, name, timeout, status)
 	}
 
-	public static boolean verifyElementNotPresent(def stepID, JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		return Element.verifyElementNotPresent(stepID, myJDD, name, timeout, status)
+	public static boolean verifyElementNotPresent( JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		return Element.verifyElementNotPresent( myJDD, name, timeout, status)
 	}
 
 
@@ -265,8 +254,8 @@ public class STEP {
 	 */
 
 
-	public static void searchWithHelper(def stepID, JDD myJDD, String name , String btnXpath = '' , String inputSearchName = '', int index_td=3 ){
-		SearchWithHelper.searchWithHelper(stepID, myJDD, name, btnXpath, inputSearchName, index_td)
+	public static void searchWithHelper( JDD myJDD, String name , String btnXpath = '' , String inputSearchName = '', int index_td=3 ){
+		SearchWithHelper.searchWithHelper( myJDD, name, btnXpath, inputSearchName, index_td)
 	}
 
 
@@ -277,8 +266,8 @@ public class STEP {
 	 * ************************** Alert
 	 */
 
-	public static boolean waitAndAcceptAlert(def stepID, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Alert.waitAndAcceptAlert(stepID, timeout, status)
+	public static boolean waitAndAcceptAlert( int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Alert.waitAndAcceptAlert( timeout, status)
 	}
 
 
@@ -286,13 +275,13 @@ public class STEP {
 	 * ************************** Select
 	 */
 
-	public static void verifyOptionSelectedByLabel(def stepID, JDD myJDD, String name, String text=null, boolean isRegex = false, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Select.verifyOptionSelectedByLabel(stepID, myJDD, name, text, isRegex, timeout, status)
+	public static void verifyOptionSelectedByLabel( JDD myJDD, String name, String text=null, boolean isRegex = false, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Select.verifyOptionSelectedByLabel( myJDD, name, text, isRegex, timeout, status)
 	}
 
 
-	public static void scrollAndSelectOptionByLabel(def stepID, JDD myJDD, String name, String text=null, boolean isRegex = true, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Select.scrollAndSelectOptionByLabel(stepID, myJDD, name, text, isRegex, timeout, status)
+	public static void selectOptionByLabel( JDD myJDD, String name, String text=null, boolean isRegex = true, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Select.selectOptionByLabel( myJDD, name, text, isRegex, timeout, status)
 	}
 
 
@@ -300,8 +289,8 @@ public class STEP {
 	 * ************************** Key
 	 */
 
-	public static String sendKeys(def stepID, JDD myJDD, String name, String keys, String msg = '' , String status = 'FAIL') {
-		Key.sendKeys(stepID, myJDD, name, keys, msg, status)
+	public static String sendKeys( JDD myJDD, String name, String keys, String msg = '' , String status = 'FAIL') {
+		Key.sendKeys( myJDD, name, keys, msg, status)
 	}
 
 
@@ -310,12 +299,12 @@ public class STEP {
 	 * ************************** Radio
 	 */
 
-	static void verifyRadioChecked(def stepID, JDD myJDD, String name,  int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
-		Radio.verifyRadioChecked(stepID, myJDD, name, timeout, status)
+	static void verifyRadioChecked( JDD myJDD, String name,  int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
+		Radio.verifyRadioChecked( myJDD, name, timeout, status)
 	}
 
-	static void scrollAndSetRadio(def stepID, JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Radio.scrollAndSetRadio(stepID, myJDD, name, timeout, status)
+	static void setRadio( JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
+		Radio.setRadio( myJDD, name, timeout, status)
 	}
 
 
@@ -323,8 +312,8 @@ public class STEP {
 	 * ************************** Memo
 	 */
 
-	public static void setMemoText(def stepID, String newText, String memoName, boolean maj, JDD myJDD,String modifierNom) {
-		Memo.setMemoText(stepID, newText, memoName, maj, myJDD, modifierNom)
+	public static void setMemoText( String newText, String memoName, boolean maj, JDD myJDD,String modifierNom) {
+		Memo.setMemoText( newText, memoName, maj, myJDD, modifierNom)
 	}
 
 
@@ -333,11 +322,11 @@ public class STEP {
 	 */
 
 
-	static boolean isDivModalOpened(def stepID, int timeout=(int)GlobalVariable.TIMEOUT) {
-		Div.isDivModalOpened(stepID, timeout)
+	static boolean isDivModalOpened(String name, int timeout=(int)GlobalVariable.TIMEOUT) {
+		Div.isDivModalOpened(name, timeout)
 	}
 
-	static boolean isDivModalClosed(def stepID, int timeout=(int)GlobalVariable.TIMEOUT) {
-		Div.isDivModalClosed(stepID, timeout)
+	static boolean isDivModalClosed(String name, int timeout=(int)GlobalVariable.TIMEOUT) {
+		Div.isDivModalClosed(name, timeout)
 	}
 } // end of class

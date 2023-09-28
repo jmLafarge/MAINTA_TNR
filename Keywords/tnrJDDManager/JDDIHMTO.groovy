@@ -20,7 +20,7 @@ import tnrLog.Log
 @CompileStatic
 public class JDDIHMTO {
 
-	private final String CLASS_FOR_LOG  = 'JDDIHMTO'
+	private final String CLASS_NAME  = 'JDDIHMTO'
 
 
 	private Map <String,String> xpathMap  = [:]
@@ -28,7 +28,7 @@ public class JDDIHMTO {
 
 	JDDIHMTO(Sheet IHMTOSheet, String TCSheetName) {
 
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "JDDIHMTO", [IHMTOSheet:IHMTOSheet.getSheetName() , TCSheetName:TCSheetName])
+		Log.addTraceBEGIN(CLASS_NAME, "JDDIHMTO", [IHMTOSheet:IHMTOSheet.getSheetName() , TCSheetName:TCSheetName])
 
 		Iterator<Row> rowIt = IHMTOSheet.rowIterator()
 		rowIt.next()
@@ -51,7 +51,7 @@ public class JDDIHMTO {
 		}
 
 		Log.addTrace('- xpathMap : ' + xpathMap)
-		Log.addTraceEND(CLASS_FOR_LOG, "JDDIHMTO")
+		Log.addTraceEND(CLASS_NAME, "JDDIHMTO")
 	}
 
 

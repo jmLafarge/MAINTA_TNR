@@ -15,16 +15,16 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-   STEP.goToGridURL(1);STEP.checkGridScreen(2)
+   STEP.goToGridURL();STEP.checkGridScreen()
 	
 	'Filtrer la valeur dans la grille'
-    STEP.setText(0, myJDD,'input_Filtre_Grille', myJDD.getStrData('ID_CODART'))
+    STEP.setText(myJDD,'input_Filtre_Grille', myJDD.getStrData('ID_CODART'))
 
 	'Attendre que le nombre de record = 1'
-	STEP.verifyElementVisible(0, GlobalJDD.myGlobalJDD,'nbrecordsGRID_1')
+	STEP.verifyElementVisible(GlobalJDD.myGlobalJDD,'nbrecordsGRID_1')
 	
 	'Vérifier que la valeur soit dans la grille filtrée'
-	STEP.verifyText(0, myJDD,'td_Grille', myJDD.getStrData('ID_CODART'))
+	STEP.verifyText(myJDD,'td_Grille', myJDD.getStrData('ID_CODART'))
 
 	TNRResult.addEndTestCase()
 } // fin du if

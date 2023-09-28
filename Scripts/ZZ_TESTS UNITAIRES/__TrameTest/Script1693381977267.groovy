@@ -9,7 +9,7 @@ import tnrLog.Log
  * 
  * Pour tester 
  * 
- * 		Log.addAssert(CLASS_FOR_LOG,"Un message pour expliquer de test" , la valeur de retour attendue , la fonction a testé)
+ * 		Log.addAssert(CLASS_NAME,"Un message pour expliquer de test" , la valeur de retour attendue , la fonction a testé)
  * 
  * Pour tester les fonctions private
  * 
@@ -19,7 +19,7 @@ import tnrLog.Log
  * 
  * 		method.setAccessible(true)
  * 
- * 		Log.addAssert(CLASS_FOR_LOG,"(private) Un message pour expliquer de test" , la valeur de retour attendue ,  method.invoke(instance de LaClassATesté (ou la LaClassATesté si static), énumérer les valeurs des paramètres ex : ['truc','machin','chose'], 'INTER','ID_CODINT'))
+ * 		Log.addAssert(CLASS_NAME,"(private) Un message pour expliquer de test" , la valeur de retour attendue ,  method.invoke(instance de LaClassATesté (ou la LaClassATesté si static), énumérer les valeurs des paramètres ex : ['truc','machin','chose'], 'INTER','ID_CODINT'))
  * 
  * 		IMPORTANT : Pour passer la valeur null quand il n'y a qu'un seul paramètre, il faut caster ce null en tableau : maMethode.invoke(monObjet, [null] as Object[])
  * 
@@ -29,7 +29,7 @@ import tnrLog.Log
  */
 
 
-final String CLASS_FOR_LOG = 'package.Class'
+final String CLASS_NAME = 'package.Class'
 
 
-Log.addAssert(CLASS_FOR_LOG,"Controle OK",true,true)
+Log.addAssert(CLASS_NAME,"Controle OK",true,true)

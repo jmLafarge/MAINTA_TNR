@@ -19,7 +19,7 @@ import tnrTC.TCFileMapper
 @CompileStatic
 public class JDD {
 
-	private final String CLASS_FOR_LOG  = 'JDD'
+	private final String CLASS_NAME  = 'JDD'
 
 
 	private final String VERSION_SHEET_NAME			= TNRPropertiesReader.getMyProperty('VERSION_SHEET_NAME')
@@ -72,7 +72,7 @@ public class JDD {
 	 */
 	JDD(String fullname = null, String tabName = null,String cdt = null) {
 
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"JDD",[fullname:fullname,tabName:tabName,cdt:cdt])
+		Log.addTraceBEGIN(CLASS_NAME,"JDD",[fullname:fullname,tabName:tabName,cdt:cdt])
 
 		Log.addTrace("SKIP_LIST_SHEETNAME:$SKIP_LIST_SHEETNAME")
 		Log.addTrace("GlobalVariable.CAS_DE_TEST_PATTERN : "+GlobalVariable.CAS_DE_TEST_PATTERN)
@@ -103,7 +103,7 @@ public class JDD {
 			loadTCSheet(TCSheet)
 		}
 
-		Log.addTraceEND(CLASS_FOR_LOG,"JDD")
+		Log.addTraceEND(CLASS_NAME,"JDD")
 	}
 
 
@@ -112,7 +112,7 @@ public class JDD {
 
 	public void loadTCSheet(Sheet sheet) {
 
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"loadTCSheet",[sheet:sheet.getSheetName()])
+		Log.addTraceBEGIN(CLASS_NAME,"loadTCSheet",[sheet:sheet.getSheetName()])
 
 		TCSheet = sheet
 
@@ -141,14 +141,14 @@ public class JDD {
 			Log.addTrace("Pas de d'onglet '$TO_SHEET_NAME'" )
 		}
 
-		Log.addTraceEND(CLASS_FOR_LOG,"loadTCSheet")
+		Log.addTraceEND(CLASS_NAME,"loadTCSheet")
 
 	}
 
 
 
 	private void setCDTListAccordingThisPattern(String cdtPattern){
-		Log.addTraceBEGIN(CLASS_FOR_LOG, "setCDTListAccordingThisPattern", [cdtPattern:cdtPattern])
+		Log.addTraceBEGIN(CLASS_NAME, "setCDTListAccordingThisPattern", [cdtPattern:cdtPattern])
 		//Liste des cas de test qui répondent au pattern, sans doublons (les doublons sont des casDeTestNum)
 		List <String> cdtli = myJDDData.getCdtsStartsWithStrWithoutDuplicates(cdtPattern)
 		Log.addTrace("cdtli.size():"+cdtli.size())
@@ -166,7 +166,7 @@ public class JDD {
 		if (CDTList.size()==0 && cdtPattern){
 			Log.addINFO("Pas de cas de test défini pour $JDDFullName ($cdtPattern)")
 		}
-		Log.addTraceEND(CLASS_FOR_LOG, "setCDTListAccordingThisPattern" , CDTList)
+		Log.addTraceEND(CLASS_NAME, "setCDTListAccordingThisPattern" , CDTList)
 	}
 
 
@@ -185,11 +185,11 @@ public class JDD {
 	 * @return Le nombre de lignes dans le cas de test.
 	 */
 	public int getNbrLigneCasDeTest(String cdt = casDeTest) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getNbrLigneCasDeTest",[cdt:cdt])
+		Log.addTraceBEGIN(CLASS_NAME,"getNbrLigneCasDeTest",[cdt:cdt])
 
 		int ret = myJDDData.getNbrLigneCasDeTest(cdt)
 
-		Log.addTraceEND(CLASS_FOR_LOG,"getNbrLigneCasDeTest",ret)
+		Log.addTraceEND(CLASS_NAME,"getNbrLigneCasDeTest",ret)
 		return ret
 	}
 
@@ -202,9 +202,9 @@ public class JDD {
 	 * @param i Le numéro du cas de test.
 	 */
 	public void setCasDeTestNum(int i) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"setCasDeTestNum",[i:i])
+		Log.addTraceBEGIN(CLASS_NAME,"setCasDeTestNum",[i:i])
 		casDeTestNum = i
-		Log.addTraceEND(CLASS_FOR_LOG,"setCasDeTestNum")
+		Log.addTraceEND(CLASS_NAME,"setCasDeTestNum")
 	}
 
 
@@ -216,9 +216,9 @@ public class JDD {
 	 * @param cdt Le nom du cas de test.
 	 */
 	public void setCasDeTest(String cdt) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"setCasDeTest",[cdt:cdt])
+		Log.addTraceBEGIN(CLASS_NAME,"setCasDeTest",[cdt:cdt])
 		casDeTest = cdt
-		Log.addTraceEND(CLASS_FOR_LOG,"setCasDeTest")
+		Log.addTraceEND(CLASS_NAME,"setCasDeTest")
 	}
 
 
@@ -227,7 +227,7 @@ public class JDD {
 
 
 	boolean isDataUPD(String name, def cdtnum=null) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"isDataUPD",[name:name , cdtnum:cdtnum])
+		Log.addTraceBEGIN(CLASS_NAME,"isDataUPD",[name:name , cdtnum:cdtnum])
 		cdtnum = (cdtnum?:casDeTestNum) as int
 		boolean ret = false
 		// Vérifie que le numéro de cas de test est valide.
@@ -243,7 +243,7 @@ public class JDD {
 				Log.addERROR("'$name' n'est pas une colonne du JDD")
 			}
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"isDataUPD",ret)
+		Log.addTraceEND(CLASS_NAME,"isDataUPD",ret)
 		return ret
 	}
 
@@ -259,7 +259,7 @@ public class JDD {
 	 * @return La donnée correspondant au nom et au numéro de cas de test donnés, ou null si le numéro de cas de test ou le nom est invalide.
 	 */
 	public def getData(String name, def cdtnum=null, boolean UPD = false) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getData",[name:name , cdtnum:cdtnum , UPD:UPD])
+		Log.addTraceBEGIN(CLASS_NAME,"getData",[name:name , cdtnum:cdtnum , UPD:UPD])
 		cdtnum = (cdtnum?:casDeTestNum) as int
 		def ret
 		// Vérifie que le numéro de cas de test est valide.
@@ -290,7 +290,7 @@ public class JDD {
 				Log.addERROR("'$name' n'est pas une colonne du JDD")
 			}
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"getData",ret)
+		Log.addTraceEND(CLASS_NAME,"getData",ret)
 		return ret
 	}
 
@@ -308,12 +308,12 @@ public class JDD {
 	 * @return La donnée correspondant au nom et au numéro de cas de test donnés, convertie en chaîne de caractères.
 	 */
 	public String getStrData(String name = null, def cdtnum =null , boolean UPD = false) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getStrData",[name:name,cdtnum:cdtnum , UPD:UPD])
+		Log.addTraceBEGIN(CLASS_NAME,"getStrData",[name:name,cdtnum:cdtnum , UPD:UPD])
 		cdtnum = (cdtnum?:casDeTestNum) as int
 		name = name?:myJDDHeader.list[0]
 		def  data = getData(name, casDeTestNum,UPD)
 		String ret = data ?: data.toString()
-		Log.addTraceEND(CLASS_FOR_LOG,"getStrData",ret)
+		Log.addTraceEND(CLASS_NAME,"getStrData",ret)
 		return ret
 	}
 
@@ -328,9 +328,9 @@ public class JDD {
 	 * @return Le nom de la table de la base de données.
 	 */
 	public String getDBTableName() {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getDBTableName",[:])
+		Log.addTraceBEGIN(CLASS_NAME,"getDBTableName",[:])
 		String tableName = myJDDHeader.tableName
-		Log.addTraceEND(CLASS_FOR_LOG,"getDBTableName",tableName)
+		Log.addTraceEND(CLASS_NAME,"getDBTableName",tableName)
 		return tableName
 	}
 
@@ -353,12 +353,12 @@ public class JDD {
 	 * @return La requête SQL construite.
 	 */
 	public String getSqlForForeignKey(String name) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"getSqlForForeignKey",[name:name])
+		Log.addTraceBEGIN(CLASS_NAME,"getSqlForForeignKey",[name:name])
 
 		def sql = myJDDParam.getFOREIGNKEYFor(name).toString().split(/\*/)
 		String query = "SELECT ${sql[0]} FROM ${sql[1]} WHERE ${sql[2]} = '" + getData(name) + "'"
 
-		Log.addTraceEND(CLASS_FOR_LOG,"getSqlForForeignKey",query)
+		Log.addTraceEND(CLASS_NAME,"getSqlForForeignKey",query)
 		return query
 	}
 
@@ -374,7 +374,7 @@ public class JDD {
 	 * @param delta Le décalage à appliquer à la séquence. Valeur par défaut : 0.
 	 */
 	public void replaceSEQUENCIDInJDD(String fieldName, int delta=0) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"replaceSEQUENCIDInJDD",[fieldName:fieldName,delta:delta])
+		Log.addTraceBEGIN(CLASS_NAME,"replaceSEQUENCIDInJDD",[fieldName:fieldName,delta:delta])
 
 		if (JDDKW.isSEQUENCEID(getStrData(fieldName))){
 
@@ -383,7 +383,7 @@ public class JDD {
 			myJDDData.setValueOf(fieldName, val,casDeTest,casDeTestNum)
 		}
 
-		Log.addTraceEND(CLASS_FOR_LOG,"replaceSEQUENCIDInJDD")
+		Log.addTraceEND(CLASS_NAME,"replaceSEQUENCIDInJDD")
 	}
 
 
@@ -421,7 +421,7 @@ public class JDD {
 	 */
 
 	def setLOCATOR(String name, String val) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"setLOCATOR",[name:name,val:val])
+		Log.addTraceBEGIN(CLASS_NAME,"setLOCATOR",[name:name,val:val])
 
 		CellStyle stylePara = TCSheet.getRow(1).getCell(1).getCellStyle()
 		int locLineNumber = myJDDParam.getLOCATORIndex()+1
@@ -431,7 +431,7 @@ public class JDD {
 		book.write(JDDfileOut)
 		//setParamForThisName('LOCATOR', name, val)
 
-		Log.addTraceEND(CLASS_FOR_LOG,"setLOCATOR")
+		Log.addTraceEND(CLASS_NAME,"setLOCATOR")
 	}
 
 
@@ -446,7 +446,7 @@ public class JDD {
 	 */
 
 	public void addIHMTO(String tab, String nom, String xpath) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"addIHMTO",[tab:tab,nom:nom,xpath:xpath])
+		Log.addTraceBEGIN(CLASS_NAME,"addIHMTO",[tab:tab,nom:nom,xpath:xpath])
 		if (myJDDXpath.getXPath(nom)) {
 			Log.addDETAILFAIL("IHMTO '${nom}' existe déjà")
 		} else {
@@ -458,7 +458,7 @@ public class JDD {
 			book.write(JDDfileOut)
 			myJDDXpath.add(nom, xpath)
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"addIHMTO")
+		Log.addTraceEND(CLASS_NAME,"addIHMTO")
 	}
 
 
@@ -469,7 +469,7 @@ public class JDD {
 	 * @param name Nom de la nouvelle colonne.
 	 */
 	public void addColumn(String name) {
-		Log.addTraceBEGIN(CLASS_FOR_LOG,"addColumn",[name:name])
+		Log.addTraceBEGIN(CLASS_NAME,"addColumn",[name:name])
 		if (name in myJDDHeader.getList()) {  // Si la colonne existe déjà
 			Log.addTrace("\t- La colonne '${name}' existe déjà")
 		} else {
@@ -493,9 +493,13 @@ public class JDD {
 			book.write(JDDfileOut)
 			myJDDHeader.add(name)
 		}
-		Log.addTraceEND(CLASS_FOR_LOG,"addColumn")
+		Log.addTraceEND(CLASS_NAME,"addColumn")
 	}
 
+	@Override
+	String toString() {
+		return "$JDDFullName ($TCSheetName)"
+	}
 
 
 } // Fin de class
