@@ -6,6 +6,17 @@
 * A FAIRE EN PRIORITE
 * -----------------------------------------------------------------------------------------------------
 *
+
+	Continuer la lecture du 20230919_131422_TNR_MSSQL_Chrome_Mainta_V13.0.4 à partir de RT.EQU.001.CRE.01 : Création REFERENTIEL TECHNIQUE
+	vérifier les corrections de RT.MAT.001.MAJ.01 : Mise à jour Matricule
+	vérifier les step de MAT.CRE et MAT.LEC à partir de MAT.MAJ
+
+	MAT.MAJ
+	
+		Utiliser un nouveau helper pour DT_ENT et DT_SER
+	
+	
+	
 	RO.ACT.004EMP.SRA.01
 	
 		Revoir gestion de replaceSEQUENCIDInJDD quand c'est pas possible
@@ -15,7 +26,7 @@
 	
 	KW --> à mettre dans WUI
 	
-	
+
 
 
 	stepID
@@ -76,8 +87,9 @@ Vérifier MAT.ST_PAT dans tous les CDT
  * 
  *  
 
-Correction générale suite à test LOT1A
-Ajout de Macro STEP pour les cas de test SUP et REC
+Ajout des rubriques manquantes dans MAT.MAJ
+
+Suite à lecture du fichier Result commenté
 
 
 
