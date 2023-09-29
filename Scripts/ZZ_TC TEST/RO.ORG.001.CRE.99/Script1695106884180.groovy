@@ -1,9 +1,5 @@
-import internal.GlobalVariable
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDFileMapper
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDKW
+import tnrJDDManager.JDD;   
 import tnrResultManager.TNRResult
-import tnrSqlManager.SQL
 import tnrWebUI.*
 
 
@@ -18,18 +14,18 @@ myJDD.setCasDeTest('RO.ORG.001.CRE.99')
 	STEP.goToURLCreate('233')
 	
 
-	STEP.verifyRadioChecked(0, myJDD, "NU_TYP")
+	STEP.verifyRadioChecked(myJDD, "NU_TYP")
 	
 	
 	STEP.setRadio(myJDD, "LblNU_TYP")
-	STEP.verifyRadioChecked(0, myJDD, "NU_TYP")
+	STEP.verifyRadioChecked(myJDD, "NU_TYP")
 	
 	myJDD.myJDDData.setValueOf('NU_TYP', 0, 'RO.ORG.001.CRE.99', 1)
 	
 	WUI.delay(1000)
 	
 	STEP.setRadio(myJDD, "LblNU_TYP")
-	STEP.verifyRadioChecked(0, myJDD, "NU_TYP")
+	STEP.verifyRadioChecked(myJDD, "NU_TYP")
 
 	
 	TNRResult.addEndTestCase()

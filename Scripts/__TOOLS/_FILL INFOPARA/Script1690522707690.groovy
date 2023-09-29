@@ -4,8 +4,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import tnrCommon.ExcelUtils
 import tnrCommon.InfoPARA
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDKW
+import tnrJDDManager.JDD; 
+import tnrJDDManager.JDDKW
 import tnrLog.Log
 import tnrPREJDDManager.JDDFilesMapper
 

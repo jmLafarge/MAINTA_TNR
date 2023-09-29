@@ -1,9 +1,9 @@
 import internal.GlobalVariable
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDFileMapper
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDKW
+import tnrJDDManager.GlobalJDD
+import tnrJDDManager.JDD; 
+import tnrJDDManager.JDDFileMapper
+import tnrJDDManager.JDDKW
 import tnrResultManager.TNRResult
-import tnrSqlManager.SQL
 import tnrWebUI.*
 
 
@@ -109,7 +109,7 @@ for (String cdt in myJDD.getCDTList()) {
 		
 		//Vérifier que l’écran de mouvement technique est affiché et saisir:
 		
-		NAV.checkReadUpdateDeleteScreen(myJDD.getStrData(),'343')
+		STEP.checkReadUpdateDeleteScreen(myJDD.getStrData(),'343')
 		
 		
 			

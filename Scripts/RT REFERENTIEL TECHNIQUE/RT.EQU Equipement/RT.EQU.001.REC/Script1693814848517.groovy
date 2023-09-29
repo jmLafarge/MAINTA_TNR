@@ -1,7 +1,7 @@
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
-import tnrWebUI.*
-
+import tnrJDDManager.JDD
 import tnrResultManager.TNRResult
+import tnrWebUI.STEP
+import tnrWebUI.WUI
 
 'Lecture du JDD'
 JDD myJDD = new JDD()
@@ -14,10 +14,11 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-   STEP.goToGridURL();STEP.checkGridScreen()
+   STEP.goToGridURL()
+   STEP.checkGridScreen()
 	
 	'Filtrer la valeur dans la grille'
-    STEP.setText(myJDD,'input_Filtre_Grille', myJDD.getStrData('ST_CODCOU'))
+	STEP.setText(myJDD,'input_Filtre_Grille', myJDD.getStrData('ST_CODCOU'))
 
 	STEP.simpleClick(myJDD,'button_Selectionner')
 
@@ -29,7 +30,3 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	TNRResult.addEndTestCase()
 } // fin du if
-
-
-
-

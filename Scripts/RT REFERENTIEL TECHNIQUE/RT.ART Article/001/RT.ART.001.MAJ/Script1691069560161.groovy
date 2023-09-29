@@ -1,8 +1,8 @@
 import internal.GlobalVariable
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDFileMapper
+import tnrJDDManager.GlobalJDD
+import tnrJDDManager.JDD; 
+import tnrJDDManager.JDDFileMapper
 import tnrResultManager.TNRResult
-import tnrSqlManager.SQL
 import tnrWebUI.*
 
 
@@ -19,8 +19,8 @@ for (String cdt in myJDD.getCDTList()) {
 	TNRResult.addStartTestCase(cdt)
 	
 	'Naviguer vers la bonne url et controle des infos du cartouche'
-	STEP.goToURLReadUpdateDelete(myJDD.getStrData('ID_CODINT'))
-	STEP.checkReadUpdateDeleteScreen(myJDD.getStrData('ID_CODINT'))
+	STEP.goToURLReadUpdateDelete(myJDD.getStrData('ID_CODART'))
+	STEP.checkReadUpdateDeleteScreen(myJDD.getStrData('ID_CODART'))
 
 
 	TNRResult.addSTEPGRP("ONGLET ARTICLE")

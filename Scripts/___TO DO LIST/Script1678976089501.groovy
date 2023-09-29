@@ -6,17 +6,17 @@
 * A FAIRE EN PRIORITE
 * -----------------------------------------------------------------------------------------------------
 *
+	RO.ACT.004EMP.SRA.01
 	
-	Terminer CheckboxImg recherche getAttribut
+		Revoir gestion de replaceSEQUENCIDInJDD quand c'est pas possible
 	
-	revoir myJDD.ToString dans stepID
+	Vérifier dans Memo si ctrl+A et set texte ne suffit pas !
+	
 	
 	KW --> à mettre dans WUI
 	
 	
-	RO.ACT.004EMP.SRM
-		CheckBox de type Img --> revoir le fonctionnement
-		getCheckBoxImgStatus est pourri, ça renvoie un boolean mais il y a un return null !
+
 
 	stepID
 		tenir compte des boucles de suppression n/3
@@ -48,7 +48,6 @@ Pas faire de doubleClick si la valeur est bonne
 
 
 Vérifier MAT.ST_PAT dans tous les CDT
-DAns les SUP, quand pas le bouton pas la peine de faire
 
 
 
@@ -77,14 +76,8 @@ DAns les SUP, quand pas le bouton pas la peine de faire
  * 
  *  
 
-Ajout d'une colonne dans Result pour stepID
-Reprise XLSResult
-Correction de goToElementByObj
-Ajout de waitElementInViewport
-Simplification des SRM
-Override de JDD.toString()
-Correction de Log.addTraceBEGIN avec myjDD:myJDD.toString()
-Correction de StepID.getStrStepID avec myjDD:myJDD.toString()
+Correction générale suite à test LOT1A
+Ajout de Macro STEP pour les cas de test SUP et REC
 
 
 

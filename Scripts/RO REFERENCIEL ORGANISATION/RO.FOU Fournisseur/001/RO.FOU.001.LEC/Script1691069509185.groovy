@@ -1,6 +1,6 @@
 import internal.GlobalVariable
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDFileMapper
+import tnrJDDManager.JDD;  
+import tnrJDDManager.JDDFileMapper
 import tnrResultManager.TNRResult
 import tnrWebUI.*
 

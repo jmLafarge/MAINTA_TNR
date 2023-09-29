@@ -27,10 +27,11 @@ public class TO {
 
 		String xpath = myJDD.myJDDXpath.getXPath(ID)
 
-		if (!xpath) {
+		if (xpath==null) {
 			msgTO = "L'ID '$ID' n'existe pas, impossible de créer le TEST OBJET"
+		}else if (xpath==''){
+			msgTO = "Pas de locator(xpath) de défini dans le JDD pour '$ID', impossible de créer le TEST OBJET"
 		}else {
-
 			Map  binding = [:]
 
 			to = new TestObject(ID)

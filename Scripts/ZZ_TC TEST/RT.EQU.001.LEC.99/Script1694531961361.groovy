@@ -16,10 +16,10 @@ JDD myJDD = new JDD()
     STEP.goToURLReadUpdateDelete(myJDD.getStrData(),'7')
 
 
-		STEP.verifyOptionSelectedByLabel(0, myJDD, "ST_ETA")
-		//STEP.verifyOptionSelectedByLabel(0, myJDD, "ST_ETA")
+		STEP.verifyOptionSelectedByLabel(myJDD, "ST_ETA")
+		//STEP.verifyOptionSelectedByLabel(myJDD, "ST_ETA")
 		
-		STEP.verifyOptionSelectedByLabel(0, myJDD, "NU_CRI")
+		STEP.verifyOptionSelectedByLabel(myJDD, "NU_CRI")
 		
 		
 

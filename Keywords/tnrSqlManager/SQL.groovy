@@ -484,9 +484,9 @@ public class SQL {
 		Log.addTraceEND(CLASS_NAME,"getLibelle")
 		return resultMap
 	}
+	
 
 	static int getLastSequence(String seq) {
-
 		Log.addTraceBEGIN(CLASS_NAME,"getLastSequence",[seq:seq])
 		/*
 		 String req = "SELECT IDENT_CURRENT('$seq') as lastSeq"
@@ -503,29 +503,34 @@ public class SQL {
 
 
 	static String getPathDB() {
+		Log.addTrace(CLASS_NAME+".getPathDB () --> $pathDB")
 		return pathDB
 	}
 
 	static String getDatabaseName() {
+		Log.addTrace(CLASS_NAME+".getDatabaseName () --> $databaseName")
 		return databaseName
 	}
 
 	static String getDBBackupPath() {
+		Log.addTrace(CLASS_NAME+".getDBBackupPath () --> $DBBackupPath")
 		return DBBackupPath
 	}
 
 
 	static String getProfileName() {
-		Log.addTrace("SQL.getProfileName : $profileName")
+		Log.addTrace(CLASS_NAME+".getProfileName () --> $profileName")
 		return profileName
 	}
 
 	static String close() {
+		Log.addTrace(CLASS_NAME+".close()")
 		return sqlInstance.close()
 	}
 
 
 	static List getRows(String query) {
+		Log.addTrace(CLASS_NAME+".getRows (query:$query)")
 		return sqlInstance.rows(query)
 	}
 

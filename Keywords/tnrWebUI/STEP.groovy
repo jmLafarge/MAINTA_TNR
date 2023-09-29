@@ -91,8 +91,8 @@ public class STEP {
 		Screen.checkResultScreen( val, fct, name, timeout)
 	}
 
-	public static checkReadUpdateDeleteScreen( String text, String fct='' , int timeout = GlobalVariable.TIMEOUT) {
-		Screen.checkReadUpdateDeleteScreen( text, fct, timeout)
+	public static checkReadUpdateDeleteScreen( String textToVerify, String fct='' , int timeout = GlobalVariable.TIMEOUT) {
+		Screen.checkReadUpdateDeleteScreen( textToVerify, fct, timeout)
 	}
 
 
@@ -172,10 +172,11 @@ public class STEP {
 		return Text.verifyText( myJDD, name, text, timeout, status)
 	}
 
-
+	/* Not used at the moment
 	public static boolean verifyTextContains(JDD myJDD, String name, String text=null, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
 		return Text.verifyTextContains( myJDD, name, text, timeout, status)
 	}
+	*/
 
 
 

@@ -1,10 +1,8 @@
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-
 import internal.GlobalVariable
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDFileMapper
+import tnrJDDManager.GlobalJDD
+import tnrJDDManager.JDD; 
+import tnrJDDManager.JDDFileMapper
 import tnrResultManager.TNRResult
-import tnrSqlManager.SQL
 import tnrWebUI.*
 
 
@@ -22,7 +20,7 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	'Naviguer vers la bonne url et controle des infos du cartouche'
     STEP.goToURLReadUpdateDelete(myJDD.getStrData())
-	NAV.checkReadUpdateDeleteScreen(myJDD.getStrData('ST_CODCOU'))
+	STEP.checkReadUpdateDeleteScreen(myJDD.getStrData('ST_CODCOU'))
 
 
 

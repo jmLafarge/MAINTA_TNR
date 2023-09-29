@@ -1,11 +1,6 @@
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDKW
-import tnrWebUI.*
-
-import tnrSqlManager.SQL
+import tnrJDDManager.JDD;  
 import tnrResultManager.TNRResult
+import tnrWebUI.*
 
 'Lecture du JDD'
 JDD myJDD = new JDD()

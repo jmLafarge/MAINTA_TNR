@@ -308,7 +308,7 @@ tagsWithAttributes.each { attribute ->
 		if (attribute.type == 'text') {
 			if (InfoDB.isDatetime(myJDD.getDBTableName(),attribute.id)) {
 				if (myJDD.myJDDXpath.getXPath(attribute.id)=='input') {
-					Log.addB("STEP.verifyDateValue(0, myJDD, \"${attribute.id}\") // ou verifyDateText")
+					Log.addB("STEP.verifyDateValue(myJDD, \"${attribute.id}\") // ou verifyDateText")
 				}else {
 					Log.addB("STEP.verifyDateText(myJDD, \"${attribute.id}\")// ou verifyDateValue")
 				}
@@ -320,7 +320,7 @@ tagsWithAttributes.each { attribute ->
 			
 		}
 	} else if (attribute.tag == 'select') {
-		Log.addB("STEP.verifyOptionSelectedByLabel(0, myJDD, \"${attribute.id}\")")
+		Log.addB("STEP.verifyOptionSelectedByLabel(myJDD, \"${attribute.id}\")")
 		
 	} else if (attribute.tag == 'a') {
 		Log.addB('')

@@ -28,7 +28,6 @@ for (String cdt in myJDD.getCDTList()) {
 	
 		STEP.simpleClick(myJDD,"tab_Fournisseur")
 		STEP.verifyElementVisible(myJDD,"tab_FournisseurSelected")
-		
 		//STEP.setText(myJDD, "ID_CODFOU")
 		STEP.setText(myJDD, "ST_NOM")
 		STEP.searchWithHelper(myJDD, "ID_CODGES","","")
@@ -104,7 +103,7 @@ for (String cdt in myJDD.getCDTList()) {
 		STEP.setText(myJDD, "ST_TXTBAS5")
 		STEP.setText(myJDD, "ST_TXTBAS6")
 		STEP.clickCheckboxIfNeeded(myJDD,"ST_FIGCDE","O")
-	
+		
 	TNRResult.addSTEPGRP("ONGLET NOTES")
 	
 		STEP.simpleClick(myJDD,"tab_Notes")
@@ -120,7 +119,7 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	    STEP.simpleClick(GlobalJDD.myGlobalJDD,'button_Valider')
 	
-	    STEP.checkResultScreen(myJDD.getStrData())
+		STEP.checkResultScreen(myJDD.getStrData())
 	
 		
 		STEP.checkJDDWithBD(myJDD)

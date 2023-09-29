@@ -53,11 +53,11 @@ public class Memo {
 		}
 		if (WUIWindow.waitForNewWindowToOpenAndSwitch()) {
 			if (WUI.isElementPresent(GlobalJDD.myGlobalJDD,'Memo_Frame', (int)GlobalVariable.TIMEOUT)) {
-				//STEP.switchToFrame(GlobalJDD.myGlobalJDD, 'Memo_Frame')
+				WUI.switchToFrame(GlobalJDD.myGlobalJDD, 'Memo_Frame')
 				if (maj) {
 					STEP.sendKeys( GlobalJDD.myGlobalJDD, 'Memo_Texte', Keys.chord(Keys.CONTROL, "a"))
 					STEP.sendKeys( GlobalJDD.myGlobalJDD, 'Memo_Texte', Keys.chord(Keys.DELETE))
-					STEP.sendKeys( GlobalJDD.myGlobalJDD, 'Memo_Texte', Keys.chord(Keys.SHIFT, Keys.TAB))
+					STEP.sendKeys( GlobalJDD.myGlobalJDD, 'Memo_Texte', Keys.chord(Keys.BACK_SPACE))
 				}
 
 				STEP.setText( GlobalJDD.myGlobalJDD, 'Memo_Texte',newText)

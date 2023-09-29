@@ -1,15 +1,13 @@
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDKW
+import tnrJDDManager.GlobalJDD
+import tnrJDDManager.JDD; 
+import tnrJDDManager.JDDKW
 import tnrResultManager.TNRResult
-import tnrSqlManager.SQL
 import tnrWebUI.*
 
 
 
 'Lecture du JDD'
 JDD myJDD = new JDD()
-
-boolean err = false
 
 for (String cdt in myJDD.getCDTList()) {
 	
@@ -55,7 +53,6 @@ for (String cdt in myJDD.getCDTList()) {
 							myJDD.replaceSEQUENCIDInJDD('ID_NUMZONLIG')
 						}else {
 							TNRResult.addDETAIL("Impossible de remplacer SEQUENCEID par ID_NUMREF dans JDD")
-							err = true
 						}
 			
 						
@@ -78,25 +75,16 @@ for (String cdt in myJDD.getCDTList()) {
 					        STEP.setDate(myJDD,'DT_DATFIN')
 							STEP.simpleClick(myJDD,'ID_NUMREF')
 						}
-					}else {
-						err=true
 					}
-				}else {
-					err=true
 				}
-			}else {
-				err=true
 			}
 	    }// fin du for
 	
 		TNRResult.addSTEPACTION('CONTROLE')
 	
-		if (!err) {
-			'Vérification des valeurs en BD'
-			STEP.checkJDDWithBD(myJDD)			
-		}else {
-			TNRResult.addSTEPFAIL("Impossible d'effectuer le contrôle")
-		}
+		'Vérification des valeurs en BD'
+		STEP.checkJDDWithBD(myJDD)			
+
 		
 		TNRResult.addEndTestCase()
 

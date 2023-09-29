@@ -1,6 +1,6 @@
 import internal.GlobalVariable
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDFileMapper
+import tnrJDDManager.JDD;  
+import tnrJDDManager.JDDFileMapper
 import tnrResultManager.TNRResult
 import tnrWebUI.*
 
@@ -33,7 +33,7 @@ for (String cdt in myJDD.getCDTList()) {
 			STEP.verifyBoxCheckedOrNot(myJDD, "ST_INA", "O")
 			STEP.verifyValue(myJDD, "ST_DES")
 			STEP.verifyValue(myJDD, "ST_ETA")
-			STEP.verifyOptionSelectedByLabel(0, myJDD, "NU_TYP")
+			STEP.verifyOptionSelectedByLabel(myJDD, "NU_TYP")
 			STEP.verifyValue(myJDD, "NU_PRISTO")
 			STEP.verifyValue(myJDD, "ID_CODART")
 			STEP.verifyValue(myJDD, "ST_DESID_CODART")
@@ -63,11 +63,11 @@ for (String cdt in myJDD.getCDTList()) {
 			STEP.verifyValue(myJDD, "ST_REFFOU")
 			STEP.verifyValue(myJDD, "ID_CODCONSTR")
 			STEP.verifyValue(myJDD, "ST_REFCON")
-			STEP.verifyDateValue(0, myJDD, "DT_ACH")
-			STEP.verifyDateValue(0, myJDD, "DT_FAC")
+			STEP.verifyDateValue(myJDD, "DT_ACH")
+			STEP.verifyDateValue(myJDD, "DT_FAC")
 			STEP.verifyValue(myJDD, "NU_PRIACH")
-			STEP.verifyDateValue(0, myJDD, "DT_FINGAR")
-			STEP.verifyDateValue(0, myJDD, "DT_FINVIE")
+			STEP.verifyDateValue(myJDD, "DT_FINGAR")
+			STEP.verifyDateValue(myJDD, "DT_FINVIE")
 			STEP.verifyValue(myJDD, "NU_PRIACT")
 			STEP.verifyValue(myJDD, "NU_USAGAR")
 			STEP.verifyValue(myJDD, "NU_FINUSA")
@@ -106,7 +106,7 @@ for (String cdt in myJDD.getCDTList()) {
 			STEP.simpleClick(myJDD, "tab_Etat")
 			STEP.verifyElementVisible(myJDD, "tab_EtatSelected")
 			
-			STEP.verifyRadioChecked(0, myJDD, "ST_POS")
+			STEP.verifyRadioChecked(myJDD, "ST_POS")
 			
 			STEP.verifyValue(myJDD, "ID_NUMEMP")
 			STEP.verifyValue(myJDD, "ST_DESEMP")

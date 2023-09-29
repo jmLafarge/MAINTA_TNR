@@ -1,47 +1,17 @@
-import internal.GlobalVariable
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
-import tnrResultManager.TNRResult
-import tnrSqlManager.SQL
-import tnrWebUI.*
 
 
-
-'Lecture du JDD'
-JDD myJDD = new JDD()
-
-
-
-for (String cdt in myJDD.getCDTList()) {
-	
-	myJDD.setCasDeTest(cdt)
-		
-	TNRResult.addStartTestCase(cdt)
-	
+/*
 	'Naviguer vers la bonne url et controle des infos du cartouche'
     STEP.goToURLReadUpdateDelete(myJDD.getStrData('ID_NUMGES'),'')
 	STEP.checkReadUpdateDeleteScreen(myJDD.getStrData())
+*/
+
+import tnrWebUI.MacroSTEP
 
 
 
-	
-	'Suppression'
-	for ( n in 1..3) {
-		TNRResult.addSUBSTEP("Tentative de suppression $n/3" )
-		if (STEP.simpleClick(GlobalJDD.myGlobalJDD,'button_Supprimer')) {
-			if (STEP.waitAndAcceptAlert(GlobalVariable.TIMEOUT,null)) {
-				WUI.delay(1000)
-				'Vérification du test case - écran'
-				STEP.checkGridScreen()
-				break
-			}
-		}
-	}
-	
-	
-	'Vérification en BD que l\'objet n\'existe plus'
-	STEP.checkIDNotInBD(myJDD)
-	
-	TNRResult.addEndTestCase()
-} // fin du if
+MacroSTEP.suppression('ID_NUMGES','ID_CODGES')
+
+
 
 

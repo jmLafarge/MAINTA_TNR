@@ -45,7 +45,7 @@ for (String cdt in myJDD.getCDTList()) {
 			STEP.verifyBoxCheckedOrNot(myJDD, "ST_EXT", "O")
 			STEP.verifyBoxCheckedOrNot(myJDD, "ST_AFF", "O")
 
-			STEP.verifyRadioChecked(0, myJDD, "NU_TYP")
+			STEP.verifyRadioChecked(myJDD, "NU_TYP")
 			
 		
 		TNRResult.addSTEPGRP("ONGLET ADRESSES")

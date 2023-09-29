@@ -1,9 +1,8 @@
 import internal.GlobalVariable
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDFileMapper
-import tnrWebUI.*
-
+import tnrJDDManager.JDD;  
+import tnrJDDManager.JDDFileMapper
 import tnrResultManager.TNRResult
+import tnrWebUI.*
 
 
 'Lecture du JDD'
@@ -26,10 +25,10 @@ for (String cdt in myJDD.getCDTList()) {
 			STEP.verifyElementVisible(myJDD,"tab_ArticleSelected")
 			
 			STEP.verifyValue(myJDD,"ID_CODART")
-			STEP.verifyOptionSelectedByLabel(0, myJDD,"ST_ETA")
+			STEP.verifyOptionSelectedByLabel(myJDD,"ST_ETA")
 
 			STEP.verifyValue(myJDD,"ST_DES")
-			STEP.verifyOptionSelectedByLabel(0, myJDD,"ST_TYPART")
+			STEP.verifyOptionSelectedByLabel(myJDD,"ST_TYPART")
 			STEP.verifyBoxCheckedOrNot(myJDD,"ST_INA","O")
 			
 			STEP.verifyValue(myJDD,"ID_CODNATART")
@@ -38,7 +37,7 @@ for (String cdt in myJDD.getCDTList()) {
 			STEP.verifyValue(myJDD,"ST_DESGES")
 			
 			STEP.verifyText(new JDD(JDDFileMapper.getFullnameFromModObj('RT.ART'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS),"OL_DOC")
-			
+
 			
 		TNRResult.addSTEPBLOCK("FOURNISSEUR NORMALISE")
 		

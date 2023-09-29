@@ -1,7 +1,6 @@
 import internal.GlobalVariable
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDFileMapper
-
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
+import tnrJDDManager.JDD; 
+import tnrJDDManager.JDDFileMapper
 import tnrResultManager.TNRResult
 import tnrWebUI.*
 
@@ -17,7 +16,7 @@ for (String cdt in myJDD.getCDTList()) {
 	
     'Naviguer vers la bonne url et controle des infos du cartouche'
     STEP.goToURLReadUpdateDelete(myJDD.getStrData())
-	NAV.checkReadUpdateDeleteScreen(myJDD.getStrData('ST_CODCOU'))
+	STEP.checkReadUpdateDeleteScreen(myJDD.getStrData('ST_CODCOU'))
 
 	
 		//Rappel pour ajouter un block dans le fichier Resultat :
@@ -34,8 +33,8 @@ for (String cdt in myJDD.getCDTList()) {
 		STEP.verifyBoxCheckedOrNot(myJDD, "ST_INA", "O")
 		STEP.verifyValue(myJDD, "ST_DESEQU")
 		STEP.verifyValue(myJDD, "ST_CODLON")
-		STEP.verifyOptionSelectedByLabel(0, myJDD, "ST_ETA")
-		STEP.verifyOptionSelectedByLabel(0, myJDD, "NU_CRI")
+		STEP.verifyOptionSelectedByLabel(myJDD, "ST_ETA")
+		STEP.verifyOptionSelectedByLabel(myJDD, "NU_CRI")
 		STEP.verifyBoxCheckedOrNot(myJDD, "ST_NIVABS", "O")
 		STEP.verifyValue(myJDD, "ID_CODGES")
 		STEP.verifyValue(myJDD, "ST_DESGES")
@@ -60,11 +59,11 @@ for (String cdt in myJDD.getCDTList()) {
 		STEP.verifyValue(myJDD, "NU_PRIACH")
 		STEP.verifyValue(myJDD, "ST_NOMCON")
 		STEP.verifyValue(myJDD, "ST_REFCON")
-		STEP.verifyDateValue(0, myJDD, "DT_ACH")
-		STEP.verifyDateValue(0, myJDD, "DT_SER")
+		STEP.verifyDateValue(myJDD, "DT_ACH")
+		STEP.verifyDateValue(myJDD, "DT_SER")
 		STEP.verifyValue(myJDD, "NU_PRIACT")
-		STEP.verifyDateValue(0, myJDD, "DT_FINGAR")
-		STEP.verifyDateValue(0, myJDD, "DT_FINVIE")
+		STEP.verifyDateValue(myJDD, "DT_FINGAR")
+		STEP.verifyDateValue(myJDD, "DT_FINVIE")
 		STEP.verifyValue(myJDD, "NU_COUHOR")
 		STEP.verifyValue(myJDD, "NU_USAGAR")
 		STEP.verifyValue(myJDD, "NU_FINUSA")

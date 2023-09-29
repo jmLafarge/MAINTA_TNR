@@ -62,6 +62,7 @@ public class JDDXpath {
 
 		if (!loc) {
 			Log.addTrace("Pas de locator pour $name")
+			xpaths[name] =''
 		}else if (loc in TAG_LIST_ALLOWED) {
 
 			switch (loc){

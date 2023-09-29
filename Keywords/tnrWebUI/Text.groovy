@@ -248,7 +248,7 @@ public class Text {
 	}
 
 
-
+	/* Not used at the moment
 	static boolean verifyTextContains(JDD myJDD, String name, String text=null, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
 		Log.addTraceBEGIN(CLASS_NAME, "verifyTextContains", [ myJDD:myJDD.toString() , name: name , text:text , timeout:timeout , status:status])
 		String strStepID = StepID.getStrStepID(CLASS_NAME + 'verifyTextContains'+ myJDD.toString() + name)
@@ -277,7 +277,7 @@ public class Text {
 		Log.addTraceEND(CLASS_NAME, "verifyTextContains",ret)
 		return ret
 	}
-
+	*/
 
 
 

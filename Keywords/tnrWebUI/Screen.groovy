@@ -45,12 +45,12 @@ public class Screen {
 	}
 
 
-	public static checkReadUpdateDeleteScreen( String text, String fct='' , int timeout = GlobalVariable.TIMEOUT) {
-		Log.addTraceBEGIN(CLASS_NAME,"checkReadUpdateDeleteScreen",[ idval:text , fct:fct ,  timeout:timeout])
+	public static checkReadUpdateDeleteScreen( String textToVerify, String fct='' , int timeout = GlobalVariable.TIMEOUT) {
+		Log.addTraceBEGIN(CLASS_NAME,"checkReadUpdateDeleteScreen",[ textToVerify:textToVerify , fct:fct ,  timeout:timeout])
 		fct = fct ?: Tools.getFctFromModObj()
 		String code = fct + " - Consultation ou modification"
 		STEP.scrollToPosition( 0, 0)
-		STEP.verifyText( GlobalJDD.myGlobalJDD, 'Selection_ID', text,timeout,'WARNING')
+		STEP.verifyText( GlobalJDD.myGlobalJDD, 'Selection_ID', textToVerify,timeout,'WARNING')
 		STEP.simpleClick( GlobalJDD.myGlobalJDD, 'a_Toggle',timeout,'WARNING')
 		STEP.verifyText( GlobalJDD.myGlobalJDD, 'Fonction_code', code,timeout,'WARNING')
 		Log.addTraceEND(CLASS_NAME,"checkReadUpdateDeleteScreen")

@@ -30,9 +30,9 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	//manque bouton radio
 	
-	STEP.verifyDateValue(0, myJDD, "DT_DEM")// ou verifyDateValue
+	STEP.verifyDateValue(myJDD, "DT_DEM")// ou verifyDateValue
 	
-	STEP.verifyDateValue(0, myJDD, "DT_READEM")// ou verifyDateValue
+	STEP.verifyDateValue(myJDD, "DT_READEM")// ou verifyDateValue
 	KW.verifyTimeValue(myJDD, "NU_HEUDEM")// ou verifyDateValue --> c'est un datetime au formatheure
 	STEP.verifyValue(myJDD, "ID_CODIMP")
 	STEP.verifyValue(myJDD, "ST_DESIMP")

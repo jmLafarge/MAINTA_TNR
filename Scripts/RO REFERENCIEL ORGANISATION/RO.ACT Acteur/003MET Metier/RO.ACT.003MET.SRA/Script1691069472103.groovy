@@ -1,7 +1,7 @@
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDDKW
+import tnrJDDManager.GlobalJDD
+import tnrJDDManager.JDD; 
+import tnrJDDManager.JDDKW
 import tnrResultManager.TNRResult
-import tnrSqlManager.SQL
 import tnrWebUI.*
 
 
@@ -45,7 +45,7 @@ for (String cdt in myJDD.getCDTList()) {
 			if (STEP.isDivModalOpened('Métier')) {
 	
 		        STEP.setText(myJDD,'SelectionMetier_input_Filtre', myJDD.getStrData('ID_CODMET'))
-				if (STEP.verifyElementVisible(10, GlobalJDD.myGlobalJDD,'nbrecordsGRID_1')) {
+				if (STEP.verifyElementVisible(GlobalJDD.myGlobalJDD,'nbrecordsGRID_1')) {
 			        STEP.simpleClick(myJDD,'SelectionMetier_td')
 					STEP.setText(myJDD,'SelectionMetier_input_ST_NIV', myJDD.getStrData('ST_NIV'))
 			        STEP.simpleClick(myJDD,'SelectionMetier_button_Ajouter')

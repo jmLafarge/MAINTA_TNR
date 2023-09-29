@@ -126,5 +126,4 @@ public class Checkbox {
 			TNRResult.addDETAIL(msgTO)
 		}
 	}
-
 } // end of class

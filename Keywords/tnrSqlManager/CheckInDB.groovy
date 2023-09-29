@@ -2,6 +2,7 @@ package tnrSqlManager
 
 import groovy.transform.CompileStatic
 import tnrJDDManager.JDD
+import tnrJDDManager.JDDKW
 import tnrLog.Log
 import tnrResultManager.TNRResult
 import tnrWebUI.StepID
@@ -109,28 +110,33 @@ public class CheckInDB {
 
 			}else {
 
-				query = "SELECT * FROM " + myJDD.getDBTableName() + SQL.getWhereWithAllPK(myJDD,casDeTestNum)
-
-				Log.addTrace("query =  $query")
-				try {
-					List rows = SQL.getRows(query)
-					if (rows.size() == 0) {
-						TNRResult.addDETAIL("Pas de résultat pour la requête : $query")
-						verifStatus = 'FAIL'
-					}else if (rows.size() > 1){
-						TNRResult.addDETAIL(rows.size() + "résultats pour la requête : $query")
-						verifStatus = 'FAIL'
-					}else {
-						row=rows[0]
+				String whereWithAllPK = SQL.getWhereWithAllPK(myJDD,casDeTestNum)
+				query = "SELECT * FROM " + myJDD.getDBTableName() + whereWithAllPK
+				
+				if (whereWithAllPK.contains(JDDKW.getKW_SEQUENCEID())) {
+					TNRResult.addDETAIL("Requête impossible, pas de SEQUENCE_ID connu")
+					TNRResult.addDETAIL(query)
+					verifStatus = 'FAIL'
+				}else {
+					try {
+						List rows = SQL.getRows(query)
+						if (rows.size() == 0) {
+							TNRResult.addDETAIL("Pas de résultat pour la requête : $query")
+							verifStatus = 'FAIL'
+						}else if (rows.size() > 1){
+							TNRResult.addDETAIL(rows.size() + "résultats pour la requête : $query")
+							verifStatus = 'FAIL'
+						}else {
+							row=rows[0]
+						}
+					}
+					catch(Exception ex) {
+						verifStatus = 'ERROR'
+						TNRResult.addDETAIL("Erreur d'execution de sql.rows($query) : ")
+						TNRResult.addDETAIL(ex.getMessage())
 					}
 				}
-				catch(Exception ex) {
-					verifStatus = 'ERROR'
-					TNRResult.addDETAIL("Erreur d'execution de sql.rows($query) : ")
-					TNRResult.addDETAIL(ex.getMessage())
-				}
 			}
-
 
 
 			if (verifStatus =='PASS') {
