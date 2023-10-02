@@ -1,5 +1,7 @@
+import internal.GlobalVariable
 import tnrJDDManager.GlobalJDD
 import tnrJDDManager.JDD; 
+import tnrJDDManager.JDDFileMapper
 import tnrResultManager.TNRResult
 import tnrWebUI.*
 
@@ -44,6 +46,9 @@ for (String cdt in myJDD.getCDTList()) {
 		STEP.setText(myJDD, "NU_USA")
 		STEP.setText(myJDD, "ID_CODCON")
 		
+		STEP.setText(myJDD, "ID_CODCONSIG")
+		STEP.setText(myJDD, "ID_CODCLI")
+		
 		STEP.scrollToPosition( 0, 0)
 		
 	TNRResult.addSTEPGRP("ONGLET FICHE")
@@ -81,11 +86,29 @@ for (String cdt in myJDD.getCDTList()) {
 		STEP.simpleClick(myJDD, "tab_Notes")
 		STEP.verifyElementVisible(myJDD, "tab_NotesSelected")
 
-		/*
-		Comment différencier --> en rajoutant un ecolonne dans 001C avec le ID_NUMDOC1, ID_NUMDOC2
-		 - les notes equipement ID_NUMDOC1
-		 - les notes consignes ID_NUMDOC2
-		*/
+		JDD JDD_Note = new JDD(JDDFileMapper.getFullnameFromModObj('RT.EQU'),'001C',GlobalVariable.CAS_DE_TEST_EN_COURS)
+		
+		for (int i : (1..JDD_Note.getNbrLigneCasDeTest())) {
+	
+			JDD_Note.setCasDeTestNum(i)
+			
+			switch (myJDD.getStrData('TYPENOTE')) {
+	
+				case 'ID_NUMDOC1':
+					String notes = JDD_Note.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC1'))
+					STEP.setMemoText(notes, 'Notes',true,myJDD,'Memo_ModifierNotes')
+					myJDD.replaceSEQUENCIDInJDD('ID_NUMDOC1',-1)
+					JDD_Note.replaceSEQUENCIDInJDD('ID_NUMDOC',-1)
+					break
+					
+				case 'ID_NUMDOC2':
+					String consignes = JDD_Note.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC2'))
+					STEP.setMemoText(consignes, 'Consignes',true,myJDD,'Memo_ModifierConsignes')
+					myJDD.replaceSEQUENCIDInJDD('ID_NUMDOC2',-1)
+					JDD_Note.replaceSEQUENCIDInJDD('ID_NUMDOC',-1)
+					break
+			}
+		}
 		
 	TNRResult.addSTEPGRP("ONGLET ADRESSE")
 		

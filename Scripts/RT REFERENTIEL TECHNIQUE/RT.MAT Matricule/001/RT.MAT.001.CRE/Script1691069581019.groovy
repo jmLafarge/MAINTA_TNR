@@ -47,14 +47,24 @@ for (String cdt in myJDD.getCDTList()) {
 			}
 			STEP.setText(myJDD, "ID_CODGES")
 			STEP.setText(myJDD, "ID_NUMCRI")
-			STEP.setText(myJDD, "ID_CODIMP")
-			STEP.setText(myJDD, "ID_NUMGRO")
+			STEP.setText(myJDD, "ID_CODIMP") 
+			STEP.setText(myJDD, "ID_NUMGRO") //GRO_CODLON
 			STEP.setText(myJDD, "ID_CODCOM")
 			STEP.setText(myJDD, "NU_USA")
 			STEP.setText(myJDD, "ID_CODCON")
 			STEP.clickCheckboxIfNeeded(myJDD, "ST_TEC", "O")
 			STEP.clickCheckboxIfNeeded(myJDD, "ST_PAT", "O")
 			STEP.clickCheckboxIfNeeded(myJDD, "ST_REP", "O")
+			STEP.clickCheckboxIfNeeded(myJDD, "ST_SOUASS", "O")
+			STEP.clickCheckboxIfNeeded(myJDD, "ST_SOUINV", "O")
+			
+			STEP.setDate(myJDD, "DT_ENT")
+			STEP.setDate(myJDD, "DT_SER")
+			STEP.setText(myJDD, "NU_VALINI")
+			STEP.setText(myJDD, "NU_VALINV")
+			
+			STEP.setText(myJDD, "DT_DEP")
+			STEP.setText(myJDD, "DT_RET")
 			
 		TNRResult.addSTEPGRP("ONGLET FICHE")
 			
@@ -73,10 +83,12 @@ for (String cdt in myJDD.getCDTList()) {
 			STEP.setText(myJDD, "NU_PRIACT")
 			STEP.setText(myJDD, "NU_USAGAR")
 			STEP.setText(myJDD, "NU_FINUSA")
+			
 			STEP.setText(myJDD, "ID_CODCAL")
 			STEP.setText(myJDD, "ID_CODGAR")
 			STEP.setText(myJDD, "ID_REFCOM") 
 			STEP.setText(myJDD, "ST_AFFCOM")
+			
 			STEP.setText(myJDD, "ID_CODINTPRO")
 			STEP.setText(myJDD, "ID_CODINTGES")
 			STEP.setText(myJDD, "ID_CODINTEXP")
@@ -151,8 +163,8 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	    STEP.checkResultScreen(myJDD.getStrData())
 		
-		myJDD.replaceSEQUENCIDInJDD('ID_NUMDOC',-1)
-		JDD_Note.replaceSEQUENCIDInJDD('ID_NUMDOC',-1)
+		myJDD.replaceSEQUENCIDInJDD('ID_NUMDOC',-2)
+		JDD_Note.replaceSEQUENCIDInJDD('ID_NUMDOC',-2)
 		
 		STEP.checkJDDWithBD(myJDD)
 		STEP.checkJDDWithBD(JDD_Note)

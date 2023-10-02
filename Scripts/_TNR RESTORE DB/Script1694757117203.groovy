@@ -7,4 +7,4 @@ Log.setTraceLevel(0)
 
 //run(boolean forceFull, boolean withPREJDD)
 
-RestoreDB.run(false,true)
+RestoreDB.run(true,true)

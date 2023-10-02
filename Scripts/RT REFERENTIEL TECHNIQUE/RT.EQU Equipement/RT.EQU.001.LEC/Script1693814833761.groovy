@@ -49,6 +49,9 @@ for (String cdt in myJDD.getCDTList()) {
 		STEP.verifyValue(myJDD, "NU_USA")
 		STEP.verifyValue(myJDD, "ID_CODCON")
 		
+		STEP.verifyValue(myJDD, "ID_CODCONSIG")
+		STEP.verifyValue(myJDD, "ID_CODCLI")
+		
 	TNRResult.addSTEPGRP("ONGLET FICHE")
 		
 		STEP.simpleClick(myJDD, "tab_Fiche")

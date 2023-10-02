@@ -35,6 +35,7 @@ for (String cdt in myJDD.getCDTList()) {
 			STEP.verifyValue(myJDD, "ST_ETA")
 			STEP.verifyOptionSelectedByLabel(myJDD, "NU_TYP")
 			STEP.verifyValue(myJDD, "NU_PRISTO")
+			
 			STEP.verifyValue(myJDD, "ID_CODART")
 			STEP.verifyValue(myJDD, "ST_DESID_CODART")
 			STEP.verifyValue(myJDD, "ID_CODMOY")
@@ -45,14 +46,25 @@ for (String cdt in myJDD.getCDTList()) {
 			STEP.verifyValue(myJDD, "ST_DESID_NUMCRI")
 			STEP.verifyValue(myJDD, "ID_CODIMP")
 			STEP.verifyValue(myJDD, "ST_DESIMP")
-			STEP.verifyValue(myJDD, "ID_NUMGRO")
+			STEP.verifyValue(myJDD, "ID_NUMGRO") //GRO_CODLON
 			STEP.verifyValue(myJDD, "ST_DESGRO")
 			STEP.verifyValue(myJDD, "ID_CODCOM")
 			STEP.verifyValue(myJDD, "ST_DESID_CODCOM")
 			STEP.verifyValue(myJDD, "NU_USA")
 			STEP.verifyValue(myJDD, "ID_CODCON")
+			STEP.verifyBoxCheckedOrNot(myJDD, "ST_PAT", "O")
 			STEP.verifyBoxCheckedOrNot(myJDD, "ST_TEC", "O")
 			STEP.verifyBoxCheckedOrNot(myJDD, "ST_REP", "O")
+			STEP.verifyBoxCheckedOrNot(myJDD, "ST_SOUASS", "O")
+			STEP.verifyBoxCheckedOrNot(myJDD, "ST_SOUINV", "O")
+			
+			STEP.verifyDateValue(myJDD, "DT_ENT")
+			STEP.verifyDateValue(myJDD, "DT_SER")
+			STEP.verifyValue(myJDD, "NU_VALINI")
+			STEP.verifyValue(myJDD, "NU_VALINV")
+			
+			STEP.verifyValue(myJDD, "DT_DEP")
+			STEP.verifyValue(myJDD, "DT_RET")
 			
 		TNRResult.addSTEPGRP("ONGLET FICHE")
 			
@@ -63,6 +75,7 @@ for (String cdt in myJDD.getCDTList()) {
 			STEP.verifyValue(myJDD, "ST_REFFOU")
 			STEP.verifyValue(myJDD, "ID_CODCONSTR")
 			STEP.verifyValue(myJDD, "ST_REFCON")
+			
 			STEP.verifyDateValue(myJDD, "DT_ACH")
 			STEP.verifyDateValue(myJDD, "DT_FAC")
 			STEP.verifyValue(myJDD, "NU_PRIACH")
@@ -71,6 +84,7 @@ for (String cdt in myJDD.getCDTList()) {
 			STEP.verifyValue(myJDD, "NU_PRIACT")
 			STEP.verifyValue(myJDD, "NU_USAGAR")
 			STEP.verifyValue(myJDD, "NU_FINUSA")
+			
 			STEP.verifyValue(myJDD, "ID_CODCAL")
 			STEP.verifyValue(myJDD, "ST_DESID_CODCAL")
 			STEP.verifyValue(myJDD, "ID_CODGAR")
@@ -78,6 +92,7 @@ for (String cdt in myJDD.getCDTList()) {
 			STEP.verifyValue(myJDD, "ID_REFCOM")
 			STEP.verifyValue(myJDD, "ST_DESID_REFCOM")
 			STEP.verifyValue(myJDD, "ST_AFFCOM")
+			
 			STEP.verifyValue(myJDD, "ID_CODINTPRO")
 			STEP.verifyValue(myJDD, "ST_NOM_ID_CODINTPRO")
 			STEP.verifyValue(myJDD, "ID_CODINTGES")
@@ -86,10 +101,12 @@ for (String cdt in myJDD.getCDTList()) {
 			STEP.verifyValue(myJDD, "ST_NOM_ID_CODINTEXP")
 			STEP.verifyValue(myJDD, "ID_CODINTMAI")
 			STEP.verifyValue(myJDD, "ST_NOM_ID_CODINTMAI")
+			
 			STEP.verifyBoxCheckedOrNot(myJDD, "ST_CONTRA", "O")
 			STEP.verifyBoxCheckedOrNot(myJDD, "ST_CONTRABT", "O")
 			STEP.verifyBoxCheckedOrNot(myJDD, "ST_PRE", "O")
 			STEP.verifyBoxCheckedOrNot(myJDD, "ST_INS", "O")
+			
 			
 		TNRResult.addSTEPGRP("ONGLET NOTES")
 			
@@ -117,8 +134,7 @@ for (String cdt in myJDD.getCDTList()) {
 			STEP.verifyValue(myJDD, "ID_CODFOU")
 			STEP.verifyValue(myJDD, "ST_DESID_CODFOU")
 			STEP.verifyValue(myJDD, "ST_AUT")
-			STEP.verifyValue(myJDD, "DT_DEP")
-			STEP.verifyValue(myJDD, "DT_RET")
+
 			//STEP.verifyBoxCheckedOrNot(myJDD, "NUMMAT2NUMAUTO", "O")
 			//STEP.verifyBoxCheckedOrNot(myJDD, "DISABLE_RECTIFSTO", "O")
 	

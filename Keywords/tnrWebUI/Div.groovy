@@ -32,6 +32,7 @@ public class Div {
 			TNRResult.addSTEPPASS(strStepID, "Ouverture de la fenetre de saisie ")
 			ret = true
 		}else {
+			TNRResult.addSTEPFAIL(strStepID, "Ouverture de la fenetre de saisie ")
 			TNRResult.addDETAIL("La fenetre de saisie ne s'est pas ouverte")
 		}
 		Log.addTraceEND(CLASS_NAME, "isDivModalOpened",ret)

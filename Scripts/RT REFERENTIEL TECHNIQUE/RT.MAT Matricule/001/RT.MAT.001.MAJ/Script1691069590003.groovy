@@ -43,7 +43,7 @@ for (String cdt in myJDD.getCDTList()) {
 			STEP.searchWithHelper(myJDD, "ID_CODGES","","")
 			STEP.searchWithHelper(myJDD, "ID_NUMCRI")
 			STEP.searchWithHelper(myJDD, "ID_CODIMP","","")
-			STEP.setText(myJDD, "ID_NUMGRO")
+			STEP.setText(myJDD, "ID_NUMGRO") //GRO_CODLON
 			STEP.searchWithHelper(myJDD, "ID_CODCOM","","")
 			STEP.setText(myJDD, "NU_USA")
 			STEP.searchWithHelper(myJDD, "ID_CODCON","","")
@@ -56,6 +56,9 @@ for (String cdt in myJDD.getCDTList()) {
 			STEP.setDate(myJDD, "DT_SER") // utiliser un nouveau  helper
 			STEP.setText(myJDD, "NU_VALINI")
 			STEP.setText(myJDD, "NU_VALINV")
+			
+			STEP.setText(myJDD, "DT_DEP")
+			STEP.setText(myJDD, "DT_RET")
 			
 		TNRResult.addSTEPGRP("ONGLET FICHE")
 			
@@ -114,8 +117,7 @@ for (String cdt in myJDD.getCDTList()) {
 			STEP.setText(myJDD, "ID_NUMEMP")
 			STEP.searchWithHelper(myJDD, "ID_CODMAG","","")
 			STEP.searchWithHelper(myJDD, "ID_CODFOU","","")
-			STEP.setText(myJDD, "DT_DEP")
-			STEP.setText(myJDD, "DT_RET")
+
 		*/
 
 	  

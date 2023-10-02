@@ -43,11 +43,14 @@ for (String cdt in myJDD.getCDTList()) {
 		STEP.clickCheckboxIfNeeded(myJDD, "ST_NIVABS", "O")
 		STEP.searchWithHelper(myJDD, "ID_CODGES","","")
 		STEP.searchWithHelper(myJDD, "ID_NUMEMP","//a[@id='BtnEMP_CODLON']/i","SEARCH_ST_CODLON") //EMP_CODLON
-		STEP.searchWithHelper(myJDD, "ID_CODIMP","","")
+		STEP.searchWithHelper(myJDD, "ID_CODIMP")
 		STEP.searchWithHelper(myJDD, "ID_NUMGRO","//a[@id='BtnGRO_CODLON']/i","SEARCH_ST_CODLON") // GRO_CODLON		
-		STEP.searchWithHelper(myJDD, "ID_CODCOM","","")
+		STEP.searchWithHelper(myJDD, "ID_CODCOM")
 		STEP.setText(myJDD, "NU_USA")
-		STEP.searchWithHelper(myJDD, "ID_CODCON","","")
+		STEP.searchWithHelper(myJDD, "ID_CODCON")
+		
+		STEP.searchWithHelper(myJDD, "ID_CODCONSIG")
+		STEP.searchWithHelper(myJDD, "ID_CODCLI")
 		
 	TNRResult.addSTEPGRP("ONGLET FICHE")
 		
@@ -70,8 +73,8 @@ for (String cdt in myJDD.getCDTList()) {
 		STEP.setText(myJDD, "NU_COUARR")
 		STEP.setText(myJDD, "ST_NUMINV")
 		STEP.setText(myJDD, "ST_OBS")
-		STEP.searchWithHelper(myJDD, "ID_CODCAL","","")
-		STEP.searchWithHelper(myJDD, "ID_CODCONTRA","","")
+		STEP.searchWithHelper(myJDD, "ID_CODCAL")
+		STEP.searchWithHelper(myJDD, "ID_CODCONTRA")
 		STEP.clickCheckboxIfNeeded(myJDD, "ST_COM", "O")
 		STEP.clickCheckboxIfNeeded(myJDD, "ST_MAT", "O")
 		STEP.clickCheckboxIfNeeded(myJDD, "ST_CONTRABT", "O")
@@ -86,14 +89,27 @@ for (String cdt in myJDD.getCDTList()) {
 		
 		JDD JDD_Note = new JDD(JDDFileMapper.getFullnameFromModObj('RT.EQU'),'001C',GlobalVariable.CAS_DE_TEST_EN_COURS)
 		
-		String notes = JDD_Note.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC1'))
-		String consignes = JDD_Note.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC2'))
+		for (int i : (1..JDD_Note.getNbrLigneCasDeTest())) {
 	
-		STEP.setMemoText(notes, 'Notes',true,myJDD,'Memo_ModifierNotes')
-		STEP.setMemoText(consignes, 'Consignes',true,myJDD,'Memo_ModifierConsignes')
-		
-
-		
+			JDD_Note.setCasDeTestNum(i)
+			
+			switch (myJDD.getStrData('TYPENOTE')) {
+	
+				case 'ID_NUMDOC1':
+					String notes = JDD_Note.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC1'))
+					STEP.setMemoText(notes, 'Notes',true,myJDD,'Memo_ModifierNotes')
+					myJDD.replaceSEQUENCIDInJDD('ID_NUMDOC1',-1)
+					JDD_Note.replaceSEQUENCIDInJDD('ID_NUMDOC',-1)
+					break
+					
+				case 'ID_NUMDOC2':
+					String consignes = JDD_Note.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC2'))
+					STEP.setMemoText(consignes, 'Consignes',true,myJDD,'Memo_ModifierConsignes')
+					myJDD.replaceSEQUENCIDInJDD('ID_NUMDOC2',-1)
+					JDD_Note.replaceSEQUENCIDInJDD('ID_NUMDOC',-1)
+					break
+			}
+		}
 		
 		
 		

@@ -2,6 +2,6 @@ import tnrWebUI.MacroSTEP
 
 
 
-MacroSTEP.suppression('ID_CODINT','ID_CODINT')
+MacroSTEP.suppression('ID_CODART','ID_CODART')
 
 

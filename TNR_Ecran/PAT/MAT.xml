@@ -190,11 +190,21 @@
 						<div class="row">
 							<div class="col-xl-6">
 								<label><ml-text value="NU_VALINI"/>:</label>
-								<zone mode="enabled" type="text" name="NU_VALINI" data="float" form="MainForm" unit="ID_CODDEV" width="100%"></zone>
+								<zone mode="enabled" type="text" name="NU_VALINI" data="float" form="MainForm" unit="ID_CODDEV" width="100%" db_maxlength="17" db_entier="11" db_decimal="5"></zone>
 							</div>
 							<div class="col-xl-6">
 								<label><ml-text value="NU_VALINV"/>:</label>
-								<zone mode="enabled" type="text" name="NU_VALINV" data="float" form="MainForm" unit="ID_CODDEV" width="100%"></zone>
+								<zone mode="enabled" type="text" name="NU_VALINV" data="float" form="MainForm" unit="ID_CODDEV" width="100%" db_maxlength="17" db_entier="11" db_decimal="5"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6">
+								<label><ml-text value="DT_DEP"/>:</label>
+								<zone type="date" name="DT_DEP" mode="enabled" size="10" db_maxlength="24"></zone>
+							</div>
+							<div class="col-xl-6">
+								<label><ml-text value="DT_RET"/>:</label>
+								<zone type="date" name="DT_RET" mode="enabled" size="10" db_maxlength="24"></zone>
 							</div>
 						</div>
 						<div class="row">
@@ -203,6 +213,14 @@
 									<fichier></fichier>
 								</preservecontent>
 							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6">
+								<preservecontent>
+									<adresse></adresse>
+								</preservecontent>
+							</div>
+							<div class="col-xl-6"></div>
 						</div>
 					</fieldset>
 				</tab>
@@ -436,13 +454,7 @@
 										<ml-text value="autre"></ml-text>
 									</statezone>
 								</preservecontent>
-							</div><div class="col-xl-4">
-								<label><ml-text value="DT_DEP"/>:</label>
-								<zone type="date" name="DT_DEP" mode="enabled" size="10" db_maxlength="24"></zone>
-							</div><div class="col-xl-4">
-								<label><ml-text value="DT_RET"/>:</label>
-								<zone type="date" name="DT_RET" mode="enabled" size="10" db_maxlength="24"></zone>
-							</div><div class="col-xl-2">
+							</div><div class="col-xl-10">
 							</div>
 						</div>
 						<div class="row">

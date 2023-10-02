@@ -7,9 +7,7 @@
 * -----------------------------------------------------------------------------------------------------
 *
 
-	Continuer la lecture du 20230919_131422_TNR_MSSQL_Chrome_Mainta_V13.0.4 à partir de RT.EQU.001.CRE.01 : Création REFERENTIEL TECHNIQUE
-	vérifier les corrections de RT.MAT.001.MAJ.01 : Mise à jour Matricule
-	vérifier les step de MAT.CRE et MAT.LEC à partir de MAT.MAJ
+	Ajouter le nom de la fonction d'appel, par exemple goToURLCreate ou checkCreateScreen ou ...
 
 	MAT.MAJ
 	
@@ -27,6 +25,7 @@
 	KW --> à mettre dans WUI
 	
 
+	METTRE A JOUR les écrans de MAINTA_TNR et MAINTA_ORA_TNR
 
 
 	stepID
@@ -87,10 +86,13 @@ Vérifier MAT.ST_PAT dans tous les CDT
  * 
  *  
 
-Ajout des rubriques manquantes dans MAT.MAJ
-
 Suite à lecture du fichier Result commenté
 
+
+Prise en compte des nouveaux JDD remodifié suite aux maj précédentes
+Ajout des rubriques manquantes MAT et EQU
+Ajout des écrans modifi MAT et EQU
+Ajouter un STEP pour l'ouverture des fentres de saisie voir Ajouter Emplacement
 
 
 
