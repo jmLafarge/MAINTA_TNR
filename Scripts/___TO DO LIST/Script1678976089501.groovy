@@ -86,14 +86,6 @@ Vérifier MAT.ST_PAT dans tous les CDT
  * 
  *  
 
-Suite à lecture du fichier Result commenté
-
-
-Prise en compte des nouveaux JDD remodifié suite aux maj précédentes
-Ajout des rubriques manquantes MAT et EQU
-Ajout des écrans modifi MAT et EQU
-Ajouter un STEP pour l'ouverture des fentres de saisie voir Ajouter Emplacement
-
 
 
 	LOT PROTO + 1A
