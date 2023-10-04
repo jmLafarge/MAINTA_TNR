@@ -26,7 +26,7 @@ for (String cdt in myJDD.getCDTList()) {
 
 	if (STEP.verifyElementPresent(myJDD,'span_error', GlobalVariable.TIMEOUT)) {
 			
-		TNRResult.addSTEPINFO("Connexion invalide OK")
+		TNRResult.addSTEPINFO('',"Connexion invalide OK")
 		
 		STEP.verifyText(myJDD, 'span_error')
 		
@@ -35,7 +35,7 @@ for (String cdt in myJDD.getCDTList()) {
 			
 	} else {
 		
-		TNRResult.addSTEPINFO("Connexion invalide KO")
+		TNRResult.addSTEPINFO('',"Connexion invalide KO")
 		
 	}
 	

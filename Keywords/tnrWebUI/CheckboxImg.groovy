@@ -41,7 +41,7 @@ public class CheckboxImg {
 						TNRResult.addDETAIL("déjà cochée")
 					}else {
 						for ( n in 1..3) {
-							TNRResult.addSTEPINFO("Tentative pour cocher '${tObj.getObjectId()}' $n/3" )
+							TNRResult.addSTEPINFO('',"Tentative pour cocher '${tObj.getObjectId()}' $n/3" )
 							STEP.simpleClick(myJDD,'ST_DEF')
 							if (STEP.waitAndAcceptAlert((int)GlobalVariable.TIMEOUT,null)) {
 								WUI.delay(1000)

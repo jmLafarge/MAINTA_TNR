@@ -7,13 +7,10 @@
 *
 *
 
-Installattion Katalon sur 2e PC
- - Test OK les 2 KS fonctionnent en // pendant 5 min et ensuite un se délogue automatiquement
- 
-Sauvegarde des écrans de 2 MASTER
-Mise à jour des écrans des 2 env
-
-
+Ajout de parentStepID, setParentStepID et clearParentStepID
+Reprise des check screen et SearchWithHelper
+Commencer reprise de CheckInDB pour faire un step par rubrique
+Ajout de GlobalVariable.CAS_DE_TEST_NUM
 
 
 
@@ -26,6 +23,10 @@ Mise à jour des écrans des 2 env
 * A FAIRE EN PRIORITE
 * -----------------------------------------------------------------------------------------------------
 *
+
+Terminer public static xxxx() dans SQL
+Terminer checkValue dans CheckInDB
+
 
 	Ajouter le nom de la fonction d'appel, par exemple goToURLCreate ou checkCreateScreen ou ...
 

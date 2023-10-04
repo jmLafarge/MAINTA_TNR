@@ -87,7 +87,7 @@ public class Navigate {
 		String strStepID = '' //StepID.getStrStepID(CLASS_NAME + 'scrollToPosition')
 		try {
 			WebUI.scrollToPosition(x, y, FailureHandling.STOP_ON_FAILURE)
-			TNRResult.addSTEPINFO("Scroll à la position $x , $y")
+			TNRResult.addSTEPINFO('',"Scroll à la position $x , $y")
 		} catch (Exception ex) {
 			TNRResult.addSTEPERROR(strStepID,"Scroll à la position $x , $y")
 			TNRResult.addDETAIL(ex.getMessage())
@@ -102,7 +102,7 @@ public class Navigate {
 		String strStepID = '' // StepID.getStrStepID(CLASS_NAME + 'switchToDefaultContent')
 		try {
 			WebUI.switchToDefaultContent(FailureHandling.STOP_ON_FAILURE)
-			TNRResult.addSTEPINFO("switchToDefaultContent")
+			TNRResult.addSTEPINFO('',"switchToDefaultContent")
 		} catch (Exception ex) {
 			TNRResult.addSTEPERROR(strStepID,"switchToDefaultContent")
 			TNRResult.addDETAIL(ex.getMessage())

@@ -375,7 +375,7 @@ class Log {
 			writeList('assertKO','',true)
 		}
 
-		writeList('fullStepID','',true)
+		//writeList('fullStepID','',true)
 
 		traceEnd=true
 		Date stop = new Date()

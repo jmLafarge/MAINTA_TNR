@@ -34,19 +34,19 @@ for (String cdt in myJDD.getCDTList()) {
 			
 			if (STEP.verifyElementPresent(myJDD,'frame_Main', GlobalVariable.TIMEOUT)) {
 					
-				TNRResult.addSTEPINFO("Reconnexion OK")
+				TNRResult.addSTEPINFO('',"Reconnexion OK")
 				
 				'Vérification des valeurs en BD'
 				STEP.checkJDDWithBD(myJDD,[:],"SELECT * FROM UTILOG ORDER bY DT_LOG DESC")
 					
 			} else {
 				
-				TNRResult.addSTEPINFO("Reconnexion KO")
+				TNRResult.addSTEPINFO('',"Reconnexion KO")
 				
 			}
 	}else {
 		
-		TNRResult.addSTEPINFO("Reconnexion KO")
+		TNRResult.addSTEPINFO('',"Reconnexion KO")
 	}
 	TNRResult.addEndTestCase()
 }

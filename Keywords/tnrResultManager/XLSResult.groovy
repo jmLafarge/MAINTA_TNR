@@ -226,6 +226,7 @@ public class XLSResult {
 				ExcelUtils.writeCell(row,RST_COL_DATETIME,date.format(DATETIMESTEP_FORMAT),CSF.cellStyle_RESULT_STEPDETAIL)
 				ExcelUtils.writeCell(row,RST_COL_CDT,msg,CSF.cellStyle_RESULT_STEPDETAIL)
 				ExcelUtils.writeCell(row, RST_COL_RESULT, 'INFO',CSF.cellStyle_RESULT_STEPDETAIL)
+				ExcelUtils.writeCell(row, RST_COL_STEPID, ,strStepID,CSF.cellStyle_RESULT_STEPDETAIL)
 				continueToGroup = true
 				break
 

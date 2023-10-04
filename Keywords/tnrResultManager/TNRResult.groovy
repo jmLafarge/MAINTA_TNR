@@ -41,7 +41,7 @@ public class TNRResult {
 		switch (status) {
 			case null :
 			case 'INFO' :
-				addSTEPINFO(msg)
+				addSTEPINFO(strStepID, msg)
 				break
 			case 'PASS':
 				addSTEPPASS(strStepID, msg)
@@ -92,9 +92,9 @@ public class TNRResult {
 		addStepInResult(msg,'STEPLOOP')
 	}
 
-	public static addSTEPINFO (String msg) {
+	public static addSTEPINFO (String strStepID,String msg) {
 		Log.add('',PREINFOSTEPTXT+ msg)
-		addStepInResult(msg,'INFO')
+		addStepInResult(msg,'INFO',strStepID)
 	}
 	
 	public static addSTEPPASS (String strStepID, String msg) {

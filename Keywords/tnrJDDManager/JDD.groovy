@@ -204,6 +204,7 @@ public class JDD {
 	public void setCasDeTestNum(int i) {
 		Log.addTraceBEGIN(CLASS_NAME,"setCasDeTestNum",[i:i])
 		casDeTestNum = i
+		GlobalVariable.CAS_DE_TEST_NUM = i
 		Log.addTraceEND(CLASS_NAME,"setCasDeTestNum")
 	}
 

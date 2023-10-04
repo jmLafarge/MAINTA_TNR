@@ -25,7 +25,7 @@ public class WUI {
 
 	public static void delay(long ms ) {
 		String sec = String.format("%.3f", ms/1000)
-		TNRResult.addSTEPINFO("Attente de $sec seconde(s)")
+		TNRResult.addSTEPINFO('',"Attente de $sec seconde(s)")
 		Thread.sleep(ms)
 	}
 

@@ -36,13 +36,13 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	if (STEP.verifyElementVisible(myJDD,'in_passw', GlobalVariable.TIMEOUT)) {
 		
-		TNRResult.addSTEPINFO("Déconnexion OK")
+		TNRResult.addSTEPINFO('',"Déconnexion OK")
 		
 		'Vérification des valeurs en BD'
 		STEP.checkJDDWithBD(myJDD,[:],"SELECT * FROM UTILOG ORDER bY DT_LOG DESC")
 		
 	}else {
-		TNRResult.addSTEPINFO("Déconnexion KO")
+		TNRResult.addSTEPINFO('',"Déconnexion KO")
 	}
 	
 	STEP.closeBrowser()

@@ -34,4 +34,9 @@
       <initValue>''</initValue>
       <name>CAS_DE_TEST_PATTERN</name>
    </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description>INTERNAL DATA</description>
+      <initValue>1</initValue>
+      <name>CAS_DE_TEST_NUM</name>
+   </GlobalVariableEntity>
 </GlobalVariableEntities>

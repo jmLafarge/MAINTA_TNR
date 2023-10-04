@@ -9,10 +9,8 @@ import groovy.sql.Sql
 import groovy.transform.CompileStatic
 import tnrCommon.TNRPropertiesReader
 import tnrJDDManager.JDD
-import tnrJDDManager.JDDKW
 import tnrLog.Log
 import tnrResultManager.TNRResult
-import tnrWebUI.*
 
 
 @CompileStatic
@@ -197,178 +195,6 @@ public class SQL {
 
 
 
-
-
-
-
-	public static String checkValue(tnrJDDManager.JDD myJDD, String fieldName, def valDB,String verifStatus, Map specificValueMap, int casDeTestNum) {
-
-
-
-		Log.addTraceBEGIN(CLASS_NAME,"checkValue",[myJDD:myJDD.toString() , fieldName:fieldName , val:valDB , verifStatus:verifStatus,specificValueMap:specificValueMap,casDeTestNum:casDeTestNum])
-
-		def valJDD = myJDD.getData(fieldName,casDeTestNum)
-
-		if (myJDD.myJDDParam.isOBSOLETE(fieldName)) {
-			Log.addTraceEND(CLASS_NAME,"checkValue",verifStatus)
-			return verifStatus
-		}
-
-		boolean specificValue = !specificValueMap.isEmpty() && specificValueMap.containsKey(fieldName)
-
-		//String paraIV = myJDD.getParamForThisName('INTERNALVALUE', fieldName)
-
-
-		if (myJDD.isDataUPD(fieldName,casDeTestNum)) {
-
-			String newVal = myJDD.getData(fieldName,casDeTestNum,true).toString()
-
-			if (newVal==valDB.toString()) {
-				logaddTrace('',fieldName,newVal,valDB)
-			}else {
-				logAddDETAIL('',fieldName,newVal,valDB)
-				verifStatus = 'FAIL'
-			}
-		}else if (!specificValue && myJDD.myJDDParam.getFOREIGNKEYFor(fieldName)) {
-
-			if (!JDDKW.isNU(valJDD) && !JDDKW.isNULL(valJDD)) {
-				if (!checkForeignKey(myJDD, fieldName, valDB)) {
-					verifStatus= 'FAIL'
-				}
-			}else {
-				Log.addTrace("$fieldName est NU ou NULL, pas de recherche de FK")
-			}
-			/*
-			 }else if (!specificValue && paraIV){
-			 String internalVal = IV.getInternalValueOf(paraIV,valJDD.toString())
-			 if (internalVal==valDB) {
-			 Log.addTrace("Contrôle de la valeur INTERNAL de '$fieldName' pour '$valDB' OK : la valeur attendue est '$valJDD' et la valeur en BD est  : '$internalVal'" )
-			 }else {
-			 TNRResult.addDETAIL("Contrôle de la valeur INTERNAL de '$fieldName' pour '$valDB' KO : la valeur attendue est '$valJDD' et la valeur en BD est  : '$internalVal'")
-			 verifStatus = 'FAIL'
-			 }
-			 */
-		}else {
-
-			switch (valJDD) {
-
-				case JDDKW.getKW_NU() :
-
-					Log.addTrace("NU : Pas de contrôle pour '$fieldName' : la valeur en BD est  : '$valDB'" )
-					break
-
-				case JDDKW.getKW_VIDE() :
-				case JDDKW.getKW_NULL():
-					if (valDB == null || valDB =='') {
-
-						logaddTrace('',fieldName,'VIDE ou NULL',valDB)
-					}else {
-						logAddDETAIL('',fieldName,'VIDE ou NULL',valDB)
-						verifStatus= 'FAIL'
-					}
-
-					break
-
-				case JDDKW.getKW_DATE() :
-
-					if (valDB instanceof java.sql.Timestamp) {
-						logaddTrace('DATEJML',fieldName,valJDD,valDB)
-					}else {
-						logAddDETAIL('DATEJML',fieldName,valJDD,valDB)
-						verifStatus= 'FAIL'
-					}
-					break
-
-				case JDDKW.getKW_DATETIME() :
-
-					if (valDB instanceof java.sql.Timestamp) {
-						logaddTrace('DATETIME',fieldName,valJDD,valDB)
-					}else {
-						logAddDETAIL('DATETIME',fieldName,valJDD,valDB)
-						verifStatus= 'FAIL'
-					}
-					break
-
-				case JDDKW.getKW_SEQUENCEID() :
-				/*
-				 String paraSeq =  myJDD.getParamForThisName('SEQUENCE', fieldName)
-				 int lastSeq = getLastSequence( paraSeq)
-				 if ( val == lastSeq) {
-				 logaddTrace('SEQUENCEID',fieldName,lastSeq,val)
-				 }else {
-				 */
-					logAddDETAIL('SEQUENCEID',fieldName,valJDD,valDB)
-					verifStatus= 'FAIL'
-				//}
-
-					break
-
-				case JDDKW.getKW_ORDRE() :
-
-					logAddDETAIL('ORDRE ***** reste àfaire *****',fieldName,valJDD,valDB)
-				//voir aussi le NU_NIV *******
-					verifStatus= 'FAIL'
-					break
-
-				default:
-
-					if (specificValue) {
-
-						String valClass = valDB ? valDB.getClass() : 'NULL'
-						Log.addTrace("Pour '$fieldName' la class de la valeur en BD est:$valDB,  la class de la valeur spécifique est  : " + specificValueMap[fieldName].getClass())
-
-
-						if ( valDB == InfoDB.castJDDVal(myJDD.getDBTableName(), fieldName, specificValueMap[fieldName])) {
-							logaddTrace('spécifique',fieldName,specificValueMap[fieldName],valDB)
-						}else {
-							logAddDETAIL('spécifique',fieldName,specificValueMap[fieldName],valDB)
-							verifStatus = 'FAIL'
-						}
-					}else {
-
-						if (InfoDB.isImage(myJDD.getDBTableName(), fieldName)) {
-
-							String query = "SELECT cast(cast($fieldName as varbinary(max)) as varchar(max)) FROM " + myJDD.getDBTableName() + getWhereWithAllPK(myJDD,casDeTestNum)
-							def firstVal = getFirstVal(query)
-							if (firstVal ) {
-								def texte = new DefaultStyledDocument()
-								def editorKit = new RTFEditorKit()
-								editorKit.read(new StringReader(firstVal.toString()), texte , 0)
-								valDB=texte.getText(0, texte.getLength()-1) // car il y a un CRLF !?
-							}
-						}
-
-
-						if ( valDB == InfoDB.castJDDVal(myJDD.getDBTableName(), fieldName, valJDD)) {
-							logaddTrace('',fieldName,valJDD,valDB)
-						}else {
-							logAddDETAIL('',fieldName,valJDD,valDB)
-							verifStatus = 'FAIL'
-						}
-					}
-					break
-			}//case
-		}
-
-		Log.addTraceEND(CLASS_NAME,"checkValue",verifStatus)
-		return verifStatus
-	}
-
-
-
-
-	private static logaddTrace(String type,String fieldName, def valJDD, def val) {
-		Log.addTrace("Contrôle de la valeur $type de '$fieldName' OK : la valeur attendue est '$valJDD' et la valeur en BD est  : '$val'" )
-	}
-
-
-
-	private static logAddDETAIL(String type,String fieldName, def valJDD, def val) {
-		TNRResult.addDETAIL("Contrôle de la valeur $type de '$fieldName' KO : la valeur attendue est '$valJDD' et la valeur en BD est  : '$val'")
-	}
-
-
-
 	public static String getMaintaVersion() {
 
 		Log.addTraceBEGIN(CLASS_NAME,"getMaintaVersion",[:])
@@ -381,7 +207,7 @@ public class SQL {
 	}
 
 
-	private static boolean checkForeignKey(JDD myJDD, String fieldName, def valDB) {
+	public static boolean checkForeignKey(JDD myJDD, String fieldName, def valDB) {
 
 		Log.addTraceBEGIN(CLASS_NAME,"checkForeignKey",[myJDD:myJDD.toString() ,fieldName:fieldName,val:valDB])
 
@@ -402,8 +228,16 @@ public class SQL {
 
 
 
-
-
+	public static xxxx() {
+		String query = "SELECT cast(cast($fieldName as varbinary(max)) as varchar(max)) FROM " + myJDD.getDBTableName() + SQL.getWhereWithAllPK(myJDD,casDeTestNum)
+		def firstVal = SQL.getFirstVal(query)
+		if (firstVal ) {
+			def texte = new DefaultStyledDocument()
+			def editorKit = new RTFEditorKit()
+			editorKit.read(new StringReader(firstVal.toString()), texte , 0)
+			valDB=texte.getText(0, texte.getLength()-1) // car il y a un CRLF !?
+		}
+	}
 
 
 

@@ -24,8 +24,10 @@ public class SearchWithHelper {
 
 
 
-	private static runSearchWithHelper(String strStepID, JDD myJDD, String name , String btnXpath = '' , String inputSearchName = '', int index_td=3 ){
+	private static runSearchWithHelper(JDD myJDD, String name , String btnXpath = '' , String inputSearchName = '', int index_td=3 ){
 		Log.addTraceBEGIN(CLASS_NAME, "runSearchWithHelper",[ myJDD:myJDD.toString() , name:name , btnXpath:btnXpath , inputSearchName:inputSearchName , index_td:index_td])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'runSearchWithHelper'+ myJDD.toString() + name)
+		StepID.setParentStepID(strStepID)
 		String val = myJDD.getStrData(name)
 		if (btnXpath=='') {
 			btnXpath = "//a[@id='Btn$name']/i"
@@ -54,7 +56,7 @@ public class SearchWithHelper {
 			TNRResult.addSTEP(strStepID,"Saisie de $name en utilisant l'assistant de recherche",'FAIL')
 			TNRResult.addDETAIL("La fenetre de recherche ne s'est pas ouverte")
 		}
-
+		StepID.clearParentStepID()
 		WUIWindow.switchToMainWindow()
 		Log.addTraceEND(CLASS_NAME, "runSearchWithHelper")
 	}
@@ -83,7 +85,7 @@ public class SearchWithHelper {
 						TNRResult.addSTEP(strStepID,"Saisie de $name en utilisant l'assistant de recherche",'FAIL')
 						TNRResult.addDETAIL(msg)
 					}else {
-						runSearchWithHelper(strStepID, myJDD, name , btnXpath , inputSearchName , index_td)
+						runSearchWithHelper(myJDD, name , btnXpath , inputSearchName , index_td)
 					}
 				}
 			}else {

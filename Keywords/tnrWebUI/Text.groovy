@@ -74,7 +74,7 @@ public class Text {
 		String strStepID = StepID.getStrStepID(CLASS_NAME + 'setDate'+ myJDD.toString() + name)
 		val = val ?: myJDD.getData(name)
 		if (JDDKW.isNULL(val) || JDDKW.isNU(val)) {
-			TNRResult.addSTEPINFO("Pas de saisie de texte sur '$name', valeur du JDD = $val")
+			TNRResult.addSTEPINFO('',"Pas de saisie de texte sur '$name', valeur du JDD = $val")
 		}else if ( val instanceof Date) {
 			setText( myJDD, name, val.format(dateFormat), timeout,status)
 		}else {
@@ -153,7 +153,7 @@ public class Text {
 				text = myJDD.getStrData(name)
 			}
 			if (JDDKW.isNULL(text) || JDDKW.isNU(text)) {
-				TNRResult.addSTEPINFO("Pas de saisie de texte sur '${tObj.getObjectId()}', valeur du JDD = $text")
+				TNRResult.addSTEPINFO('',"Pas de saisie de texte sur '${tObj.getObjectId()}', valeur du JDD = $text")
 			}else {
 				String objValue = WebUI.getAttribute(tObj, 'value')
 				Log.addTrace("objText:'$objValue'")
