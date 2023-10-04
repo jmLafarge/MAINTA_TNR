@@ -7,10 +7,7 @@
 *
 *
 
-Ajout de parentStepID, setParentStepID et clearParentStepID
-Reprise des check screen et SearchWithHelper
-Commencer reprise de CheckInDB pour faire un step par rubrique
-Ajout de GlobalVariable.CAS_DE_TEST_NUM
++ mise en commun de TNR_Ecran, Nicolas met à jour Master TNR (MS SQL) et je copie les xml modiifés sur les 3 autres instances
 
 
 
