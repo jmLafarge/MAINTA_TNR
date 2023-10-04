@@ -1,0 +1,251 @@
+<!-- édité avec XMLSpy v2017 sp2 (x64) (http://www.altova.com) par MAINTA (Apave SA) -->
+<!-- edited with XMLSpy v2015 sp2 (x64) (http://www.altova.com) by Mainta (Apave Alsacienne SAS) -->
+<activepage>
+	<param>
+		<validation>
+			<update relative="yes">UpdateFOU</update>
+			<insert relative="yes">InsertFOU</insert>
+			<delete relative="yes">DeleteFOU</delete>
+		</validation>
+		<wysiwyg editable="yes" bootstrap="yes"/>
+	</param>
+	<formulaire name="MainForm" role="newDesign">
+		<headerzone/>
+		<togglepanel visible="yes" id="toggleEQU">
+			<visiblingtext>
+				<span>
+					<ml-text value="ID_CODFOU"></ml-text>
+				</span>
+			</visiblingtext>
+			<hiddingtext>
+				<span><ml-text value="hide"/></span>
+			</hiddingtext>
+			<tabpanel>
+				<tab>
+					<caption>
+						<span class="stock icon-002"></span>
+						<span class="clear"></span>
+						<span><ml-text value="ID_CODFOU"/></span>
+					</caption>
+					<fieldset>
+						<div class="row">
+							<div class="col-xl-5">
+								<label><ml-text value="ID_CODFOU"/>:</label>
+								<zone type="text" name="ID_CODFOU" form="MainForm" desposition="none" mode="required" db_maxlength="30"></zone>
+							</div>
+							<div class="col-xl-7"></div>
+						</div>
+						<div class="row">
+							<div class="col-xl-12">
+								<label><ml-text value="ST_NOM"/>:</label>
+								<zone type="text" name="ST_NOM" form="MainForm" width="100%" autocompletion="yes" mode="required" db_maxlength="50"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-12">
+								<label><ml-text value="ID_CODGES"/>:</label>
+								<zone type="lookupORG" name="ID_CODGES" form="MainForm" width="100%" autocompletion="yes" db_maxlength="200"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-3">
+								<zone type="checkbox" name="ST_CONSTR" form="MainForm" autolabel="yes" db_maxlength="1">
+									<ml-text value="ST_CONSTR"></ml-text>
+								</zone>
+							</div>
+							<div class="col-xl-3"></div>
+							<div class="col-xl-6">
+								<zone type="checkbox" name="ST_INA" form="MainForm" autocompletion="no" autolabel="yes" db_maxlength="1"><ml-text value="ST_INA"></ml-text></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6">
+								<label><ml-text value="ST_CODCOM"/>:</label>
+								<zone type="lookup" name="ST_CODCOM" mode="enabled" form="MainForm" display="ST_CODCOM" width="100%" lookupaction="F2?VR=CMP&amp;FVDCTX=NONE&amp;COLUMN=ID_CODCMP&amp;TABLE=CMP&amp;FORM=MainForm&amp;RETURNFIELD=ID_CODCMP&amp;RETURNDISPLAYFIELD=ID_CODCMP&amp;DATAFIELD=ST_CODCOM&amp;DISPLAYFIELD=ID_CODCMP" autocompletion="yes" inheritance="ID_CODFOU"><control reftable="CMP" column="ID_CODCMP"><!--control permet de faire de la saisie controlÃ©--></control></zone>
+							</div>
+							<div class="col-xl-6"></div>
+						</div>
+						<div class="row">
+							<div class="col-xl-12">
+								<title>Adresses</title>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-12">
+								<preservecontent>
+									<adresse></adresse>
+								</preservecontent>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-12">
+								<title>Contact</title>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6">
+								<label><ml-text value="ST_TELPHO"/>:</label>
+								<zone type="text" name="ST_TELPHO" form="MainForm" mode="enabled" db_maxlength="25"></zone>
+							</div>
+							<div class="col-xl-6">
+								<label><ml-text value="ST_CON"/>:</label>
+								<zone type="text" name="ST_CON" form="MainForm" mode="enabled" db_maxlength="50"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6">
+								<label><ml-text value="ST_TELMOB"/>:</label>
+								<zone type="text" name="ST_TELMOB" form="MainForm" mode="enabled" db_maxlength="20"></zone>
+							</div>
+							<div class="col-xl-6">
+								<label><ml-text value="ST_EMA"/>:</label>
+								<zone type="text" name="ST_EMA" form="MainForm" mode="enabled" db_maxlength="100"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6">
+								<label><ml-text value="ST_TELCOP"/>:</label>
+								<zone type="text" name="ST_TELCOP" form="MainForm" mode="enabled" db_maxlength="25"></zone>
+							</div>
+							<div class="col-xl-6">
+								<label><ml-text value="ST_TELEX"/>:</label>
+								<zone type="text" name="ST_TELEX" form="MainForm" db_maxlength="25"></zone>
+							</div>
+						</div>
+					</fieldset>
+				</tab>
+				<tab>
+					<caption>
+						<span class="stock icon-006"></span>
+						<span class="clear"></span>
+						<span><ml-text value="ID_NUMCDE"/></span>
+					</caption>
+					<fieldset>
+						<div class="row">
+							<div class="col-xl-12">
+								<title>Informations commande</title>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6">
+								<label><ml-text value="ST_PRIDEL"/>:</label>
+								<zone type="text" name="ST_PRIDEL" form="MainForm" db_maxlength="12"></zone>
+							</div><div class="col-xl-6">
+								<label><ml-text value="ID_CODPAI"/>:</label>
+								<zone type="lookup" name="ID_CODPAI" form="MainForm" mode="enabled" db_maxlength="30">
+									<control reftable="CONPAI" column="ID_CODPAI"></control>
+								</zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6">
+								<label><ml-text value="ST_NOTPRO"/>:</label>
+								<zone type="text" name="ST_NOTPRO" form="MainForm" mode="enabled" db_maxlength="22"></zone>
+							</div><div class="col-xl-6">
+								<label><ml-text value="ID_CODMOD"/>:</label>
+								<zone type="lookup" name="ID_CODMOD" form="MainForm" mode="enabled" db_maxlength="30">
+									<control reftable="CONMOD" column="ID_CODMOD"></control>
+								</zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6">
+								<label><ml-text value="ID_CODDEV"/>:</label>
+								<zone type="lookup" name="ID_CODDEV" form="MainForm" db_maxlength="30">
+									<control reftable="DEV" column="ID_CODDEV"></control>
+								</zone>
+							</div><div class="col-xl-6">
+								<label><ml-text value="ID_CODPOR"/>:</label>
+								<zone type="lookup" name="ID_CODPOR" form="MainForm" mode="enabled" db_maxlength="30">
+									<control reftable="CONPOR" column="ID_CODPOR"></control>
+								</zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6">
+								<label>Code emballage:</label>
+								<zone type="lookup" name="ID_CODEMB" form="MainForm" mode="enabled" db_maxlength="30">
+									<control reftable="CONEMB" column="ID_CODEMB"></control>
+								</zone>
+							</div><div class="col-xl-6">
+								<label><ml-text value="ST_REL"/>:</label>
+								<zone type="text" name="ST_REL" form="MainForm" mode="enabled" db_maxlength="12"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6">
+								<zone type="checkbox" name="ST_FIGCAT" form="MainForm" autocompletion="no" autolabel="yes" db_maxlength="1"><ml-text value="ST_FIGCAT"></ml-text></zone>
+							</div><div class="col-xl-6">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-12">
+								<title>Texte commande</title>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-12">
+								<label><ml-text value="ST_TXTBAS1"/>:</label>
+								<zone type="text" name="ST_TXTBAS1" form="MainForm" width="100%" autocompletion="yes" db_maxlength="50"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-12">
+								<label><ml-text value="ST_TXTBAS2"/>:</label>
+								<zone type="text" name="ST_TXTBAS2" form="MainForm" width="100%" autocompletion="yes" db_maxlength="50"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-12">
+								<label><ml-text value="ST_TXTBAS3"/>:</label>
+								<zone type="text" name="ST_TXTBAS3" form="MainForm" width="100%" autocompletion="yes" db_maxlength="50"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-12">
+								<label><ml-text value="ST_TXTBAS4"/>:</label>
+								<zone type="text" name="ST_TXTBAS4" form="MainForm" width="100%" autocompletion="yes" db_maxlength="50"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-12">
+								<label><ml-text value="ST_TXTBAS5"/>:</label>
+								<zone type="text" name="ST_TXTBAS5" form="MainForm" width="100%" autocompletion="yes" db_maxlength="50"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-12">
+								<label><ml-text value="ST_TXTBAS6"/>:</label>
+								<zone type="text" name="ST_TXTBAS6" form="MainForm" width="100%" autocompletion="yes" db_maxlength="50"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6">
+								<zone type="checkbox" name="ST_FIGCDE" form="MainForm" autocompletion="no" autolabel="yes" db_maxlength="1"><ml-text value="ST_FIGCDE"></ml-text></zone>
+							</div><div class="col-xl-6">
+							</div>
+						</div>
+					</fieldset>
+				</tab>
+				<tab>
+					<caption>
+						<span class="general icon-022"></span>
+						<span class="clear"></span>
+						<span><ml-text value="NOTES"/></span>
+					</caption>
+					<fieldset>
+						<div class="row">
+							<div class="col-xl-12">
+								<label><ml-text value="ID_NUMDOC"/>:</label>
+								<zone type="memo" name="ID_NUMDOC" mode="enabled" partial="yes" height="300" form="MainForm" db_maxlength="10" db_entier="10"></zone>
+							</div>
+						</div>
+					</fieldset>
+				</tab>
+			</tabpanel>
+		</togglepanel>
+		<buttonpanel form="MainForm" deletebutton="yes">
+			<!--blockbutton (yes/no) permet d'afficher ou non le bouton permettant de figer le bt dans la phase-->
+		</buttonpanel>
+	</formulaire>
+</activepage>

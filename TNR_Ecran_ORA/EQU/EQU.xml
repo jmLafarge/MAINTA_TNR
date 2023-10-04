@@ -1,0 +1,301 @@
+<!-- édité avec XMLSpy v2017 (x64) (http://www.altova.com) par MAINTA (Apave SA) -->
+<!-- edited with XMLSpy v2016 rel. 2 (x64) (http://www.altova.com) by MAINTA (SA APAVE) -->
+<activepage>
+	<param>
+		<validation>
+			<update relative="yes">UpdateEQU</update>
+			<insert relative="yes">InsertEQU</insert>
+			<delete relative="yes">DeleteEQU</delete>
+		</validation>
+		<wysiwyg editable="yes" bootstrap="yes"/>
+	</param>
+	<formulaire name="MainForm" role="newDesign">
+		<headerzone/>
+		<togglepanel visible="yes" id="toggleEQU">
+			<visiblingtext>
+				<span>
+					<ml-text value="ID_NUMEQU"></ml-text>
+				</span>
+			</visiblingtext>
+			<hiddingtext>
+				<span><ml-text value="hide"/></span>
+			</hiddingtext>
+			<tabpanel>
+				<tab>
+					<caption>
+						<span class="general icon-014"></span>
+						<span class="clear"></span>
+						<span><ml-text value="ID_NUMEQU"/></span>
+					</caption>
+					<fieldset>
+						<div class="row">
+							<div class="col-xl-4">
+								<label><ml-text value="ST_CODCOU"/>:</label>
+								<zone type="text" name="ST_CODCOU" form="MainForm" autocompletion="yes" mode="required" db_maxlength="30"></zone>
+							</div>
+							<div class="col-xl-5">
+								<label><ml-text value="ST_CODPERS"/>:</label>
+								<zone type="text" name="ST_CODPERS" form="MainForm" width="100%" autocompletion="yes" db_maxlength="30"></zone>
+							</div>
+							<div class="col-xl-1"></div>
+							<div class="col-xl-2">
+								<zone type="checkbox" name="ST_INA" form="MainForm" autocompletion="yes" autolabel="yes" db_maxlength="1">
+									<ml-text value="ST_INA"></ml-text>
+								</zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-12">
+								<label><ml-text value="ST_DES"/>:</label>
+								<zone type="text" name="ST_DESEQU" form="MainForm" width="100%" autocompletion="yes" mode="required" domain="T_DES" db_maxlength="100"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-12">
+								<label><ml-text value="ST_CODLON"/>:</label>
+								<zone type="text" name="ST_CODLON" form="MainForm" width="100%" autocompletion="no" db_maxlength="200"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-4">
+								<preservecontent>
+									<formatzone></formatzone>
+								</preservecontent>
+							</div>
+							<div class="col-xl-4">
+								<label><ml-text value="NU_CRI"/>:</label>
+								<preservecontent>
+									<zone type="select" name="NU_CRI" mode="enabled" desposition="none">
+										<options table="CRIT" value="ID_NUMCRI" text="ST_DES"></options>
+									</zone>
+								</preservecontent>
+							</div>
+							<div class="col-xl-4">
+								<zone type="checkbox" name="ST_NIVABS" form="MainForm" autocompletion="yes" autolabel="yes" db_maxlength="1">
+									<ml-text value="ST_NIVABS"></ml-text>
+								</zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6">
+								<label><ml-text value="ID_CODGES"/>:</label>
+								<zone type="lookupTree" name="ID_CODGES" form="MainForm" width="100%" autocompletion="yes" value="$from_context" db_maxlength="200"></zone>
+							</div>
+							<div class="col-xl-6">
+								<label><ml-text value="ID_NUMEMP"/>:</label>
+								<zone type="lookupTree" name="ID_NUMEMP" form="MainForm" width="100%" autocompletion="yes" value="$from_context" db_maxlength="10" db_entier="10"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6">
+								<label><ml-text value="ID_CODIMP"/>:</label>
+								<zone type="lookupTree" name="ID_CODIMP" form="MainForm" width="100%" autocompletion="yes" value="$from_context" db_maxlength="200"></zone>
+							</div>
+							<div class="col-xl-6">
+								<label><ml-text value="ID_NUMGRO"/>:</label>
+								<zone type="lookupTree" name="ID_NUMGRO" form="MainForm" width="100%" autocompletion="yes" value="$from_context"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-4">
+								<label><ml-text value="ID_CODCOM"/>:</label>
+								<zone type="lookup" name="ID_CODCOM" form="MainForm" width="100%" autocompletion="yes" db_maxlength="30"></zone>
+							</div>
+							<div class="col-xl-4">
+								<label><ml-text value="NU_USA"/>:</label>
+								<zone type="text" name="NU_USA" form="MainForm" width="100%" autocompletion="no" unit="ID_CODUNI" db_maxlength="13" db_entier="9" db_decimal="3"></zone>
+							</div>
+							<div class="col-xl-4">
+								<label><ml-text value="ID_CODCON"/>:</label>
+								<zone type="lookup" name="ID_CODCON" form="MainForm" width="100%" autocompletion="yes" value="$from_context" db_maxlength="30"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-5">
+								<label><ml-text value="ID_CODCONSIG"/>:</label>
+								<zone type="lookup" name="ID_CODCONSIG" form="MainForm" width="100%" autocompletion="yes" value="$from_context" db_maxlength="10"></zone>
+							</div>
+							<div class="col-xl-1"></div>
+							<div class="col-xl-6">
+								<label><ml-text value="ID_CODCLI_EQU"/>:</label>
+								<zone type="lookupDesig" name="ID_CODCLI" form="MainForm" width="100%" autocompletion="yes" db_maxlength="30"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-12">
+								<preservecontent>
+									<fichier></fichier>
+								</preservecontent>
+							</div>
+						</div>
+					</fieldset>
+				</tab>
+				<tab>
+					<caption>
+						<span class="general icon-016"></span>
+						<span class="clear"></span>
+						<span><ml-text value="fiche"/></span>
+					</caption>
+					<fieldset>
+						<div class="row">
+							<div class="col-xl-12">
+								<label><ml-text value="ST_NOMFOU"/>:</label>
+								<zone type="lookup" name="ST_NOMFOU" form="MainForm" width="100%" autocompletion="yes" db_maxlength="100"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-5">
+								<label><ml-text value="ST_REFFOU"/>:</label>
+								<zone type="lookup" name="ST_REFFOU" form="MainForm" width="100%" autocompletion="yes" db_maxlength="20"></zone>
+							</div><div class="col-xl-4">
+								<label><ml-text value="NU_PRIACH"/>:</label>
+								<zone type="text" name="NU_PRIACH" form="MainForm" width="100%" autocompletion="yes" unit="ID_CODDEV" data="float" db_maxlength="17" db_entier="11" db_decimal="5"></zone>
+							</div><div class="col-xl-3">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-4">
+								<label><ml-text value="ST_NOMCON"/>:</label>
+								<zone type="lookup" name="ST_NOMCON" form="MainForm" width="100%" autocompletion="yes" db_maxlength="15"></zone>
+							</div><div class="col-xl-5">
+								<label><ml-text value="ST_REFCON"/>:</label>
+								<zone type="lookup" name="ST_REFCON" form="MainForm" width="100%" autocompletion="yes" db_maxlength="20"></zone>
+							</div><div class="col-xl-3">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-4">
+								<label><ml-text value="DT_ACH"/>:</label>
+								<zone type="date" name="DT_ACH" form="MainForm" width="100%" autocompletion="yes" db_maxlength="10"></zone>
+							</div><div class="col-xl-4">
+								<label><ml-text value="DT_SER"/>:</label>
+								<zone type="date" name="DT_SER" form="MainForm" width="100%" autocompletion="yes" db_maxlength="10">
+								</zone>
+							</div><div class="col-xl-4">
+								<label><ml-text value="NU_PRIACT"/>:</label>
+								<zone type="text" name="NU_PRIACT" form="MainForm" width="100%" autocompletion="yes" unit="ID_CODDEV" db_maxlength="17" db_entier="11" db_decimal="5"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-4">
+								<label><ml-text value="DT_FINGAR"/>:</label>
+								<zone type="date" name="DT_FINGAR" form="MainForm" width="100%" autocompletion="yes" db_maxlength="10"></zone>
+							</div><div class="col-xl-4">
+								<label><ml-text value="DT_FINVIE"/>:</label>
+								<zone type="date" name="DT_FINVIE" form="MainForm" width="100%" autocompletion="yes" db_maxlength="10"></zone>
+							</div><div class="col-xl-4">
+								<label><ml-text value="NU_COUHOR"/>:</label>
+								<zone type="text" name="NU_COUHOR" form="MainForm" width="100%" data="float" autocompletion="yes" unit="ID_CODDEV" db_maxlength="17" db_entier="11" db_decimal="5"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-4">
+								<label><ml-text value="NU_USAGAR"/>:</label>
+								<zone type="text" name="NU_USAGAR" form="MainForm" width="100%" autocompletion="yes" unit="ID_CODUNI" db_maxlength="13" db_entier="9" db_decimal="3"></zone>
+							</div><div class="col-xl-4">
+								<label><ml-text value="NU_FINUSA"/>:</label>
+								<zone type="text" name="NU_FINUSA" form="MainForm" width="100%" autocompletion="yes" unit="ID_CODUNI" db_maxlength="13" db_entier="9" db_decimal="3"></zone>
+							</div><div class="col-xl-4">
+								<label><ml-text value="NU_COUARR"/>:</label>
+								<zone type="text" name="NU_COUARR" form="MainForm" width="100%" data="float" autocompletion="yes" unit="ID_CODDEV" db_maxlength="17" db_entier="11" db_decimal="5"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-5">
+								<label><ml-text value="ST_NUMINV"/>:</label>
+								<zone type="lookup" name="ST_NUMINV" form="MainForm" width="100%" autocompletion="yes" db_maxlength="30"></zone>
+							</div><div class="col-xl-5">
+								<label><ml-text value="ST_OBS"/>:</label>
+								<zone type="lookup" name="ST_OBS" form="MainForm" width="100%" autocompletion="yes" db_maxlength="20"></zone>
+							</div><div class="col-xl-2">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-5">
+								<label><ml-text value="ID_CODCAL"/>:</label>
+								<zone type="lookup" name="ID_CODCAL" form="MainForm" width="100%" value="$from_context" autocompletion="yes" db_maxlength="50"></zone>
+							</div><div class="col-xl-5">
+								<label><ml-text value="ID_CODCONTRA"/>:</label>
+								<zone type="lookup" name="ID_CODCONTRA" form="MainForm" width="100%" autocompletion="yes" value="$from_context" db_maxlength="30"></zone>
+							</div><div class="col-xl-2">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-3">
+								<zone type="checkbox" name="ST_COM" form="MainForm" autocompletion="yes" autolabel="yes" db_maxlength="1">
+									<ml-text value="ST_COM"></ml-text>
+								</zone>
+							</div><div class="col-xl-3">
+								<zone type="checkbox" name="ST_MAT" form="MainForm" autocompletion="yes" autolabel="yes" db_maxlength="1">
+									<ml-text value="ST_MAT"></ml-text>
+								</zone>
+							</div><div class="col-xl-3">
+								<zone type="checkbox" name="ST_CONTRABT" form="MainForm" autocompletion="yes" autolabel="yes" db_maxlength="1">
+									<ml-text value="ST_CONTRABT"></ml-text>
+								</zone>
+							</div><div class="col-xl-3">
+								<zone type="checkbox" name="ST_ANA" form="MainForm" autocompletion="yes" autolabel="yes">
+									<ml-text value="ST_ANA"></ml-text>
+								</zone>
+							</div>
+						</div>
+					</fieldset>
+				</tab>
+				<tab>
+					<caption>
+						<span class="general icon-022"></span>
+						<span class="clear"></span>
+						<span><ml-text value="notes"/></span>
+					</caption>
+					<fieldset>
+						<div class="row">
+							<div class="col-xl-12">
+								<label>Notes:</label>
+								<zone type="memo" name="ID_NUMDOC1" mode="enabled" partial="yes" height="300" form="MainForm" db_maxlength="10" db_entier="10"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-12">
+								<label><ml-text value="ID_NUMDOC2"/>:</label>
+								<zone type="memo" name="ID_NUMDOC2" mode="enabled" partial="yes" height="300" form="MainForm" db_maxlength="10" db_entier="10"></zone>
+							</div>
+						</div>
+					</fieldset>
+				</tab>
+				<tab>
+					<caption>
+						<span class="general icon-057"></span>
+						<span class="clear"></span>
+						<span><ml-text value="ADR"/></span>
+					</caption>
+					<fieldset>
+						<div class="row">
+							<div class="col-xl-12">
+								<preservecontent>
+									<adresse multiple="yes"></adresse>
+								</preservecontent>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-12">
+								<title image="icon-general icon-059">
+									<ml-text value="reperagepar"></ml-text>
+								</title>
+								<div class="row">
+									<div class="col-xl-12">
+										<preservecontent>
+											<reperagepar></reperagepar>
+										</preservecontent>
+									</div>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+				</tab>
+			</tabpanel>
+		</togglepanel>
+		<buttonpanel form="MainForm" deletebutton="yes" her_ST_ETA="yes" her_ST_ETA_default="N" her_pers="yes" her_pers_default="N" her_ecrasevalue="yes" her_ecrasevalue_default="N" her_ID_NUMEMP="yes" her_ID_NUMEMP_default="N" her_ID_CODIMP="yes" her_ID_CODIMP_default="N" her_ID_CODCOM="yes" her_ID_CODCOM_default="N" her_ID_NUMGRO="yes" her_ID_NUMGRO_default="N" her_ID_CODCONTRA="yes" her_ID_CODCONTRA_default="N" her_NU_COUARR="yes" her_NU_COUARR_default="N" her_NU_COUHOR="yes" her_NU_COUHOR_default="N" her_ID_CODCAL="yes" her_ID_CODCAL_default="N" her_BT="yes" her_BT_default="N" her_ST_NOMFOU="yes" her_ST_NOMFOU_default="N" her_ST_NOMCON="yes" her_ST_NOMCON_default="N" her_NU_TYPHER="yes" her_NU_TYPHER_default="N" her_ID_CODGES="yes" her_ID_CODGES_default="N" her_ID_CODCONSIG="yes" her_ID_CODCONSIG_default="N" her_NU_USA="yes" her_NU_USA_default="N" her_NU_USAINI="yes" her_NU_USAINI_default="N" her_CYCLEVIE="yes" her_CYCLEVIE_default="N" her_ST_ANA="yes" her_ST_ANA_default="N" her_ID_CODCLI="yes" her_ID_CODCLI_default="N" hercritBT="yes" hercritBT_default="N" hercritECH="yes" hercritECH_default="N" herCREATE_CLI="no" herCREATE_CLI_default="N">
+			<!--blockbutton (yes/no) permet d'afficher ou non le bouton permettant de figer le bt dans la phase-->
+		</buttonpanel>
+	</formulaire>
+</activepage>

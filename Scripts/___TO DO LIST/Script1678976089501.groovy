@@ -1,4 +1,24 @@
 
+/*
+*
+* -----------------------------------------------------------------------------------------------------
+* FAIT
+* -----------------------------------------------------------------------------------------------------
+*
+*
+
+Installattion Katalon sur 2e PC
+ - Test OK les 2 KS fonctionnent en // pendant 5 min et ensuite un se délogue automatiquement
+ 
+Sauvegarde des écrans de 2 MASTER
+Mise à jour des écrans des 2 env
+
+
+
+
+
+
+
 
 /*
 *
@@ -38,10 +58,7 @@
 		Trouver une solution pour RestoreDB.run(), apres une restauration il faut recycler, comment le faire par script ?
 
 
-	Revoir la class TO 
-	
-		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-		en fait on pourrait avoir TestObject tObj  = TO.make(myJDD,name) ;String msgTO = TO.getMsg() avec TO comme class static
+
 		
 
  
@@ -77,31 +94,6 @@ Vérifier MAT.ST_PAT dans tous les CDT
 
 
    
-
-
- * 
- * -----------------------------------------------------------------------------------------------------
- * FAIT
- * -----------------------------------------------------------------------------------------------------
- * 
- *  
-
-
-
-	LOT PROTO + 1A
-	***************
-		AD.SEC --> Fait
-		RO.ACT --> FAIT
-			RO.ACT.004EMP.SRA --> la fenetre Modal ne s'ouvre pas
-		RO.FOU --> FAIT
-		MP.CPT --> FAIT
-		RT.ART --> FAIT
-		RO.ORG --> FAIT
-		RT.MAT --> FAIT
-		TR.BTR
-		RT.EQU --> FAIT 
-		AD.DEP --> Fait
-		
 
 
 
@@ -188,11 +180,14 @@ Vérifier MAT.ST_PAT dans tous les CDT
  * EVOLUTION
  * -----------------------------------------------------------------------------------------------------
  * 
-	WEBWINDOW
-	
-		Ajout une gestion de nom de fenetre (comme addList dans Log) ou passer en non static (pour permettre de gèrer plusieurs fenetre en mm temps)
+
 		
+		
+	CLASS TO 
 	
+		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
+		en fait on pourrait avoir TestObject tObj  = TO.make(myJDD,name) ;String msgTO = TO.getMsg() avec TO comme class static
+		
 	
 	TEST CASE 
 	
@@ -205,6 +200,7 @@ Vérifier MAT.ST_PAT dans tous les CDT
 		car ça prend du temps à cause des timeout
 			- soit ne pas faire les steps si FAIL (du coup on n'aura pas le nombre de step habituel)
 			- soit les passer rapidement (agir sur le timeout ?)
+	
 	
 	GLOBALE VARIABLES
 		 Remplacer les GlobalVariable.CAS_DE_TEST_EN_COURS  et GlobalVariable.CAS_DE_TEST_PATTERN --> voir ou les mettre

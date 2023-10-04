@@ -1,0 +1,469 @@
+<!-- édité avec XMLSpy v2017 (x64) (http://www.altova.com) par MAINTA (Apave SA) -->
+<!-- edited with XMLSpy v2016 rel. 2 (x64) (http://www.altova.com) by MAINTA (SA APAVE) -->
+<activepage>
+	<param>
+		<config>
+			<skin>mainta</skin>
+			<css>
+        User/E50.css<!--emplacement publié relatif à /MOS_XML/-->
+			</css>
+		</config>
+		<validation>
+			<update relative="yes">UpdateE50</update>
+			<insert relative="yes">InsertE50</insert>
+			<delete relative="yes">DeleteE50</delete>
+		</validation>
+		<wysiwyg editable="yes" bootstrap="yes"/>
+	</param>
+	<style><![CDATA[select {width:60%}]]></style>
+	<formulaire name="MainForm" role="newDesign">
+		<headerzone/>
+		<togglepanel visible="yes" id="toggleMAT">
+			<visiblingtext>
+				<span>
+					<ml-text value="mat"></ml-text>
+				</span>
+			</visiblingtext>
+			<hiddingtext>
+				<span><ml-text value="hide"/></span>
+			</hiddingtext>
+			<tabpanel>
+				<tab>
+					<caption>
+						<span class="general icon-015"></span>
+						<span class="clear"></span>
+						<span><ml-text value="mat"/></span>
+					</caption>
+					<fieldset>
+						<div class="row">
+							<div class="col-xl-5">
+								<label><ml-text value="mat"/>:</label>
+								<zone type="identity" name="ID_NUMMAT" form="MainForm" width="100%" mode="required" domain="T_NUMMAT" remember="no" db_maxlength="30"></zone>
+							</div>
+							<div class="col-xl-5">
+								<label><ml-text value="numinv"/>:</label>
+								<zone type="text" width="100%" name="ST_NUMINV" data="varchar" form="MainForm" mode="enabled" db_maxlength="30"></zone>
+							</div>
+							<div class="col-xl-2">
+								<zone type="checkbox" name="ST_INA" mode="enabled" noclear="1" db_maxlength="1">
+									<ml-text value="ST_INA"></ml-text>
+								</zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-12">
+								<label><ml-text value="ST_DES"/>:</label>
+								<zone mode="required" type="text" name="ST_DES" data="varchar" form="MainForm" width="100%" db_maxlength="100"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-4">
+								<label><ml-text value="ST_ETA"/>:</label>
+								<preservecontent>
+									<formatzone></formatzone>
+								</preservecontent>
+							</div>
+							<div class="col-xl-4">
+								<label><ml-text value="type"/>:</label>
+								<preservecontent>
+									<zone type="select" name="NU_TYP" nolegend="yes" db_maxlength="3" db_entier="3">
+										<option value="0">
+											<ml-text value="nosstock"></ml-text>
+										</option>
+										<option value="1">
+											<ml-text value="sstock"></ml-text>
+										</option>
+										<option value="2">
+											<ml-text value="smoyen"></ml-text>
+										</option>
+									</zone>
+								</preservecontent>
+							</div>
+							<div class="col-xl-4">
+								<label><ml-text value="NU_PRISTO"/>:</label>
+								<zone mode="enabled" type="text" name="NU_PRISTO" data="float" form="MainForm" width="100%" unit="ID_CODDEV" db_maxlength="17" db_entier="11" db_decimal="5"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-5">
+								<label><ml-text value="ARTICLE"/>:</label>
+								<zone type="lookup" width="100%" name="ID_CODART" data="varchar" form="MainForm" mode="enabled" value="$from_context" lookupaction="F2?VR=ART&amp;FVDCTX=ART_NOM&amp;TABLE=ART&amp;FORM=MainForm&amp;RETURNFIELD=ID_CODART&amp;RETURNDISPLAYFIELD=ID_CODART&amp;DATAFIELD=ID_CODART&amp;DISPLAYFIELD=ID_CODART" autocompletion="yes" domain="T_CODART" db_maxlength="30">
+									<control reftable="ART" column="ID_CODART">
+										<!--control permet de faire de la saisie controlé-->
+									</control>
+								</zone>
+							</div>
+							<div class="col-xl-5">
+								<label><ml-text value="ID_CODMOY"/>:</label>
+								<zone type="lookup" width="100%" name="ID_CODMOY" data="varchar" form="MainForm" mode="enabled" value="$from_context" autocompletion="yes" domain="T_CODMOY" db_maxlength="30">
+									<control reftable="MOY" column="ID_CODMOY">
+										<!--control permet de faire de la saisie controlé-->
+									</control>
+								</zone>
+							</div>
+							<div class="col-xl-2"></div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6">
+								<label><ml-text value="org"/>:</label>
+								<zone type="lookupTree" name="ID_CODGES" data="varchar" width="100%" form="MainForm" mode="enabled" value="$from_context" autocompletion="yes" remember="no" db_maxlength="200"></zone>
+							</div>
+							<div class="col-xl-4">
+								<label><ml-text value="ID_NUMCRI"/>:</label>
+								<zone mode="enabled" type="lookup" name="ID_NUMCRI" data="integer" form="MainForm" lookupaction="F2?VR=CRI&amp;FVDCTX=NONE&amp;TABLE=CRI&amp;COLUMN=ID_NUMCRI&amp;FORM=MainForm&amp;RETURNFIELD=ID_NUMCRI&amp;RETURNDISPLAYFIELD=ID_NUMCRI&amp;DATAFIELD=ID_NUMCRI&amp;DISPLAYFIELD=ID_NUMCRI" width="100%" db_maxlength="3" db_entier="3">
+									<control reftable="CRI" column="ID_NUMCRI">
+										<!--control permet de faire de la saisie controlé-->
+									</control>
+								</zone>
+							</div>
+							<div class="col-xl-2"></div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6">
+								<label><ml-text value="IMPUTATION"/>:</label>
+								<zone type="lookupTree" width="100%" name="ID_CODIMP" data="varchar" form="MainForm" mode="enabled" value="$from_context" lookupaction="F2?VR=IMP&amp;FVDCTX=NONE&amp;TABLE=IMP&amp;COLUMN=ID_CODIMP&amp;FORM=MainForm&amp;RETURNFIELD=ID_CODIMP&amp;RETURNDISPLAYFIELD=ID_CODIMP&amp;DATAFIELD=ID_CODIMP&amp;DISPLAYFIELD=ID_CODIMP" autocompletion="yes" db_maxlength="200"></zone>
+							</div>
+							<div class="col-xl-6">
+								<label><ml-text value="GROUPE"/>:</label>
+								<zone type="lookupTree" width="100%" name="ID_NUMGRO" data="varchar" form="MainForm" mode="enabled" value="$from_context" lookupaction="F2?VR=GRO&amp;FVDCTX=NONE&amp;TABLE=GRO&amp;COLUMN=ID_NUMGRO&amp;FORM=MainForm&amp;RETURNFIELD=ST_CODLON&amp;RETURNDISPLAYFIELD=ST_CODLON&amp;DATAFIELD=GRO_CODLON&amp;DISPLAYFIELD=GRO_CODLON" autocompletion="yes" domain="T_CODLON" db_maxlength="10" db_entier="10"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-4">
+								<label><ml-text value="COMPTEUR"/>:</label>
+								<zone type="lookup" width="100%" name="ID_CODCOM" data="varchar" form="MainForm" mode="enabled" value="$from_context" lookupaction="javascript:LookupWnd=window.open('F2?VR=COM&amp;FVDCTX=COM&amp;TABLE=COM&amp;&amp;FORM=MainForm&amp;RETURNFIELD=ID_CODCOM&amp;RETURNDISPLAYFIELD=ID_CODCOM&amp;DATAFIELD=ID_CODCOM&amp;DISPLAYFIELD=ID_CODCOM&amp;SEARCH_ID_CODUNI='+$('#ID_CODUNI').val(),'Wnd_ID_CODCLE','left=100,top=100,width=700,height=580,scrollbars,resizable');LookupWnd.focus();return false;" customizedspecialjslookup="yes" autocompletion="yes" domain="T_CODCOM" db_maxlength="30">
+									<control reftable="COM" column="ID_CODCOM">
+										<!--control permet de faire de la saisie controlé-->
+									</control>
+								</zone>
+							</div>
+							<div class="col-xl-4">
+								<label><ml-text value="NU_USA"/>:</label>
+								<zone type="text" width="80%" name="NU_USA" data="float" form="MainForm" mode="enabled" unit="ID_CODUNI" db_maxlength="13" db_entier="9" db_decimal="3"></zone>
+							</div>
+							<div class="col-xl-4">
+								<label><ml-text value="ID_CODCON"/>:</label>
+								<zone type="lookup" width="100%" name="ID_CODCON" data="varchar" form="MainForm" mode="enabled" lookupaction="javascript: LookupWnd =window.open('F2?VR=CFO&amp;FVDCTX=NONE&amp;TABLE=CFO&amp;FORM=MainForm&amp;RETURNFIELD=ID_CODCON&amp;RETURNDISPLAYFIELD=ID_CODCON&amp;DATAFIELD=ID_CODCON&amp;DISPLAYFIELD=ID_CODCON&amp;FILTER=ST_TABPHY!='+'\'-\'','Wnd_PST_SIGNAL','left=100,top=100,width=700,height=580,scrollbars,resizable');LookupWnd.focus();return false;" customizedspecialjslookup="yes" autocompletion="yes" domain="T_CODCFO" db_maxlength="30">
+									<control reftable="CFO" column="ID_CODCON">
+										<!--control permet de faire de la saisie controlé-->
+									</control>
+								</zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-4">
+								<zone type="checkbox" name="ST_PAT" mode="enabled" db_maxlength="1">
+									<ml-text value="ST_PAT"></ml-text>
+								</zone>
+							</div>
+							<div class="col-xl-4">
+								<zone type="checkbox" name="ST_TEC" mode="enabled" value="O" autocompletion="no" remember="no" inh_replace="no" db_maxlength="1"><ml-text value="ST_TEC"></ml-text></zone>
+							</div>
+							<div class="col-xl-4">
+								<zone type="checkbox" name="ST_REP" mode="enabled" db_maxlength="1">
+									<ml-text value="ST_REP"></ml-text>
+								</zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-4">
+								<zone type="checkbox" width="100%" name="ST_SOUASS" data="varchar" form="MainForm" mode="enabled" value="$from_context" radiovalue="O" db_maxlength="1">
+									<ml-text value="ST_SOUASS"></ml-text>
+								</zone>
+							</div>
+							<div class="col-xl-4">
+								<zone type="checkbox" width="100%" name="ST_SOUINV" form="MainForm" mode="enabled" value="$from_context" radiovalue="O" db_maxlength="1">
+									<ml-text value="ST_SOUINV"></ml-text>
+								</zone>
+							</div>
+							<div class="col-xl-4"></div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6">
+								<label><ml-text value="DT_ENT"/>:</label>
+								<zone mode="enabled" type="date" name="DT_ENT" data="datetime" form="MainForm" width="100%" db_maxlength="10"></zone>
+							</div>
+							<div class="col-xl-6">
+								<label><ml-text value="DT_SER"/>:</label>
+								<zone mode="enabled" type="date" name="DT_SER" data="date" form="MainForm" width="100%" db_maxlength="10"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6">
+								<label><ml-text value="NU_VALINI"/>:</label>
+								<zone mode="enabled" type="text" name="NU_VALINI" data="float" form="MainForm" unit="ID_CODDEV" width="100%" db_maxlength="17" db_entier="11" db_decimal="5"></zone>
+							</div>
+							<div class="col-xl-6">
+								<label><ml-text value="NU_VALINV"/>:</label>
+								<zone mode="enabled" type="text" name="NU_VALINV" data="float" form="MainForm" unit="ID_CODDEV" width="100%" db_maxlength="17" db_entier="11" db_decimal="5"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6">
+								<label><ml-text value="DT_DEP"/>:</label>
+								<zone type="date" name="DT_DEP" mode="enabled" size="10"></zone>
+							</div>
+							<div class="col-xl-6">
+								<label><ml-text value="DT_RET"/>:</label>
+								<zone type="date" name="DT_RET" mode="enabled" size="10"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-12">
+								<preservecontent>
+									<fichier></fichier>
+								</preservecontent>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-12">
+								<preservecontent>
+									<adresse></adresse>
+								</preservecontent>
+							</div>
+						</div>
+					</fieldset>
+				</tab>
+				<tab>
+					<caption>
+						<span class="general icon-016"></span>
+						<span class="clear"></span>
+						<span>Fiche</span>
+					</caption>
+					<fieldset>
+						<div class="row">
+							<div class="col-xl-5">
+								<label><ml-text value="FOURNISSEUR"/>:</label>
+								<zone type="lookup" width="100%" name="ID_CODFOUINI" data="varchar" form="MainForm" mode="enabled" value="$from_context" lookupaction="F2?VR=FOU&amp;FVDCTX=FOU&amp;TABLE=FOU&amp;FORM=MainForm&amp;RETURNFIELD=ID_CODFOU&amp;RETURNDISPLAYFIELD=ID_CODFOU&amp;DATAFIELD=ID_CODFOUINI&amp;DISPLAYFIELD=ID_CODFOUINI" autocompletion="yes" domain="T_CODFOU" db_maxlength="30">
+									<control reftable="FOU" column="ID_CODFOU">
+										<!--control permet de faire de la saisie controlé-->
+									</control>
+								</zone>
+							</div><div class="col-xl-7">
+								<label><ml-text value="ST_REFFOU"/>:</label>
+								<zone mode="enabled" type="text" name="ST_REFFOU" data="varchar" form="MainForm" width="100%" domain="40" db_maxlength="40"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-5">
+								<label><ml-text value="ID_CODCONSTR"/>:</label>
+								<zone type="lookup" width="100%" name="ID_CODCONSTR" data="varchar" form="MainForm" mode="enabled" value="$from_context" lookupaction="F2?VR=FOUCONSTR&amp;FVDCTX=FOU&amp;TABLE=FOU&amp;FORM=MainForm&amp;RETURNFIELD=ID_CODFOU&amp;RETURNDISPLAYFIELD=ID_CODFOU&amp;DATAFIELD=ID_CODCONSTR&amp;DISPLAYFIELD=ID_CODCONSTR&amp;" autocompletion="yes" domain="T_CODFOU" db_maxlength="30">
+									<control reftable="FOU" column="ID_CODFOU">
+										<!--control permet de faire de la saisie controlé-->
+									</control>
+								</zone>
+							</div><div class="col-xl-7">
+								<label><ml-text value="ST_REFCON"/>:</label>
+								<zone mode="enabled" type="text" name="ST_REFCON" data="varchar" form="MainForm" width="100%" domain="40" db_maxlength="40"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-4">
+								<label><ml-text value="DT_ACH"/>:</label>
+								<zone mode="enabled" type="date" name="DT_ACH" data="date" form="MainForm" width="100%" db_maxlength="10"></zone>
+							</div><div class="col-xl-4">
+								<label><ml-text value="DT_FAC"/>:</label>
+								<zone mode="enabled" type="date" name="DT_FAC" data="date" form="MainForm" width="100%" db_maxlength="10"></zone>
+							</div><div class="col-xl-4">
+								<label><ml-text value="NU_PRIACH"/>:</label>
+								<zone mode="enabled" type="text" name="NU_PRIACH" data="float" form="MainForm" width="100%" unit="ID_CODDEV" db_maxlength="17" db_entier="11" db_decimal="5"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-4">
+								<label><ml-text value="DT_FINGAR"/>:</label>
+								<zone mode="enabled" type="date" name="DT_FINGAR" data="datetime" form="MainForm" width="100%" db_maxlength="10"></zone>
+							</div><div class="col-xl-4">
+								<label><ml-text value="DT_FINVIE"/>:</label>
+								<zone mode="enabled" type="date" name="DT_FINVIE" data="date" form="MainForm" width="100%" db_maxlength="10"></zone>
+							</div><div class="col-xl-4">
+								<label><ml-text value="NU_PRIACT"/>:</label>
+								<zone mode="enabled" type="text" name="NU_PRIACT" data="float" form="MainForm" width="100%" unit="ID_CODDEV" db_maxlength="17" db_entier="11" db_decimal="5"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-4">
+								<label><ml-text value="NU_USAGAR"/>:</label>
+								<zone mode="enabled" type="text" name="NU_USAGAR" data="float" form="MainForm" unit="ID_CODUNI" width="100%" db_maxlength="13" db_entier="9" db_decimal="3"></zone>
+							</div><div class="col-xl-4">
+								<label><ml-text value="NU_FINUSA"/>:</label>
+								<zone mode="enabled" type="text" name="NU_FINUSA" data="float" form="MainForm" unit="ID_CODUNI" width="100%" db_maxlength="13" db_entier="9" db_decimal="3"></zone>
+							</div><div class="col-xl-4">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-5">
+								<label><ml-text value="ID_CODCAL"/>:</label>
+								<zone mode="enabled" type="lookupDesig" name="ID_CODCAL" data="varchar" form="MainForm" width="100%" domain="T_CODCAL" db_maxlength="50">
+									<control reftable="CAL" column="ID_CODCAL">
+										<!--control permet de faire de la saisie controlé-->
+									</control>
+								</zone>
+							</div><div class="col-xl-5">
+								<label><ml-text value="ID_CODGAR"/>:</label>
+								<zone type="lookup" width="100%" name="ID_CODGAR" data="varchar" form="MainForm" mode="enabled" value="$from_context" lookupaction="F2?VR=GAR&amp;FVDCTX=NONE&amp;TABLE=GAR&amp;FORM=MainForm&amp;RETURNFIELD=ID_CODGAR&amp;RETURNDISPLAYFIELD=ID_CODGAR&amp;DATAFIELD=ID_CODGAR&amp;DISPLAYFIELD=ID_CODGAR" autocompletion="yes" domain="T_CODGAR">
+									<control reftable="GAR" column="ID_CODGAR">
+										<!--control permet de faire de la saisie controlé-->
+									</control>
+								</zone>
+							</div><div class="col-xl-2">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-5">
+								<label><ml-text value="ID_REFCOM"/>:</label>
+								<zone mode="enabled" type="lookupDesig" name="ID_REFCOM" data="varchar" form="MainForm" width="100%" unit="ID_CODDEV" domain="T_REFCOM" db_maxlength="20">
+									<control reftable="REFCOM" column="ID_REFCOM">
+										<!--control permet de faire de la saisie controlé-->
+									</control>
+								</zone>
+							</div><div class="col-xl-5">
+								<label><ml-text value="ST_AFFCOM"/>:</label>
+								<zone mode="enabled" type="text" name="ST_AFFCOM" data="text" form="MainForm" width="100%" domain="T_AFFCOM" db_maxlength="20"></zone>
+							</div><div class="col-xl-2">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6">
+								<label><ml-text value="interpro"/>:</label>
+								<zone type="lookupORG" name="ID_CODINTPRO" data="varchar" width="100%" form="MainForm" mode="enabled" value="$from_context" desposition="bottom" browsetype="P" interonly="no" db_maxlength="50">
+									<!--browsetype can be a set of [D, I, S, A, R, P, E, M, G, U]-->
+								</zone>
+							</div><div class="col-xl-6">
+								<label><ml-text value="interges"/>:</label>
+								<zone type="lookupORG" name="ID_CODINTGES" data="varchar" width="100%" form="MainForm" mode="enabled" interonly="no" value="$from_context" desposition="bottom" browsetype="G" db_maxlength="50">
+									<!--browsetype can be [D, I, S, A, R, P, E, M, G, U]-->
+								</zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-6">
+								<label><ml-text value="interexp"/>:</label>
+								<zone type="lookupORG" name="ID_CODINTEXP" data="varchar" width="100%" form="MainForm" interonly="no" mode="enabled" value="$from_context" desposition="bottom" browsetype="E" db_maxlength="50">
+									<!--browsetype can be [D, I, S, A, R, P, E, M, G, U]-->
+								</zone>
+							</div><div class="col-xl-6">
+								<label><ml-text value="intermai"/>:</label>
+								<zone type="lookupORG" name="ID_CODINTMAI" data="varchar" width="100%" form="MainForm" mode="enabled" interonly="no" value="$from_context" desposition="bottom" browsetype="M" db_maxlength="50">
+									<!--browsetype can be [D, I, S, A, R, P, E, M, G, U]-->
+								</zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-3">
+								<zone type="checkbox" name="ST_CONTRA" mode="enabled" db_maxlength="1">
+									<ml-text value="ST_CONTRA"></ml-text>
+								</zone>
+							</div><div class="col-xl-3">
+								<zone type="checkbox" name="ST_CONTRABT" mode="enabled" db_maxlength="1">
+									<ml-text value="ST_CONTRABT"></ml-text>
+								</zone>
+							</div><div class="col-xl-3">
+								<zone type="checkbox" name="ST_PRE" mode="enabled" db_maxlength="1">
+									<ml-text value="ST_PRE"></ml-text>
+								</zone>
+							</div><div class="col-xl-3">
+								<zone type="checkbox" name="ST_INS" mode="enabled" db_maxlength="1">
+									<ml-text value="ST_INS"></ml-text>
+								</zone>
+							</div>
+						</div>
+					</fieldset>
+				</tab>
+				<tab>
+					<caption>
+						<span class="general icon-022"></span>
+						<span class="clear"></span>
+						<span><ml-text value="textmat"/></span>
+					</caption>
+					<fieldset>
+						<div class="row">
+							<div class="col-xl-12">
+								<label><ml-text value="ID_NUMDOC"/>:</label>
+								<zone type="memo" name="ID_NUMDOC" mode="enabled" partial="yes" rows="15" height="300" form="MainForm" db_maxlength="10" db_entier="10"></zone>
+							</div>
+						</div>
+					</fieldset>
+				</tab>
+				<tab>
+					<caption>
+						<span class="gbt icon-027"></span>
+						<span class="clear"></span>
+						<span><ml-text value="state"/></span>
+					</caption>
+					<fieldset>
+						<div class="row">
+							<div class="col-xl-2">
+								<preservecontent>
+									<statezone value="P">
+										<ml-text value="pose"></ml-text>
+									</statezone>
+								</preservecontent>
+							</div><div class="col-xl-7">
+								<label><ml-text value="EMPLACEMENT"/>:</label>
+								<zone type="lookupTree" name="ID_NUMEMP" mode="enabled" form="MainForm" autocompletion="yes" desposition="bottom" size="30" db_maxlength="10" db_entier="10">
+									<!--LookupTree supporte ID_NUMEQU et ID_NUMEMP... cela défini aussi son type-->
+									<!--desposition: position de la designation de l'equipement: right/top/bottom/none-->
+								</zone>
+							</div><div class="col-xl-3">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-5">
+								<label><ml-text value="EQU_CODLON"/>:</label>
+								<zone type="text" name="ST_CODLON" desposition="none" mode="disabled"></zone>
+							</div><div class="col-xl-7">
+								<label><ml-text value="EQU_DES"/>:</label>
+								<zone type="text" name="EQU_DES" desposition="none" mode="disabled"></zone>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-2">
+								<preservecontent>
+									<statezone value="S">
+										<ml-text value="stock"></ml-text>
+									</statezone>
+								</preservecontent>
+							</div><div class="col-xl-5">
+								<label><ml-text value="ID_CODMAG"/>:</label>
+								<zone type="lookupMAG" width="100%" name="ID_CODMAG" data="varchar" desposition="bottom" form="MainForm" mode="enabled" value="$from_context" lookupparam="FILTER=ST_VIR=\'N\' AND ST_INA=\'N\' " db_maxlength="30">
+									<control reftable="MAG" column="ID_CODMAG">
+										<!--control permet de faire de la saisie controlé-->
+									</control>
+								</zone>
+							</div><div class="col-xl-5">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-2">
+								<preservecontent>
+									<statezone value="R">
+										<ml-text value="rep"></ml-text>
+									</statezone>
+								</preservecontent>
+							</div><div class="col-xl-7">
+								<label><ml-text value="ID_CODFOU"/>:</label>
+								<zone type="text" name="ID_CODFOU" mode="disabled" db_maxlength="30"></zone>
+							</div><div class="col-xl-3">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-2">
+								<preservecontent>
+									<statezone value="A">
+										<ml-text value="autre"></ml-text>
+									</statezone>
+								</preservecontent>
+							</div><div class="col-xl-9">
+								<label><ml-text value="ST_AUT"/>:</label>
+								<zone type="text" name="ST_AUT" mode="disabled" db_maxlength="100"></zone>
+							</div><div class="col-xl-1">
+							</div>
+						</div>
+					</fieldset>
+				</tab>
+			</tabpanel>
+		</togglepanel>
+		<buttonpanel form="MainForm" numauto="yes" numauto_default="N"/>
+	</formulaire>
+</activepage>
