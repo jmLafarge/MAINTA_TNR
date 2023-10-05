@@ -227,7 +227,7 @@ public class Text {
 			}
 			String errMsg = WUI.goToElementByObj(tObj, name, timeout, status)
 			if (!errMsg) {
-				String gText = KW.getTextByObj(tObj)
+				String gText = WUI.getTextByObj(tObj)
 				if (WebUI.verifyElementText(tObj, text,FailureHandling.OPTIONAL)) {
 					TNRResult.addSTEPPASS(strStepID,"Vérification du texte '$text' sur '${tObj.getObjectId()}'")
 					ret = true

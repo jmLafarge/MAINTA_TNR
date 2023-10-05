@@ -28,6 +28,10 @@ public class TNRResult {
 
 
 
+	public static setAllowScreenshots(boolean allowScreenshots) {
+		XLSResult.setAllowScreenshots(allowScreenshots)
+	}
+	
 	public static addDETAIL (String msg) {
 		if (testCaseStarted) {
 			addStepInResult(msg,'DETAIL')

@@ -19,11 +19,11 @@ import tnrWebUI.StepID
  */
 @CompileStatic
 public class CheckInDB {
-	
+
 	private static final String CLASS_NAME = 'CheckInDB'
-		
-	
-	
+
+
+
 	public static void verifyMaintaVersion( String maintaVersion) {
 		Log.addTraceBEGIN(CLASS_NAME,"verifyMaintaVersion",[ maintaVersion:maintaVersion])
 		String strStepID = StepID.getStrStepID(CLASS_NAME + 'verifyMaintaVersion')
@@ -36,45 +36,42 @@ public class CheckInDB {
 		}
 		Log.addTraceEND(CLASS_NAME,"verifyMaintaVersion")
 	}
-	
-	
-	
-	
+
+
+
+
 
 
 	static void checkIDNotInBD( JDD myJDD){
 
 		Log.addTraceBEGIN(CLASS_NAME,"checkIDNotInBD",[myJDD:myJDD.toString()])
 		String strStepID = StepID.getStrStepID(CLASS_NAME + 'checkIDNotInBD' + myJDD.toString())
-		Thread.sleep(500)
-		//boolean pass = true
-		String status = 'PASS'
+		Thread.sleep(100)
 		int nbrLigneCasDeTest =myJDD.getNbrLigneCasDeTest()
 
-		TNRResult.addBeginBlock("Début de la vérification de la suppression des valeurs en Base de Données")
-
+		TNRResult.addSTEPACTION("Vérification de la suppression des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
+		TNRResult.setAllowScreenshots(false)
+		
 		for (casDeTestNum in 1..nbrLigneCasDeTest) {
 			myJDD.setCasDeTestNum(casDeTestNum)
 			if (nbrLigneCasDeTest>1) {
 				TNRResult.addSUBSTEP("Contrôle de la suppression du cas de test $casDeTestNum / $nbrLigneCasDeTest")
 			}
 
-			def fval =SQL.getFirstVal("SELECT count(*) FROM " + myJDD.getDBTableName() + SQL.getWhereWithAllPK(myJDD,casDeTestNum))
+			def fval =SQL.getFirstVal("SELECT count(*) FROM " + myJDD.getDBTableName() + SQL.getWhereWithAllPK(myJDD))
 			int ret = (fval) ? fval as int: 0
-			if (ret>0) {
-				TNRResult.addDETAIL("Supression KO")
-				//pass = false
-				status = 'FAIL'
+			if (ret == 0) {
+				TNRResult.addSTEPPASS(strStepID,"Suppression OK" )
+			}else {
+				TNRResult.addSTEPFAIL(strStepID,"Suppression KO" )
 			}
 		}
-
-		TNRResult.addEndBlock("Fin de la  vérification de la suppression des valeurs en Base de Données",status)
 		Log.addTraceEND(CLASS_NAME,"checkIDNotInBD")
 	}
 
-	
-	
-	
+
+
+
 	/**
 	 * Vérification à la fin des insertions, donc dans le cas de 2 insertions, il faut boucler sur le nombre d'insertions
 	 *
@@ -88,16 +85,12 @@ public class CheckInDB {
 
 		Log.addTraceBEGIN(CLASS_NAME,"checkJDDWithBD",[ myJDD:myJDD.toString() , specificValueMap:specificValueMap , sql:sql])
 		String strStepID = StepID.getStrStepID(CLASS_NAME + 'checkJDDWithBD' + myJDD.toString())
-		
-		Thread.sleep(500)
 
-		String verifStatus = 'PASS'
+		Thread.sleep(100)
 
-		//04102023 TNRResult.addBeginBlock("Début de la vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
-		TNRResult.addSTEPBLOCK("Vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
-
+		TNRResult.addSTEPACTION("Vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
+		TNRResult.setAllowScreenshots(false)
 		int nbrLigneCasDeTest =myJDD.getNbrLigneCasDeTest()
-
 
 		for (casDeTestNum in 1..nbrLigneCasDeTest) {
 			myJDD.setCasDeTestNum(casDeTestNum)
@@ -114,173 +107,158 @@ public class CheckInDB {
 
 			}else {
 
-				String whereWithAllPK = SQL.getWhereWithAllPK(myJDD,casDeTestNum)
+				String whereWithAllPK = SQL.getWhereWithAllPK(myJDD)
 				query = "SELECT * FROM " + myJDD.getDBTableName() + whereWithAllPK
-				
+
 				if (whereWithAllPK.contains(JDDKW.getKW_SEQUENCEID())) {
 					TNRResult.addSTEPFAIL(strStepID, "Requête impossible, pas de SEQUENCE_ID connu")
 					TNRResult.addDETAIL(query)
-					verifStatus = 'FAIL'
 				}else {
 					try {
 						List rows = SQL.getRows(query)
 						if (rows.size() == 0) {
 							TNRResult.addSTEPFAIL(strStepID, "Pas de résultat pour la requête : $query")
-							verifStatus = 'FAIL'
 						}else if (rows.size() > 1){
 							TNRResult.addSTEPFAIL(strStepID, rows.size() + "résultats pour la requête : $query")
-							verifStatus = 'FAIL'
 						}else {
 							row=rows[0]
+	
 						}
 					}
 					catch(Exception ex) {
-						verifStatus = 'ERROR'
 						TNRResult.addSTEPERROR(strStepID, "Erreur d'execution de sql.rows($query) : ")
 						TNRResult.addDETAIL(ex.getMessage())
 					}
 				}
 			}
 
-
-			//04102023 if (verifStatus =='PASS') {
-
+			if (row) {
 				row.each{fieldName,val ->
-					//verifStatus = SQL.checkValue(myJDD,fieldName.toString(), val,verifStatus, specificValueMap,casDeTestNum)
 					checkValue(myJDD,fieldName.toString(), val, specificValueMap,casDeTestNum)
-				}//row
-
-			//04102023}//pass
-		}//for
-
-		//04102023 TNRResult.addEndBlock("Fin de la vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')',verifStatus)
+				}
+			}
+		}
+		TNRResult.setAllowScreenshots(true)
 		Log.addTraceEND(CLASS_NAME,"checkJDDWithBD")
-
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	public static void checkValue(tnrJDDManager.JDD myJDD, String fieldName, def valDB, Map specificValueMap, int casDeTestNum) {
 		Log.addTraceBEGIN(CLASS_NAME,"checkValue",[myJDD:myJDD.toString() , fieldName:fieldName , val:valDB , specificValueMap:specificValueMap,casDeTestNum:casDeTestNum])
-		
+
 		String strStepID = StepID.getStrStepID(CLASS_NAME + 'checkValue' + myJDD.toString() + fieldName)
 		def valJDD = myJDD.getData(fieldName,casDeTestNum)
 		boolean specificValue = !specificValueMap.isEmpty() && specificValueMap.containsKey(fieldName)
-		
-		if (myJDD.myJDDParam.isOBSOLETE(fieldName)) {
-			addStepInfo(strStepID,fieldName, "Pas de contrôle la rubrique est OBSOLETE")
-			
-		}else if (myJDD.isDataUPD(fieldName,casDeTestNum)) {
 
+		if (myJDD.myJDDParam.isOBSOLETE(fieldName)) {
+			addStepInfo(strStepID,fieldName, "La rubrique est OBSOLETE")
+
+		}else if (myJDD.isDataUPD(fieldName,casDeTestNum)) {
 			String newVal = myJDD.getData(fieldName,casDeTestNum,true).toString()
 
 			if (newVal==valDB.toString()) {
-				addStepPass(strStepID, '',fieldName,newVal,valDB)
+				addStepPass(strStepID, fieldName,newVal,valDB)
 			}else {
-				addStepFail(strStepID, '',fieldName,newVal,valDB)
+				addStepFail(strStepID, fieldName,newVal,valDB)
 			}
-		
+
 		}else if (JDDKW.isNU(valJDD)){
-			
-			addStepInfo(strStepID,fieldName, "Pas de contrôle la rubrique est NU (non utilisée)")
-			
+			addStepInfo(strStepID,fieldName, "La rubrique est NU (non utilisée)")
+
 		}else if (JDDKW.isNULL(valJDD)) {
-			
 			if (valDB == null) {
-				addStepPass(strStepID, '',fieldName,'NULL',valDB)
+				addStepPass(strStepID, fieldName,'NULL',valDB)
 			}else {
-				addStepFail(strStepID, '',fieldName,'NULL',valDB)
+				addStepFail(strStepID, fieldName,'NULL',valDB)
 			}
 
 		}else if (JDDKW.isVIDE(valJDD)) {
-			
 			if (valDB == '') {
-				addStepPass(strStepID, '',fieldName,'VIDE',valDB)
+				addStepPass(strStepID, fieldName,'VIDE',valDB)
 			}else {
-				addStepFail(strStepID, '',fieldName,'VIDE',valDB)
+				addStepFail(strStepID, fieldName,'VIDE',valDB)
 			}
 
 		}else if (JDDKW.isORDRE(valJDD)) {
 
-			addStepFail(strStepID, 'ORDRE ***** reste àfaire *****',fieldName,valJDD,valDB)
-			
+			addStepFail(strStepID, fieldName,valJDD,valDB)
+
 		}else if (JDDKW.isSEQUENCEID(valJDD)) {
+			addStepFail(strStepID, fieldName,valJDD,valDB)
 
-			addStepFail(strStepID, 'SEQUENCEID',fieldName,valJDD,valDB)
-			
 		}else if (JDDKW.isDATE(valJDD)) {
-			
 			if (valDB instanceof java.sql.Timestamp) {
-				addStepPass(strStepID, 'DATEJML',fieldName,valJDD,valDB)
+				addStepPass(strStepID, fieldName,valJDD,valDB)
 			}else {
-				addStepFail(strStepID, 'DATEJML',fieldName,valJDD,valDB)
+				addStepFail(strStepID, fieldName,valJDD,valDB)
 			}
-			
-			
+
+
 		}else if (JDDKW.isDATETIME(valJDD)) {
-			
-			
 			if (valDB instanceof java.sql.Timestamp) {
-				addStepPass(strStepID, 'DATETIME',fieldName,valJDD,valDB)
+				addStepPass(strStepID, fieldName,valJDD,valDB)
 			}else {
-				addStepFail(strStepID, 'DATETIME',fieldName,valJDD,valDB)
+				addStepFail(strStepID, fieldName,valJDD,valDB)
 			}
-			
+
 		}else if (InfoDB.isImage(myJDD.getDBTableName(), fieldName)) {
-				
-
-			
-			if ( valDB == InfoDB.castJDDVal(myJDD.getDBTableName(), fieldName, valJDD)) {
-				addStepPass(strStepID, '',fieldName,valJDD,valDB)
+			valDB = SQL.getTextFromImageType(myJDD,fieldName)
+			if ( valDB == (valJDD.toString() + '\n')) {
+				addStepPass(strStepID,fieldName,valJDD,valDB)
 			}else {
-				addStepFail(strStepID, '',fieldName,valJDD,valDB)
+				addStepFail(strStepID,fieldName,valJDD,valDB)
 			}
-			
-		}else if (!specificValue && myJDD.myJDDParam.getFOREIGNKEYFor(fieldName)) {
 
-			if (!JDDKW.isNU(valJDD) && !JDDKW.isNULL(valJDD)) {
-				if (!SQL.checkForeignKey(myJDD, fieldName, valDB)) {
-				}
+		}else if (!specificValue && myJDD.myJDDParam.getFOREIGNKEYFor(fieldName)) {
+			def valueFromFK = SQL.getValueFromForeignKey(myJDD, fieldName)
+			if (valueFromFK == null) {
+				addStepFail(strStepID,fieldName,"$valJDD (null)",valDB)
+			}else if ( valDB == valueFromFK) {
+				addStepPass(strStepID,fieldName,"$valJDD ($valueFromFK)",valDB)
 			}else {
-				TNRResult.addSTEPINFO('',"$fieldName est NU ou NULL")
+				addStepFail(strStepID, fieldName,"$valJDD ($valueFromFK)",valDB)
 			}
 
 		}else if (specificValue) {
-
 			String valClass = valDB ? valDB.getClass() : 'NULL'
 			Log.addTrace("Pour '$fieldName' la class de la valeur en BD est:$valDB,  la class de la valeur spécifique est  : " + specificValueMap[fieldName].getClass())
-
-
 			if ( valDB == InfoDB.castJDDVal(myJDD.getDBTableName(), fieldName, specificValueMap[fieldName])) {
-				addStepPass(strStepID, 'spécifique',fieldName,specificValueMap[fieldName],valDB)
+				addStepPass(strStepID,fieldName,specificValueMap[fieldName],valDB)
 			}else {
-				addStepFail(strStepID, 'spécifique',fieldName,specificValueMap[fieldName],valDB)
+				addStepFail(strStepID,fieldName,specificValueMap[fieldName],valDB)
 			}
+
 		}else {
-
+			if ( valDB == InfoDB.castJDDVal(myJDD.getDBTableName(), fieldName, valJDD)) {
+				addStepPass(strStepID,fieldName,valJDD,valDB)
+			}else {
+				addStepFail(strStepID,fieldName,valJDD,valDB)
+			}
 		}
-
 		Log.addTraceEND(CLASS_NAME,"checkValue")
 	}
-	
+
+
 	private static addStepInfo(String strStepID, String fieldName, String msg) {
 		//Log.addTrace("Contrôle de la valeur $type de '$fieldName' OK : la valeur attendue est '$valJDD' et la valeur en BD est  : '$val'" )
 		TNRResult.addSTEPINFO(strStepID,"- '$fieldName' : $msg" )
 	}
-	
-	private static addStepPass(String strStepID, String type,String fieldName, def valJDD, def val) {
+
+
+	private static addStepPass(String strStepID, String fieldName, def valJDD, def val) {
 		//Log.addTrace("Contrôle de la valeur $type de '$fieldName' OK : la valeur attendue est '$valJDD' et la valeur en BD est  : '$val'" )
-		TNRResult.addSTEPPASS(strStepID,"- '$fieldName' : Contrôle de la valeur $type, la valeur attendue est '$valJDD' et la valeur en BD est  : '$val'" )
+		TNRResult.addSTEPPASS(strStepID,"- '$fieldName' : La valeur attendue est '$valJDD' et la valeur en BD est  : '$val'" )
 	}
 
 
 
-	private static addStepFail(String strStepID, String type,String fieldName, def valJDD, def val) {
+	private static addStepFail(String strStepID, String fieldName, def valJDD, def val) {
 		//TNRResult.addDETAIL("Contrôle de la valeur $type de '$fieldName' KO : la valeur attendue est '$valJDD' et la valeur en BD est  : '$val'")
-		TNRResult.addSTEPFAIL(strStepID,"- '$fieldName' : Contrôle de la valeur $type, la valeur attendue est '$valJDD' et la valeur en BD est  : '$val'")
+		TNRResult.addSTEPFAIL(strStepID,"- '$fieldName' : La valeur attendue est '$valJDD' et la valeur en BD est  : '$val'")
 	}
-	
-	
+
+
 }

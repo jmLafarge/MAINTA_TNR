@@ -30,9 +30,13 @@ public class Alert {
 		String strStepID = StepID.getStrStepID(CLASS_NAME + 'waitForAlert')
 		boolean ret = false
 		try {
-			WebUI.waitForAlert(timeout, FailureHandling.STOP_ON_FAILURE)
-			TNRResult.addSTEPPASS(strStepID, "Attendre la fenetre de confirmation")
-			ret = true
+			if (WebUI.waitForAlert(timeout, FailureHandling.STOP_ON_FAILURE)) {
+				TNRResult.addSTEPPASS(strStepID, "Attendre la fenetre de confirmation")
+				ret = true
+			}else {
+				TNRResult.addSTEP(strStepID, "Attendre la fenetre de confirmation",status)
+				TNRResult.addDETAIL("La fenetre ne s'est pas ouverte !")
+			}
 		} catch (Exception ex) {
 			TNRResult.addSTEP(strStepID, "Attendre la fenetre de confirmation",status)
 			TNRResult.addDETAIL(ex.getMessage())

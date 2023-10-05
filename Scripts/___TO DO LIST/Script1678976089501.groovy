@@ -7,9 +7,10 @@
 *
 *
 
-+ mise en commun de TNR_Ecran, Nicolas met à jour Master TNR (MS SQL) et je copie les xml modiifés sur les 3 autres instances
-
-
+Reprise de checkJDDWithBD et checkValue
+Ajout de allowScreenshots dans XLSResult et TNRResult
+Suppression de KW, mis dans WUI
+Reprise checkIDNotInBD
 
 
 
@@ -21,43 +22,18 @@
 * -----------------------------------------------------------------------------------------------------
 *
 
-Terminer public static xxxx() dans SQL
-Terminer checkValue dans CheckInDB
+test KO
 
+	RO.FOU.001.MAJ.01 : Mise à jour Fournisseur
+		Saisie de HELLO dans mémo 'Notes'
+ 			- La fenetre des notes ne s'est pas ouverte
 
-	Ajouter le nom de la fonction d'appel, par exemple goToURLCreate ou checkCreateScreen ou ...
+	RT.ART.001.SUP.01 : Suppression Article
+		La fenetre de suppression ne s'ouvre pas alors que le STEP est PASS, j'ai modifié le step en ajoutant un if
 
-	MAT.MAJ
-	
-		Utiliser un nouveau helper pour DT_ENT et DT_SER
-	
-	
-	
-	RO.ACT.004EMP.SRA.01
-	
-		Revoir gestion de replaceSEQUENCIDInJDD quand c'est pas possible
-	
-	Vérifier dans Memo si ctrl+A et set texte ne suffit pas !
-	
-	
-	KW --> à mettre dans WUI
-	
+Reprendre à  partir de RT.MAT.001.MAJ.01 : Mise à jour Matricule
 
-	METTRE A JOUR les écrans de MAINTA_TNR et MAINTA_ORA_TNR
-
-
-	stepID
-		tenir compte des boucles de suppression n/3
-		tenir compte des getNbrLigneCasDeTest, par ex RO.ACT.003HAB.SRA
-		tenir compte des répétitions dans SEQUENCER
-		Vérifier les addSTEPERROR('-1'
 	
-	Recyclage
-		Trouver une solution pour RestoreDB.run(), apres une restauration il faut recycler, comment le faire par script ?
-
-
-
-		
 
  
 *
@@ -71,29 +47,7 @@ Pas faire de doubleClick si la valeur est bonne
 --> faire une fonction pour gerer les modif dans les tableaus ?
 --> Voir la différence avec SRA !?
 
-
-Vérifier MAT.ST_PAT dans tous les CDT
-
-
-
-
-
-
-
-
-
-
-
-
-   Ajouter 2 tab dans Log.addINFO entre les START TEST CASE et END TEST CASE
    
-
-   VERIFIER les nom des cas de tests des sous-rubriques
-
-
-   
-
-
 
  
 
@@ -254,11 +208,7 @@ Vérifier MAT.ST_PAT dans tous les CDT
 		Revoir la class et la mettre à jour avec les nouvelles class JDDData par exemple
 		--> faire pareil avec d'autres chck spécifique , comme par exe les org/ser et inter...
 		
-		
-	
-	RESULT
-	  		
-	  	modif le step de ctrl en BDD pour faire une ligne + details avec un refrech de la ligne du dessus comme ....
+
 	  	
 	
 	RESULT RECAP
@@ -279,10 +229,6 @@ Vérifier MAT.ST_PAT dans tous les CDT
 	 
 
 	
-	
-	BDD
-
-		Faire un script pour restaurer base + redémarrage server SQlL(ou autre pour pouvoir faire la sauvegarde)	
 	
 	
 	EMP
@@ -325,6 +271,22 @@ Vérifier MAT.ST_PAT dans tous les CDT
 		  		dans du code s'il existe ....
 		  		...
   		--> Ca me parait compliquer de traiter les tous cas spécifique
+  	
+  		
+  		
+  		
+ * 
+ * -----------------------------------------------------------------------------------------------------
+ * IDEE : VERIFIER si le code est standard
+ * -----------------------------------------------------------------------------------------------------
+ * 	
+  	
+  	Lorsque j'écris les test case, vérifier si le rendu est conforme à un standard, par exemple gestion des grille, la séquence en BDD ...
+  		
+
+	
+
+  		
   		
  * 
  * -----------------------------------------------------------------------------------------------------

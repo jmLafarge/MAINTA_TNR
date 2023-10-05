@@ -95,6 +95,8 @@ public class XLSResult {
 	private static String browserName =''
 	private static String maintaVersion =''
 
+	private static boolean allowScreenshots = true
+
 
 	/*
 	 private static groupDetail(String status='') {
@@ -123,7 +125,7 @@ public class XLSResult {
 
 	private static takeScreenshot(Row row,Date date, String msg, String status) {
 
-		if (!msg.contains("Fin de la  vérification des valeurs en Base de Données") || status == 'ERROR') {
+		if (allowScreenshots) {
 			String filename = date.format("yyyyMMdd_HHmmss.SSS") + '_'+ GlobalVariable.CAS_DE_TEST_EN_COURS + '_' + status + '.png'
 			String path = new File(resulFileName).getParent()+ File.separator + SCREENSHOTSUBFOLDER
 			FileUtils.createFolderIfNotExist(path)
@@ -282,6 +284,7 @@ public class XLSResult {
 
 		firstLineToGroup = lineNumberSTART+1
 		continueToGroup = true
+		allowScreenshots = true
 	}
 
 
@@ -495,6 +498,9 @@ public class XLSResult {
 	}
 
 
+	public static setAllowScreenshots(boolean allowScreenshots) {
+		this.allowScreenshots = allowScreenshots
+	}
 
 
 } // Fin de class

@@ -25,11 +25,12 @@ public class StepID {
 
 
 	public static setParentStepID(String stepID) {
-		Log.addINFO("parentStepID:$parentStepID")
+		Log.addTrace(CLASS_NAME + ".setParentStepID($stepID)")
 		parentStepID = stepID
 	}
 
 	public static clearParentStepID() {
+		Log.addTrace(CLASS_NAME + ".clearParentStepID()")
 		parentStepID = ''
 	}
 
@@ -37,11 +38,9 @@ public class StepID {
 		Log.addTraceBEGIN(CLASS_NAME, "getStrStepID", [stepID:stepID])
 		String cdt = GlobalVariable.CAS_DE_TEST_EN_COURS.toString()
 		String cdtNum = GlobalVariable.CAS_DE_TEST_NUM.toString()
-		Log.addINFO("cdt:$cdt")
 		String strStepID = ''
 		if (stepID) {
 			String fullStepID = parentStepID + ' | ' + cdt + ' | ' + cdtNum + ' | ' + stepID
-			Log.addINFO("fullStepID:$fullStepID")
 			strStepID = Tools.get256SHA(fullStepID)
 			List<String> fullStepIDList = Log.getList('fullStepID')
 			if (fullStepIDList && fullStepIDList.contains(strStepID)) {

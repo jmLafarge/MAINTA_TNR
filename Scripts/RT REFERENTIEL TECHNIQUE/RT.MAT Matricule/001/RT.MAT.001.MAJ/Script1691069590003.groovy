@@ -52,8 +52,8 @@ for (String cdt in myJDD.getCDTList()) {
 			STEP.clickCheckboxIfNeeded(myJDD, "ST_REP", "O")
 			STEP.clickCheckboxIfNeeded(myJDD, "ST_SOUASS", "O")
 			STEP.clickCheckboxIfNeeded(myJDD, "ST_SOUINV", "O")
-			STEP.setDate(myJDD, "DT_ENT") // utiliser un nouveau  helper
-			STEP.setDate(myJDD, "DT_SER") // utiliser un nouveau  helper
+			STEP.setDate(myJDD, "DT_ENT") 
+			STEP.setDate(myJDD, "DT_SER") 
 			STEP.setText(myJDD, "NU_VALINI")
 			STEP.setText(myJDD, "NU_VALINV")
 			
@@ -69,11 +69,11 @@ for (String cdt in myJDD.getCDTList()) {
 			STEP.setText(myJDD, "ST_REFFOU")
 			STEP.searchWithHelper(myJDD, "ID_CODCONSTR","","SEARCH_ID_CODFOU")
 			STEP.setText(myJDD, "ST_REFCON")
-			STEP.setDate(myJDD, "DT_ACH") // utiliser un nouveau  helper
-			STEP.setDate(myJDD, "DT_FAC") // utiliser un nouveau  helper
+			STEP.setDate(myJDD, "DT_ACH") 
+			STEP.setDate(myJDD, "DT_FAC") 
 			STEP.setText(myJDD, "NU_PRIACH")
-			STEP.setDate(myJDD, "DT_FINGAR") // utiliser un nouveau  helper
-			STEP.setDate(myJDD, "DT_FINVIE") // utiliser un nouveau  helper
+			STEP.setDate(myJDD, "DT_FINGAR") 
+			STEP.setDate(myJDD, "DT_FINVIE") 
 			STEP.setText(myJDD, "NU_PRIACT")
 			STEP.setText(myJDD, "NU_USAGAR")
 			STEP.setText(myJDD, "NU_FINUSA")

@@ -20,6 +20,7 @@ import tnrResultManager.TNRResult
 @CompileStatic
 public class WUI {
 
+	
 	private static final String CLASS_NAME = 'WUI'
 
 
@@ -30,6 +31,25 @@ public class WUI {
 	}
 
 
+
+
+	public static String getTextByObj(TestObject tObj )  {
+		Log.addTraceBEGIN(CLASS_NAME, "getTextByObj", [tObj:tObj ])
+		String gText = ''
+		try {
+			gText = WebUI.getText(tObj,FailureHandling.STOP_ON_FAILURE)
+			//Log.addINFO("Lecture du texte sur '${tObj.getObjectId()}' : '$gText'")
+		} catch (Exception ex) {
+			TNRResult.addSTEPERROR('-1',"Lecture du texte sur '${tObj.getObjectId()}' KO")
+			TNRResult.addDETAIL(ex.getMessage())
+		}
+		Log.addTraceEND(CLASS_NAME, "getTextByObj",gText)
+		return gText
+	}
+
+
+	
+	
 	static void switchToFrame(JDD myJDD, String name) {
 		Log.addTraceBEGIN(CLASS_NAME, "switchToFrame", [myJDD:myJDD.toString() , name: name])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
@@ -47,7 +67,6 @@ public class WUI {
 		}
 		Log.addTraceEND(CLASS_NAME, "switchToFrame")
 	}
-
 
 
 
@@ -91,14 +110,6 @@ public class WUI {
 
 
 
-
-
-
-
-
-
-
-
 	public static String goToElementByObj(TestObject tObj , String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		Log.addTraceBEGIN(CLASS_NAME, "goToElementByObj", [tObj: tObj, name: name])
 
@@ -119,7 +130,6 @@ public class WUI {
 	private static String waitElementInViewport(TestObject tObj, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
 		Log.addTraceBEGIN(CLASS_NAME, "waitElementInViewport", [tObj: tObj , timeout:timeout , status:status])
 		String errMsg = ''
-
 		long startTime = System.currentTimeMillis()
 		long elapsedSeconds = 0
 		boolean eltInViewport = false
@@ -137,23 +147,6 @@ public class WUI {
 		Log.addTraceEND(CLASS_NAME, "waitElementInViewport",errMsg)
 		return errMsg
 	}
-
-
-	/*
-	 private static String verifyElementInViewport(TestObject tObj, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
-	 Log.addTraceBEGIN(CLASS_NAME, "verifyElementInViewport", [tObj: tObj , timeout:timeout , status:status])
-	 String errMsg = ''
-	 boolean eltInViewport = WebUI.verifyElementInViewport(tObj, 1, FailureHandling.OPTIONAL)
-	 if (eltInViewport) {
-	 Log.addINFO("L'élément '${tObj.getObjectId()}' est visible dans le viewport")
-	 }else {
-	 errMsg = "L'élément '${tObj.getObjectId()}' n'est pas visible dans le viewport"
-	 }
-	 Log.addTraceEND(CLASS_NAME, "verifyElementInViewport",errMsg)
-	 return errMsg
-	 }
-	 */
-
 
 
 
@@ -174,4 +167,6 @@ public class WUI {
 		Log.addTraceEND(CLASS_NAME, "scrollToElement",errMsg)
 		return errMsg
 	}
+
+
 } //end of class

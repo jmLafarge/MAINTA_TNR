@@ -235,7 +235,6 @@ class Log {
 	private static setTraceAllowed(String myClass, String myFunction, int level) {
 
 		traceAllowed =  (level <= traceLevel)
-
 		if (traceClassesExcluded.contains(myClass)) {
 			traceAllowed = false
 		}else if (traceClassesAdded.contains(myClass)) {

@@ -1,3 +1,5 @@
+
+
 import internal.GlobalVariable
 import tnrJDDManager.GlobalJDD
 import tnrJDDManager.JDD; 
@@ -65,6 +67,8 @@ for (String cdt in myJDD.getCDTList()) {
 			
 			STEP.setText(myJDD, "DT_DEP")
 			STEP.setText(myJDD, "DT_RET")
+			
+			STEP.scrollToPosition(0, 0)
 			
 		TNRResult.addSTEPGRP("ONGLET FICHE")
 			

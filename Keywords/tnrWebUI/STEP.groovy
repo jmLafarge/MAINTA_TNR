@@ -173,10 +173,10 @@ public class STEP {
 	}
 
 	/* Not used at the moment
-	public static boolean verifyTextContains(JDD myJDD, String name, String text=null, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
-		return Text.verifyTextContains( myJDD, name, text, timeout, status)
-	}
-	*/
+	 public static boolean verifyTextContains(JDD myJDD, String name, String text=null, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
+	 return Text.verifyTextContains( myJDD, name, text, timeout, status)
+	 }
+	 */
 
 
 
@@ -199,7 +199,7 @@ public class STEP {
 		Checkbox.verifyBoxCheckedOrNot( myJDD, name, textTrue, timeout, status)
 	}
 
-	
+
 
 
 
@@ -214,7 +214,7 @@ public class STEP {
 	public static void verifyImgCheckedOrNot( JDD myJDD, String name, String textTrue, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		CheckboxImg.verifyImgCheckedOrNot(myJDD, name, textTrue, timeout, status)
 	}
-	
+
 
 
 	/*

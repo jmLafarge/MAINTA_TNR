@@ -207,36 +207,30 @@ public class SQL {
 	}
 
 
-	public static boolean checkForeignKey(JDD myJDD, String fieldName, def valDB) {
-
-		Log.addTraceBEGIN(CLASS_NAME,"checkForeignKey",[myJDD:myJDD.toString() ,fieldName:fieldName,val:valDB])
-
-		boolean pass = false
+	public static getValueFromForeignKey(JDD myJDD, String fieldName) {
+		Log.addTraceBEGIN(CLASS_NAME,"getValueFromForeignKey",[myJDD:myJDD.toString() ,fieldName:fieldName])
 		String query = myJDD.getSqlForForeignKey(fieldName)
 		def fval = getFirstVal(query)
-		if (fval == null) {
-			TNRResult.addDETAIL("Contrôle de la valeur de $fieldName (FK) KO, pas de résultat pour la query : $query")
-		}else if (valDB != fval) {
-			TNRResult.addDETAIL("Contrôle de la valeur de $fieldName (FK) KO : ** la valeur du JDD attendue est : " + myJDD.getData(fieldName) + " ($fval) et la valeur est BD est : " +  valDB)
-		}else {
-			Log.addTrace("Contrôle de la valeur de $fieldName (FK) OK : la valeur du JDD attendue est : " + myJDD.getData(fieldName) + " ($fval) et la valeur est BD est : " +  valDB)
-			pass = true
-		}
-		Log.addTraceEND(CLASS_NAME,"checkForeignKey",pass)
-		return pass
+		Log.addTraceEND(CLASS_NAME,"getValueFromForeignKey",fval)
+		return fval
 	}
 
 
 
-	public static xxxx() {
-		String query = "SELECT cast(cast($fieldName as varbinary(max)) as varchar(max)) FROM " + myJDD.getDBTableName() + SQL.getWhereWithAllPK(myJDD,casDeTestNum)
+	public static String getTextFromImageType(JDD myJDD, String fieldName) {
+		Log.addTraceBEGIN(CLASS_NAME,"getTextFromImageType",[myJDD:myJDD.toString()])
+		String query = "SELECT cast(cast($fieldName as varbinary(max)) as varchar(max)) FROM " + myJDD.getDBTableName() + getWhereWithAllPK(myJDD)
 		def firstVal = SQL.getFirstVal(query)
+		String textValue =''
 		if (firstVal ) {
 			def texte = new DefaultStyledDocument()
 			def editorKit = new RTFEditorKit()
 			editorKit.read(new StringReader(firstVal.toString()), texte , 0)
-			valDB=texte.getText(0, texte.getLength()-1) // car il y a un CRLF !?
+			//textValue = texte.getText(0, texte.getLength()-1) // car il y a un CRLF !?
+			textValue = texte.getText(0, texte.getLength())
 		}
+		Log.addTraceEND(CLASS_NAME,"getTextFromImageType",textValue)
+		return textValue
 	}
 
 
@@ -248,16 +242,14 @@ public class SQL {
 	 * @param casDeTestNum
 	 * @return
 	 */
-	public static String getWhereWithAllPK(JDD myJDD,int casDeTestNum) {
-
-		Log.addTraceBEGIN(CLASS_NAME,"getWhereWithAllPK",[myJDD:myJDD.toString() ,casDeTestNum:casDeTestNum])
-
+	public static String getWhereWithAllPK(JDD myJDD) {
+		Log.addTraceBEGIN(CLASS_NAME,"getWhereWithAllPK",[myJDD:myJDD.toString()])
 		List <String> PKList = InfoDB.getPK(myJDD.getDBTableName())
 		String ret =''
 		if (PKList) {
 			String query = ' WHERE '
 			PKList.each {
-				query = query + it + "='" + myJDD.getData(it,casDeTestNum,true) + "' and "
+				query = query + it + "='" + myJDD.getData(it,myJDD.getCasDeTestNum(),true) + "' and "
 			}
 			ret = query.substring(0,query.length()-5)
 		}
@@ -318,7 +310,7 @@ public class SQL {
 		Log.addTraceEND(CLASS_NAME,"getLibelle")
 		return resultMap
 	}
-	
+
 
 	static int getLastSequence(String seq) {
 		Log.addTraceBEGIN(CLASS_NAME,"getLastSequence",[seq:seq])

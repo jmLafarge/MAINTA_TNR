@@ -114,7 +114,6 @@ public class WUIWindow {
 		boolean ret = false
 		int waitedTime = 0
 		while (waitedTime < timeoutInMilliseconds) {
-			Log.addTrace('on boucle')
 			if (getWindowHandles().size() > beforeHandles.size()) {
 				switchToWindow(getNewWindowHandle())
 				ret = true
