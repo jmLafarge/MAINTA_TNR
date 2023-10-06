@@ -20,7 +20,7 @@ import tnrResultManager.TNRResult
 @CompileStatic
 public class WUI {
 
-	
+
 	private static final String CLASS_NAME = 'WUI'
 
 
@@ -48,8 +48,8 @@ public class WUI {
 	}
 
 
-	
-	
+
+
 	static void switchToFrame(JDD myJDD, String name) {
 		Log.addTraceBEGIN(CLASS_NAME, "switchToFrame", [myJDD:myJDD.toString() , name: name])
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()

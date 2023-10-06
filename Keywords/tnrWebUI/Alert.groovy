@@ -68,7 +68,7 @@ public class Alert {
 
 
 	public static boolean waitAndAcceptAlert( int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
-		Log.addTraceBEGIN(CLASS_NAME, "waitAndAcceptAlert", [  status:status])
+		Log.addTraceBEGIN(CLASS_NAME, "waitAndAcceptAlert", [ timeout:timeout , status:status])
 		boolean ret = false
 		if (waitForAlert(timeout, status)) {
 			ret = acceptAlert(status)

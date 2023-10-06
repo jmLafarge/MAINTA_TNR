@@ -30,7 +30,7 @@ public class MacroSTEP {
 		for (String cdt in myJDD.getCDTList()) {
 
 			myJDD.setCasDeTest(cdt)
-			
+
 			String idValue = idNameForURL ? myJDD.getStrData(idNameForURL) : myJDD.getStrData()
 			String textToVerify = idFromtextToVerify ? myJDD.getStrData(idFromtextToVerify) : myJDD.getStrData()
 
@@ -57,12 +57,12 @@ public class MacroSTEP {
 				 *
 				 * SOLUTION on boucle 3x
 				 */
-				
+
 				//'Suppression'
 				for ( n in 1..3) {
 					TNRResult.addSUBSTEP("Tentative de suppression $n/3" )
 					if (STEP.simpleClick(GlobalJDD.myGlobalJDD,'button_Supprimer')) {
-						if (STEP.waitAndAcceptAlert((int)GlobalVariable.TIMEOUT,null)) {
+						if (STEP.waitAndAcceptAlert((int)GlobalVariable.TIMEOUT, (n==3) ? 'FAIL':'INFO')) {
 							WUI.delay(1000)
 							STEP.checkGridScreen()
 							break
@@ -81,44 +81,44 @@ public class MacroSTEP {
 		}
 		Log.addTraceEND(CLASS_NAME, "suppression")
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	public static void recherche(String idNameToSearch=null, String idFromtextToVerify=null) {
 		Log.addTraceBEGIN(CLASS_NAME, "recherche", [idNameToSearch:idNameToSearch , idFromtextToVerify:idFromtextToVerify])
-		
+
 		//'Lecture du JDD'
 		JDD myJDD = new JDD()
-		
+
 		for (String cdt in myJDD.getCDTList()) {
-			
+
 			myJDD.setCasDeTest(cdt)
-			
+
 			String idValueToSearch = idNameToSearch ? myJDD.getStrData(idNameToSearch) : myJDD.getStrData()
 			String textToVerify = idFromtextToVerify ? myJDD.getStrData(idFromtextToVerify) : myJDD.getStrData()
-				
+
 			TNRResult.addStartTestCase(cdt)
-		
+
 			//'Naviguer vers la bonne url et controle des infos du cartouche'
 			STEP.goToGridURL()
 			STEP.checkGridScreen()
-			
+
 			//'Filtrer la valeur dans la grille'
 			STEP.setText(myJDD,'input_Filtre_Grille', idValueToSearch)
-		
+
 			//'Attendre que le nombre de record = 1'
 			STEP.verifyElementVisible(GlobalJDD.myGlobalJDD,'nbrecordsGRID_1')
-			
+
 			//'Vérifier que la valeur soit dans la grille filtrée'
 			STEP.verifyText(myJDD,'td_Grille', textToVerify)
-		
-			
+
+
 			TNRResult.addEndTestCase()
 		}
 		Log.addTraceEND(CLASS_NAME, "recherche")
 	}
-	
-	
+
+
 } // end of class

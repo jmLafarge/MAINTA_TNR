@@ -43,9 +43,7 @@ public class CheckInDB {
 
 
 	static void checkIDNotInBD( JDD myJDD){
-
 		Log.addTraceBEGIN(CLASS_NAME,"checkIDNotInBD",[myJDD:myJDD.toString()])
-		String strStepID = StepID.getStrStepID(CLASS_NAME + 'checkIDNotInBD' + myJDD.toString())
 		Thread.sleep(100)
 		int nbrLigneCasDeTest =myJDD.getNbrLigneCasDeTest()
 
@@ -54,6 +52,7 @@ public class CheckInDB {
 		
 		for (casDeTestNum in 1..nbrLigneCasDeTest) {
 			myJDD.setCasDeTestNum(casDeTestNum)
+			String strStepID = StepID.getStrStepID(CLASS_NAME + 'checkIDNotInBD' + myJDD.toString())
 			if (nbrLigneCasDeTest>1) {
 				TNRResult.addSUBSTEP("Contrôle de la suppression du cas de test $casDeTestNum / $nbrLigneCasDeTest")
 			}

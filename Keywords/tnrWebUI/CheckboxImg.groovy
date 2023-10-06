@@ -43,7 +43,7 @@ public class CheckboxImg {
 						for ( n in 1..3) {
 							TNRResult.addSTEPINFO('',"Tentative pour cocher '${tObj.getObjectId()}' $n/3" )
 							STEP.simpleClick(myJDD,'ST_DEF')
-							if (STEP.waitAndAcceptAlert((int)GlobalVariable.TIMEOUT,null)) {
+							if (STEP.waitAndAcceptAlert((int)GlobalVariable.TIMEOUT, (n==3) ? 'FAIL':'INFO')) {
 								WUI.delay(1000)
 								if (isImgBoxChecked(tObj)) {
 									TNRResult.addSTEPPASS(strStepID, "Cocher la case à cocher '$name'")

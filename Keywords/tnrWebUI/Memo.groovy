@@ -44,6 +44,7 @@ public class Memo {
 	public static void setMemoText( String newText, String memoName, boolean maj, JDD myJDD,String modifierNom) {
 		Log.addTraceBEGIN(CLASS_NAME, "setMemoText",[ newTexte:newText , memoName:memoName , maj:maj ])
 		String strStepID = StepID.getStrStepID(CLASS_NAME + 'setMemoText'+ myJDD.toString() + memoName)
+		StepID.setParentStepID(strStepID)
 		WUIWindow.init()
 		// Cas où le nom du bouton modifier est différent
 		if (modifierNom) {
@@ -75,7 +76,7 @@ public class Memo {
 			TNRResult.addSTEPFAIL(strStepID, "Saisie de $newText dans mémo '$memoName'")
 			TNRResult.addDETAIL("La fenetre des notes ne s'est pas ouverte")
 		}
-
+		StepID.clearParentStepID()
 		WUIWindow.switchToMainWindow()
 		Log.addTraceEND(CLASS_NAME, "setMemoText")
 	}

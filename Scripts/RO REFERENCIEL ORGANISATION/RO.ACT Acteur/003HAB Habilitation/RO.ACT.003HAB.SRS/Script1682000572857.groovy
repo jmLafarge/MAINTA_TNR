@@ -42,7 +42,8 @@ for (String cdt in myJDD.getCDTList()) {
 			for ( n in 1..3) {
 				TNRResult.addSUBSTEP("Tentative de suppression $n/3" )
 				STEP.simpleClick(myJDD,'span_Supprime_Habilitation')
-				if (STEP.waitAndAcceptAlert(GlobalVariable.TIMEOUT,null)) {	
+				//String status = (n==3) ? 'FAIL':'INFO'
+				if (STEP.waitAndAcceptAlert( (int)GlobalVariable.TIMEOUT,(n==3) ? 'FAIL':'INFO')) {	
 					WUI.delay(1000)	
 					STEP.verifyElementNotPresent(myJDD,'ID_CODHAB')
 					break

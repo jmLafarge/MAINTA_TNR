@@ -7,10 +7,7 @@
 *
 *
 
-Reprise de checkJDDWithBD et checkValue
-Ajout de allowScreenshots dans XLSResult et TNRResult
-Suppression de KW, mis dans WUI
-Reprise checkIDNotInBD
+Repetition waitAndAcceptAlert 1 et 2 en INFO le 3 en FAIL
 
 
 
@@ -22,16 +19,12 @@ Reprise checkIDNotInBD
 * -----------------------------------------------------------------------------------------------------
 *
 
-test KO
 
-	RO.FOU.001.MAJ.01 : Mise à jour Fournisseur
-		Saisie de HELLO dans mémo 'Notes'
- 			- La fenetre des notes ne s'est pas ouverte
 
-	RT.ART.001.SUP.01 : Suppression Article
-		La fenetre de suppression ne s'ouvre pas alors que le STEP est PASS, j'ai modifié le step en ajoutant un if
+/!\ TEST sur LEGACY TNR le navigateur ne répond plus au bout d'environ 5 min 
+	--> j'ai l'impression que cela arrive quand je suis en Wifi (chez moi et a l'apave)
 
-Reprendre à  partir de RT.MAT.001.MAJ.01 : Mise à jour Matricule
+
 
 	
 
@@ -42,6 +35,8 @@ Reprendre à  partir de RT.MAT.001.MAJ.01 : Mise à jour Matricule
 * -----------------------------------------------------------------------------------------------------
 *
 *
+
+
 
 Pas faire de doubleClick si la valeur est bonne
 --> faire une fonction pour gerer les modif dans les tableaus ?
@@ -206,8 +201,8 @@ Pas faire de doubleClick si la valeur est bonne
 	Check_CAL
 	
 		Revoir la class et la mettre à jour avec les nouvelles class JDDData par exemple
-		--> faire pareil avec d'autres chck spécifique , comme par exe les org/ser et inter...
-		
+		Faire pareil avec d'autres chck spécifique , comme par exe les org/ser et inter...
+		GES.ST_CODPERSGES doit être unique
 
 	  	
 	
