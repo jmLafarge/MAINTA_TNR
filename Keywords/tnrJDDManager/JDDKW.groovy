@@ -3,6 +3,14 @@ package tnrJDDManager
 import groovy.transform.CompileStatic
 import tnrLog.Log
 
+/**
+ *
+ *
+ * 
+ * @author JM Lafarge
+ * @version 1.0
+ */
+
 @CompileStatic
 public class JDDKW {
 

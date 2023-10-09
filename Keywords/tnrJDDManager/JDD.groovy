@@ -207,8 +207,8 @@ public class JDD {
 		GlobalVariable.CAS_DE_TEST_NUM = i
 		Log.addTraceEND(CLASS_NAME,"setCasDeTestNum")
 	}
-	
-	
+
+
 	public int getCasDeTestNum() {
 		Log.addTrace("getCasDeTestNum() --> $casDeTestNum")
 		return casDeTestNum

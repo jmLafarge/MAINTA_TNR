@@ -8,12 +8,14 @@ import tnrCommon.TNRPropertiesReader
 import tnrCommon.Tools
 
 
-/*
- * use my.Log in the code without import --> to be sure that this Log is used
+/**
+ *
+ *
  * 
- * To log message in files
- * 
+ * @author JM Lafarge
+ * @version 1.0
  */
+
 @CompileStatic
 class Log {
 

@@ -8,6 +8,14 @@ import tnrCommon.ExcelUtils
 import tnrLog.Log
 
 
+/**
+ *
+ *
+ * 
+ * @author JM Lafarge
+ * @version 1.0
+ */
+
 @CompileStatic
 public class JDDParam {
 
