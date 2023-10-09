@@ -7,6 +7,9 @@
 *
 *
 
+Ajout DevOpsManager
+Ajout de test Azure read
+Ajout de test Azure create
 
 
 
@@ -17,8 +20,6 @@
 * A FAIRE EN PRIORITE
 * -----------------------------------------------------------------------------------------------------
 *
-
-
 
 /!\ TEST sur LEGACY TNR le navigateur ne répond plus au bout d'environ 5 min 
 	--> j'ai l'impression que cela arrive quand je suis en Wifi (chez moi et a l'apave)
@@ -34,6 +35,12 @@
 * -----------------------------------------------------------------------------------------------------
 *
 *
+
+RESULTAT des tests :
+
+	RT.MAT.001.CRE.04 05 06 07: ST_AUT est dans l'onglet Etat
+
+
 
 
 
