@@ -7,7 +7,6 @@
 *
 *
 
-Repetition waitAndAcceptAlert 1 et 2 en INFO le 3 en FAIL
 
 
 

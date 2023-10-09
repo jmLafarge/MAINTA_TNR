@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestCaseEntity>
    <description></description>
-   <name>test Azure</name>
+   <name>test Azure read</name>
    <tag></tag>
    <comment></comment>
-   <testCaseGuid>87b7957d-a13b-4412-89a9-a5e391a2358c</testCaseGuid>
+   <testCaseGuid>1db7593d-541e-43a3-92d6-ef7d415d9eec</testCaseGuid>
 </TestCaseEntity>
