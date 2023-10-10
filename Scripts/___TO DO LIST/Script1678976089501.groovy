@@ -7,6 +7,12 @@
 *
 *
 
+
+	COMMIT MARCHE PLUS
+
+
+
+
 Ajout DevOpsManager
 Ajout de test Azure read
 Ajout de test Azure create
