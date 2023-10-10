@@ -7,15 +7,9 @@
 *
 *
 
-
-	COMMIT MARCHE PLUS
-
-
-
-
-Ajout DevOpsManager
-Ajout de test Azure read
-Ajout de test Azure create
+Passer le "Delai between actions" à 10 ms dans Project > Setting > Execution > WebUI
+Supression du XLSResult.write() de chaque ligne gain de 32min > 26min
+Ajout logBuffer, logDebugBuffer, flushLogs et timer
 
 
 
@@ -27,10 +21,12 @@ Ajout de test Azure create
 * -----------------------------------------------------------------------------------------------------
 *
 
-/!\ TEST sur LEGACY TNR le navigateur ne répond plus au bout d'environ 5 min 
-	--> j'ai l'impression que cela arrive quand je suis en Wifi (chez moi et a l'apave)
-
-
+/!\ TEST sur LEGACY TNR le navigateur ne répond plus au bout d'environ 5 min
+	En local il y a des problèmes de lenteur au bout d'une dixaine de minutes
+	--> du à la connection simultanée sur 2 postes avec le même compte
+	--> apparement possibilité de partager la clé !? --> message de fortiClient je crois
+	--> le probléme arrive quand ou les 2 sont en Wifi, est-ce que c'est encore vrai si les 2 sont en filaire ?
+ 
 
 	
 

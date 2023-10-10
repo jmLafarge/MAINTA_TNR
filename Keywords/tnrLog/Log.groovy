@@ -11,7 +11,7 @@ import tnrCommon.Tools
 /**
  *
  *
- * 
+ *
  * @author JM Lafarge
  * @version 1.0
  */
@@ -28,7 +28,11 @@ class Log {
 	}
 
 
+
 	public static Date logDate = null
+
+	private static StringBuilder logBuffer = new StringBuilder()
+	private static StringBuilder logDebugBuffer = new StringBuilder()
 
 	private static String dateTimeFormat = 'yyyy-MM-dd HH:mm:ss.SSS'
 
@@ -65,6 +69,8 @@ class Log {
 
 	private static int nbrAssert = 0
 	private static int nbrAssertKO = 0
+	
+	private static Timer timer = new Timer()
 
 
 	static {
@@ -107,9 +113,22 @@ class Log {
 		addDEBUG('Trace classes ajoutées       : ' + traceClassesAdded + '\tCes classes seront toujours tracées')
 		addDEBUG('Trace des fonctions exclues  : ' + traceFunctionsExcluded + '\tCes fonctions ne seront jamais tracées' )
 		addDEBUG('Trace des fonctions ajoutées : ' + traceFunctionsAdded + '\tCes fonctions seront toujours tracées')
+		
+		// Planifier la tâche pour exécuter flushLogs toutes les n ms
+		timer.scheduleAtFixedRate(new TimerTask() {
+			void run() {
+				flushLogs()
+			}
+		}, 0, 1000)
+		
 	}
 
-
+	private static void flushLogs() {
+		file.append(logBuffer.toString())
+		fileDebug.append(logDebugBuffer.toString())
+		logBuffer = new StringBuilder()
+		logDebugBuffer = new StringBuilder()
+	}
 
 
 	private static String getStatusFormat(String stat) {
@@ -129,16 +148,20 @@ class Log {
 			stat= getStatusFormat(stat)
 			logDate = new Date()
 			String h = logDate.format(dateTimeFormat)
-			file.append("[$h][$stat]:" +"$msg\n")
-			fileDebug.append("[$h][$stat]:" + PREDEBUGTXT + tab +"$msg\n")
+			logBuffer.append("[$h][$stat]:" +"$msg\n")
+			logDebugBuffer.append("[$h][$stat]:" + PREDEBUGTXT + tab +"$msg\n")
+			//file.append("[$h][$stat]:" +"$msg\n")
+			//fileDebug.append("[$h][$stat]:" + PREDEBUGTXT + tab +"$msg\n")
 		}
 	}
 
 
 	public static addB ( String msg) {
 		if (!traceEnd) {
-			file.append("\t\t$msg\n")
-			fileDebug.append("\t\t$msg\n")
+			logBuffer.append("\t\t$msg\n")
+			logDebugBuffer.append("\t\t$msg\n")
+			//file.append("\t\t$msg\n")
+			//fileDebug.append("\t\t$msg\n")
 		}
 	}
 
@@ -148,7 +171,8 @@ class Log {
 			String lev = (level>=0 && level<=9)?"0$level":"$level"
 			String stat= getStatusFormat(" D$lev ")
 			String h = new Date().format(dateTimeFormat)
-			fileDebug.append("[$h][$stat]:" + PREDEBUGTXT + tab +"$msg\n")
+			logDebugBuffer.append("[$h][$stat]:" + PREDEBUGTXT + tab +"$msg\n")
+			//fileDebug.append("[$h][$stat]:" + PREDEBUGTXT + tab +"$msg\n")
 		}
 	}
 
@@ -359,9 +383,12 @@ class Log {
 
 
 	public static setTraceLevel(int newLevel) {
-		fileDebug.append("Ancien niveau de trace  : $traceLevel\n")
+		logDebugBuffer.append("Ancien niveau de trace  : $traceLevel\n")
+		//fileDebug.append("Ancien niveau de trace  : $traceLevel\n")
 		traceLevel = newLevel
-		fileDebug.append("Nouveau niveau de trace : $traceLevel\n")
+		logDebugBuffer.append("Nouveau niveau de trace : $traceLevel\n")
+		//fileDebug.append("Nouveau niveau de trace : $traceLevel\n")
+
 	}
 
 
@@ -370,9 +397,12 @@ class Log {
 	public static addEndLog(String msg='') {
 		addTrace(msg)
 		if (nbrAssert>0) {
-			file.append("Nombre de tests unitaires :) : ${nbrAssert-nbrAssertKO} / $nbrAssert\n")
-			file.append("Nombre de tests unitaires KO : $nbrAssertKO / $nbrAssert\n")
-			fileDebug.append("Nombre de tests unitaires KO : $nbrAssertKO / $nbrAssert\n")
+			logBuffer.append("Nombre de tests unitaires :) : ${nbrAssert-nbrAssertKO} / $nbrAssert\n")
+			logBuffer.append("Nombre de tests unitaires KO : $nbrAssertKO / $nbrAssert\n")
+			logDebugBuffer.append("Nombre de tests unitaires KO : $nbrAssertKO / $nbrAssert\n")
+			//file.append("Nombre de tests unitaires :) : ${nbrAssert-nbrAssertKO} / $nbrAssert\n")
+			//file.append("Nombre de tests unitaires KO : $nbrAssertKO / $nbrAssert\n")
+			//fileDebug.append("Nombre de tests unitaires KO : $nbrAssertKO / $nbrAssert\n")
 			writeList('assertKO','',true)
 		}
 
@@ -380,11 +410,20 @@ class Log {
 
 		traceEnd=true
 		Date stop = new Date()
-		fileDebug.append("Max Level = $maxLevel\n")
-		fileDebug.append('Time Duration : ' + Tools.getDuration(startLog,stop)+'\n')
-		file.append('Time Duration : ' + Tools.getDuration(startLog,stop)+'\n')
-		fileDebug.append('*** END ***')
-		file.append('*** END ***')
+		logDebugBuffer.append("Max Level = $maxLevel\n")
+		logDebugBuffer.append('Time Duration : ' + Tools.getDuration(startLog,stop)+'\n')
+		logBuffer.append('Time Duration : ' + Tools.getDuration(startLog,stop)+'\n')
+		logDebugBuffer.append('*** END ***')
+		logBuffer.append('*** END ***')
+		/*
+		 fileDebug.append("Max Level = $maxLevel\n")
+		 fileDebug.append('Time Duration : ' + Tools.getDuration(startLog,stop)+'\n')
+		 file.append('Time Duration : ' + Tools.getDuration(startLog,stop)+'\n')
+		 fileDebug.append('*** END ***')
+		 file.append('*** END ***')
+		 */
+
+		flushLogs()
 	}
 
 
@@ -413,9 +452,12 @@ class Log {
 		}
 	}
 
+	
 	public static setTabINFO(String tab){
 		tabINFO=tab
 	}
+
+	
 
 
 }// Fin de class

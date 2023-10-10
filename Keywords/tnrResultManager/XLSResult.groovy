@@ -257,7 +257,7 @@ public class XLSResult {
 			firstLineToGroup =  row.getRowNum()-1
 		}
 
-		write()
+		//write()
 		nextLineNumber ++
 
 	}
@@ -365,7 +365,7 @@ public class XLSResult {
 		shRESULT.setRowGroupCollapsed(lineNumberSTART+1, collapse)
 
 
-		write()
+		//write()
 
 		lineNumberSTART=nextLineNumber
 	}
