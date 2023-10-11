@@ -7,10 +7,7 @@
 *
 *
 
-Passer le "Delai between actions" à 10 ms dans Project > Setting > Execution > WebUI
-Supression du XLSResult.write() de chaque ligne gain de 32min > 26min
-Ajout logBuffer, logDebugBuffer, flushLogs et timer
-
+Lecture des bug
 
 
 
@@ -28,9 +25,13 @@ Ajout logBuffer, logDebugBuffer, flushLogs et timer
 	--> le probléme arrive quand ou les 2 sont en Wifi, est-ce que c'est encore vrai si les 2 sont en filaire ?
  
 
+Ajouter un Flag pour création de TNR ou pas 
 	
-
+Mettre à jout PAT/MAT.xml
  
+ST_POS et ST_AUT que les controiler en BD
+ 
+
 *
 * -----------------------------------------------------------------------------------------------------
 * EN COURS
@@ -42,7 +43,7 @@ RESULTAT des tests :
 
 	RT.MAT.001.CRE.04 05 06 07: ST_AUT est dans l'onglet Etat
 
-
+	Quelque fois les fenetre MEMO ne s'ouvre pas !
 
 
 

@@ -154,11 +154,18 @@ public class XLSResult {
 		lineBeginBlock = 0
 	}
 
-	public static void addStep(Date date, String msg, String status, String strStepID) {
+	public static void addStep(Date date, String msg, String status, String strStepID, String devOpsID) {
 
 		if (!resulFileName) return
-
-			Row row = shRESULT.createRow(nextLineNumber)
+		
+		def hyperlink_devOps
+		if (devOpsID!='') {
+			hyperlink_devOps = CSF.createHelper.createHyperlink(HyperlinkType.URL)
+			hyperlink_devOps.setAddress("https://dev.azure.com/mainta/H%C3%A9racl%C3%A8s/_workitems/edit/$devOpsID")
+		}
+		
+		
+		Row row = shRESULT.createRow(nextLineNumber)
 
 		//groupDetail(status)
 
@@ -187,6 +194,9 @@ public class XLSResult {
 				ExcelUtils.writeCell(row,RST_COL_CDT,msg,CSF.cellStyle_RESULT_STEPFAIL)
 				ExcelUtils.writeCell(row, RST_COL_RESULT, 'FAIL',CSF.cellStyle_RESULT_STEPFAIL)
 				ExcelUtils.writeCell(row, RST_COL_STEPID, ,strStepID,CSF.cellStyle_RESULT_STEPDETAIL)
+				if (devOpsID!='') {
+					ExcelUtils.writeCell(row,RST_COL_DEVOPS, devOpsID  ,CSF.cellStyle_hyperlink,hyperlink_devOps)
+				}
 				continueToGroup = false
 				break
 			case 'ERROR':
@@ -389,7 +399,7 @@ public class XLSResult {
 
 
 
-	public static addStartInfo(String title) {
+	public static addStartInfo(String title, String osName, String osVersion, String osArch, String maintaVersion, String baseURL, String pathDB) {
 
 		if (!resulFileName) openResultFile()
 
@@ -403,14 +413,14 @@ public class XLSResult {
 		ExcelUtils.writeCell(shRESUM.getRow(3),RES_COL_INFO,startDateTNR.format(DATETIME_FORMAT),CSF.cellStyle_date)
 
 
-		ExcelUtils.writeCell(shRESUM.getRow(8),RES_COL_INFO,System.getProperty("os.name"))
-		ExcelUtils.writeCell(shRESUM.getRow(9),RES_COL_INFO,System.getProperty("os.version"))
-		ExcelUtils.writeCell(shRESUM.getRow(10),RES_COL_INFO,System.getProperty("os.arch"))
+		ExcelUtils.writeCell(shRESUM.getRow(8),RES_COL_INFO,osName)
+		ExcelUtils.writeCell(shRESUM.getRow(9),RES_COL_INFO,osVersion)
+		ExcelUtils.writeCell(shRESUM.getRow(10),RES_COL_INFO,osArch)
 
-		maintaVersion = SQL.getMaintaVersion()
+		this.maintaVersion = maintaVersion
 		ExcelUtils.writeCell(shRESUM.getRow(13),RES_COL_INFO,maintaVersion)
-		ExcelUtils.writeCell(shRESUM.getRow(14),RES_COL_INFO,GlobalVariable.BASE_URL.toString())
-		ExcelUtils.writeCell(shRESUM.getRow(15),RES_COL_INFO,SQL.getPathDB())
+		ExcelUtils.writeCell(shRESUM.getRow(14),RES_COL_INFO,baseURL)
+		ExcelUtils.writeCell(shRESUM.getRow(15),RES_COL_INFO,pathDB)
 
 		write()
 	}

@@ -4,7 +4,9 @@ package tnrResultManager
 import groovy.transform.CompileStatic
 import internal.GlobalVariable
 import tnrCommon.Tools
+import tnrDevOps.DevOpsManager
 import tnrLog.Log
+import tnrSqlManager.SQL
 import tnrTC.TCFileMapper
 
 @CompileStatic
@@ -21,17 +23,27 @@ public class TNRResult {
 	private static String PREINFOSTEPTXT	= '\t\t'
 
 
-
-	private static boolean testCaseStarted = false
+	private static String casDeTestFullname = ''
+	private static boolean testCaseStarted 	= false
 	private static Date start
+	
+	private static String systemInfoValues 	=''
 
+	private static String osName = ''
+	private static String osVersion = ''
+	private static String osArch = ''
+	private static String browserName = '?'
+	private static String browserVersion = '?'
+	private static String maintaVersion = ''
+	private static String baseURL = ''
+	private static String pathDB = ''
 
 
 
 	public static setAllowScreenshots(boolean allowScreenshots) {
 		XLSResult.setAllowScreenshots(allowScreenshots)
 	}
-	
+
 	public static addDETAIL (String msg) {
 		if (testCaseStarted) {
 			addStepInResult(msg,'DETAIL')
@@ -100,7 +112,7 @@ public class TNRResult {
 		Log.add('',PREINFOSTEPTXT+ msg)
 		addStepInResult(msg,'INFO',strStepID)
 	}
-	
+
 	public static addSTEPPASS (String strStepID, String msg) {
 		Log.add('PASS',PRESTEPTXT+ msg)
 		status.PASS++
@@ -111,7 +123,9 @@ public class TNRResult {
 	public static addSTEPFAIL (String strStepID, String msg) {
 		Log.add('FAIL',PRESTEPTXT+ msg)
 		status.FAIL++
-		addStepInResult(msg,'FAIL', strStepID)
+		String devOpsID = DevOpsManager.create('NE PAS TRAITER - TNR FAIL : ' + msg, casDeTestFullname, systemInfoValues,strStepID)
+		addStepInResult(msg,'FAIL', strStepID,devOpsID)
+		
 	}
 
 
@@ -119,6 +133,7 @@ public class TNRResult {
 		Log.add('WARNING',PRESTEPTXT+ msg)
 		status.WARNING++
 		addStepInResult(msg,'WARNING', strStepID)
+		//devops
 	}
 
 
@@ -126,6 +141,7 @@ public class TNRResult {
 		Log.addERROR(PRESTEPTXT+ msg)
 		status.ERROR++
 		addStepInResult(msg,'ERROR',strStepID)
+		//devops
 	}
 
 
@@ -143,10 +159,10 @@ public class TNRResult {
 
 
 
-	private static addStepInResult(String msg, String status, String strStepID='') {
-		XLSResult.addStep(Log.logDate,msg,status, strStepID)
+	private static addStepInResult(String msg, String status, String strStepID='', String devOpsID ='') {
+		XLSResult.addStep(Log.logDate,msg,status, strStepID, devOpsID)
 	}
-	
+
 
 
 
@@ -155,13 +171,13 @@ public class TNRResult {
 		testCaseStarted = true
 
 		GlobalVariable.CAS_DE_TEST_EN_COURS = cdt
-		cdt += ' : ' + TCFileMapper.getTitle(cdt)
+		casDeTestFullname = cdt + ' : ' + TCFileMapper.getTitle(cdt)
 		status.WARNING = 0
 		status.FAIL = 0
 		status.PASS = 0
 		status.ERROR = 0
 		Log.add('','')
-		Log.add('',"START TEST CASE : $cdt" )
+		Log.add('',"START TEST CASE : $casDeTestFullname" )
 		Log.setTabINFO(PRESUBSTEPTXT)
 		start = Log.logDate
 		XLSResult.addStartCasDeTest( start)
@@ -173,49 +189,75 @@ public class TNRResult {
 		if (testCaseStarted) {
 
 			testCaseStarted = false
-			String cdt = GlobalVariable.CAS_DE_TEST_EN_COURS.toString() + ' : ' + TCFileMapper.getTitle(GlobalVariable.CAS_DE_TEST_EN_COURS.toString())
 
 			Date stop = new Date()
 
-			XLSResult.addEndCasDeTest(status, start , stop,cdt)
+			XLSResult.addEndCasDeTest(status, start , stop,casDeTestFullname)
 			Log.setTabINFO('')
 			if (status.ERROR !=0) {
-				Log.addERROR('END TEST CASE : ' + cdt.padRight(100, '.') +  ' Duration : ' + Tools.getDuration(start,stop))
+				Log.addERROR('END TEST CASE : ' + casDeTestFullname.padRight(100, '.') +  ' Duration : ' + Tools.getDuration(start,stop))
 			} else if (status.FAIL !=0) {
-				Log.add('FAIL','END TEST CASE : ' + cdt.padRight(100, '.') +  ' Duration : ' + Tools.getDuration(start,stop))
+				Log.add('FAIL','END TEST CASE : ' + casDeTestFullname.padRight(100, '.') +  ' Duration : ' + Tools.getDuration(start,stop))
 			} else if (status.WARNING !=0) {
-				Log.add('WARNING','END TEST CASE : ' + cdt.padRight(100, '.') +  ' Duration : ' + Tools.getDuration(start,stop))
+				Log.add('WARNING','END TEST CASE : ' + casDeTestFullname.padRight(100, '.') +  ' Duration : ' + Tools.getDuration(start,stop))
 			} else {
-				Log.add('PASS','END TEST CASE : ' + cdt.padRight(100, '.') +  ' Duration : ' + Tools.getDuration(start,stop))
+				Log.add('PASS','END TEST CASE : ' + casDeTestFullname.padRight(100, '.') +  ' Duration : ' + Tools.getDuration(start,stop))
 			}
 		}
+		casDeTestFullname = ''
 	}
 
 
 	public static addStartInfo(String text) {
-
-		XLSResult.addStartInfo(text)
+		
+		osName = System.getProperty("os.name")
+		osVersion = System.getProperty("os.version")
+		osArch = System.getProperty("os.arch")
+		maintaVersion = SQL.getMaintaVersion()
+		baseURL = GlobalVariable.BASE_URL.toString()
+		pathDB = SQL.getPathDB()
+		
+		XLSResult.addStartInfo(text, osName, osVersion, osArch, maintaVersion, baseURL, pathDB)		
+		setSystemInfoValues()		
 	}
 
 
-	
-	public static addBrowserInfo() {
 
-		String browserName = Tools.getBrowserName()
-		String browserVersion = Tools.getBrowserVersion()
+	public static void addBrowserInfo() {
+
+		browserName = Tools.getBrowserName()
+		browserVersion = Tools.getBrowserVersion()
 
 		addDETAIL("Nom du navigateur : " + browserName)
 		addDETAIL("Version du navigateur : " + browserVersion)
 
 		XLSResult.addBrowserInfo(browserName, browserVersion)
+		setSystemInfoValues()	
+	}
+	
+	
+	private static void setSystemInfoValues() {
+		String br = '<br />'
+		systemInfoValues = "Version de l'OS : $osName $br"
+		systemInfoValues += "Version de l'OS : $osVersion $br"
+		systemInfoValues +="Architecture de l'OS : $osArch $br"
+		systemInfoValues +="Nom du navigateur : $browserName $br"
+		systemInfoValues +="Version du navigateur : $browserVersion $br"
+		systemInfoValues +="Version de MAINTA : $maintaVersion $br"
+		systemInfoValues +="URL : $baseURL $br"
+		systemInfoValues +="Base de donnée : $pathDB $br"
+		
 	}
 
 
-	public static close(String text) {
+	public static void close(String text) {
 
 		Log.add('','')
 		Log.add('',"************  FIN  du test : $text ************")
 
 		XLSResult.close()
 	}
+	
+
+
 }
