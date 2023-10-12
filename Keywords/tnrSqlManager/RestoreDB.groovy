@@ -26,7 +26,58 @@ public class RestoreDB {
 		Log.addTITLE("Restauration de la base de données")
 
 		List <String > backupFileList = FileUtils.getFilesFromFolder('^\\d{8}_\\d{6}-' + SQL.getProfileName() +'_' + SQL.getDatabaseName() + '.*\\.bak$',DBBACKUP_PATH)
-		if (backupFileList.size() == 1 && !forceFull) {
+		
+		if (forceFull) {
+			Log.addDETAIL(' /!\\ Forcage restauration complete')
+			Log.addSubTITLE("Initialisation complète de la BDD de test")
+			deleteFilesFromBackupFolder()
+			String masterBackupFilename = saveMasterDB()
+			moveMasterBackupFileToBackupFolder(masterBackupFilename)
+			String destFullname = restoreTNRDB(masterBackupFilename)
+			if (withPREJDD) {
+				createPREJDD()
+			}else {
+				Log.addDETAIL(' /!\\ Pas de création de PREJDD')
+			}
+			String TNRBackupFilename = saveTNRDB()
+			moveTNRBackupFileToBackupFolder(TNRBackupFilename)
+			deleteFileFromTNRFolder(destFullname)
+			
+		}else if (backupFileList.size() == 1){
+			Log.addSubTITLE("Restauration de la BDD de test")
+			String TNRBackupFilename = backupFileList[0]
+			String destFullname = restoreTNRDB(TNRBackupFilename)
+			deleteFileFromTNRFolder(destFullname)
+			
+		}else {
+			SQL.setNewInstance(SQL.AllowedDBProfilNames.MASTERTNR)
+			List <String > backupFileMasterList = FileUtils.getFilesFromFolder('^\\d{8}_\\d{6}-' + SQL.getProfileName() +'_' + SQL.getDatabaseName() + '.*\\.bak$',DBBACKUP_PATH)
+			if (backupFileMasterList.size() == 1){
+				String destFullname = restoreTNRDB( backupFileMasterList[0])
+				if (withPREJDD) {
+					createPREJDD()
+				}else {
+					Log.addDETAIL(' /!\\ Pas de création de PREJDD')
+				}
+				String TNRBackupFilename = saveTNRDB()
+				moveTNRBackupFileToBackupFolder(TNRBackupFilename)
+				deleteFileFromTNRFolder(destFullname)
+				
+			}else {
+				Log.addDETAIL("Il n'existe pas de sauvegarde de la base TNR, restauration impossible")
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/*
+		if (backupFileList.size() == 1 && !forceFull && !withPREJDD) {
 			Log.addSubTITLE("Restauration de la BDD de test")
 			String TNRBackupFilename = backupFileList[0]
 			String destFullname = restoreTNRDB(TNRBackupFilename)
@@ -52,7 +103,7 @@ public class RestoreDB {
 			moveTNRBackupFileToBackupFolder(TNRBackupFilename)
 			deleteFileFromTNRFolder(destFullname)
 		}
-
+		*/
 		// Ajouter le recyclage
 
 		Log.addTraceEND(CLASS_NAME,"run")

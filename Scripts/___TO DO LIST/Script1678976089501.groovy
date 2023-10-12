@@ -7,7 +7,7 @@
 *
 *
 
-Lecture des bug
+
 
 
 
@@ -27,7 +27,6 @@ Lecture des bug
 
 Ajouter un Flag pour création de TNR ou pas 
 	
-Mettre à jout PAT/MAT.xml
  
 ST_POS et ST_AUT que les controiler en BD
  

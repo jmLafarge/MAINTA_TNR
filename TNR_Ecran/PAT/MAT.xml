@@ -208,6 +208,13 @@
 							</div>
 						</div>
 						<div class="row">
+							<div class="col-xl-6">
+								<label><ml-text value="NU_VALASS"/>:</label>
+								<zone mode="enabled" type="text" name="NU_VALASS" data="float" form="MainForm" width="100%" unit="ID_CODDEV"></zone>
+							</div>
+							<div class="col-xl-6"></div>
+						</div>
+						<div class="row">
 							<div class="col-xl-12">
 								<preservecontent>
 									<fichier></fichier>
