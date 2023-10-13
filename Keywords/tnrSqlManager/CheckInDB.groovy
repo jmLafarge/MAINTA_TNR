@@ -151,6 +151,7 @@ public class CheckInDB {
 		String strStepID = StepID.getStrStepID(CLASS_NAME + 'checkValue' + myJDD.toString() + fieldName)
 		def valJDD = myJDD.getData(fieldName,casDeTestNum)
 		boolean specificValue = !specificValueMap.isEmpty() && specificValueMap.containsKey(fieldName)
+		String fullFieldName =  myJDD.getDBTableName() + '.' + fieldName
 
 		if (myJDD.myJDDParam.isOBSOLETE(fieldName)) {
 			addStepInfo(strStepID,fieldName, "La rubrique est OBSOLETE")
@@ -159,104 +160,104 @@ public class CheckInDB {
 			String newVal = myJDD.getData(fieldName,casDeTestNum,true).toString()
 
 			if (newVal==valDB.toString()) {
-				addStepPass(strStepID, fieldName,newVal,valDB)
+				addStepPass(strStepID, fullFieldName,newVal,valDB)
 			}else {
-				addStepFail(strStepID, fieldName,newVal,valDB)
+				addStepFail(strStepID, fullFieldName,newVal,valDB)
 			}
 
 		}else if (JDDKW.isNU(valJDD)){
-			addStepInfo(strStepID,fieldName, "La rubrique est NU (non utilisée)")
+			addStepInfo(strStepID,fullFieldName, "La rubrique est NU (non utilisée)")
 
 		}else if (JDDKW.isNULL(valJDD)) {
 			if (valDB == null) {
-				addStepPass(strStepID, fieldName,'NULL',valDB)
+				addStepPass(strStepID, fullFieldName,'NULL',valDB)
 			}else {
-				addStepFail(strStepID, fieldName,'NULL',valDB)
+				addStepFail(strStepID, fullFieldName,'NULL',valDB)
 			}
 
 		}else if (JDDKW.isVIDE(valJDD)) {
 			if (valDB == '') {
-				addStepPass(strStepID, fieldName,'VIDE',valDB)
+				addStepPass(strStepID, fullFieldName,'VIDE',valDB)
 			}else {
-				addStepFail(strStepID, fieldName,'VIDE',valDB)
+				addStepFail(strStepID, fullFieldName,'VIDE',valDB)
 			}
 
 		}else if (JDDKW.isORDRE(valJDD)) {
 
-			addStepFail(strStepID, fieldName,valJDD,valDB)
+			addStepFail(strStepID, fullFieldName,valJDD,valDB)
 
 		}else if (JDDKW.isSEQUENCEID(valJDD)) {
-			addStepFail(strStepID, fieldName,valJDD,valDB)
+			addStepFail(strStepID, fullFieldName,valJDD,valDB)
 
 		}else if (JDDKW.isDATE(valJDD)) {
 			if (valDB instanceof java.sql.Timestamp) {
-				addStepPass(strStepID, fieldName,valJDD,valDB)
+				addStepPass(strStepID, fullFieldName,valJDD,valDB)
 			}else {
-				addStepFail(strStepID, fieldName,valJDD,valDB)
+				addStepFail(strStepID, fullFieldName,valJDD,valDB)
 			}
 
 
 		}else if (JDDKW.isDATETIME(valJDD)) {
 			if (valDB instanceof java.sql.Timestamp) {
-				addStepPass(strStepID, fieldName,valJDD,valDB)
+				addStepPass(strStepID, fullFieldName,valJDD,valDB)
 			}else {
-				addStepFail(strStepID, fieldName,valJDD,valDB)
+				addStepFail(strStepID, fullFieldName,valJDD,valDB)
 			}
 
 		}else if (InfoDB.isImage(myJDD.getDBTableName(), fieldName)) {
 			valDB = SQL.getTextFromImageType(myJDD,fieldName)
 			if ( valDB == (valJDD.toString() + '\n')) {
-				addStepPass(strStepID,fieldName,valJDD,valDB)
+				addStepPass(strStepID,fullFieldName,valJDD,valDB)
 			}else {
-				addStepFail(strStepID,fieldName,valJDD,valDB)
+				addStepFail(strStepID,fullFieldName,valJDD,valDB)
 			}
 
 		}else if (!specificValue && myJDD.myJDDParam.getFOREIGNKEYFor(fieldName)) {
 			def valueFromFK = SQL.getValueFromForeignKey(myJDD, fieldName)
 			if (valueFromFK == null) {
-				addStepFail(strStepID,fieldName,"$valJDD (null)",valDB)
+				addStepFail(strStepID,fullFieldName,"$valJDD (null)",valDB)
 			}else if ( valDB == valueFromFK) {
-				addStepPass(strStepID,fieldName,"$valJDD ($valueFromFK)",valDB)
+				addStepPass(strStepID,fullFieldName,"$valJDD ($valueFromFK)",valDB)
 			}else {
-				addStepFail(strStepID, fieldName,"$valJDD ($valueFromFK)",valDB)
+				addStepFail(strStepID, fullFieldName,"$valJDD ($valueFromFK)",valDB)
 			}
 
 		}else if (specificValue) {
 			String valClass = valDB ? valDB.getClass() : 'NULL'
-			Log.addTrace("Pour '$fieldName' la class de la valeur en BD est:$valDB,  la class de la valeur spécifique est  : " + specificValueMap[fieldName].getClass())
+			Log.addTrace("Pour '$fullFieldName' la class de la valeur en BD est:$valDB,  la class de la valeur spécifique est  : " + specificValueMap[fieldName].getClass())
 			if ( valDB == InfoDB.castJDDVal(myJDD.getDBTableName(), fieldName, specificValueMap[fieldName])) {
-				addStepPass(strStepID,fieldName,specificValueMap[fieldName],valDB)
+				addStepPass(strStepID,fullFieldName,specificValueMap[fieldName],valDB)
 			}else {
-				addStepFail(strStepID,fieldName,specificValueMap[fieldName],valDB)
+				addStepFail(strStepID,fullFieldName,specificValueMap[fieldName],valDB)
 			}
 
 		}else {
 			if ( valDB == InfoDB.castJDDVal(myJDD.getDBTableName(), fieldName, valJDD)) {
-				addStepPass(strStepID,fieldName,valJDD,valDB)
+				addStepPass(strStepID,fullFieldName,valJDD,valDB)
 			}else {
-				addStepFail(strStepID,fieldName,valJDD,valDB)
+				addStepFail(strStepID,fullFieldName,valJDD,valDB)
 			}
 		}
 		Log.addTraceEND(CLASS_NAME,"checkValue")
 	}
 
 
-	private static addStepInfo(String strStepID, String fieldName, String msg) {
+	private static addStepInfo(String strStepID, String fullFieldName, String msg) {
 		//Log.addTrace("Contrôle de la valeur $type de '$fieldName' OK : la valeur attendue est '$valJDD' et la valeur en BD est  : '$val'" )
-		TNRResult.addSTEPINFO(strStepID,"- '$fieldName' : $msg" )
+		TNRResult.addSTEPINFO(strStepID,"Contrôle en BDD de '$fullFieldName' : $msg" )
 	}
 
 
-	private static addStepPass(String strStepID, String fieldName, def valJDD, def val) {
+	private static addStepPass(String strStepID, String fullFieldName, def valJDD, def val) {
 		//Log.addTrace("Contrôle de la valeur $type de '$fieldName' OK : la valeur attendue est '$valJDD' et la valeur en BD est  : '$val'" )
-		TNRResult.addSTEPPASS(strStepID,"- '$fieldName' : La valeur attendue est '$valJDD' et la valeur en BD est  : '$val'" )
+		TNRResult.addSTEPPASS(strStepID,"Contrôle en BDD de '$fullFieldName' : La valeur attendue est '$valJDD' et la valeur en BD est  : '$val'" )
 	}
 
 
 
-	private static addStepFail(String strStepID, String fieldName, def valJDD, def val) {
+	private static addStepFail(String strStepID, String fullFieldName, def valJDD, def val) {
 		//TNRResult.addDETAIL("Contrôle de la valeur $type de '$fieldName' KO : la valeur attendue est '$valJDD' et la valeur en BD est  : '$val'")
-		TNRResult.addSTEPFAIL(strStepID,"- '$fieldName' : La valeur attendue est '$valJDD' et la valeur en BD est  : '$val'")
+		TNRResult.addSTEPFAIL(strStepID,"Contrôle en BDD de '$fullFieldName' : La valeur attendue est '$valJDD' et la valeur en BD est  : '$val'")
 	}
 
 

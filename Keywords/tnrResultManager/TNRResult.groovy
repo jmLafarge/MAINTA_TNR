@@ -25,7 +25,11 @@ public class TNRResult {
 
 	private static String casDeTestFullname = ''
 	private static boolean testCaseStarted 	= false
-	private static Date start
+	private static Date startDatetimeCDT
+	private static Date startDatetimeTNR
+	
+	private static final String DATE_FORMAT 		= 'dd/MM/yyyy'
+	private static final String DATETIME_FORMAT 	= 'dd/MM/yyyy HH:mm:ss'
 	
 	private static String systemInfoValues 	=''
 
@@ -123,7 +127,8 @@ public class TNRResult {
 	public static addSTEPFAIL (String strStepID, String msg) {
 		Log.add('FAIL',PRESTEPTXT+ msg)
 		status.FAIL++
-		String devOpsID = DevOpsManager.create('NE PAS TRAITER - TNR FAIL : ' + msg, casDeTestFullname, systemInfoValues,strStepID)
+		String historyDevOps = "Créé pendant la campagne TNR du : ${startDatetimeTNR.format(DATETIME_FORMAT)}"
+		String devOpsID = DevOpsManager.create('NE PAS TRAITER - TNR FAIL : ' + msg, casDeTestFullname, systemInfoValues,strStepID,historyDevOps)
 		addStepInResult(msg,'FAIL', strStepID,devOpsID)
 		
 	}
@@ -179,8 +184,8 @@ public class TNRResult {
 		Log.add('','')
 		Log.add('',"START TEST CASE : $casDeTestFullname" )
 		Log.setTabINFO(PRESUBSTEPTXT)
-		start = Log.logDate
-		XLSResult.addStartCasDeTest( start)
+		startDatetimeCDT = Log.logDate
+		XLSResult.addStartCasDeTest( startDatetimeCDT)
 	}
 
 
@@ -192,16 +197,16 @@ public class TNRResult {
 
 			Date stop = new Date()
 
-			XLSResult.addEndCasDeTest(status, start , stop,casDeTestFullname)
+			XLSResult.addEndCasDeTest(status, startDatetimeCDT , stop,casDeTestFullname)
 			Log.setTabINFO('')
 			if (status.ERROR !=0) {
-				Log.addERROR('END TEST CASE : ' + casDeTestFullname.padRight(100, '.') +  ' Duration : ' + Tools.getDuration(start,stop))
+				Log.addERROR('END TEST CASE : ' + casDeTestFullname.padRight(100, '.') +  ' Duration : ' + Tools.getDuration(startDatetimeCDT,stop))
 			} else if (status.FAIL !=0) {
-				Log.add('FAIL','END TEST CASE : ' + casDeTestFullname.padRight(100, '.') +  ' Duration : ' + Tools.getDuration(start,stop))
+				Log.add('FAIL','END TEST CASE : ' + casDeTestFullname.padRight(100, '.') +  ' Duration : ' + Tools.getDuration(startDatetimeCDT,stop))
 			} else if (status.WARNING !=0) {
-				Log.add('WARNING','END TEST CASE : ' + casDeTestFullname.padRight(100, '.') +  ' Duration : ' + Tools.getDuration(start,stop))
+				Log.add('WARNING','END TEST CASE : ' + casDeTestFullname.padRight(100, '.') +  ' Duration : ' + Tools.getDuration(startDatetimeCDT,stop))
 			} else {
-				Log.add('PASS','END TEST CASE : ' + casDeTestFullname.padRight(100, '.') +  ' Duration : ' + Tools.getDuration(start,stop))
+				Log.add('PASS','END TEST CASE : ' + casDeTestFullname.padRight(100, '.') +  ' Duration : ' + Tools.getDuration(startDatetimeCDT,stop))
 			}
 		}
 		casDeTestFullname = ''
@@ -210,6 +215,8 @@ public class TNRResult {
 
 	public static addStartInfo(String text) {
 		
+		startDatetimeTNR = new Date()
+		
 		osName = System.getProperty("os.name")
 		osVersion = System.getProperty("os.version")
 		osArch = System.getProperty("os.arch")
@@ -217,7 +224,7 @@ public class TNRResult {
 		baseURL = GlobalVariable.BASE_URL.toString()
 		pathDB = SQL.getPathDB()
 		
-		XLSResult.addStartInfo(text, osName, osVersion, osArch, maintaVersion, baseURL, pathDB)		
+		XLSResult.addStartInfo(startDatetimeTNR, text, osName, osVersion, osArch, maintaVersion, baseURL, pathDB)		
 		setSystemInfoValues()		
 	}
 
@@ -236,26 +243,30 @@ public class TNRResult {
 	}
 	
 	
+
 	private static void setSystemInfoValues() {
-		String br = '<br />'
-		systemInfoValues = "Version de l'OS : $osName $br"
-		systemInfoValues += "Version de l'OS : $osVersion $br"
-		systemInfoValues +="Architecture de l'OS : $osArch $br"
-		systemInfoValues +="Nom du navigateur : $browserName $br"
-		systemInfoValues +="Version du navigateur : $browserVersion $br"
-		systemInfoValues +="Version de MAINTA : $maintaVersion $br"
-		systemInfoValues +="URL : $baseURL $br"
-		systemInfoValues +="Base de donnée : $pathDB $br"
-		
+		String beginOfLine = '<tr><td><b>'
+		String endOfTitle = '</b></td><td>'
+		String endOfLine = '</td></tr>'
+		systemInfoValues = "<h1>CAMPAGNE TNR du : ${startDatetimeTNR.format(DATE_FORMAT)}</h1>"
+		systemInfoValues += "<table>"
+		systemInfoValues += "${beginOfLine}Nom de l'OS $endOfTitle: $osName $endOfLine"
+		systemInfoValues += "${beginOfLine}Version de l'OS $endOfTitle: $osVersion $endOfLine"
+		systemInfoValues +="${beginOfLine}Architecture de l'OS $endOfTitle: $osArch $endOfLine"
+		systemInfoValues +="${beginOfLine}Nom du navigateur $endOfTitle: $browserName $endOfLine"
+		systemInfoValues +="${beginOfLine}Version du navigateur $endOfTitle: $browserVersion $endOfLine"
+		systemInfoValues +="${beginOfLine}Version de MAINTA $endOfTitle: $maintaVersion $endOfLine"
+		systemInfoValues +="${beginOfLine}URL $endOfTitle: $baseURL $endOfLine"
+		systemInfoValues +="${beginOfLine}Base de donnée $endOfTitle: $pathDB $endOfLine"
+		systemInfoValues +="</table>"
 	}
 
-
 	public static void close(String text) {
-
+		Date endDatetimeTNR = new Date()
+		String duration = Tools.getDuration(startDatetimeTNR, endDatetimeTNR)
+		XLSResult.close(duration,endDatetimeTNR)
 		Log.add('','')
 		Log.add('',"************  FIN  du test : $text ************")
-
-		XLSResult.close()
 	}
 	
 

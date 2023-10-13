@@ -38,19 +38,18 @@ public class DevOpsManager {
 
 	private static final String AUTHORIZATION = "Basic OjRvNGUzY3g2MndhcTRkeHh0bmxvbW9rczNzbXNqM2xueHF5NnRwZHBoampyY3c2Z2g0cnE="
 
-	
+
+
+
 
 	public static updateWorkItem(int workItemId, String fieldName, String newValue) {
 
 		def updateUrl = "https://dev.azure.com/$ORGANIZATION/$PROJECT/_apis/wit/workitems/$workItemId?api-version=$API_VERSION"
-		def updates = [
-			[
+		def updates = [[
 				"op": "add",
 				"path": "/fields/$fieldName",
 				"value": newValue
-			]
-			
-		]
+			]]
 		def jsonUpdates = JsonOutput.toJson(updates)
 
 		CloseableHttpClient httpClient = HttpClients.createDefault()
@@ -67,12 +66,12 @@ public class DevOpsManager {
 		}
 	}
 
-	
-	
-	
-	
 
-	public static String create(String title, String reproSteps, String systemInfo, String stepID) {
+
+
+
+
+	public static String create(String title, String reproSteps, String systemInfo, String stepID,  String history) {
 
 
 
@@ -113,6 +112,11 @@ public class DevOpsManager {
 				"path": "/fields/Custom.1229225a-1e58-41aa-8fef-9b91528941bf", //N° TNR
 				"from": null,
 				"value": stepID
+			],
+			[
+				"op": "add",
+				"path": "/fields/System.History",
+				"value": history
 			]
 		]).toString()
 
@@ -137,6 +141,9 @@ public class DevOpsManager {
 		os.flush()
 		os.close()
 
+
+		
+		
 		// Obtenir la réponse
 		int responseCode = connection.getResponseCode()
 		println("Response Code: " + responseCode)

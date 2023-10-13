@@ -81,7 +81,7 @@ public class XLSResult {
 	private static CELLStyleFactory CSF
 
 
-	private static Date startDateTNR
+	
 	private static int totalPASS 	= 0
 	private static int totalWARNING	= 0
 	private static int totalFAIL	= 0
@@ -157,14 +157,14 @@ public class XLSResult {
 	public static void addStep(Date date, String msg, String status, String strStepID, String devOpsID) {
 
 		if (!resulFileName) return
-		
-		def hyperlink_devOps
+
+			def hyperlink_devOps
 		if (devOpsID!='') {
 			hyperlink_devOps = CSF.createHelper.createHyperlink(HyperlinkType.URL)
 			hyperlink_devOps.setAddress("https://dev.azure.com/mainta/H%C3%A9racl%C3%A8s/_workitems/edit/$devOpsID")
 		}
-		
-		
+
+
 		Row row = shRESULT.createRow(nextLineNumber)
 
 		//groupDetail(status)
@@ -399,19 +399,16 @@ public class XLSResult {
 
 
 
-	public static addStartInfo(String title, String osName, String osVersion, String osArch, String maintaVersion, String baseURL, String pathDB) {
+	public static addStartInfo(Date startDateTNR, String title, String osName, String osVersion, String osArch, String maintaVersion, String baseURL, String pathDB) {
 
-		if (!resulFileName) openResultFile()
-
+		if (!resulFileName) {
+			openResultFile()
+		}
 
 		ExcelUtils.writeCell(shRESUM.getRow(1),RES_COL_TITLE,title)
 
-		startDateTNR = new Date()
-
-
 		ExcelUtils.writeCell(shRESUM.getRow(1),RES_COL_INFO,startDateTNR.format(DATE_FORMAT),CSF.cellStyle_dateResultat)
 		ExcelUtils.writeCell(shRESUM.getRow(3),RES_COL_INFO,startDateTNR.format(DATETIME_FORMAT),CSF.cellStyle_date)
-
 
 		ExcelUtils.writeCell(shRESUM.getRow(8),RES_COL_INFO,osName)
 		ExcelUtils.writeCell(shRESUM.getRow(9),RES_COL_INFO,osVersion)
@@ -472,13 +469,11 @@ public class XLSResult {
 
 
 
-	public static close(){
-
-		Date endDate = new Date()
+	public static close(String duration, Date endDate){
 
 		ExcelUtils.writeCell(shRESUM.getRow(4),RES_COL_INFO,endDate.format(DATETIME_FORMAT),CSF.cellStyle_date)
 
-		ExcelUtils.writeCell(shRESUM.getRow(5),RES_COL_INFO,Tools.getDuration(startDateTNR, endDate),CSF.cellStyle_durationResultat)
+		ExcelUtils.writeCell(shRESUM.getRow(5),RES_COL_INFO,duration,CSF.cellStyle_durationResultat)
 
 		Row row = shRESUM.getRow(18)
 
@@ -502,7 +497,7 @@ public class XLSResult {
 			book.close()
 			def file = new File(resulFileName)
 			String newName = file.getParent()+ File.separator +file.getName().replace('.xlsx','')
-			newName= newName + '_MSSQL_'+ browserName.split(' ')[0] + '_Mainta_' + maintaVersion.replace(' ', '_') + '.xlsx'
+			newName += '_MSSQL_'+ browserName.split(' ')[0] + '_Mainta_' + maintaVersion.replace(' ', '_') + '.xlsx'
 			file.renameTo(newName)
 		}
 	}
