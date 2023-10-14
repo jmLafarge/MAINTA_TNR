@@ -4,10 +4,10 @@ package tnrResultManager
 import groovy.transform.CompileStatic
 import internal.GlobalVariable
 import tnrCommon.Tools
-import tnrDevOps.DevOpsManager
 import tnrLog.Log
 import tnrSqlManager.SQL
 import tnrTC.TCFileMapper
+import tnrDevOps.DevOpsBug
 
 @CompileStatic
 public class TNRResult {
@@ -128,7 +128,7 @@ public class TNRResult {
 		Log.add('FAIL',PRESTEPTXT+ msg)
 		status.FAIL++
 		String historyDevOps = "Créé pendant la campagne TNR du : ${startDatetimeTNR.format(DATETIME_FORMAT)}"
-		String devOpsID = DevOpsManager.create('NE PAS TRAITER - TNR FAIL : ' + msg, casDeTestFullname, systemInfoValues,strStepID,historyDevOps)
+		String devOpsID = DevOpsBug.createBug('NE PAS TRAITER - TNR FAIL : ' + msg, casDeTestFullname, systemInfoValues,strStepID,historyDevOps)
 		addStepInResult(msg,'FAIL', strStepID,devOpsID)
 		
 	}

@@ -25,7 +25,7 @@ import tnrCommon.Tools
  */
 
 @CompileStatic
-public class DevOpsManager {
+public class OLD_________DevOps {
 
 
 	private static final String CLASS_NAME = 'DevOpsManager'
@@ -41,136 +41,6 @@ public class DevOpsManager {
 
 
 
-
-	public static updateWorkItem(int workItemId, String fieldName, String newValue) {
-
-		def updateUrl = "https://dev.azure.com/$ORGANIZATION/$PROJECT/_apis/wit/workitems/$workItemId?api-version=$API_VERSION"
-		def updates = [[
-				"op": "add",
-				"path": "/fields/$fieldName",
-				"value": newValue
-			]]
-		def jsonUpdates = JsonOutput.toJson(updates)
-
-		CloseableHttpClient httpClient = HttpClients.createDefault()
-		HttpPatch httpPatch = new HttpPatch(updateUrl)
-		httpPatch.setHeader("Content-Type", "application/json-patch+json")
-		httpPatch.setHeader("Authorization", AUTHORIZATION)
-		httpPatch.setEntity(new StringEntity(jsonUpdates))
-
-		def response = httpClient.execute(httpPatch)
-		if (response.getStatusLine().getStatusCode() == 200) {
-			println("Work item updated.")
-		} else {
-			println("Failed: HTTP error code : ${response.getStatusLine().getStatusCode()}")
-		}
-	}
-
-
-
-
-
-
-	public static String create(String title, String reproSteps, String systemInfo, String stepID,  String history) {
-
-
-
-		// Construire le corps de la requête
-		def payload = new JsonBuilder([
-			[
-				"op": "add",
-				"path": "/fields/System.Title",
-				"from":null,
-				"value": title
-			],
-			[
-				"op": "add",
-				"path": "/fields/System.AreaPath",
-				"from":null,
-				"value": "Héraclès\\GMAO"
-			],
-			[
-				"op": "add",
-				"path": "/fields/System.IterationPath",
-				//"value": "Héraclès\\GMAO\\MCO\\X3i\\Retour TNR X3i"
-				"value": "Héraclès\\TNR - TEST"
-			],
-			[
-				"op": "add",
-				"path": "/fields/Microsoft.VSTS.TCM.SystemInfo",
-				"from": null,
-				"value": systemInfo
-			],
-			[
-				"op": "add",
-				"path": "/fields/Microsoft.VSTS.TCM.ReproSteps",
-				"from": null,
-				"value": reproSteps
-			],
-			[
-				"op": "add",
-				"path": "/fields/Custom.1229225a-1e58-41aa-8fef-9b91528941bf", //N° TNR
-				"from": null,
-				"value": stepID
-			],
-			[
-				"op": "add",
-				"path": "/fields/System.History",
-				"value": history
-			]
-		]).toString()
-
-
-
-		// Créer l'URL
-		URL url = new URL("https://dev.azure.com/${ORGANIZATION}/${PROJECT}/_apis/wit/workitems/\$Bug?api-version=${API_VERSION}")
-
-		// Ouvrir la connexion
-		HttpURLConnection connection = (HttpURLConnection) url.openConnection()
-
-		// Configurer la méthode et les headers
-		connection.setRequestMethod("POST")
-		connection.setRequestProperty("Content-Type", "application/json-patch+json")
-		connection.setRequestProperty("Authorization", AUTHORIZATION)
-
-		connection.setDoOutput(true)
-
-		// Envoyer la requête
-		OutputStream os = connection.getOutputStream()
-		os.write(payload.getBytes())
-		os.flush()
-		os.close()
-
-
-		
-		
-		// Obtenir la réponse
-		int responseCode = connection.getResponseCode()
-		println("Response Code: " + responseCode)
-
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()))
-		String inputLine
-		StringBuilder response = new StringBuilder()
-
-		while ((inputLine = bufferedReader.readLine()) != null) {
-			response.append(inputLine)
-		}
-		bufferedReader.close()
-
-		// Analyse du JSON de la réponse
-		JsonSlurper jsonSlurper = new JsonSlurper()
-		Map parsedJson = jsonSlurper.parseText(response.toString()) as Map
-
-		println("Response Data:")
-		println(parsedJson)
-
-		// Afficher l'ID du nouveau bug
-		def newWorkItemId = parsedJson['id']
-		println("ID du nouveau bug: $newWorkItemId")
-
-		return newWorkItemId
-
-	}
 
 
 	public static void read(int id) {
