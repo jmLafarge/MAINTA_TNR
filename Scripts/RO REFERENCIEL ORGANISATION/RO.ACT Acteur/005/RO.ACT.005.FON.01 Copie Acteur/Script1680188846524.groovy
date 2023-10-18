@@ -46,7 +46,7 @@ for (String cdt in myJDD.getCDTList()) {
 	'Vérification des valeurs en BD'
 	STEP.checkJDDWithBD(myJDD,specificValueMap)
 
-	TNRResult.addEndTestCase()
+	//TNRResult.addEndTestCase()
 } // fin du if
 
 

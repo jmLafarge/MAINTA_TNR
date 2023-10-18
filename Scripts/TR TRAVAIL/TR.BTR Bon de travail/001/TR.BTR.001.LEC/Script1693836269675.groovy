@@ -66,6 +66,6 @@ for (String cdt in myJDD.getCDTList()) {
 	STEP.verifyBoxCheckedOrNot(myJDD, "PREV2REA", "O")
 	*/
 	
-	TNRResult.addEndTestCase()
+	//TNRResult.addEndTestCase()
 }
 

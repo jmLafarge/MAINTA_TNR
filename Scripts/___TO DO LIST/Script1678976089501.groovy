@@ -7,7 +7,7 @@
 *
 *
 
-
+Gestion des Bug et Task
 
 
 
@@ -47,7 +47,7 @@ RESULTAT des tests :
 
 
 Pas faire de doubleClick si la valeur est bonne
---> faire une fonction pour gerer les modif dans les tableaus ?
+--> faire une fonction pour gerer les modif dans les tableaux ?
 --> Voir la différence avec SRA !?
 
    

@@ -56,6 +56,6 @@ for (String cdt in myJDD.getCDTList()) {
 			STEP.verifyBoxCheckedOrNot(myJDD, "ST_RAT", "O")
 	
 	
-	TNRResult.addEndTestCase()
+	//TNRResult.addEndTestCase()
 }
 

@@ -33,6 +33,7 @@ public class Navigate {
 			TNRResult.addSTEPPASS(strStepID,"Ouverture du navigateur à l'URL :")
 			TNRResult.addDETAIL(url)
 			TNRResult.addBrowserInfo()
+			TNRResult.createDevOpsTask()
 			WebUI.waitForPageLoad((int)GlobalVariable.TIMEOUTForPageLoad, FailureHandling.STOP_ON_FAILURE)
 			WUIWindow.storeMainWindowHandle()
 		} catch (Exception ex) {

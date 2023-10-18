@@ -1,8 +1,11 @@
 package tnrDevOps
 
+import java.nio.file.Files
+
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import groovy.transform.CompileStatic
+import tnrCommon.TNRPropertiesReader
 import tnrLog.Log
 
 
@@ -22,26 +25,71 @@ public class DevOpsClient {
 
 
 	// Paramètres pour l'API Azure DevOps
-	private static final String ORGANIZATION = "mainta"
-	private static final String PROJECT = "ba23da28-ae09-446a-afac-f19fb6bd8d4e"
-	private static final String API_VERSION = "7.0"
-
-	private static final String AUTHORIZATION = "Basic OjRvNGUzY3g2MndhcTRkeHh0bmxvbW9rczNzbXNqM2xueHF5NnRwZHBoampyY3c2Z2g0cnE="
-	
-	protected static final String FIELD_AREA_PATH 		= "System.AreaPath"
-	protected static final String FIELD_ITERATION_PATH 	= "System.IterationPath"
-	protected static final String FIELD_TITLE 			= "System.Title"
-	protected static final String FIELD_REPRO_STEPS 	= "Microsoft.VSTS.TCM.ReproSteps"
-	protected static final String FIELD_SYSTEM_INFO 	= "Microsoft.VSTS.TCM.SystemInfo"
-	protected static final String FIELD_NUM_TNR 		= "Custom.1229225a-1e58-41aa-8fef-9b91528941bf"
-	protected static final String FIELD_HISTORY			= "System.History"
-	
-	
+	private static final String ORGANIZATION 	= TNRPropertiesReader.getMyProperty('DEVOPS_ORGANIZATION')
+	private static final String PROJECT 		= TNRPropertiesReader.getMyProperty('DEVOPS_PROJECT')
+	private static final String API_VERSION 	= TNRPropertiesReader.getMyProperty('DEVOPS_API_VERSION')
+	private static final String AUTHORIZATION 	= TNRPropertiesReader.getMyProperty('DEVOPS_AUTHORIZATION')
+	private static final String AREA_PATH 		= TNRPropertiesReader.getMyProperty('DEVOPS_AREA_PATH')
+	private static final String ITERATION_PATH	= TNRPropertiesReader.getMyProperty('DEVOPS_ITERATION_PATH')
 
 
-	private static Map sendRequest(def type, Map fields, String method) {
+
+	protected static final String FIELD_AREA_PATH 		= "/fields/System.AreaPath"
+	protected static final String FIELD_ITERATION_PATH 	= "/fields/System.IterationPath"
+	protected static final String FIELD_TITLE 			= "/fields/System.Title"
+	protected static final String FIELD_REPRO_STEPS 	= "/fields/Microsoft.VSTS.TCM.ReproSteps"
+	protected static final String FIELD_SYSTEM_INFO 	= "/fields/Microsoft.VSTS.TCM.SystemInfo"
+	protected static final String FIELD_NUM_TNR 		= "/fields/Custom.1229225a-1e58-41aa-8fef-9b91528941bf"
+	protected static final String FIELD_HISTORY			= "/fields/System.History"
+	protected static final String FIELD_DESCRIPTION		= "/fields/System.Description"
+
+	protected static final String RELATIONS 				= "/relations/-"
+
+	public static final String BASE_URL		= "https://dev.azure.com/$ORGANIZATION/$PROJECT"
+
+
+
+	protected static String uploadFile( String filePath) {
+		Log.addTraceBEGIN(CLASS_NAME, "sendRequest", [ filePath:filePath])
+		String fileName = new File(filePath).getName()
+		byte[] fileContent = new File(filePath).bytes
+		String urlString = "$BASE_URL/_apis/wit/attachments?fileName=$fileName&api-version=$API_VERSION"
+		Log.addTrace("urlString:$urlString")
+		def url = new URL(urlString)
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection()
+		conn.setRequestMethod('POST')
+		conn.setRequestProperty("Content-Type",'application/octet-stream')
+		conn.setRequestProperty("Authorization", AUTHORIZATION)
+		conn.setDoOutput(true)
+
+		int contentLength = fileContent.length
+		Log.addTrace("contentLength:$contentLength")
+		conn.setRequestProperty("Content-Length", Integer.toString(contentLength))
+		OutputStream os = conn.getOutputStream()
+		os.write(fileContent)
+		os.close()
+
+		int responseCode = conn.getResponseCode()
+		Map jsonResponse = [:]
+		if (responseCode == 201) {
+			def reader = new InputStreamReader(conn.getInputStream())
+			jsonResponse = new JsonSlurper().parseText(reader.text) as Map
+			reader.close()
+		} else {
+			Log.addERROR("${CLASS_NAME}.sendRequest() Failed: HTTP error code: $responseCode")
+		}
+		if (conn != null) {
+			conn.disconnect()
+		}
+		Log.addTraceEND(CLASS_NAME, "sendRequest",jsonResponse.url)
+		return jsonResponse.url
+	}
+
+
+	private static Map sendRequest(String type, Map fields, String method) {
 		Log.addTraceBEGIN(CLASS_NAME, "sendRequest", [type:type , fields:fields , method:method])
-		String urlString = "https://dev.azure.com/$ORGANIZATION/$PROJECT/_apis/wit/workitems/$type?api-version=$API_VERSION"
+		String urlString = "$BASE_URL/_apis/wit/workitems/$type?api-version=$API_VERSION"
+		Log.addTrace("urlString:$urlString")
 		def url = new URL(urlString)
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection()
 
@@ -51,18 +99,20 @@ public class DevOpsClient {
 		} else {
 			conn.setRequestMethod(method)
 		}
-		conn.setRequestProperty("Content-Type", "application/json-patch+json")
+		conn.setRequestProperty("Content-Type",'application/json-patch+json')
 		conn.setRequestProperty("Authorization", AUTHORIZATION)
 		conn.setDoOutput(true)
 
 		if (fields) {
+			fields.put(FIELD_AREA_PATH, AREA_PATH)
+			fields.put(FIELD_ITERATION_PATH, ITERATION_PATH)
 			def body = JsonOutput.toJson(transformFields(fields))
+			Log.addTrace("body:$body")
 			def writer = new OutputStreamWriter(conn.getOutputStream())
 			writer.write(body)
-			writer.flush()
+			//writer.flush()
 			writer.close()
 		}
-
 		int responseCode = conn.getResponseCode()
 		Map jsonResponse = [:]
 		if (responseCode == 200) {
@@ -72,6 +122,9 @@ public class DevOpsClient {
 		} else {
 			Log.addERROR("${CLASS_NAME}.sendRequest() Failed: HTTP error code: $responseCode")
 		}
+		if (conn != null) {
+			conn.disconnect()
+		}
 		Log.addTraceEND(CLASS_NAME, "sendRequest",jsonResponse)
 		return jsonResponse
 	}
@@ -79,42 +132,40 @@ public class DevOpsClient {
 
 
 
-	//private static List<LinkedHashMap<String, Object>> transformFields(Map<String, Object> fields) {
 	private static List<Map> transformFields(Map fields) {
-		return fields.collect { key, value ->
+		return fields.collect { path, value ->
 			[
 				"op": "add",
-				"path": "/fields/$key",
+				"path": path,
 				"value": value
 			]
 		} as List
 	}
 
 
-
-	static String createTask(Map fields) {
+	protected static String createTask(Map fields) {
+		Log.addTraceBEGIN(CLASS_NAME, "createTask", [fields:fields])
 		def response = sendRequest('$Task', fields,'POST')
-		if (response != null) {
-			println "Task created: ${response.id}"
-			
-		}
-		
+		Log.addTrace("response:$response")
+		String id = response ? response.id : ''
+		Log.addTraceEND(CLASS_NAME, "createTask",id)
+		return id
 	}
 
 
 
 
-	static void updateTask(int taskId, Map fields) {
+	protected static void updateTask(String taskId, Map fields) {
+		Log.addTraceBEGIN(CLASS_NAME, "updateTask", [taskId:taskId , fields:fields])
 		def response = sendRequest(taskId, fields, 'PATCH')
-		if (response != null) {
-			println "Task updated: ${response.id}"
-		}
+		String id = response ? response.id : ''
+		Log.addTraceEND(CLASS_NAME, "updateTask",id)
 	}
 
 
 
 
-	static String createBug(Map fields) {
+	protected static String createBug(Map fields) {
 		Log.addTraceBEGIN(CLASS_NAME, "createBug", [fields:fields])
 		def response = sendRequest('$Bug', fields,'POST')
 		String id = response ? response.id : ''
@@ -125,7 +176,7 @@ public class DevOpsClient {
 
 
 
-	static String updateBug(int bugId, Map fields) {
+	protected static String updateBug(String bugId, Map fields) {
 		Log.addTraceBEGIN(CLASS_NAME, "updateBug", [bugId:bugId , fields:fields])
 		def response = sendRequest(bugId, fields, 'PATCH')
 		String id = response ? response.id : ''
@@ -135,7 +186,7 @@ public class DevOpsClient {
 
 
 
-	static Map readBug(int bugId) {
+	protected static Map readBug(String bugId) {
 		def response = sendRequest(bugId, null, "GET")
 		if (response != null) {
 			return response
@@ -144,6 +195,65 @@ public class DevOpsClient {
 			return null
 		}
 	}
+
+
+
+	public static String searchTNRNumber(String TNRNumber) {
+		Log.addTraceBEGIN(CLASS_NAME, "searchTNRNumber", [TNRNumber:TNRNumber])
+		// Préparer l'URL et le corps de la requête
+		def urlString = "$BASE_URL/_apis/wit/wiql?api-version=$API_VERSION"
+		println urlString
+
+		def queryBody = """{
+    "query": "SELECT [System.Id] FROM WorkItems 
+		WHERE [System.State] <> 'Resolved'
+		AND [Custom.1229225a-1e58-41aa-8fef-9b91528941bf] = '$TNRNumber'"
+}"""
+
+
+		def url = new URL(urlString)
+
+		// Établir la connexion
+		def conn = (HttpURLConnection) url.openConnection()
+		conn.setRequestMethod("POST")
+		conn.setRequestProperty("Content-Type", "application/json")
+		conn.setRequestProperty("Authorization", AUTHORIZATION)
+		conn.setDoOutput(true)
+
+		// Envoyer le corps de la requête
+		def writer = new OutputStreamWriter(conn.getOutputStream())
+		writer.write(queryBody)
+		writer.flush()
+		writer.close()
+
+		// Obtenir la réponse
+		def responseCode = conn.getResponseCode()
+		String bugId =''
+		if (responseCode == 200) {
+			def reader = new InputStreamReader(conn.getInputStream())
+			def jsonResponse = reader.text
+			println jsonResponse
+			reader.close()
+
+			def jsonSlurper = new JsonSlurper()
+			def jsonObject = jsonSlurper.parseText(jsonResponse) as Map
+
+			def workItems = jsonObject['workItems'] as List
+			def numberOfIds = workItems.size()
+			println "Nombre d'ID: ${numberOfIds}"
+
+			workItems.each { workItem ->
+				bugId = workItem['id'].toString()
+			}
+		} else {
+			println("Failed : HTTP error code : ${responseCode}")
+		}
+
+		conn.disconnect()
+		Log.addTraceEND(CLASS_NAME, "searchTNRNumber",bugId)
+		return bugId
+	}
+
 
 
 

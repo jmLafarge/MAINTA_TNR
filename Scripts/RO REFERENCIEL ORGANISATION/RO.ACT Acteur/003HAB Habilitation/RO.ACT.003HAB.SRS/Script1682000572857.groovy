@@ -55,7 +55,7 @@ for (String cdt in myJDD.getCDTList()) {
 	STEP.checkIDNotInBD(myJDD)
 	
 	
-	TNRResult.addEndTestCase()
+	//TNRResult.addEndTestCase()
 
 } // fin du if
 

@@ -3,11 +3,16 @@ package tnrResultManager
 
 import groovy.transform.CompileStatic
 import internal.GlobalVariable
+import tnrCommon.FileUtils
+import tnrCommon.HtmlTableBuilder
 import tnrCommon.Tools
+import tnrDevOps.DevOpsBug
+import tnrDevOps.DevOpsClient
+import tnrDevOps.DevOpsTask
 import tnrLog.Log
 import tnrSqlManager.SQL
 import tnrTC.TCFileMapper
-import tnrDevOps.DevOpsBug
+import tnrWebUI.WUI
 
 @CompileStatic
 public class TNRResult {
@@ -22,16 +27,19 @@ public class TNRResult {
 	private static String PREDETAILTXT		= '\t\t- '
 	private static String PREINFOSTEPTXT	= '\t\t'
 
+	private static final String SCREENSHOTSUBFOLDER = 'screenshot'
 
 	private static String casDeTestFullname = ''
 	private static boolean testCaseStarted 	= false
 	private static Date startDatetimeCDT
 	private static Date startDatetimeTNR
-	
+	private static Date endDatetimeTNR
+	private static String durationTNR
+
 	private static final String DATE_FORMAT 		= 'dd/MM/yyyy'
 	private static final String DATETIME_FORMAT 	= 'dd/MM/yyyy HH:mm:ss'
-	
-	private static String systemInfoValues 	=''
+
+	private static String devOpsSystemInfoValues 	=''
 
 	private static String osName = ''
 	private static String osVersion = ''
@@ -42,10 +50,11 @@ public class TNRResult {
 	private static String baseURL = ''
 	private static String pathDB = ''
 
-
+	private static boolean allowScreenshots = true
 
 	public static setAllowScreenshots(boolean allowScreenshots) {
-		XLSResult.setAllowScreenshots(allowScreenshots)
+		//XLSResult.setAllowScreenshots(allowScreenshots)
+		this.allowScreenshots = allowScreenshots
 	}
 
 	public static addDETAIL (String msg) {
@@ -53,6 +62,26 @@ public class TNRResult {
 			addStepInResult(msg,'DETAIL')
 		}
 		Log.add('',PREDETAILTXT+ msg)
+	}
+	
+	
+	private static String takeScreenshot(Date date, String msg, String status) {
+		
+		String fileFullname =''
+		if (allowScreenshots) {
+			String filename = date.format("yyyyMMdd_HHmmss.SSS") + '_'+ GlobalVariable.CAS_DE_TEST_EN_COURS + '_' + status + '.png'
+			String path = new File(XLSResult.getResulFileName()).getParent()+ File.separator + SCREENSHOTSUBFOLDER
+			FileUtils.createFolderIfNotExist(path)
+	
+			def screenshotOptions = [:] as Map<String, Object>
+			screenshotOptions.put("text", status+':'+msg)
+			screenshotOptions.put("fontSize", 24)
+			screenshotOptions.put("fontColor", "#FF0000")
+			fileFullname = path+ File.separator +filename
+			WUI.takeScreenshot(fileFullname, screenshotOptions)
+	
+		}
+		return fileFullname
 	}
 
 
@@ -127,10 +156,25 @@ public class TNRResult {
 	public static addSTEPFAIL (String strStepID, String msg) {
 		Log.add('FAIL',PRESTEPTXT+ msg)
 		status.FAIL++
-		String historyDevOps = "Créé pendant la campagne TNR du : ${startDatetimeTNR.format(DATETIME_FORMAT)}"
-		String devOpsID = DevOpsBug.createBug('NE PAS TRAITER - TNR FAIL : ' + msg, casDeTestFullname, systemInfoValues,strStepID,historyDevOps)
-		addStepInResult(msg,'FAIL', strStepID,devOpsID)
-		
+		String devOpsID =''
+		String devOpsUrlScreenshot = ''
+		String historyDevOps = ''
+		String existingBugId = DevOpsClient.searchTNRNumber(strStepID)
+		String screenshotFileFullname = takeScreenshot(Log.logDate, msg, 'FAIL')
+		if (existingBugId) {
+			String cssLink = 'href="' + DevOpsTask.getTaskUrl() +'"'
+			historyDevOps = "Toujours présent pendant la campagne TNR du : ${startDatetimeTNR.format(DATETIME_FORMAT)} "
+			DevOpsBug.updateHistoryBug(existingBugId,historyDevOps + " <a ${cssLink}>${DevOpsTask.getTaskId()} </a>")
+			devOpsUrlScreenshot = DevOpsBug.addFileToBug(existingBugId,screenshotFileFullname, historyDevOps)
+			DevOpsTask.addBugToTask(existingBugId,'Toujours présent')
+			devOpsID = existingBugId
+		}else {
+			historyDevOps = "Créé pendant la campagne TNR du : ${startDatetimeTNR.format(DATETIME_FORMAT)}"
+			devOpsID = DevOpsBug.createBug('NE PAS TRAITER - TNR FAIL : ' + msg, casDeTestFullname, devOpsSystemInfoValues,strStepID,historyDevOps)
+			devOpsUrlScreenshot = DevOpsBug.addFileToBug(devOpsID,screenshotFileFullname, historyDevOps)
+			DevOpsTask.addBugToTask(devOpsID,'Nouveau')
+		}
+		addStepInResult(msg,'FAIL', strStepID,devOpsID,devOpsUrlScreenshot)
 	}
 
 
@@ -164,8 +208,8 @@ public class TNRResult {
 
 
 
-	private static addStepInResult(String msg, String status, String strStepID='', String devOpsID ='') {
-		XLSResult.addStep(Log.logDate,msg,status, strStepID, devOpsID)
+	private static addStepInResult(String msg, String status, String strStepID='', String devOpsID ='', String devOpsUrlScreenshot='') {
+		XLSResult.addStep(Log.logDate,msg,status, strStepID, devOpsID,DevOpsBug.getBugUrl(devOpsID),devOpsUrlScreenshot)
 	}
 
 
@@ -186,6 +230,7 @@ public class TNRResult {
 		Log.setTabINFO(PRESUBSTEPTXT)
 		startDatetimeCDT = Log.logDate
 		XLSResult.addStartCasDeTest( startDatetimeCDT)
+		allowScreenshots = true
 	}
 
 
@@ -214,18 +259,18 @@ public class TNRResult {
 
 
 	public static addStartInfo(String text) {
-		
+
 		startDatetimeTNR = new Date()
-		
+
 		osName = System.getProperty("os.name")
 		osVersion = System.getProperty("os.version")
 		osArch = System.getProperty("os.arch")
 		maintaVersion = SQL.getMaintaVersion()
 		baseURL = GlobalVariable.BASE_URL.toString()
 		pathDB = SQL.getPathDB()
-		
-		XLSResult.addStartInfo(startDatetimeTNR, text, osName, osVersion, osArch, maintaVersion, baseURL, pathDB)		
-		setSystemInfoValues()		
+
+		XLSResult.addStartInfo(startDatetimeTNR, text, osName, osVersion, osArch, maintaVersion, baseURL, pathDB)
+		setDevOpsSystemInfoValues()
 	}
 
 
@@ -239,36 +284,98 @@ public class TNRResult {
 		addDETAIL("Version du navigateur : " + browserVersion)
 
 		XLSResult.addBrowserInfo(browserName, browserVersion)
-		setSystemInfoValues()	
+		setDevOpsSystemInfoValues()
 	}
+
+	public static void createDevOpsTask() {
+		String taskTitle = "${startDatetimeTNR.format('yyyyMMdd')}- CAMPAGNE TNR Mainta $maintaVersion MSSQL  ${browserName.split(' ')[0]}"
+		DevOpsTask.createTask(taskTitle, devOpsSystemInfoValues )
+	}
+
+
 	
+	
+	private static void addDevOpsSystemInfoValuesToTable(HtmlTableBuilder htmlTable) {
+		String cssLabel = 'font-weight: bold'
+		htmlTable.addRow([["Nom de l'OS", cssLabel],[" : $osName"]])
+		htmlTable.addRow([["Version de l'OS", cssLabel],[" : $osVersion"]])
+		htmlTable.addRow([["Architecture de l'OS", cssLabel],[" : $osArch"]])
+		htmlTable.addRow([["Nom du navigateur", cssLabel],[" : $browserName"]])
+		htmlTable.addRow([["Version du navigateur", cssLabel],[" : $browserVersion"]])
+		htmlTable.addRow([["Version de MAINTA", cssLabel],[" : $maintaVersion"]])
+		htmlTable.addRow([["URL", cssLabel],[" : $baseURL"]])
+		htmlTable.addRow([["Base de donnée", cssLabel],[" : $pathDB"]])
+	}
 	
 
-	private static void setSystemInfoValues() {
-		String beginOfLine = '<tr><td><b>'
-		String endOfTitle = '</b></td><td>'
-		String endOfLine = '</td></tr>'
-		systemInfoValues = "<h1>CAMPAGNE TNR du : ${startDatetimeTNR.format(DATE_FORMAT)}</h1>"
-		systemInfoValues += "<table>"
-		systemInfoValues += "${beginOfLine}Nom de l'OS $endOfTitle: $osName $endOfLine"
-		systemInfoValues += "${beginOfLine}Version de l'OS $endOfTitle: $osVersion $endOfLine"
-		systemInfoValues +="${beginOfLine}Architecture de l'OS $endOfTitle: $osArch $endOfLine"
-		systemInfoValues +="${beginOfLine}Nom du navigateur $endOfTitle: $browserName $endOfLine"
-		systemInfoValues +="${beginOfLine}Version du navigateur $endOfTitle: $browserVersion $endOfLine"
-		systemInfoValues +="${beginOfLine}Version de MAINTA $endOfTitle: $maintaVersion $endOfLine"
-		systemInfoValues +="${beginOfLine}URL $endOfTitle: $baseURL $endOfLine"
-		systemInfoValues +="${beginOfLine}Base de donnée $endOfTitle: $pathDB $endOfLine"
-		systemInfoValues +="</table>"
+
+	private static void setDevOpsSystemInfoValues() {
+		
+		devOpsSystemInfoValues = "<h2>Relevé pendant la campagne TNR du ${startDatetimeTNR.format(DATE_FORMAT)}</h2>"
+		def htmlTable = new HtmlTableBuilder()
+		addDevOpsSystemInfoValuesToTable(htmlTable)
+		
+		devOpsSystemInfoValues +=htmlTable.build()
 	}
+	
+	
+	public static void updateDevOpsTask() {
+		
+		String description =  "<h1>CAMPAGNE TNR du : ${startDatetimeTNR.format(DATE_FORMAT)}</h1>"
+		
+		def htmlTable = new HtmlTableBuilder()
+		addDevOpsSystemInfoValuesToTable(htmlTable)
+
+		String cssLabel = 'font-weight: bold;color: blue;'
+		String cssValue = 'color: blue;'
+		htmlTable.addRow([["Début des tests", cssLabel],[" : ${startDatetimeTNR.format(DATETIME_FORMAT)}", cssValue]])
+		htmlTable.addRow([["Fin des tests", cssLabel],[" : ${endDatetimeTNR.format(DATETIME_FORMAT)}", cssValue]])
+		htmlTable.addRow([["Durée", cssLabel],[" : $durationTNR", cssValue]])
+		
+		description += htmlTable.build()
+		description += '<br/>'
+		
+		htmlTable = new HtmlTableBuilder()
+		
+		
+		String cssTitle = 'width: 60px;'
+		String cssTotal = 'font-weight: bold;text-align: right;'
+		
+		htmlTable.addRow([["", ''],["  Total", cssTitle],["   Pass", cssTitle],["Warning", cssTitle],["   Fail", cssTitle],["  Error", cssTitle]],'th')
+		
+		int totalCDT = XLSResult.getTotalPASS() + XLSResult.getTotalWARNING() + XLSResult.getTotalFAIL() + XLSResult.getTotalERROR()
+		htmlTable.addRow([["Nombre total de cas de tests", 'font-weight: bold;'],
+			[totalCDT, cssTotal],
+			[XLSResult.getTotalPASS(), cssTotal + 'background-color: lime;'],
+			[XLSResult.getTotalWARNING(), cssTotal + 'background-color: yellow;'],
+			[XLSResult.getTotalFAIL(), cssTotal + 'background-color: orange;'],
+			[XLSResult.getTotalERROR(), cssTotal + 'background-color: red;']])
+
+		
+		String cssLabelStep = 'font-style: italic;font-size: 12px;'
+		String cssTotalStep = 'font-style: italic;text-align: right;font-size: 12px;'
+		int totalStep = XLSResult.getTotalStepPASS() + XLSResult.getTotalStepWARNING() + XLSResult.getTotalStepFAIL() + XLSResult.getTotalStepERROR()
+		htmlTable.addRow([["Nombre total de STEP", cssLabelStep],
+			[totalStep, cssTotalStep],
+			[XLSResult.getTotalStepPASS(), cssTotalStep],
+			[XLSResult.getTotalStepWARNING(), cssTotalStep],
+			[XLSResult.getTotalStepFAIL(), cssTotalStep],
+			[XLSResult.getTotalStepERROR(), cssTotalStep]])
+
+		description += htmlTable.build()
+		
+		DevOpsTask.updateDescriptionTask(description)
+		DevOpsTask.addFileToTask(XLSResult.getResulFileName())
+	}
+	
+	
 
 	public static void close(String text) {
-		Date endDatetimeTNR = new Date()
-		String duration = Tools.getDuration(startDatetimeTNR, endDatetimeTNR)
-		XLSResult.close(duration,endDatetimeTNR)
+		endDatetimeTNR = new Date()
+		durationTNR = Tools.getDuration(startDatetimeTNR, endDatetimeTNR)
+		XLSResult.close(durationTNR,endDatetimeTNR)
+		updateDevOpsTask()
 		Log.add('','')
 		Log.add('',"************  FIN  du test : $text ************")
 	}
-	
-
-
 }

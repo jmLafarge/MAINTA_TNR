@@ -23,7 +23,7 @@ Log.addTITLE("Lancement de TNR SEQUENCER")
 
 TNRResult.addStartInfo('TNR SEQUENCEUR')
 
-Tools.addInfoContext()
+Tools.logInfoContext()
 
 GlobalJDD.myGlobalJDD
 

@@ -69,7 +69,7 @@ class Log {
 
 	private static int nbrAssert = 0
 	private static int nbrAssertKO = 0
-	
+
 	private static Timer timer = new Timer()
 
 
@@ -113,14 +113,14 @@ class Log {
 		addDEBUG('Trace classes ajoutées       : ' + traceClassesAdded + '\tCes classes seront toujours tracées')
 		addDEBUG('Trace des fonctions exclues  : ' + traceFunctionsExcluded + '\tCes fonctions ne seront jamais tracées' )
 		addDEBUG('Trace des fonctions ajoutées : ' + traceFunctionsAdded + '\tCes fonctions seront toujours tracées')
-		
+
 		// Planifier la tâche pour exécuter flushLogs toutes les n ms
 		timer.scheduleAtFixedRate(new TimerTask() {
-			void run() {
-				flushLogs()
-			}
-		}, 0, 1000)
-		
+					void run() {
+						flushLogs()
+					}
+				}, 0, 1000)
+
 	}
 
 	private static void flushLogs() {
@@ -229,7 +229,6 @@ class Log {
 		maxLevel = (level>maxLevel) ? level : maxLevel
 		setTraceAllowed(myClass,myFunction,level)
 		addToTraceList(myClass, myFunction)
-
 		if (traceAllowed) {
 
 			String para = ''
@@ -452,12 +451,12 @@ class Log {
 		}
 	}
 
-	
+
 	public static setTabINFO(String tab){
 		tabINFO=tab
 	}
 
-	
+
 
 
 }// Fin de class

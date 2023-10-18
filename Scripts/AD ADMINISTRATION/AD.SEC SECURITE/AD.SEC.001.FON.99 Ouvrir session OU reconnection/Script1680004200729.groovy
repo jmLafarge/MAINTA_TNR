@@ -52,5 +52,5 @@ for (String cdt in myJDD.getCDTList()) {
 		TNRResult.addSTEPINFO('',"Connexion KO")
 
 	}
-	TNRResult.addEndTestCase()
+	//TNRResult.addEndTestCase()
 }

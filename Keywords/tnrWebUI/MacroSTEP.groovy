@@ -77,7 +77,7 @@ public class MacroSTEP {
 			//'Vérification en BD que l\'objet n\'existe plus'
 			STEP.checkIDNotInBD(myJDD)
 
-			TNRResult.addEndTestCase()
+			//TNRResult.addEndTestCase()
 		}
 		Log.addTraceEND(CLASS_NAME, "suppression")
 	}
@@ -115,7 +115,7 @@ public class MacroSTEP {
 			STEP.verifyText(myJDD,'td_Grille', textToVerify)
 
 
-			TNRResult.addEndTestCase()
+			//TNRResult.addEndTestCase()
 		}
 		Log.addTraceEND(CLASS_NAME, "recherche")
 	}

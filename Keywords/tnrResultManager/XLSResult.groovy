@@ -8,28 +8,32 @@ import org.apache.poi.common.usermodel.HyperlinkType
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-
 import groovy.transform.CompileStatic
-import internal.GlobalVariable
 import tnrCommon.ExcelUtils
 import tnrCommon.FileUtils
 import tnrCommon.TNRPropertiesReader
 import tnrCommon.Tools
 import tnrLog.Log
-import tnrSqlManager.SQL
+
+/**
+ *
+ *
+ *
+ * @author JM Lafarge
+ * @version 1.0
+ */
 
 @CompileStatic
 public class XLSResult {
 
-
+	private static final String CLASS_NAME = 'XLSResult'
 
 	private static final String RES_MODELFILENAME 	= 'MODELE_RESULTATS_TNR.xlsx'
 	private static final String RES_FILENAME 		= '_TNR.xlsx'
 
 	private static final String RES_RESUMESHEETNAME = 'RESUME'
 	private static final String RES_RESULTSHEETNAME = 'RESULTATS'
-	private static final String SCREENSHOTSUBFOLDER = 'screenshot'
+	//private static final String SCREENSHOTSUBFOLDER = 'screenshot'
 
 	private static final String DATE_FORMAT 		= 'dd/MM/yyyy'
 	private static final String DATETIME_FORMAT 	= 'dd/MM/yyyy HH:mm:ss'
@@ -95,8 +99,46 @@ public class XLSResult {
 	private static String browserName =''
 	private static String maintaVersion =''
 
-	private static boolean allowScreenshots = true
+	//private static boolean allowScreenshots = true
+	
+	
+	public static int getTotalPASS() {
+		return totalPASS
+	}
 
+	public static int getTotalWARNING() {
+		return totalWARNING
+	}
+
+	public static int getTotalFAIL() {
+		return totalFAIL
+	}
+
+	public static int getTotalERROR() {
+		return totalERROR
+	}
+
+	public static int getTotalStepPASS() {
+		return totalStepPASS
+	}
+
+	public static int getTotalStepWARNING() {
+		return totalStepWARNING
+	}
+
+	public static int getTotalStepFAIL() {
+		return totalStepFAIL
+	}
+
+	public static int getTotalStepERROR() {
+		return totalStepERROR
+	}
+
+	public static String getResulFileName() {
+		return resulFileName
+	}
+	
+	
 
 	/*
 	 private static groupDetail(String status='') {
@@ -123,21 +165,12 @@ public class XLSResult {
 
 
 
-	private static takeScreenshot(Row row,Date date, String msg, String status) {
+	private static takeScreenshot(Row row,String devOpsUrlScreenshot) {
 
-		if (allowScreenshots) {
-			String filename = date.format("yyyyMMdd_HHmmss.SSS") + '_'+ GlobalVariable.CAS_DE_TEST_EN_COURS + '_' + status + '.png'
-			String path = new File(resulFileName).getParent()+ File.separator + SCREENSHOTSUBFOLDER
-			FileUtils.createFolderIfNotExist(path)
-
-			def screenshotOptions = [:] as Map<String, Object>
-			screenshotOptions.put("text", status+':'+msg)
-			screenshotOptions.put("fontSize", 24)
-			screenshotOptions.put("fontColor", "#FF0000")
-			WebUI.takeScreenshot(path+ File.separator +filename, screenshotOptions)
-
+		if (devOpsUrlScreenshot) {
+			String filename = devOpsUrlScreenshot
 			def hyperlink_screenshotFile = CSF.createHelper.createHyperlink(HyperlinkType.FILE)
-			hyperlink_screenshotFile.setAddress('./'+SCREENSHOTSUBFOLDER+ '/' +filename)
+			hyperlink_screenshotFile.setAddress(devOpsUrlScreenshot)
 			ExcelUtils.writeCell(row,RST_COL_SCREENSHOT, filename  ,CSF.cellStyle_hyperlink,hyperlink_screenshotFile)
 		}
 
@@ -154,14 +187,14 @@ public class XLSResult {
 		lineBeginBlock = 0
 	}
 
-	public static void addStep(Date date, String msg, String status, String strStepID, String devOpsID) {
-
+	public static void addStep(Date date, String msg, String status, String strStepID, String devOpsID, String devOpsUrl, String devOpsUrlScreenshot) {
+		Log.addTraceBEGIN(CLASS_NAME, "addStep", [date:date , msg:msg , status:status , strStepID:strStepID , devOpsID:devOpsID , devOpsUrl:devOpsUrl , devOpsUrlScreenshot:devOpsUrlScreenshot])
 		if (!resulFileName) return
 
 			def hyperlink_devOps
-		if (devOpsID!='') {
+		if (devOpsUrl != '') {
 			hyperlink_devOps = CSF.createHelper.createHyperlink(HyperlinkType.URL)
-			hyperlink_devOps.setAddress("https://dev.azure.com/mainta/H%C3%A9racl%C3%A8s/_workitems/edit/$devOpsID")
+			hyperlink_devOps.setAddress(devOpsUrl)
 		}
 
 
@@ -181,7 +214,7 @@ public class XLSResult {
 				continueToGroup = true
 				break
 			case 'WARNING':
-				takeScreenshot(row,date,msg,status)
+				takeScreenshot(row,devOpsUrlScreenshot)
 				ExcelUtils.writeCell(row,RST_COL_DATETIME,date.format(DATETIMESTEP_FORMAT),CSF.cellStyle_RESULT_STEP)
 				ExcelUtils.writeCell(row,RST_COL_CDT,msg,CSF.cellStyle_RESULT_STEPWARNING)
 				ExcelUtils.writeCell(row, RST_COL_RESULT, 'WARNING',CSF.cellStyle_RESULT_STEPWARNING)
@@ -189,7 +222,7 @@ public class XLSResult {
 				continueToGroup = false
 				break
 			case 'FAIL':
-				takeScreenshot(row,date,msg,status)
+				takeScreenshot(row,devOpsUrlScreenshot)
 				ExcelUtils.writeCell(row,RST_COL_DATETIME,date.format(DATETIMESTEP_FORMAT),CSF.cellStyle_RESULT_STEP)
 				ExcelUtils.writeCell(row,RST_COL_CDT,msg,CSF.cellStyle_RESULT_STEPFAIL)
 				ExcelUtils.writeCell(row, RST_COL_RESULT, 'FAIL',CSF.cellStyle_RESULT_STEPFAIL)
@@ -200,7 +233,7 @@ public class XLSResult {
 				continueToGroup = false
 				break
 			case 'ERROR':
-				takeScreenshot(row,date,msg,status)
+				takeScreenshot(row,devOpsUrlScreenshot)
 				ExcelUtils.writeCell(row,RST_COL_DATETIME,date.format(DATETIMESTEP_FORMAT),CSF.cellStyle_RESULT_STEP)
 				ExcelUtils.writeCell(row,RST_COL_CDT,msg,CSF.cellStyle_RESULT_STEPERROR)
 				ExcelUtils.writeCell(row, RST_COL_RESULT, 'ERROR',CSF.cellStyle_RESULT_STEPERROR)
@@ -269,7 +302,7 @@ public class XLSResult {
 
 		//write()
 		nextLineNumber ++
-
+		Log.addTraceEND(CLASS_NAME, "addStep")
 	}
 
 
@@ -294,7 +327,6 @@ public class XLSResult {
 
 		firstLineToGroup = lineNumberSTART+1
 		continueToGroup = true
-		allowScreenshots = true
 	}
 
 
@@ -499,13 +531,15 @@ public class XLSResult {
 			String newName = file.getParent()+ File.separator +file.getName().replace('.xlsx','')
 			newName += '_MSSQL_'+ browserName.split(' ')[0] + '_Mainta_' + maintaVersion.replace(' ', '_') + '.xlsx'
 			file.renameTo(newName)
+			resulFileName = newName
 		}
 	}
 
-
+/*
 	public static setAllowScreenshots(boolean allowScreenshots) {
 		this.allowScreenshots = allowScreenshots
 	}
+*/	
 
 
 } // Fin de class

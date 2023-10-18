@@ -40,7 +40,7 @@ for (String cdt in myJDD.getCDTList()) {
 	}
 	
 	STEP.closeBrowser()
-	TNRResult.addEndTestCase()
+	//TNRResult.addEndTestCase()
 }
 
 

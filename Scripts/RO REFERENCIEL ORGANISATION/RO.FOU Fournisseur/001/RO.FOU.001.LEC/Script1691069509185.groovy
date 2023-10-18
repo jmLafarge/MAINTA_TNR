@@ -82,6 +82,6 @@ for (String cdt in myJDD.getCDTList()) {
 		
 		STEP.verifyText(new JDD(JDDFileMapper.getFullnameFromModObj('RO.FOU'),'001A',GlobalVariable.CAS_DE_TEST_EN_COURS),"OL_DOC")
 
-	TNRResult.addEndTestCase()
+	//TNRResult.addEndTestCase()
 }
 

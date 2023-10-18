@@ -105,6 +105,6 @@ for (String cdt in myJDD.getCDTList()) {
 		STEP.verifyElementVisible(myJDD, "tab_AdresseSelected")
 	
 	
-	TNRResult.addEndTestCase()
+	//TNRResult.addEndTestCase()
 }
 

@@ -17,6 +17,6 @@ for (String cdt in myJDD.getCDTList()) {
 	
 	Log.addINFO(myJDD.getData('ID_XXX')+'\t'+myJDD.getData('ST_XXX'))
 
-	TNRResult.addEndTestCase()
+	//TNRResult.addEndTestCase()
 }
 

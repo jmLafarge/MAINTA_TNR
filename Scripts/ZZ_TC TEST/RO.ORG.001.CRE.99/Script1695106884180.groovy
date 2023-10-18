@@ -28,7 +28,7 @@ myJDD.setCasDeTest('RO.ORG.001.CRE.99')
 	STEP.verifyRadioChecked(myJDD, "NU_TYP")
 
 	
-	TNRResult.addEndTestCase()
+	//TNRResult.addEndTestCase()
 
 
 

@@ -67,8 +67,8 @@ class Tools {
 
 
 
-	public static addInfoContext() {
-		Log.addTraceBEGIN(CLASS_NAME,"addInfoContext",[:])
+	public static logInfoContext() {
+		Log.addTraceBEGIN(CLASS_NAME,"logInfoContext",[:])
 		Log.addSubTITLE('INFO CONTEXTE')
 		Log.addINFO("\tNom de l'OS".padRight(26) + System.getProperty("os.name"))
 		Log.addINFO("\tVersion de l'OS".padRight(26) + System.getProperty("os.version"))
@@ -78,7 +78,7 @@ class Tools {
 		Log.addINFO("\tBase de donnée".padRight(26) + SQL.getPathDB())
 		Log.addINFO("\tGroovySystem.version".padRight(26) + GroovySystem.version)
 		Log.addINFO('')
-		Log.addTraceEND(CLASS_NAME,"addInfoContext")
+		Log.addTraceEND(CLASS_NAME,"logInfoContext")
 	}
 
 

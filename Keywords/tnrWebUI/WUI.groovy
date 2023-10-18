@@ -31,6 +31,10 @@ public class WUI {
 	}
 
 
+	public static void takeScreenshot(String filename, Map<String, Object> screenshotOptions) {
+		WebUI.takeScreenshot(filename, screenshotOptions)
+	}
+
 
 
 	public static String getTextByObj(TestObject tObj )  {

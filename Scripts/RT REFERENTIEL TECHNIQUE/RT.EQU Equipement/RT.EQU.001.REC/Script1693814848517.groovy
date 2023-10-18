@@ -28,5 +28,5 @@ for (String cdt in myJDD.getCDTList()) {
 	STEP.verifyText(myJDD,'td_Grille', myJDD.getStrData('ST_CODCOU'))
 
 	
-	TNRResult.addEndTestCase()
+	//TNRResult.addEndTestCase()
 } // fin du if

@@ -53,7 +53,7 @@ for (String cdt in myJDD.getCDTList()) {
 	'Vérification en BD que l\'objet n\'existe plus'
 	STEP.checkIDNotInBD(myJDD)
 	
-	TNRResult.addEndTestCase()
+	//TNRResult.addEndTestCase()
 	
 
 } // fin du if
