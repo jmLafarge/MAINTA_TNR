@@ -18,9 +18,9 @@ public class DevOpsBug {
 	private static final String CLASS_NAME = 'DevOpsBug'
 
 
-
 	public static String createBug(String title, String reproSteps, String systemInfo, String stepID,  String history) {
 		Log.addTraceBEGIN(CLASS_NAME, "createBug", [title:title , reproSteps:reproSteps , systemInfo:systemInfo , stepID:stepID , history:history ])
+		
 		String cssReproStep = 'style="color: blue; font-weight: bold;"'
 		Map fields = [:]
 		fields.put(DevOpsClient.FIELD_TITLE, title)
@@ -33,8 +33,8 @@ public class DevOpsBug {
 		Log.addTraceEND(CLASS_NAME, "createBug",id)
 		return id
 	}
-	
-	
+
+
 	public static String addFileToBug(String bugId,String screenshotFileFullname, String attachmentComment) {
 		Log.addTraceBEGIN(CLASS_NAME, "addFileToBug", [bugId:bugId , screenshotFileFullname:screenshotFileFullname , attachmentComment:attachmentComment])
 		String urlFile = ''
@@ -53,7 +53,7 @@ public class DevOpsBug {
 		Log.addTraceEND(CLASS_NAME, "addFileToBug",urlFile)
 		return urlFile
 	}
-	
+
 
 	public static String getBugUrl(String bugId) {
 		Log.addTraceBEGIN(CLASS_NAME, "getBugUrl", [bugId:bugId])
@@ -62,7 +62,7 @@ public class DevOpsBug {
 		return url
 	}
 
-	
+
 	static void updateHistoryBug(String bugId, String history) {
 		Log.addTraceBEGIN(CLASS_NAME, "updateHistoryBug", [history:history])
 		if (bugId) {
@@ -77,23 +77,16 @@ public class DevOpsBug {
 
 
 	/*NOT USED YET
-	public static void updateBug(String bugId, String history) {
-
-		Map fields = [:]
-		fields.put(DevOpsClient.FIELD_HISTORY, history)
-
-		DevOpsClient.updateBug(bugId, fields)
-	}
-	*/
+	 public static void updateBug(String bugId, String history) {
+	 Map fields = [:]
+	 fields.put(DevOpsClient.FIELD_HISTORY, history)
+	 DevOpsClient.updateBug(bugId, fields)
+	 }
+	 */
 
 	/* NOT USED YET
-	static Map readBug(String bugId) {
-
-		DevOpsClient.readBug(bugId)
-	}
-	*/
-	
-
-	
-			
+	 static Map readBug(String bugId) {
+	 DevOpsClient.readBug(bugId)
+	 }
+	 */
 }

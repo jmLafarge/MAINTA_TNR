@@ -17,15 +17,15 @@ public class DevOpsTask {
 	private static final String CLASS_NAME = 'DevOpsTask'
 
 	protected static String devOpsTaskID = ''
-	
-	
+
+
 	public static String getTaskUrl() {
 		Log.addTraceBEGIN(CLASS_NAME, "getTaskUrl")
 		String url = devOpsTaskID ? "${DevOpsClient.BASE_URL}/_workitems/edit/$devOpsTaskID" : ''
 		Log.addTraceEND(CLASS_NAME, "getTaskUrl",url)
 		return url
 	}
-	
+
 	public static String getTaskId() {
 		return devOpsTaskID
 	}

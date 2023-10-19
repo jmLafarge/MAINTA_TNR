@@ -41,6 +41,7 @@ public class StepID {
 		String strStepID = ''
 		if (stepID) {
 			String fullStepID = parentStepID + ' | ' + cdt + ' | ' + cdtNum + ' | ' + stepID
+			Log.addTrace("fullStepID:$fullStepID")
 			strStepID = Tools.get256SHA(fullStepID)
 			List<String> fullStepIDList = Log.getList('fullStepID')
 			if (fullStepIDList && fullStepIDList.contains(strStepID)) {

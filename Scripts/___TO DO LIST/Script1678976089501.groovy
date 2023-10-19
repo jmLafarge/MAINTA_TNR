@@ -7,7 +7,10 @@
 *
 *
 
-Gestion des Bug et Task
+Ajout de DEVOPS_TICKET_CREATION dans les properties
+modif des liens des screenshot
+Ajout du lien de la tache
+Modif des info history et comment des Task et Bug
 
 
 
@@ -24,9 +27,20 @@ Gestion des Bug et Task
 	--> apparement possibilité de partager la clé !? --> message de fortiClient je crois
 	--> le probléme arrive quand ou les 2 sont en Wifi, est-ce que c'est encore vrai si les 2 sont en filaire ?
  
-
-Ajouter un Flag pour création de TNR ou pas 
 	
+RO.ACT.004EMP.SRA.01 : Acteur : Ajout Emplacement
+	Ajout 1 / 2 et 	Ajout 2 / 2 donne bien 2 stepID différents
+	mais pas le ctrl en base Contrôle cas de test 1 / 2 et Contrôle cas de test 2 / 2 donne le meme stepID
+	--> Veriifer l'initialisation et la mise à jour de casDeTestNum
+
+MANQUE les numero de BUG pour les WARNING 
+
+
+Manque des lignes dans le xlsx !? il sont dans le log et les Bug sont créés !
+
+ 
+ 
+ 
  
 ST_POS et ST_AUT que les controiler en BD
  

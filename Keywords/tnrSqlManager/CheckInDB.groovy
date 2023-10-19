@@ -49,7 +49,7 @@ public class CheckInDB {
 
 		TNRResult.addSTEPACTION("Vérification de la suppression des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
 		TNRResult.setAllowScreenshots(false)
-		
+
 		for (casDeTestNum in 1..nbrLigneCasDeTest) {
 			myJDD.setCasDeTestNum(casDeTestNum)
 			String strStepID = StepID.getStrStepID(CLASS_NAME + 'checkIDNotInBD' + myJDD.toString())
@@ -121,7 +121,7 @@ public class CheckInDB {
 							TNRResult.addSTEPFAIL(strStepID, rows.size() + "résultats pour la requête : $query")
 						}else {
 							row=rows[0]
-	
+
 						}
 					}
 					catch(Exception ex) {

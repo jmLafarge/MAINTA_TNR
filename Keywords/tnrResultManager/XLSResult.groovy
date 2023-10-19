@@ -41,7 +41,8 @@ public class XLSResult {
 	private static final String TIMESTEP_FORMAT 	= 'HH:mm:ss'
 
 	// TAB RESUME
-	private static final int RES_COL_TITLE		= 3
+	private static final int RES_COL_DEVOPSTASK	= 4
+	private static final int RES_COL_TITLE		= 5
 	private static final int RES_COL_INFO		= 1
 	private static final int RES_COL_TOTAL		= 1
 	private static final int RES_COL_PASS		= 2
@@ -85,7 +86,7 @@ public class XLSResult {
 	private static CELLStyleFactory CSF
 
 
-	
+
 	private static int totalPASS 	= 0
 	private static int totalWARNING	= 0
 	private static int totalFAIL	= 0
@@ -100,8 +101,8 @@ public class XLSResult {
 	private static String maintaVersion =''
 
 	//private static boolean allowScreenshots = true
-	
-	
+
+
 	public static int getTotalPASS() {
 		return totalPASS
 	}
@@ -137,8 +138,8 @@ public class XLSResult {
 	public static String getResulFileName() {
 		return resulFileName
 	}
-	
-	
+
+
 
 	/*
 	 private static groupDetail(String status='') {
@@ -165,15 +166,14 @@ public class XLSResult {
 
 
 
-	private static takeScreenshot(Row row,String devOpsUrlScreenshot) {
-
-		if (devOpsUrlScreenshot) {
-			String filename = devOpsUrlScreenshot
+	private static void writeScreenshotLink(Row row,String screenshotLink) {
+		Log.addTraceBEGIN(CLASS_NAME, "writeScreenshotLink", [row:row , screenshotLink:screenshotLink])
+		if (screenshotLink) {
 			def hyperlink_screenshotFile = CSF.createHelper.createHyperlink(HyperlinkType.FILE)
-			hyperlink_screenshotFile.setAddress(devOpsUrlScreenshot)
-			ExcelUtils.writeCell(row,RST_COL_SCREENSHOT, filename  ,CSF.cellStyle_hyperlink,hyperlink_screenshotFile)
+			hyperlink_screenshotFile.setAddress(screenshotLink)
+			ExcelUtils.writeCell(row,RST_COL_SCREENSHOT, 'Visualiser'  ,CSF.cellStyle_hyperlink,hyperlink_screenshotFile)
 		}
-
+		Log.addTraceEND(CLASS_NAME, "writeScreenshotLink")
 	}
 
 
@@ -187,14 +187,24 @@ public class XLSResult {
 		lineBeginBlock = 0
 	}
 
-	public static void addStep(Date date, String msg, String status, String strStepID, String devOpsID, String devOpsUrl, String devOpsUrlScreenshot) {
-		Log.addTraceBEGIN(CLASS_NAME, "addStep", [date:date , msg:msg , status:status , strStepID:strStepID , devOpsID:devOpsID , devOpsUrl:devOpsUrl , devOpsUrlScreenshot:devOpsUrlScreenshot])
+	public static addDevOpsTaskId(String taskId, String taskUrl) {
+		def hyperlink
+		if (taskUrl != '') {
+			hyperlink = CSF.createHelper.createHyperlink(HyperlinkType.URL)
+			hyperlink.setAddress(taskUrl)
+			ExcelUtils.writeCell(shRESUM.getRow(1),RES_COL_DEVOPSTASK, taskId  ,CSF.cellStyle_hyperlinkTask,hyperlink)
+		}
+	}
+
+
+	public static void addStep(Date date, String msg, String status, String strStepID, String bugID, String bugUrl, String screenshotLink) {
+		Log.addTraceBEGIN(CLASS_NAME, "addStep", [date:date , msg:msg , status:status , strStepID:strStepID , bugID:bugID , bugUrl:bugUrl , devOpsUrlScreenshot:screenshotLink])
 		if (!resulFileName) return
 
-			def hyperlink_devOps
-		if (devOpsUrl != '') {
-			hyperlink_devOps = CSF.createHelper.createHyperlink(HyperlinkType.URL)
-			hyperlink_devOps.setAddress(devOpsUrl)
+		def hyperlinkBug
+		if (bugUrl != '') {
+			hyperlinkBug = CSF.createHelper.createHyperlink(HyperlinkType.URL)
+			hyperlinkBug.setAddress(bugUrl)
 		}
 
 
@@ -214,30 +224,36 @@ public class XLSResult {
 				continueToGroup = true
 				break
 			case 'WARNING':
-				takeScreenshot(row,devOpsUrlScreenshot)
+				writeScreenshotLink(row,screenshotLink)
 				ExcelUtils.writeCell(row,RST_COL_DATETIME,date.format(DATETIMESTEP_FORMAT),CSF.cellStyle_RESULT_STEP)
 				ExcelUtils.writeCell(row,RST_COL_CDT,msg,CSF.cellStyle_RESULT_STEPWARNING)
 				ExcelUtils.writeCell(row, RST_COL_RESULT, 'WARNING',CSF.cellStyle_RESULT_STEPWARNING)
 				ExcelUtils.writeCell(row, RST_COL_STEPID, ,strStepID,CSF.cellStyle_RESULT_STEPDETAIL)
+				if (bugID!='') {
+					ExcelUtils.writeCell(row,RST_COL_DEVOPS, bugID  ,CSF.cellStyle_hyperlink,hyperlinkBug)
+				}
 				continueToGroup = false
 				break
 			case 'FAIL':
-				takeScreenshot(row,devOpsUrlScreenshot)
+				writeScreenshotLink(row,screenshotLink)
 				ExcelUtils.writeCell(row,RST_COL_DATETIME,date.format(DATETIMESTEP_FORMAT),CSF.cellStyle_RESULT_STEP)
 				ExcelUtils.writeCell(row,RST_COL_CDT,msg,CSF.cellStyle_RESULT_STEPFAIL)
 				ExcelUtils.writeCell(row, RST_COL_RESULT, 'FAIL',CSF.cellStyle_RESULT_STEPFAIL)
 				ExcelUtils.writeCell(row, RST_COL_STEPID, ,strStepID,CSF.cellStyle_RESULT_STEPDETAIL)
-				if (devOpsID!='') {
-					ExcelUtils.writeCell(row,RST_COL_DEVOPS, devOpsID  ,CSF.cellStyle_hyperlink,hyperlink_devOps)
+				if (bugID!='') {
+					ExcelUtils.writeCell(row,RST_COL_DEVOPS, bugID  ,CSF.cellStyle_hyperlink,hyperlinkBug)
 				}
 				continueToGroup = false
 				break
 			case 'ERROR':
-				takeScreenshot(row,devOpsUrlScreenshot)
+				writeScreenshotLink(row,screenshotLink)
 				ExcelUtils.writeCell(row,RST_COL_DATETIME,date.format(DATETIMESTEP_FORMAT),CSF.cellStyle_RESULT_STEP)
 				ExcelUtils.writeCell(row,RST_COL_CDT,msg,CSF.cellStyle_RESULT_STEPERROR)
 				ExcelUtils.writeCell(row, RST_COL_RESULT, 'ERROR',CSF.cellStyle_RESULT_STEPERROR)
 				ExcelUtils.writeCell(row, RST_COL_STEPID, ,strStepID,CSF.cellStyle_RESULT_STEPDETAIL)
+				if (bugID!='') {
+					ExcelUtils.writeCell(row,RST_COL_DEVOPS, bugID  ,CSF.cellStyle_hyperlink,hyperlinkBug)
+				}
 				continueToGroup = false
 				break
 			case 'STEPLOOP':
@@ -300,7 +316,7 @@ public class XLSResult {
 			firstLineToGroup =  row.getRowNum()-1
 		}
 
-		//write()
+		write()
 		nextLineNumber ++
 		Log.addTraceEND(CLASS_NAME, "addStep")
 	}
@@ -535,11 +551,11 @@ public class XLSResult {
 		}
 	}
 
-/*
-	public static setAllowScreenshots(boolean allowScreenshots) {
-		this.allowScreenshots = allowScreenshots
-	}
-*/	
+	/*
+	 public static setAllowScreenshots(boolean allowScreenshots) {
+	 this.allowScreenshots = allowScreenshots
+	 }
+	 */	
 
 
 } // Fin de class

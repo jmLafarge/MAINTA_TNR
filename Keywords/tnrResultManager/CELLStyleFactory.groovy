@@ -18,6 +18,7 @@ public class CELLStyleFactory {
 	public CellStyle cellStyle_date
 	public CellStyle cellStyle_dateResultat
 	public CellStyle cellStyle_hyperlink
+	public CellStyle cellStyle_hyperlinkTask
 
 	public CellStyle cellStyle_PASS
 	public CellStyle cellStyle_WARNING
@@ -71,6 +72,7 @@ public class CELLStyleFactory {
 		createCellStyle_date()
 		createCellStyle_dateResultat()
 		createCellStyle_hyperlink()
+		createCellStyle_hyperlinkTask()
 		createCellStyle_PASS()
 		createCellStyle_WARNING()
 		createCellStyle_FAIL()
@@ -160,7 +162,23 @@ public class CELLStyleFactory {
 
 		cellStyle_hyperlink = book.createCellStyle()
 		cellStyle_hyperlink.setVerticalAlignment(VerticalAlignment.CENTER)
+		cellStyle_hyperlink.setAlignment(HorizontalAlignment.CENTER)
 		cellStyle_hyperlink.setFont(fontHyperLink)
+	}
+	
+	
+	private createCellStyle_hyperlinkTask() {
+		
+		def fontHyperLinkTask = book.createFont()
+		fontHyperLinkTask.setFontName('Arial')
+		fontHyperLinkTask.setFontHeightInPoints(14 as short)
+		fontHyperLinkTask.setUnderline(FontUnderline.SINGLE.getByteValue())
+		fontHyperLinkTask.setColor(IndexedColors.BLUE.getIndex())
+
+		cellStyle_hyperlinkTask = book.createCellStyle()
+		cellStyle_hyperlinkTask.setVerticalAlignment(VerticalAlignment.CENTER)
+		cellStyle_hyperlinkTask.setAlignment(HorizontalAlignment.CENTER)
+		cellStyle_hyperlinkTask.setFont(fontHyperLinkTask)
 	}
 
 

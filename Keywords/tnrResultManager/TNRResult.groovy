@@ -63,25 +63,26 @@ public class TNRResult {
 		}
 		Log.add('',PREDETAILTXT+ msg)
 	}
-	
-	
-	private static String takeScreenshot(Date date, String msg, String status) {
-		
-		String fileFullname =''
+
+
+	private static Map takeScreenshot(Date date, String msg, String status) {
+
+		String fileFullname = ''
+		String relativePath = ''
 		if (allowScreenshots) {
 			String filename = date.format("yyyyMMdd_HHmmss.SSS") + '_'+ GlobalVariable.CAS_DE_TEST_EN_COURS + '_' + status + '.png'
 			String path = new File(XLSResult.getResulFileName()).getParent()+ File.separator + SCREENSHOTSUBFOLDER
 			FileUtils.createFolderIfNotExist(path)
-	
+
 			def screenshotOptions = [:] as Map<String, Object>
 			screenshotOptions.put("text", status+':'+msg)
 			screenshotOptions.put("fontSize", 24)
 			screenshotOptions.put("fontColor", "#FF0000")
 			fileFullname = path+ File.separator +filename
 			WUI.takeScreenshot(fileFullname, screenshotOptions)
-	
+			relativePath = './'+SCREENSHOTSUBFOLDER+ '/' +filename
 		}
-		return fileFullname
+		return [fileFullname:fileFullname , relativePath:relativePath]
 	}
 
 
@@ -152,45 +153,60 @@ public class TNRResult {
 		addStepInResult(msg,'PASS', strStepID)
 	}
 
+	private static Map manageDevOpsBug(String strStepID, String msg, Map <String,String> screenshotFileInfo, String status) {
+
+		String bugID =''
+		String screenshotLink = screenshotFileInfo.relativePath
+		String historyComment = ''
+		String existingBugID = DevOpsClient.searchTNRNumber(strStepID)
+
+		if (DevOpsClient.ALLOW_CREATION) {
+			String cssLink = 'href="' + DevOpsTask.getTaskUrl() +'"'
+			String aLink = " <a ${cssLink}>${DevOpsTask.getTaskId()} </a>"
+			if (existingBugID) {
+				historyComment = "Toujours présent pendant la campagne TNR du : ${startDatetimeTNR.format(DATETIME_FORMAT)} "
+				DevOpsBug.updateHistoryBug(existingBugID,historyComment + aLink)
+				screenshotLink = DevOpsBug.addFileToBug(existingBugID,screenshotFileInfo.fileFullname, historyComment)
+				DevOpsTask.addBugToTask(existingBugID,'Toujours présent pendant cette campagne')
+				bugID = existingBugID
+			}else {
+				historyComment = "Créé pendant la campagne TNR du : ${startDatetimeTNR.format(DATETIME_FORMAT)}"
+				bugID = DevOpsBug.createBug("NE PAS TRAITER - TNR $status : $msg", casDeTestFullname, devOpsSystemInfoValues,strStepID,historyComment + aLink)
+				screenshotLink = DevOpsBug.addFileToBug(bugID,screenshotFileInfo.fileFullname, historyComment)
+				DevOpsTask.addBugToTask(bugID,'Nouveau, détecté pendant cette campagne')
+			}
+		}else {
+			bugID = existingBugID
+		}
+		Map ret = [id:bugID , screenshotLink:screenshotLink]
+		return ret
+	}
+
 
 	public static addSTEPFAIL (String strStepID, String msg) {
 		Log.add('FAIL',PRESTEPTXT+ msg)
 		status.FAIL++
-		String devOpsID =''
-		String devOpsUrlScreenshot = ''
-		String historyDevOps = ''
-		String existingBugId = DevOpsClient.searchTNRNumber(strStepID)
-		String screenshotFileFullname = takeScreenshot(Log.logDate, msg, 'FAIL')
-		if (existingBugId) {
-			String cssLink = 'href="' + DevOpsTask.getTaskUrl() +'"'
-			historyDevOps = "Toujours présent pendant la campagne TNR du : ${startDatetimeTNR.format(DATETIME_FORMAT)} "
-			DevOpsBug.updateHistoryBug(existingBugId,historyDevOps + " <a ${cssLink}>${DevOpsTask.getTaskId()} </a>")
-			devOpsUrlScreenshot = DevOpsBug.addFileToBug(existingBugId,screenshotFileFullname, historyDevOps)
-			DevOpsTask.addBugToTask(existingBugId,'Toujours présent')
-			devOpsID = existingBugId
-		}else {
-			historyDevOps = "Créé pendant la campagne TNR du : ${startDatetimeTNR.format(DATETIME_FORMAT)}"
-			devOpsID = DevOpsBug.createBug('NE PAS TRAITER - TNR FAIL : ' + msg, casDeTestFullname, devOpsSystemInfoValues,strStepID,historyDevOps)
-			devOpsUrlScreenshot = DevOpsBug.addFileToBug(devOpsID,screenshotFileFullname, historyDevOps)
-			DevOpsTask.addBugToTask(devOpsID,'Nouveau')
-		}
-		addStepInResult(msg,'FAIL', strStepID,devOpsID,devOpsUrlScreenshot)
+		Map <String,String> screenshotFileInfo = takeScreenshot(Log.logDate, msg, 'FAIL')
+		Map <String,String> bug = manageDevOpsBug(strStepID, msg, screenshotFileInfo,'FAIL')
+		addStepInResult(msg,'FAIL', strStepID,bug.id,bug.screenshotLink)
 	}
 
 
 	public static addSTEPWARNING (String strStepID, String msg) {
 		Log.add('WARNING',PRESTEPTXT+ msg)
 		status.WARNING++
-		addStepInResult(msg,'WARNING', strStepID)
-		//devops
+		Map <String,String> screenshotFileInfo = takeScreenshot(Log.logDate, msg, 'WARNING')
+		Map <String,String> bug = manageDevOpsBug(strStepID, msg, screenshotFileInfo,'WARNING')
+		addStepInResult(msg,'WARNING', strStepID,bug.id,bug.screenshotLink)
 	}
 
 
 	public static addSTEPERROR (String strStepID, String msg) {
 		Log.addERROR(PRESTEPTXT+ msg)
 		status.ERROR++
-		addStepInResult(msg,'ERROR',strStepID)
-		//devops
+		Map <String,String> screenshotFileInfo = takeScreenshot(Log.logDate, msg, 'ERROR')
+		Map <String,String> bug = manageDevOpsBug(strStepID, msg, screenshotFileInfo,'ERROR')
+		addStepInResult(msg,'ERROR',strStepID,bug.id,bug.screenshotLink)
 	}
 
 
@@ -208,8 +224,8 @@ public class TNRResult {
 
 
 
-	private static addStepInResult(String msg, String status, String strStepID='', String devOpsID ='', String devOpsUrlScreenshot='') {
-		XLSResult.addStep(Log.logDate,msg,status, strStepID, devOpsID,DevOpsBug.getBugUrl(devOpsID),devOpsUrlScreenshot)
+	private static addStepInResult(String msg, String status, String strStepID='', String devOpsBugID ='', String screenshotLink='') {
+		XLSResult.addStep(Log.logDate,msg,status, strStepID, devOpsBugID,DevOpsBug.getBugUrl(devOpsBugID),screenshotLink)
 	}
 
 
@@ -288,87 +304,82 @@ public class TNRResult {
 	}
 
 	public static void createDevOpsTask() {
-		String taskTitle = "${startDatetimeTNR.format('yyyyMMdd')}- CAMPAGNE TNR Mainta $maintaVersion MSSQL  ${browserName.split(' ')[0]}"
-		DevOpsTask.createTask(taskTitle, devOpsSystemInfoValues )
+		if (DevOpsClient.ALLOW_CREATION) {
+			String taskTitle = "${startDatetimeTNR.format('yyyyMMdd')}- CAMPAGNE TNR Mainta $maintaVersion MSSQL  ${browserName.split(' ')[0]}"
+			DevOpsTask.createTask(taskTitle, devOpsSystemInfoValues )
+			XLSResult.addDevOpsTaskId(DevOpsTask.getTaskId(), DevOpsTask.getTaskUrl())
+		}
 	}
 
 
-	
-	
+
+
 	private static void addDevOpsSystemInfoValuesToTable(HtmlTableBuilder htmlTable) {
 		String cssLabel = 'font-weight: bold'
-		htmlTable.addRow([["Nom de l'OS", cssLabel],[" : $osName"]])
-		htmlTable.addRow([["Version de l'OS", cssLabel],[" : $osVersion"]])
-		htmlTable.addRow([["Architecture de l'OS", cssLabel],[" : $osArch"]])
-		htmlTable.addRow([["Nom du navigateur", cssLabel],[" : $browserName"]])
-		htmlTable.addRow([["Version du navigateur", cssLabel],[" : $browserVersion"]])
-		htmlTable.addRow([["Version de MAINTA", cssLabel],[" : $maintaVersion"]])
-		htmlTable.addRow([["URL", cssLabel],[" : $baseURL"]])
-		htmlTable.addRow([["Base de donnée", cssLabel],[" : $pathDB"]])
+		htmlTable.addRow([["Nom de l'OS", cssLabel], [" : $osName"]])
+		htmlTable.addRow([["Version de l'OS", cssLabel], [" : $osVersion"]])
+		htmlTable.addRow([["Architecture de l'OS", cssLabel], [" : $osArch"]])
+		htmlTable.addRow([["Nom du navigateur", cssLabel], [" : $browserName"]])
+		htmlTable.addRow([["Version du navigateur", cssLabel], [" : $browserVersion"]])
+		htmlTable.addRow([["Version de MAINTA", cssLabel], [" : $maintaVersion"]])
+		htmlTable.addRow([["URL", cssLabel], [" : $baseURL"]])
+		htmlTable.addRow([["Base de donnée", cssLabel], [" : $pathDB"]])
 	}
-	
+
 
 
 	private static void setDevOpsSystemInfoValues() {
-		
+
 		devOpsSystemInfoValues = "<h2>Relevé pendant la campagne TNR du ${startDatetimeTNR.format(DATE_FORMAT)}</h2>"
 		def htmlTable = new HtmlTableBuilder()
 		addDevOpsSystemInfoValuesToTable(htmlTable)
-		
+
 		devOpsSystemInfoValues +=htmlTable.build()
 	}
-	
-	
+
+
 	public static void updateDevOpsTask() {
-		
+
 		String description =  "<h1>CAMPAGNE TNR du : ${startDatetimeTNR.format(DATE_FORMAT)}</h1>"
-		
+
 		def htmlTable = new HtmlTableBuilder()
 		addDevOpsSystemInfoValuesToTable(htmlTable)
 
 		String cssLabel = 'font-weight: bold;color: blue;'
 		String cssValue = 'color: blue;'
-		htmlTable.addRow([["Début des tests", cssLabel],[" : ${startDatetimeTNR.format(DATETIME_FORMAT)}", cssValue]])
-		htmlTable.addRow([["Fin des tests", cssLabel],[" : ${endDatetimeTNR.format(DATETIME_FORMAT)}", cssValue]])
-		htmlTable.addRow([["Durée", cssLabel],[" : $durationTNR", cssValue]])
-		
+		htmlTable.addRow([["Début des tests", cssLabel], [" : ${startDatetimeTNR.format(DATETIME_FORMAT)}", cssValue]])
+		htmlTable.addRow([["Fin des tests", cssLabel], [" : ${endDatetimeTNR.format(DATETIME_FORMAT)}", cssValue]])
+		htmlTable.addRow([["Durée", cssLabel], [" : $durationTNR", cssValue]])
+
 		description += htmlTable.build()
 		description += '<br/>'
-		
+
 		htmlTable = new HtmlTableBuilder()
-		
-		
+
+
 		String cssTitle = 'width: 60px;'
 		String cssTotal = 'font-weight: bold;text-align: right;'
-		
-		htmlTable.addRow([["", ''],["  Total", cssTitle],["   Pass", cssTitle],["Warning", cssTitle],["   Fail", cssTitle],["  Error", cssTitle]],'th')
-		
-		int totalCDT = XLSResult.getTotalPASS() + XLSResult.getTotalWARNING() + XLSResult.getTotalFAIL() + XLSResult.getTotalERROR()
-		htmlTable.addRow([["Nombre total de cas de tests", 'font-weight: bold;'],
-			[totalCDT, cssTotal],
-			[XLSResult.getTotalPASS(), cssTotal + 'background-color: lime;'],
-			[XLSResult.getTotalWARNING(), cssTotal + 'background-color: yellow;'],
-			[XLSResult.getTotalFAIL(), cssTotal + 'background-color: orange;'],
-			[XLSResult.getTotalERROR(), cssTotal + 'background-color: red;']])
 
-		
+		htmlTable.addRow([["", ''], ["  Total", cssTitle], ["   Pass", cssTitle], ["Warning", cssTitle], ["   Fail", cssTitle], ["  Error", cssTitle]],'th')
+
+		int totalCDT = XLSResult.getTotalPASS() + XLSResult.getTotalWARNING() + XLSResult.getTotalFAIL() + XLSResult.getTotalERROR()
+		htmlTable.addRow([["Nombre total de cas de tests", 'font-weight: bold;'], [totalCDT, cssTotal], [XLSResult.getTotalPASS(), cssTotal + 'background-color: lime;'], [XLSResult.getTotalWARNING(), cssTotal + 'background-color: yellow;'], [XLSResult.getTotalFAIL(), cssTotal + 'background-color: orange;'], [XLSResult.getTotalERROR(), cssTotal + 'background-color: red;']])
+
+
 		String cssLabelStep = 'font-style: italic;font-size: 12px;'
 		String cssTotalStep = 'font-style: italic;text-align: right;font-size: 12px;'
 		int totalStep = XLSResult.getTotalStepPASS() + XLSResult.getTotalStepWARNING() + XLSResult.getTotalStepFAIL() + XLSResult.getTotalStepERROR()
-		htmlTable.addRow([["Nombre total de STEP", cssLabelStep],
-			[totalStep, cssTotalStep],
-			[XLSResult.getTotalStepPASS(), cssTotalStep],
-			[XLSResult.getTotalStepWARNING(), cssTotalStep],
-			[XLSResult.getTotalStepFAIL(), cssTotalStep],
-			[XLSResult.getTotalStepERROR(), cssTotalStep]])
+		htmlTable.addRow([["Nombre total de STEP", cssLabelStep], [totalStep, cssTotalStep], [XLSResult.getTotalStepPASS(), cssTotalStep], [XLSResult.getTotalStepWARNING(), cssTotalStep], [XLSResult.getTotalStepFAIL(), cssTotalStep], [XLSResult.getTotalStepERROR(), cssTotalStep]])
 
 		description += htmlTable.build()
-		
-		DevOpsTask.updateDescriptionTask(description)
-		DevOpsTask.addFileToTask(XLSResult.getResulFileName())
+
+		if (DevOpsClient.ALLOW_CREATION) {
+			DevOpsTask.updateDescriptionTask(description)
+			DevOpsTask.addFileToTask(XLSResult.getResulFileName())
+		}
 	}
-	
-	
+
+
 
 	public static void close(String text) {
 		endDatetimeTNR = new Date()

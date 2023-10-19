@@ -1,7 +1,5 @@
 package tnrDevOps
 
-import java.nio.file.Files
-
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import groovy.transform.CompileStatic
@@ -23,6 +21,8 @@ public class DevOpsClient {
 
 	private static final String CLASS_NAME = 'DevOpsClient'
 
+	public static final boolean ALLOW_CREATION = TNRPropertiesReader.getMyProperty('DEVOPS_TICKET_CREATION') == 'ALLOW'
+	
 
 	// Paramètres pour l'API Azure DevOps
 	private static final String ORGANIZATION 	= TNRPropertiesReader.getMyProperty('DEVOPS_ORGANIZATION')

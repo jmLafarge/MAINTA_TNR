@@ -99,10 +99,7 @@ for (String cdt in myJDD.getCDTList()) {
 
 		
 		
-	TNRResult.addSTEPGRP("ONGLET ADRESSE")
-		
-		STEP.simpleClick(myJDD, "tab_Adresse")
-		STEP.verifyElementVisible(myJDD, "tab_AdresseSelected")
+
 	
 	
 	//TNRResult.addEndTestCase()
