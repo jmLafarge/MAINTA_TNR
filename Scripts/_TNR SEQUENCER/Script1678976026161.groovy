@@ -53,9 +53,9 @@ Sequencer.testCasesList.each { TCMap ->
 			TNRResult.addDETAIL(ke.getMessage())
 		}
 		
-		TNRResult.addEndTestCase()
+		TNRResult.addEndTestCase() // au cas d'exeption
 	}	
 }
 
-TNRResult.close('TNR SEQUENCER')
+TNRResult.closeTNR('TNR SEQUENCER')
 

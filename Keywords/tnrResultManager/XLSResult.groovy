@@ -201,7 +201,7 @@ public class XLSResult {
 		Log.addTraceBEGIN(CLASS_NAME, "addStep", [date:date , msg:msg , status:status , strStepID:strStepID , bugID:bugID , bugUrl:bugUrl , devOpsUrlScreenshot:screenshotLink])
 		if (!resulFileName) return
 
-		def hyperlinkBug
+			def hyperlinkBug
 		if (bugUrl != '') {
 			hyperlinkBug = CSF.createHelper.createHyperlink(HyperlinkType.URL)
 			hyperlinkBug.setAddress(bugUrl)
@@ -316,7 +316,7 @@ public class XLSResult {
 			firstLineToGroup =  row.getRowNum()-1
 		}
 
-		write()
+		//write()
 		nextLineNumber ++
 		Log.addTraceEND(CLASS_NAME, "addStep")
 	}
@@ -337,7 +337,7 @@ public class XLSResult {
 		row = shRESULT.createRow(lineNumberSTART+1)
 		ExcelUtils.writeCell(row,RST_COL_CDT,"",CSF.cellStyle_RESULT_STEPDETAIL)
 
-		write()
+		//write()
 
 		nextLineNumber=lineNumberSTART+2
 
@@ -356,7 +356,7 @@ public class XLSResult {
 				shRESULT.setRowSumsBelow(false)
 				shRESULT.groupRow(firstLineToGroup+1, nextLineNumber-1)
 				shRESULT.setRowGroupCollapsed(firstLineToGroup+1, false)
-				write()
+				//write()
 			}
 
 		Row row = shRESULT.getRow(lineNumberSTART)
@@ -423,7 +423,7 @@ public class XLSResult {
 		shRESULT.setRowGroupCollapsed(lineNumberSTART+1, collapse)
 
 
-		//write()
+		////write()
 
 		lineNumberSTART=nextLineNumber
 	}
@@ -439,7 +439,7 @@ public class XLSResult {
 			ExcelUtils.writeCell(shRESUM.getRow(11),RES_COL_INFO,browser)
 			ExcelUtils.writeCell(shRESUM.getRow(12),RES_COL_INFO,version)
 
-			write()
+			//write()
 		}
 	}
 
@@ -467,7 +467,7 @@ public class XLSResult {
 		ExcelUtils.writeCell(shRESUM.getRow(14),RES_COL_INFO,baseURL)
 		ExcelUtils.writeCell(shRESUM.getRow(15),RES_COL_INFO,pathDB)
 
-		write()
+		//write()
 	}
 
 
@@ -508,16 +508,18 @@ public class XLSResult {
 
 
 
-	private static write(){
+	private static writeXLSFile(){
 
 		OutputStream fileOut = new FileOutputStream(resulFileName)
-		book.write(fileOut);
+		book.write(fileOut)
+		fileOut.close()
+		book.close()
 	}
 
 
 
 
-	public static close(String duration, Date endDate){
+	public static closeXLSFile(String duration, Date endDate){
 
 		ExcelUtils.writeCell(shRESUM.getRow(4),RES_COL_INFO,endDate.format(DATETIME_FORMAT),CSF.cellStyle_date)
 
@@ -539,10 +541,8 @@ public class XLSResult {
 		ExcelUtils.writeCell(row,RES_COL_FAIL,totalStepFAIL,CSF.cellStyle_STEPTOT)
 		ExcelUtils.writeCell(row,RES_COL_ERROR,totalStepERROR,CSF.cellStyle_STEPTOT)
 
-		write()
-
 		if (resulFileName) {
-			book.close()
+			writeXLSFile()
 			def file = new File(resulFileName)
 			String newName = file.getParent()+ File.separator +file.getName().replace('.xlsx','')
 			newName += '_MSSQL_'+ browserName.split(' ')[0] + '_Mainta_' + maintaVersion.replace(' ', '_') + '.xlsx'
@@ -551,11 +551,6 @@ public class XLSResult {
 		}
 	}
 
-	/*
-	 public static setAllowScreenshots(boolean allowScreenshots) {
-	 this.allowScreenshots = allowScreenshots
-	 }
-	 */	
 
 
 } // Fin de class

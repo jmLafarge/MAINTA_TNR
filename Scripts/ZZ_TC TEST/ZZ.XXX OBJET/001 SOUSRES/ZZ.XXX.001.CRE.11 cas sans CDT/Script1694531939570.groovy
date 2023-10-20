@@ -20,5 +20,5 @@ for (String cdt in myJDD.getCDTList()) {
 		TNRResult.addSTEP(myJDD.getData('ID_XXX')+'\t'+myJDD.getData('ST_XXX'))
 	}
 	
-	//TNRResult.addEndTestCase()
+	TNRResult.addEndTestCase()
 }

@@ -23,6 +23,6 @@ JDD myJDD = new JDD()
 		
 		
 
-	//TNRResult.addEndTestCase()
+	TNRResult.addEndTestCase()
 
 

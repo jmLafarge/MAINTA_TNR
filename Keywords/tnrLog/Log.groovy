@@ -248,7 +248,7 @@ class Log {
 		tab = STRTABSEP.multiply(level) //
 
 		if (traceAllowed) {
-			String r = ret?" <-- '$ret'":' ---'
+			String r = (ret == null) ? '---' : (ret == '' ? "''" : ret)
 			addDEBUG(STREND + getClassFunction(myClass,myFunction) + '()' + r)
 		}
 		delToTraceList(myClass, myFunction)

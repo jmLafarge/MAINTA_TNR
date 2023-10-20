@@ -54,7 +54,7 @@ for (n in 1..100) {
 		default :TNRResult.addSTEPPASS("encore des pass"); break;		
 		}
 	}
-	//TNRResult.addEndTestCase()
+	TNRResult.addEndTestCase()
 }
 
 TNRResult.close('FIN')

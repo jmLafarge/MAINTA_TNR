@@ -25,7 +25,7 @@ JDD myJDD = new JDD()
 			KW.scrollAndSelectOptionByValue(myJDD, "NU_TYP",'1')
 			
 		
-	//TNRResult.addEndTestCase()
+	TNRResult.addEndTestCase()
 
 //} // fin du if
 

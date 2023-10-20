@@ -42,10 +42,12 @@ public class Memo {
 	 * 
 	 */
 	public static void setMemoText( String newText, String memoName, boolean maj, JDD myJDD,String modifierNom) {
-		Log.addTraceBEGIN(CLASS_NAME, "setMemoText",[ newTexte:newText , memoName:memoName , maj:maj ])
+		Log.addTraceBEGIN(CLASS_NAME, "setMemoText",[ newTexte:newText , memoName:memoName , maj:maj , myJDD:myJDD , modifierNom:modifierNom])
 		String strStepID = StepID.getStrStepID(CLASS_NAME + 'setMemoText'+ myJDD.toString() + memoName)
 		StepID.setParentStepID(strStepID)
 		WUIWindow.init()
+		Log.addTrace("Attendre 100 ms pour l'affichage du bouton")
+		Thread.sleep(100)
 		// Cas où le nom du bouton modifier est différent
 		if (modifierNom) {
 			STEP.simpleClick( myJDD,modifierNom)

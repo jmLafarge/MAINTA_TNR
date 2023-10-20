@@ -381,10 +381,10 @@ public class TNRResult {
 
 
 
-	public static void close(String text) {
+	public static void closeTNR(String text) {
 		endDatetimeTNR = new Date()
 		durationTNR = Tools.getDuration(startDatetimeTNR, endDatetimeTNR)
-		XLSResult.close(durationTNR,endDatetimeTNR)
+		XLSResult.closeXLSFile(durationTNR,endDatetimeTNR)
 		updateDevOpsTask()
 		Log.add('','')
 		Log.add('',"************  FIN  du test : $text ************")

@@ -102,6 +102,6 @@ for (String cdt in myJDD.getCDTList()) {
 
 	
 	
-	//TNRResult.addEndTestCase()
+	TNRResult.addEndTestCase()
 }
 

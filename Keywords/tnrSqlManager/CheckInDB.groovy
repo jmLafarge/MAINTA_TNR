@@ -83,16 +83,18 @@ public class CheckInDB {
 	static void checkJDDWithBD( JDD myJDD,Map specificValueMap=[:],String sql =''){
 
 		Log.addTraceBEGIN(CLASS_NAME,"checkJDDWithBD",[ myJDD:myJDD.toString() , specificValueMap:specificValueMap , sql:sql])
-		String strStepID = StepID.getStrStepID(CLASS_NAME + 'checkJDDWithBD' + myJDD.toString())
 
+		Log.addTrace("Attendre 100 ms pour l'écriture en DBB")
 		Thread.sleep(100)
 
 		TNRResult.addSTEPACTION("Vérification des valeurs en Base de Données ("+ myJDD.getDBTableName() + ')')
 		TNRResult.setAllowScreenshots(false)
 		int nbrLigneCasDeTest =myJDD.getNbrLigneCasDeTest()
 
-		for (casDeTestNum in 1..nbrLigneCasDeTest) {
+		for (int casDeTestNum : (1..nbrLigneCasDeTest)) {
 			myJDD.setCasDeTestNum(casDeTestNum)
+			String strStepID = StepID.getStrStepID(CLASS_NAME + 'checkJDDWithBD' + myJDD.toString())
+
 			if (nbrLigneCasDeTest>1) {
 				TNRResult.addSUBSTEP("Contrôle cas de test $casDeTestNum / $nbrLigneCasDeTest")
 			}

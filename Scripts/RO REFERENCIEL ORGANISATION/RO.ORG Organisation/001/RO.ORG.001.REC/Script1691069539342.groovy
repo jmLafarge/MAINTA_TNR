@@ -27,6 +27,6 @@ for (String cdt in myJDD.getCDTList()) {
 	//'Vérifier que la valeur soit dans la grille filtrée'
 	STEP.verifyText(myJDD,'td_Grille', myJDD.getStrData())
 	
-	//TNRResult.addEndTestCase()
+	TNRResult.addEndTestCase()
 
 }

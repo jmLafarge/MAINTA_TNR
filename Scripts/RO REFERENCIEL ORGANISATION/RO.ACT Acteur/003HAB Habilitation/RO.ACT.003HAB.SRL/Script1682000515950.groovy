@@ -46,7 +46,7 @@ for (String cdt in myJDD.getCDTList()) {
 			
 	    }// fin du for
 		
-	//TNRResult.addEndTestCase()
+	TNRResult.addEndTestCase()
 } // fin du if
 
 

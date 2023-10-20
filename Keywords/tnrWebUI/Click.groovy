@@ -82,5 +82,4 @@ public class Click {
 		Log.addTraceEND(CLASS_NAME, "doubleClick",ret)
 		return ret
 	}
-	
 } // end of class

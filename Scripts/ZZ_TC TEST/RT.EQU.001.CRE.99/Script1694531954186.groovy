@@ -22,7 +22,7 @@ myJDD.setCasDeTest('RT.EQU.001.MAJ.01')
 		KW.scrollAndSelectOptionByValue(myJDD, "NU_CRI")
 		*/
 		
-	//TNRResult.addEndTestCase()
+	TNRResult.addEndTestCase()
 
 
 

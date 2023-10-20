@@ -7,12 +7,11 @@
 *
 *
 
-Ajout de DEVOPS_TICKET_CREATION dans les properties
-modif des liens des screenshot
-Ajout du lien de la tache
-Modif des info history et comment des Task et Bug
-
-
+Correction : XLSResult.writeXLSFile xls en fin de TNR
+Correction : CheckInDB.checkJDDWithBD déplacer le calcul du stepID dans la boucle du casDeTestNum
+Update addTraceEND pour différencier null de vide
+Rajout dans setMemoText : Log.addTrace("Attendre 100 ms pour l'affichage du bouton") Thread.sleep(100)
+Augmentation du Delai between action de 10ms à 100 ms
 
 /*
 *

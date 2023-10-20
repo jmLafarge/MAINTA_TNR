@@ -126,7 +126,7 @@ for (String cdt in myJDD.getCDTList()) {
 		STEP.checkJDDWithBD(JDD_Note)
 		STEP.checkJDDWithBD(JDD_Adr)
 	
-	//TNRResult.addEndTestCase()
+	TNRResult.addEndTestCase()
 } // fin du if
 
 

@@ -74,7 +74,7 @@ class TestListener {
 	@AfterTestSuite
 	def afterTestSuite(TestSuiteContext testSuiteContext) {
 //		Log.addTraceBEGIN(CLASS_NAME,"TestListener.afterTestSuite('${testSuiteContext.getTestSuiteId()}')")
-//		TNRResult.close(testSuiteContext.getTestSuiteId())
+//		TNRResult.closeTNR(testSuiteContext.getTestSuiteId())
 //		Log.addTraceEND(CLASS_NAME,"TestListener.afterTestSuite()")
 		Log.addEndLog()
 	}
