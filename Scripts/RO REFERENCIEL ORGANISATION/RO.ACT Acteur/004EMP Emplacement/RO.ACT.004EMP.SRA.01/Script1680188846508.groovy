@@ -42,7 +42,7 @@ for (String cdt in myJDD.getCDTList()) {
 			if (STEP.isDivModalOpened('Emplacement')) {
 
 		        STEP.setText(myJDD,'SelectionEmplacement_input_Filtre', myJDD.getStrData('ID_NUMREF'))
-				if (STEP.verifyElementVisible(10, GlobalJDD.myGlobalJDD,'nbrecordsGRID_1')) {
+				if (STEP.verifyElementVisible(GlobalJDD.myGlobalJDD,'nbrecordsGRID_1')) {
 			        STEP.simpleClick(myJDD,'SelectionEmplacement_td')
 			        STEP.simpleClick(myJDD,'SelectionEmplacement_button_Ajouter')
 					STEP.simpleClick(myJDD,'SelectionEmplacement_button_Fermer')

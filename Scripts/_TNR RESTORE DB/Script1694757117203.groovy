@@ -4,7 +4,7 @@ import tnrSqlManager.RestoreDB
 
 Log.setTraceLevel(0)
 
+boolean forceFull 	= false
+boolean withPREJDD 	= false
 
-//run(boolean forceFull, boolean withPREJDD)
-
-RestoreDB.run(false,false)
+RestoreDB.run(forceFull,withPREJDD)

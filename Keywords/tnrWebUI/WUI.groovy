@@ -126,6 +126,12 @@ public class WUI {
 				errMsg = waitElementInViewport(tObj, timeout,status)
 			}
 		}
+		// Récupérer les coordonnées x, y de l'élément
+		def monElement = WebUI.findWebElement(tObj)
+		def point = monElement.getLocation()
+		int x = point.getX()
+		int y = point.getY()
+		Log.addTrace("coordonnées '$x','$y'")
 		Log.addTraceEND(CLASS_NAME, "goToElementByObj",errMsg)
 		return errMsg
 	}

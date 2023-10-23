@@ -1,8 +1,6 @@
-import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
+import tnrJDDManager.JDD
 import tnrResultManager.TNRResult
-import tnrWebUI.*
-
-
+import tnrWebUI.STEP
 
 'Lecture du JDD'
 JDD myJDD = new JDD()

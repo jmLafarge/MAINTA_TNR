@@ -7,11 +7,11 @@
 *
 *
 
-Correction : XLSResult.writeXLSFile xls en fin de TNR
-Correction : CheckInDB.checkJDDWithBD déplacer le calcul du stepID dans la boucle du casDeTestNum
-Update addTraceEND pour différencier null de vide
-Rajout dans setMemoText : Log.addTrace("Attendre 100 ms pour l'affichage du bouton") Thread.sleep(100)
-Augmentation du Delai between action de 10ms à 100 ms
+Afficher position dans goToElementByObj
+Ajout des boolean dans RestoreDB
+Tests Sequencer avec Class
+Correction RO.ACT.004EMP.SRA.01 STEP.verifyElementVisible(GlobalJDD.myGlobalJDD,'nbrecordsGRID_1')
+
 
 /*
 *
