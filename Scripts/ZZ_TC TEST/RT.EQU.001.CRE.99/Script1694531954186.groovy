@@ -4,7 +4,7 @@ import tnrWebUI.*
 import tnrSqlManager.SQL
 import tnrResultManager.TNRResult
 
-'Lecture du JDD'
+// Lecture du JDD
 JDD myJDD = new JDD()
 		
 myJDD.setCasDeTest('RT.EQU.001.MAJ.01')

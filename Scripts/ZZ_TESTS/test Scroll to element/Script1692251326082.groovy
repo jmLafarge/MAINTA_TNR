@@ -35,7 +35,7 @@ String organisation = ''
 /*------------------------------------------------
 * 	CREATION
 ------------------------------------------------*/
-'Lecture du JDD'
+// Lecture du JDD
 JDD_list = CustomKeywords.'old.JDDv1.getValuesOf'( JDDpath , JDDname, 'CRE.01')
 
 println(JDD_list)
@@ -104,7 +104,7 @@ if (JDD_list.size() > 0) {
 /*------------------------------------------------
  * 	MODIFICATION
  ------------------------------------------------*/
-'Lecture du JDD'
+// Lecture du JDD
 JDD_list = CustomKeywords.'old.JDDv1.getValuesOf'( JDDpath , JDDname, 'MAJ.01')
 
 println(JDD_list)

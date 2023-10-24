@@ -5,7 +5,7 @@ import tnrSqlManager.SQL
 import tnrWebUI.*
 
 
-'Lecture du JDD'
+// Lecture du JDD
 JDD myJDD = new JDD()
 		
 		

@@ -11,7 +11,7 @@ import tnrWebUI.*
 
 
 
-'Lecture du JDD'
+// Lecture du JDD
 JDD myJDD = new JDD()
 
 Log.addINFO('CDTList: ' +myJDD.getCDTList().join(' - '))

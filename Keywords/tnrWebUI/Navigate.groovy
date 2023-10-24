@@ -30,6 +30,7 @@ public class Navigate {
 		String strStepID = StepID.getStrStepID(CLASS_NAME +'openBrowser')
 		try {
 			WebUI.openBrowser(url, FailureHandling.STOP_ON_FAILURE)
+			Tools.setMyWebDriver()
 			TNRResult.addSTEPPASS(strStepID,"Ouverture du navigateur à l'URL :")
 			TNRResult.addDETAIL(url)
 			TNRResult.addBrowserInfo()
@@ -75,7 +76,9 @@ public class Navigate {
 		String strStepID = StepID.getStrStepID(CLASS_NAME + 'maximizeWindow')
 		try {
 			WebUI.maximizeWindow(FailureHandling.STOP_ON_FAILURE)
-			TNRResult.addSTEPPASS(strStepID,"Maximise la fenêtre")
+			int[] dimensions = Tools.getBrowserDimensions()
+			TNRResult.addSTEPPASS(strStepID,"Maximise la fenêtre (${dimensions[0]}, ${dimensions[1]})")
+
 		} catch (Exception ex) {
 			TNRResult.addSTEPERROR(strStepID,"Maximise la fenêtre")
 			TNRResult.addDETAIL(ex.getMessage())

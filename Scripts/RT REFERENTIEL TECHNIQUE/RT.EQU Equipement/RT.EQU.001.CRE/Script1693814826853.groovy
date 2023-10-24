@@ -7,7 +7,7 @@ import tnrWebUI.*
 
 
 
-'Lecture du JDD'
+// Lecture du JDD
 JDD myJDD = new JDD()
 		
 		
@@ -92,7 +92,7 @@ for (String cdt in myJDD.getCDTList()) {
 	
 			JDD_Note.setCasDeTestNum(i)
 			
-			switch (myJDD.getStrData('TYPENOTE')) {
+			switch (JDD_Note.getStrData('TYPENOTE')) {
 	
 				case 'ID_NUMDOC1':
 					String notes = JDD_Note.myJDDData.getValueOf('OL_DOC',cdt,'ID_NUMDOC',myJDD.getData('ID_NUMDOC1'))

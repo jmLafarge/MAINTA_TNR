@@ -2,7 +2,7 @@ import tnrJDDManager.JDD; import tnrJDDManager.GlobalJDD
 
 import tnrResultManager.TNRResult
 
-'Lecture du JDD'
+// Lecture du JDD
 JDD myJDD = new JDD()
 
 for (String cdt in myJDD.getCDTList()) {

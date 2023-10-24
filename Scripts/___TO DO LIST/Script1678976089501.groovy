@@ -6,11 +6,11 @@
 * -----------------------------------------------------------------------------------------------------
 *
 *
+Début de la conversion des testCase en Class (keyword)
+Correction goToElementByObj 
+Ajout Tools.getBrowserDimensions()
+Début test _TEST CASE CODE GENERATOR2
 
-Afficher position dans goToElementByObj
-Ajout des boolean dans RestoreDB
-Tests Sequencer avec Class
-Correction RO.ACT.004EMP.SRA.01 STEP.verifyElementVisible(GlobalJDD.myGlobalJDD,'nbrecordsGRID_1')
 
 
 /*
@@ -20,22 +20,6 @@ Correction RO.ACT.004EMP.SRA.01 STEP.verifyElementVisible(GlobalJDD.myGlobalJDD,
 * -----------------------------------------------------------------------------------------------------
 *
 
-/!\ TEST sur LEGACY TNR le navigateur ne répond plus au bout d'environ 5 min
-	En local il y a des problèmes de lenteur au bout d'une dixaine de minutes
-	--> du à la connection simultanée sur 2 postes avec le même compte
-	--> apparement possibilité de partager la clé !? --> message de fortiClient je crois
-	--> le probléme arrive quand ou les 2 sont en Wifi, est-ce que c'est encore vrai si les 2 sont en filaire ?
- 
-	
-RO.ACT.004EMP.SRA.01 : Acteur : Ajout Emplacement
-	Ajout 1 / 2 et 	Ajout 2 / 2 donne bien 2 stepID différents
-	mais pas le ctrl en base Contrôle cas de test 1 / 2 et Contrôle cas de test 2 / 2 donne le meme stepID
-	--> Veriifer l'initialisation et la mise à jour de casDeTestNum
-
-MANQUE les numero de BUG pour les WARNING 
-
-
-Manque des lignes dans le xlsx !? il sont dans le log et les Bug sont créés !
 
  
  

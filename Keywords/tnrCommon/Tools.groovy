@@ -3,8 +3,11 @@ package tnrCommon
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
+import org.openqa.selenium.By
 import org.openqa.selenium.Capabilities
+import org.openqa.selenium.Dimension
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.WebElement
 
 import com.kms.katalon.core.webui.driver.DriverFactory
 import com.kms.katalon.core.webui.driver.SmartWaitWebDriver
@@ -16,10 +19,17 @@ import internal.GlobalVariable
 import tnrLog.Log
 import tnrSqlManager.SQL
 
+
 @CompileStatic
 class Tools {
 
 	private static final String CLASS_NAME = 'Tools'
+	
+	private static WebDriver myWebDriver 
+	
+	public static setMyWebDriver() {
+		myWebDriver = DriverFactory.getWebDriver()
+	}
 
 	public static String getMobObj(String tc) {
 		Log.addTraceBEGIN(CLASS_NAME,"getModObj",[tc:tc])
@@ -38,8 +48,8 @@ class Tools {
 
 	public static getBrowserAndVersion() {
 		Log.addTraceBEGIN(CLASS_NAME,"getBrowserAndVersion",[:])
-		WebDriver driver = DriverFactory.getWebDriver()
-		Capabilities caps = ((SmartWaitWebDriver) driver).getCapabilities()
+		//WebDriver driver = DriverFactory.getWebDriver()
+		Capabilities caps = ((SmartWaitWebDriver) myWebDriver).getCapabilities()
 		String browserName = DriverFactory.getExecutedBrowser()
 		String browserVersion = caps.getVersion()
 		Log.addTraceEND(CLASS_NAME,"getBrowserAndVersion",browserName + '/'+ browserVersion)
@@ -49,7 +59,6 @@ class Tools {
 
 	public static String getBrowserName() {
 		Log.addTraceBEGIN(CLASS_NAME,"getBrowserName",[:])
-		WebDriver driver = DriverFactory.getWebDriver()
 		String browserName = DriverFactory.getExecutedBrowser()
 		Log.addTraceEND(CLASS_NAME,"getBrowserName",browserName)
 		return browserName
@@ -58,11 +67,24 @@ class Tools {
 
 	public static String getBrowserVersion() {
 		Log.addTraceBEGIN(CLASS_NAME,"getBrowserVersion",[:])
-		WebDriver driver = DriverFactory.getWebDriver()
-		Capabilities caps = ((SmartWaitWebDriver) driver).getCapabilities()
+		//WebDriver driver = DriverFactory.getWebDriver()
+		Capabilities caps = ((SmartWaitWebDriver) myWebDriver).getCapabilities()
 		String browserVersion =  caps.getVersion()
 		Log.addTraceEND(CLASS_NAME,"getBrowserVersion",browserVersion)
 		return browserVersion
+	}
+	
+	
+	/**
+	 * Récupère les dimensions de la fenêtre du navigateur.
+	 *
+	 * @return Un tableau de deux entiers contenant la largeur et la hauteur de la fenêtre du navigateur.
+	 */
+	public static int[] getBrowserDimensions() {
+	
+		Dimension dimension = myWebDriver.manage().window().getSize()
+	    int[] dimensions = [dimension.width, dimension.height] as int[]
+	    return dimensions
 	}
 
 
@@ -170,5 +192,30 @@ class Tools {
 		}
 		return hexString.toString()
 	}
+	
+	
+	// Renvoie les éléments d'une page Web
+	static List<WebElement> fetchFilteredElements() {
+		
+		//WebDriver driver = DriverFactory.getWebDriver()
+		
+		List<WebElement> filteredElements = []
+	
+		// Fetch 'select' elements with ID or name and not type='hidden'
+		List<WebElement> selectElements = myWebDriver.findElements(By.cssSelector("select[id]:not([type='hidden']), select[name]:not([type='hidden'])"))
+		filteredElements.addAll(selectElements)
+	
+		// Fetch 'input' elements with ID or name and filtered by conditions
+		List<WebElement> inputElements = myWebDriver.findElements(By.cssSelector("input[id]:not([type='hidden']):not([type='submit']):not(#in_zoom), input[name]:not([type='hidden']):not([type='submit']):not(#in_zoom)"))
+		filteredElements.addAll(inputElements)
+	
+		// Fetch 'a' elements with 'ml-text3' attribute
+		List<WebElement> aElements = myWebDriver.findElements(By.cssSelector("a[ml-text3]"))
+		filteredElements.addAll(aElements)
+	
+		return filteredElements
+	}
+	
+	
 
 } // Fin de class
