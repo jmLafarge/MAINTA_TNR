@@ -1,7 +1,7 @@
 
-import tnrTC.AD_SEC.AD_SEC_001_FON
+import tnrTC.AD_SEC.AD_SEC_001_FON_03
 
-AD_SEC_001_FON tc = new AD_SEC_001_FON()
+def tc = new AD_SEC_001_FON_03()
 
-tc.cdt_03()
+tc.ouvrirSessionAvecReconnectionOUI()
 

@@ -6,7 +6,7 @@ import tnrWebUI.*
 
 
 
-// Lecture du JDD
+
 JDD myJDD = new JDD()
 
 for (String cdt in myJDD.getCDTList()) {
@@ -82,7 +82,7 @@ for (String cdt in myJDD.getCDTList()) {
 	
 		TNRResult.addSTEPACTION('CONTROLE')
 	
-		'Vérification des valeurs en BD'
+		
 		STEP.checkJDDWithBD(myJDD)			
 
 		

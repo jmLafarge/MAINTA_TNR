@@ -3,7 +3,7 @@ import tnrResultManager.TNRResult
 import tnrWebUI.STEP
 import tnrWebUI.WUI
 
-// Lecture du JDD
+
 JDD myJDD = new JDD()
 
 

@@ -6,7 +6,7 @@ import tnrWebUI.*
 
 
 
-// Lecture du JDD
+
 JDD myJDD = new JDD()
 
 

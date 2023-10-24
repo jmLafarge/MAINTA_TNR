@@ -1,9 +1,9 @@
 
-import tnrTC.AD_SEC.AD_SEC_001_FON
+import tnrTC.AD_SEC.AD_SEC_001_FON_01
 
-AD_SEC_001_FON tc = new AD_SEC_001_FON()
+def tc = new AD_SEC_001_FON_01()
 
-tc.cdt_01()
+tc.ouvrirSessionAvecMdpValide()
 
 
 

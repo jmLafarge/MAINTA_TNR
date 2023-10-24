@@ -4,7 +4,7 @@ import tnrResultManager.TNRResult
 import tnrSqlManager.SQL
 import tnrWebUI.*
 
-// Lecture du JDD
+
 JDD myJDD = new JDD()
 
 

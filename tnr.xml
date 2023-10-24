@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="MySuite">
+  <test name="MyTest">
+    <classes>
+      <class name="tnrTC.AD_SEC.AD_SEC_001_FON_02" />
+	  <class name="tnrTC.AD_SEC.AD_SEC_001_FON_01" />
+	  <class name="tnrTC.AD_SEC.AD_SEC_001_FON_03" />
+	  <class name="tnrTC.AD_DEP.AD_DEP_001_FON" />
+	  <class name="tnrTC.AD_SEC.AD_SEC_014_FON" />
+    </classes>
+  </test>
+</suite>
+

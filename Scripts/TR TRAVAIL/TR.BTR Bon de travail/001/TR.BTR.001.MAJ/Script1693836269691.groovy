@@ -5,7 +5,7 @@ import tnrSqlManager.SQL
 import tnrResultManager.TNRResult
 
 
-// Lecture du JDD
+
 JDD myJDD = new JDD()
 
 

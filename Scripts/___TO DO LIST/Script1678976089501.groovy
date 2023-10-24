@@ -6,11 +6,8 @@
 * -----------------------------------------------------------------------------------------------------
 *
 *
-Début de la conversion des testCase en Class (keyword)
-Correction goToElementByObj 
-Ajout Tools.getBrowserDimensions()
-Début test _TEST CASE CODE GENERATOR2
 
+Test testNG
 
 
 /*

@@ -24,9 +24,9 @@ import tnrSqlManager.SQL
 class Tools {
 
 	private static final String CLASS_NAME = 'Tools'
-	
-	private static WebDriver myWebDriver 
-	
+
+	private static WebDriver myWebDriver
+
 	public static setMyWebDriver() {
 		myWebDriver = DriverFactory.getWebDriver()
 	}
@@ -73,18 +73,18 @@ class Tools {
 		Log.addTraceEND(CLASS_NAME,"getBrowserVersion",browserVersion)
 		return browserVersion
 	}
-	
-	
+
+
 	/**
 	 * Récupère les dimensions de la fenêtre du navigateur.
 	 *
 	 * @return Un tableau de deux entiers contenant la largeur et la hauteur de la fenêtre du navigateur.
 	 */
 	public static int[] getBrowserDimensions() {
-	
+
 		Dimension dimension = myWebDriver.manage().window().getSize()
-	    int[] dimensions = [dimension.width, dimension.height] as int[]
-	    return dimensions
+		int[] dimensions = [dimension.width, dimension.height] as int[]
+		return dimensions
 	}
 
 
@@ -192,30 +192,36 @@ class Tools {
 		}
 		return hexString.toString()
 	}
-	
-	
+
+
 	// Renvoie les éléments d'une page Web
 	static List<WebElement> fetchFilteredElements() {
-		
+
 		//WebDriver driver = DriverFactory.getWebDriver()
-		
+
 		List<WebElement> filteredElements = []
-	
+
 		// Fetch 'select' elements with ID or name and not type='hidden'
 		List<WebElement> selectElements = myWebDriver.findElements(By.cssSelector("select[id]:not([type='hidden']), select[name]:not([type='hidden'])"))
 		filteredElements.addAll(selectElements)
-	
+
 		// Fetch 'input' elements with ID or name and filtered by conditions
 		List<WebElement> inputElements = myWebDriver.findElements(By.cssSelector("input[id]:not([type='hidden']):not([type='submit']):not(#in_zoom), input[name]:not([type='hidden']):not([type='submit']):not(#in_zoom)"))
 		filteredElements.addAll(inputElements)
-	
+
 		// Fetch 'a' elements with 'ml-text3' attribute
 		List<WebElement> aElements = myWebDriver.findElements(By.cssSelector("a[ml-text3]"))
 		filteredElements.addAll(aElements)
-	
+
 		return filteredElements
 	}
 	
-	
+	static setCAS_DE_TEST_PATTERN (String className) {
+		Log.addTrace("setCAS_DE_TEST_PATTERN $className")
+		GlobalVariable.CAS_DE_TEST_PATTERN = className.split('\\.')[-1].replace('_', '.')
+ 
+	}
+
+
 
 } // Fin de class

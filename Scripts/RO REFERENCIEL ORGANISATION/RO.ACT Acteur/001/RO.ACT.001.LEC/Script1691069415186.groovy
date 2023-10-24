@@ -2,7 +2,7 @@ import tnrJDDManager.JDD
 import tnrResultManager.TNRResult
 import tnrWebUI.STEP
 
-// Lecture du JDD
+
 JDD myJDD = new JDD()
 
 for (String cdt in myJDD.getCDTList()) {

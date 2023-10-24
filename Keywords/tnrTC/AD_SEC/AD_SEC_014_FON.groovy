@@ -1,7 +1,12 @@
 package tnrTC.AD_SEC
 
+import org.testng.ITestContext
+import org.testng.ITestResult
+import org.testng.annotations.BeforeMethod
+
 import groovy.transform.CompileStatic
 import internal.GlobalVariable
+import tnrCommon.Tools
 import tnrJDDManager.JDD
 import tnrResultManager.TNRResult
 import tnrWebUI.STEP
@@ -17,9 +22,16 @@ import tnrWebUI.WUI
 @CompileStatic
 public class AD_SEC_014_FON {
 
-	public cdt_01() {
+	private final String TC_TITLE = 'Fermer la session'
 
-		// Lecture du JDD
+	@BeforeMethod
+	public void beforeMethod(ITestContext context, ITestResult result) {
+		Tools.setCAS_DE_TEST_PATTERN(this.getClass().getName())
+	}
+
+	public void fermerLaSession() {
+
+
 		JDD myJDD = new JDD()
 
 		for (String cdt in myJDD.getCDTList()) {
@@ -50,7 +62,6 @@ public class AD_SEC_014_FON {
 
 				TNRResult.addSTEPINFO('',"Déconnexion OK")
 
-				'Vérification des valeurs en BD'
 				STEP.checkJDDWithBD(myJDD,[:],"SELECT * FROM UTILOG ORDER bY DT_LOG DESC")
 			}else {
 				TNRResult.addSTEPINFO('',"Déconnexion KO")

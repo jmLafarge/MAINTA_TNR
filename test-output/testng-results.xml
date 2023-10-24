@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="4" passed="4">
+  <reporter-output>
+  </reporter-output>
+  <suite name="MySuite" duration-ms="18044" started-at="2023-10-24T16:09:13Z" finished-at="2023-10-24T16:09:31Z">
+    <groups>
+    </groups>
+    <test name="MyTest" duration-ms="18044" started-at="2023-10-24T16:09:13Z" finished-at="2023-10-24T16:09:31Z">
+      <class name="tnrTC.AD_DEP.AD_DEP_001_FON">
+        <test-method status="PASS" signature="beforeMethod(org.testng.ITestContext, org.testng.ITestResult)[pri:0, instance:tnrTC.AD_DEP.AD_DEP_001_FON@7e4d2287]" name="beforeMethod" is-config="true" duration-ms="1" started-at="2023-10-24T18:09:30Z" finished-at="2023-10-24T18:09:30Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[org.testng.TestRunner@63e5b8aa]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[[TestResult name=verifierInfoAPropos status=SUCCESS method=AD_DEP_001_FON.verifierInfoAPropos()[pri:0, instance:tnrTC.AD_DEP.AD_DEP_001_FON@7e4d2287] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method status="PASS" signature="verifierInfoAPropos()[pri:0, instance:tnrTC.AD_DEP.AD_DEP_001_FON@7e4d2287]" name="verifierInfoAPropos" duration-ms="1637" started-at="2023-10-24T18:09:30Z" finished-at="2023-10-24T18:09:31Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- verifierInfoAPropos -->
+      </class> <!-- tnrTC.AD_DEP.AD_DEP_001_FON -->
+      <class name="tnrTC.AD_SEC.AD_SEC_001_FON_01">
+        <test-method status="PASS" signature="beforeMethod(org.testng.ITestContext, org.testng.ITestResult)[pri:0, instance:tnrTC.AD_SEC.AD_SEC_001_FON_01@b10a26d]" name="beforeMethod" is-config="true" duration-ms="0" started-at="2023-10-24T18:09:20Z" finished-at="2023-10-24T18:09:20Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[org.testng.TestRunner@63e5b8aa]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[[TestResult name=ouvrirSessionAvecMdpValide status=SUCCESS method=AD_SEC_001_FON_01.ouvrirSessionAvecMdpValide()[pri:0, instance:tnrTC.AD_SEC.AD_SEC_001_FON_01@b10a26d] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method status="PASS" signature="ouvrirSessionAvecMdpValide()[pri:0, instance:tnrTC.AD_SEC.AD_SEC_001_FON_01@b10a26d]" name="ouvrirSessionAvecMdpValide" duration-ms="3880" started-at="2023-10-24T18:09:20Z" finished-at="2023-10-24T18:09:24Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- ouvrirSessionAvecMdpValide -->
+      </class> <!-- tnrTC.AD_SEC.AD_SEC_001_FON_01 -->
+      <class name="tnrTC.AD_SEC.AD_SEC_001_FON_03">
+        <test-method status="PASS" signature="ouvrirSessionAvecReconnectionOUI()[pri:0, instance:tnrTC.AD_SEC.AD_SEC_001_FON_03@74075134]" name="ouvrirSessionAvecReconnectionOUI" duration-ms="6054" started-at="2023-10-24T18:09:24Z" finished-at="2023-10-24T18:09:30Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- ouvrirSessionAvecReconnectionOUI -->
+        <test-method status="PASS" signature="beforeMethod(org.testng.ITestContext, org.testng.ITestResult)[pri:0, instance:tnrTC.AD_SEC.AD_SEC_001_FON_03@74075134]" name="beforeMethod" is-config="true" duration-ms="0" started-at="2023-10-24T18:09:24Z" finished-at="2023-10-24T18:09:24Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[org.testng.TestRunner@63e5b8aa]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[[TestResult name=ouvrirSessionAvecReconnectionOUI status=SUCCESS method=AD_SEC_001_FON_03.ouvrirSessionAvecReconnectionOUI()[pri:0, instance:tnrTC.AD_SEC.AD_SEC_001_FON_03@74075134] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+      </class> <!-- tnrTC.AD_SEC.AD_SEC_001_FON_03 -->
+      <class name="tnrTC.AD_SEC.AD_SEC_001_FON_02">
+        <test-method status="PASS" signature="beforeMethod(org.testng.ITestContext, org.testng.ITestResult)[pri:0, instance:tnrTC.AD_SEC.AD_SEC_001_FON_02@557286ad]" name="beforeMethod" is-config="true" duration-ms="7" started-at="2023-10-24T18:09:13Z" finished-at="2023-10-24T18:09:13Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[org.testng.TestRunner@63e5b8aa]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[[TestResult name=ouvrirSessionAvecMdpInvalide status=SUCCESS method=AD_SEC_001_FON_02.ouvrirSessionAvecMdpInvalide()[pri:0, instance:tnrTC.AD_SEC.AD_SEC_001_FON_02@557286ad] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method status="PASS" signature="ouvrirSessionAvecMdpInvalide()[pri:0, instance:tnrTC.AD_SEC.AD_SEC_001_FON_02@557286ad]" name="ouvrirSessionAvecMdpInvalide" duration-ms="6451" started-at="2023-10-24T18:09:13Z" finished-at="2023-10-24T18:09:20Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- ouvrirSessionAvecMdpInvalide -->
+      </class> <!-- tnrTC.AD_SEC.AD_SEC_001_FON_02 -->
+    </test> <!-- MyTest -->
+  </suite> <!-- MySuite -->
+</testng-results>

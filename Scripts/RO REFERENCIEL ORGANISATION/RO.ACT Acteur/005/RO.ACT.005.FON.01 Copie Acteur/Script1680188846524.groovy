@@ -5,7 +5,7 @@ import tnrSqlManager.SQL
 import tnrWebUI.*
 
 
-// Lecture du JDD
+
 JDD myJDD = new JDD()
 		
 		
@@ -43,7 +43,7 @@ for (String cdt in myJDD.getCDTList()) {
 		specificValueMap.put('ID_NUMZON', 0)
 	}
 	
-	'Vérification des valeurs en BD'
+	
 	STEP.checkJDDWithBD(myJDD,specificValueMap)
 
 	TNRResult.addEndTestCase()

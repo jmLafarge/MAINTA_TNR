@@ -3,7 +3,7 @@ import tnrResultManager.TNRResult
 import tnrLog.Log
 
 
-// Lecture du JDD
+
 JDD myJDD = new JDD()
 
 for (String cdt in myJDD.getCDTList()) {

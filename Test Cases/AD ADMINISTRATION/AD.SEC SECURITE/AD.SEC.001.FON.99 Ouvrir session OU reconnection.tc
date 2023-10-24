@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<TestCaseEntity>
-   <description></description>
-   <name>AD.SEC.001.FON.99 Ouvrir session OU reconnection</name>
-   <tag></tag>
-   <comment></comment>
-   <testCaseGuid>dc019012-c3b5-4061-91af-1c521e7092bf</testCaseGuid>
-</TestCaseEntity>

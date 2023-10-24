@@ -2,7 +2,7 @@ import tnrJDDManager.JDD;
 import tnrResultManager.TNRResult
 import tnrWebUI.*
 
-// Lecture du JDD
+
 JDD myJDD = new JDD()
 	
 		

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [MySuite]">
+  <test name="MyTest(failed)">
+    <classes>
+      <class name="tnrTC.AD_DEP.AD_DEP_001_FON">
+        <methods>
+          <include name="verifierInfoAPropos"/>
+          <include name="beforeMethod"/>
+        </methods>
+      </class> <!-- tnrTC.AD_DEP.AD_DEP_001_FON -->
+      <class name="tnrTC.AD_SEC.AD_SEC_001_FON_03">
+        <methods>
+          <include name="ouvrirSessionAvecReconnectionOUI"/>
+          <include name="beforeMethod"/>
+        </methods>
+      </class> <!-- tnrTC.AD_SEC.AD_SEC_001_FON_03 -->
+      <class name="tnrTC.AD_SEC.AD_SEC_001_FON_01">
+        <methods>
+          <include name="ouvrirSessionAvecMdpValide"/>
+          <include name="beforeMethod"/>
+        </methods>
+      </class> <!-- tnrTC.AD_SEC.AD_SEC_001_FON_01 -->
+      <class name="tnrTC.AD_SEC.AD_SEC_001_FON_02">
+        <methods>
+          <include name="ouvrirSessionAvecMdpInvalide"/>
+          <include name="beforeMethod"/>
+        </methods>
+      </class> <!-- tnrTC.AD_SEC.AD_SEC_001_FON_02 -->
+    </classes>
+  </test> <!-- MyTest(failed) -->
+</suite> <!-- Failed suite [MySuite] -->

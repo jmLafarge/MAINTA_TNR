@@ -6,7 +6,7 @@ import tnrResultManager.TNRResult
 import tnrWebUI.*
 
 
-// Lecture du JDD
+
 JDD myJDD = new JDD()
 	
 	myJDD.setCasDeTest('RT.EQU.001.LEC.01')
