@@ -6,7 +6,6 @@ import java.security.NoSuchAlgorithmException
 import org.openqa.selenium.By
 import org.openqa.selenium.Capabilities
 import org.openqa.selenium.Dimension
-import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 
 import com.kms.katalon.core.webui.driver.DriverFactory
@@ -18,6 +17,7 @@ import groovy.transform.CompileStatic
 import internal.GlobalVariable
 import tnrLog.Log
 import tnrSqlManager.SQL
+import tnrWebUI.WUI
 
 
 @CompileStatic
@@ -25,12 +25,8 @@ class Tools {
 
 	private static final String CLASS_NAME = 'Tools'
 
-	private static WebDriver myWebDriver
-
-	public static setMyWebDriver() {
-		myWebDriver = DriverFactory.getWebDriver()
-	}
-
+	
+	
 	public static String getMobObj(String tc) {
 		Log.addTraceBEGIN(CLASS_NAME,"getModObj",[tc:tc])
 		String ret = tc.find(/^\w+\.\w+/)
@@ -49,7 +45,8 @@ class Tools {
 	public static getBrowserAndVersion() {
 		Log.addTraceBEGIN(CLASS_NAME,"getBrowserAndVersion",[:])
 		//WebDriver driver = DriverFactory.getWebDriver()
-		Capabilities caps = ((SmartWaitWebDriver) myWebDriver).getCapabilities()
+
+		Capabilities caps = ((SmartWaitWebDriver) WUI.getMyWebDriver()).getCapabilities()
 		String browserName = DriverFactory.getExecutedBrowser()
 		String browserVersion = caps.getVersion()
 		Log.addTraceEND(CLASS_NAME,"getBrowserAndVersion",browserName + '/'+ browserVersion)
@@ -68,7 +65,7 @@ class Tools {
 	public static String getBrowserVersion() {
 		Log.addTraceBEGIN(CLASS_NAME,"getBrowserVersion",[:])
 		//WebDriver driver = DriverFactory.getWebDriver()
-		Capabilities caps = ((SmartWaitWebDriver) myWebDriver).getCapabilities()
+		Capabilities caps = ((SmartWaitWebDriver) WUI.getMyWebDriver()).getCapabilities()
 		String browserVersion =  caps.getVersion()
 		Log.addTraceEND(CLASS_NAME,"getBrowserVersion",browserVersion)
 		return browserVersion
@@ -82,7 +79,7 @@ class Tools {
 	 */
 	public static int[] getBrowserDimensions() {
 
-		Dimension dimension = myWebDriver.manage().window().getSize()
+		Dimension dimension = WUI.getMyWebDriver().manage().window().getSize()
 		int[] dimensions = [dimension.width, dimension.height] as int[]
 		return dimensions
 	}
@@ -202,15 +199,15 @@ class Tools {
 		List<WebElement> filteredElements = []
 
 		// Fetch 'select' elements with ID or name and not type='hidden'
-		List<WebElement> selectElements = myWebDriver.findElements(By.cssSelector("select[id]:not([type='hidden']), select[name]:not([type='hidden'])"))
+		List<WebElement> selectElements = WUI.getMyWebDriver().findElements(By.cssSelector("select[id]:not([type='hidden']), select[name]:not([type='hidden'])"))
 		filteredElements.addAll(selectElements)
 
 		// Fetch 'input' elements with ID or name and filtered by conditions
-		List<WebElement> inputElements = myWebDriver.findElements(By.cssSelector("input[id]:not([type='hidden']):not([type='submit']):not(#in_zoom), input[name]:not([type='hidden']):not([type='submit']):not(#in_zoom)"))
+		List<WebElement> inputElements = WUI.getMyWebDriver().findElements(By.cssSelector("input[id]:not([type='hidden']):not([type='submit']):not(#in_zoom), input[name]:not([type='hidden']):not([type='submit']):not(#in_zoom)"))
 		filteredElements.addAll(inputElements)
 
 		// Fetch 'a' elements with 'ml-text3' attribute
-		List<WebElement> aElements = myWebDriver.findElements(By.cssSelector("a[ml-text3]"))
+		List<WebElement> aElements = WUI.getMyWebDriver().findElements(By.cssSelector("a[ml-text3]"))
 		filteredElements.addAll(aElements)
 
 		return filteredElements

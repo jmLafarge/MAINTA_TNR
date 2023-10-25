@@ -3,5 +3,7 @@ import tnrTC.TestNGRunner
 
 def tc = new TestNGRunner()
 
-tc.main() 
+//tc.main() 
+
+tc.runWithXml()
 

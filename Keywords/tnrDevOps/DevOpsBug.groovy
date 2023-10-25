@@ -20,7 +20,7 @@ public class DevOpsBug {
 
 	public static String createBug(String title, String reproSteps, String systemInfo, String stepID,  String history) {
 		Log.addTraceBEGIN(CLASS_NAME, "createBug", [title:title , reproSteps:reproSteps , systemInfo:systemInfo , stepID:stepID , history:history ])
-		
+
 		String cssReproStep = 'style="color: blue; font-weight: bold;"'
 		Map fields = [:]
 		fields.put(DevOpsClient.FIELD_TITLE, title)

@@ -3,6 +3,7 @@ package tnrTC.AD_SEC
 import org.testng.ITestContext
 import org.testng.ITestResult
 import org.testng.annotations.BeforeMethod
+import org.testng.annotations.Test
 
 import groovy.transform.CompileStatic
 import internal.GlobalVariable
@@ -29,6 +30,7 @@ public class AD_SEC_014_FON {
 		Tools.setCAS_DE_TEST_PATTERN(this.getClass().getName())
 	}
 
+	@Test
 	public void fermerLaSession() {
 
 

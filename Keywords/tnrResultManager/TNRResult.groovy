@@ -8,7 +8,7 @@ import tnrCommon.HtmlTableBuilder
 import tnrCommon.Tools
 import tnrDevOps.DevOpsBug
 import tnrDevOps.DevOpsClient
-import tnrDevOps.DevOpsTask
+import tnrDevOps.DevOpsUserStory
 import tnrLog.Log
 import tnrSqlManager.SQL
 import tnrTC.TCFileMapper
@@ -160,23 +160,24 @@ public class TNRResult {
 		String historyComment = ''
 		String existingBugID = DevOpsClient.searchTNRNumber(strStepID)
 
-		if (DevOpsClient.ALLOW_CREATION) {
-			String cssLink = 'href="' + DevOpsTask.getTaskUrl() +'"'
-			String aLink = " <a ${cssLink}>${DevOpsTask.getTaskId()} </a>"
+		if (DevOpsClient.isCreationAllowedForStatus(status)) {
+			String cssLink = 'href="' + DevOpsUserStory.getUrl() +'"'
+			String aLink = " <a ${cssLink}>${DevOpsUserStory.getID()} </a>"
 			if (existingBugID) {
 				historyComment = "Toujours présent pendant la campagne TNR du : ${startDatetimeTNR.format(DATETIME_FORMAT)} "
 				DevOpsBug.updateHistoryBug(existingBugID,historyComment + aLink)
 				screenshotLink = DevOpsBug.addFileToBug(existingBugID,screenshotFileInfo.fileFullname, historyComment)
-				DevOpsTask.addBugToTask(existingBugID,'Toujours présent pendant cette campagne')
+				DevOpsUserStory.attachBug(existingBugID,'Toujours présent pendant cette campagne')
 				bugID = existingBugID
 			}else {
 				historyComment = "Créé pendant la campagne TNR du : ${startDatetimeTNR.format(DATETIME_FORMAT)}"
 				bugID = DevOpsBug.createBug("NE PAS TRAITER - TNR $status : $msg", casDeTestFullname, devOpsSystemInfoValues,strStepID,historyComment + aLink)
 				screenshotLink = DevOpsBug.addFileToBug(bugID,screenshotFileInfo.fileFullname, historyComment)
-				DevOpsTask.addBugToTask(bugID,'Nouveau, détecté pendant cette campagne')
+				DevOpsUserStory.attachBug(bugID,'Nouveau, détecté pendant cette campagne')
 			}
 		}else {
 			bugID = existingBugID
+			
 		}
 		Map ret = [id:bugID , screenshotLink:screenshotLink]
 		return ret
@@ -303,11 +304,11 @@ public class TNRResult {
 		setDevOpsSystemInfoValues()
 	}
 
-	public static void createDevOpsTask() {
+	public static void createDevOpsCampaign() {
 		if (DevOpsClient.ALLOW_CREATION) {
-			String taskTitle = "${startDatetimeTNR.format('yyyyMMdd')}- CAMPAGNE TNR Mainta $maintaVersion MSSQL  ${browserName.split(' ')[0]}"
-			DevOpsTask.createTask(taskTitle, devOpsSystemInfoValues )
-			XLSResult.addDevOpsTaskId(DevOpsTask.getTaskId(), DevOpsTask.getTaskUrl())
+			String campaignTitle = "${startDatetimeTNR.format('yyyyMMdd')}- CAMPAGNE TNR Mainta $maintaVersion MSSQL  ${browserName.split(' ')[0]}"
+			DevOpsUserStory.createWorkItem(campaignTitle, devOpsSystemInfoValues )
+			XLSResult.addDevOpsCampaignId(DevOpsUserStory.getID(), DevOpsUserStory.getUrl())
 		}
 	}
 
@@ -338,7 +339,7 @@ public class TNRResult {
 	}
 
 
-	public static void updateDevOpsTask() {
+	public static void updateDevOpsCampaign() {
 
 		String description =  "<h1>CAMPAGNE TNR du : ${startDatetimeTNR.format(DATE_FORMAT)}</h1>"
 
@@ -374,8 +375,8 @@ public class TNRResult {
 		description += htmlTable.build()
 
 		if (DevOpsClient.ALLOW_CREATION) {
-			DevOpsTask.updateDescriptionTask(description)
-			DevOpsTask.addFileToTask(XLSResult.getResulFileName())
+			DevOpsUserStory.updateDescription(description)
+			DevOpsUserStory.attachFile(XLSResult.getResulFileName())
 		}
 	}
 
@@ -385,7 +386,7 @@ public class TNRResult {
 		endDatetimeTNR = new Date()
 		durationTNR = Tools.getDuration(startDatetimeTNR, endDatetimeTNR)
 		XLSResult.closeXLSFile(durationTNR,endDatetimeTNR)
-		updateDevOpsTask()
+		updateDevOpsCampaign()
 		Log.add('','')
 		Log.add('',"************  FIN  du test : $text ************")
 	}

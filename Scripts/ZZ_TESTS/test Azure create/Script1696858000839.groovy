@@ -20,7 +20,7 @@ def bugDetails = [
 
 
 
-DevOpsTask.createTask('Le title', 'La description')
+DevOpsTask.createWorkItem('Le title', 'La description')
 
 String filePath = "TNR_Resultat/20231018_084512/20231018_084512_TNR_MSSQL_Firefox_Mainta_V13.0.4.xlsx" 
 DevOpsTask.addFileToTask(filePath)

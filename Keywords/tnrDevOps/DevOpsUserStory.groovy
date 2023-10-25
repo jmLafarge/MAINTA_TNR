@@ -13,34 +13,34 @@ import tnrLog.Log
  */
 
 @CompileStatic
-public class DevOpsTask {
+public class DevOpsUserStory {
 
-	private static final String CLASS_NAME = 'DevOpsTask'
+	private static final String CLASS_NAME = 'DevOpsUserStory'
 
-	protected static String devOpsTaskID = ''
+	protected static String devOpsUserStoryID = ''
 
 
 	public static String getUrl() {
-		Log.addTraceBEGIN(CLASS_NAME, "getTaskUrl")
-		String url = devOpsTaskID ? "${DevOpsClient.BASE_URL}/_workitems/edit/$devOpsTaskID" : ''
-		Log.addTraceEND(CLASS_NAME, "getTaskUrl",url)
+		Log.addTraceBEGIN(CLASS_NAME, "getUrl")
+		String url = devOpsUserStoryID ? "${DevOpsClient.BASE_URL}/_workitems/edit/$devOpsUserStoryID" : ''
+		Log.addTraceEND(CLASS_NAME, "getUrl",url)
 		return url
 	}
 
 	public static String getID() {
-		return devOpsTaskID
+		return devOpsUserStoryID
 	}
 
 
 	public static createWorkItem(String title, String description) {
 		Log.addTraceBEGIN(CLASS_NAME, "createWorkItem", [title:title , description:description ])
-		if (!devOpsTaskID) {
+		if (!devOpsUserStoryID) {
 			Map fields = [:]
 			fields.put(DevOpsClient.FIELD_TITLE, title)
 			fields.put(DevOpsClient.FIELD_DESCRIPTION, description)
-			devOpsTaskID = DevOpsClient.createWorkItem(WorkItemType.TASK,fields)
+			devOpsUserStoryID = DevOpsClient.createWorkItem(WorkItemType.USER_STORY,fields)
 		}else {
-			Log.addTrace("devOpsTaskID existe déjà")
+			Log.addTrace("devOpsUserStoryID existe déjà")
 		}
 		Log.addTraceEND(CLASS_NAME, "createWorkItem")
 	}
@@ -50,12 +50,12 @@ public class DevOpsTask {
 
 	static void updateDescription(String description) {
 		Log.addTraceBEGIN(CLASS_NAME, "updateDescription", [description:description])
-		if (devOpsTaskID) {
+		if (devOpsUserStoryID) {
 			Map fields = [:]
 			fields.put(DevOpsClient.FIELD_DESCRIPTION, description)
-			DevOpsClient.updateWorkItem(WorkItemType.TASK, devOpsTaskID, fields)
+			DevOpsClient.updateWorkItem(WorkItemType.USER_STORY, devOpsUserStoryID, fields)
 		}else {
-			Log.addTrace("Pas de devOpsTaskID")
+			Log.addTrace("Pas de devOpsUserStoryID")
 		}
 		Log.addTraceEND(CLASS_NAME, "updateDescription")
 	}
@@ -63,16 +63,16 @@ public class DevOpsTask {
 
 	static void attachFile(String filePath) {
 		Log.addTraceBEGIN(CLASS_NAME, "attachFile", [filePath:filePath])
-		if (devOpsTaskID) {
+		if (devOpsUserStoryID) {
 			String urlFile = DevOpsClient.uploadFile(filePath)
 			Map fields = [:]
 			fields.put(DevOpsClient.RELATIONS, [
 				"rel": "AttachedFile",
 				"url": urlFile
 			])
-			DevOpsClient.updateWorkItem(WorkItemType.TASK,devOpsTaskID, fields)
+			DevOpsClient.updateWorkItem(WorkItemType.USER_STORY,devOpsUserStoryID, fields)
 		}else {
-			Log.addTrace("Pas de devOpsTaskID")
+			Log.addTrace("Pas de devOpsUserStoryID")
 		}
 		Log.addTraceEND(CLASS_NAME, "attachFile")
 	}
@@ -81,7 +81,7 @@ public class DevOpsTask {
 
 	public static void attachBug(String bugId, String attachmntComment) {
 		Log.addTraceBEGIN(CLASS_NAME, "attachBug", [bugId:bugId , attachmntComment:attachmntComment])
-		if (devOpsTaskID) {
+		if (devOpsUserStoryID) {
 			Map fields = [:]
 			fields.put(DevOpsClient.RELATIONS, [
 				"rel": "System.LinkTypes.Related",
@@ -90,9 +90,9 @@ public class DevOpsTask {
 					"comment": attachmntComment
 				]
 			])
-			DevOpsClient.updateWorkItem(WorkItemType.TASK,devOpsTaskID, fields)
+			DevOpsClient.updateWorkItem(WorkItemType.USER_STORY,devOpsUserStoryID, fields)
 		}else {
-			Log.addTrace("Pas de devOpsTaskID")
+			Log.addTrace("Pas de devOpsUserStoryID")
 		}
 		Log.addTraceEND(CLASS_NAME, "attachBug")
 	}

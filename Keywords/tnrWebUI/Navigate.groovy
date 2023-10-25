@@ -30,12 +30,12 @@ public class Navigate {
 		String strStepID = StepID.getStrStepID(CLASS_NAME +'openBrowser')
 		try {
 			WebUI.openBrowser(url, FailureHandling.STOP_ON_FAILURE)
-			Tools.setMyWebDriver()
+			WUI.setMyWebDriver()
 			TNRResult.addSTEPPASS(strStepID,"Ouverture du navigateur à l'URL :")
 			TNRResult.addDETAIL(url)
 			TNRResult.addBrowserInfo()
-			TNRResult.createDevOpsTask()
-			WebUI.waitForPageLoad((int)GlobalVariable.TIMEOUTForPageLoad, FailureHandling.STOP_ON_FAILURE)
+			TNRResult.createDevOpsCampaign()
+			WUI.waitForPageLoad(strStepID)
 			WUIWindow.storeMainWindowHandle()
 		} catch (Exception ex) {
 			TNRResult.addSTEPERROR(strStepID,"Ouverture du navigateur à l'URL :")
@@ -51,7 +51,7 @@ public class Navigate {
 			WebUI.navigateToUrl(url, FailureHandling.STOP_ON_FAILURE)
 			TNRResult.addSTEPPASS(strStepID,"Navigation vers l'URL '$nomUrl' :")
 			TNRResult.addDETAIL(url)
-			WebUI.waitForPageLoad((int)GlobalVariable.TIMEOUTForPageLoad, FailureHandling.STOP_ON_FAILURE)
+			WUI.waitForPageLoad(strStepID)
 		} catch (Exception ex) {
 			TNRResult.addSTEPERROR(strStepID,"Navigation vers l'URL '$nomUrl' :")
 			TNRResult.addDETAIL(url)
@@ -78,7 +78,6 @@ public class Navigate {
 			WebUI.maximizeWindow(FailureHandling.STOP_ON_FAILURE)
 			int[] dimensions = Tools.getBrowserDimensions()
 			TNRResult.addSTEPPASS(strStepID,"Maximise la fenêtre (${dimensions[0]}, ${dimensions[1]})")
-
 		} catch (Exception ex) {
 			TNRResult.addSTEPERROR(strStepID,"Maximise la fenêtre")
 			TNRResult.addDETAIL(ex.getMessage())

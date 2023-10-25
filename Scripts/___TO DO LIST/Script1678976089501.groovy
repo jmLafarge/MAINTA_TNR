@@ -7,7 +7,12 @@
 *
 *
 
-Test testNG + V13.1.0
+Ajout TestNG by xls et xml
+Ajout DEVOPS_TICKET_CREATION par status
+Ajout DevOpsUserStory
+Optimize DevOpsClient
+Ajout WUI.waitForPageLoad
+
 
 
 /*
@@ -17,7 +22,7 @@ Test testNG + V13.1.0
 * -----------------------------------------------------------------------------------------------------
 *
 
-
+peut être ajouter des scroll to 0.0 avant chaqu echangement d'onglet
  
  
  
@@ -32,6 +37,10 @@ ST_POS et ST_AUT que les controiler en BD
 *
 *
 
+DevOpsClient.searchTNRNumber prend entre 60 et 340 ms
+
+
+
 RESULTAT des tests :
 
 	RT.MAT.001.CRE.04 05 06 07: ST_AUT est dans l'onglet Etat
@@ -45,7 +54,14 @@ Pas faire de doubleClick si la valeur est bonne
 --> Voir la différence avec SRA !?
 
    
+ * 
+ * -----------------------------------------------------------------------------------------------------
+ * TEST TestNG
+ * -----------------------------------------------------------------------------------------------------
+ * 
+ 
 
+ 
  
 
  * 

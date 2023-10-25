@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="MySuite">
+<suite name="MySuite" parallel="none">
   <test name="MyTest">
     <classes>
       <class name="tnrTC.AD_SEC.AD_SEC_001_FON_02" />

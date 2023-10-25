@@ -1,7 +1,11 @@
 package tnrWebUI
 
+import org.openqa.selenium.JavascriptExecutor
+import org.openqa.selenium.WebDriver
+
 import com.kms.katalon.core.model.FailureHandling
 import com.kms.katalon.core.testobject.TestObject
+import com.kms.katalon.core.webui.driver.DriverFactory
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import groovy.transform.CompileStatic
@@ -22,6 +26,36 @@ public class WUI {
 
 
 	private static final String CLASS_NAME = 'WUI'
+	
+	private static WebDriver myWebDriver
+	
+	
+	public static void setMyWebDriver() {
+		myWebDriver = DriverFactory.getWebDriver()
+	}
+		
+	public static WebDriver getMyWebDriver() {
+		return myWebDriver
+	}
+		
+	public static void waitForPageLoad(String parentStepID ) {
+		String strStepID = StepID.getStrStepID(CLASS_NAME +'waitForPageLoad'+ parentStepID)
+		JavascriptExecutor js = (JavascriptExecutor) myWebDriver
+		boolean pageLoaded = false
+		for (int i = 0; i < 30; i++) {
+			if ("complete".equals(js.executeScript("return document.readyState"))) {
+				pageLoaded = true
+				break
+			}
+			Thread.sleep(100)
+		}
+		if (pageLoaded) {
+			TNRResult.addSTEPINFO('',"Chargement de la page terminé")
+		}else {
+			TNRResult.addSTEPFAIL(strStepID,"Chargement de la page terminé")
+		}
+		
+	}
 
 
 	public static void delay(long ms ) {

@@ -21,8 +21,11 @@ public class DevOpsClient {
 
 	private static final String CLASS_NAME = 'DevOpsClient'
 
-	public static final boolean ALLOW_CREATION = TNRPropertiesReader.getMyProperty('DEVOPS_TICKET_CREATION') == 'ALLOW'
-	
+	public static final boolean ALLOW_CREATION_FOR_WARNING = TNRPropertiesReader.getMyProperty('DEVOPS_TICKET_CREATION_FOR_WARNING') == 'ALLOW'
+	public static final boolean ALLOW_CREATION_FOR_FAIL = TNRPropertiesReader.getMyProperty('DEVOPS_TICKET_CREATION_FOR_FAIL') == 'ALLOW'
+	public static final boolean ALLOW_CREATION_FOR_ERROR = TNRPropertiesReader.getMyProperty('DEVOPS_TICKET_CREATION_FOR_ERROR') == 'ALLOW'
+
+	public static final boolean ALLOW_CREATION = ALLOW_CREATION_FOR_WARNING || ALLOW_CREATION_FOR_FAIL || ALLOW_CREATION_FOR_ERROR
 
 	// Paramètres pour l'API Azure DevOps
 	private static final String ORGANIZATION 	= TNRPropertiesReader.getMyProperty('DEVOPS_ORGANIZATION')
@@ -47,7 +50,46 @@ public class DevOpsClient {
 
 	public static final String BASE_URL		= "https://dev.azure.com/$ORGANIZATION/$PROJECT"
 
+	protected enum WorkItemType {
+		TASK('$Task'),
+		USER_STORY('$User%20Story'),
+		BUG('$Bug');
+		final String apiName
+		WorkItemType(String apiName) {
+			this.apiName = apiName
+		}
+	}
 
+	protected enum HttpMethod {
+		POST('POST'),
+		GET('GET'),
+		PATCH('PATCH');
+
+		final String methodName
+
+		HttpMethod(String methodName) {
+			this.methodName = methodName
+		}
+
+		String getMethodName() {
+			return this.methodName
+		}
+	}
+
+
+
+	public static boolean isCreationAllowedForStatus(String status) {
+		Log.addTraceBEGIN(CLASS_NAME, "isCreationAllowedForStatus", [ status:status])
+		boolean allowWARNING 	= ALLOW_CREATION_FOR_WARNING && status=='WARNING'
+		Log.addTrace("allowWARNING:$allowWARNING")
+		boolean allowFAIL 		= ALLOW_CREATION_FOR_FAIL && status=='FAIL'
+		Log.addTrace("allowFAIL:$allowFAIL")
+		boolean allowERROR 		= ALLOW_CREATION_FOR_ERROR && status=='ERROR'
+		Log.addTrace("allowERROR:$allowERROR")
+		boolean allow = allowWARNING || allowFAIL || allowERROR
+		Log.addTraceEND(CLASS_NAME, "isCreationAllowedForStatus",allow)
+		return allow
+	}
 
 	protected static String uploadFile( String filePath) {
 		Log.addTraceBEGIN(CLASS_NAME, "sendRequest", [ filePath:filePath])
@@ -84,6 +126,8 @@ public class DevOpsClient {
 		Log.addTraceEND(CLASS_NAME, "sendRequest",jsonResponse.url)
 		return jsonResponse.url
 	}
+
+
 
 
 	private static Map sendRequest(String type, Map fields, String method) {
@@ -142,27 +186,41 @@ public class DevOpsClient {
 		} as List
 	}
 
+	/*
+	 protected static String createTask(Map fields) {
+	 Log.addTraceBEGIN(CLASS_NAME, "createTask", [fields:fields])
+	 def response = sendRequest('$Task', fields,'POST')
+	 Log.addTrace("response:$response")
+	 String id = response ? response.id : ''
+	 Log.addTraceEND(CLASS_NAME, "createTask",id)
+	 return id
+	 }
+	 protected static void updateTask(String taskId, Map fields) {
+	 Log.addTraceBEGIN(CLASS_NAME, "updateTask", [taskId:taskId , fields:fields])
+	 def response = sendRequest(taskId, fields, 'PATCH')
+	 String id = response ? response.id : ''
+	 Log.addTraceEND(CLASS_NAME, "updateTask",id)
+	 }
+	 */
 
-	protected static String createTask(Map fields) {
-		Log.addTraceBEGIN(CLASS_NAME, "createTask", [fields:fields])
-		def response = sendRequest('$Task', fields,'POST')
+
+	protected static String createWorkItem(WorkItemType workItemType, Map fields) {
+		Log.addTraceBEGIN(CLASS_NAME, "createWorkItem", [workItemType:workItemType , fields:fields])
+		def response = sendRequest(workItemType.apiName, fields,HttpMethod.POST.methodName)
 		Log.addTrace("response:$response")
-		String id = response ? response.id : ''
-		Log.addTraceEND(CLASS_NAME, "createTask",id)
-		return id
+		String newId = response ? response.id : ''
+		Log.addTraceEND(CLASS_NAME, "createWorkItem",newId)
+		return newId
 	}
 
 
 
 
-	protected static void updateTask(String taskId, Map fields) {
-		Log.addTraceBEGIN(CLASS_NAME, "updateTask", [taskId:taskId , fields:fields])
-		def response = sendRequest(taskId, fields, 'PATCH')
-		String id = response ? response.id : ''
-		Log.addTraceEND(CLASS_NAME, "updateTask",id)
+	protected static void updateWorkItem(WorkItemType workItemType, String id, Map fields) {
+		Log.addTraceBEGIN(CLASS_NAME, "updateWorkItem", [workItemType:workItemType , id:id , fields:fields])
+		def response = sendRequest(id, fields, HttpMethod.PATCH.methodName)
+		Log.addTraceEND(CLASS_NAME, "updateWorkItem",response)
 	}
-
-
 
 
 	protected static String createBug(Map fields) {

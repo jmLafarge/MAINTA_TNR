@@ -41,7 +41,7 @@ public class XLSResult {
 	private static final String TIMESTEP_FORMAT 	= 'HH:mm:ss'
 
 	// TAB RESUME
-	private static final int RES_COL_DEVOPSTASK	= 4
+	private static final int RES_COL_DEVOPS_CAMPAIGN = 4
 	private static final int RES_COL_TITLE		= 5
 	private static final int RES_COL_INFO		= 1
 	private static final int RES_COL_TOTAL		= 1
@@ -64,7 +64,7 @@ public class XLSResult {
 	private static final int RST_COL_DURATION	= 10
 	private static final int RST_COL_SCREENSHOT	= 11
 	private static final int RST_COL_STEPID		= 12
-	private static final int RST_COL_DEVOPS		= 13
+	private static final int RST_COL_DEVOPS_BUG	= 13
 
 
 	private static String resulFileName = ''
@@ -187,21 +187,23 @@ public class XLSResult {
 		lineBeginBlock = 0
 	}
 
-	public static addDevOpsTaskId(String taskId, String taskUrl) {
+	public static addDevOpsCampaignId(String id, String taskUrl) {
 		def hyperlink
 		if (taskUrl != '') {
 			hyperlink = CSF.createHelper.createHyperlink(HyperlinkType.URL)
 			hyperlink.setAddress(taskUrl)
-			ExcelUtils.writeCell(shRESUM.getRow(1),RES_COL_DEVOPSTASK, taskId  ,CSF.cellStyle_hyperlinkTask,hyperlink)
+			ExcelUtils.writeCell(shRESUM.getRow(1),RES_COL_DEVOPS_CAMPAIGN, id  ,CSF.cellStyle_hyperlinkTask,hyperlink)
 		}
 	}
 
 
 	public static void addStep(Date date, String msg, String status, String strStepID, String bugID, String bugUrl, String screenshotLink) {
 		Log.addTraceBEGIN(CLASS_NAME, "addStep", [date:date , msg:msg , status:status , strStepID:strStepID , bugID:bugID , bugUrl:bugUrl , devOpsUrlScreenshot:screenshotLink])
-		if (!resulFileName) return
-
-			def hyperlinkBug
+		if (!resulFileName) {
+			return
+		}
+		
+		def hyperlinkBug
 		if (bugUrl != '') {
 			hyperlinkBug = CSF.createHelper.createHyperlink(HyperlinkType.URL)
 			hyperlinkBug.setAddress(bugUrl)
@@ -230,7 +232,7 @@ public class XLSResult {
 				ExcelUtils.writeCell(row, RST_COL_RESULT, 'WARNING',CSF.cellStyle_RESULT_STEPWARNING)
 				ExcelUtils.writeCell(row, RST_COL_STEPID, ,strStepID,CSF.cellStyle_RESULT_STEPDETAIL)
 				if (bugID!='') {
-					ExcelUtils.writeCell(row,RST_COL_DEVOPS, bugID  ,CSF.cellStyle_hyperlink,hyperlinkBug)
+					ExcelUtils.writeCell(row,RST_COL_DEVOPS_BUG, bugID  ,CSF.cellStyle_hyperlink,hyperlinkBug)
 				}
 				continueToGroup = false
 				break
@@ -241,7 +243,7 @@ public class XLSResult {
 				ExcelUtils.writeCell(row, RST_COL_RESULT, 'FAIL',CSF.cellStyle_RESULT_STEPFAIL)
 				ExcelUtils.writeCell(row, RST_COL_STEPID, ,strStepID,CSF.cellStyle_RESULT_STEPDETAIL)
 				if (bugID!='') {
-					ExcelUtils.writeCell(row,RST_COL_DEVOPS, bugID  ,CSF.cellStyle_hyperlink,hyperlinkBug)
+					ExcelUtils.writeCell(row,RST_COL_DEVOPS_BUG, bugID  ,CSF.cellStyle_hyperlink,hyperlinkBug)
 				}
 				continueToGroup = false
 				break
@@ -252,7 +254,7 @@ public class XLSResult {
 				ExcelUtils.writeCell(row, RST_COL_RESULT, 'ERROR',CSF.cellStyle_RESULT_STEPERROR)
 				ExcelUtils.writeCell(row, RST_COL_STEPID, ,strStepID,CSF.cellStyle_RESULT_STEPDETAIL)
 				if (bugID!='') {
-					ExcelUtils.writeCell(row,RST_COL_DEVOPS, bugID  ,CSF.cellStyle_hyperlink,hyperlinkBug)
+					ExcelUtils.writeCell(row,RST_COL_DEVOPS_BUG, bugID  ,CSF.cellStyle_hyperlink,hyperlinkBug)
 				}
 				continueToGroup = false
 				break
