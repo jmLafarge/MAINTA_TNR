@@ -25,9 +25,6 @@ public class Text {
 	private static final String CLASS_NAME = 'Text'
 
 
-
-
-
 	static void verifyValue( JDD myJDD, String name, String text=null, int timeout  = (int) GlobalVariable.TIMEOUT , String status = 'FAIL') {
 		Log.addTraceBEGIN(CLASS_NAME, "verifyValue", [ myJDD:myJDD.toString() , name: name , text:text , timeout:timeout , status:status])
 		String strStepID = StepID.getStrStepID(CLASS_NAME + 'verifyValue'+ myJDD.toString() + name)
@@ -37,7 +34,7 @@ public class Text {
 			if (JDDKW.isNU(text)) {
 				TNRResult.addSTEP(strStepID, "Pas de vérification pour $name, valeur du JDD = NU")
 			}else {
-				String errMsg = WUI.goToElementByObj(tObj, name, timeout, status)
+				String errMsg = '' //WUI.goToElementByObj(tObj, name, timeout, status)
 				if (!errMsg) {
 					String val = WebUI.getAttribute(tObj, 'value')
 					Log.addTrace("value=$val")
@@ -225,7 +222,7 @@ public class Text {
 			if (text==null) {
 				text = myJDD.getStrData(name)
 			}
-			String errMsg = WUI.goToElementByObj(tObj, name, timeout, status)
+			String errMsg = '' //WUI.goToElementByObj(tObj, name, timeout, status)
 			if (!errMsg) {
 				String gText = WUI.getTextByObj(tObj)
 				if (WebUI.verifyElementText(tObj, text,FailureHandling.OPTIONAL)) {
@@ -249,35 +246,35 @@ public class Text {
 
 
 	/* Not used at the moment
-	static boolean verifyTextContains(JDD myJDD, String name, String text=null, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
-		Log.addTraceBEGIN(CLASS_NAME, "verifyTextContains", [ myJDD:myJDD.toString() , name: name , text:text , timeout:timeout , status:status])
-		String strStepID = StepID.getStrStepID(CLASS_NAME + 'verifyTextContains'+ myJDD.toString() + name)
-		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
-		boolean ret = false
-		if (!msgTO) {
-			if (text==null) text = myJDD.getStrData(name)
-			String gText = WebUI.getText(tObj)
-			String errMsg = WUI.goToElementByObj(tObj, name, timeout, status)
-			if (!errMsg) {
-				if (gText.contains(text)) {
-					TNRResult.addSTEPPASS(strStepID,"Vérification que le texte '$gText' contient '$text' sur '${tObj.getObjectId()}'")
-					ret = true
-				} else {
-					TNRResult.addSTEP(strStepID,"Vérification que le texte '$gText' contient '$text' sur '${tObj.getObjectId()}'",status)
-					TNRResult.addDETAIL("la valeur est '$gText' !")
-				}
-			}else {
-				TNRResult.addSTEP(strStepID,"Vérification que le texte '$gText' contient '$text' sur '${tObj.getObjectId()}'",status)
-				TNRResult.addDETAIL(errMsg)
-			}
-		}else {
-			TNRResult.addSTEPERROR(strStepID,"Vérification que le texte '?' contient '$text' sur '$name' impossible")
-			TNRResult.addDETAIL(msgTO)
-		}
-		Log.addTraceEND(CLASS_NAME, "verifyTextContains",ret)
-		return ret
-	}
-	*/
+	 static boolean verifyTextContains(JDD myJDD, String name, String text=null, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
+	 Log.addTraceBEGIN(CLASS_NAME, "verifyTextContains", [ myJDD:myJDD.toString() , name: name , text:text , timeout:timeout , status:status])
+	 String strStepID = StepID.getStrStepID(CLASS_NAME + 'verifyTextContains'+ myJDD.toString() + name)
+	 TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
+	 boolean ret = false
+	 if (!msgTO) {
+	 if (text==null) text = myJDD.getStrData(name)
+	 String gText = WebUI.getText(tObj)
+	 String errMsg = WUI.goToElementByObj(tObj, name, timeout, status)
+	 if (!errMsg) {
+	 if (gText.contains(text)) {
+	 TNRResult.addSTEPPASS(strStepID,"Vérification que le texte '$gText' contient '$text' sur '${tObj.getObjectId()}'")
+	 ret = true
+	 } else {
+	 TNRResult.addSTEP(strStepID,"Vérification que le texte '$gText' contient '$text' sur '${tObj.getObjectId()}'",status)
+	 TNRResult.addDETAIL("la valeur est '$gText' !")
+	 }
+	 }else {
+	 TNRResult.addSTEP(strStepID,"Vérification que le texte '$gText' contient '$text' sur '${tObj.getObjectId()}'",status)
+	 TNRResult.addDETAIL(errMsg)
+	 }
+	 }else {
+	 TNRResult.addSTEPERROR(strStepID,"Vérification que le texte '?' contient '$text' sur '$name' impossible")
+	 TNRResult.addDETAIL(msgTO)
+	 }
+	 Log.addTraceEND(CLASS_NAME, "verifyTextContains",ret)
+	 return ret
+	 }
+	 */
 
 
 

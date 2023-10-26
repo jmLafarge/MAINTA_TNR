@@ -7,13 +7,16 @@
 *
 *
 
-Ajout TestNG by xls et xml
-Ajout DEVOPS_TICKET_CREATION par status
-Ajout DevOpsUserStory
-Optimize DevOpsClient
-Ajout WUI.waitForPageLoad
-
-
+Télécharger OpenCV reste à finir ScreenshotManager
+Faut rajouter myTO dans les TNRResult.addSTEP*
+Modif JDD RT.MAT cdt RT.MAT.001.MAJ.01 pas de modif pour ID_NUMEMP car ce champ est dans l'onglet Etat (pas testé)
+Modif JDD RO.ORG ajout $ORDRE dans NU_ORD
+Remplacer WebUI.click par Click.simpleClick dans clickCheckboxIfNeeded
+Supprimer goToElementByObj dans tous les verify..
+Modif checkValue si la valeur attendu est NULL la valeur en BDD peut être NULL, vide ou 0 si numéric 
+Modif checkValue si la valeur attendu est VIDE la valeur en BDD peut être VIDE ou NULL
+Modif checkValue si la valeur attendu est ORDRE ajout d'une info (pas de controle)
+Modif JDD.RT.EQU ajout ID_NUMDOC1 et ID_NUMDOC2 dans 001C pour cdt RT.EQU.001.MAJ.01
 
 /*
 *

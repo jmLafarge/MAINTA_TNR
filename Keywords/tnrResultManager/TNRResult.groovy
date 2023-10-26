@@ -12,6 +12,7 @@ import tnrDevOps.DevOpsUserStory
 import tnrLog.Log
 import tnrSqlManager.SQL
 import tnrTC.TCFileMapper
+import tnrWebUI.ScreenshotManager
 import tnrWebUI.WUI
 
 @CompileStatic
@@ -81,6 +82,9 @@ public class TNRResult {
 			fileFullname = path+ File.separator +filename
 			WUI.takeScreenshot(fileFullname, screenshotOptions)
 			relativePath = './'+SCREENSHOTSUBFOLDER+ '/' +filename
+			
+			//ScreenshotManager.takeScreenshot(WUI.getMyWebDriver(),il faut un equivalent myTO en By, path)
+			
 		}
 		return [fileFullname:fileFullname , relativePath:relativePath]
 	}
@@ -177,7 +181,6 @@ public class TNRResult {
 			}
 		}else {
 			bugID = existingBugID
-			
 		}
 		Map ret = [id:bugID , screenshotLink:screenshotLink]
 		return ret

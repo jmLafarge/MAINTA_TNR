@@ -26,18 +26,18 @@ public class WUI {
 
 
 	private static final String CLASS_NAME = 'WUI'
-	
+
 	private static WebDriver myWebDriver
-	
-	
+
+
 	public static void setMyWebDriver() {
 		myWebDriver = DriverFactory.getWebDriver()
 	}
-		
+
 	public static WebDriver getMyWebDriver() {
 		return myWebDriver
 	}
-		
+
 	public static void waitForPageLoad(String parentStepID ) {
 		String strStepID = StepID.getStrStepID(CLASS_NAME +'waitForPageLoad'+ parentStepID)
 		JavascriptExecutor js = (JavascriptExecutor) myWebDriver
@@ -54,7 +54,6 @@ public class WUI {
 		}else {
 			TNRResult.addSTEPFAIL(strStepID,"Chargement de la page terminé")
 		}
-		
 	}
 
 

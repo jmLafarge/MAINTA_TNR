@@ -171,22 +171,22 @@ public class CheckInDB {
 			addStepInfo(strStepID,fullFieldName, "La rubrique est NU (non utilisée)")
 
 		}else if (JDDKW.isNULL(valJDD)) {
-			if (valDB == null) {
-				addStepPass(strStepID, fullFieldName,'NULL',valDB)
+			if (valDB == null || valDB == '' || (InfoDB.isNumeric(myJDD.getDBTableName(), fieldName) && (valDB == 0 || valDB == '0'))) {
+				addStepPass(strStepID, fullFieldName,'NULL ou NULL ou 0 si numéric',valDB)
 			}else {
-				addStepFail(strStepID, fullFieldName,'NULL',valDB)
+				addStepFail(strStepID, fullFieldName,'NULL ou NULL ou 0 si numéric',valDB)
 			}
 
 		}else if (JDDKW.isVIDE(valJDD)) {
-			if (valDB == '') {
-				addStepPass(strStepID, fullFieldName,'VIDE',valDB)
+			if (valDB == '' || valDB == null) {
+				addStepPass(strStepID, fullFieldName,'VIDE ou NULL',valDB)
 			}else {
-				addStepFail(strStepID, fullFieldName,'VIDE',valDB)
+				addStepFail(strStepID, fullFieldName,'VIDE ou NULL',valDB)
 			}
 
 		}else if (JDDKW.isORDRE(valJDD)) {
 
-			addStepFail(strStepID, fullFieldName,valJDD,valDB)
+			addStepInfo(strStepID,fullFieldName, "Le numéro d'ordre est '$valDB'")
 
 		}else if (JDDKW.isSEQUENCEID(valJDD)) {
 			addStepFail(strStepID, fullFieldName,valJDD,valDB)

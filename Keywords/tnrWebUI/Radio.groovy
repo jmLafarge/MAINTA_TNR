@@ -35,7 +35,7 @@ public class Radio {
 			if (JDDKW.isNU(myJDD.getStrData(name))) {
 				TNRResult.addSTEP(strStepID, "Pas de vérification pour $name, valeur du JDD = NU")
 			}else {
-				String errMsg = WUI.goToElementByObj(tObj, name, timeout, status)
+				String errMsg = '' // WUI.goToElementByObj(tObj, name, timeout, status)
 				if (!errMsg) {
 					String val = WebUI.getAttribute(tObj, 'checked')
 					Log.addTrace("value=$val")

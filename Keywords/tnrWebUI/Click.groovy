@@ -25,28 +25,29 @@ public class Click {
 
 
 
-	static boolean simpleClick(JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
+	static boolean simpleClick(JDD myJDD, String name, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL', String specificMsg = null) {
 		Log.addTraceBEGIN(CLASS_NAME, "simpleClick", [ myJDD:myJDD.toString() , name: name, timeout:timeout , status:status])
 		String strStepID = StepID.getStrStepID(CLASS_NAME + 'simpleClick'+ myJDD.toString() + name)
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		boolean ret = false
+		String msg = specificMsg ? specificMsg : "Clic sur '$name'"
 		if (!msgTO) {
 			String errMsg = WUI.goToElementByObj(tObj, name, timeout, status)
 			if (!errMsg) {
 				try {
 					WebUI.click(tObj, FailureHandling.STOP_ON_FAILURE)
-					TNRResult.addSTEPPASS(strStepID,"Clic sur '${tObj.getObjectId()}'")
+					TNRResult.addSTEPPASS(strStepID,msg)
 					ret= true
 				} catch (Exception ex) {
-					TNRResult.addSTEP(strStepID,"Clic sur '${tObj.getObjectId()}'",status)
+					TNRResult.addSTEP(strStepID,msg,status)
 					TNRResult.addDETAIL(ex.getMessage())
 				}
 			}else {
-				TNRResult.addSTEP(strStepID,"Clic sur '${tObj.getObjectId()}'",status)
+				TNRResult.addSTEP(strStepID,msg,status)
 				TNRResult.addDETAIL(errMsg)
 			}
 		}else {
-			TNRResult.addSTEPERROR(strStepID,"Clic sur '$name' imposible")
+			TNRResult.addSTEPERROR(strStepID,"$msg imposible")
 			TNRResult.addDETAIL(msgTO)
 		}
 		Log.addTraceEND(CLASS_NAME, "simpleClick",ret)

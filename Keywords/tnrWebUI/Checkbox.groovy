@@ -35,50 +35,54 @@ public class Checkbox {
 			if (tObjLbl) {
 				boolean cond = myJDD.getStrData(name)==textTrue
 
-				String errMsg = WUI.goToElementByObj(tObj, name, timeout, status)
-				if (!errMsg) {
-					if (cond) {
-						if (WebUI.verifyElementChecked(tObj,timeout, FailureHandling.OPTIONAL)) {
-							TNRResult.addSTEPPASS(strStepID, "Cocher la case à cocher '" + name + "'")
-							TNRResult.addDETAIL("déjà cochée")
-						}else {
-							try {
+				/*
+				 String errMsg = WUI.goToElementByObj(tObj, name, timeout, status)
+				 if (!errMsg) {
+				 y avait tout le if (cond) {
+				 }else {
+				 TNRResult.addSTEP(strStepID, "Cocher/Décocher la case à cocher '" + name + "'", status)
+				 TNRResult.addDETAIL(errMsg)
+				 }
+				 */
 
-								WebUI.click(tObjLbl, FailureHandling.STOP_ON_FAILURE)
-								TNRResult.addSTEPPASS(strStepID, "Cocher la case à cocher '" + name + "'")
-								/*
-								 }else {
-								 TNRResult.addSTEP(strStepID, "Cocher la case à cocher '" + name + "'", status)
-								 }
-								 */
-							} catch (Exception ex) {
-								TNRResult.addSTEP(strStepID, "Cocher la case à cocher '" + name + "'", status)
-								TNRResult.addDETAIL(ex.getMessage())
-							}
-						}
+				if (cond) {
+					String msg = "Cocher la case à cocher '$name'"
+					if (WebUI.verifyElementChecked(tObj,timeout, FailureHandling.OPTIONAL)) {
+						TNRResult.addSTEPPASS(strStepID, msg)
+						TNRResult.addDETAIL("déjà cochée")
 					}else {
-						if (WebUI.verifyElementNotChecked(tObj,timeout, FailureHandling.OPTIONAL)) {
-							TNRResult.addSTEPPASS(strStepID, "Décocher la case à cocher '" + name + "'")
-							TNRResult.addDETAIL("déjà décochée")
-						}else {
-							try {
 
-								WebUI.click(tObjLbl, FailureHandling.STOP_ON_FAILURE)
-								TNRResult.addSTEPPASS(strStepID, "Décocher la case à cocher '" + name + "'")
-								/*
-								 }else {
-								 TNRResult.addSTEP(strStepID, "Décocher la case à cocher '" + name + "'", status)
-								 }
-								 */
-							} catch (Exception ex) {
-								TNRResult.addSTEP(strStepID, "Décocher la case à cocher '" + name + "'", status)
-								TNRResult.addDETAIL(ex.getMessage())
-							}
-						}
+						Click.simpleClick(myJDD, 'Lbl'+name, timeout, status, msg)
+
+						/*
+						 try {
+						 WebUI.click(tObjLbl, FailureHandling.STOP_ON_FAILURE)
+						 TNRResult.addSTEPPASS(strStepID, "Cocher la case à cocher '" + name + "'")
+						 } catch (Exception ex) {
+						 TNRResult.addSTEP(strStepID, "Cocher la case à cocher '" + name + "'", status)
+						 TNRResult.addDETAIL(ex.getMessage())
+						 }
+						 */
 					}
 				}else {
-					TNRResult.addSTEP(strStepID, "Cocher/Décocher la case à cocher '" + name + "'", status)
-					TNRResult.addDETAIL(errMsg)
+					String msg = "Décocher la case à cocher '$name'"
+					if (WebUI.verifyElementNotChecked(tObj,timeout, FailureHandling.OPTIONAL)) {
+						TNRResult.addSTEPPASS(strStepID, msg)
+						TNRResult.addDETAIL("déjà décochée")
+					}else {
+
+						Click.simpleClick(myJDD, 'Lbl'+name, timeout, status, msg)
+
+						/*
+						 try {
+						 WebUI.click(tObjLbl, FailureHandling.STOP_ON_FAILURE)
+						 TNRResult.addSTEPPASS(strStepID, "Décocher la case à cocher '" + name + "'")
+						 } catch (Exception ex) {
+						 TNRResult.addSTEP(strStepID, "Décocher la case à cocher '" + name + "'", status)
+						 TNRResult.addDETAIL(ex.getMessage())
+						 }
+						 */
+					}
 				}
 			}else {
 				TNRResult.addSTEPERROR(strStepID, "Label Case à cocher 'Lbl$name'")
@@ -100,7 +104,7 @@ public class Checkbox {
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (!msgTO) {
 			boolean cond = myJDD.getStrData(name)==textTrue
-			String errMsg = WUI.goToElementByObj(tObj, name, timeout, status)
+			String errMsg = '' // WUI.goToElementByObj(tObj, name, timeout, status)
 			if (!errMsg) {
 				if (cond) {
 					if (WebUI.verifyElementChecked(tObj,timeout, FailureHandling.OPTIONAL)) {

@@ -24,7 +24,7 @@ public class MacroSTEP {
 
 	public static void suppression(String idNameForURL=null, String idFromtextToVerify=null) {
 		Log.addTraceBEGIN(CLASS_NAME, "suppression", [idNameForURL:idNameForURL , idFromtextToVerify:idFromtextToVerify])
-		
+
 		JDD myJDD = new JDD()
 
 		for (String cdt in myJDD.getCDTList()) {
@@ -89,7 +89,7 @@ public class MacroSTEP {
 	public static void recherche(String idNameToSearch=null, String idFromtextToVerify=null) {
 		Log.addTraceBEGIN(CLASS_NAME, "recherche", [idNameToSearch:idNameToSearch , idFromtextToVerify:idFromtextToVerify])
 
-		
+
 		JDD myJDD = new JDD()
 
 		for (String cdt in myJDD.getCDTList()) {
