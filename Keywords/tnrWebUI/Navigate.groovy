@@ -6,7 +6,6 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 import groovy.transform.CompileStatic
 import internal.GlobalVariable
 import tnrCommon.Tools
-import tnrJDDManager.GlobalJDD
 import tnrLog.Log
 import tnrResultManager.TNRResult
 
@@ -35,7 +34,7 @@ public class Navigate {
 			TNRResult.addDETAIL(url)
 			TNRResult.addBrowserInfo()
 			TNRResult.createDevOpsCampaign()
-			WUI.waitForPageLoad(strStepID)
+			WUI.waitForPageLoad(5,strStepID)
 			WUIWindow.storeMainWindowHandle()
 		} catch (Exception ex) {
 			TNRResult.addSTEPERROR(strStepID,"Ouverture du navigateur à l'URL :")
@@ -46,17 +45,22 @@ public class Navigate {
 
 
 	public static void navigateToUrl( String url,String nomUrl){
+		Log.addTraceBEGIN(CLASS_NAME, "navigateToUrl", [url:url , nomUrl:nomUrl ])
 		String strStepID = StepID.getStrStepID(CLASS_NAME + 'navigateToUrl' + nomUrl)
+		WUI.waitForPageLoad(5,strStepID + 'avant')
 		try {
+			println 'AvantJMLnavigateToUrl'
 			WebUI.navigateToUrl(url, FailureHandling.STOP_ON_FAILURE)
+			println 'JustApresJMLnavigateToUrl'
 			TNRResult.addSTEPPASS(strStepID,"Navigation vers l'URL '$nomUrl' :")
 			TNRResult.addDETAIL(url)
-			WUI.waitForPageLoad(strStepID)
+			WUI.waitForPageLoad(5,strStepID + 'après')
 		} catch (Exception ex) {
 			TNRResult.addSTEPERROR(strStepID,"Navigation vers l'URL '$nomUrl' :")
 			TNRResult.addDETAIL(url)
 			TNRResult.addDETAIL(ex.getMessage())
 		}
+		Log.addTraceEND(CLASS_NAME, "navigateToUrl")
 	}
 
 

@@ -38,22 +38,17 @@ public class WUI {
 		return myWebDriver
 	}
 
-	public static void waitForPageLoad(String parentStepID ) {
+	public static void waitForPageLoad(int delai, String parentStepID ) {
+		Log.addTraceBEGIN(CLASS_NAME, "waitForPageLoad", [delai:delai , parentStepID:parentStepID ])
 		String strStepID = StepID.getStrStepID(CLASS_NAME +'waitForPageLoad'+ parentStepID)
-		JavascriptExecutor js = (JavascriptExecutor) myWebDriver
-		boolean pageLoaded = false
-		for (int i = 0; i < 30; i++) {
-			if ("complete".equals(js.executeScript("return document.readyState"))) {
-				pageLoaded = true
-				break
-			}
-			Thread.sleep(100)
+		try {
+			WebUI.waitForPageLoad(delai, FailureHandling.STOP_ON_FAILURE)
+			Log.addTrace("Chargement de la page terminé")
+		} catch (Exception ex) {
+			TNRResult.addSTEPFAIL(strStepID,"Chargement de la page non terminé")
+			TNRResult.addDETAIL(ex.getMessage())
 		}
-		if (pageLoaded) {
-			TNRResult.addSTEPINFO('',"Chargement de la page terminé")
-		}else {
-			TNRResult.addSTEPFAIL(strStepID,"Chargement de la page terminé")
-		}
+		Log.addTraceEND(CLASS_NAME, "waitForPageLoad")
 	}
 
 
