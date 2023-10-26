@@ -213,7 +213,7 @@ public class Text {
 	}
 
 
-	static boolean verifyText(JDD myJDD, String name, String text=null, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
+	static boolean verifyTextOLD(JDD myJDD, String name, String text=null, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
 		Log.addTraceBEGIN(CLASS_NAME, "verifyText", [ myJDD:myJDD.toString() , name: name , text:text , timeout:timeout , status:status])
 		String strStepID = StepID.getStrStepID(CLASS_NAME + 'verifyText'+ myJDD.toString() + name)
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
@@ -236,6 +236,45 @@ public class Text {
 				TNRResult.addSTEP(strStepID,"Vérification du texte '$text' sur '${tObj.getObjectId()}'",status)
 				TNRResult.addDETAIL(errMsg)
 			}
+		}else {
+			TNRResult.addSTEPERROR(strStepID,"Vérification du texte '$text' sur '$name' impossible")
+			TNRResult.addDETAIL(msgTO)
+		}
+		Log.addTraceEND(CLASS_NAME, "verifyText",ret)
+		return ret
+	}
+	
+	
+	static boolean verifyText(JDD myJDD, String name, String text=null, int timeoutInMilliseconds, String status = 'FAIL')  {
+		Log.addTraceBEGIN(CLASS_NAME, "verifyText", [ myJDD:myJDD.toString() , name: name , text:text , timeoutInMilliseconds:timeoutInMilliseconds , status:status])
+		String strStepID = StepID.getStrStepID(CLASS_NAME + 'verifyText'+ myJDD.toString() + name)
+		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
+		boolean ret = false
+		if (!msgTO) {
+			if (text==null) {
+				text = myJDD.getStrData(name)
+			}
+			int waitedTime = 0
+			while (waitedTime < timeoutInMilliseconds) {
+				if (WebUI.verifyElementText(tObj, text,FailureHandling.CONTINUE_ON_FAILURE)) {
+					ret = true
+					break
+				}
+				Thread.sleep(100)  // Pause pour 100 millisecondes
+				waitedTime += 100
+			}
+			
+			
+			if (ret) {
+				TNRResult.addSTEPPASS(strStepID,"Vérification du texte '$text' sur '${tObj.getObjectId()}'")
+			} else {
+				TNRResult.addSTEP(strStepID,"Vérification du texte '$text' sur '${tObj.getObjectId()}'",status)
+				String gText = WUI.getTextByObj(tObj)
+				TNRResult.addDETAIL("la valeur est '$gText' !")
+			}
+			
+			
+			
 		}else {
 			TNRResult.addSTEPERROR(strStepID,"Vérification du texte '$text' sur '$name' impossible")
 			TNRResult.addDETAIL(msgTO)

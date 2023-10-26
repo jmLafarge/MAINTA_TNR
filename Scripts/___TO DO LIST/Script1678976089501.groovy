@@ -7,7 +7,8 @@
 *
 *
 
-Tentative de correction waitForPageLoad
+Ajout d'un timeout à verifyText
+Suppression des delay dans Screen
 
 
 /*

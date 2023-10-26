@@ -169,7 +169,7 @@ public class STEP {
 
 
 	public static boolean verifyText(JDD myJDD, String name, String text=null, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL')  {
-		return Text.verifyText( myJDD, name, text, timeout, status)
+		return Text.verifyText( myJDD, name, text, timeout*1000, status)
 	}
 
 	/* Not used at the moment
