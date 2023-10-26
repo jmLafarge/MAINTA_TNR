@@ -250,14 +250,19 @@ public class Text {
 		String strStepID = StepID.getStrStepID(CLASS_NAME + 'verifyText'+ myJDD.toString() + name)
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		boolean ret = false
+		String gText = ''
 		if (!msgTO) {
 			if (text==null) {
 				text = myJDD.getStrData(name)
 			}
 			int waitedTime = 0
 			while (waitedTime < timeoutInMilliseconds) {
-				if (WebUI.verifyElementText(tObj, text,FailureHandling.CONTINUE_ON_FAILURE)) {
+				gText = WUI.getTextByObj(tObj)
+				if (WebUI.verifyElementText(tObj, text,FailureHandling.OPTIONAL)) {
 					ret = true
+					break
+				}else if (gText) {
+					ret = false
 					break
 				}
 				Thread.sleep(100)  // Pause pour 100 millisecondes

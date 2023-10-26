@@ -7,8 +7,8 @@
 *
 *
 
-Ajout d'un timeout à verifyText
-Suppression des delay dans Screen
+Correction verifyText
+
 
 
 /*
