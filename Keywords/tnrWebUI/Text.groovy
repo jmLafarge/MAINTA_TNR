@@ -274,7 +274,6 @@ public class Text {
 				TNRResult.addSTEPPASS(strStepID,"Vérification du texte '$text' sur '${tObj.getObjectId()}'")
 			} else {
 				TNRResult.addSTEP(strStepID,"Vérification du texte '$text' sur '${tObj.getObjectId()}'",status)
-				String gText = WUI.getTextByObj(tObj)
 				TNRResult.addDETAIL("la valeur est '$gText' !")
 			}
 			
