@@ -34,7 +34,7 @@ public class Select {
 			if (text==null) {
 				text = myJDD.getStrData(name)
 			}
-			String errMsg = '' //WUI.goToElementByObj(tObj, name, timeout, status)
+			String errMsg = WUI.goToElementByObj(tObj, name, timeout, status)
 			if (!errMsg) {
 				String paraIV = myJDD.myJDDParam.getINTERNALVALUEFor(name)
 				if (paraIV) {

@@ -24,7 +24,7 @@ for (String cdt in myJDD.getCDTList()) {
 		STEP.simpleClick(myJDD,"tab_Zone")
 		STEP.verifyElementVisible(myJDD,"tab_ZoneSelected")
 
-		STEP.scrollToPosition( 0, 0)
+		//STEP.scrollToPosition( 0, 0)
 		
 		'Boucle sur les lignes d\'un même TC'
 	    //for (int i : (1..myJDD.getNbrLigneCasDeTest())) {

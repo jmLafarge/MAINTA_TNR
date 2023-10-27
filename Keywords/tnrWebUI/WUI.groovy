@@ -135,17 +135,19 @@ public class WUI {
 	public static String goToElementByObj(TestObject tObj , String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		Log.addTraceBEGIN(CLASS_NAME, "goToElementByObj", [tObj: tObj, name: name])
 
-		String errMsg = waitElementInViewport(tObj, 1,status)
+		String errMsg = waitElementInViewport(tObj, 0,status)
 		//Si msg err
 		if (errMsg){
 			errMsg = scrollToElement(tObj, timeout,status)
 			//si msg err
 			if (!errMsg) {
 				errMsg = waitElementInViewport(tObj, timeout,status)
+				if (!errMsg) {
+					WUI.delay(500)
+				}
 			}
 		}
 		if (!errMsg) {
-			WUI.delay(1000)
 			// Récupérer les coordonnées x, y de l'élément
 			def monElement = WebUI.findWebElement(tObj)
 			def point = monElement.getLocation()
@@ -164,11 +166,15 @@ public class WUI {
 		long startTime = System.currentTimeSeconds()
 		long elapsedSeconds = 0
 		boolean eltInViewport = false
-		while ((elapsedSeconds <= timeout) && !eltInViewport) {
+		if (timeout == 0) {
 			eltInViewport = WebUI.verifyElementInViewport(tObj, 1, FailureHandling.OPTIONAL)
-			// Calculer le temps écoulé en secondes
-			long currentTime = System.currentTimeSeconds()
-			elapsedSeconds = currentTime - startTime
+		}else {
+			while ((elapsedSeconds <= timeout) && !eltInViewport) {
+				eltInViewport = WebUI.verifyElementInViewport(tObj, 1, FailureHandling.OPTIONAL)
+				// Calculer le temps écoulé en secondes
+				long currentTime = System.currentTimeSeconds()
+				elapsedSeconds = currentTime - startTime
+			}
 		}
 		if (eltInViewport) {
 			Log.addINFO("L'élément '${tObj.getObjectId()}' est visible dans le viewport")

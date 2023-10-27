@@ -104,7 +104,7 @@ public class Checkbox {
 		TO myTO = new TO() ; TestObject tObj  = myTO.make(myJDD,name) ;String msgTO = myTO.getMsg()
 		if (!msgTO) {
 			boolean cond = myJDD.getStrData(name)==textTrue
-			String errMsg = '' // WUI.goToElementByObj(tObj, name, timeout, status)
+			String errMsg = WUI.goToElementByObj(tObj, name, timeout, status)
 			if (!errMsg) {
 				if (cond) {
 					if (WebUI.verifyElementChecked(tObj,timeout, FailureHandling.OPTIONAL)) {

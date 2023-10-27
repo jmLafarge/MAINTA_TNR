@@ -58,6 +58,7 @@ public class Element {
 		boolean ret = false
 		if (!msgTO) {
 			String errMsg = WUI.goToElementByObj(tObj, name, timeout, status)
+			WUI.delay(500)
 			if (!errMsg) {
 				TNRResult.addSTEPPASS(strStepID,"Vérifier que l'élément '${tObj.getObjectId()}' soit visible ")
 				ret = true

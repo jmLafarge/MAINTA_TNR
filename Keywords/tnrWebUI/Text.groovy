@@ -34,7 +34,7 @@ public class Text {
 			if (JDDKW.isNU(text)) {
 				TNRResult.addSTEP(strStepID, "Pas de vérification pour $name, valeur du JDD = NU")
 			}else {
-				String errMsg = '' //WUI.goToElementByObj(tObj, name, timeout, status)
+				String errMsg = WUI.goToElementByObj(tObj, name, timeout, status)
 				if (!errMsg) {
 					String val = WebUI.getAttribute(tObj, 'value')
 					Log.addTrace("value=$val")
@@ -222,7 +222,7 @@ public class Text {
 			if (text==null) {
 				text = myJDD.getStrData(name)
 			}
-			String errMsg = '' //WUI.goToElementByObj(tObj, name, timeout, status)
+			String errMsg = WUI.goToElementByObj(tObj, name, timeout, status)
 			if (!errMsg) {
 				String gText = WUI.getTextByObj(tObj)
 				if (WebUI.verifyElementText(tObj, text,FailureHandling.OPTIONAL)) {
