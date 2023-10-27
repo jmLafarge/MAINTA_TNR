@@ -16,8 +16,8 @@ import groovy.time.TimeDuration
 import groovy.transform.CompileStatic
 import internal.GlobalVariable
 import tnrLog.Log
+import tnrSelenium.SeleniumWUI
 import tnrSqlManager.SQL
-import tnrWebUI.WUI
 
 
 @CompileStatic
@@ -46,7 +46,7 @@ class Tools {
 		Log.addTraceBEGIN(CLASS_NAME,"getBrowserAndVersion",[:])
 		//WebDriver driver = DriverFactory.getWebDriver()
 
-		Capabilities caps = ((SmartWaitWebDriver) WUI.getMyWebDriver()).getCapabilities()
+		Capabilities caps = ((SmartWaitWebDriver) SeleniumWUI.getMyWebDriver()).getCapabilities()
 		String browserName = DriverFactory.getExecutedBrowser()
 		String browserVersion = caps.getVersion()
 		Log.addTraceEND(CLASS_NAME,"getBrowserAndVersion",browserName + '/'+ browserVersion)
@@ -65,7 +65,7 @@ class Tools {
 	public static String getBrowserVersion() {
 		Log.addTraceBEGIN(CLASS_NAME,"getBrowserVersion",[:])
 		//WebDriver driver = DriverFactory.getWebDriver()
-		Capabilities caps = ((SmartWaitWebDriver) WUI.getMyWebDriver()).getCapabilities()
+		Capabilities caps = ((SmartWaitWebDriver) SeleniumWUI.getMyWebDriver()).getCapabilities()
 		String browserVersion =  caps.getVersion()
 		Log.addTraceEND(CLASS_NAME,"getBrowserVersion",browserVersion)
 		return browserVersion
@@ -79,7 +79,7 @@ class Tools {
 	 */
 	public static int[] getBrowserDimensions() {
 
-		Dimension dimension = WUI.getMyWebDriver().manage().window().getSize()
+		Dimension dimension = SeleniumWUI.getMyWebDriver().manage().window().getSize()
 		int[] dimensions = [dimension.width, dimension.height] as int[]
 		return dimensions
 	}
@@ -199,15 +199,15 @@ class Tools {
 		List<WebElement> filteredElements = []
 
 		// Fetch 'select' elements with ID or name and not type='hidden'
-		List<WebElement> selectElements = WUI.getMyWebDriver().findElements(By.cssSelector("select[id]:not([type='hidden']), select[name]:not([type='hidden'])"))
+		List<WebElement> selectElements = SeleniumWUI.getMyWebDriver().findElements(By.cssSelector("select[id]:not([type='hidden']), select[name]:not([type='hidden'])"))
 		filteredElements.addAll(selectElements)
 
 		// Fetch 'input' elements with ID or name and filtered by conditions
-		List<WebElement> inputElements = WUI.getMyWebDriver().findElements(By.cssSelector("input[id]:not([type='hidden']):not([type='submit']):not(#in_zoom), input[name]:not([type='hidden']):not([type='submit']):not(#in_zoom)"))
+		List<WebElement> inputElements = SeleniumWUI.getMyWebDriver().findElements(By.cssSelector("input[id]:not([type='hidden']):not([type='submit']):not(#in_zoom), input[name]:not([type='hidden']):not([type='submit']):not(#in_zoom)"))
 		filteredElements.addAll(inputElements)
 
 		// Fetch 'a' elements with 'ml-text3' attribute
-		List<WebElement> aElements = WUI.getMyWebDriver().findElements(By.cssSelector("a[ml-text3]"))
+		List<WebElement> aElements = SeleniumWUI.getMyWebDriver().findElements(By.cssSelector("a[ml-text3]"))
 		filteredElements.addAll(aElements)
 
 		return filteredElements

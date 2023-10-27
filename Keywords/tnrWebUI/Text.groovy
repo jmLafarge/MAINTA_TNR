@@ -243,8 +243,8 @@ public class Text {
 		Log.addTraceEND(CLASS_NAME, "verifyText",ret)
 		return ret
 	}
-	
-	
+
+
 	static boolean verifyText(JDD myJDD, String name, String text=null, int timeoutInMilliseconds, String status = 'FAIL')  {
 		Log.addTraceBEGIN(CLASS_NAME, "verifyText", [ myJDD:myJDD.toString() , name: name , text:text , timeoutInMilliseconds:timeoutInMilliseconds , status:status])
 		String strStepID = StepID.getStrStepID(CLASS_NAME + 'verifyText'+ myJDD.toString() + name)
@@ -268,17 +268,17 @@ public class Text {
 				Thread.sleep(100)  // Pause pour 100 millisecondes
 				waitedTime += 100
 			}
-			
-			
+
+
 			if (ret) {
 				TNRResult.addSTEPPASS(strStepID,"Vérification du texte '$text' sur '${tObj.getObjectId()}'")
 			} else {
 				TNRResult.addSTEP(strStepID,"Vérification du texte '$text' sur '${tObj.getObjectId()}'",status)
 				TNRResult.addDETAIL("la valeur est '$gText' !")
 			}
-			
-			
-			
+
+
+
 		}else {
 			TNRResult.addSTEPERROR(strStepID,"Vérification du texte '$text' sur '$name' impossible")
 			TNRResult.addDETAIL(msgTO)

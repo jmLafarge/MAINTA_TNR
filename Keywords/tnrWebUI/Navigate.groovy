@@ -8,6 +8,7 @@ import internal.GlobalVariable
 import tnrCommon.Tools
 import tnrLog.Log
 import tnrResultManager.TNRResult
+import tnrSelenium.SeleniumWUI
 
 
 /**
@@ -29,7 +30,7 @@ public class Navigate {
 		String strStepID = StepID.getStrStepID(CLASS_NAME +'openBrowser')
 		try {
 			WebUI.openBrowser(url, FailureHandling.STOP_ON_FAILURE)
-			WUI.setMyWebDriver()
+			SeleniumWUI.setMyWebDriver()
 			TNRResult.addSTEPPASS(strStepID,"Ouverture du navigateur à l'URL :")
 			TNRResult.addDETAIL(url)
 			TNRResult.addBrowserInfo()

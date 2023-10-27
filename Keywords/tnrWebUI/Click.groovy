@@ -9,6 +9,8 @@ import internal.GlobalVariable
 import tnrJDDManager.JDD
 import tnrLog.Log
 import tnrResultManager.TNRResult
+import tnrSelenium.SeleniumWUI
+
 
 /**
  * Gère 
@@ -33,6 +35,7 @@ public class Click {
 		String msg = specificMsg ? specificMsg : "Clic sur '$name'"
 		if (!msgTO) {
 			String errMsg = WUI.goToElementByObj(tObj, name, timeout, status)
+			//SeleniumWUI.placeElementInView(SeleniumWUI.convertTestObjectToBy(tObj),1)
 			if (!errMsg) {
 				try {
 					WebUI.click(tObj, FailureHandling.STOP_ON_FAILURE)
@@ -83,4 +86,5 @@ public class Click {
 		Log.addTraceEND(CLASS_NAME, "doubleClick",ret)
 		return ret
 	}
+	
 } // end of class

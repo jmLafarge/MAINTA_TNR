@@ -68,7 +68,7 @@ for (String cdt in myJDD.getCDTList()) {
 			STEP.setText(myJDD, "DT_DEP")
 			STEP.setText(myJDD, "DT_RET")
 			
-			STEP.scrollToPosition(0, 0)
+			//STEP.scrollToPosition(0, 0)
 			
 		TNRResult.addSTEPGRP("ONGLET FICHE")
 			

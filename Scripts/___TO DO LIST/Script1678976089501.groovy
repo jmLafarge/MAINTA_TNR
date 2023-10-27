@@ -7,7 +7,7 @@
 *
 *
 
-Correction verifyText
+
 
 
 
@@ -18,7 +18,8 @@ Correction verifyText
 * -----------------------------------------------------------------------------------------------------
 *
 
-peut être ajouter des scroll to 0.0 avant chaqu echangement d'onglet
+
+
  
  
  
@@ -32,6 +33,12 @@ ST_POS et ST_AUT que les controiler en BD
 * -----------------------------------------------------------------------------------------------------
 *
 *
+
+J'ai commencé :
+	SeleniumWUI 
+	ScreenshotManager
+	fetchFilteredElements
+
 
 DevOpsClient.searchTNRNumber prend entre 60 et 340 ms
 

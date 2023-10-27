@@ -1,6 +1,5 @@
 package tnrWebUI
 
-import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.WebDriver
 
 import com.kms.katalon.core.model.FailureHandling
@@ -27,16 +26,7 @@ public class WUI {
 
 	private static final String CLASS_NAME = 'WUI'
 
-	private static WebDriver myWebDriver
 
-
-	public static void setMyWebDriver() {
-		myWebDriver = DriverFactory.getWebDriver()
-	}
-
-	public static WebDriver getMyWebDriver() {
-		return myWebDriver
-	}
 
 	public static void waitForPageLoad(int delai, String parentStepID ) {
 		Log.addTraceBEGIN(CLASS_NAME, "waitForPageLoad", [delai:delai , parentStepID:parentStepID ])
@@ -145,7 +135,7 @@ public class WUI {
 	public static String goToElementByObj(TestObject tObj , String name, int timeout = (int)GlobalVariable.TIMEOUT, String status = 'FAIL') {
 		Log.addTraceBEGIN(CLASS_NAME, "goToElementByObj", [tObj: tObj, name: name])
 
-		String errMsg = waitElementInViewport(tObj, 0,status)
+		String errMsg = waitElementInViewport(tObj, 1,status)
 		//Si msg err
 		if (errMsg){
 			errMsg = scrollToElement(tObj, timeout,status)
@@ -155,6 +145,7 @@ public class WUI {
 			}
 		}
 		if (!errMsg) {
+			WUI.delay(1000)
 			// Récupérer les coordonnées x, y de l'élément
 			def monElement = WebUI.findWebElement(tObj)
 			def point = monElement.getLocation()
@@ -170,14 +161,14 @@ public class WUI {
 	private static String waitElementInViewport(TestObject tObj, int timeout = (int)GlobalVariable.TIMEOUT , String status = 'FAIL') {
 		Log.addTraceBEGIN(CLASS_NAME, "waitElementInViewport", [tObj: tObj , timeout:timeout , status:status])
 		String errMsg = ''
-		long startTime = System.currentTimeMillis()
+		long startTime = System.currentTimeSeconds()
 		long elapsedSeconds = 0
 		boolean eltInViewport = false
 		while ((elapsedSeconds <= timeout) && !eltInViewport) {
 			eltInViewport = WebUI.verifyElementInViewport(tObj, 1, FailureHandling.OPTIONAL)
 			// Calculer le temps écoulé en secondes
-			long currentTime = System.currentTimeMillis()
-			elapsedSeconds = ((currentTime - startTime) / 1000) as long
+			long currentTime = System.currentTimeSeconds()
+			elapsedSeconds = currentTime - startTime
 		}
 		if (eltInViewport) {
 			Log.addINFO("L'élément '${tObj.getObjectId()}' est visible dans le viewport")
