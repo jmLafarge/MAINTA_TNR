@@ -7,7 +7,7 @@
 *
 *
 
-Migration Katalon Studio 8.6.0 --> 9.0.0
+Migration Katalon Studio 8.6.8 --> 9.0.0
 
 
 
