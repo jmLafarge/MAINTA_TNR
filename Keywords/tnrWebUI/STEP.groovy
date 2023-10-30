@@ -79,24 +79,24 @@ public class STEP {
 	 * ************************** Screen
 	 */
 
-	public static checkCreateScreen(String fct='', int timeout = GlobalVariable.TIMEOUT) {
+	public static checkCreateScreen(String fct='', int timeout = (int)GlobalVariable.TIMEOUT) {
 		Screen.checkCreateScreen( fct, timeout)
 	}
 
-	public static checkGridScreen( String fct='', int timeout = GlobalVariable.TIMEOUT) {
+	public static checkGridScreen( String fct='', int timeout = (int)GlobalVariable.TIMEOUT) {
 		Screen.checkGridScreen( fct, timeout)
 	}
 
-	public static checkResultScreen( String val,String fct='', String name='Resultat_ID_a', int timeout = GlobalVariable.TIMEOUT) {
+	public static checkResultScreen( String val,String fct='', String name='Resultat_ID_a', int timeout = (int)GlobalVariable.TIMEOUT) {
 		Screen.checkResultScreen( val, fct, name, timeout)
 	}
 
-	public static checkReadUpdateDeleteScreen( String textToVerify, String fct='' , int timeout = GlobalVariable.TIMEOUT) {
+	public static checkReadUpdateDeleteScreen( String textToVerify, String fct='' , int timeout = (int)GlobalVariable.TIMEOUT) {
 		Screen.checkReadUpdateDeleteScreen( textToVerify, fct, timeout)
 	}
 
 
-	public static checkCartridge( String txt, int timeout = GlobalVariable.TIMEOUT) {
+	public static checkCartridge( String txt, int timeout = (int)GlobalVariable.TIMEOUT) {
 		Screen.checkCartridge( txt, timeout)
 	}
 

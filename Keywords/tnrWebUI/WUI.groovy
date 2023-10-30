@@ -1,10 +1,9 @@
 package tnrWebUI
 
-import org.openqa.selenium.WebDriver
+import org.openqa.selenium.WebElement
 
 import com.kms.katalon.core.model.FailureHandling
 import com.kms.katalon.core.testobject.TestObject
-import com.kms.katalon.core.webui.driver.DriverFactory
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import groovy.transform.CompileStatic
@@ -149,7 +148,7 @@ public class WUI {
 		}
 		if (!errMsg) {
 			// Récupérer les coordonnées x, y de l'élément
-			def monElement = WebUI.findWebElement(tObj)
+			WebElement monElement = WebUI.findWebElement(tObj,timeout)
 			def point = monElement.getLocation()
 			int x = point.getX()
 			int y = point.getY()

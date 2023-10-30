@@ -149,7 +149,7 @@ public class InfoDBLoader {
 			List lineXLS = ExcelUtils.loadRow(row,HEADERS.size())
 
 			// Créer un Map avec les détails de la colonne
-			Map columnDetails = [
+			Map<String,Object> columnDetails = [
 				headers.subList(2, 8),
 				lineXLS.subList(2, 8)
 			].transpose().collectEntries()

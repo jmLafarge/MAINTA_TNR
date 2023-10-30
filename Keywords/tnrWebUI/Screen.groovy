@@ -20,7 +20,7 @@ public class Screen {
 	private static final String CLASS_NAME = 'Screen'
 
 
-	public static checkGridScreen( String fct='', int timeout = GlobalVariable.TIMEOUT) {
+	public static checkGridScreen( String fct='', int timeout = (int)GlobalVariable.TIMEOUT) {
 		Log.addTraceBEGIN(CLASS_NAME,"checkGridScreen",[fct:fct , timeout:timeout])
 		StepID.setParentStepID(CLASS_NAME + 'checkGridScreen')
 		fct = fct ?: Tools.getFctFromModObj()
@@ -34,7 +34,7 @@ public class Screen {
 
 
 
-	public static checkResultScreen( String val,String fct='', String name='Resultat_ID_a', int timeout = GlobalVariable.TIMEOUT) {
+	public static checkResultScreen( String val,String fct='', String name='Resultat_ID_a', int timeout =(int)GlobalVariable.TIMEOUT) {
 		Log.addTraceBEGIN(CLASS_NAME,"checkResultScreen",[val:val , fct:fct , name:name , timeout:timeout])
 		StepID.setParentStepID(CLASS_NAME + 'checkResultScreen')
 		fct = fct ?: Tools.getFctFromModObj()
@@ -47,7 +47,7 @@ public class Screen {
 	}
 
 
-	public static checkReadUpdateDeleteScreen( String textToVerify, String fct='' , int timeout = GlobalVariable.TIMEOUT) {
+	public static checkReadUpdateDeleteScreen( String textToVerify, String fct='' , int timeout = (int)GlobalVariable.TIMEOUT) {
 		Log.addTraceBEGIN(CLASS_NAME,"checkReadUpdateDeleteScreen",[ textToVerify:textToVerify , fct:fct ,  timeout:timeout])
 		StepID.setParentStepID(CLASS_NAME + 'checkReadUpdateDeleteScreen')
 		fct = fct ?: Tools.getFctFromModObj()
@@ -62,7 +62,7 @@ public class Screen {
 
 
 
-	public static checkCreateScreen( String fct='', int timeout = GlobalVariable.TIMEOUT) {
+	public static checkCreateScreen( String fct='', int timeout = (int)GlobalVariable.TIMEOUT) {
 		Log.addTraceBEGIN(CLASS_NAME,"checkCreateScreen",[ fct:fct , timeout:timeout])
 		StepID.setParentStepID(CLASS_NAME + 'checkCreateScreen')
 		fct = fct ?: Tools.getFctFromModObj()
@@ -75,7 +75,7 @@ public class Screen {
 	}
 
 
-	public static checkCartridge( String txt, int timeout = GlobalVariable.TIMEOUT) {
+	public static checkCartridge( String txt, int timeout = (int)GlobalVariable.TIMEOUT) {
 		Log.addTraceBEGIN(CLASS_NAME,"checkCartridge",[txt:txt , timeout:timeout])
 		StepID.setParentStepID(CLASS_NAME + 'checkCartridge')
 		STEP.scrollToPosition( 0, 0)

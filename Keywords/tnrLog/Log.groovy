@@ -348,7 +348,7 @@ class Log {
 
 	public static  addToList(String nomDeLaListe, String valeurDeLaListe) {
 
-		def liste = lists.get(nomDeLaListe)
+		ArrayList<String> liste = lists.get(nomDeLaListe)
 		if (liste == null) {
 			liste = []  //
 			lists.put(nomDeLaListe, liste)
